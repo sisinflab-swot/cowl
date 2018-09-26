@@ -1,0 +1,6 @@
+[submodule "lib/klib"]
+	path = lib/klib
+	url = git@github.com:attractivechaos/klib.git
+[submodule "lib/khash_utils"]
+	path = lib/khash_utils
+	url = ssh://git@193.204.60.88:2222/utils/c/khash_utils.git
