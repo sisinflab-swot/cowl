@@ -3,8 +3,9 @@
 #ifndef COWL_STRING_H
 #define COWL_STRING_H
 
-#include <stdbool.h>
-#include <stdlib.h>
+#include "cowl_std.h"
+
+COWL_BEGIN_DECLS
 
 typedef struct CowlString CowlString;
 
@@ -16,5 +17,7 @@ size_t cowl_string_length(CowlString const *string);
 
 bool cowl_string_equals(CowlString const *string, CowlString const *other);
 uint32_t cowl_string_hash(CowlString const *string);
+
+COWL_END_DECLS
 
 #endif // COWL_STRING_H

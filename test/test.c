@@ -23,7 +23,9 @@ int main(void) {
     assert(!cowl_string_equals(ns, rem));
     
     CowlIRI *iri = cowl_iri_alloc(ns, rem);
-    printf("IRI: %s%s\n", cowl_string_cstring(iri->ns), cowl_string_cstring(iri->rem));
+    printf("IRI: %s%s\n",
+           cowl_string_cstring(cowl_iri_ns(iri)),
+           cowl_string_cstring(cowl_iri_rem(iri)));
     cowl_iri_free(iri);
     
     return 0;
