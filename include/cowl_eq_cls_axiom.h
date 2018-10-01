@@ -8,11 +8,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef khash_struct(CowlClassExpSet) khash_t(CowlClassExpSet);
+typedef khash_struct(CowlClsExpSet) khash_t(CowlClsExpSet);
 
 typedef struct CowlEqClsAxiom CowlEqClsAxiom;
 
-khash_t(CowlClassExpSet) const* cowl_eq_cls_axiom_get_classes(CowlEqClsAxiom const *axiom);
+khash_t(CowlClsExpSet) const* cowl_eq_cls_axiom_get_classes(CowlEqClsAxiom const *axiom);
 
 bool cowl_eq_cls_axiom_equals(CowlEqClsAxiom const *lhs, CowlEqClsAxiom const *rhs);
 uint32_t cowl_eq_cls_axiom_hash(CowlEqClsAxiom const *axiom);

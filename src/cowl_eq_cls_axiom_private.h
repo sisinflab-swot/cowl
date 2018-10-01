@@ -10,7 +10,7 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlEqClsAxiom {
     CowlAxiom base;
-    khash_t(CowlClassExpSet) const *classes;
+    khash_t(CowlClsExpSet) const *classes;
 } CowlEqClsAxiom;
 
 COWL_END_DECLS
