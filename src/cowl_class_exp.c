@@ -16,7 +16,7 @@ static inline uint32_t cowl_class_exp_set_hash(khash_t(CowlClassExpSet) const *s
     uint32_t hash = COWL_HASH_INIT_CLASS_EXPR;
 
     kh_foreach_key(set, CowlClassExp const *exp, {
-        hash = cowl_hs(hash, cowl_class_exp_hash(exp));
+        hash = cowl_hash_iter(hash, cowl_class_exp_hash(exp));
     });
 
     return hash;
