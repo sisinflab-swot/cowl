@@ -1,8 +1,8 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_class_private.h"
-#include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
+#include "cowl_iri.h"
 
 CowlIRI const* cowl_class_get_iri(CowlClass const *cls) {
     return cls->iri;

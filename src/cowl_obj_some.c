@@ -1,8 +1,8 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_obj_some_private.h"
-#include "cowl_obj_prop_exp_private.h"
 #include "cowl_hash_utils.h"
+#include "cowl_obj_prop_exp.h"
 
 CowlObjPropExp const* cowl_obj_some_get_prop(CowlObjSome const *restr) {
     return restr->prop;

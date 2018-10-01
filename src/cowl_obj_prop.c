@@ -1,8 +1,8 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_obj_prop_private.h"
-#include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
+#include "cowl_iri.h"
 
 CowlIRI const* cowl_obj_prop_get_iri(CowlObjProp const *prop) {
     return prop->iri;

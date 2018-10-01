@@ -1,7 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_disj_cls_axiom_private.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_cls_exp.h"
 #include "cowl_hash_utils.h"
 
 khash_t(CowlClsExpSet) const *cowl_disj_cls_axiom_get_classes(CowlDisjClsAxiom const *axiom) {

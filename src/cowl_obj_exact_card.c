@@ -1,7 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_obj_exact_card_private.h"
-#include "cowl_obj_prop_exp_private.h"
+#include "cowl_obj_prop_exp.h"
 #include "cowl_hash_utils.h"
 
 CowlObjPropExp const* cowl_obj_exact_card_get_prop(CowlObjExactCard const *restr) {

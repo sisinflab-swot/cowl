@@ -7,14 +7,12 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlEntity CowlEntity;
-typedef struct CowlString CowlString;
-
 typedef struct CowlIndividual CowlIndividual;
 
-bool cowl_individual_is_named(CowlIndividual const *individual);
-CowlEntity const* cowl_individual_named(CowlIndividual const *individual);
-CowlString const* cowl_individual_anonymous_id(CowlIndividual const *individual);
+bool cowl_individual_is_named(CowlIndividual const *ind);
+
+bool cowl_individual_equals(CowlIndividual const *lhs, CowlIndividual const *rhs);
+uint32_t cowl_individual_hash(CowlIndividual const *ind);
 
 COWL_END_DECLS
 

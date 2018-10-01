@@ -9,11 +9,6 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlIndividual {
     bool is_named;
-
-    union {
-        CowlEntity const *named;
-        CowlString const *anonymous_id;
-    };
 } CowlIndividual;
 
 COWL_END_DECLS

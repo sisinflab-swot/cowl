@@ -17,7 +17,7 @@ void cowl_iri_free(CowlIRI *iri);
 CowlString const* cowl_iri_ns(CowlIRI const *iri);
 CowlString const* cowl_iri_rem(CowlIRI const *iri);
 
-bool cowl_iri_equals(CowlIRI const *a, CowlIRI const *b);
+bool cowl_iri_equals(CowlIRI const *lhs, CowlIRI const *rhs);
 uint32_t cowl_iri_hash(CowlIRI const *iri);
 
 COWL_END_DECLS

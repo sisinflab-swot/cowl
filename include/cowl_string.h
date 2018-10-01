@@ -15,7 +15,7 @@ void cowl_string_release(CowlString *string);
 char const* cowl_string_cstring(CowlString const *string);
 size_t cowl_string_length(CowlString const *string);
 
-bool cowl_string_equals(CowlString const *string, CowlString const *other);
+bool cowl_string_equals(CowlString const *lhs, CowlString const *rhs);
 uint32_t cowl_string_hash(CowlString const *string);
 
 COWL_END_DECLS

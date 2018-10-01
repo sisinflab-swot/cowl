@@ -2,7 +2,7 @@
 
 #include "cowl_entity_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_iri_private.h"
+#include "cowl_iri.h"
 
 CowlEntityType cowl_entity_type(CowlEntity const *entity) {
     return entity->type;

@@ -2,21 +2,27 @@
 
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_hash_utils.h"
-
-CowlEntity const* cowl_obj_prop_exp_property(CowlObjPropExp const *exp) {
-    return exp->prop;
-}
+#include "cowl_inverse_obj_prop.h"
+#include "cowl_obj_prop.h"
 
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp const *exp) {
     return exp->is_inverse;
 }
 
-bool cowl_obj_prop_exp_equals(CowlObjPropExp const *a, CowlObjPropExp const *b) {
-    return a->is_inverse == b->is_inverse && cowl_entity_equals(a->prop, b->prop);
+bool cowl_obj_prop_exp_equals(CowlObjPropExp const *lhs, CowlObjPropExp const *rhs) {
+    if (lhs->is_inverse != rhs->is_inverse) return false;
+
+    if (lhs->is_inverse) {
+        return cowl_inverse_obj_prop_equals((CowlInverseObjProp *)lhs, (CowlInverseObjProp *)rhs);
+    } else {
+        return cowl_obj_prop_equals((CowlObjProp *)lhs, (CowlObjProp *)rhs);
+    }
 }
 
 uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp const *exp) {
-    return cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_EXPR,
-                       cowl_entity_hash(exp->prop),
-                       (exp->is_inverse ? 1 : 0));
+    if (exp->is_inverse) {
+        return cowl_inverse_obj_prop_hash((CowlInverseObjProp *)exp);
+    } else {
+        return cowl_obj_prop_hash((CowlObjProp *)exp);
+    }
 }

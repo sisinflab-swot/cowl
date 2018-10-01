@@ -4,7 +4,7 @@
 
 #include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_string_private.h"
+#include "cowl_string.h"
 
 CowlIRI* cowl_iri_alloc(CowlString const *ns, CowlString const *rem) {
     CowlIRI iri_init = { .ns = ns, .rem = rem };
@@ -28,9 +28,8 @@ CowlString const* cowl_iri_rem(CowlIRI const *iri) {
     return iri->rem;
 }
 
-bool cowl_iri_equals(CowlIRI const *a, CowlIRI const *b) {
-    return (a == b || (cowl_string_equals(a->ns, b->ns) &&
-                       cowl_string_equals(a->rem, b->rem)));
+bool cowl_iri_equals(CowlIRI const *lhs, CowlIRI const *rhs) {
+    return cowl_string_equals(lhs->rem, rhs->rem) && cowl_string_equals(lhs->ns, rhs->ns);
 }
 
 uint32_t cowl_iri_hash(CowlIRI const *iri) {

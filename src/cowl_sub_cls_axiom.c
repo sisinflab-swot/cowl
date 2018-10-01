@@ -1,7 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_sub_cls_axiom_private.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_cls_exp.h"
 #include "cowl_hash_utils.h"
 
 CowlClsExp const* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom const *axiom) {
