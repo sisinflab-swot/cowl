@@ -9,7 +9,11 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlEntity {
     CowlEntityType type;
-    CowlIRI *iri;
+    union {
+        CowlClass const *owl_class;
+        CowlObjProp const *obj_prop;
+        CowlNamedIndividual const *named_ind;
+    };
 } CowlEntity;
 
 COWL_END_DECLS
