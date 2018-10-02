@@ -9,7 +9,7 @@
 COWL_BEGIN_DECLS
 
 typedef struct CowlSubClsAxiom {
-    CowlAxiom base;
+    CowlAxiom super;
     CowlClsExp const *super_class;
     CowlClsExp const *sub_class;
 } CowlSubClsAxiom;

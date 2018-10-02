@@ -9,7 +9,7 @@
 COWL_BEGIN_DECLS
 
 typedef struct CowlDisjClsAxiom {
-    CowlAxiom base;
+    CowlAxiom super;
     khash_t(CowlClsExpSet) const *classes;
 } CowlDisjClsAxiom;
 
