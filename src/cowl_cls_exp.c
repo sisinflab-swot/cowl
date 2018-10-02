@@ -23,35 +23,20 @@ CowlClsExpType cowl_cls_exp_get_type(CowlClsExp const *exp) {
 bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs) {
     if (lhs->type != rhs->type) return false;
 
+#define GEN_CASE_EQUAL(CAT, TYPE, PREFIX) \
+    case CAT: return PREFIX##_equals((TYPE *)lhs, (TYPE *)rhs)
+
     switch (lhs->type) {
 
-        case CCET_CLASS:
-            return cowl_class_equals((CowlClass *)lhs, (CowlClass *)rhs);
-
-        case CCET_OBJ_COMPLEMENT:
-            return cowl_obj_compl_equals((CowlObjCompl *)lhs, (CowlObjCompl *)rhs);
-
-        case CCET_OBJ_INTERSECTION:
-            return cowl_obj_intersection_equals((CowlObjIntersection *)lhs,
-                                                (CowlObjIntersection *)rhs);
-
-        case CCET_OBJ_UNION:
-            return cowl_obj_union_equals((CowlObjUnion *)lhs, (CowlObjUnion *)rhs);
-
-        case CCET_OBJ_SOME:
-            return cowl_obj_some_equals((CowlObjSome *)lhs, (CowlObjSome *)rhs);
-
-        case CCET_OBJ_ALL:
-            return cowl_obj_all_equals((CowlObjAll *)lhs, (CowlObjAll *)rhs);
-
-        case CCET_OBJ_MIN_CARD:
-            return cowl_obj_min_card_equals((CowlObjMinCard *)lhs, (CowlObjMinCard *)rhs);
-
-        case CCET_OBJ_MAX_CARD:
-            return cowl_obj_max_card_equals((CowlObjMaxCard *)lhs, (CowlObjMaxCard *)rhs);
-
-        case CCET_OBJ_EXACT_CARD:
-            return cowl_obj_exact_card_equals((CowlObjExactCard *)lhs, (CowlObjExactCard *)rhs);
+        GEN_CASE_EQUAL(CCET_CLASS, CowlClass, cowl_class);
+        GEN_CASE_EQUAL(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_EQUAL(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
+        GEN_CASE_EQUAL(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
+        GEN_CASE_EQUAL(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
+        GEN_CASE_EQUAL(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
+        GEN_CASE_EQUAL(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
+        GEN_CASE_EQUAL(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
+        GEN_CASE_EQUAL(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
 
         default:
             return false;
@@ -59,34 +44,21 @@ bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs) {
 }
 
 uint32_t cowl_cls_exp_hash(CowlClsExp const *exp) {
+
+#define GEN_CASE_HASH(CAT, TYPE, PREFIX) \
+    case CAT: return PREFIX##_hash((TYPE *)exp)
+
     switch(exp->type) {
 
-        case CCET_CLASS:
-            return cowl_class_hash((CowlClass *)exp);
-
-        case CCET_OBJ_COMPLEMENT:
-            return cowl_obj_compl_hash((CowlObjCompl *)exp);
-
-        case CCET_OBJ_INTERSECTION:
-            return cowl_obj_intersection_hash((CowlObjIntersection *)exp);
-
-        case CCET_OBJ_UNION:
-            return cowl_obj_union_hash((CowlObjUnion *)exp);
-
-        case CCET_OBJ_SOME:
-            return cowl_obj_some_hash((CowlObjSome *)exp);
-
-        case CCET_OBJ_ALL:
-            return cowl_obj_all_hash((CowlObjAll *)exp);
-
-        case CCET_OBJ_MIN_CARD:
-            return cowl_obj_min_card_hash((CowlObjMinCard *)exp);
-
-        case CCET_OBJ_MAX_CARD:
-            return cowl_obj_max_card_hash((CowlObjMaxCard *)exp);
-
-        case CCET_OBJ_EXACT_CARD:
-            return cowl_obj_exact_card_hash((CowlObjExactCard *)exp);
+        GEN_CASE_HASH(CCET_CLASS, CowlClass, cowl_class);
+        GEN_CASE_HASH(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_HASH(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
+        GEN_CASE_HASH(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
+        GEN_CASE_HASH(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
+        GEN_CASE_HASH(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
+        GEN_CASE_HASH(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
+        GEN_CASE_HASH(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
+        GEN_CASE_HASH(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
 
         default:
             return 0;
