@@ -10,6 +10,7 @@
 #include "cowl_cls_exp.h"
 #include "cowl_cls_exp_type.h"
 #include "cowl_compat.h"
+#include "cowl_decl_axiom.h"
 #include "cowl_disj_cls_axiom.h"
 #include "cowl_entity.h"
 #include "cowl_entity_type.h"
