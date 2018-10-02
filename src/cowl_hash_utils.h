@@ -52,6 +52,8 @@
 #define COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM 311
 #define COWL_HASH_INIT_NEG_DATA_PROP_ASSERT_AXIOM 313
 
+#define COWL_HASH_INIT_ONTO_ID 997
+
 #define cowl_hash_iter(hash_acc, hash_new) ((hash_acc) * COWL_HASH_MULT + (hash_new))
 
 #define cowl_hash_1(init, a) (cowl_hash_iter(init, a))
