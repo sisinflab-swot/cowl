@@ -11,7 +11,7 @@ COWL_BEGIN_DECLS
 typedef struct CowlObjPropRangeAxiom {
     CowlAxiom super;
     CowlObjPropExp const *prop_exp;
-    CowlClsExp const *domain;
+    CowlClsExp const *range;
 } CowlObjPropRangeAxiom;
 
 COWL_END_DECLS

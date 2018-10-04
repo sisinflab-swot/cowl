@@ -14,7 +14,7 @@ typedef struct CowlObjPropExp CowlObjPropExp;
 typedef struct CowlObjPropRangeAxiom CowlObjPropRangeAxiom;
 
 CowlObjPropExp const* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom const *axiom);
-CowlClsExp const* cowl_obj_prop_range_axiom_get_domain(CowlObjPropRangeAxiom const *axiom);
+CowlClsExp const* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom const *axiom);
 
 bool cowl_obj_prop_range_axiom_enum_signature(CowlObjPropRangeAxiom const *axiom, void *ctx,
                                               CowlEntityIterator iter);
