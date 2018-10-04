@@ -24,7 +24,7 @@ bool cowl_axiom_enum_signature(CowlAxiom const *axiom, void *ctx, CowlEntityIter
     switch (axiom->type) {
 
         GEN_CASE_SIG(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
-        GEN_CASE_SIG(CAT_SUBCLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
+        GEN_CASE_SIG(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
         GEN_CASE_SIG(CAT_EQUIVALENT_CLASSES, CowlEqClsAxiom, cowl_eq_cls_axiom);
         GEN_CASE_SIG(CAT_DISJOINT_CLASSES, CowlDisjClsAxiom, cowl_disj_cls_axiom);
         GEN_CASE_SIG(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
@@ -46,7 +46,7 @@ bool cowl_axiom_equals(CowlAxiom const *lhs, CowlAxiom const *rhs) {
     switch (lhs->type) {
 
         GEN_CASE_EQUAL(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
-        GEN_CASE_EQUAL(CAT_SUBCLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
+        GEN_CASE_EQUAL(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
         GEN_CASE_EQUAL(CAT_EQUIVALENT_CLASSES, CowlEqClsAxiom, cowl_eq_cls_axiom);
         GEN_CASE_EQUAL(CAT_DISJOINT_CLASSES, CowlDisjClsAxiom, cowl_disj_cls_axiom);
         GEN_CASE_EQUAL(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
@@ -67,7 +67,7 @@ uint32_t cowl_axiom_hash(CowlAxiom const *axiom) {
     switch (axiom->type) {
 
         GEN_CASE_HASH(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
-        GEN_CASE_HASH(CAT_SUBCLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
+        GEN_CASE_HASH(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
         GEN_CASE_HASH(CAT_EQUIVALENT_CLASSES, CowlEqClsAxiom, cowl_eq_cls_axiom);
         GEN_CASE_HASH(CAT_DISJOINT_CLASSES, CowlDisjClsAxiom, cowl_disj_cls_axiom);
         GEN_CASE_HASH(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);

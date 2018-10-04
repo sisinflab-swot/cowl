@@ -24,7 +24,7 @@ typedef enum CowlAxiomType {
         CAT_EQUIVALENT_CLASSES,
 
     /// Represents subclass axioms.
-        CAT_SUBCLASS,
+        CAT_SUB_CLASS,
 
     /// Represents disjoint classes axioms.
         CAT_DISJOINT_CLASSES,
