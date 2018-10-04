@@ -13,17 +13,29 @@ typedef struct CowlClass CowlClass;
 typedef struct CowlObjProp CowlObjProp;
 typedef struct CowlNamedIndividual CowlNamedIndividual;
 
-typedef struct CowlEntity CowlEntity;
+typedef struct CowlEntity {
+    CowlEntityType type;
 
-CowlEntityType cowl_entity_get_type(CowlEntity const *entity);
-CowlIRI const* cowl_entity_get_iri(CowlEntity const *entity);
+    union {
+        CowlClass const *owl_class;
+        CowlObjProp const *obj_prop;
+        CowlNamedIndividual const *named_ind;
+    };
+} CowlEntity;
 
-CowlClass const* cowl_entity_as_class(CowlEntity const *entity);
-CowlObjProp const* cowl_entity_as_prop(CowlEntity const *entity);
-CowlNamedIndividual const* cowl_entity_as_individual(CowlEntity const *entity);
+#define cowl_entity_init_class(cls) \
+    ((CowlEntity const){ .type = CET_CLASS, .owl_class = (cls) })
 
-bool cowl_entity_equals(CowlEntity const *lhs, CowlEntity const *rhs);
-uint32_t cowl_entity_hash(CowlEntity const *entity);
+#define cowl_entity_init_obj_prop(prop) \
+    ((CowlEntity const){ .type = CET_OBJ_PROP, .obj_prop = (prop) })
+
+#define cowl_entity_init_named_individual(ind) \
+    ((CowlEntity const){ .type = CET_NAMED_INDIVIDUAL, .named_ind = (ind) })
+
+CowlIRI const* cowl_entity_get_iri(CowlEntity entity);
+
+bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs);
+uint32_t cowl_entity_hash(CowlEntity entity);
 
 COWL_END_DECLS
 

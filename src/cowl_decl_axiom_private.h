@@ -10,7 +10,7 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlDeclAxiom {
     CowlAxiom super;
-    CowlEntity const *entity;
+    CowlEntity entity;
 } CowlDeclAxiom;
 
 COWL_END_DECLS

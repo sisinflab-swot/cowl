@@ -13,6 +13,13 @@ CowlClsExp const* cowl_obj_prop_range_axiom_get_domain(CowlObjPropRangeAxiom con
     return axiom->domain;
 }
 
+bool cowl_obj_prop_range_axiom_enum_signature(CowlObjPropRangeAxiom const *axiom, void *ctx,
+                                              CowlEntityIterator iter) {
+    if (!cowl_obj_prop_exp_enum_signature(axiom->prop_exp, ctx, iter)) return false;
+    if (!cowl_cls_exp_enum_signature(axiom->domain, ctx, iter)) return false;
+    return true;
+}
+
 bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom const *lhs,
                                        CowlObjPropRangeAxiom const *rhs) {
     return cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp) &&

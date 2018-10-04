@@ -8,6 +8,11 @@ CowlIRI const* cowl_named_individual_get_iri(CowlNamedIndividual const *ind) {
     return ind->iri;
 }
 
+bool cowl_named_individual_enum_signature(CowlNamedIndividual const *ind,
+                                          void *ctx, CowlEntityIterator iter) {
+    return iter(ctx, cowl_entity_init_named_individual(ind));
+}
+
 bool cowl_named_individual_equals(CowlNamedIndividual const *lhs, CowlNamedIndividual const *rhs) {
     return cowl_iri_equals(lhs->iri, rhs->iri);
 }

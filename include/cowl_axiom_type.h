@@ -136,9 +136,17 @@ typedef enum CowlAxiomType {
         CAT_ANNOT_PROP_DOMAIN,
 
     /// Represents annotation property range axioms.
-        CAT_ANNOT_PROP_RANGE
+        CAT_ANNOT_PROP_RANGE,
+
+#pragma mark - Markers
+
+    /// Number of axiom types.
+        CAT_COUNT
 
 } CowlAxiomType;
+
+#define cowl_axiom_type_equals(lhs, rhs) ((lhs) == (rhs))
+#define cowl_axiom_type_hash(axiom_type) (axiom_type)
 
 COWL_END_DECLS
 

@@ -1,11 +1,15 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_decl_axiom_private.h"
-#include "cowl_entity.h"
 #include "cowl_hash_utils.h"
 
-CowlEntity const* cowl_decl_axiom_get_entity(CowlDeclAxiom const *axiom) {
+CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom const *axiom) {
     return axiom->entity;
+}
+
+bool cowl_decl_axiom_enum_signature(CowlDeclAxiom const *axiom,
+                                    void *ctx, CowlEntityIterator iter) {
+    return iter(ctx, axiom->entity);
 }
 
 bool cowl_decl_axiom_equals(CowlDeclAxiom const *lhs, CowlDeclAxiom const *rhs) {

@@ -12,6 +12,12 @@ CowlClsExp const* cowl_obj_some_get_filler(CowlObjSome const *restr) {
     return restr->filler;
 }
 
+bool cowl_obj_some_enum_signature(CowlObjSome const *restr, void *ctx, CowlEntityIterator iter) {
+    if (!cowl_obj_prop_exp_enum_signature(restr->prop, ctx, iter)) return false;
+    if (!cowl_cls_exp_enum_signature(restr->filler, ctx, iter)) return false;
+    return true;
+}
+
 bool cowl_obj_some_equals(CowlObjSome const *lhs, CowlObjSome const *rhs) {
     return cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_cls_exp_equals(lhs->filler, rhs->filler);

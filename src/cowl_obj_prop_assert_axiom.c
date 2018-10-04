@@ -17,6 +17,14 @@ CowlObjPropExp const* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom
     return axiom->prop_exp;
 }
 
+bool cowl_obj_prop_assert_axiom_enum_signature(CowlObjPropAssertAxiom const *axiom,
+                                               void *ctx, CowlEntityIterator iter) {
+    if (!cowl_individual_enum_signature(axiom->source, ctx, iter)) return false;
+    if (!cowl_individual_enum_signature(axiom->target, ctx, iter)) return false;
+    if (!cowl_obj_prop_exp_enum_signature(axiom->prop_exp, ctx, iter)) return false;
+    return true;
+}
+
 bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom const *lhs,
                                        CowlObjPropAssertAxiom const *rhs) {
     return cowl_individual_equals(lhs->source, rhs->source) &&

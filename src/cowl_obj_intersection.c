@@ -7,6 +7,14 @@ khash_t(CowlClsExpSet) const* cowl_obj_intersection_get_operands(CowlObjIntersec
     return exp->operands;
 }
 
+bool cowl_obj_intersection_enum_signature(CowlObjIntersection const *exp, void *ctx,
+                                          CowlEntityIterator iter) {
+    kh_foreach_key(exp->operands, CowlClsExp const *operand, {
+        if (!cowl_cls_exp_enum_signature(operand, ctx, iter)) return false;
+    });
+    return true;
+}
+
 bool cowl_obj_intersection_equals(CowlObjIntersection const *lhs, CowlObjIntersection const *rhs) {
     return kh_set_equals(CowlClsExpSet, lhs->operands, rhs->operands);
 }

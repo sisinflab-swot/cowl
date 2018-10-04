@@ -18,13 +18,13 @@ typedef enum CowlEntityType {
     CET_CLASS,
 
     /// Represents CowlObjectProperty.
-    CET_OBJECT_PROPERTY,
+    CET_OBJ_PROP,
 
     /// Represents CowlDataProperty.
-    CET_DATA_PROPERTY,
+    CET_DATA_PROP,
 
     /// Represents CowlAnnotationProperty.
-    CET_ANNOTATION_PROPERTY,
+    CET_ANNOTATION_PROP,
 
     /// Represents CowlNamedIndividual.
     CET_NAMED_INDIVIDUAL,

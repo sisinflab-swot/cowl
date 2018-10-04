@@ -19,6 +19,7 @@
 #include "cowl_individual.h"
 #include "cowl_inverse_obj_prop.h"
 #include "cowl_iri.h"
+#include "cowl_iterator.h"
 #include "cowl_named_individual.h"
 #include "cowl_obj_all.h"
 #include "cowl_obj_compl.h"

@@ -12,6 +12,13 @@ CowlClsExp const* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom const *axiom) {
     return axiom->sub_class;
 }
 
+bool cowl_sub_cls_axiom_enum_signature(CowlSubClsAxiom const *axiom, void *ctx,
+                                       CowlEntityIterator iter) {
+    if (!cowl_cls_exp_enum_signature(axiom->super_class, ctx, iter)) return false;
+    if (!cowl_cls_exp_enum_signature(axiom->sub_class, ctx, iter)) return false;
+    return true;
+}
+
 bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom const *lhs, CowlSubClsAxiom const *rhs) {
     return cowl_cls_exp_equals(lhs->sub_class, rhs->sub_class) &&
            cowl_cls_exp_equals(lhs->super_class, rhs->super_class);

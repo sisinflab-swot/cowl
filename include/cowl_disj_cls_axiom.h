@@ -3,6 +3,7 @@
 #ifndef COWL_DISJ_CLS_AXIOM_H
 #define COWL_DISJ_CLS_AXIOM_H
 
+#include "cowl_iterator.h"
 #include "cowl_std.h"
 #include "khash_utils.h"
 
@@ -13,6 +14,9 @@ typedef khash_struct(CowlClsExpSet) khash_t(CowlClsExpSet);
 typedef struct CowlDisjClsAxiom CowlDisjClsAxiom;
 
 khash_t(CowlClsExpSet) const *cowl_disj_cls_axiom_get_classes(CowlDisjClsAxiom const *axiom);
+
+bool cowl_disj_cls_axiom_enum_signature(CowlDisjClsAxiom const *axiom, void *ctx,
+                                        CowlEntityIterator iter);
 
 bool cowl_disj_cls_axiom_equals(CowlDisjClsAxiom const *lhs, CowlDisjClsAxiom const *rhs);
 uint32_t cowl_disj_cls_axiom_hash(CowlDisjClsAxiom const *axiom);

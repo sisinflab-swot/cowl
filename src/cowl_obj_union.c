@@ -7,6 +7,13 @@ khash_t(CowlClsExpSet) const* cowl_obj_union_get_operands(CowlObjUnion const *ex
     return exp->operands;
 }
 
+bool cowl_obj_union_enum_signature(CowlObjUnion const *exp, void *ctx, CowlEntityIterator iter) {
+    kh_foreach_key(exp->operands, CowlClsExp const *operand, {
+        if (!cowl_cls_exp_enum_signature(operand, ctx, iter)) return false;
+    });
+    return true;
+}
+
 bool cowl_obj_union_equals(CowlObjUnion const *lhs, CowlObjUnion const *rhs) {
     return kh_set_equals(CowlClsExpSet, lhs->operands, rhs->operands);
 }

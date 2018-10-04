@@ -16,6 +16,13 @@ uint32_t cowl_obj_max_card_get_cardinality(CowlObjMaxCard const *restr) {
     return restr->cardinality;
 }
 
+bool cowl_obj_max_card_enum_signature(CowlObjMaxCard const *restr, void *ctx,
+                                      CowlEntityIterator iter) {
+    if (!cowl_obj_prop_exp_enum_signature(restr->prop, ctx, iter)) return false;
+    if (!cowl_cls_exp_enum_signature(restr->filler, ctx, iter)) return false;
+    return true;
+}
+
 bool cowl_obj_max_card_equals(CowlObjMaxCard const *lhs, CowlObjMaxCard const *rhs) {
     return lhs->cardinality == rhs->cardinality &&
            cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
