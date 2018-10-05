@@ -15,11 +15,11 @@ typedef struct CowlObjIntersection CowlObjIntersection;
 
 khash_t(CowlClsExpSet) const* cowl_obj_intersection_get_operands(CowlObjIntersection const *exp);
 
-bool cowl_obj_intersection_enum_signature(CowlObjIntersection const *exp, void *ctx,
-                                          CowlEntityIterator iter);
-
 bool cowl_obj_intersection_equals(CowlObjIntersection const *lhs, CowlObjIntersection const *rhs);
 uint32_t cowl_obj_intersection_hash(CowlObjIntersection const *exp);
+
+bool cowl_obj_intersection_iterate_signature(CowlObjIntersection const *exp,
+                                             void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

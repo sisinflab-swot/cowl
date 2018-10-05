@@ -12,11 +12,11 @@ typedef struct CowlObjPropExp CowlObjPropExp;
 
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp const *exp);
 
-bool cowl_obj_prop_exp_enum_signature(CowlObjPropExp const *exp, void *ctx,
-                                      CowlEntityIterator iter);
-
 bool cowl_obj_prop_exp_equals(CowlObjPropExp const *lhs, CowlObjPropExp const *rhs);
 uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp const *exp);
+
+bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp const *exp,
+                                         void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

@@ -14,10 +14,10 @@ typedef struct CowlClass CowlClass;
 
 CowlIRI const* cowl_class_get_iri(CowlClass const *cls);
 
-bool cowl_class_enum_signature(CowlClass const *cls, void *ctx, CowlEntityIterator iter);
-
 bool cowl_class_equals(CowlClass const *lhs, CowlClass const *rhs);
 uint32_t cowl_class_hash(CowlClass const *cls);
+
+bool cowl_class_iterate_signature(CowlClass const *cls, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

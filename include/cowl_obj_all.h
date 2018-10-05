@@ -16,10 +16,10 @@ typedef struct CowlObjAll CowlObjAll;
 CowlObjPropExp const* cowl_obj_all_get_prop(CowlObjAll const *restr);
 CowlClsExp const* cowl_obj_all_get_filler(CowlObjAll const *restr);
 
-bool cowl_obj_all_enum_signature(CowlObjAll const *restr, void *ctx, CowlEntityIterator iter);
-
 bool cowl_obj_all_equals(CowlObjAll const *lhs, CowlObjAll const *rhs);
 uint32_t cowl_obj_all_hash(CowlObjAll const *restr);
+
+bool cowl_obj_all_iterate_signature(CowlObjAll const *restr, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

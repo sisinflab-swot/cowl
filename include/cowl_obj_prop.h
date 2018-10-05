@@ -14,10 +14,10 @@ typedef struct CowlObjProp CowlObjProp;
 
 CowlIRI const* cowl_obj_prop_get_iri(CowlObjProp const *prop);
 
-bool cowl_obj_prop_enum_signature(CowlObjProp const *prop, void *ctx, CowlEntityIterator iter);
-
 bool cowl_obj_prop_equals(CowlObjProp const *lhs, CowlObjProp const *rhs);
 uint32_t cowl_obj_prop_hash(CowlObjProp const *prop);
+
+bool cowl_obj_prop_iterate_signature(CowlObjProp const *prop, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

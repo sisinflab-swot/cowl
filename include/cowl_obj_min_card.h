@@ -17,11 +17,11 @@ CowlObjPropExp const* cowl_obj_min_card_get_prop(CowlObjMinCard const *restr);
 CowlClsExp const* cowl_obj_min_card_get_filler(CowlObjMinCard const *restr);
 uint32_t cowl_obj_min_card_get_cardinality(CowlObjMinCard const *restr);
 
-bool cowl_obj_min_card_enum_signature(CowlObjMinCard const *restr, void *ctx,
-                                      CowlEntityIterator iter);
-
 bool cowl_obj_min_card_equals(CowlObjMinCard const *lhs, CowlObjMinCard const *rhs);
 uint32_t cowl_obj_min_card_hash(CowlObjMinCard const *restr);
+
+bool cowl_obj_min_card_iterate_signature(CowlObjMinCard const *restr,
+                                         void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

@@ -15,11 +15,11 @@ typedef struct CowlSubClsAxiom CowlSubClsAxiom;
 CowlClsExp const* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom const *axiom);
 CowlClsExp const* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom const *axiom);
 
-bool cowl_sub_cls_axiom_enum_signature(CowlSubClsAxiom const *axiom, void *ctx,
-                                       CowlEntityIterator iter);
-
 bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom const *lhs, CowlSubClsAxiom const *rhs);
 uint32_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom const *axiom);
+
+bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom const *axiom,
+                                          void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

@@ -8,11 +8,6 @@ bool cowl_individual_is_named(CowlIndividual const *ind) {
     return ind->is_named;
 }
 
-bool cowl_individual_enum_signature(CowlIndividual const *ind, void *ctx, CowlEntityIterator iter) {
-    if (!ind->is_named) return true;
-    return cowl_named_individual_enum_signature((CowlNamedIndividual *)ind, ctx, iter);
-}
-
 bool cowl_individual_equals(CowlIndividual const *lhs, CowlIndividual const *rhs) {
     if (lhs->is_named != rhs->is_named) return false;
 
@@ -31,4 +26,10 @@ uint32_t cowl_individual_hash(CowlIndividual const *ind) {
     } else {
         return cowl_anon_individual_hash((CowlAnonIndividual *)ind);
     }
+}
+
+bool cowl_individual_iterate_signature(CowlIndividual const *ind,
+                                       void *ctx, CowlEntityIterator iter) {
+    if (!ind->is_named) return true;
+    return cowl_named_individual_iterate_signature((CowlNamedIndividual *)ind, ctx, iter);
 }

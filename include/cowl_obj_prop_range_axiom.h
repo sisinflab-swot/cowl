@@ -16,12 +16,12 @@ typedef struct CowlObjPropRangeAxiom CowlObjPropRangeAxiom;
 CowlObjPropExp const* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom const *axiom);
 CowlClsExp const* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom const *axiom);
 
-bool cowl_obj_prop_range_axiom_enum_signature(CowlObjPropRangeAxiom const *axiom, void *ctx,
-                                              CowlEntityIterator iter);
-
 bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom const *lhs,
                                        CowlObjPropRangeAxiom const *rhs);
 uint32_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom const *axiom);
+
+bool cowl_obj_prop_range_axiom_iterate_signature(CowlObjPropRangeAxiom const *axiom,
+                                                 void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

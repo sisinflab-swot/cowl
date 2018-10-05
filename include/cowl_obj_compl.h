@@ -14,10 +14,11 @@ typedef struct CowlObjCompl CowlObjCompl;
 
 CowlClsExp const* cowl_obj_compl_get_operand(CowlObjCompl const *compl);
 
-bool cowl_obj_compl_enum_signature(CowlObjCompl const *compl, void *ctx, CowlEntityIterator iter);
-
 bool cowl_obj_compl_equals(CowlObjCompl const *lhs, CowlObjCompl const *rhs);
 uint32_t cowl_obj_compl_hash(CowlObjCompl const *compl);
+
+bool cowl_obj_compl_iterate_signature(CowlObjCompl const *compl,
+                                      void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

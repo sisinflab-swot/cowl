@@ -16,13 +16,6 @@ uint32_t cowl_obj_exact_card_get_cardinality(CowlObjExactCard const *restr) {
     return restr->cardinality;
 }
 
-bool cowl_obj_exact_card_enum_signature(CowlObjExactCard const *restr, void *ctx,
-                                        CowlEntityIterator iter) {
-    if (!cowl_obj_prop_exp_enum_signature(restr->prop, ctx, iter)) return false;
-    if (!cowl_cls_exp_enum_signature(restr->filler, ctx, iter)) return false;
-    return true;
-}
-
 bool cowl_obj_exact_card_equals(CowlObjExactCard const *lhs, CowlObjExactCard const *rhs) {
     return lhs->cardinality == rhs->cardinality &&
            cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
@@ -34,4 +27,11 @@ uint32_t cowl_obj_exact_card_hash(CowlObjExactCard const *restr) {
                        restr->cardinality,
                        cowl_obj_prop_exp_hash(restr->prop),
                        cowl_cls_exp_hash(restr->filler));
+}
+
+bool cowl_obj_exact_card_iterate_signature(CowlObjExactCard const *restr,
+                                           void *ctx, CowlEntityIterator iter) {
+    if (!cowl_obj_prop_exp_iterate_signature(restr->prop, ctx, iter)) return false;
+    if (!cowl_cls_exp_iterate_signature(restr->filler, ctx, iter)) return false;
+    return true;
 }

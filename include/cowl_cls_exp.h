@@ -17,10 +17,10 @@ KHASH_SET_UTILS_DECL(CowlClsExpSet, CowlClsExp const*);
 
 CowlClsExpType cowl_cls_exp_get_type(CowlClsExp const *exp);
 
-bool cowl_cls_exp_enum_signature(CowlClsExp const *exp, void *ctx, CowlEntityIterator iter);
-
 bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs);
 uint32_t cowl_cls_exp_hash(CowlClsExp const *exp);
+
+bool cowl_cls_exp_iterate_signature(CowlClsExp const *exp, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

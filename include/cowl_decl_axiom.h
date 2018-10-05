@@ -12,10 +12,11 @@ typedef struct CowlDeclAxiom CowlDeclAxiom;
 
 CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom const *axiom);
 
-bool cowl_decl_axiom_enum_signature(CowlDeclAxiom const *axiom, void *ctx, CowlEntityIterator iter);
-
 bool cowl_decl_axiom_equals(CowlDeclAxiom const *lhs, CowlDeclAxiom const *rhs);
 uint32_t cowl_decl_axiom_hash(CowlDeclAxiom const *axiom);
+
+bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom const *axiom,
+                                       void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

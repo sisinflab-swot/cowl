@@ -20,28 +20,6 @@ CowlClsExpType cowl_cls_exp_get_type(CowlClsExp const *exp) {
     return exp->type;
 }
 
-bool cowl_cls_exp_enum_signature(CowlClsExp const *exp, void *ctx, CowlEntityIterator iter) {
-
-#define GEN_CASE_SIG(CCET, TYPE, PREFIX) \
-    case CCET: return PREFIX##_enum_signature((TYPE *)exp, ctx, iter)
-
-    switch (exp->type) {
-
-        GEN_CASE_SIG(CCET_CLASS, CowlClass, cowl_class);
-        GEN_CASE_SIG(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
-        GEN_CASE_SIG(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
-        GEN_CASE_SIG(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
-        GEN_CASE_SIG(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
-        GEN_CASE_SIG(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
-        GEN_CASE_SIG(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
-        GEN_CASE_SIG(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
-        GEN_CASE_SIG(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
-
-        default:
-            return true;
-    }
-}
-
 bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs) {
     if (lhs->type != rhs->type) return false;
 
@@ -84,5 +62,27 @@ uint32_t cowl_cls_exp_hash(CowlClsExp const *exp) {
 
         default:
             return 0;
+    }
+}
+
+bool cowl_cls_exp_iterate_signature(CowlClsExp const *exp, void *ctx, CowlEntityIterator iter) {
+
+#define GEN_CASE_SIG(CCET, TYPE, PREFIX) \
+    case CCET: return PREFIX##_iterate_signature((TYPE *)exp, ctx, iter)
+
+    switch (exp->type) {
+
+        GEN_CASE_SIG(CCET_CLASS, CowlClass, cowl_class);
+        GEN_CASE_SIG(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_SIG(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
+        GEN_CASE_SIG(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
+        GEN_CASE_SIG(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
+        GEN_CASE_SIG(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
+        GEN_CASE_SIG(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
+        GEN_CASE_SIG(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
+        GEN_CASE_SIG(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
+
+        default:
+            return true;
     }
 }

@@ -14,11 +14,11 @@ typedef struct CowlInverseObjProp CowlInverseObjProp;
 
 CowlObjProp const* cowl_inverse_obj_prop_get_prop(CowlInverseObjProp const *inv);
 
-bool cowl_inverse_obj_prop_enum_signature(CowlInverseObjProp const *inv, void *ctx,
-                                          CowlEntityIterator iter);
-
 bool cowl_inverse_obj_prop_equals(CowlInverseObjProp const *lhs, CowlInverseObjProp const *rhs);
 uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp const *inv);
+
+bool cowl_inverse_obj_prop_iterate_signature(CowlInverseObjProp const *inv,
+                                             void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

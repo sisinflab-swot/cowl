@@ -17,11 +17,11 @@ CowlObjPropExp const* cowl_obj_max_card_get_prop(CowlObjMaxCard const *restr);
 CowlClsExp const* cowl_obj_max_card_get_filler(CowlObjMaxCard const *restr);
 uint32_t cowl_obj_max_card_get_cardinality(CowlObjMaxCard const *restr);
 
-bool cowl_obj_max_card_enum_signature(CowlObjMaxCard const *restr, void *ctx,
-                                      CowlEntityIterator iter);
-
 bool cowl_obj_max_card_equals(CowlObjMaxCard const *lhs, CowlObjMaxCard const *rhs);
 uint32_t cowl_obj_max_card_hash(CowlObjMaxCard const *restr);
+
+bool cowl_obj_max_card_iterate_signature(CowlObjMaxCard const *restr,
+                                         void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

@@ -15,10 +15,10 @@ typedef struct CowlAxiom CowlAxiom;
 
 CowlAxiomType cowl_axiom_get_type(CowlAxiom const *axiom);
 
-bool cowl_axiom_enum_signature(CowlAxiom const *axiom, void *ctx, CowlEntityIterator iter);
-
 bool cowl_axiom_equals(CowlAxiom const *lhs, CowlAxiom const *rhs);
 uint32_t cowl_axiom_hash(CowlAxiom const *axiom);
+
+bool cowl_axiom_iterate_signature(CowlAxiom const *axiom, void *ctx, CowlEntityIterator iter);
 
 KHASH_SET_UTILS_DECL(CowlAxiomSet, CowlAxiom const*);
 
