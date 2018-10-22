@@ -7,11 +7,12 @@
 #include "cowl_iterator.h"
 #include "cowl_std.h"
 
-#include "khash_utils.h"
-
 COWL_BEGIN_DECLS
 
 typedef struct CowlAxiom CowlAxiom;
+
+CowlAxiom const* cowl_axiom_retain(CowlAxiom const *axiom);
+void cowl_axiom_release(CowlAxiom const *axiom);
 
 CowlAxiomType cowl_axiom_get_type(CowlAxiom const *axiom);
 
@@ -19,8 +20,6 @@ bool cowl_axiom_equals(CowlAxiom const *lhs, CowlAxiom const *rhs);
 uint32_t cowl_axiom_hash(CowlAxiom const *axiom);
 
 bool cowl_axiom_iterate_signature(CowlAxiom const *axiom, void *ctx, CowlEntityIterator iter);
-
-KHASH_SET_UTILS_DECL(CowlAxiomSet, CowlAxiom const*);
 
 COWL_END_DECLS
 

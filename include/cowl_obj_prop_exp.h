@@ -10,6 +10,9 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlObjPropExp CowlObjPropExp;
 
+CowlObjPropExp const* cowl_obj_prop_exp_retain(CowlObjPropExp const *prop);
+void cowl_obj_prop_exp_release(CowlObjPropExp const *prop);
+
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp const *exp);
 
 bool cowl_obj_prop_exp_equals(CowlObjPropExp const *lhs, CowlObjPropExp const *rhs);

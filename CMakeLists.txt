@@ -27,7 +27,7 @@ set(COWL_HEADERS_DIRS
     ${COWL_LIB_DIR}/klib
     ${COWL_LIB_DIR}/khash_utils/include
     ${COWL_LIB_DIR}/vector_t/include
-    ${COWL_SRC_DIR})
+    ${COWL_SRC_DIR}/model)
 
 # Header files
 

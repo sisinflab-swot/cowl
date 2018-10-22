@@ -6,14 +6,15 @@
 #include "cowl_cls_exp_type.h"
 #include "cowl_iterator.h"
 #include "cowl_std.h"
-#include "khash_utils.h"
 
 COWL_BEGIN_DECLS
 
 typedef struct CowlObjPropExp CowlObjPropExp;
 
 typedef struct CowlClsExp CowlClsExp;
-KHASH_SET_UTILS_DECL(CowlClsExpSet, CowlClsExp const*);
+
+CowlClsExp const* cowl_cls_exp_retain(CowlClsExp const *exp);
+void cowl_cls_exp_release(CowlClsExp const *exp);
 
 CowlClsExpType cowl_cls_exp_get_type(CowlClsExp const *exp);
 

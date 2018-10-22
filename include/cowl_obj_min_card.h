@@ -13,6 +13,11 @@ typedef struct CowlObjPropExp CowlObjPropExp;
 
 typedef struct CowlObjMinCard CowlObjMinCard;
 
+CowlObjMinCard const* cowl_obj_min_card_get(CowlObjPropExp const *prop,
+                                            CowlClsExp const *filler, uint32_t cardinality);
+CowlObjMinCard const* cowl_obj_min_card_retain(CowlObjMinCard const *restr);
+void cowl_obj_min_card_release(CowlObjMinCard const *restr);
+
 CowlObjPropExp const* cowl_obj_min_card_get_prop(CowlObjMinCard const *restr);
 CowlClsExp const* cowl_obj_min_card_get_filler(CowlObjMinCard const *restr);
 uint32_t cowl_obj_min_card_get_cardinality(CowlObjMinCard const *restr);

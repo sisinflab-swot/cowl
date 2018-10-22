@@ -13,6 +13,11 @@ typedef struct CowlObjPropExp CowlObjPropExp;
 
 typedef struct CowlObjPropRangeAxiom CowlObjPropRangeAxiom;
 
+CowlObjPropRangeAxiom const* cowl_obj_prop_range_axiom_get(CowlObjPropExp const *prop,
+                                                           CowlClsExp const *range);
+CowlObjPropRangeAxiom const* cowl_obj_prop_range_axiom_retain(CowlObjPropRangeAxiom const *axiom);
+void cowl_obj_prop_range_axiom_release(CowlObjPropRangeAxiom const *axiom);
+
 CowlObjPropExp const* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom const *axiom);
 CowlClsExp const* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom const *axiom);
 

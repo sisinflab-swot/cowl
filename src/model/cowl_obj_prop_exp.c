@@ -5,6 +5,20 @@
 #include "cowl_inverse_obj_prop.h"
 #include "cowl_obj_prop.h"
 
+CowlObjPropExp const* cowl_obj_prop_exp_retain(CowlObjPropExp const *prop) {
+    return cowl_obj_prop_exp_ref_incr(prop);
+}
+
+void cowl_obj_prop_exp_release(CowlObjPropExp const *prop) {
+    if (!prop) return;
+
+    if (prop->is_inverse) {
+        cowl_inverse_obj_prop_release((CowlInverseObjProp *)prop);
+    } else {
+        cowl_obj_prop_release((CowlObjProp *)prop);
+    }
+}
+
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp const *exp) {
     return exp->is_inverse;
 }

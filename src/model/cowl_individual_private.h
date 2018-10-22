@@ -8,8 +8,15 @@
 COWL_BEGIN_DECLS
 
 typedef struct CowlIndividual {
+    uint32_t ref_count;
     bool is_named;
 } CowlIndividual;
+
+#define COWL_INDIVIDUAL_INIT(N) { .ref_count = 1, .is_named = N }
+
+#define cowl_individual_ref_get(i) (((CowlIndividual *)(i))->ref_count)
+#define cowl_individual_ref_incr(i) (++cowl_individual_ref_get(i), (i))
+#define cowl_individual_ref_decr(i) (--cowl_individual_ref_get(i))
 
 COWL_END_DECLS
 

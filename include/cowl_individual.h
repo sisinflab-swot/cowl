@@ -10,6 +10,9 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlIndividual CowlIndividual;
 
+CowlIndividual const* cowl_individual_retain(CowlIndividual const *ind);
+void cowl_individual_release(CowlIndividual const *ind);
+
 bool cowl_individual_is_named(CowlIndividual const *ind);
 
 bool cowl_individual_equals(CowlIndividual const *lhs, CowlIndividual const *rhs);

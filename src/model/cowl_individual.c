@@ -4,6 +4,20 @@
 #include "cowl_anon_individual.h"
 #include "cowl_named_individual.h"
 
+CowlIndividual const* cowl_individual_retain(CowlIndividual const *ind) {
+    return cowl_individual_ref_incr(ind);
+}
+
+void cowl_individual_release(CowlIndividual const *ind) {
+    if (!ind) return;
+
+    if (ind->is_named) {
+        cowl_named_individual_release((CowlNamedIndividual *)ind);
+    } else {
+        cowl_anon_individual_release((CowlAnonIndividual *)ind);
+    }
+}
+
 bool cowl_individual_is_named(CowlIndividual const *ind) {
     return ind->is_named;
 }

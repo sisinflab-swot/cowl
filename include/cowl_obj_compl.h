@@ -12,6 +12,10 @@ typedef struct CowlClsExp CowlClsExp;
 
 typedef struct CowlObjCompl CowlObjCompl;
 
+CowlObjCompl const* cowl_obj_compl_get(CowlClsExp const *operand);
+CowlObjCompl const* cowl_obj_compl_retain(CowlObjCompl const *compl);
+void cowl_obj_compl_release(CowlObjCompl const *compl);
+
 CowlClsExp const* cowl_obj_compl_get_operand(CowlObjCompl const *compl);
 
 bool cowl_obj_compl_equals(CowlObjCompl const *lhs, CowlObjCompl const *rhs);

@@ -10,7 +10,31 @@
 #include "cowl_obj_prop_range_axiom.h"
 #include "cowl_sub_cls_axiom.h"
 
-KHASH_SET_UTILS_IMPL(CowlAxiomSet, CowlAxiom const*, cowl_axiom_hash, cowl_axiom_equals);
+CowlAxiom const* cowl_axiom_retain(CowlAxiom const *axiom) {
+    return cowl_axiom_ref_incr(axiom);
+}
+
+void cowl_axiom_release(CowlAxiom const *axiom) {
+    if (!axiom) return;
+
+#define GEN_CASE_RELEASE(CAT, TYPE, PREFIX) \
+    case CAT: PREFIX##_release((TYPE *)axiom);
+
+    switch (axiom->type) {
+
+        GEN_CASE_RELEASE(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
+        GEN_CASE_RELEASE(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
+        GEN_CASE_RELEASE(CAT_EQUIVALENT_CLASSES, CowlEqClsAxiom, cowl_eq_cls_axiom);
+        GEN_CASE_RELEASE(CAT_DISJOINT_CLASSES, CowlDisjClsAxiom, cowl_disj_cls_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
+        GEN_CASE_RELEASE(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
+
+        default:
+            break;
+    }
+}
 
 CowlAxiomType cowl_axiom_get_type(CowlAxiom const *axiom) {
     return axiom->type;
@@ -39,24 +63,7 @@ bool cowl_axiom_equals(CowlAxiom const *lhs, CowlAxiom const *rhs) {
 }
 
 uint32_t cowl_axiom_hash(CowlAxiom const *axiom) {
-
-#define GEN_CASE_HASH(CAT, TYPE, PREFIX) \
-    case CAT: return PREFIX##_hash((TYPE *)axiom)
-
-    switch (axiom->type) {
-
-        GEN_CASE_HASH(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
-        GEN_CASE_HASH(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
-        GEN_CASE_HASH(CAT_EQUIVALENT_CLASSES, CowlEqClsAxiom, cowl_eq_cls_axiom);
-        GEN_CASE_HASH(CAT_DISJOINT_CLASSES, CowlDisjClsAxiom, cowl_disj_cls_axiom);
-        GEN_CASE_HASH(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
-        GEN_CASE_HASH(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
-        GEN_CASE_HASH(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
-        GEN_CASE_HASH(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
-
-        default:
-            return 0;
-    }
+    return cowl_axiom_hash_get(axiom);
 }
 
 bool cowl_axiom_iterate_signature(CowlAxiom const *axiom, void *ctx, CowlEntityIterator iter) {

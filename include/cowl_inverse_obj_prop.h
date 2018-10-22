@@ -12,6 +12,10 @@ typedef struct CowlObjProp CowlObjProp;
 
 typedef struct CowlInverseObjProp CowlInverseObjProp;
 
+CowlInverseObjProp const* cowl_inverse_obj_prop_get(CowlObjProp const *prop);
+CowlInverseObjProp const* cowl_inverse_obj_prop_retain(CowlInverseObjProp const *inv);
+void cowl_inverse_obj_prop_release(CowlInverseObjProp const *inv);
+
 CowlObjProp const* cowl_inverse_obj_prop_get_prop(CowlInverseObjProp const *inv);
 
 bool cowl_inverse_obj_prop_equals(CowlInverseObjProp const *lhs, CowlInverseObjProp const *rhs);

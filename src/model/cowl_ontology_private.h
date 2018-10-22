@@ -25,7 +25,10 @@ typedef struct CowlOntology {
     khash_t(CowlAnonIndAxiomMap) *anon_ind_refs;
 } CowlOntology;
 
-bool cowl_ontology_add_axiom(CowlOntology *ontology, CowlAxiom const *axiom);
+CowlOntology* cowl_ontology_alloc(CowlOntologyId const *id);
+void cowl_ontology_free(CowlOntology const *ontology);
+
+void cowl_ontology_add_axiom(CowlOntology *ontology, CowlAxiom const *axiom);
 
 COWL_END_DECLS
 

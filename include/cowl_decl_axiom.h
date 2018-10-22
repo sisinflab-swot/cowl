@@ -10,6 +10,10 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlDeclAxiom CowlDeclAxiom;
 
+CowlDeclAxiom const* cowl_decl_axiom_get(CowlEntity entity);
+CowlDeclAxiom const* cowl_decl_axiom_retain(CowlDeclAxiom const *axiom);
+void cowl_decl_axiom_release(CowlDeclAxiom const *axiom);
+
 CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom const *axiom);
 
 bool cowl_decl_axiom_equals(CowlDeclAxiom const *lhs, CowlDeclAxiom const *rhs);

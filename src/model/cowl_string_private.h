@@ -11,13 +11,16 @@ COWL_BEGIN_DECLS
 KHASH_MAP_UTILS_DECL(CowlStringMap, char const*, CowlString*);
 
 struct CowlString {
-    char const *cstring;
-    size_t length;
     uint32_t ref_count;
+    uint32_t length;
+    char const *cstring;
 };
 
-CowlString* cowl_string_alloc(char const *cstring, size_t length);
-void cowl_string_free(CowlString *string);
+#define COWL_STRING_INIT(CSTR, LEN) { .ref_count = 1, .cstring = CSTR, .length = LEN }
+
+#define cowl_string_ref_get(s) (((CowlString *)(s))->ref_count)
+#define cowl_string_ref_incr(s) (++cowl_string_ref_get(s), (s))
+#define cowl_string_ref_decr(s) (--cowl_string_ref_get(s))
 
 COWL_END_DECLS
 

@@ -11,6 +11,10 @@ typedef struct CowlString CowlString;
 
 typedef struct CowlAnonIndividual CowlAnonIndividual;
 
+CowlAnonIndividual const* cowl_anon_individual_get(CowlString const *id);
+CowlAnonIndividual const* cowl_anon_individual_retain(CowlAnonIndividual const *ind);
+void cowl_anon_individual_release(CowlAnonIndividual const *ind);
+
 CowlString const* cowl_anon_individual_get_id(CowlAnonIndividual const *ind);
 
 bool cowl_anon_individual_equals(CowlAnonIndividual const *lhs, CowlAnonIndividual const *rhs);

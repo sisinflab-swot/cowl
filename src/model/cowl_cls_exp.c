@@ -11,10 +11,34 @@
 #include "cowl_obj_some.h"
 #include "cowl_obj_union.h"
 
-KHASH_SET_UTILS_IMPL(CowlClsExpSet, CowlClsExp const*,
-                     cowl_cls_exp_hash, cowl_cls_exp_equals);
-
 #pragma mark - Public functions
+
+CowlClsExp const* cowl_cls_exp_retain(CowlClsExp const *exp) {
+    return cowl_cls_exp_ref_incr(exp);
+}
+
+void cowl_cls_exp_release(CowlClsExp const *exp) {
+    if (!exp) return;
+
+#define GEN_CASE_RELEASE(CCET, TYPE, PREFIX) \
+    case CCET: return PREFIX##_release((TYPE *)exp)
+
+    switch (exp->type) {
+
+        GEN_CASE_RELEASE(CCET_CLASS, CowlClass, cowl_class);
+        GEN_CASE_RELEASE(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_RELEASE(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
+        GEN_CASE_RELEASE(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
+        GEN_CASE_RELEASE(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
+        GEN_CASE_RELEASE(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
+        GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
+        GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
+        GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
+
+        default:
+            break;
+    }
+}
 
 CowlClsExpType cowl_cls_exp_get_type(CowlClsExp const *exp) {
     return exp->type;
@@ -44,25 +68,7 @@ bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs) {
 }
 
 uint32_t cowl_cls_exp_hash(CowlClsExp const *exp) {
-
-#define GEN_CASE_HASH(CCET, TYPE, PREFIX) \
-    case CCET: return PREFIX##_hash((TYPE *)exp)
-
-    switch(exp->type) {
-
-        GEN_CASE_HASH(CCET_CLASS, CowlClass, cowl_class);
-        GEN_CASE_HASH(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
-        GEN_CASE_HASH(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
-        GEN_CASE_HASH(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
-        GEN_CASE_HASH(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
-        GEN_CASE_HASH(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
-        GEN_CASE_HASH(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
-        GEN_CASE_HASH(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
-        GEN_CASE_HASH(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
-
-        default:
-            return 0;
-    }
+    return cowl_cls_exp_hash_get(exp);
 }
 
 bool cowl_cls_exp_iterate_signature(CowlClsExp const *exp, void *ctx, CowlEntityIterator iter) {

@@ -7,7 +7,6 @@
 #include "cowl_iterator.h"
 #include "cowl_std.h"
 
-
 COWL_BEGIN_DECLS
 
 typedef struct CowlAnonIndividual CowlAnonIndividual;

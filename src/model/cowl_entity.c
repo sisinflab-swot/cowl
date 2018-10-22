@@ -5,17 +5,50 @@
 #include "cowl_named_individual_private.h"
 #include "cowl_obj_prop_private.h"
 
-CowlIRI const* cowl_entity_get_iri(CowlEntity entity) {
+CowlEntity cowl_entity_retain(CowlEntity entity) {
+
+#define GEN_CASE_RETAIN(CET, PREFIX, FIELD) \
+    case CET: PREFIX##_retain(entity.FIELD); break
+
     switch (entity.type) {
 
-        case CET_CLASS:
-            return entity.owl_class->iri;
+        GEN_CASE_RETAIN(CET_CLASS, cowl_class, owl_class);
+        GEN_CASE_RETAIN(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
+        GEN_CASE_RETAIN(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
 
-        case CET_OBJ_PROP:
-            return entity.obj_prop->iri;
+        default:
+            break;
+    }
 
-        case CET_NAMED_INDIVIDUAL:
-            return entity.named_ind->iri;
+    return entity;
+}
+
+void cowl_entity_release(CowlEntity entity) {
+
+#define GEN_CASE_RELEASE(CET, PREFIX, FIELD) \
+    case CET: PREFIX##_release(entity.FIELD); break
+
+    switch (entity.type) {
+
+        GEN_CASE_RELEASE(CET_CLASS, cowl_class, owl_class);
+        GEN_CASE_RELEASE(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
+        GEN_CASE_RELEASE(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
+
+        default:
+            break;
+    }
+}
+
+CowlIRI const* cowl_entity_get_iri(CowlEntity entity) {
+
+#define GEN_CASE_IRI(CET, FIELD) \
+    case CET: return entity.FIELD->iri
+
+    switch (entity.type) {
+
+        GEN_CASE_IRI(CET_CLASS, owl_class);
+        GEN_CASE_IRI(CET_OBJ_PROP, obj_prop);
+        GEN_CASE_IRI(CET_NAMED_INDIVIDUAL, named_ind);
 
         default:
             return NULL;
@@ -25,16 +58,14 @@ CowlIRI const* cowl_entity_get_iri(CowlEntity entity) {
 bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs) {
     if (lhs.type != rhs.type) return false;
 
+#define GEN_CASE_EQUALS(CET, PREFIX, FIELD) \
+    case CET: return PREFIX##_equals(lhs.FIELD, rhs.FIELD)
+
     switch (lhs.type) {
 
-        case CET_CLASS:
-            return cowl_class_equals(lhs.owl_class, rhs.owl_class);
-
-        case CET_OBJ_PROP:
-            return cowl_obj_prop_equals(lhs.obj_prop, rhs.obj_prop);
-
-        case CET_NAMED_INDIVIDUAL:
-            return cowl_named_individual_equals(lhs.named_ind, rhs.named_ind);
+        GEN_CASE_EQUALS(CET_CLASS, cowl_class, owl_class);
+        GEN_CASE_EQUALS(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
+        GEN_CASE_EQUALS(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
 
         default:
             return false;
@@ -42,16 +73,15 @@ bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs) {
 }
 
 uint32_t cowl_entity_hash(CowlEntity entity) {
+
+#define GEN_CASE_HASH(CET, PREFIX, FIELD) \
+    case CET: return PREFIX##_hash(entity.FIELD)
+
     switch (entity.type) {
 
-        case CET_CLASS:
-            return cowl_class_hash(entity.owl_class);
-
-        case CET_OBJ_PROP:
-            return cowl_obj_prop_hash(entity.obj_prop);
-
-        case CET_NAMED_INDIVIDUAL:
-            return cowl_named_individual_hash(entity.named_ind);
+        GEN_CASE_HASH(CET_CLASS, cowl_class, owl_class);
+        GEN_CASE_HASH(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
+        GEN_CASE_HASH(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
 
         default:
             return 0;

@@ -13,6 +13,11 @@ typedef struct CowlObjPropExp CowlObjPropExp;
 
 typedef struct CowlObjExactCard CowlObjExactCard;
 
+CowlObjExactCard const* cowl_obj_exact_card_get(CowlObjPropExp const *prop,
+                                                CowlClsExp const *filler, uint32_t cardinality);
+CowlObjExactCard const* cowl_obj_exact_card_retain(CowlObjExactCard const *restr);
+void cowl_obj_exact_card_release(CowlObjExactCard const *restr);
+
 CowlObjPropExp const* cowl_obj_exact_card_get_prop(CowlObjExactCard const *restr);
 CowlClsExp const* cowl_obj_exact_card_get_filler(CowlObjExactCard const *restr);
 uint32_t cowl_obj_exact_card_get_cardinality(CowlObjExactCard const *restr);

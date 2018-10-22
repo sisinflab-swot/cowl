@@ -12,6 +12,9 @@ typedef struct CowlOntologyId {
     CowlIRI const *version_iri;
 } CowlOntologyId;
 
+CowlOntologyId* cowl_ontology_id_alloc(CowlIRI const *onto_iri, CowlIRI const *version_iri);
+void cowl_ontology_id_free(CowlOntologyId const *id);
+
 COWL_END_DECLS
 
 #endif // COWL_ONTOLOGY_ID_PRIVATE_H

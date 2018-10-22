@@ -13,6 +13,11 @@ typedef struct CowlIndividual CowlIndividual;
 
 typedef struct CowlClsAssertAxiom CowlClsAssertAxiom;
 
+CowlClsAssertAxiom const* cowl_cls_assert_axiom_get(CowlIndividual const *ind,
+                                                    CowlClsExp const *exp);
+CowlClsAssertAxiom const* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom const *axiom);
+void cowl_cls_assert_axiom_release(CowlClsAssertAxiom const *axiom);
+
 CowlIndividual const* cowl_cls_assert_axiom_get_individual(CowlClsAssertAxiom const *axiom);
 CowlClsExp const* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom const *axiom);
 

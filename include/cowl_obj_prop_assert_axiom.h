@@ -13,6 +13,12 @@ typedef struct CowlObjPropExp CowlObjPropExp;
 
 typedef struct CowlObjPropAssertAxiom CowlObjPropAssertAxiom;
 
+CowlObjPropAssertAxiom const* cowl_obj_prop_assert_axiom_get(CowlIndividual const *source,
+                                                             CowlObjPropExp const *prop,
+                                                             CowlIndividual const *target);
+CowlObjPropAssertAxiom const* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom const *axiom);
+void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom const *axiom);
+
 CowlIndividual const* cowl_obj_prop_assert_axiom_get_source(CowlObjPropAssertAxiom const *axiom);
 CowlIndividual const* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom const *axiom);
 CowlObjPropExp const* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom const *axiom);

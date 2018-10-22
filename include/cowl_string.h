@@ -9,11 +9,12 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlString CowlString;
 
-CowlString* cowl_string_get(char const *cstring, size_t length, bool owned);
-void cowl_string_release(CowlString *string);
+CowlString const* cowl_string_get(char const *cstring, uint32_t length, bool owned);
+CowlString const* cowl_string_retain(CowlString const *string);
+void cowl_string_release(CowlString const *string);
 
 char const* cowl_string_cstring(CowlString const *string);
-size_t cowl_string_length(CowlString const *string);
+uint32_t cowl_string_length(CowlString const *string);
 
 bool cowl_string_equals(CowlString const *lhs, CowlString const *rhs);
 uint32_t cowl_string_hash(CowlString const *string);

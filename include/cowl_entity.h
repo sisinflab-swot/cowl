@@ -21,6 +21,7 @@ typedef struct CowlEntity {
         CowlObjProp const *obj_prop;
         CowlNamedIndividual const *named_ind;
     };
+
 } CowlEntity;
 
 #define cowl_entity_init_class(cls) \
@@ -31,6 +32,9 @@ typedef struct CowlEntity {
 
 #define cowl_entity_init_named_individual(ind) \
     ((CowlEntity const){ .type = CET_NAMED_INDIVIDUAL, .named_ind = (ind) })
+
+CowlEntity cowl_entity_retain(CowlEntity entity);
+void cowl_entity_release(CowlEntity entity);
 
 CowlIRI const* cowl_entity_get_iri(CowlEntity entity);
 

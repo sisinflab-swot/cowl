@@ -12,6 +12,10 @@ typedef struct CowlIRI CowlIRI;
 
 typedef struct CowlNamedIndividual CowlNamedIndividual;
 
+CowlNamedIndividual const* cowl_named_individual_get(CowlIRI const *iri);
+CowlNamedIndividual const* cowl_named_individual_retain(CowlNamedIndividual const *ind);
+void cowl_named_individual_release(CowlNamedIndividual const *ind);
+
 CowlIRI const* cowl_named_individual_get_iri(CowlNamedIndividual const *ind);
 
 bool cowl_named_individual_equals(CowlNamedIndividual const *lhs, CowlNamedIndividual const *rhs);

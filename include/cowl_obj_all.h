@@ -13,6 +13,10 @@ typedef struct CowlObjPropExp CowlObjPropExp;
 
 typedef struct CowlObjAll CowlObjAll;
 
+CowlObjAll const* cowl_obj_all_get(CowlObjPropExp const *prop, CowlClsExp const *filler);
+CowlObjAll const* cowl_obj_all_retain(CowlObjAll const *restr);
+void cowl_obj_all_release(CowlObjAll const *restr);
+
 CowlObjPropExp const* cowl_obj_all_get_prop(CowlObjAll const *restr);
 CowlClsExp const* cowl_obj_all_get_filler(CowlObjAll const *restr);
 

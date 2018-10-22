@@ -13,6 +13,10 @@ typedef khash_struct(CowlClsExpSet) khash_t(CowlClsExpSet);
 
 typedef struct CowlObjIntersection CowlObjIntersection;
 
+CowlObjIntersection const* cowl_obj_intersection_get(khash_t(CowlClsExpSet) const *operands);
+CowlObjIntersection const* cowl_obj_intersection_retain(CowlObjIntersection const *exp);
+void cowl_obj_intersection_release(CowlObjIntersection const *exp);
+
 khash_t(CowlClsExpSet) const* cowl_obj_intersection_get_operands(CowlObjIntersection const *exp);
 
 bool cowl_obj_intersection_equals(CowlObjIntersection const *lhs, CowlObjIntersection const *rhs);

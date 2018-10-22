@@ -12,6 +12,10 @@ typedef struct CowlIRI CowlIRI;
 
 typedef struct CowlClass CowlClass;
 
+CowlClass const* cowl_class_get(CowlIRI const *iri);
+CowlClass const* cowl_class_retain(CowlClass const *cls);
+void cowl_class_release(CowlClass const *cls);
+
 CowlIRI const* cowl_class_get_iri(CowlClass const *cls);
 
 bool cowl_class_equals(CowlClass const *lhs, CowlClass const *rhs);

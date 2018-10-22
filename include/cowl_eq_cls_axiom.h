@@ -13,6 +13,10 @@ typedef khash_struct(CowlClsExpSet) khash_t(CowlClsExpSet);
 
 typedef struct CowlEqClsAxiom CowlEqClsAxiom;
 
+CowlEqClsAxiom const* cowl_eq_cls_axiom_get(khash_t(CowlClsExpSet) const *classes);
+CowlEqClsAxiom const* cowl_eq_cls_axiom_retain(CowlEqClsAxiom const *axiom);
+void cowl_eq_cls_axiom_release(CowlEqClsAxiom const *axiom);
+
 khash_t(CowlClsExpSet) const* cowl_eq_cls_axiom_get_classes(CowlEqClsAxiom const *axiom);
 
 bool cowl_eq_cls_axiom_equals(CowlEqClsAxiom const *lhs, CowlEqClsAxiom const *rhs);

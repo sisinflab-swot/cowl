@@ -12,6 +12,10 @@ typedef struct CowlClsExp CowlClsExp;
 
 typedef struct CowlSubClsAxiom CowlSubClsAxiom;
 
+CowlSubClsAxiom const* cowl_sub_cls_axiom_get(CowlClsExp const *super, CowlClsExp const *sub);
+CowlSubClsAxiom const* cowl_sub_cls_axiom_retain(CowlSubClsAxiom const *axiom);
+void cowl_sub_cls_axiom_release(CowlSubClsAxiom const *axiom);
+
 CowlClsExp const* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom const *axiom);
 CowlClsExp const* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom const *axiom);
 

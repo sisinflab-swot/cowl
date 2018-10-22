@@ -12,6 +12,10 @@ typedef struct CowlIRI CowlIRI;
 
 typedef struct CowlObjProp CowlObjProp;
 
+CowlObjProp const* cowl_obj_prop_get(CowlIRI const *iri);
+CowlObjProp const* cowl_obj_prop_retain(CowlObjProp const *prop);
+void cowl_obj_prop_release(CowlObjProp const *prop);
+
 CowlIRI const* cowl_obj_prop_get_iri(CowlObjProp const *prop);
 
 bool cowl_obj_prop_equals(CowlObjProp const *lhs, CowlObjProp const *rhs);
