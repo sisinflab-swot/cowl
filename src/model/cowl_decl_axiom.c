@@ -13,12 +13,12 @@ static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity) {
         .entity = cowl_entity_retain(entity)
     };
 
-    CowlDeclAxiom *axiom = malloc(sizeof(*axiom));
+    struct CowlDeclAxiom *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }
 
-static void cowl_decl_axiom_free(CowlDeclAxiom const *axiom) {
+static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
     if (!axiom) return;
     cowl_entity_release(axiom->entity);
     free((void *)axiom);
@@ -26,33 +26,32 @@ static void cowl_decl_axiom_free(CowlDeclAxiom const *axiom) {
 
 #pragma mark - Public
 
-CowlDeclAxiom const* cowl_decl_axiom_get(CowlEntity entity) {
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity) {
     return cowl_decl_axiom_alloc(entity);
 }
 
-CowlDeclAxiom const* cowl_decl_axiom_retain(CowlDeclAxiom const *axiom) {
+CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) {
     return cowl_axiom_ref_incr(axiom);
 }
 
-void cowl_decl_axiom_release(CowlDeclAxiom const *axiom) {
+void cowl_decl_axiom_release(CowlDeclAxiom *axiom) {
     if (axiom && !cowl_axiom_ref_decr(axiom)) {
         cowl_decl_axiom_free(axiom);
     }
 }
 
-CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom const *axiom) {
+CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
     return axiom->entity;
 }
 
-bool cowl_decl_axiom_equals(CowlDeclAxiom const *lhs, CowlDeclAxiom const *rhs) {
+bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {
     return cowl_entity_equals(lhs->entity, rhs->entity);
 }
 
-uint32_t cowl_decl_axiom_hash(CowlDeclAxiom const *axiom) {
+uint32_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 
-bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom const *axiom,
-                                       void *ctx, CowlEntityIterator iter) {
+bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, void *ctx, CowlEntityIterator iter) {
     return iter(ctx, axiom->entity);
 }

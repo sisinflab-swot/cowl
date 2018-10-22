@@ -8,11 +8,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjAll {
+struct CowlObjAll {
     CowlClsExp super;
-    CowlObjPropExp const *prop;
-    CowlClsExp const *filler;
-} CowlObjAll;
+    CowlObjPropExp *prop;
+    CowlClsExp *filler;
+};
 
 COWL_END_DECLS
 

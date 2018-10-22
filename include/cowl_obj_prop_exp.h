@@ -8,17 +8,17 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjPropExp CowlObjPropExp;
+typedef struct CowlObjPropExp const CowlObjPropExp;
 
-CowlObjPropExp const* cowl_obj_prop_exp_retain(CowlObjPropExp const *prop);
-void cowl_obj_prop_exp_release(CowlObjPropExp const *prop);
+CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop);
+void cowl_obj_prop_exp_release(CowlObjPropExp *prop);
 
-bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp const *exp);
+bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp);
 
-bool cowl_obj_prop_exp_equals(CowlObjPropExp const *lhs, CowlObjPropExp const *rhs);
-uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp const *exp);
+bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs);
+uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp);
 
-bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp const *exp,
+bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp,
                                          void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

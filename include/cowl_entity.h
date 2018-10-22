@@ -8,18 +8,18 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIRI CowlIRI;
-typedef struct CowlClass CowlClass;
-typedef struct CowlObjProp CowlObjProp;
-typedef struct CowlNamedIndividual CowlNamedIndividual;
+typedef struct CowlIRI const CowlIRI;
+typedef struct CowlClass const CowlClass;
+typedef struct CowlObjProp const CowlObjProp;
+typedef struct CowlNamedIndividual const CowlNamedIndividual;
 
 typedef struct CowlEntity {
     CowlEntityType type;
 
     union {
-        CowlClass const *owl_class;
-        CowlObjProp const *obj_prop;
-        CowlNamedIndividual const *named_ind;
+        CowlClass *owl_class;
+        CowlObjProp *obj_prop;
+        CowlNamedIndividual *named_ind;
     };
 
 } CowlEntity;
@@ -36,7 +36,7 @@ typedef struct CowlEntity {
 CowlEntity cowl_entity_retain(CowlEntity entity);
 void cowl_entity_release(CowlEntity entity);
 
-CowlIRI const* cowl_entity_get_iri(CowlEntity entity);
+CowlIRI* cowl_entity_get_iri(CowlEntity entity);
 
 bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs);
 uint32_t cowl_entity_hash(CowlEntity entity);

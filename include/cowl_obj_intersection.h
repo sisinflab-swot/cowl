@@ -9,20 +9,20 @@
 
 COWL_BEGIN_DECLS
 
-typedef khash_struct(CowlClsExpSet) khash_t(CowlClsExpSet);
+typedef khash_struct(CowlClsExpSet) const CowlClsExpSet;
 
-typedef struct CowlObjIntersection CowlObjIntersection;
+typedef struct CowlObjIntersection const CowlObjIntersection;
 
-CowlObjIntersection const* cowl_obj_intersection_get(khash_t(CowlClsExpSet) const *operands);
-CowlObjIntersection const* cowl_obj_intersection_retain(CowlObjIntersection const *exp);
-void cowl_obj_intersection_release(CowlObjIntersection const *exp);
+CowlObjIntersection* cowl_obj_intersection_get(CowlClsExpSet *operands);
+CowlObjIntersection* cowl_obj_intersection_retain(CowlObjIntersection *exp);
+void cowl_obj_intersection_release(CowlObjIntersection *exp);
 
-khash_t(CowlClsExpSet) const* cowl_obj_intersection_get_operands(CowlObjIntersection const *exp);
+CowlClsExpSet* cowl_obj_intersection_get_operands(CowlObjIntersection *exp);
 
-bool cowl_obj_intersection_equals(CowlObjIntersection const *lhs, CowlObjIntersection const *rhs);
-uint32_t cowl_obj_intersection_hash(CowlObjIntersection const *exp);
+bool cowl_obj_intersection_equals(CowlObjIntersection *lhs, CowlObjIntersection *rhs);
+uint32_t cowl_obj_intersection_hash(CowlObjIntersection *exp);
 
-bool cowl_obj_intersection_iterate_signature(CowlObjIntersection const *exp,
+bool cowl_obj_intersection_iterate_signature(CowlObjIntersection *exp,
                                              void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

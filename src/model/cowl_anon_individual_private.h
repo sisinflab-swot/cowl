@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAnonIndividual {
+struct CowlAnonIndividual {
     CowlIndividual super;
-    CowlString const *id;
-} CowlAnonIndividual;
+    CowlString *id;
+};
 
 COWL_END_DECLS
 

@@ -23,34 +23,34 @@
 
 #pragma mark - Types
 
-KHASH_MAP_UTILS_IMPL(CowlClassAxiomMap, CowlClass const*, khash_t(CowlAxiomSet)*,
+KHASH_MAP_UTILS_IMPL(CowlClassAxiomMap, CowlClass*, khash_t(CowlAxiomSet)*,
                      cowl_class_hash, cowl_class_equals);
 
-KHASH_MAP_UTILS_IMPL(CowlObjPropAxiomMap, CowlObjProp const*, khash_t(CowlAxiomSet) *,
+KHASH_MAP_UTILS_IMPL(CowlObjPropAxiomMap, CowlObjProp*, khash_t(CowlAxiomSet) *,
                      cowl_obj_prop_hash, cowl_obj_prop_equals);
 
-KHASH_MAP_UTILS_IMPL(CowlNamedIndAxiomMap, CowlNamedIndividual const*, khash_t(CowlAxiomSet) *,
+KHASH_MAP_UTILS_IMPL(CowlNamedIndAxiomMap, CowlNamedIndividual*, khash_t(CowlAxiomSet) *,
                      cowl_named_individual_hash, cowl_named_individual_equals);
 
-KHASH_MAP_UTILS_IMPL(CowlAnonIndAxiomMap, CowlAnonIndividual const*, khash_t(CowlAxiomSet) *,
+KHASH_MAP_UTILS_IMPL(CowlAnonIndAxiomMap, CowlAnonIndividual*, khash_t(CowlAxiomSet) *,
                      cowl_anon_individual_hash, cowl_anon_individual_equals);
 
 typedef struct CowlAxiomEntityCtx {
     CowlOntology *onto;
-    CowlAxiom const *axiom;
+    CowlAxiom *axiom;
 } CowlAxiomEntityCtx;
 
 #pragma mark - Private prototypes
 
 static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity);
-static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom const *axiom,
+static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,
                                                CowlEntity entity);
-static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom const *axiom,
-                                                CowlClsExp const *exp);
-static void cowl_ontology_add_axiom_for_prop_exp(CowlOntology *onto, CowlAxiom const *axiom,
-                                                 CowlObjPropExp const *prop_exp);
-static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom const *axiom,
-                                                   CowlIndividual const *individual);
+static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom *axiom,
+                                                CowlClsExp *exp);
+static void cowl_ontology_add_axiom_for_prop_exp(CowlOntology *onto, CowlAxiom *axiom,
+                                                 CowlObjPropExp *prop_exp);
+static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,
+                                                   CowlIndividual *individual);
 
 #pragma mark - Utils
 
@@ -83,74 +83,73 @@ static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom
 
 #pragma mark - Public API
 
-CowlOntologyId const* cowl_ontology_get_id(CowlOntology const *onto) {
+CowlOntologyId* cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
 }
 
-bool cowl_ontology_equals(CowlOntology const *lhs, CowlOntology const *rhs) {
+bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
     return cowl_ontology_id_equals(lhs->id, rhs->id);
 }
 
-uint32_t cowl_ontology_hash(CowlOntology const *onto) {
+uint32_t cowl_ontology_hash(CowlOntology *onto) {
     return cowl_ontology_id_hash(onto->id);
 }
 
-void cowl_ontology_iterate_axioms(CowlOntology const *onto, void *ctx, CowlAxiomIterator iter) {
+void cowl_ontology_iterate_axioms(CowlOntology *onto, void *ctx, CowlAxiomIterator iter) {
     for (CowlAxiomType type = 0; type < CAT_COUNT; ++type) {
         khash_t(CowlAxiomSet) *axioms = onto->axioms_by_type[type];
-        kh_foreach_key(axioms, CowlAxiom const *axiom, {
+        kh_foreach_key(axioms, CowlAxiom *axiom, {
             if (!iter(ctx, axiom)) return;
         });
     }
 }
 
-void cowl_ontology_iterate_axioms_of_type(CowlOntology const *onto, CowlAxiomType type,
-                                       void *ctx, CowlAxiomIterator iter) {
+void cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
+                                          void *ctx, CowlAxiomIterator iter) {
     khash_t(CowlAxiomSet) *axioms = onto->axioms_by_type[type];
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (!iter(ctx, axiom)) return;
     });
 }
 
-void cowl_ontology_iterate_axioms_for_class(CowlOntology const *onto, CowlClass const *owl_class,
-                                         void *ctx, CowlAxiomIterator iter) {
+void cowl_ontology_iterate_axioms_for_class(CowlOntology *onto, CowlClass *owl_class,
+                                            void *ctx, CowlAxiomIterator iter) {
     khash_t(CowlAxiomSet) *axioms = kh_get_val(CowlClassAxiomMap, onto->class_refs,
                                                owl_class, NULL);
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (!iter(ctx, axiom)) return;
     });
 }
 
-void cowl_ontology_iterate_axioms_for_obj_prop(CowlOntology const *onto,
-                                               CowlObjProp const *obj_prop, void *ctx,
-                                               CowlAxiomIterator iter) {
+void cowl_ontology_iterate_axioms_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop,
+                                               void *ctx, CowlAxiomIterator iter) {
     khash_t(CowlAxiomSet) *axioms = kh_get_val(CowlObjPropAxiomMap, onto->obj_prop_refs,
                                                obj_prop, NULL);
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (!iter(ctx, axiom)) return;
     });
 }
 
-void cowl_ontology_iterate_axioms_for_named_individual(CowlOntology const *onto,
-                                                    CowlNamedIndividual const *individual,
-                                                    void *ctx, CowlAxiomIterator iter) {
+void cowl_ontology_iterate_axioms_for_named_individual(CowlOntology *onto,
+                                                       CowlNamedIndividual *individual,
+                                                       void *ctx, CowlAxiomIterator iter) {
     khash_t(CowlAxiomSet) *axioms = kh_get_val(CowlNamedIndAxiomMap, onto->named_ind_refs,
                                                individual, NULL);
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (!iter(ctx, axiom)) return;
     });
 }
 
-void cowl_ontology_iterate_sub_classes(CowlOntology const *onto, CowlClass const *owl_class,
-                                    void *ctx, CowlClsExpIterator iter) {
+void cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
+                                       void *ctx, CowlClsExpIterator iter) {
     khash_t(CowlAxiomSet) *axioms = kh_get_val(CowlClassAxiomMap, onto->class_refs,
                                                owl_class, NULL);
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (axiom->type == CAT_SUB_CLASS) {
             CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
@@ -161,12 +160,12 @@ void cowl_ontology_iterate_sub_classes(CowlOntology const *onto, CowlClass const
     });
 }
 
-void cowl_ontology_iterate_super_classes(CowlOntology const *onto, CowlClass const *owl_class,
-                                      void *ctx, CowlClsExpIterator iter) {
+void cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
+                                         void *ctx, CowlClsExpIterator iter) {
     khash_t(CowlAxiomSet) *axioms = kh_get_val(CowlClassAxiomMap, onto->class_refs,
                                                owl_class, NULL);
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (axiom->type == CAT_SUB_CLASS) {
             CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
@@ -177,14 +176,14 @@ void cowl_ontology_iterate_super_classes(CowlOntology const *onto, CowlClass con
     });
 }
 
-void cowl_ontology_iterate_eq_classes(CowlOntology const *onto, CowlClass const *owl_class,
-                                   void *ctx, CowlClsExpIterator iter) {
+void cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
+                                      void *ctx, CowlClsExpIterator iter) {
     khash_t(CowlAxiomSet) *axioms = kh_get_val(CowlClassAxiomMap, onto->class_refs,
                                                owl_class, NULL);
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (axiom->type == CAT_EQUIVALENT_CLASSES) {
-            khash_t(CowlClsExpSet) const *eq_classes = ((CowlEqClsAxiom *)axiom)->classes;
+            CowlClsExpSet *eq_classes = ((CowlEqClsAxiom *)axiom)->classes;
 
             khint_t cls_idx = kh_get(CowlClsExpSet, eq_classes, (CowlClsExp *)owl_class);
             if (cls_idx < kh_end(eq_classes)) {
@@ -196,8 +195,8 @@ void cowl_ontology_iterate_eq_classes(CowlOntology const *onto, CowlClass const 
     });
 }
 
-void cowl_ontology_iterate_types(CowlOntology const *onto, CowlIndividual const *individual,
-                              void *ctx, CowlClsExpIterator iter) {
+void cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *individual,
+                                 void *ctx, CowlClsExpIterator iter) {
     khash_t(CowlAxiomSet) *axioms;
 
     if (individual->is_named) {
@@ -208,7 +207,7 @@ void cowl_ontology_iterate_types(CowlOntology const *onto, CowlIndividual const 
                             (CowlAnonIndividual *)individual, NULL);
     }
 
-    kh_foreach_key(axioms, CowlAxiom const *axiom, {
+    kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (axiom->type == CAT_CLASS_ASSERTION) {
             CowlClsAssertAxiom *assert_axiom = (CowlClsAssertAxiom *)axiom;
             if (!iter(ctx, assert_axiom->cls_exp)) return;
@@ -218,7 +217,7 @@ void cowl_ontology_iterate_types(CowlOntology const *onto, CowlIndividual const 
 
 #pragma mark - Private API
 
-CowlOntology* cowl_ontology_alloc(CowlOntologyId const *id) {
+CowlMutableOntology* cowl_ontology_alloc(CowlOntologyId *id) {
     CowlOntology init = {
         .id = id,
         .class_refs = kh_init(CowlClassAxiomMap),
@@ -226,12 +225,12 @@ CowlOntology* cowl_ontology_alloc(CowlOntologyId const *id) {
         .named_ind_refs = kh_init(CowlNamedIndAxiomMap),
         .anon_ind_refs = kh_init(CowlAnonIndAxiomMap)
     };
-    CowlOntology *ontology = malloc(sizeof(*ontology));
+    CowlMutableOntology *ontology = malloc(sizeof(*ontology));
     memcpy(ontology, &init, sizeof(*ontology));
     return ontology;
 }
 
-void cowl_ontology_free(CowlOntology const *ontology) {
+void cowl_ontology_free(CowlOntology *ontology) {
     if (!ontology) return;
 
     cowl_ontology_id_free(ontology->id);
@@ -248,7 +247,7 @@ void cowl_ontology_free(CowlOntology const *ontology) {
     free((void *)ontology);
 }
 
-void cowl_ontology_add_axiom(CowlOntology *ontology, CowlAxiom const *axiom) {
+void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
 
     cowl_axiom_retain(axiom);
     cowl_add_axiom_to_set_in_array(ontology->axioms_by_type, axiom->type, axiom);
@@ -317,7 +316,7 @@ void cowl_ontology_add_axiom(CowlOntology *ontology, CowlAxiom const *axiom) {
     }
 }
 
-static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom const *axiom,
+static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,
                                                CowlEntity entity) {
     switch (entity.type) {
 
@@ -348,19 +347,19 @@ static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity) {
     return true;
 }
 
-static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom const *axiom,
-                                                CowlClsExp const *exp) {
+static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom *axiom,
+                                                CowlClsExp *exp) {
     if (exp->type == CCET_CLASS) {
         cowl_add_axiom_to_set_in_map(CowlClassAxiomMap, onto->class_refs,
-                                     (CowlClass *)exp, axiom);
+                                     (struct CowlClass *)exp, axiom);
     } else {
         CowlAxiomEntityCtx ctx = { .onto = onto, .axiom = axiom };
         cowl_cls_exp_iterate_signature(exp, &ctx, cowl_ontology_entity_adder);
     }
 }
 
-static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom const *axiom,
-                                                   CowlIndividual const *individual) {
+static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,
+                                                   CowlIndividual *individual) {
     if (individual->is_named) {
         cowl_add_axiom_to_set_in_map(CowlNamedIndAxiomMap, onto->named_ind_refs,
                                      (CowlNamedIndividual *)individual, axiom);
@@ -370,8 +369,8 @@ static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom
     }
 }
 
-static void cowl_ontology_add_axiom_for_prop_exp(CowlOntology *onto, CowlAxiom const *axiom,
-                                                 CowlObjPropExp const *prop_exp) {
+static void cowl_ontology_add_axiom_for_prop_exp(CowlOntology *onto, CowlAxiom *axiom,
+                                                 CowlObjPropExp *prop_exp) {
     if (!prop_exp->is_inverse) {
         cowl_add_axiom_to_set_in_map(CowlObjPropAxiomMap, onto->obj_prop_refs,
                                      (CowlObjProp *)prop_exp, axiom);

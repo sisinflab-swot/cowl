@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjIntersection {
+struct CowlObjIntersection {
     CowlClsExp super;
-    khash_t(CowlClsExpSet) const *operands;
-} CowlObjIntersection;
+    CowlClsExpSet *operands;
+};
 
 COWL_END_DECLS
 

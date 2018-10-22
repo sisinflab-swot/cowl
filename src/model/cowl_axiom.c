@@ -10,11 +10,11 @@
 #include "cowl_obj_prop_range_axiom.h"
 #include "cowl_sub_cls_axiom.h"
 
-CowlAxiom const* cowl_axiom_retain(CowlAxiom const *axiom) {
+CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
     return cowl_axiom_ref_incr(axiom);
 }
 
-void cowl_axiom_release(CowlAxiom const *axiom) {
+void cowl_axiom_release(CowlAxiom *axiom) {
     if (!axiom) return;
 
 #define GEN_CASE_RELEASE(CAT, TYPE, PREFIX) \
@@ -36,11 +36,11 @@ void cowl_axiom_release(CowlAxiom const *axiom) {
     }
 }
 
-CowlAxiomType cowl_axiom_get_type(CowlAxiom const *axiom) {
+CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
     return axiom->type;
 }
 
-bool cowl_axiom_equals(CowlAxiom const *lhs, CowlAxiom const *rhs) {
+bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
     if (lhs->type != rhs->type) return false;
 
 #define GEN_CASE_EQUAL(CAT, TYPE, PREFIX) \
@@ -62,11 +62,11 @@ bool cowl_axiom_equals(CowlAxiom const *lhs, CowlAxiom const *rhs) {
     }
 }
 
-uint32_t cowl_axiom_hash(CowlAxiom const *axiom) {
+uint32_t cowl_axiom_hash(CowlAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 
-bool cowl_axiom_iterate_signature(CowlAxiom const *axiom, void *ctx, CowlEntityIterator iter) {
+bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterator iter) {
 
 #define GEN_CASE_SIG(CAT, TYPE, PREFIX) \
     case CAT: return PREFIX##_iterate_signature((TYPE *)axiom, ctx, iter)

@@ -9,20 +9,20 @@
 
 COWL_BEGIN_DECLS
 
-typedef khash_struct(CowlClsExpSet) khash_t(CowlClsExpSet);
+typedef khash_struct(CowlClsExpSet) const CowlClsExpSet;
 
-typedef struct CowlDisjClsAxiom CowlDisjClsAxiom;
+typedef struct CowlDisjClsAxiom const CowlDisjClsAxiom;
 
-CowlDisjClsAxiom const* cowl_disj_cls_axiom_get(khash_t(CowlClsExpSet) const *classes);
-CowlDisjClsAxiom const* cowl_disj_cls_axiom_retain(CowlDisjClsAxiom const *axiom);
-void cowl_disj_cls_axiom_release(CowlDisjClsAxiom const *axiom);
+CowlDisjClsAxiom* cowl_disj_cls_axiom_get(CowlClsExpSet *classes);
+CowlDisjClsAxiom* cowl_disj_cls_axiom_retain(CowlDisjClsAxiom *axiom);
+void cowl_disj_cls_axiom_release(CowlDisjClsAxiom *axiom);
 
-khash_t(CowlClsExpSet) const* cowl_disj_cls_axiom_get_classes(CowlDisjClsAxiom const *axiom);
+CowlClsExpSet* cowl_disj_cls_axiom_get_classes(CowlDisjClsAxiom *axiom);
 
-bool cowl_disj_cls_axiom_equals(CowlDisjClsAxiom const *lhs, CowlDisjClsAxiom const *rhs);
-uint32_t cowl_disj_cls_axiom_hash(CowlDisjClsAxiom const *axiom);
+bool cowl_disj_cls_axiom_equals(CowlDisjClsAxiom *lhs, CowlDisjClsAxiom *rhs);
+uint32_t cowl_disj_cls_axiom_hash(CowlDisjClsAxiom *axiom);
 
-bool cowl_disj_cls_axiom_iterate_signature(CowlDisjClsAxiom const *axiom,
+bool cowl_disj_cls_axiom_iterate_signature(CowlDisjClsAxiom *axiom,
                                            void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

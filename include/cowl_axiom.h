@@ -9,17 +9,17 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAxiom CowlAxiom;
+typedef struct CowlAxiom const CowlAxiom;
 
-CowlAxiom const* cowl_axiom_retain(CowlAxiom const *axiom);
-void cowl_axiom_release(CowlAxiom const *axiom);
+CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom);
+void cowl_axiom_release(CowlAxiom *axiom);
 
-CowlAxiomType cowl_axiom_get_type(CowlAxiom const *axiom);
+CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom);
 
-bool cowl_axiom_equals(CowlAxiom const *lhs, CowlAxiom const *rhs);
-uint32_t cowl_axiom_hash(CowlAxiom const *axiom);
+bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs);
+uint32_t cowl_axiom_hash(CowlAxiom *axiom);
 
-bool cowl_axiom_iterate_signature(CowlAxiom const *axiom, void *ctx, CowlEntityIterator iter);
+bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

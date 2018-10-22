@@ -8,20 +8,20 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjProp CowlObjProp;
+typedef struct CowlObjProp const CowlObjProp;
 
-typedef struct CowlInverseObjProp CowlInverseObjProp;
+typedef struct CowlInverseObjProp const CowlInverseObjProp;
 
-CowlInverseObjProp const* cowl_inverse_obj_prop_get(CowlObjProp const *prop);
-CowlInverseObjProp const* cowl_inverse_obj_prop_retain(CowlInverseObjProp const *inv);
-void cowl_inverse_obj_prop_release(CowlInverseObjProp const *inv);
+CowlInverseObjProp* cowl_inverse_obj_prop_get(CowlObjProp *prop);
+CowlInverseObjProp* cowl_inverse_obj_prop_retain(CowlInverseObjProp *inv);
+void cowl_inverse_obj_prop_release(CowlInverseObjProp *inv);
 
-CowlObjProp const* cowl_inverse_obj_prop_get_prop(CowlInverseObjProp const *inv);
+CowlObjProp* cowl_inverse_obj_prop_get_prop(CowlInverseObjProp *inv);
 
-bool cowl_inverse_obj_prop_equals(CowlInverseObjProp const *lhs, CowlInverseObjProp const *rhs);
-uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp const *inv);
+bool cowl_inverse_obj_prop_equals(CowlInverseObjProp *lhs, CowlInverseObjProp *rhs);
+uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp *inv);
 
-bool cowl_inverse_obj_prop_iterate_signature(CowlInverseObjProp const *inv,
+bool cowl_inverse_obj_prop_iterate_signature(CowlInverseObjProp *inv,
                                              void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

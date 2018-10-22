@@ -5,11 +5,11 @@
 #include "cowl_inverse_obj_prop.h"
 #include "cowl_obj_prop.h"
 
-CowlObjPropExp const* cowl_obj_prop_exp_retain(CowlObjPropExp const *prop) {
+CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
     return cowl_obj_prop_exp_ref_incr(prop);
 }
 
-void cowl_obj_prop_exp_release(CowlObjPropExp const *prop) {
+void cowl_obj_prop_exp_release(CowlObjPropExp *prop) {
     if (!prop) return;
 
     if (prop->is_inverse) {
@@ -19,11 +19,11 @@ void cowl_obj_prop_exp_release(CowlObjPropExp const *prop) {
     }
 }
 
-bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp const *exp) {
+bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
     return exp->is_inverse;
 }
 
-bool cowl_obj_prop_exp_equals(CowlObjPropExp const *lhs, CowlObjPropExp const *rhs) {
+bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
     if (lhs->is_inverse != rhs->is_inverse) return false;
 
     if (lhs->is_inverse) {
@@ -33,7 +33,7 @@ bool cowl_obj_prop_exp_equals(CowlObjPropExp const *lhs, CowlObjPropExp const *r
     }
 }
 
-uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp const *exp) {
+uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
     if (exp->is_inverse) {
         return cowl_inverse_obj_prop_hash((CowlInverseObjProp *)exp);
     } else {
@@ -41,8 +41,7 @@ uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp const *exp) {
     }
 }
 
-bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp const *exp,
-                                         void *ctx, CowlEntityIterator iter) {
+bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, void *ctx, CowlEntityIterator iter) {
     if (exp->is_inverse) {
         return cowl_inverse_obj_prop_iterate_signature((CowlInverseObjProp *)exp, ctx, iter);
     } else {

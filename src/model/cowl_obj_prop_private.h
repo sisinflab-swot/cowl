@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjProp {
+struct CowlObjProp {
     CowlObjPropExp super;
-    CowlIRI const *iri;
-} CowlObjProp;
+    CowlIRI *iri;
+};
 
 COWL_END_DECLS
 

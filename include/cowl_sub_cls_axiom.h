@@ -8,21 +8,21 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
+typedef struct CowlClsExp const CowlClsExp;
 
-typedef struct CowlSubClsAxiom CowlSubClsAxiom;
+typedef struct CowlSubClsAxiom const CowlSubClsAxiom;
 
-CowlSubClsAxiom const* cowl_sub_cls_axiom_get(CowlClsExp const *super, CowlClsExp const *sub);
-CowlSubClsAxiom const* cowl_sub_cls_axiom_retain(CowlSubClsAxiom const *axiom);
-void cowl_sub_cls_axiom_release(CowlSubClsAxiom const *axiom);
+CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *super, CowlClsExp *sub);
+CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom);
+void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom);
 
-CowlClsExp const* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom const *axiom);
-CowlClsExp const* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom const *axiom);
+CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom);
+CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom);
 
-bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom const *lhs, CowlSubClsAxiom const *rhs);
-uint32_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom const *axiom);
+bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs);
+uint32_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
 
-bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom const *axiom,
+bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom *axiom,
                                           void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

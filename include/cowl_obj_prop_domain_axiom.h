@@ -8,27 +8,22 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
-typedef struct CowlObjPropExp CowlObjPropExp;
+typedef struct CowlClsExp const CowlClsExp;
+typedef struct CowlObjPropExp const CowlObjPropExp;
 
-typedef struct CowlObjPropDomainAxiom CowlObjPropDomainAxiom;
+typedef struct CowlObjPropDomainAxiom const CowlObjPropDomainAxiom;
 
-CowlObjPropDomainAxiom const* cowl_obj_prop_domain_axiom_get(CowlObjPropExp const *prop,
-                                                             CowlClsExp const *domain);
+CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, CowlClsExp *domain);
+CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_retain(CowlObjPropDomainAxiom *axiom);
+void cowl_obj_prop_domain_axiom_release(CowlObjPropDomainAxiom *axiom);
 
-CowlObjPropDomainAxiom const*
-cowl_obj_prop_domain_axiom_retain(CowlObjPropDomainAxiom const *axiom);
+CowlObjPropExp* cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom *axiom);
+CowlClsExp* cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom *axiom);
 
-void cowl_obj_prop_domain_axiom_release(CowlObjPropDomainAxiom const *axiom);
+bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom *lhs, CowlObjPropDomainAxiom *rhs);
+uint32_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom);
 
-CowlObjPropExp const* cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom const *axiom);
-CowlClsExp const* cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom const *axiom);
-
-bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom const *lhs,
-                                       CowlObjPropDomainAxiom const *rhs);
-uint32_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom const *axiom);
-
-bool cowl_obj_prop_domain_axiom_iterate_signature(CowlObjPropDomainAxiom const *axiom,
+bool cowl_obj_prop_domain_axiom_iterate_signature(CowlObjPropDomainAxiom *axiom,
                                                   void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

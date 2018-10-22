@@ -8,19 +8,18 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlDeclAxiom CowlDeclAxiom;
+typedef struct CowlDeclAxiom const CowlDeclAxiom;
 
-CowlDeclAxiom const* cowl_decl_axiom_get(CowlEntity entity);
-CowlDeclAxiom const* cowl_decl_axiom_retain(CowlDeclAxiom const *axiom);
-void cowl_decl_axiom_release(CowlDeclAxiom const *axiom);
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity);
+CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom);
+void cowl_decl_axiom_release(CowlDeclAxiom *axiom);
 
-CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom const *axiom);
+CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
 
-bool cowl_decl_axiom_equals(CowlDeclAxiom const *lhs, CowlDeclAxiom const *rhs);
-uint32_t cowl_decl_axiom_hash(CowlDeclAxiom const *axiom);
+bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
+uint32_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
 
-bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom const *axiom,
-                                       void *ctx, CowlEntityIterator iter);
+bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

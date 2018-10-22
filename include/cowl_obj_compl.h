@@ -8,21 +8,20 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
+typedef struct CowlClsExp const CowlClsExp;
 
-typedef struct CowlObjCompl CowlObjCompl;
+typedef struct CowlObjCompl const CowlObjCompl;
 
-CowlObjCompl const* cowl_obj_compl_get(CowlClsExp const *operand);
-CowlObjCompl const* cowl_obj_compl_retain(CowlObjCompl const *compl);
-void cowl_obj_compl_release(CowlObjCompl const *compl);
+CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand);
+CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *compl);
+void cowl_obj_compl_release(CowlObjCompl *compl);
 
-CowlClsExp const* cowl_obj_compl_get_operand(CowlObjCompl const *compl);
+CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *compl);
 
-bool cowl_obj_compl_equals(CowlObjCompl const *lhs, CowlObjCompl const *rhs);
-uint32_t cowl_obj_compl_hash(CowlObjCompl const *compl);
+bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs);
+uint32_t cowl_obj_compl_hash(CowlObjCompl *compl);
 
-bool cowl_obj_compl_iterate_signature(CowlObjCompl const *compl,
-                                      void *ctx, CowlEntityIterator iter);
+bool cowl_obj_compl_iterate_signature(CowlObjCompl *compl, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

@@ -18,7 +18,7 @@ struct CowlString {
 
 #define COWL_STRING_INIT(CSTR, LEN) { .ref_count = 1, .cstring = CSTR, .length = LEN }
 
-#define cowl_string_ref_get(s) (((CowlString *)(s))->ref_count)
+#define cowl_string_ref_get(s) (((struct CowlString *)(s))->ref_count)
 #define cowl_string_ref_incr(s) (++cowl_string_ref_get(s), (s))
 #define cowl_string_ref_decr(s) (--cowl_string_ref_get(s))
 

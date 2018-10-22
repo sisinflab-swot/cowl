@@ -7,8 +7,8 @@
 
 #pragma mark - Private
 
-static CowlObjPropRangeAxiom const* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp const *prop,
-                                                                    CowlClsExp const *range) {
+static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *prop,
+                                                              CowlClsExp *range) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_RANGE_AXIOM,
                                 cowl_obj_prop_exp_hash(prop),
                                 cowl_cls_exp_hash(range));
@@ -19,12 +19,12 @@ static CowlObjPropRangeAxiom const* cowl_obj_prop_range_axiom_alloc(CowlObjPropE
         .range = cowl_cls_exp_retain(range)
     };
 
-    CowlObjPropRangeAxiom *axiom = malloc(sizeof(*axiom));
+    struct CowlObjPropRangeAxiom *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }
 
-static void cowl_obj_prop_range_axiom_free(CowlObjPropRangeAxiom const *axiom) {
+static void cowl_obj_prop_range_axiom_free(CowlObjPropRangeAxiom *axiom) {
     if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->prop_exp);
     cowl_cls_exp_release(axiom->range);
@@ -33,41 +33,38 @@ static void cowl_obj_prop_range_axiom_free(CowlObjPropRangeAxiom const *axiom) {
 
 #pragma mark - Public
 
-CowlObjPropRangeAxiom const* cowl_obj_prop_range_axiom_get(CowlObjPropExp const *prop,
-                                                           CowlClsExp const *range) {
+CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_get(CowlObjPropExp *prop, CowlClsExp *range) {
     return cowl_obj_prop_range_axiom_alloc(prop, range);
 }
 
-CowlObjPropRangeAxiom const* cowl_obj_prop_range_axiom_retain
-    (CowlObjPropRangeAxiom const *axiom) {
+CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_retain(CowlObjPropRangeAxiom *axiom) {
     return cowl_axiom_ref_incr(axiom);
 }
 
-void cowl_obj_prop_range_axiom_release(CowlObjPropRangeAxiom const *axiom) {
+void cowl_obj_prop_range_axiom_release(CowlObjPropRangeAxiom *axiom) {
     if (axiom && !cowl_axiom_ref_decr(axiom)) {
         cowl_obj_prop_range_axiom_free(axiom);
     }
 }
 
-CowlObjPropExp const* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom const *axiom) {
+CowlObjPropExp* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom *axiom) {
     return axiom->prop_exp;
 }
 
-CowlClsExp const* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom const *axiom) {
+CowlClsExp* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
     return axiom->range;
 }
 
-bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom const *lhs,
-                                      CowlObjPropRangeAxiom const *rhs) {
+bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRangeAxiom *rhs) {
     return cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp) &&
            cowl_cls_exp_equals(lhs->range, rhs->range);
 }
 
-uint32_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom const *axiom) {
+uint32_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 
-bool cowl_obj_prop_range_axiom_iterate_signature(CowlObjPropRangeAxiom const *axiom,
+bool cowl_obj_prop_range_axiom_iterate_signature(CowlObjPropRangeAxiom *axiom,
                                                  void *ctx, CowlEntityIterator iter) {
     if (!cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, ctx, iter)) return false;
     if (!cowl_cls_exp_iterate_signature(axiom->range, ctx, iter)) return false;

@@ -8,26 +8,25 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIndividual CowlIndividual;
-typedef struct CowlObjPropExp CowlObjPropExp;
+typedef struct CowlIndividual const CowlIndividual;
+typedef struct CowlObjPropExp const CowlObjPropExp;
 
-typedef struct CowlObjPropAssertAxiom CowlObjPropAssertAxiom;
+typedef struct CowlObjPropAssertAxiom const CowlObjPropAssertAxiom;
 
-CowlObjPropAssertAxiom const* cowl_obj_prop_assert_axiom_get(CowlIndividual const *source,
-                                                             CowlObjPropExp const *prop,
-                                                             CowlIndividual const *target);
-CowlObjPropAssertAxiom const* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom const *axiom);
-void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom const *axiom);
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *source,
+                                                       CowlObjPropExp *prop,
+                                                       CowlIndividual *target);
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom);
+void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom);
 
-CowlIndividual const* cowl_obj_prop_assert_axiom_get_source(CowlObjPropAssertAxiom const *axiom);
-CowlIndividual const* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom const *axiom);
-CowlObjPropExp const* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom const *axiom);
+CowlIndividual* cowl_obj_prop_assert_axiom_get_source(CowlObjPropAssertAxiom *axiom);
+CowlIndividual* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom *axiom);
+CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom);
 
-bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom const *lhs,
-                                       CowlObjPropAssertAxiom const *rhs);
-uint32_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom const *axiom);
+bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs);
+uint32_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
 
-bool cowl_obj_prop_assert_axiom_iterate_signature(CowlObjPropAssertAxiom const *axiom,
+bool cowl_obj_prop_assert_axiom_iterate_signature(CowlObjPropAssertAxiom *axiom,
                                                   void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

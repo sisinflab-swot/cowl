@@ -7,18 +7,18 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlString CowlString;
+typedef struct CowlString const CowlString;
 
-typedef struct CowlAnonIndividual CowlAnonIndividual;
+typedef struct CowlAnonIndividual const CowlAnonIndividual;
 
-CowlAnonIndividual const* cowl_anon_individual_get(CowlString const *id);
-CowlAnonIndividual const* cowl_anon_individual_retain(CowlAnonIndividual const *ind);
-void cowl_anon_individual_release(CowlAnonIndividual const *ind);
+CowlAnonIndividual* cowl_anon_individual_get(CowlString *id);
+CowlAnonIndividual* cowl_anon_individual_retain(CowlAnonIndividual *ind);
+void cowl_anon_individual_release(CowlAnonIndividual *ind);
 
-CowlString const* cowl_anon_individual_get_id(CowlAnonIndividual const *ind);
+CowlString* cowl_anon_individual_get_id(CowlAnonIndividual *ind);
 
-bool cowl_anon_individual_equals(CowlAnonIndividual const *lhs, CowlAnonIndividual const *rhs);
-uint32_t cowl_anon_individual_hash(CowlAnonIndividual const *ind);
+bool cowl_anon_individual_equals(CowlAnonIndividual *lhs, CowlAnonIndividual *rhs);
+uint32_t cowl_anon_individual_hash(CowlAnonIndividual *ind);
 
 COWL_END_DECLS
 

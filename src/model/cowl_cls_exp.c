@@ -13,11 +13,11 @@
 
 #pragma mark - Public functions
 
-CowlClsExp const* cowl_cls_exp_retain(CowlClsExp const *exp) {
+CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
     return cowl_cls_exp_ref_incr(exp);
 }
 
-void cowl_cls_exp_release(CowlClsExp const *exp) {
+void cowl_cls_exp_release(CowlClsExp *exp) {
     if (!exp) return;
 
 #define GEN_CASE_RELEASE(CCET, TYPE, PREFIX) \
@@ -40,11 +40,11 @@ void cowl_cls_exp_release(CowlClsExp const *exp) {
     }
 }
 
-CowlClsExpType cowl_cls_exp_get_type(CowlClsExp const *exp) {
+CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
     return exp->type;
 }
 
-bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs) {
+bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
     if (lhs->type != rhs->type) return false;
 
 #define GEN_CASE_EQUAL(CCET, TYPE, PREFIX) \
@@ -67,11 +67,11 @@ bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs) {
     }
 }
 
-uint32_t cowl_cls_exp_hash(CowlClsExp const *exp) {
+uint32_t cowl_cls_exp_hash(CowlClsExp *exp) {
     return cowl_cls_exp_hash_get(exp);
 }
 
-bool cowl_cls_exp_iterate_signature(CowlClsExp const *exp, void *ctx, CowlEntityIterator iter) {
+bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterator iter) {
 
 #define GEN_CASE_SIG(CCET, TYPE, PREFIX) \
     case CCET: return PREFIX##_iterate_signature((TYPE *)exp, ctx, iter)

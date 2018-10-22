@@ -8,12 +8,12 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjMaxCard {
+struct CowlObjMaxCard {
     CowlClsExp super;
-    CowlObjPropExp const *prop;
-    CowlClsExp const *filler;
+    CowlObjPropExp *prop;
+    CowlClsExp *filler;
     uint32_t cardinality;
-} CowlObjMaxCard;
+};
 
 COWL_END_DECLS
 

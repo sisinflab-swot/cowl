@@ -8,11 +8,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAxiom CowlAxiom;
-typedef struct CowlClsExp CowlClsExp;
+typedef struct CowlAxiom const CowlAxiom;
+typedef struct CowlClsExp const CowlClsExp;
 
-typedef bool (*CowlAxiomIterator)(void *ctx, CowlAxiom const *axiom);
-typedef bool (*CowlClsExpIterator)(void *ctx, CowlClsExp const *exp);
+typedef bool (*CowlAxiomIterator)(void *ctx, CowlAxiom *axiom);
+typedef bool (*CowlClsExpIterator)(void *ctx, CowlClsExp *exp);
 typedef bool (*CowlEntityIterator)(void *ctx, CowlEntity entity);
 
 COWL_END_DECLS

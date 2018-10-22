@@ -7,9 +7,9 @@
 
 #pragma mark - Private
 
-static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlIndividual const *source,
-                                                                CowlObjPropExp const *prop,
-                                                                CowlIndividual const *target) {
+static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlIndividual *source,
+                                                                CowlObjPropExp *prop,
+                                                                CowlIndividual *target) {
     uint32_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_PROP_ASSERT_AXIOM,
                                 cowl_individual_hash(source),
                                 cowl_individual_hash(target),
@@ -22,12 +22,12 @@ static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlIndividual c
         .prop_exp = cowl_obj_prop_exp_retain(prop)
     };
 
-    CowlObjPropAssertAxiom *axiom = malloc(sizeof(*axiom));
+    struct CowlObjPropAssertAxiom *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }
 
-static void cowl_obj_prop_assert_axiom_free(CowlObjPropAssertAxiom const *axiom) {
+static void cowl_obj_prop_assert_axiom_free(CowlObjPropAssertAxiom *axiom) {
     if (!axiom) return;
     cowl_individual_release(axiom->source);
     cowl_individual_release(axiom->target);
@@ -37,47 +37,44 @@ static void cowl_obj_prop_assert_axiom_free(CowlObjPropAssertAxiom const *axiom)
 
 #pragma mark - Public
 
-CowlObjPropAssertAxiom const* cowl_obj_prop_assert_axiom_get(CowlIndividual const *source,
-                                                             CowlObjPropExp const *prop,
-                                                             CowlIndividual const *target) {
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *source, CowlObjPropExp *prop,
+                                                       CowlIndividual *target) {
     return cowl_obj_prop_assert_axiom_alloc(source, prop, target);
 }
 
-CowlObjPropAssertAxiom const* cowl_obj_prop_assert_axiom_retain
-(CowlObjPropAssertAxiom const *axiom) {
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom) {
     return cowl_axiom_ref_incr(axiom);
 }
 
-void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom const *axiom) {
+void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom) {
     if (axiom && !cowl_axiom_ref_decr(axiom)) {
         cowl_obj_prop_assert_axiom_free(axiom);
     }
 }
 
-CowlIndividual const* cowl_obj_prop_assert_axiom_get_source(CowlObjPropAssertAxiom const *axiom) {
+CowlIndividual* cowl_obj_prop_assert_axiom_get_source(CowlObjPropAssertAxiom *axiom) {
     return axiom->source;
 }
 
-CowlIndividual const* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom const *axiom) {
+CowlIndividual* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom *axiom) {
     return axiom->target;
 }
 
-CowlObjPropExp const* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom const *axiom) {
+CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom) {
     return axiom->prop_exp;
 }
 
-bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom const *lhs,
-                                       CowlObjPropAssertAxiom const *rhs) {
+bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs) {
     return cowl_individual_equals(lhs->source, rhs->source) &&
            cowl_individual_equals(lhs->target, rhs->target) &&
            cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp);
 }
 
-uint32_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom const *axiom) {
+uint32_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 
-bool cowl_obj_prop_assert_axiom_iterate_signature(CowlObjPropAssertAxiom const *axiom,
+bool cowl_obj_prop_assert_axiom_iterate_signature(CowlObjPropAssertAxiom *axiom,
                                                   void *ctx, CowlEntityIterator iter) {
     if (!cowl_individual_iterate_signature(axiom->source, ctx, iter)) return false;
     if (!cowl_individual_iterate_signature(axiom->target, ctx, iter)) return false;

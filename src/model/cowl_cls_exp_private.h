@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp {
+struct CowlClsExp {
     CowlObject super;
     CowlClsExpType type;
-} CowlClsExp;
+};
 
 #define COWL_CLS_EXP_INIT(T, H) { .super = COWL_OBJECT_INIT(H), .type = (T) }
 

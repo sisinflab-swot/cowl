@@ -8,20 +8,20 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIRI CowlIRI;
+typedef struct CowlIRI const CowlIRI;
 
-typedef struct CowlClass CowlClass;
+typedef struct CowlClass const CowlClass;
 
-CowlClass const* cowl_class_get(CowlIRI const *iri);
-CowlClass const* cowl_class_retain(CowlClass const *cls);
-void cowl_class_release(CowlClass const *cls);
+CowlClass* cowl_class_get(CowlIRI *iri);
+CowlClass* cowl_class_retain(CowlClass *cls);
+void cowl_class_release(CowlClass *cls);
 
-CowlIRI const* cowl_class_get_iri(CowlClass const *cls);
+CowlIRI* cowl_class_get_iri(CowlClass *cls);
 
-bool cowl_class_equals(CowlClass const *lhs, CowlClass const *rhs);
-uint32_t cowl_class_hash(CowlClass const *cls);
+bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs);
+uint32_t cowl_class_hash(CowlClass *cls);
 
-bool cowl_class_iterate_signature(CowlClass const *cls, void *ctx, CowlEntityIterator iter);
+bool cowl_class_iterate_signature(CowlClass *cls, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

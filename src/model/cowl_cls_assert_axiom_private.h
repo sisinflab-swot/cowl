@@ -8,11 +8,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsAssertAxiom {
+struct CowlClsAssertAxiom {
     CowlAxiom super;
-    CowlIndividual const *individual;
-    CowlClsExp const *cls_exp;
-} CowlClsAssertAxiom;
+    CowlIndividual *individual;
+    CowlClsExp *cls_exp;
+};
 
 COWL_END_DECLS
 

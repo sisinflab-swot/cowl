@@ -7,23 +7,23 @@
 
 #pragma mark - Instance map
 
-KHASH_MAP_UTILS_INIT(CowlInvObjPropMap, CowlObjProp const*, CowlInverseObjProp*,
+KHASH_MAP_UTILS_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInverseObjProp*,
                      cowl_obj_prop_hash, cowl_obj_prop_equals);
 static khash_t(CowlInvObjPropMap) *inst_map = NULL;
 
 #pragma mark - Private
 
-static CowlInverseObjProp* cowl_inverse_obj_prop_alloc(CowlObjProp const *prop) {
+static CowlInverseObjProp* cowl_inverse_obj_prop_alloc(CowlObjProp *prop) {
     CowlInverseObjProp init = {
         .super = COWL_OBJ_PROP_EXP_INIT(true),
         .prop = cowl_obj_prop_retain(prop)
     };
-    CowlInverseObjProp *inv = malloc(sizeof(*inv));
+    struct CowlInverseObjProp *inv = malloc(sizeof(*inv));
     memcpy(inv, &init, sizeof(*inv));
     return inv;
 }
 
-static void cowl_inverse_obj_prop_free(CowlInverseObjProp const *inv) {
+static void cowl_inverse_obj_prop_free(CowlInverseObjProp *inv) {
     if (!inv) return;
     cowl_obj_prop_release(inv->prop);
     free((void *)inv);
@@ -31,7 +31,7 @@ static void cowl_inverse_obj_prop_free(CowlInverseObjProp const *inv) {
 
 #pragma mark - Public
 
-CowlInverseObjProp const* cowl_inverse_obj_prop_get(CowlObjProp const *prop) {
+CowlInverseObjProp* cowl_inverse_obj_prop_get(CowlObjProp *prop) {
     if (!inst_map) inst_map = kh_init(CowlInvObjPropMap);
 
     CowlInverseObjProp *inv;
@@ -49,30 +49,30 @@ CowlInverseObjProp const* cowl_inverse_obj_prop_get(CowlObjProp const *prop) {
     return inv;
 }
 
-CowlInverseObjProp const* cowl_inverse_obj_prop_retain(CowlInverseObjProp const *inv) {
+CowlInverseObjProp* cowl_inverse_obj_prop_retain(CowlInverseObjProp *inv) {
     return cowl_obj_prop_exp_ref_incr(inv);
 }
 
-void cowl_inverse_obj_prop_release(CowlInverseObjProp const *inv) {
+void cowl_inverse_obj_prop_release(CowlInverseObjProp *inv) {
     if (inv && !cowl_obj_prop_exp_ref_decr(inv)) {
         kh_del_val(CowlInvObjPropMap, inst_map, inv->prop);
         cowl_inverse_obj_prop_free(inv);
     }
 }
 
-CowlObjProp const* cowl_inverse_obj_prop_get_prop(CowlInverseObjProp const *inv) {
+CowlObjProp* cowl_inverse_obj_prop_get_prop(CowlInverseObjProp *inv) {
     return inv->prop;
 }
 
-bool cowl_inverse_obj_prop_equals(CowlInverseObjProp const *lhs, CowlInverseObjProp const *rhs) {
+bool cowl_inverse_obj_prop_equals(CowlInverseObjProp *lhs, CowlInverseObjProp *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp const *inv) {
+uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp *inv) {
     return kh_ptr_hash_func(inv);
 }
 
-bool cowl_inverse_obj_prop_iterate_signature(CowlInverseObjProp const *inv,
+bool cowl_inverse_obj_prop_iterate_signature(CowlInverseObjProp *inv,
                                              void *ctx, CowlEntityIterator iter) {
     return cowl_obj_prop_iterate_signature(inv->prop, ctx, iter);
 }

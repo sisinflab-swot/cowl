@@ -9,20 +9,20 @@
 
 COWL_BEGIN_DECLS
 
-typedef khash_struct(CowlClsExpSet) khash_t(CowlClsExpSet);
+typedef khash_struct(CowlClsExpSet) const CowlClsExpSet;
 
-typedef struct CowlObjUnion CowlObjUnion;
+typedef struct CowlObjUnion const CowlObjUnion;
 
-CowlObjUnion const* cowl_obj_union_get(khash_t(CowlClsExpSet) const *operands);
-CowlObjUnion const* cowl_obj_union_retain(CowlObjUnion const *exp);
-void cowl_obj_union_release(CowlObjUnion const *exp);
+CowlObjUnion* cowl_obj_union_get(CowlClsExpSet *operands);
+CowlObjUnion* cowl_obj_union_retain(CowlObjUnion *exp);
+void cowl_obj_union_release(CowlObjUnion *exp);
 
-khash_t(CowlClsExpSet) const* cowl_obj_union_get_operands(CowlObjUnion const *exp);
+CowlClsExpSet* cowl_obj_union_get_operands(CowlObjUnion *exp);
 
-bool cowl_obj_union_equals(CowlObjUnion const *lhs, CowlObjUnion const *rhs);
-uint32_t cowl_obj_union_hash(CowlObjUnion const *exp);
+bool cowl_obj_union_equals(CowlObjUnion *lhs, CowlObjUnion *rhs);
+uint32_t cowl_obj_union_hash(CowlObjUnion *exp);
 
-bool cowl_obj_union_iterate_signature(CowlObjUnion const *exp, void *ctx, CowlEntityIterator iter);
+bool cowl_obj_union_iterate_signature(CowlObjUnion *exp, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

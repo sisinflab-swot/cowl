@@ -8,11 +8,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjPropDomainAxiom {
+struct CowlObjPropDomainAxiom {
     CowlAxiom super;
-    CowlObjPropExp const *prop_exp;
-    CowlClsExp const *domain;
-} CowlObjPropDomainAxiom;
+    CowlObjPropExp *prop_exp;
+    CowlClsExp *domain;
+};
 
 COWL_END_DECLS
 

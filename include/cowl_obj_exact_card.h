@@ -8,24 +8,24 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
-typedef struct CowlObjPropExp CowlObjPropExp;
+typedef struct CowlClsExp const CowlClsExp;
+typedef struct CowlObjPropExp const CowlObjPropExp;
 
-typedef struct CowlObjExactCard CowlObjExactCard;
+typedef struct CowlObjExactCard const CowlObjExactCard;
 
-CowlObjExactCard const* cowl_obj_exact_card_get(CowlObjPropExp const *prop,
-                                                CowlClsExp const *filler, uint32_t cardinality);
-CowlObjExactCard const* cowl_obj_exact_card_retain(CowlObjExactCard const *restr);
-void cowl_obj_exact_card_release(CowlObjExactCard const *restr);
+CowlObjExactCard* cowl_obj_exact_card_get(CowlObjPropExp *prop, CowlClsExp *filler,
+                                          uint32_t cardinality);
+CowlObjExactCard* cowl_obj_exact_card_retain(CowlObjExactCard *restr);
+void cowl_obj_exact_card_release(CowlObjExactCard *restr);
 
-CowlObjPropExp const* cowl_obj_exact_card_get_prop(CowlObjExactCard const *restr);
-CowlClsExp const* cowl_obj_exact_card_get_filler(CowlObjExactCard const *restr);
-uint32_t cowl_obj_exact_card_get_cardinality(CowlObjExactCard const *restr);
+CowlObjPropExp* cowl_obj_exact_card_get_prop(CowlObjExactCard *restr);
+CowlClsExp* cowl_obj_exact_card_get_filler(CowlObjExactCard *restr);
+uint32_t cowl_obj_exact_card_get_cardinality(CowlObjExactCard *restr);
 
-bool cowl_obj_exact_card_equals(CowlObjExactCard const *lhs, CowlObjExactCard const *rhs);
-uint32_t cowl_obj_exact_card_hash(CowlObjExactCard const *restr);
+bool cowl_obj_exact_card_equals(CowlObjExactCard *lhs, CowlObjExactCard *rhs);
+uint32_t cowl_obj_exact_card_hash(CowlObjExactCard *restr);
 
-bool cowl_obj_exact_card_iterate_signature(CowlObjExactCard const *restr,
+bool cowl_obj_exact_card_iterate_signature(CowlObjExactCard *restr,
                                            void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

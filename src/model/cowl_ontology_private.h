@@ -11,24 +11,26 @@ COWL_BEGIN_DECLS
 
 typedef khash_struct(CowlAxiomSet) khash_t(CowlAxiomSet);
 
-KHASH_MAP_UTILS_DECL(CowlClassAxiomMap, CowlClass const*, khash_t(CowlAxiomSet)*);
-KHASH_MAP_UTILS_DECL(CowlObjPropAxiomMap, CowlObjProp const*, khash_t(CowlAxiomSet)*);
-KHASH_MAP_UTILS_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual const*, khash_t(CowlAxiomSet)*);
-KHASH_MAP_UTILS_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual const*, khash_t(CowlAxiomSet)*);
+KHASH_MAP_UTILS_DECL(CowlClassAxiomMap, CowlClass*, khash_t(CowlAxiomSet)*);
+KHASH_MAP_UTILS_DECL(CowlObjPropAxiomMap, CowlObjProp*, khash_t(CowlAxiomSet)*);
+KHASH_MAP_UTILS_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual*, khash_t(CowlAxiomSet)*);
+KHASH_MAP_UTILS_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual*, khash_t(CowlAxiomSet)*);
 
-typedef struct CowlOntology {
-    CowlOntologyId const *id;
+struct CowlOntology {
+    CowlOntologyId *id;
     khash_t(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
     khash_t(CowlClassAxiomMap) *class_refs;
     khash_t(CowlObjPropAxiomMap) *obj_prop_refs;
     khash_t(CowlNamedIndAxiomMap) *named_ind_refs;
     khash_t(CowlAnonIndAxiomMap) *anon_ind_refs;
-} CowlOntology;
+};
 
-CowlOntology* cowl_ontology_alloc(CowlOntologyId const *id);
-void cowl_ontology_free(CowlOntology const *ontology);
+typedef struct CowlOntology CowlMutableOntology;
 
-void cowl_ontology_add_axiom(CowlOntology *ontology, CowlAxiom const *axiom);
+CowlMutableOntology* cowl_ontology_alloc(CowlOntologyId *id);
+void cowl_ontology_free(CowlOntology *ontology);
+
+void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom);
 
 COWL_END_DECLS
 

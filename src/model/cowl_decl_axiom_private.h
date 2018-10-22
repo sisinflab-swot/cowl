@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlDeclAxiom {
+struct CowlDeclAxiom {
     CowlAxiom super;
     CowlEntity entity;
-} CowlDeclAxiom;
+};
 
 COWL_END_DECLS
 

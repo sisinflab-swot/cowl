@@ -39,7 +39,7 @@ void cowl_entity_release(CowlEntity entity) {
     }
 }
 
-CowlIRI const* cowl_entity_get_iri(CowlEntity entity) {
+CowlIRI* cowl_entity_get_iri(CowlEntity entity) {
 
 #define GEN_CASE_IRI(CET, FIELD) \
     case CET: return entity.FIELD->iri

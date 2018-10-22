@@ -8,12 +8,12 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjMinCard {
+struct CowlObjMinCard {
     CowlClsExp super;
-    CowlObjPropExp const *prop;
-    CowlClsExp const *filler;
+    CowlObjPropExp *prop;
+    CowlClsExp *filler;
     uint32_t cardinality;
-} CowlObjMinCard;
+};
 
 COWL_END_DECLS
 

@@ -8,22 +8,22 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
-typedef struct CowlObjPropExp CowlObjPropExp;
+typedef struct CowlClsExp const CowlClsExp;
+typedef struct CowlObjPropExp const CowlObjPropExp;
 
-typedef struct CowlObjAll CowlObjAll;
+typedef struct CowlObjAll const CowlObjAll;
 
-CowlObjAll const* cowl_obj_all_get(CowlObjPropExp const *prop, CowlClsExp const *filler);
-CowlObjAll const* cowl_obj_all_retain(CowlObjAll const *restr);
-void cowl_obj_all_release(CowlObjAll const *restr);
+CowlObjAll* cowl_obj_all_get(CowlObjPropExp *prop, CowlClsExp *filler);
+CowlObjAll* cowl_obj_all_retain(CowlObjAll *restr);
+void cowl_obj_all_release(CowlObjAll *restr);
 
-CowlObjPropExp const* cowl_obj_all_get_prop(CowlObjAll const *restr);
-CowlClsExp const* cowl_obj_all_get_filler(CowlObjAll const *restr);
+CowlObjPropExp* cowl_obj_all_get_prop(CowlObjAll *restr);
+CowlClsExp* cowl_obj_all_get_filler(CowlObjAll *restr);
 
-bool cowl_obj_all_equals(CowlObjAll const *lhs, CowlObjAll const *rhs);
-uint32_t cowl_obj_all_hash(CowlObjAll const *restr);
+bool cowl_obj_all_equals(CowlObjAll *lhs, CowlObjAll *rhs);
+uint32_t cowl_obj_all_hash(CowlObjAll *restr);
 
-bool cowl_obj_all_iterate_signature(CowlObjAll const *restr, void *ctx, CowlEntityIterator iter);
+bool cowl_obj_all_iterate_signature(CowlObjAll *restr, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

@@ -8,20 +8,20 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIRI CowlIRI;
+typedef struct CowlIRI const CowlIRI;
 
-typedef struct CowlNamedIndividual CowlNamedIndividual;
+typedef struct CowlNamedIndividual const CowlNamedIndividual;
 
-CowlNamedIndividual const* cowl_named_individual_get(CowlIRI const *iri);
-CowlNamedIndividual const* cowl_named_individual_retain(CowlNamedIndividual const *ind);
-void cowl_named_individual_release(CowlNamedIndividual const *ind);
+CowlNamedIndividual* cowl_named_individual_get(CowlIRI *iri);
+CowlNamedIndividual* cowl_named_individual_retain(CowlNamedIndividual *ind);
+void cowl_named_individual_release(CowlNamedIndividual *ind);
 
-CowlIRI const* cowl_named_individual_get_iri(CowlNamedIndividual const *ind);
+CowlIRI* cowl_named_individual_get_iri(CowlNamedIndividual *ind);
 
-bool cowl_named_individual_equals(CowlNamedIndividual const *lhs, CowlNamedIndividual const *rhs);
-uint32_t cowl_named_individual_hash(CowlNamedIndividual const *ind);
+bool cowl_named_individual_equals(CowlNamedIndividual *lhs, CowlNamedIndividual *rhs);
+uint32_t cowl_named_individual_hash(CowlNamedIndividual *ind);
 
-bool cowl_named_individual_iterate_signature(CowlNamedIndividual const *ind,
+bool cowl_named_individual_iterate_signature(CowlNamedIndividual *ind,
                                              void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

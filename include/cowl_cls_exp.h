@@ -9,19 +9,19 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjPropExp CowlObjPropExp;
+typedef struct CowlObjPropExp const CowlObjPropExp;
 
-typedef struct CowlClsExp CowlClsExp;
+typedef struct CowlClsExp const CowlClsExp;
 
-CowlClsExp const* cowl_cls_exp_retain(CowlClsExp const *exp);
-void cowl_cls_exp_release(CowlClsExp const *exp);
+CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp);
+void cowl_cls_exp_release(CowlClsExp *exp);
 
-CowlClsExpType cowl_cls_exp_get_type(CowlClsExp const *exp);
+CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp);
 
-bool cowl_cls_exp_equals(CowlClsExp const *lhs, CowlClsExp const *rhs);
-uint32_t cowl_cls_exp_hash(CowlClsExp const *exp);
+bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs);
+uint32_t cowl_cls_exp_hash(CowlClsExp *exp);
 
-bool cowl_cls_exp_iterate_signature(CowlClsExp const *exp, void *ctx, CowlEntityIterator iter);
+bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

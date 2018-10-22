@@ -6,7 +6,7 @@
 
 #pragma mark - Private
 
-static CowlObjIntersection* cowl_obj_intersection_alloc(khash_t(CowlClsExpSet) const *operands) {
+static CowlObjIntersection* cowl_obj_intersection_alloc(CowlClsExpSet *operands) {
     uint32_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_INTERSECTION,
                                 kh_set_hash(CowlClsExpSet, operands));
 
@@ -15,12 +15,12 @@ static CowlObjIntersection* cowl_obj_intersection_alloc(khash_t(CowlClsExpSet) c
         .operands = operands
     };
 
-    CowlObjIntersection *exp = malloc(sizeof(*exp));
+    struct CowlObjIntersection *exp = malloc(sizeof(*exp));
     memcpy(exp, &init, sizeof(*exp));
     return exp;
 }
 
-static void cowl_obj_intersection_free(CowlObjIntersection const *exp) {
+static void cowl_obj_intersection_free(CowlObjIntersection *exp) {
     if (!exp) return;
     cowl_cls_exp_set_free(exp->operands);
     free((void *)exp);
@@ -28,35 +28,35 @@ static void cowl_obj_intersection_free(CowlObjIntersection const *exp) {
 
 #pragma mark - Public
 
-CowlObjIntersection const* cowl_obj_intersection_get(khash_t(CowlClsExpSet) const *operands) {
+CowlObjIntersection* cowl_obj_intersection_get(CowlClsExpSet *operands) {
     return cowl_obj_intersection_alloc(operands);
 }
 
-CowlObjIntersection const* cowl_obj_intersection_retain(CowlObjIntersection const *exp) {
+CowlObjIntersection* cowl_obj_intersection_retain(CowlObjIntersection *exp) {
     return cowl_cls_exp_ref_incr(exp);
 }
 
-void cowl_obj_intersection_release(CowlObjIntersection const *exp) {
+void cowl_obj_intersection_release(CowlObjIntersection *exp) {
     if (exp && !cowl_cls_exp_ref_decr(exp)) {
         cowl_obj_intersection_free(exp);
     }
 }
 
-khash_t(CowlClsExpSet) const* cowl_obj_intersection_get_operands(CowlObjIntersection const *exp) {
+CowlClsExpSet* cowl_obj_intersection_get_operands(CowlObjIntersection *exp) {
     return exp->operands;
 }
 
-bool cowl_obj_intersection_equals(CowlObjIntersection const *lhs, CowlObjIntersection const *rhs) {
+bool cowl_obj_intersection_equals(CowlObjIntersection *lhs, CowlObjIntersection *rhs) {
     return kh_set_equals(CowlClsExpSet, lhs->operands, rhs->operands);
 }
 
-uint32_t cowl_obj_intersection_hash(CowlObjIntersection const *exp) {
+uint32_t cowl_obj_intersection_hash(CowlObjIntersection *exp) {
     return cowl_cls_exp_hash_get(exp);
 }
 
-bool cowl_obj_intersection_iterate_signature(CowlObjIntersection const *exp,
+bool cowl_obj_intersection_iterate_signature(CowlObjIntersection *exp,
                                              void *ctx, CowlEntityIterator iter) {
-    kh_foreach_key(exp->operands, CowlClsExp const *operand, {
+    kh_foreach_key(exp->operands, CowlClsExp *operand, {
         if (!cowl_cls_exp_iterate_signature(operand, ctx, iter)) return false;
     });
     return true;

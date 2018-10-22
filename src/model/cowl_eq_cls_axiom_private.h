@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlEqClsAxiom {
+struct CowlEqClsAxiom {
     CowlAxiom super;
-    khash_t(CowlClsExpSet) const *classes;
-} CowlEqClsAxiom;
+    CowlClsExpSet *classes;
+};
 
 COWL_END_DECLS
 

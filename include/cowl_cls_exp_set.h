@@ -8,11 +8,12 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
+typedef struct CowlClsExp const CowlClsExp;
 
-KHASH_SET_UTILS_DECL(CowlClsExpSet, CowlClsExp const*);
+KHASH_SET_UTILS_DECL(CowlClsExpSet, CowlClsExp*);
+typedef khash_struct(CowlClsExpSet) const CowlClsExpSet;
 
-bool cowl_cls_exp_set_add(khash_t(CowlClsExpSet) *set, CowlClsExp const *exp);
+bool cowl_cls_exp_set_add(khash_t(CowlClsExpSet) *set, CowlClsExp *exp);
 void cowl_cls_exp_set_free(khash_t(CowlClsExpSet) const *set);
 
 COWL_END_DECLS

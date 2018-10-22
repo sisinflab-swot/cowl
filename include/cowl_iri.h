@@ -7,19 +7,19 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlString CowlString;
+typedef struct CowlString const CowlString;
 
-typedef struct CowlIRI CowlIRI;
+typedef struct CowlIRI const CowlIRI;
 
-CowlIRI const* cowl_iri_get(CowlString const *ns, CowlString const *rem);
-CowlIRI const* cowl_iri_retain(CowlIRI const *iri);
-void cowl_iri_release(CowlIRI const *iri);
+CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem);
+CowlIRI* cowl_iri_retain(CowlIRI *iri);
+void cowl_iri_release(CowlIRI *iri);
 
-CowlString const* cowl_iri_get_ns(CowlIRI const *iri);
-CowlString const* cowl_iri_get_rem(CowlIRI const *iri);
+CowlString* cowl_iri_get_ns(CowlIRI *iri);
+CowlString* cowl_iri_get_rem(CowlIRI *iri);
 
-bool cowl_iri_equals(CowlIRI const *lhs, CowlIRI const *rhs);
-uint32_t cowl_iri_hash(CowlIRI const *iri);
+bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
+uint32_t cowl_iri_hash(CowlIRI *iri);
 
 COWL_END_DECLS
 

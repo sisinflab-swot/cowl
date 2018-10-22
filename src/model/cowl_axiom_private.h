@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAxiom {
+struct CowlAxiom {
     CowlObject super;
     CowlAxiomType type;
-} CowlAxiom;
+};
 
 #define COWL_AXIOM_INIT(T, H) { .super = COWL_OBJECT_INIT(H), .type = (T) }
 

@@ -4,11 +4,11 @@
 #include "cowl_anon_individual.h"
 #include "cowl_named_individual.h"
 
-CowlIndividual const* cowl_individual_retain(CowlIndividual const *ind) {
+CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
     return cowl_individual_ref_incr(ind);
 }
 
-void cowl_individual_release(CowlIndividual const *ind) {
+void cowl_individual_release(CowlIndividual *ind) {
     if (!ind) return;
 
     if (ind->is_named) {
@@ -18,23 +18,21 @@ void cowl_individual_release(CowlIndividual const *ind) {
     }
 }
 
-bool cowl_individual_is_named(CowlIndividual const *ind) {
+bool cowl_individual_is_named(CowlIndividual *ind) {
     return ind->is_named;
 }
 
-bool cowl_individual_equals(CowlIndividual const *lhs, CowlIndividual const *rhs) {
+bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
     if (lhs->is_named != rhs->is_named) return false;
 
     if (lhs->is_named) {
-        return cowl_named_individual_equals((CowlNamedIndividual *)lhs,
-                                            (CowlNamedIndividual *)rhs);
+        return cowl_named_individual_equals((CowlNamedIndividual *)lhs, (CowlNamedIndividual *)rhs);
     } else {
-        return cowl_anon_individual_equals((CowlAnonIndividual *)lhs,
-                                           (CowlAnonIndividual *)rhs);
+        return cowl_anon_individual_equals((CowlAnonIndividual *)lhs, (CowlAnonIndividual *)rhs);
     }
 }
 
-uint32_t cowl_individual_hash(CowlIndividual const *ind) {
+uint32_t cowl_individual_hash(CowlIndividual *ind) {
     if (ind->is_named) {
         return cowl_named_individual_hash((CowlNamedIndividual *)ind);
     } else {
@@ -42,8 +40,7 @@ uint32_t cowl_individual_hash(CowlIndividual const *ind) {
     }
 }
 
-bool cowl_individual_iterate_signature(CowlIndividual const *ind,
-                                       void *ctx, CowlEntityIterator iter) {
+bool cowl_individual_iterate_signature(CowlIndividual *ind, void *ctx, CowlEntityIterator iter) {
     if (!ind->is_named) return true;
     return cowl_named_individual_iterate_signature((CowlNamedIndividual *)ind, ctx, iter);
 }

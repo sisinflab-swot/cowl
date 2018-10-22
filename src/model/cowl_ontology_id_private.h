@@ -7,13 +7,13 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlOntologyId {
-    CowlIRI const *onto_iri;
-    CowlIRI const *version_iri;
-} CowlOntologyId;
+struct CowlOntologyId {
+    CowlIRI *onto_iri;
+    CowlIRI *version_iri;
+};
 
-CowlOntologyId* cowl_ontology_id_alloc(CowlIRI const *onto_iri, CowlIRI const *version_iri);
-void cowl_ontology_id_free(CowlOntologyId const *id);
+CowlOntologyId* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri);
+void cowl_ontology_id_free(CowlOntologyId *id);
 
 COWL_END_DECLS
 

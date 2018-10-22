@@ -7,17 +7,17 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlString CowlString;
+typedef struct CowlString const CowlString;
 
-CowlString const* cowl_string_get(char const *cstring, uint32_t length, bool owned);
-CowlString const* cowl_string_retain(CowlString const *string);
-void cowl_string_release(CowlString const *string);
+CowlString* cowl_string_get(char const *cstring, uint32_t length, bool owned);
+CowlString* cowl_string_retain(CowlString *string);
+void cowl_string_release(CowlString *string);
 
-char const* cowl_string_cstring(CowlString const *string);
-uint32_t cowl_string_length(CowlString const *string);
+char const* cowl_string_cstring(CowlString *string);
+uint32_t cowl_string_length(CowlString *string);
 
-bool cowl_string_equals(CowlString const *lhs, CowlString const *rhs);
-uint32_t cowl_string_hash(CowlString const *string);
+bool cowl_string_equals(CowlString *lhs, CowlString *rhs);
+uint32_t cowl_string_hash(CowlString *string);
 
 COWL_END_DECLS
 

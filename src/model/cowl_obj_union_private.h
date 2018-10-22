@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjUnion {
+struct CowlObjUnion {
     CowlClsExp super;
-    khash_t(CowlClsExpSet) const *operands;
-} CowlObjUnion;
+    CowlClsExpSet *operands;
+};
 
 COWL_END_DECLS
 

@@ -8,12 +8,12 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjPropAssertAxiom {
+struct CowlObjPropAssertAxiom {
     CowlAxiom super;
-    CowlIndividual const *source;
-    CowlIndividual const *target;
-    CowlObjPropExp const *prop_exp;
-} CowlObjPropAssertAxiom;
+    CowlIndividual *source;
+    CowlIndividual *target;
+    CowlObjPropExp *prop_exp;
+};
 
 COWL_END_DECLS
 

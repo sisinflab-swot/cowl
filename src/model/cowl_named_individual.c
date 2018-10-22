@@ -7,23 +7,23 @@
 
 #pragma mark - Instance map
 
-KHASH_MAP_UTILS_INIT(CowlNamedIndividualMap, CowlIRI const*, CowlNamedIndividual*,
+KHASH_MAP_UTILS_INIT(CowlNamedIndividualMap, CowlIRI*, CowlNamedIndividual*,
                      cowl_iri_hash, cowl_iri_equals);
 static khash_t(CowlNamedIndividualMap) *inst_map = NULL;
 
 #pragma mark - Private
 
-static CowlNamedIndividual* cowl_named_individual_alloc(CowlIRI const *iri) {
+static CowlNamedIndividual* cowl_named_individual_alloc(CowlIRI *iri) {
     CowlNamedIndividual ind_init = {
         .super = COWL_INDIVIDUAL_INIT(true),
         .iri = cowl_iri_retain(iri)
     };
-    CowlNamedIndividual *ind = malloc(sizeof(*ind));
+    struct CowlNamedIndividual *ind = malloc(sizeof(*ind));
     memcpy(ind, &ind_init, sizeof(*ind));
     return ind;
 }
 
-static void cowl_named_individual_free(CowlNamedIndividual const *ind) {
+static void cowl_named_individual_free(CowlNamedIndividual *ind) {
     if (!ind) return;
     cowl_iri_release(ind->iri);
     free((void *)ind);
@@ -31,7 +31,7 @@ static void cowl_named_individual_free(CowlNamedIndividual const *ind) {
 
 #pragma mark - Public
 
-CowlNamedIndividual const* cowl_named_individual_get(CowlIRI const *iri) {
+CowlNamedIndividual* cowl_named_individual_get(CowlIRI *iri) {
     if (!inst_map) inst_map = kh_init(CowlNamedIndividualMap);
 
     CowlNamedIndividual *ind;
@@ -49,30 +49,30 @@ CowlNamedIndividual const* cowl_named_individual_get(CowlIRI const *iri) {
     return ind;
 }
 
-CowlNamedIndividual const* cowl_named_individual_retain(CowlNamedIndividual const *ind) {
+CowlNamedIndividual* cowl_named_individual_retain(CowlNamedIndividual *ind) {
     return cowl_individual_ref_incr(ind);
 }
 
-void cowl_named_individual_release(CowlNamedIndividual const *ind) {
+void cowl_named_individual_release(CowlNamedIndividual *ind) {
     if (ind && !cowl_individual_ref_decr(ind)) {
         kh_del_val(CowlNamedIndividualMap, inst_map, ind->iri);
         cowl_named_individual_free(ind);
     }
 }
 
-CowlIRI const* cowl_named_individual_get_iri(CowlNamedIndividual const *ind) {
+CowlIRI* cowl_named_individual_get_iri(CowlNamedIndividual *ind) {
     return ind->iri;
 }
 
-bool cowl_named_individual_equals(CowlNamedIndividual const *lhs, CowlNamedIndividual const *rhs) {
+bool cowl_named_individual_equals(CowlNamedIndividual *lhs, CowlNamedIndividual *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_named_individual_hash(CowlNamedIndividual const *ind) {
+uint32_t cowl_named_individual_hash(CowlNamedIndividual *ind) {
     return kh_ptr_hash_func(ind);
 }
 
-bool cowl_named_individual_iterate_signature(CowlNamedIndividual const *ind,
+bool cowl_named_individual_iterate_signature(CowlNamedIndividual *ind,
                                              void *ctx, CowlEntityIterator iter) {
     return iter(ctx, cowl_entity_init_named_individual(ind));
 }

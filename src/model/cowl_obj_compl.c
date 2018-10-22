@@ -5,7 +5,7 @@
 
 #pragma mark - Private
 
-static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp const *operand) {
+static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
     uint32_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
     CowlObjCompl init = {
@@ -13,12 +13,12 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp const *operand) {
         .operand = cowl_cls_exp_retain(operand)
     };
 
-    CowlObjCompl *compl = malloc(sizeof(*compl));
+    struct CowlObjCompl *compl = malloc(sizeof(*compl));
     memcpy(compl, &init, sizeof(*compl));
     return compl;
 }
 
-static void cowl_obj_compl_free(CowlObjCompl const *compl) {
+static void cowl_obj_compl_free(CowlObjCompl *compl) {
     if (!compl) return;
     cowl_cls_exp_release(compl->operand);
     free((void *)compl);
@@ -26,33 +26,32 @@ static void cowl_obj_compl_free(CowlObjCompl const *compl) {
 
 #pragma mark - Public
 
-CowlObjCompl const* cowl_obj_compl_get(CowlClsExp const *operand) {
+CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
     return cowl_obj_compl_alloc(operand);
 }
 
-CowlObjCompl const* cowl_obj_compl_retain(CowlObjCompl const *compl) {
+CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *compl) {
     return cowl_cls_exp_ref_incr(compl);
 }
 
-void cowl_obj_compl_release(CowlObjCompl const *compl) {
+void cowl_obj_compl_release(CowlObjCompl *compl) {
     if (compl && !cowl_cls_exp_ref_decr(compl)) {
         cowl_obj_compl_free(compl);
     }
 }
 
-CowlClsExp const* cowl_obj_compl_get_operand(CowlObjCompl const *compl) {
+CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *compl) {
     return compl->operand;
 }
 
-bool cowl_obj_compl_equals(CowlObjCompl const *lhs, CowlObjCompl const *rhs) {
+bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
     return cowl_cls_exp_equals(lhs->operand, rhs->operand);
 }
 
-uint32_t cowl_obj_compl_hash(CowlObjCompl const *compl) {
+uint32_t cowl_obj_compl_hash(CowlObjCompl *compl) {
     return cowl_cls_exp_hash_get(compl);
 }
 
-bool cowl_obj_compl_iterate_signature(CowlObjCompl const *compl,
-                                      void *ctx, CowlEntityIterator iter) {
+bool cowl_obj_compl_iterate_signature(CowlObjCompl *compl, void *ctx, CowlEntityIterator iter) {
     return cowl_cls_exp_iterate_signature(compl->operand, ctx, iter);
 }

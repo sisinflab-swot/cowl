@@ -7,17 +7,17 @@
 
 #pragma mark - Instance map
 
-KHASH_MAP_UTILS_INIT(CowlClassMap, CowlIRI const*, CowlClass*, cowl_iri_hash, cowl_iri_equals);
+KHASH_MAP_UTILS_INIT(CowlClassMap, CowlIRI*, CowlClass*, cowl_iri_hash, cowl_iri_equals);
 static khash_t(CowlClassMap) *inst_map = NULL;
 
 #pragma mark - Private
 
-static CowlClass* cowl_class_alloc(CowlIRI const *iri) {
+static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     CowlClass init = {
         .super = COWL_CLS_EXP_INIT(CCET_CLASS, 0),
         .iri = cowl_iri_retain(iri)
     };
-    CowlClass *cls = malloc(sizeof(*cls));
+    struct CowlClass *cls = malloc(sizeof(*cls));
     memcpy(cls, &init, sizeof(*cls));
 
     uint32_t hash = kh_ptr_hash_func(cls);
@@ -26,7 +26,7 @@ static CowlClass* cowl_class_alloc(CowlIRI const *iri) {
     return cls;
 }
 
-static void cowl_class_free(CowlClass const *cls) {
+static void cowl_class_free(CowlClass *cls) {
     if (!cls) return;
     cowl_iri_release(cls->iri);
     free((void *)cls);
@@ -34,7 +34,7 @@ static void cowl_class_free(CowlClass const *cls) {
 
 #pragma mark - Public
 
-CowlClass const* cowl_class_get(CowlIRI const *iri) {
+CowlClass* cowl_class_get(CowlIRI *iri) {
     if (!inst_map) inst_map = kh_init(CowlClassMap);
 
     CowlClass *cls;
@@ -52,29 +52,29 @@ CowlClass const* cowl_class_get(CowlIRI const *iri) {
     return cls;
 }
 
-CowlClass const* cowl_class_retain(CowlClass const *cls) {
+CowlClass* cowl_class_retain(CowlClass *cls) {
     return cowl_cls_exp_ref_incr(cls);
 }
 
-void cowl_class_release(CowlClass const *cls) {
+void cowl_class_release(CowlClass *cls) {
     if (cls && !cowl_cls_exp_ref_decr(cls)) {
         kh_del_val(CowlClassMap, inst_map, cls->iri);
         cowl_class_free(cls);
     }
 }
 
-CowlIRI const* cowl_class_get_iri(CowlClass const *cls) {
+CowlIRI* cowl_class_get_iri(CowlClass *cls) {
     return cls->iri;
 }
 
-bool cowl_class_equals(CowlClass const *lhs, CowlClass const *rhs) {
+bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_class_hash(CowlClass const *cls) {
+uint32_t cowl_class_hash(CowlClass *cls) {
     return cowl_cls_exp_hash_get(cls);
 }
 
-bool cowl_class_iterate_signature(CowlClass const *cls, void *ctx, CowlEntityIterator iter) {
+bool cowl_class_iterate_signature(CowlClass *cls, void *ctx, CowlEntityIterator iter) {
     return iter(ctx, cowl_entity_init_class(cls));
 }

@@ -12,14 +12,14 @@ static khash_t(CowlStringMap) *inst_map = NULL;
 
 #pragma mark - Private
 
-static CowlString* cowl_string_alloc(char const *cstring, uint32_t length) {
+static struct CowlString* cowl_string_alloc(char const *cstring, uint32_t length) {
     CowlString init = COWL_STRING_INIT(cstring, length);
-    CowlString *string = malloc(sizeof(*string));
+    struct CowlString *string = malloc(sizeof(*string));
     memcpy(string, &init, sizeof(*string));
     return string;
 }
 
-static void cowl_string_free(CowlString const *string) {
+static void cowl_string_free(CowlString *string) {
     if (!string) return;
     free((void *)string->cstring);
     free((void *)string);
@@ -27,7 +27,7 @@ static void cowl_string_free(CowlString const *string) {
 
 #pragma mark - Public
 
-CowlString const* cowl_string_get(char const *cstring, uint32_t length, bool owned) {
+CowlString* cowl_string_get(char const *cstring, uint32_t length, bool owned) {
     if (!inst_map) inst_map = kh_init(CowlStringMap);
 
     CowlString *string;
@@ -50,29 +50,29 @@ CowlString const* cowl_string_get(char const *cstring, uint32_t length, bool own
     return string;
 }
 
-CowlString const* cowl_string_retain(CowlString const *string) {
+CowlString* cowl_string_retain(CowlString *string) {
     return cowl_string_ref_incr(string);
 }
 
-void cowl_string_release(CowlString const *string) {
+void cowl_string_release(CowlString *string) {
     if (string && !cowl_string_ref_decr(string)) {
         kh_del_val(CowlStringMap, inst_map, string->cstring);
         cowl_string_free(string);
     }
 }
 
-char const* cowl_string_cstring(CowlString const *string) {
+char const* cowl_string_cstring(CowlString *string) {
     return string->cstring;
 }
 
-uint32_t cowl_string_length(CowlString const *string) {
+uint32_t cowl_string_length(CowlString *string) {
     return string->length;
 }
 
-bool cowl_string_equals(CowlString const *lhs, CowlString const *rhs) {
+bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_string_hash(CowlString const *string) {
+uint32_t cowl_string_hash(CowlString *string) {
     return kh_ptr_hash_func(string);
 }

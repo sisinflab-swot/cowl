@@ -7,8 +7,8 @@
 
 #pragma mark - Private
 
-static CowlObjPropDomainAxiom const* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp const *prop,
-                                                                    CowlClsExp const *domain) {
+static CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp *prop,
+                                                                CowlClsExp *domain) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_DOMAIN_AXIOM,
                                 cowl_obj_prop_exp_hash(prop),
                                 cowl_cls_exp_hash(domain));
@@ -19,12 +19,12 @@ static CowlObjPropDomainAxiom const* cowl_obj_prop_domain_axiom_alloc(CowlObjPro
         .domain = cowl_cls_exp_retain(domain)
     };
 
-    CowlObjPropDomainAxiom *axiom = malloc(sizeof(*axiom));
+    struct CowlObjPropDomainAxiom *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }
 
-static void cowl_obj_prop_domain_axiom_free(CowlObjPropDomainAxiom const *axiom) {
+static void cowl_obj_prop_domain_axiom_free(CowlObjPropDomainAxiom *axiom) {
     if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->prop_exp);
     cowl_cls_exp_release(axiom->domain);
@@ -33,41 +33,39 @@ static void cowl_obj_prop_domain_axiom_free(CowlObjPropDomainAxiom const *axiom)
 
 #pragma mark - Public
 
-CowlObjPropDomainAxiom const* cowl_obj_prop_domain_axiom_get(CowlObjPropExp const *prop,
-                                                           CowlClsExp const *domain) {
+CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, CowlClsExp *domain) {
     return cowl_obj_prop_domain_axiom_alloc(prop, domain);
 }
 
-CowlObjPropDomainAxiom const* cowl_obj_prop_domain_axiom_retain
-    (CowlObjPropDomainAxiom const *axiom) {
+CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_retain
+    (CowlObjPropDomainAxiom *axiom) {
     return cowl_axiom_ref_incr(axiom);
 }
 
-void cowl_obj_prop_domain_axiom_release(CowlObjPropDomainAxiom const *axiom) {
+void cowl_obj_prop_domain_axiom_release(CowlObjPropDomainAxiom *axiom) {
     if (axiom && !cowl_axiom_ref_decr(axiom)) {
         cowl_obj_prop_domain_axiom_free(axiom);
     }
 }
 
-CowlObjPropExp const* cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom const *axiom) {
+CowlObjPropExp* cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom *axiom) {
     return axiom->prop_exp;
 }
 
-CowlClsExp const* cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom const *axiom) {
+CowlClsExp* cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom *axiom) {
     return axiom->domain;
 }
 
-bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom const *lhs,
-                                       CowlObjPropDomainAxiom const *rhs) {
+bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom *lhs, CowlObjPropDomainAxiom *rhs) {
     return cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp) &&
            cowl_cls_exp_equals(lhs->domain, rhs->domain);
 }
 
-uint32_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom const *axiom) {
+uint32_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 
-bool cowl_obj_prop_domain_axiom_iterate_signature(CowlObjPropDomainAxiom const *axiom,
+bool cowl_obj_prop_domain_axiom_iterate_signature(CowlObjPropDomainAxiom *axiom,
                                                   void *ctx, CowlEntityIterator iter) {
     if (!cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, ctx, iter)) return false;
     if (!cowl_cls_exp_iterate_signature(axiom->domain, ctx, iter)) return false;

@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClass {
+struct CowlClass {
     CowlClsExp super;
-    CowlIRI const *iri;
-} CowlClass;
+    CowlIRI *iri;
+};
 
 COWL_END_DECLS
 

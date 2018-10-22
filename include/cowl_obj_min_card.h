@@ -8,24 +8,24 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
-typedef struct CowlObjPropExp CowlObjPropExp;
+typedef struct CowlClsExp const CowlClsExp;
+typedef struct CowlObjPropExp const CowlObjPropExp;
 
-typedef struct CowlObjMinCard CowlObjMinCard;
+typedef struct CowlObjMinCard const CowlObjMinCard;
 
-CowlObjMinCard const* cowl_obj_min_card_get(CowlObjPropExp const *prop,
-                                            CowlClsExp const *filler, uint32_t cardinality);
-CowlObjMinCard const* cowl_obj_min_card_retain(CowlObjMinCard const *restr);
-void cowl_obj_min_card_release(CowlObjMinCard const *restr);
+CowlObjMinCard* cowl_obj_min_card_get(CowlObjPropExp *prop, CowlClsExp *filler,
+                                      uint32_t cardinality);
+CowlObjMinCard* cowl_obj_min_card_retain(CowlObjMinCard *restr);
+void cowl_obj_min_card_release(CowlObjMinCard *restr);
 
-CowlObjPropExp const* cowl_obj_min_card_get_prop(CowlObjMinCard const *restr);
-CowlClsExp const* cowl_obj_min_card_get_filler(CowlObjMinCard const *restr);
-uint32_t cowl_obj_min_card_get_cardinality(CowlObjMinCard const *restr);
+CowlObjPropExp* cowl_obj_min_card_get_prop(CowlObjMinCard *restr);
+CowlClsExp* cowl_obj_min_card_get_filler(CowlObjMinCard *restr);
+uint32_t cowl_obj_min_card_get_cardinality(CowlObjMinCard *restr);
 
-bool cowl_obj_min_card_equals(CowlObjMinCard const *lhs, CowlObjMinCard const *rhs);
-uint32_t cowl_obj_min_card_hash(CowlObjMinCard const *restr);
+bool cowl_obj_min_card_equals(CowlObjMinCard *lhs, CowlObjMinCard *rhs);
+uint32_t cowl_obj_min_card_hash(CowlObjMinCard *restr);
 
-bool cowl_obj_min_card_iterate_signature(CowlObjMinCard const *restr,
+bool cowl_obj_min_card_iterate_signature(CowlObjMinCard *restr,
                                          void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

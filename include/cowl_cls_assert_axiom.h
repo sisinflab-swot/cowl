@@ -8,23 +8,22 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp CowlClsExp;
-typedef struct CowlIndividual CowlIndividual;
+typedef struct CowlClsExp const CowlClsExp;
+typedef struct CowlIndividual const CowlIndividual;
 
-typedef struct CowlClsAssertAxiom CowlClsAssertAxiom;
+typedef struct CowlClsAssertAxiom const CowlClsAssertAxiom;
 
-CowlClsAssertAxiom const* cowl_cls_assert_axiom_get(CowlIndividual const *ind,
-                                                    CowlClsExp const *exp);
-CowlClsAssertAxiom const* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom const *axiom);
-void cowl_cls_assert_axiom_release(CowlClsAssertAxiom const *axiom);
+CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp);
+CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom);
+void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom);
 
-CowlIndividual const* cowl_cls_assert_axiom_get_individual(CowlClsAssertAxiom const *axiom);
-CowlClsExp const* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom const *axiom);
+CowlIndividual* cowl_cls_assert_axiom_get_individual(CowlClsAssertAxiom *axiom);
+CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom);
 
-bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom const *lhs, CowlClsAssertAxiom const *rhs);
-uint32_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom const *axiom);
+bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *rhs);
+uint32_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
 
-bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom const *axiom,
+bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom *axiom,
                                              void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS

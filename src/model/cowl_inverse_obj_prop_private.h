@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlInverseObjProp {
+struct CowlInverseObjProp {
     CowlObjPropExp super;
-    CowlObjProp const *prop;
-} CowlInverseObjProp;
+    CowlObjProp *prop;
+};
 
 COWL_END_DECLS
 
