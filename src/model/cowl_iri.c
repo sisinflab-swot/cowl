@@ -34,8 +34,8 @@ static struct CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
 
 static void cowl_iri_free(CowlIRI *iri) {
     if (!iri) return;
-    cowl_string_release((CowlString *)iri->ns);
-    cowl_string_release((CowlString *)iri->rem);
+    cowl_string_release(iri->ns);
+    cowl_string_release(iri->rem);
     free((void *)iri);
 }
 
@@ -59,6 +59,26 @@ CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
     }
 
     return iri;
+}
+
+CowlIRI* cowl_iri_parse(char const *cstring, uint32_t length, bool owned) {
+    // TODO: implement according to spec: https://www.w3.org/TR/REC-xml-names/#NT-NCName
+    char const *chr = memchr(cstring, '#', length);
+
+    uint32_t ns_length = chr ? (uint32_t)(chr - cstring + 1) : length;
+    CowlString *ns, *rem;
+
+    if (ns_length == length) {
+        ns = cowl_string_get(cstring, length, owned);
+        rem = cowl_string_get("", 0, false);
+    } else {
+        ns = cowl_string_get(cstring, ns_length, false);
+        rem = cowl_string_get(chr + 1, length - ns_length, false);
+
+        if (owned) free((void *)cstring);
+    }
+
+    return cowl_iri_get(ns, rem);
 }
 
 CowlIRI* cowl_iri_retain(CowlIRI *iri) {
