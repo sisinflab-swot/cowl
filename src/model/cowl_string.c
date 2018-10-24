@@ -36,7 +36,7 @@ CowlString* cowl_string_get(char const *cstring, uint32_t length, bool owned) {
 
     if (absent) {
         if (!owned) {
-            cstring = strndup(cstring, length + 1);
+            cstring = strndup(cstring, length);
             kh_key(inst_map, idx) = cstring;
         }
         string = cowl_string_alloc(cstring, length);
@@ -61,11 +61,11 @@ void cowl_string_release(CowlString *string) {
     }
 }
 
-char const* cowl_string_cstring(CowlString *string) {
+char const* cowl_string_get_cstring(CowlString *string) {
     return string->cstring;
 }
 
-uint32_t cowl_string_length(CowlString *string) {
+uint32_t cowl_string_get_length(CowlString *string) {
     return string->length;
 }
 
