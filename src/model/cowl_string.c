@@ -7,7 +7,7 @@
 
 #pragma mark - Instance map
 
-KHASH_MAP_UTILS_IMPL(CowlStringMap, char const*, CowlString*, kh_str_hash_func, kh_str_hash_equal);
+KHASH_MAP_UTILS_INIT(CowlStringMap, char const*, CowlString*, kh_str_hash_func, kh_str_hash_equal);
 static khash_t(CowlStringMap) *inst_map = NULL;
 
 #pragma mark - Private
@@ -23,6 +23,24 @@ static void cowl_string_free(CowlString *string) {
     if (!string) return;
     free((void *)string->cstring);
     free((void *)string);
+}
+
+#pragma mark - Internal
+
+void cowl_string_split_two(CowlString *string, char character, CowlString **out) {
+    char const *cstring = string->cstring;
+    uint32_t length = string->length;
+
+    char const *chr = memchr(cstring, character, length);
+    uint32_t ns_length = chr ? (uint32_t)(chr - cstring + 1) : length;
+
+    if (ns_length == length) {
+        out[0] = cowl_string_get(cstring, length, false);
+        out[1] = cowl_string_get("", 0, false);
+    } else {
+        out[0] = cowl_string_get(cstring, ns_length, false);
+        out[1] = cowl_string_get(chr + 1, length - ns_length, false);
+    }
 }
 
 #pragma mark - Public

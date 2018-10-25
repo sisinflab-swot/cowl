@@ -4,11 +4,8 @@
 #define COWL_STRING_PRIVATE_H
 
 #include "cowl_string.h"
-#include "khash_utils.h"
 
 COWL_BEGIN_DECLS
-
-KHASH_MAP_UTILS_DECL(CowlStringMap, char const*, CowlString*);
 
 struct CowlString {
     uint32_t ref_count;
@@ -21,6 +18,8 @@ struct CowlString {
 #define cowl_string_ref_get(s) (((struct CowlString *)(s))->ref_count)
 #define cowl_string_ref_incr(s) (++cowl_string_ref_get(s), (s))
 #define cowl_string_ref_decr(s) (--cowl_string_ref_get(s))
+
+void cowl_string_split_two(CowlString *string, char character, CowlString **out);
 
 COWL_END_DECLS
 
