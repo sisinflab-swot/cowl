@@ -20,6 +20,9 @@ typedef struct CowlOntologyId const CowlOntologyId;
 
 typedef struct CowlOntology const CowlOntology;
 
+CowlOntology* cowl_ontology_retain(CowlOntology *onto);
+void cowl_ontology_release(CowlOntology *onto);
+
 CowlOntologyId* cowl_ontology_get_id(CowlOntology *onto);
 
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs);

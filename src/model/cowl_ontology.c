@@ -42,6 +42,9 @@ typedef struct CowlAxiomEntityCtx {
 
 #pragma mark - Private prototypes
 
+static CowlMutableOntology* cowl_ontology_alloc(void);
+static void cowl_ontology_free(CowlOntology *ontology);
+
 static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity);
 static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,
                                                CowlEntity entity);
@@ -82,6 +85,16 @@ static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom
 } while(0)
 
 #pragma mark - Public API
+
+CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
+    return cowl_ontology_ref_incr(onto);
+}
+
+void cowl_ontology_release(CowlOntology *onto) {
+    if (onto && !cowl_ontology_ref_decr(onto)) {
+        cowl_ontology_free(onto);
+    }
+}
 
 CowlOntologyId* cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
@@ -215,16 +228,16 @@ void cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *individual,
     });
 }
 
+#pragma mark - Internal API
+
+CowlMutableOntology* cowl_ontology_get(void) {
+    return cowl_ontology_alloc();
+}
+
 #pragma mark - Private API
 
-CowlMutableOntology* cowl_ontology_alloc(CowlOntologyId *id) {
-    CowlOntology init = {
-        .id = id,
-        .class_refs = kh_init(CowlClassAxiomMap),
-        .obj_prop_refs = kh_init(CowlObjPropAxiomMap),
-        .named_ind_refs = kh_init(CowlNamedIndAxiomMap),
-        .anon_ind_refs = kh_init(CowlAnonIndAxiomMap)
-    };
+CowlMutableOntology* cowl_ontology_alloc(void) {
+    CowlOntology init = COWL_ONTOLOGY_INIT;
     CowlMutableOntology *ontology = malloc(sizeof(*ontology));
     memcpy(ontology, &init, sizeof(*ontology));
     return ontology;
@@ -245,6 +258,11 @@ void cowl_ontology_free(CowlOntology *ontology) {
     kh_destroy(CowlAnonIndAxiomMap, ontology->anon_ind_refs);
 
     free((void *)ontology);
+}
+
+void cowl_ontology_set_id(CowlMutableOntology *ontology, CowlOntologyId *id) {
+    if (ontology->id) cowl_ontology_id_free(id);
+    ontology->id = id;
 }
 
 void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
