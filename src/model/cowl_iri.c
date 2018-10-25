@@ -4,7 +4,7 @@
 
 #include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_string.h"
+#include "cowl_string_private.h"
 #include "khash_utils.h"
 
 #pragma mark - Instance map
@@ -61,24 +61,18 @@ CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
     return iri;
 }
 
-CowlIRI* cowl_iri_parse(char const *cstring, uint32_t length, bool owned) {
+CowlIRI* cowl_iri_parse(char const *cstring, uint32_t length) {
     // TODO: implement according to spec: https://www.w3.org/TR/REC-xml-names/#NT-NCName
-    char const *chr = memchr(cstring, '#', length);
+    CowlString *parts[2];
+    CowlString temp_str = COWL_STRING_INIT(cstring, length);
+    cowl_string_split_two(&temp_str, '#', parts);
 
-    uint32_t ns_length = chr ? (uint32_t)(chr - cstring + 1) : length;
-    CowlString *ns, *rem;
+    CowlIRI *iri = cowl_iri_get(parts[0], parts[1]);
 
-    if (ns_length == length) {
-        ns = cowl_string_get(cstring, length, owned);
-        rem = cowl_string_get("", 0, false);
-    } else {
-        ns = cowl_string_get(cstring, ns_length, false);
-        rem = cowl_string_get(chr + 1, length - ns_length, false);
+    cowl_string_release(parts[0]);
+    cowl_string_release(parts[1]);
 
-        if (owned) free((void *)cstring);
-    }
-
-    return cowl_iri_get(ns, rem);
+    return iri;
 }
 
 CowlIRI* cowl_iri_retain(CowlIRI *iri) {

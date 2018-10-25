@@ -122,7 +122,7 @@ NON_NEGATIVE_INTEGER                    {DIGITS}
                                         }
 {IRI_REF}                               {
                                             yylval->IRI_REF =
-                                                cowl_iri_parse(yytext + 1, yyleng - 2, false);
+                                                cowl_iri_parse(yytext + 1, yyleng - 2);
                                             return IRI_REF;
                                         }
 {PNAME_NS}                              {
