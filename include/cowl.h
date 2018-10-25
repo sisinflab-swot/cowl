@@ -35,6 +35,7 @@
 #include "cowl_obj_some.h"
 #include "cowl_obj_union.h"
 #include "cowl_ontology_id.h"
+#include "cowl_parser.h"
 #include "cowl_std.h"
 #include "cowl_string.h"
 #include "cowl_sub_cls_axiom.h"

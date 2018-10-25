@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "cowl.h"
+#include "cowl_anon_individual_private.h"
 #include "cowl_individual_private.h"
+#include "cowl_iri_private.h"
 #include "cowl_string_private.h"
+#include "cowl_parser.h"
 
 #pragma mark - Tests
 
@@ -14,26 +16,29 @@ void test_iri(void) {
     const char rem_string[] = "remainder";
 
     CowlString *ns = cowl_string_get(ns_string, sizeof(ns_string), false);
-    CowlString *ns2 = cowl_string_get(ns_string, sizeof(ns_string), false);
-
-    assert(cowl_string_equals(ns, ns2));
-    cowl_string_release(ns2);
-
     CowlString *rem = cowl_string_get(rem_string, sizeof(rem_string), false);
-    assert(!cowl_string_equals(ns, rem));
 
     CowlIRI *iri = cowl_iri_get(ns, rem);
-    printf("IRI: %s%s\n",
-           cowl_string_cstring(cowl_iri_get_ns(iri)),
-           cowl_string_cstring(cowl_iri_get_rem(iri)));
+    assert(cowl_iri_ref_get(iri) == 1);
+    assert(cowl_string_ref_get(ns) == 2);
+    assert(cowl_string_ref_get(rem) == 2);
+
+    cowl_iri_retain(iri);
+    assert(cowl_iri_ref_get(iri) == 2);
+
+    cowl_iri_release(iri);
+    assert(cowl_iri_ref_get(iri) == 1);
+
+    cowl_iri_release(iri);
+    assert(cowl_string_ref_get(ns) == 1);
+    assert(cowl_string_ref_get(rem) == 1);
 
     cowl_string_release(ns);
     cowl_string_release(rem);
-    cowl_iri_release(iri);
 }
 
 void test_anon_individual(void) {
-    char const id_str[] = ":12345";
+    char const id_str[] = "_:12345";
     CowlString *id = cowl_string_get(id_str, sizeof(id_str) - 1, false);
     assert(cowl_string_ref_get(id) == 1);
 
@@ -61,10 +66,15 @@ void test_anon_individual(void) {
     cowl_string_release(id);
 }
 
+void test_parser(void) {
+    cowl_parse_ontology("test_ontology.owl");
+}
+
 #pragma mark - Main
 
 int main(void) {
     test_iri();
     test_anon_individual();
+    test_parser();
     return 0;
 }
