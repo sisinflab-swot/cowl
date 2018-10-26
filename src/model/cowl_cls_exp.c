@@ -3,11 +3,9 @@
 #include "cowl_cls_exp_private.h"
 #include "cowl_class.h"
 #include "cowl_obj_all.h"
+#include "cowl_obj_card.h"
 #include "cowl_obj_compl.h"
-#include "cowl_obj_exact_card.h"
 #include "cowl_obj_intersection.h"
-#include "cowl_obj_max_card.h"
-#include "cowl_obj_min_card.h"
 #include "cowl_obj_some.h"
 #include "cowl_obj_union.h"
 
@@ -21,7 +19,7 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
     if (!exp) return;
 
 #define GEN_CASE_RELEASE(CCET, TYPE, PREFIX) \
-    case CCET: return PREFIX##_release((TYPE *)exp)
+    case CCET: PREFIX##_release((TYPE *)exp); break;
 
     switch (exp->type) {
 
@@ -31,9 +29,9 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
         GEN_CASE_RELEASE(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
         GEN_CASE_RELEASE(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
         GEN_CASE_RELEASE(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
-        GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
-        GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
-        GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
+        GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
 
         default:
             break;
@@ -58,9 +56,9 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
         GEN_CASE_EQUAL(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
         GEN_CASE_EQUAL(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
         GEN_CASE_EQUAL(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
-        GEN_CASE_EQUAL(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
-        GEN_CASE_EQUAL(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
-        GEN_CASE_EQUAL(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
+        GEN_CASE_EQUAL(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_EQUAL(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_EQUAL(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
 
         default:
             return false;
@@ -84,9 +82,9 @@ bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterat
         GEN_CASE_SIG(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
         GEN_CASE_SIG(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
         GEN_CASE_SIG(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
-        GEN_CASE_SIG(CCET_OBJ_MIN_CARD, CowlObjMinCard, cowl_obj_min_card);
-        GEN_CASE_SIG(CCET_OBJ_MAX_CARD, CowlObjMaxCard, cowl_obj_max_card);
-        GEN_CASE_SIG(CCET_OBJ_EXACT_CARD, CowlObjExactCard, cowl_obj_exact_card);
+        GEN_CASE_SIG(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_SIG(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_SIG(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
 
         default:
             return true;

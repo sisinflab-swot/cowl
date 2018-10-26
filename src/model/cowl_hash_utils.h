@@ -14,9 +14,7 @@
 #define COWL_HASH_INIT_OBJ_UNION 13
 #define COWL_HASH_INIT_OBJ_SOME 17
 #define COWL_HASH_INIT_OBJ_ALL 19
-#define COWL_HASH_INIT_OBJ_MIN_CARD 23
-#define COWL_HASH_INIT_OBJ_MAX_CARD 29
-#define COWL_HASH_INIT_OBJ_EXACT_CARD 37
+#define COWL_HASH_INIT_OBJ_CARD 23
 
 #define COWL_HASH_INIT_OBJ_PROP 127
 #define COWL_HASH_INIT_INV_OBJ_PROP 131
@@ -59,5 +57,7 @@
 #define cowl_hash_1(init, a) (cowl_hash_iter(init, a))
 #define cowl_hash_2(init, a, b) (cowl_hash_iter(cowl_hash_iter(init, a), b))
 #define cowl_hash_3(init, a, b, c) (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c))
+#define cowl_hash_4(init, a, b, c, d) \
+    (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c), d))
 
 #endif // COWL_HASH_UTILS_H
