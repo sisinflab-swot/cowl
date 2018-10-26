@@ -24,14 +24,23 @@ typedef struct CowlEntity {
 
 } CowlEntity;
 
-#define cowl_entity_init_class(cls) \
-    ((CowlEntity const){ .type = CET_CLASS, .owl_class = (cls) })
+#define cowl_entity_wrap_class(CLS) \
+    ((CowlEntity const){ .type = CET_CLASS, .owl_class = (CLS) })
 
-#define cowl_entity_init_obj_prop(prop) \
-    ((CowlEntity const){ .type = CET_OBJ_PROP, .obj_prop = (prop) })
+#define cowl_entity_wrap_obj_prop(PROP) \
+    ((CowlEntity const){ .type = CET_OBJ_PROP, .obj_prop = (PROP) })
 
-#define cowl_entity_init_named_individual(ind) \
-    ((CowlEntity const){ .type = CET_NAMED_INDIVIDUAL, .named_ind = (ind) })
+#define cowl_entity_wrap_named_individual(IND) \
+    ((CowlEntity const){ .type = CET_NAMED_INDIVIDUAL, .named_ind = (IND) })
+
+#define cowl_entity_init_class(CLS) \
+    cowl_entity_wrap_class(cowl_class_retain(CLS))
+
+#define cowl_entity_init_obj_prop(PROP) \
+    cowl_entity_wrap_obj_prop(cowl_obj_prop_retain(PROP))
+
+#define cowl_entity_init_named_individual(IND) \
+    cowl_entity_wrap_named_individual(cowl_named_individual_retain(IND))
 
 CowlEntity cowl_entity_retain(CowlEntity entity);
 void cowl_entity_release(CowlEntity entity);

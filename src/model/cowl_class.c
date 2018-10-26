@@ -76,5 +76,5 @@ uint32_t cowl_class_hash(CowlClass *cls) {
 }
 
 bool cowl_class_iterate_signature(CowlClass *cls, void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, cowl_entity_init_class(cls));
+    return iter(ctx, cowl_entity_wrap_class(cls));
 }

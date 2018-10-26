@@ -69,5 +69,5 @@ uint32_t cowl_obj_prop_hash(CowlObjProp *prop) {
 }
 
 bool cowl_obj_prop_iterate_signature(CowlObjProp *prop, void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, cowl_entity_init_obj_prop(prop));
+    return iter(ctx, cowl_entity_wrap_obj_prop(prop));
 }

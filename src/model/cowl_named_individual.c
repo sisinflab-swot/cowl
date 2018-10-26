@@ -74,5 +74,5 @@ uint32_t cowl_named_individual_hash(CowlNamedIndividual *ind) {
 
 bool cowl_named_individual_iterate_signature(CowlNamedIndividual *ind,
                                              void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, cowl_entity_init_named_individual(ind));
+    return iter(ctx, cowl_entity_wrap_named_individual(ind));
 }
