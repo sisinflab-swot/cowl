@@ -8,12 +8,15 @@
 
 COWL_BEGIN_DECLS
 
+typedef struct CowlObjProp const CowlObjProp;
+
 typedef struct CowlObjPropExp const CowlObjPropExp;
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop);
 void cowl_obj_prop_exp_release(CowlObjPropExp *prop);
 
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp);
+CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
 
 bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs);
 uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp);

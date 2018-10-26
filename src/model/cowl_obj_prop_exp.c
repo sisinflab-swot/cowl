@@ -2,8 +2,8 @@
 
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_inverse_obj_prop.h"
-#include "cowl_obj_prop.h"
+#include "cowl_inverse_obj_prop_private.h"
+#include "cowl_obj_prop_private.h"
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
     return cowl_obj_prop_exp_ref_incr(prop);
@@ -21,6 +21,14 @@ void cowl_obj_prop_exp_release(CowlObjPropExp *prop) {
 
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
     return exp->is_inverse;
+}
+
+CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp) {
+    if (exp->is_inverse) {
+        return ((CowlInverseObjProp *)exp)->prop;
+    } else {
+        return (CowlObjProp *)exp;
+    }
 }
 
 bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
