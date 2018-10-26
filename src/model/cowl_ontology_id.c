@@ -9,7 +9,7 @@
 CowlOntologyId* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri) {
     CowlOntologyId init = {
         .onto_iri = cowl_iri_retain(onto_iri),
-        .version_iri = cowl_iri_retain(version_iri)
+        .version_iri = version_iri ? cowl_iri_retain(version_iri) : NULL
     };
 
     struct CowlOntologyId *id = malloc(sizeof(*id));
