@@ -2,11 +2,10 @@
 
 #include "cowl_cls_exp_private.h"
 #include "cowl_class.h"
-#include "cowl_obj_all.h"
 #include "cowl_obj_card.h"
 #include "cowl_obj_compl.h"
 #include "cowl_obj_intersection.h"
-#include "cowl_obj_some.h"
+#include "cowl_obj_quant.h"
 #include "cowl_obj_union.h"
 
 #pragma mark - Public functions
@@ -27,8 +26,8 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
         GEN_CASE_RELEASE(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
         GEN_CASE_RELEASE(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
         GEN_CASE_RELEASE(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
-        GEN_CASE_RELEASE(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
-        GEN_CASE_RELEASE(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
+        GEN_CASE_RELEASE(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_RELEASE(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
         GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
@@ -54,8 +53,8 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
         GEN_CASE_EQUAL(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
         GEN_CASE_EQUAL(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
         GEN_CASE_EQUAL(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
-        GEN_CASE_EQUAL(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
-        GEN_CASE_EQUAL(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
+        GEN_CASE_EQUAL(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_EQUAL(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
         GEN_CASE_EQUAL(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_EQUAL(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_EQUAL(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
@@ -80,8 +79,8 @@ bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterat
         GEN_CASE_SIG(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
         GEN_CASE_SIG(CCET_OBJ_INTERSECTION, CowlObjIntersection, cowl_obj_intersection);
         GEN_CASE_SIG(CCET_OBJ_UNION, CowlObjUnion, cowl_obj_union);
-        GEN_CASE_SIG(CCET_OBJ_SOME, CowlObjSome, cowl_obj_some);
-        GEN_CASE_SIG(CCET_OBJ_ALL, CowlObjAll, cowl_obj_all);
+        GEN_CASE_SIG(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_SIG(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
         GEN_CASE_SIG(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_SIG(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_SIG(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
