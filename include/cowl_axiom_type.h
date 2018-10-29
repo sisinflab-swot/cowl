@@ -20,11 +20,11 @@ typedef enum CowlAxiomType {
 
 #pragma mark - Class axioms
 
-    /// Represents equivalent classes axioms.
-        CAT_EQUIVALENT_CLASSES,
-
     /// Represents subclass axioms.
         CAT_SUB_CLASS,
+
+    /// Represents equivalent classes axioms.
+        CAT_EQUIVALENT_CLASSES,
 
     /// Represents disjoint classes axioms.
         CAT_DISJOINT_CLASSES,

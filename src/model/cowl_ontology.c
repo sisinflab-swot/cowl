@@ -9,10 +9,9 @@
 #include "cowl_cls_exp_private.h"
 #include "cowl_cls_exp_set.h"
 #include "cowl_decl_axiom_private.h"
-#include "cowl_disj_cls_axiom_private.h"
-#include "cowl_eq_cls_axiom_private.h"
 #include "cowl_individual_private.h"
 #include "cowl_named_individual.h"
+#include "cowl_nary_cls_axiom_private.h"
 #include "cowl_obj_prop.h"
 #include "cowl_obj_prop_assert_axiom_private.h"
 #include "cowl_obj_prop_domain_axiom_private.h"
@@ -196,7 +195,7 @@ void cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
 
     kh_foreach_key(axioms, CowlAxiom *axiom, {
         if (axiom->type == CAT_EQUIVALENT_CLASSES) {
-            CowlClsExpSet *eq_classes = ((CowlEqClsAxiom *)axiom)->classes;
+            CowlClsExpSet *eq_classes = ((CowlNAryClsAxiom *)axiom)->classes;
 
             khint_t cls_idx = kh_get(CowlClsExpSet, eq_classes, (CowlClsExp *)owl_class);
             if (cls_idx < kh_end(eq_classes)) {
@@ -285,18 +284,12 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_EQUIVALENT_CLASSES:
         case CAT_DISJOINT_CLASSES: {
-            CowlDisjClsAxiom *disj_axiom = (CowlDisjClsAxiom *)axiom;
+            CowlNAryClsAxiom *nary_axiom = (CowlNAryClsAxiom *)axiom;
 
             CowlAxiomEntityCtx ctx = { .onto = ontology, .axiom = axiom };
-            cowl_disj_cls_axiom_iterate_signature(disj_axiom, &ctx, cowl_ontology_entity_adder);
-            break;
-        }
-
-        case CAT_EQUIVALENT_CLASSES: {
-            CowlEqClsAxiom *eq_axiom = (CowlEqClsAxiom *)axiom;
-            CowlAxiomEntityCtx ctx = { .onto = ontology, .axiom = axiom };
-            cowl_eq_cls_axiom_iterate_signature(eq_axiom, &ctx, cowl_ontology_entity_adder);
+            cowl_nary_cls_axiom_iterate_signature(nary_axiom, &ctx, cowl_ontology_entity_adder);
             break;
         }
 
