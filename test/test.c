@@ -2,8 +2,17 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <time.h>
 
 #include "cowl_private.h"
+
+#pragma mark - Utils
+
+static inline double get_millis(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+    return (double)ts.tv_sec * 1000.0 + (double)ts.tv_nsec / 1000000.0;
+}
 
 #pragma mark - Tests
 
@@ -64,9 +73,13 @@ void test_anon_individual(void) {
 
 void test_parser(void) {
     CowlLogger *logger = cowl_logger_alloc_console();
+
+    double start = get_millis();
     CowlOntology *ontology = cowl_parse_ontology("test_ontology.owl");
+    double stop = get_millis();
 
     cowl_logger_log_ontology(logger, ontology);
+    printf("Ontology parsed in %.2f ms\n", stop - start);
 
     cowl_ontology_release(ontology);
     cowl_logger_free(logger);
