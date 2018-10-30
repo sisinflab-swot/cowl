@@ -12,9 +12,10 @@ typedef struct CowlClsExp const CowlClsExp;
 
 KHASH_SET_UTILS_DECL(CowlClsExpSet, CowlClsExp*);
 typedef khash_struct(CowlClsExpSet) const CowlClsExpSet;
+typedef khash_struct(CowlClsExpSet) CowlMutableClsExpSet;
 
-bool cowl_cls_exp_set_add(khash_t(CowlClsExpSet) *set, CowlClsExp *exp);
-void cowl_cls_exp_set_free(khash_t(CowlClsExpSet) const *set);
+bool cowl_cls_exp_set_insert(CowlMutableClsExpSet *set, CowlClsExp *exp);
+void cowl_cls_exp_set_free(CowlClsExpSet *set);
 
 COWL_END_DECLS
 

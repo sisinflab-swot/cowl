@@ -3,45 +3,44 @@
 %define api.pure full
 %lex-param { yyscan_t scanner }
 %parse-param { yyscan_t scanner }
+%parse-param { CowlOntoBuilder *builder }
 %locations
 
 // Code
 
 %code requires {
     #include "cowl_std.h"
+    #include "cowl_types.h"
+    #include "cowl_yystring.h"
 
     #ifndef YY_TYPEDEF_YY_SCANNER_T
     #define YY_TYPEDEF_YY_SCANNER_T
     typedef void *yyscan_t;
     #endif
-
-    typedef struct CowlIRI const CowlIRI;
-    typedef struct CowlString const CowlString;
 }
 
 %code top {
     #include "cowl_functional_parser.h"
     #include "cowl_functional_lexer.h"
+    #include "cowl_private.h"
 
-    #include "cowl_iri_private.h"
-    #include "cowl_string_private.h"
-
-    static void yyerror(YYLTYPE *yylloc, cowl_unused yyscan_t yyscanner, const char* s) {
+    static void yyerror(YYLTYPE *yylloc, cowl_unused yyscan_t yyscanner,
+                        cowl_unused CowlOntoBuilder *builder, const char* s) {
         fprintf(stderr, "Parse error on line %d: %s\n", yylloc->last_line, s);
     }
 }
 
-// Tokens
-
 %define api.value.type union
 
+// Terminals
+
 %token <uint32_t> NON_NEGATIVE_INTEGER
-%token <CowlString *> QUOTED_STRING
-%token <CowlString *> BLANK_NODE_LABEL
-%token <CowlString *> PNAME_NS
-%token <CowlString *> PNAME_LN
-%token <CowlString *> LANG_TAG
-%token <CowlIRI *> IRI_REF
+%token <CowlYYString> QUOTED_STRING
+%token <CowlYYString> BLANK_NODE_LABEL
+%token <CowlYYString> PNAME_NS
+%token <CowlYYString> PNAME_LN
+%token <CowlYYString> LANG_TAG
+%token <CowlYYString> IRI_REF
 
 %token L_PAREN R_PAREN EQUALS DOUBLE_CARET
 
@@ -74,6 +73,34 @@
 %token ANNOTATION_ASSERTION SUB_ANNOTATION_PROPERTY_OF
 %token ANNOTATION_PROPERTY_DOMAIN ANNOTATION_PROPERTY_RANGE
 
+// Nonterminals
+
+%type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
+%type <CowlString *> prefix_name node_id
+%type <CowlOntologyId *> ontology_id
+%type <uint32_t> cardinality
+
+%type <CowlEntity> entity
+%type <CowlClass *> class
+%type <CowlObjProp *> object_property
+%type <CowlNamedIndividual *> named_individual
+
+%type <CowlIndividual *> individual anonymous_individual
+%type <CowlIndividual *> source_individual target_individual
+%type <CowlClsExp *> class_expression sub_class_expression super_class_expression
+%type <CowlClsExp *> object_intersection_of object_union_of object_complement_of
+%type <CowlClsExp *> object_some_values_from object_all_values_from
+%type <CowlClsExp *> object_min_cardinality object_max_cardinality object_exact_cardinality
+%type <CowlObjPropExp *> object_property_expression inverse_object_property
+
+%type <CowlAxiom *> axiom declaration sub_class_of equivalent_classes disjoint_classes
+%type <CowlAxiom *> object_property_domain object_property_range
+%type <CowlAxiom *> class_assertion object_property_assertion
+
+%type <CowlMutableClsExpSet *> class_expression_list class_expression_2_list
+
+// Start symbol
+
 %start ontology_document
 
 %%
@@ -84,24 +111,19 @@
 
 full_iri
     : IRI_REF {
-        CowlString *ns = cowl_iri_get_ns($1);
-        CowlString *rem = cowl_iri_get_rem($1);
-        printf("IRI: %s%s\n", cowl_string_get_cstring(ns), cowl_string_get_cstring(rem));
-        cowl_iri_release($1);
+        $$ = cowl_iri_parse($1.cstring, $1.length);
     }
 ;
 
 prefix_name
     : PNAME_NS {
-        printf("Prefix: %s\n", cowl_string_get_cstring($1));
-        cowl_string_release($1);
+        $$ = cowl_string_get($1.cstring, $1.length, false);
     }
 ;
 
 abbreviated_iri
     : PNAME_LN {
-        printf("Abbreviated IRI: %s\n", cowl_string_get_cstring($1));
-        cowl_string_release($1);
+        $$ = cowl_onto_builder_get_full_iri(builder, $1.cstring, $1.length);
     }
 ;
 
@@ -122,17 +144,32 @@ prefix_declarations
 ;
 
 prefix_declaration
-    : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN
+    : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
+        cowl_onto_builder_register_ns(builder, $3, $5->ns);
+        cowl_string_release($3);
+        cowl_iri_release($5);
+    }
 ;
 
 ontology
-    : ONTOLOGY L_PAREN ontology_id directly_imports_documents ontology_annotations axioms R_PAREN
+    : ONTOLOGY L_PAREN ontology_id directly_imports_documents ontology_annotations axioms R_PAREN {
+        cowl_onto_builder_set_id(builder, $3);
+    }
 ;
 
 ontology_id
-    : %empty
-    | ontology_iri
-    | ontology_iri version_iri
+    : %empty {
+        $$ = NULL;
+    }
+    | ontology_iri {
+        $$ = cowl_ontology_id_alloc($1, NULL);
+        cowl_iri_release($1);
+    }
+    | ontology_iri version_iri {
+        $$ = cowl_ontology_id_alloc($1, $2);
+        cowl_iri_release($1);
+        cowl_iri_release($2);
+    }
 ;
 
 ontology_iri
@@ -159,13 +196,19 @@ ontology_annotations
 
 axioms
     : %empty
-    | axioms axiom
+    | axioms axiom {
+        cowl_onto_builder_add_axiom(builder, $2);
+        cowl_axiom_release($2);
+    }
 ;
 
 // Classes
 
 class
-    : iri
+    : iri {
+        $$ = cowl_class_get($1);
+        cowl_iri_release($1);
+    }
 ;
 
 // Datatypes
@@ -177,7 +220,10 @@ datatype
 // Object properties
 
 object_property
-    : iri
+    : iri {
+        $$ = cowl_obj_prop_get($1);
+        cowl_iri_release($1);
+    }
 ;
 
 // Data properties
@@ -195,22 +241,27 @@ annotation_property
 // Individuals
 
 individual
-    : named_individual
+    : named_individual { $$ = (CowlIndividual *)$1; }
     | anonymous_individual
 ;
 
 named_individual
-    : iri
+    : iri {
+        $$ = cowl_named_individual_get($1);
+        cowl_iri_release($1);
+    }
 ;
 
 anonymous_individual
-    : node_id
+    : node_id {
+        $$ = (CowlIndividual *)cowl_anon_individual_get($1);
+        cowl_string_release($1);
+    }
 ;
 
 node_id
     : BLANK_NODE_LABEL {
-        printf("Blank node: %s\n", cowl_string_get_cstring($1));
-        cowl_string_release($1);
+        $$ = cowl_string_get($1.cstring, $1.length, false);
     }
 ;
 
@@ -227,51 +278,56 @@ typed_literal
 ;
 
 lexical_form
-    : QUOTED_STRING {
-        printf("Lexical form: %s\n", cowl_string_get_cstring($1));
-        cowl_string_release($1);
-    }
+    : QUOTED_STRING
 ;
 
 string_literal_no_language
-    : QUOTED_STRING {
-        printf("String literal: %s\n", cowl_string_get_cstring($1));
-        cowl_string_release($1);
-    }
+    : QUOTED_STRING
 ;
 
 string_literal_with_language
-    : QUOTED_STRING LANG_TAG {
-        printf("String literal: %s %s\n", cowl_string_get_cstring($1), cowl_string_get_cstring($2));
-        cowl_string_release($1);
-        cowl_string_release($2);
-    }
+    : QUOTED_STRING LANG_TAG
 ;
 
 // Entity declarations and typing
 
 declaration
-    : DECLARATION L_PAREN axiom_annotations entity R_PAREN
+    : DECLARATION L_PAREN axiom_annotations entity R_PAREN {
+        $$ = (CowlAxiom *)cowl_decl_axiom_get($4);
+        cowl_entity_release($4);
+    }
 ;
 
 entity
-    : CLASS L_PAREN class R_PAREN
+    : CLASS L_PAREN class R_PAREN {
+        $$ = cowl_entity_init_class($3);
+        cowl_class_release($3);
+    }
     | DATATYPE L_PAREN datatype R_PAREN
-    | OBJECT_PROPERTY L_PAREN object_property R_PAREN
+    | OBJECT_PROPERTY L_PAREN object_property R_PAREN {
+        $$ = cowl_entity_init_obj_prop($3);
+        cowl_obj_prop_release($3);
+    }
     | DATA_PROPERTY L_PAREN data_property R_PAREN
     | ANNOTATION_PROPERTY L_PAREN annotation_property R_PAREN
-    | NAMED_INDIVIDUAL L_PAREN named_individual R_PAREN
+    | NAMED_INDIVIDUAL L_PAREN named_individual R_PAREN {
+        $$ = cowl_entity_init_named_individual($3);
+        cowl_named_individual_release($3);
+    }
 ;
 
 // Object property expressions
 
 object_property_expression
-    : object_property
+    : object_property { $$ = (CowlObjPropExp *)$1; }
     | inverse_object_property
 ;
 
 inverse_object_property
-    : OBJECT_INVERSE_OF L_PAREN object_property R_PAREN
+    : OBJECT_INVERSE_OF L_PAREN object_property R_PAREN {
+        $$ = (CowlObjPropExp *)cowl_inverse_obj_prop_get($3);
+        cowl_obj_prop_release($3);
+    }
 ;
 
 // Data property expressions
@@ -331,7 +387,7 @@ restriction_value
 // Class expressions
 
 class_expression
-    : class
+    : class { $$ = (CowlClsExp *)$1; }
     | object_intersection_of
     | object_union_of
     | object_complement_of
@@ -352,15 +408,22 @@ class_expression
 ;
 
 object_intersection_of
-    : OBJECT_INTERSECTION_OF L_PAREN class_expression_2_list R_PAREN
+    : OBJECT_INTERSECTION_OF L_PAREN class_expression_2_list R_PAREN {
+        $$ = (CowlClsExp *)cowl_nary_bool_get(CNBT_INTERSECTION, $3);
+    }
 ;
 
 object_union_of
-    : OBJECT_UNION_OF L_PAREN class_expression_2_list R_PAREN
+    : OBJECT_UNION_OF L_PAREN class_expression_2_list R_PAREN {
+        $$ = (CowlClsExp *)cowl_nary_bool_get(CNBT_UNION, $3);
+    }
 ;
 
 object_complement_of
-    : OBJECT_COMPLEMENT_OF L_PAREN class_expression R_PAREN
+    : OBJECT_COMPLEMENT_OF L_PAREN class_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_compl_get($3);
+        cowl_cls_exp_release($3);
+    }
 ;
 
 object_one_of
@@ -368,11 +431,19 @@ object_one_of
 ;
 
 object_some_values_from
-    : OBJECT_SOME_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN
+    : OBJECT_SOME_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_quant_get(COQT_SOME, $3, $4);
+        cowl_obj_prop_exp_release($3);
+        cowl_cls_exp_release($4);
+    }
 ;
 
 object_all_values_from
-    : OBJECT_ALL_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN
+    : OBJECT_ALL_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_quant_get(COQT_ALL, $3, $4);
+        cowl_obj_prop_exp_release($3);
+        cowl_cls_exp_release($4);
+    }
 ;
 
 object_has_value
@@ -384,20 +455,43 @@ object_has_self
 ;
 
 object_min_cardinality
-    : OBJECT_MIN_CARDINALITY L_PAREN object_cardinality_body R_PAREN
+    : OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MIN, $4, NULL, $3);
+        cowl_obj_prop_exp_release($4);
+    }
+    | OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MIN, $4, $5, $3);
+        cowl_obj_prop_exp_release($4);
+        cowl_cls_exp_release($5);
+    }
 ;
 
 object_max_cardinality
-    : OBJECT_MAX_CARDINALITY L_PAREN object_cardinality_body R_PAREN
+    : OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MAX, $4, NULL, $3);
+        cowl_obj_prop_exp_release($4);
+    }
+    | OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MAX, $4, $5, $3);
+        cowl_obj_prop_exp_release($4);
+        cowl_cls_exp_release($5);
+    }
 ;
 
 object_exact_cardinality
-    : OBJECT_EXACT_CARDINALITY L_PAREN object_cardinality_body R_PAREN
+    : OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_EXACT, $4, NULL, $3);
+        cowl_obj_prop_exp_release($4);
+    }
+    | OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_EXACT, $4, $5, $3);
+        cowl_obj_prop_exp_release($4);
+        cowl_cls_exp_release($5);
+    }
 ;
 
-object_cardinality_body
-    : NON_NEGATIVE_INTEGER object_property_expression { printf("Cardinality: %d\n", $1); }
-    | NON_NEGATIVE_INTEGER object_property_expression class_expression
+cardinality
+    : NON_NEGATIVE_INTEGER
 ;
 
 data_some_values_from
@@ -413,20 +507,18 @@ data_has_value
 ;
 
 data_min_cardinality
-    : DATA_MIN_CARDINALITY L_PAREN data_cardinality_body R_PAREN
+    : DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN
+    | DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN
 ;
 
 data_max_cardinality
-    : DATA_MAX_CARDINALITY L_PAREN data_cardinality_body R_PAREN
+    : DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN
+    | DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN
 ;
 
 data_exact_cardinality
-    : DATA_EXACT_CARDINALITY L_PAREN data_cardinality_body R_PAREN
-;
-
-data_cardinality_body
-    : NON_NEGATIVE_INTEGER data_property_expression
-    | NON_NEGATIVE_INTEGER data_property_expression data_range
+    : DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN
+    | DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN
 ;
 
 // Axioms
@@ -457,7 +549,11 @@ class_axiom
 ;
 
 sub_class_of
-    : SUB_CLASS_OF L_PAREN axiom_annotations sub_class_expression super_class_expression R_PAREN
+    : SUB_CLASS_OF L_PAREN axiom_annotations sub_class_expression super_class_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_sub_cls_axiom_get($4, $5);
+        cowl_cls_exp_release($4);
+        cowl_cls_exp_release($5);
+    }
 ;
 
 sub_class_expression
@@ -469,11 +565,15 @@ super_class_expression
 ;
 
 equivalent_classes
-    : EQUIVALENT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN
+    : EQUIVALENT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNCAT_EQUIVALENT_CLASSES, $4);
+    }
 ;
 
 disjoint_classes
-    : DISJOINT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN
+    : DISJOINT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNCAT_DISJOINT_CLASSES, $4);
+    }
 ;
 
 disjoint_union
@@ -532,11 +632,19 @@ inverse_object_properties
 ;
 
 object_property_domain
-    : OBJECT_PROPERTY_DOMAIN L_PAREN axiom_annotations object_property_expression class_expression R_PAREN
+    : OBJECT_PROPERTY_DOMAIN L_PAREN axiom_annotations object_property_expression class_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_domain_axiom_get($4, $5);
+        cowl_obj_prop_exp_release($4);
+        cowl_cls_exp_release($5);
+    }
 ;
 
 object_property_range
-    : OBJECT_PROPERTY_RANGE L_PAREN axiom_annotations object_property_expression class_expression R_PAREN
+    : OBJECT_PROPERTY_RANGE L_PAREN axiom_annotations object_property_expression class_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_range_axiom_get($4, $5);
+        cowl_obj_prop_exp_release($4);
+        cowl_cls_exp_release($5);
+    }
 ;
 
 functional_object_property
@@ -646,11 +754,20 @@ different_individuals
 ;
 
 class_assertion
-    : CLASS_ASSERTION L_PAREN axiom_annotations class_expression individual R_PAREN
+    : CLASS_ASSERTION L_PAREN axiom_annotations class_expression individual R_PAREN {
+        $$ = (CowlAxiom *)cowl_cls_assert_axiom_get($5, $4);
+        cowl_cls_exp_release($4);
+        cowl_individual_release($5);
+    }
 ;
 
 object_property_assertion
-    : OBJECT_PROPERTY_ASSERTION L_PAREN axiom_annotations object_property_expression source_individual target_individual R_PAREN
+    : OBJECT_PROPERTY_ASSERTION L_PAREN axiom_annotations object_property_expression source_individual target_individual R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom_get($5, $4, $6);
+        cowl_obj_prop_exp_release($4);
+        cowl_individual_release($5);
+        cowl_individual_release($6);
+    }
 ;
 
 negative_object_property_assertion
@@ -735,12 +852,22 @@ annotation_property_range
 // Lists
 
 class_expression_list
-    : class_expression
-    | class_expression_list class_expression
+    : class_expression {
+        $$ = kh_init(CowlClsExpSet);
+        cowl_cls_exp_set_insert($$, $1);
+        cowl_cls_exp_release($1);
+    }
+    | class_expression_list class_expression {
+        cowl_cls_exp_set_insert($$, $2);
+        cowl_cls_exp_release($2);
+    }
 ;
 
 class_expression_2_list
-    : class_expression_list class_expression
+    : class_expression_list class_expression {
+        cowl_cls_exp_set_insert($$, $2);
+        cowl_cls_exp_release($2);
+    }
 ;
 
 data_property_expression_list

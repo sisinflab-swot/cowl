@@ -11,8 +11,8 @@ typedef struct CowlString const CowlString;
 
 typedef struct CowlIRI const CowlIRI;
 
-CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem);
 CowlIRI* cowl_iri_parse(char const *cstring, uint32_t length);
+CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem);
 CowlIRI* cowl_iri_retain(CowlIRI *iri);
 void cowl_iri_release(CowlIRI *iri);
 

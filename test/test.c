@@ -3,11 +3,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "cowl_anon_individual_private.h"
-#include "cowl_individual_private.h"
-#include "cowl_iri_private.h"
-#include "cowl_string_private.h"
-#include "cowl_parser.h"
+#include "cowl_private.h"
 
 #pragma mark - Tests
 
@@ -67,7 +63,13 @@ void test_anon_individual(void) {
 }
 
 void test_parser(void) {
-    cowl_parse_ontology("test_ontology.owl");
+    CowlLogger *logger = cowl_logger_alloc_console();
+    CowlOntology *ontology = cowl_parse_ontology("test_ontology.owl");
+
+    cowl_logger_log_ontology(logger, ontology);
+
+    cowl_ontology_release(ontology);
+    cowl_logger_free(logger);
 }
 
 #pragma mark - Main

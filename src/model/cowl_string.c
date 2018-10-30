@@ -27,10 +27,7 @@ static void cowl_string_free(CowlString *string) {
 
 #pragma mark - Internal
 
-void cowl_string_split_two(CowlString *string, char character, CowlString **out) {
-    char const *cstring = string->cstring;
-    uint32_t length = string->length;
-
+void cowl_string_split_two(char const *cstring, uint32_t length, char character, CowlString **out) {
     char const *chr = memchr(cstring, character, length);
     uint32_t ns_length = chr ? (uint32_t)(chr - cstring + 1) : length;
 
@@ -38,7 +35,7 @@ void cowl_string_split_two(CowlString *string, char character, CowlString **out)
         out[0] = cowl_string_get(cstring, length, false);
         out[1] = cowl_string_get("", 0, false);
     } else {
-        out[0] = cowl_string_get(cstring, ns_length, false);
+        out[0] = cowl_string_get(strndup(cstring, ns_length), ns_length, true);
         out[1] = cowl_string_get(chr + 1, length - ns_length, false);
     }
 }

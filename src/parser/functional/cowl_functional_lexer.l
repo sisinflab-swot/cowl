@@ -9,9 +9,6 @@
 }
 
 %{
-    #include "cowl_iri.h"
-    #include "cowl_string.h"
-
     #define YY_USER_ACTION ((yylloc)->first_line = (yylloc)->last_line = yylineno);
 %}
 
@@ -122,32 +119,32 @@ NON_NEGATIVE_INTEGER                    {DIGITS}
                                         }
 {IRI_REF}                               {
                                             yylval->IRI_REF =
-                                                cowl_iri_parse(yytext + 1, yyleng - 2);
+                                                COWL_YY_STRING_INIT(yytext + 1, yyleng - 2);
                                             return IRI_REF;
                                         }
 {PNAME_NS}                              {
                                             yylval->PNAME_NS =
-                                                cowl_string_get(yytext, yyleng, false);
+                                                COWL_YY_STRING_INIT(yytext, yyleng);
                                             return PNAME_NS;
                                         }
 {PNAME_LN}                              {
                                             yylval->PNAME_LN =
-                                                cowl_string_get(yytext, yyleng, false);
+                                                COWL_YY_STRING_INIT(yytext, yyleng);
                                             return PNAME_LN;
                                         }
 {BLANK_NODE_LABEL}                      {
                                             yylval->BLANK_NODE_LABEL =
-                                                cowl_string_get(yytext + 2, yyleng - 2, false);
+                                                COWL_YY_STRING_INIT(yytext + 2, yyleng - 2);
                                             return BLANK_NODE_LABEL;
                                         }
 {LANG_TAG}                              {
                                             yylval->LANG_TAG =
-                                                cowl_string_get(yytext + 1, yyleng - 1, false);
+                                                COWL_YY_STRING_INIT(yytext + 1, yyleng - 1);
                                             return LANG_TAG;
                                         }
 {QUOTED_STRING}                         {
                                             yylval->QUOTED_STRING =
-                                                cowl_string_get(yytext + 1, yyleng - 2, false);
+                                                COWL_YY_STRING_INIT(yytext + 1, yyleng - 2);
                                             return QUOTED_STRING;
                                         }
 

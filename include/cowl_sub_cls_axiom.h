@@ -12,7 +12,7 @@ typedef struct CowlClsExp const CowlClsExp;
 
 typedef struct CowlSubClsAxiom const CowlSubClsAxiom;
 
-CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *super, CowlClsExp *sub);
+CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super);
 CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom);
 void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom);
 

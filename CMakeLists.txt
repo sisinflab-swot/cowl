@@ -18,8 +18,10 @@ set(COWL_LIB_DIR ${CMAKE_CURRENT_LIST_DIR}/lib)
 set(COWL_KLIB_DIR ${COWL_LIB_DIR}/klib)
 set(COWL_KHASH_UTILS_DIR ${COWL_LIB_DIR}/khash_utils/include)
 set(COWL_SRC_DIR ${CMAKE_CURRENT_LIST_DIR}/src)
+set(COWL_PRIVATE_HEADERS_DIR ${COWL_SRC_DIR}/include)
 set(COWL_MODEL_DIR ${COWL_SRC_DIR}/model)
 set(COWL_PARSER_DIR ${COWL_SRC_DIR}/parser)
+set(COWL_LOGGER_DIR ${COWL_SRC_DIR}/logger)
 set(COWL_PARSER_OUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/flex_bison)
 set(COWL_FUNCTIONAL_PARSER_DIR ${COWL_PARSER_DIR}/functional)
 set(COWL_TEST_DIR ${CMAKE_CURRENT_LIST_DIR}/test)
@@ -55,10 +57,12 @@ ADD_FLEX_BISON_DEPENDENCY(COWL_FUNCTIONAL_LEXER COWL_FUNCTIONAL_PARSER)
 
 set(COWL_HEADERS_DIRS
     ${COWL_PUBLIC_HEADERS_DIR}
+    ${COWL_PRIVATE_HEADERS_DIR}
     ${COWL_KLIB_DIR}
     ${COWL_KHASH_UTILS_DIR}
     ${COWL_MODEL_DIR}
     ${COWL_PARSER_DIR}
+    ${COWL_LOGGER_DIR}
     ${COWL_PARSER_OUT_DIR})
 
 # Header files
@@ -76,7 +80,8 @@ set(COWL_ALL_PUBLIC_HEADERS ${COWL_LIB_HEADERS} ${COWL_PUBLIC_HEADERS})
 
 file(GLOB COWL_SOURCES
      ${COWL_MODEL_DIR}/*.c
-     ${COWL_PARSER_DIR}/*.c)
+     ${COWL_PARSER_DIR}/*.c
+     ${COWL_LOGGER_DIR}/*.c)
 
 ###############
 ### Targets ###
@@ -111,7 +116,7 @@ add_library(cowl-static STATIC
             ${FLEX_COWL_FUNCTIONAL_LEXER_OUTPUTS}
             ${BISON_COWL_FUNCTIONAL_PARSER_OUTPUT_SOURCE})
 
-set_target_properties(cowl-static PROPERTIES PUBLIC_HEADER ${COWL_ALL_PUBLIC_HEADERS})
+set_target_properties(cowl-static PROPERTIES PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}")
 set_target_properties(cowl-static PROPERTIES OUTPUT_NAME "cowl")
 target_include_directories(cowl-static PUBLIC ${COWL_HEADERS_DIRS})
 target_compile_options(cowl-static PUBLIC "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>")

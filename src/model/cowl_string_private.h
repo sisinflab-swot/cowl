@@ -19,7 +19,7 @@ struct CowlString {
 #define cowl_string_ref_incr(s) (++cowl_string_ref_get(s), (s))
 #define cowl_string_ref_decr(s) (--cowl_string_ref_get(s))
 
-void cowl_string_split_two(CowlString *string, char character, CowlString **out);
+void cowl_string_split_two(char const *cstring, uint32_t length, char character, CowlString **out);
 
 COWL_END_DECLS
 

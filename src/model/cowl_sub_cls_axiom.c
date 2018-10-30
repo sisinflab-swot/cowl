@@ -6,7 +6,7 @@
 
 #pragma mark - Private
 
-static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *super, CowlClsExp *sub) {
+static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *super) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM,
                                 cowl_cls_exp_hash(super),
                                 cowl_cls_exp_hash(sub));
@@ -31,8 +31,8 @@ static void cowl_sub_cls_axiom_free(CowlSubClsAxiom *axiom) {
 
 #pragma mark - Public
 
-CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *super, CowlClsExp *sub) {
-    return cowl_sub_cls_axiom_alloc(super, sub);
+CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super) {
+    return cowl_sub_cls_axiom_alloc(sub, super);
 }
 
 CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom) {

@@ -61,20 +61,6 @@ CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
     return iri;
 }
 
-CowlIRI* cowl_iri_parse(char const *cstring, uint32_t length) {
-    // TODO: implement according to spec: https://www.w3.org/TR/REC-xml-names/#NT-NCName
-    CowlString *parts[2];
-    CowlString temp_str = COWL_STRING_INIT(cstring, length);
-    cowl_string_split_two(&temp_str, '#', parts);
-
-    CowlIRI *iri = cowl_iri_get(parts[0], parts[1]);
-
-    cowl_string_release(parts[0]);
-    cowl_string_release(parts[1]);
-
-    return iri;
-}
-
 CowlIRI* cowl_iri_retain(CowlIRI *iri) {
     return cowl_iri_ref_incr(iri);
 }
@@ -84,6 +70,19 @@ void cowl_iri_release(CowlIRI *iri) {
         kh_del_val(CowlIRIMap, inst_map, (*iri));
         cowl_iri_free(iri);
     }
+}
+
+CowlIRI* cowl_iri_parse(char const *cstring, uint32_t length) {
+    // TODO: implement according to spec: https://www.w3.org/TR/REC-xml-names/#NT-NCName
+    CowlString *parts[2] = { NULL };
+    cowl_string_split_two(cstring, length, '#', parts);
+
+    CowlIRI *iri = cowl_iri_get(parts[0], parts[1]);
+
+    cowl_string_release(parts[0]);
+    cowl_string_release(parts[1]);
+
+    return iri;
 }
 
 CowlString* cowl_iri_get_ns(CowlIRI *iri) {

@@ -1,24 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_ontology_private.h"
-#include "cowl_anon_individual.h"
-#include "cowl_axiom_private.h"
-#include "cowl_axiom_set.h"
-#include "cowl_class.h"
-#include "cowl_cls_assert_axiom_private.h"
-#include "cowl_cls_exp_private.h"
-#include "cowl_cls_exp_set.h"
-#include "cowl_decl_axiom_private.h"
-#include "cowl_individual_private.h"
-#include "cowl_named_individual.h"
-#include "cowl_nary_cls_axiom_private.h"
-#include "cowl_obj_prop.h"
-#include "cowl_obj_prop_assert_axiom_private.h"
-#include "cowl_obj_prop_domain_axiom_private.h"
-#include "cowl_obj_prop_exp_private.h"
-#include "cowl_obj_prop_range_axiom_private.h"
-#include "cowl_ontology_id_private.h"
-#include "cowl_sub_cls_axiom_private.h"
+#include "cowl_private.h"
 
 #pragma mark - Types
 
