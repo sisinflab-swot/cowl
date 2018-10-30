@@ -4,20 +4,23 @@
 #define COWL_STRING_PRIVATE_H
 
 #include "cowl_string.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlString {
-    uint32_t ref_count;
+    CowlObject super;
     uint32_t length;
     char const *cstring;
 };
 
-#define COWL_STRING_INIT(CSTR, LEN) { .ref_count = 1, .cstring = CSTR, .length = LEN }
+#define COWL_STRING_INIT(S, L, H) { .super = COWL_OBJECT_INIT(H), .cstring = (S), .length = (L) }
 
-#define cowl_string_ref_get(s) (((struct CowlString *)(s))->ref_count)
-#define cowl_string_ref_incr(s) (++cowl_string_ref_get(s), (s))
-#define cowl_string_ref_decr(s) (--cowl_string_ref_get(s))
+#define cowl_string_ref_get(s) cowl_object_ref_get(s)
+#define cowl_string_ref_incr(s) cowl_object_retain(s)
+#define cowl_string_ref_decr(s) cowl_object_release(s)
+
+#define cowl_string_hash_get(s) cowl_object_hash_get(s)
 
 void cowl_string_split_two(char const *cstring, uint32_t length, char character, CowlString **out);
 
