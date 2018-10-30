@@ -96,6 +96,9 @@
 %type <CowlAxiom *> axiom declaration sub_class_of equivalent_classes disjoint_classes
 %type <CowlAxiom *> object_property_domain object_property_range
 %type <CowlAxiom *> class_assertion object_property_assertion
+%type <CowlAxiom *> functional_object_property inverse_functional_object_property
+%type <CowlAxiom *> reflexive_object_property irreflexive_object_property
+%type <CowlAxiom *> symmetric_object_property asymmetric_object_property transitive_object_property
 
 %type <CowlMutableClsExpSet *> class_expression_list class_expression_2_list
 
@@ -648,31 +651,52 @@ object_property_range
 ;
 
 functional_object_property
-    : FUNCTIONAL_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN
+    : FUNCTIONAL_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_FUNCTIONAL, $4);
+        cowl_obj_prop_exp_release($4);
+    }
 ;
 
 inverse_functional_object_property
-    : INVERSE_FUNCTIONAL_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN
+    : INVERSE_FUNCTIONAL_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_INVERSE_FUNCTIONAL, $4);
+        cowl_obj_prop_exp_release($4);
+    }
 ;
 
 reflexive_object_property
-    : REFLEXIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN
+    : REFLEXIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_REFLEXIVE, $4);
+        cowl_obj_prop_exp_release($4);
+    }
 ;
 
 irreflexive_object_property
-    : IRREFLEXIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN
+    : IRREFLEXIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_IRREFLEXIVE, $4);
+        cowl_obj_prop_exp_release($4);
+    }
 ;
 
 symmetric_object_property
-    : SYMMETRIC_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN
+    : SYMMETRIC_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_SYMMETRIC, $4);
+        cowl_obj_prop_exp_release($4);
+    }
 ;
 
 asymmetric_object_property
-    : ASYMMETRIC_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN
+    : ASYMMETRIC_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_ASYMMETRIC, $4);
+        cowl_obj_prop_exp_release($4);
+    }
 ;
 
 transitive_object_property
-    : TRANSITIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN
+    : TRANSITIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_TRANSITIVE, $4);
+        cowl_obj_prop_exp_release($4);
+    }
 ;
 
 // Data property axioms

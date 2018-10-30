@@ -37,8 +37,7 @@ CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, Cow
     return cowl_obj_prop_domain_axiom_alloc(prop, domain);
 }
 
-CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_retain
-    (CowlObjPropDomainAxiom *axiom) {
+CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_retain(CowlObjPropDomainAxiom *axiom) {
     return cowl_axiom_ref_incr(axiom);
 }
 

@@ -25,6 +25,7 @@
 #include "cowl_nary_bool.h"
 #include "cowl_nary_cls_axiom.h"
 #include "cowl_obj_card.h"
+#include "cowl_obj_prop_char_axiom.h"
 #include "cowl_obj_compl.h"
 #include "cowl_obj_prop.h"
 #include "cowl_obj_prop_assert_axiom.h"

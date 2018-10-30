@@ -298,6 +298,18 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_FUNCTIONAL_OBJ_PROP:
+        case CAT_INVERSE_FUNCTIONAL_OBJ_PROP:
+        case CAT_SYMMETRIC_OBJ_PROP:
+        case CAT_ASYMMETRIC_OBJ_PROP:
+        case CAT_REFLEXIVE_OBJ_PROP:
+        case CAT_IRREFLEXIVE_OBJ_PROP:
+        case CAT_TRANSITIVE_OBJ_PROP: {
+            CowlObjPropCharAxiom *c_axiom = (CowlObjPropCharAxiom *)axiom;
+            cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, c_axiom->prop_exp);
+            break;
+        }
+
         case CAT_SUB_CLASS: {
             CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
             cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, sub_axiom->super_class);

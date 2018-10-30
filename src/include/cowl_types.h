@@ -32,6 +32,7 @@ typedef struct CowlObjCard const CowlObjCard;
 typedef struct CowlObjCompl const CowlObjCompl;
 typedef struct CowlObjProp const CowlObjProp;
 typedef struct CowlObjPropAssertAxiom const CowlObjPropAssertAxiom;
+typedef struct CowlObjPropCharAxiom const CowlObjPropCharAxiom;
 typedef struct CowlObjPropDomainAxiom const CowlObjPropDomainAxiom;
 typedef struct CowlObjPropExp const CowlObjPropExp;
 typedef struct CowlObjPropRangeAxiom const CowlObjPropRangeAxiom;

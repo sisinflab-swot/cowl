@@ -21,6 +21,7 @@
 #include "cowl_obj_card_private.h"
 #include "cowl_obj_compl_private.h"
 #include "cowl_obj_prop_assert_axiom_private.h"
+#include "cowl_obj_prop_char_axiom_private.h"
 #include "cowl_obj_prop_domain_axiom_private.h"
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_obj_prop_private.h"
