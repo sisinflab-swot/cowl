@@ -1,28 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_logger.h"
-#include "cowl_anon_individual_private.h"
-#include "cowl_axiom_private.h"
-#include "cowl_class_private.h"
-#include "cowl_cls_assert_axiom_private.h"
-#include "cowl_cls_exp_private.h"
-#include "cowl_cls_exp_set.h"
-#include "cowl_decl_axiom_private.h"
-#include "cowl_individual_private.h"
-#include "cowl_iri_private.h"
-#include "cowl_nary_bool_private.h"
-#include "cowl_nary_cls_axiom_private.h"
-#include "cowl_obj_card_private.h"
-#include "cowl_obj_compl_private.h"
-#include "cowl_obj_prop_assert_axiom_private.h"
-#include "cowl_obj_prop_domain_axiom_private.h"
-#include "cowl_obj_prop_exp_private.h"
-#include "cowl_obj_prop_range_axiom_private.h"
-#include "cowl_obj_quant_private.h"
-#include "cowl_ontology_private.h"
-#include "cowl_ontology_id_private.h"
-#include "cowl_string_private.h"
-#include "cowl_sub_cls_axiom_private.h"
+#include "cowl_private.h"
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -334,6 +313,22 @@ static void cowl_logger_log_obj_prop_range(CowlLogger *logger, CowlObjPropRangeA
     cowl_logger_logf(logger, ")");
 }
 
+static void cowl_logger_log_obj_prop_char(CowlLogger *logger, CowlObjPropCharAxiom *axiom) {
+    const char *str;
+    switch (axiom->super.type) {
+        case CAT_FUNCTIONAL_OBJ_PROP: str = "Functional"; break;
+        case CAT_INVERSE_FUNCTIONAL_OBJ_PROP: str = "InverseFunctional"; break;
+        case CAT_SYMMETRIC_OBJ_PROP: str = "Symmetric"; break;
+        case CAT_ASYMMETRIC_OBJ_PROP: str = "Asymmetric"; break;
+        case CAT_REFLEXIVE_OBJ_PROP: str = "Reflexive"; break;
+        case CAT_IRREFLEXIVE_OBJ_PROP: str = "Irreflexive"; break;
+        default: str = "Transitive"; break;
+    }
+    cowl_logger_logf(logger, "%sObjectProperty(", str);
+    cowl_logger_log_obj_prop_exp(logger, axiom->prop_exp);
+    cowl_logger_logf(logger, ")");
+}
+
 void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom) {
     CowlAxiomType type = axiom->type;
 
@@ -366,6 +361,16 @@ void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom) {
 
         case CAT_OBJ_PROP_RANGE:
             cowl_logger_log_obj_prop_range(logger, (CowlObjPropRangeAxiom *)axiom);
+            break;
+
+        case CAT_FUNCTIONAL_OBJ_PROP:
+        case CAT_INVERSE_FUNCTIONAL_OBJ_PROP:
+        case CAT_SYMMETRIC_OBJ_PROP:
+        case CAT_ASYMMETRIC_OBJ_PROP:
+        case CAT_REFLEXIVE_OBJ_PROP:
+        case CAT_IRREFLEXIVE_OBJ_PROP:
+        case CAT_TRANSITIVE_OBJ_PROP:
+            cowl_logger_log_obj_prop_char(logger, (CowlObjPropCharAxiom *)axiom);
             break;
 
         default:
