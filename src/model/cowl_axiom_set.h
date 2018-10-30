@@ -11,9 +11,9 @@ COWL_BEGIN_DECLS
 typedef struct CowlAxiom const CowlAxiom;
 
 KHASH_SET_UTILS_DECL(CowlAxiomSet, CowlAxiom*);
+typedef khash_struct(CowlAxiomSet) CowlAxiomSet;
 
-bool cowl_axiom_set_add(khash_t(CowlAxiomSet) *set, CowlAxiom *axiom);
-void cowl_axiom_set_free(khash_t(CowlAxiomSet) const *set);
+void cowl_axiom_set_free(CowlAxiomSet *set);
 
 COWL_END_DECLS
 
