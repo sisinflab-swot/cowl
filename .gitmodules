@@ -4,3 +4,6 @@
 [submodule "lib/khash_utils"]
 	path = lib/khash_utils
 	url = ssh://git@193.204.60.88:2222/utils/c/khash_utils.git
+[submodule "lib/vector_t"]
+	path = lib/vector_t
+	url = git@github.com:IvanoBilenchi/vector_t.git
