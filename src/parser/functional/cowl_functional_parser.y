@@ -83,7 +83,9 @@
 %type <CowlEntity> entity
 %type <CowlClass *> class
 %type <CowlObjProp *> object_property
+%type <CowlDataProp *> data_property
 %type <CowlNamedIndividual *> named_individual
+%type <CowlDatatype *> datatype
 
 %type <CowlIndividual *> individual anonymous_individual
 %type <CowlIndividual *> source_individual target_individual
@@ -217,7 +219,10 @@ class
 // Datatypes
 
 datatype
-    : iri
+    : iri {
+        $$ = cowl_datatype_get($1);
+        cowl_iri_release($1);
+    }
 ;
 
 // Object properties
@@ -232,7 +237,10 @@ object_property
 // Data properties
 
 data_property
-    : iri
+    : iri {
+        $$ = cowl_data_prop_get($1);
+        cowl_iri_release($1);
+    }
 ;
 
 // Annotation properties
@@ -303,19 +311,20 @@ declaration
 
 entity
     : CLASS L_PAREN class R_PAREN {
-        $$ = cowl_entity_init_class($3);
-        cowl_class_release($3);
+        $$ = cowl_entity_wrap_class($3);
     }
-    | DATATYPE L_PAREN datatype R_PAREN
+    | DATATYPE L_PAREN datatype R_PAREN {
+        $$ = cowl_entity_wrap_datatype($3);
+    }
     | OBJECT_PROPERTY L_PAREN object_property R_PAREN {
-        $$ = cowl_entity_init_obj_prop($3);
-        cowl_obj_prop_release($3);
+        $$ = cowl_entity_wrap_obj_prop($3);
     }
-    | DATA_PROPERTY L_PAREN data_property R_PAREN
+    | DATA_PROPERTY L_PAREN data_property R_PAREN {
+        $$ = cowl_entity_wrap_data_prop($3);
+    }
     | ANNOTATION_PROPERTY L_PAREN annotation_property R_PAREN
     | NAMED_INDIVIDUAL L_PAREN named_individual R_PAREN {
-        $$ = cowl_entity_init_named_individual($3);
-        cowl_named_individual_release($3);
+        $$ = cowl_entity_wrap_named_individual($3);
     }
 ;
 
