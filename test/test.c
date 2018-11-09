@@ -73,15 +73,22 @@ void test_anon_individual(void) {
 
 void test_parser(void) {
     CowlLogger *logger = cowl_logger_alloc_console();
+    CowlParser *parser = cowl_parser_alloc();
 
     double start = get_millis();
-    CowlOntology *ontology = cowl_parse_ontology("test_ontology.owl");
+    CowlOntology *ontology = cowl_parser_parse_ontology(parser, "test_ontology.owl");
     double stop = get_millis();
 
     cowl_logger_log_ontology(logger, ontology);
-    printf("Ontology parsed in %.2f ms\n", stop - start);
+    Vector(CowlError) const *errors = cowl_parser_get_errors(parser);
+    printf("Ontology parsed in %.2f ms with %d errors.\n", stop - start, vector_count(errors));
+
+    vector_foreach(CowlError, errors, error, {
+        printf("Error %d on line %d - %s\n", error.code, error.line, error.description->cstring);
+    });
 
     cowl_ontology_release(ontology);
+    cowl_parser_free(parser);
     cowl_logger_free(logger);
 }
 

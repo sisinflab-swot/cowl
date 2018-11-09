@@ -3,7 +3,7 @@
 %define api.pure full
 %lex-param { yyscan_t scanner }
 %parse-param { yyscan_t scanner }
-%parse-param { CowlOntoBuilder *builder }
+%parse-param { CowlParser *parser }
 %locations
 
 // Code
@@ -11,7 +11,7 @@
 %code requires {
     #include "cowl_std.h"
     #include "cowl_types.h"
-    #include "cowl_yystring.h"
+    #include "cowl_parser_types.h"
 
     #ifndef YY_TYPEDEF_YY_SCANNER_T
     #define YY_TYPEDEF_YY_SCANNER_T
@@ -24,8 +24,16 @@
     #include "cowl_functional_lexer.h"
     #include "cowl_private.h"
 
+    #define cowl_unsupported_entity(T, MSG) (                                                       \
+        cowl_parser_log_error(parser, CEC_UNSUPPORTED, MSG, yylloc.last_line),                      \
+        ((CowlEntity){ .type = (T), .owl_class = NULL })                                            \
+    )
+
+    #define cowl_unsupported(MSG) \
+        (cowl_parser_log_error(parser, CEC_UNSUPPORTED, MSG, yylloc.last_line), NULL)
+
     static void yyerror(YYLTYPE *yylloc, cowl_unused yyscan_t yyscanner,
-                        cowl_unused CowlOntoBuilder *builder, const char* s) {
+                        cowl_unused CowlParser *parser, const char* s) {
         fprintf(stderr, "Parse error on line %d: %s\n", yylloc->last_line, s);
     }
 }
@@ -75,8 +83,8 @@
 
 // Nonterminals
 
-%type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlString *> prefix_name node_id
+%type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlOntologyId *> ontology_id
 %type <uint32_t> cardinality
 
@@ -87,26 +95,60 @@
 %type <CowlNamedIndividual *> named_individual
 %type <CowlDatatype *> datatype
 
+%type <CowlClsExp *> class_expression sub_class_expression super_class_expression
+%type <CowlClsExp *> object_intersection_of object_union_of object_complement_of object_one_of
+%type <CowlClsExp *> object_some_values_from object_all_values_from object_has_value object_has_self
+%type <CowlClsExp *> object_min_cardinality object_max_cardinality object_exact_cardinality
+
 %type <CowlIndividual *> individual anonymous_individual
 %type <CowlIndividual *> source_individual target_individual
-%type <CowlClsExp *> class_expression sub_class_expression super_class_expression
-%type <CowlClsExp *> object_intersection_of object_union_of object_complement_of
-%type <CowlClsExp *> object_some_values_from object_all_values_from
-%type <CowlClsExp *> object_min_cardinality object_max_cardinality object_exact_cardinality
 %type <CowlObjPropExp *> object_property_expression inverse_object_property
+%type <CowlObjPropExp *> sub_object_property_expression super_object_property_expression
 
-%type <CowlAxiom *> axiom declaration sub_class_of equivalent_classes disjoint_classes
+%type <CowlAxiom *> axiom declaration
+%type <CowlAxiom *> class_axiom object_property_axiom data_property_axiom annotation_axiom
+%type <CowlAxiom *> sub_class_of equivalent_classes disjoint_classes disjoint_union
+%type <CowlAxiom *> assertion same_individual different_individuals
+%type <CowlAxiom *> class_assertion annotation_assertion
+%type <CowlAxiom *> object_property_assertion negative_object_property_assertion
+%type <CowlAxiom *> data_property_assertion negative_data_property_assertion
+%type <CowlAxiom *> sub_object_property_of equivalent_object_properties
 %type <CowlAxiom *> object_property_domain object_property_range
-%type <CowlAxiom *> class_assertion object_property_assertion
+%type <CowlAxiom *> disjoint_object_properties inverse_object_properties
 %type <CowlAxiom *> functional_object_property inverse_functional_object_property
 %type <CowlAxiom *> reflexive_object_property irreflexive_object_property
 %type <CowlAxiom *> symmetric_object_property asymmetric_object_property transitive_object_property
+%type <CowlAxiom *> sub_data_property_of equivalent_data_properties disjoint_data_properties
+%type <CowlAxiom *> data_property_domain data_property_range functional_data_property
+%type <CowlAxiom *> datatype_definition has_key
+%type <CowlAxiom *> sub_annotation_property_of annotation_property_domain annotation_property_range
 
 %type <CowlMutableClsExpSet *> class_expression_list class_expression_2_list
+%type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
+%type <CowlMutableObjPropExpSet *> object_property_expression_star
+%type <CowlMutableIndividualSet *> individual_list individual_2_list
 
 // Start symbol
 
 %start ontology_document
+
+// Destructors
+
+%destructor { cowl_string_release($$); } <CowlString *>
+%destructor { cowl_iri_release($$); } <CowlIRI *>
+%destructor { cowl_entity_release($$); } <CowlEntity>
+%destructor { cowl_class_release($$); } <CowlClass *>
+%destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
+%destructor { cowl_data_prop_release($$); } <CowlDataProp *>
+%destructor { cowl_named_individual_release($$); } <CowlNamedIndividual *>
+%destructor { cowl_datatype_release($$); } <CowlDatatype *>
+%destructor { cowl_cls_exp_release($$); } <CowlClsExp *>
+%destructor { cowl_individual_release($$); } <CowlIndividual *>
+%destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
+%destructor { cowl_axiom_release($$); } <CowlAxiom *>
+%destructor { cowl_cls_exp_set_free($$); } <CowlMutableClsExpSet *>
+%destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
+%destructor { cowl_individual_set_free($$); } <CowlMutableIndividualSet *>
 
 %%
 
@@ -128,7 +170,7 @@ prefix_name
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_onto_builder_get_full_iri(builder, $1.cstring, $1.length);
+        $$ = cowl_parser_get_full_iri(parser, $1.cstring, $1.length);
     }
 ;
 
@@ -150,7 +192,7 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
-        cowl_onto_builder_register_ns(builder, $3, $5->ns);
+        cowl_parser_register_ns(parser, $3, $5->ns);
         cowl_string_release($3);
         cowl_iri_release($5);
     }
@@ -158,7 +200,7 @@ prefix_declaration
 
 ontology
     : ONTOLOGY L_PAREN ontology_id directly_imports_documents ontology_annotations axioms R_PAREN {
-        cowl_onto_builder_set_id(builder, $3);
+        cowl_parser_set_id(parser, $3);
     }
 ;
 
@@ -191,7 +233,10 @@ directly_imports_documents
 ;
 
 import
-    : IMPORT L_PAREN iri R_PAREN
+    : IMPORT L_PAREN iri R_PAREN {
+        cowl_unsupported("Ontology imports are not supported.");
+        cowl_iri_release($3);
+    }
 ;
 
 ontology_annotations
@@ -202,7 +247,7 @@ ontology_annotations
 axioms
     : %empty
     | axioms axiom {
-        cowl_onto_builder_add_axiom(builder, $2);
+        cowl_parser_add_axiom(parser, $2);
         cowl_axiom_release($2);
     }
 ;
@@ -285,7 +330,9 @@ literal
 ;
 
 typed_literal
-    : lexical_form DOUBLE_CARET datatype
+    : lexical_form DOUBLE_CARET datatype {
+        cowl_datatype_release($3);
+    }
 ;
 
 lexical_form
@@ -322,7 +369,10 @@ entity
     | DATA_PROPERTY L_PAREN data_property R_PAREN {
         $$ = cowl_entity_wrap_data_prop($3);
     }
-    | ANNOTATION_PROPERTY L_PAREN annotation_property R_PAREN
+    | ANNOTATION_PROPERTY L_PAREN annotation_property R_PAREN {
+        $$ = cowl_unsupported_entity(CET_ANNOTATION_PROP,
+                                     "Annotation properties are not supported.");
+    }
     | NAMED_INDIVIDUAL L_PAREN named_individual R_PAREN {
         $$ = cowl_entity_wrap_named_individual($3);
     }
@@ -376,7 +426,9 @@ data_one_of
 ;
 
 datatype_restriction
-    : DATATYPE_RESTRICTION L_PAREN datatype datatype_restriction_value_list R_PAREN
+    : DATATYPE_RESTRICTION L_PAREN datatype datatype_restriction_value_list R_PAREN {
+        cowl_datatype_release($3);
+    }
 ;
 
 datatype_restriction_value_list
@@ -439,7 +491,10 @@ object_complement_of
 ;
 
 object_one_of
-    : OBJECT_ONE_OF L_PAREN individual_list R_PAREN
+    : OBJECT_ONE_OF L_PAREN individual_list R_PAREN {
+        $$ = cowl_unsupported("'One of' class expressions are not supported.");
+        cowl_individual_set_free($3);
+    }
 ;
 
 object_some_values_from
@@ -459,11 +514,18 @@ object_all_values_from
 ;
 
 object_has_value
-    : OBJECT_HAS_VALUE L_PAREN object_property_expression individual R_PAREN
+    : OBJECT_HAS_VALUE L_PAREN object_property_expression individual R_PAREN {
+        $$ = cowl_unsupported("'Has value' class espressions are not supported.");
+        cowl_obj_prop_exp_release($3);
+        cowl_individual_release($4);
+    }
 ;
 
 object_has_self
-    : OBJECT_HAS_SELF L_PAREN object_property_expression R_PAREN
+    : OBJECT_HAS_SELF L_PAREN object_property_expression R_PAREN {
+        $$ = cowl_unsupported("'Has self' class expressions are not supported.");
+        cowl_obj_prop_exp_release($3);
+    }
 ;
 
 object_min_cardinality
@@ -589,7 +651,10 @@ disjoint_classes
 ;
 
 disjoint_union
-    : DISJOINT_UNION L_PAREN axiom_annotations class disjoint_class_expressions R_PAREN
+    : DISJOINT_UNION L_PAREN axiom_annotations class disjoint_class_expressions R_PAREN {
+        $$ = cowl_unsupported("Disjoint union axioms are not supported.");
+        cowl_class_release($4);
+    }
 ;
 
 disjoint_class_expressions
@@ -615,16 +680,26 @@ object_property_axiom
 ;
 
 sub_object_property_of
-    : SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations sub_object_property_expression super_object_property_expression R_PAREN
+    : SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations sub_object_property_expression super_object_property_expression R_PAREN {
+        $$ = cowl_unsupported("Sub object property axioms are not supported.");
+        cowl_obj_prop_exp_release($4);
+        cowl_obj_prop_exp_release($5);
+    }
+    | SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations property_expression_chain super_object_property_expression R_PAREN {
+        $$ = cowl_unsupported("Sub object property axioms are not supported.");
+        cowl_obj_prop_exp_release($5);
+    }
 ;
 
 sub_object_property_expression
     : object_property_expression
-    | property_expression_chain
 ;
 
 property_expression_chain
-    : OBJECT_PROPERTY_CHAIN L_PAREN object_property_expression_2_list R_PAREN
+    : OBJECT_PROPERTY_CHAIN L_PAREN object_property_expression_2_list R_PAREN {
+        cowl_unsupported("Property expression chains are not supported.");
+        cowl_obj_prop_exp_set_free($3);
+    }
 ;
 
 super_object_property_expression
@@ -632,15 +707,25 @@ super_object_property_expression
 ;
 
 equivalent_object_properties
-    : EQUIVALENT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN
+    : EQUIVALENT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN {
+        $$ = cowl_unsupported("Equivalent object properties axioms are not supported.");
+        cowl_obj_prop_exp_set_free($4);
+    }
 ;
 
 disjoint_object_properties
-    : DISJOINT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN
+    : DISJOINT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN {
+        $$ = cowl_unsupported("Disjoint object properties axioms are not supported.");
+        cowl_obj_prop_exp_set_free($4);
+    }
 ;
 
 inverse_object_properties
-    : INVERSE_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression object_property_expression R_PAREN
+    : INVERSE_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression object_property_expression R_PAREN {
+        $$ = cowl_unsupported("Inverse object property axioms are not supported.");
+        cowl_obj_prop_exp_release($4);
+        cowl_obj_prop_exp_release($5);
+    }
 ;
 
 object_property_domain
@@ -720,7 +805,9 @@ data_property_axiom
 ;
 
 sub_data_property_of
-    : SUB_DATA_PROPERTY_OF L_PAREN axiom_annotations sub_data_property_expression super_data_property_expression R_PAREN
+    : SUB_DATA_PROPERTY_OF L_PAREN axiom_annotations sub_data_property_expression super_data_property_expression R_PAREN {
+        $$ = cowl_unsupported("Sub data property axioms are not supported.");
+    }
 ;
 
 sub_data_property_expression
@@ -732,29 +819,43 @@ super_data_property_expression
 ;
 
 equivalent_data_properties
-    : EQUIVALENT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN
+    : EQUIVALENT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
+        $$ = cowl_unsupported("Equivalent data properties axioms are not supported.");
+    }
 ;
 
 disjoint_data_properties
-    : DISJOINT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN
+    : DISJOINT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
+        $$ = cowl_unsupported("Disjoint data properties axioms are not supported.");
+    }
 ;
 
 data_property_domain
-    : DATA_PROPERTY_DOMAIN L_PAREN axiom_annotations data_property_expression class_expression R_PAREN
+    : DATA_PROPERTY_DOMAIN L_PAREN axiom_annotations data_property_expression class_expression R_PAREN {
+        $$ = cowl_unsupported("Data property domain axioms are not supported.");
+        cowl_cls_exp_release($5);
+    }
 ;
 
 data_property_range
-    : DATA_PROPERTY_RANGE L_PAREN axiom_annotations data_property_expression data_range R_PAREN
+    : DATA_PROPERTY_RANGE L_PAREN axiom_annotations data_property_expression data_range R_PAREN {
+        $$ = cowl_unsupported("Data property range axioms are not supported.");
+    }
 ;
 
 functional_data_property
-    : FUNCTIONAL_DATA_PROPERTY L_PAREN axiom_annotations data_property_expression R_PAREN
+    : FUNCTIONAL_DATA_PROPERTY L_PAREN axiom_annotations data_property_expression R_PAREN {
+        $$ = cowl_unsupported("Functional data property axioms are not supported.");
+    }
 ;
 
 // Datatype definitions
 
 datatype_definition
-    : DATATYPE_DEFINITION L_PAREN axiom_annotations datatype data_range R_PAREN
+    : DATATYPE_DEFINITION L_PAREN axiom_annotations datatype data_range R_PAREN {
+        $$ = cowl_unsupported("Datatype definition axioms are not supported.");
+        cowl_datatype_release($4);
+    }
 ;
 
 // Keys
@@ -763,7 +864,11 @@ has_key
     :   HAS_KEY L_PAREN axiom_annotations class_expression
             L_PAREN object_property_expression_star R_PAREN
             L_PAREN data_property_expression_star L_PAREN
-        R_PAREN
+        R_PAREN {
+        $$ = cowl_unsupported("'Has key' axioms are not supported.");
+        cowl_cls_exp_release($4);
+        cowl_obj_prop_exp_set_free($6);
+    }
 ;
 
 // Assertions
@@ -779,11 +884,17 @@ assertion
 ;
 
 same_individual
-    : SAME_INDIVIDUAL L_PAREN axiom_annotations individual_2_list R_PAREN
+    : SAME_INDIVIDUAL L_PAREN axiom_annotations individual_2_list R_PAREN {
+        $$ = cowl_unsupported("Same individual axioms are not supported.");
+        cowl_individual_set_free($4);
+    }
 ;
 
 different_individuals
-    : DIFFERENT_INDIVIDUALS L_PAREN axiom_annotations individual_2_list R_PAREN
+    : DIFFERENT_INDIVIDUALS L_PAREN axiom_annotations individual_2_list R_PAREN {
+        $$ = cowl_unsupported("Different individuals axioms are not supported.");
+        cowl_individual_set_free($4);
+    }
 ;
 
 class_assertion
@@ -804,15 +915,26 @@ object_property_assertion
 ;
 
 negative_object_property_assertion
-    : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN axiom_annotations object_property_expression source_individual target_individual R_PAREN
+    : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN axiom_annotations object_property_expression source_individual target_individual R_PAREN {
+        $$ = cowl_unsupported("Negative object property assertion axioms are not supported.");
+        cowl_obj_prop_exp_release($4);
+        cowl_individual_release($5);
+        cowl_individual_release($6);
+    }
 ;
 
 data_property_assertion
-    : DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN
+    : DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
+        $$ = cowl_unsupported("Data property assertion axioms are not supported.");
+        cowl_individual_release($5);
+    }
 ;
 
 negative_data_property_assertion
-    : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN
+    : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
+        $$ = cowl_unsupported("Negative data property assertion axioms are not supported.");
+        cowl_individual_release($5);
+    }
 ;
 
 source_individual
@@ -854,7 +976,9 @@ annotation_axiom
 ;
 
 annotation_assertion
-    : ANNOTATION_ASSERTION L_PAREN axiom_annotations annotation_property annotation_subject annotation_value R_PAREN
+    : ANNOTATION_ASSERTION L_PAREN axiom_annotations annotation_property annotation_subject annotation_value R_PAREN {
+        $$ = cowl_unsupported("Annotation assertion axioms are not supported.");
+    }
 ;
 
 annotation_subject
@@ -863,7 +987,9 @@ annotation_subject
 ;
 
 sub_annotation_property_of
-    : SUB_ANNOTATION_PROPERTY_OF L_PAREN axiom_annotations sub_annotation_property super_annotation_property R_PAREN
+    : SUB_ANNOTATION_PROPERTY_OF L_PAREN axiom_annotations sub_annotation_property super_annotation_property R_PAREN {
+        $$ = cowl_unsupported("Sub annotation property axioms are not supported.");
+    }
 ;
 
 sub_annotation_property
@@ -875,11 +1001,17 @@ super_annotation_property
 ;
 
 annotation_property_domain
-    : ANNOTATION_PROPERTY_DOMAIN L_PAREN axiom_annotations annotation_property iri R_PAREN
+    : ANNOTATION_PROPERTY_DOMAIN L_PAREN axiom_annotations annotation_property iri R_PAREN {
+        $$ = cowl_unsupported("Annotation property domain axioms are not supported.");
+        cowl_iri_release($5);
+    }
 ;
 
 annotation_property_range
-    : ANNOTATION_PROPERTY_RANGE L_PAREN axiom_annotations annotation_property iri R_PAREN
+    : ANNOTATION_PROPERTY_RANGE L_PAREN axiom_annotations annotation_property iri R_PAREN {
+        $$ = cowl_unsupported("Annotation property range axioms are not supported.");
+        cowl_iri_release($5);
+    }
 ;
 
 // Lists
@@ -891,6 +1023,7 @@ class_expression_list
         cowl_cls_exp_release($1);
     }
     | class_expression_list class_expression {
+        $$ = $1;
         cowl_cls_exp_set_insert($$, $2);
         cowl_cls_exp_release($2);
     }
@@ -898,6 +1031,7 @@ class_expression_list
 
 class_expression_2_list
     : class_expression_list class_expression {
+        $$ = $1;
         cowl_cls_exp_set_insert($$, $2);
         cowl_cls_exp_release($2);
     }
@@ -927,12 +1061,24 @@ data_range_2_list
 ;
 
 individual_list
-    : individual
-    | individual_list individual
+    : individual {
+        $$ = kh_init(CowlIndividualSet);
+        cowl_individual_set_insert($$, $1);
+        cowl_individual_release($1);
+    }
+    | individual_list individual {
+        $$ = $1;
+        cowl_individual_set_insert($$, $2);
+        cowl_individual_release($2);
+    }
 ;
 
 individual_2_list
-    : individual_list individual
+    : individual_list individual {
+        $$ = $1;
+        cowl_individual_set_insert($$, $2);
+        cowl_individual_release($2);
+    }
 ;
 
 literal_list
@@ -941,17 +1087,35 @@ literal_list
 ;
 
 object_property_expression_list
-    : object_property_expression
-    | object_property_expression_list object_property_expression
+    : object_property_expression {
+        $$ = kh_init(CowlObjPropExpSet);
+        cowl_obj_prop_exp_set_insert($$, $1);
+        cowl_obj_prop_exp_release($1);
+    }
+    | object_property_expression_list object_property_expression {
+        $$ = $1;
+        cowl_obj_prop_exp_set_insert($$, $2);
+        cowl_obj_prop_exp_release($2);
+    }
 ;
 
 object_property_expression_2_list
-    : object_property_expression_list object_property_expression
+    : object_property_expression_list object_property_expression {
+        $$ = $1;
+        cowl_obj_prop_exp_set_insert($$, $2);
+        cowl_obj_prop_exp_release($2);
+    }
 ;
 
 object_property_expression_star
-    : %empty
-    | object_property_expression_star object_property_expression
+    : %empty {
+        $$ = kh_init(CowlObjPropExpSet);
+    }
+    | object_property_expression_star object_property_expression {
+        $$ = $1;
+        cowl_obj_prop_exp_set_insert($$, $2);
+        cowl_obj_prop_exp_release($2);
+    }
 ;
 
 %%

@@ -18,6 +18,7 @@
 #include "cowl_decl_axiom.h"
 #include "cowl_entity.h"
 #include "cowl_entity_type.h"
+#include "cowl_error.h"
 #include "cowl_nary_cls_axiom.h"
 #include "cowl_individual.h"
 #include "cowl_inverse_obj_prop.h"

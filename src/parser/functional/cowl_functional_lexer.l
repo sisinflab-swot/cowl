@@ -119,32 +119,32 @@ NON_NEGATIVE_INTEGER                    {DIGITS}
                                         }
 {IRI_REF}                               {
                                             yylval->IRI_REF =
-                                                COWL_YY_STRING_INIT(yytext + 1, yyleng - 2);
+                                                cowl_yystring_init(yytext + 1, yyleng - 2);
                                             return IRI_REF;
                                         }
 {PNAME_NS}                              {
                                             yylval->PNAME_NS =
-                                                COWL_YY_STRING_INIT(yytext, yyleng);
+                                                cowl_yystring_init(yytext, yyleng);
                                             return PNAME_NS;
                                         }
 {PNAME_LN}                              {
                                             yylval->PNAME_LN =
-                                                COWL_YY_STRING_INIT(yytext, yyleng);
+                                                cowl_yystring_init(yytext, yyleng);
                                             return PNAME_LN;
                                         }
 {BLANK_NODE_LABEL}                      {
                                             yylval->BLANK_NODE_LABEL =
-                                                COWL_YY_STRING_INIT(yytext + 2, yyleng - 2);
+                                                cowl_yystring_init(yytext + 2, yyleng - 2);
                                             return BLANK_NODE_LABEL;
                                         }
 {LANG_TAG}                              {
                                             yylval->LANG_TAG =
-                                                COWL_YY_STRING_INIT(yytext + 1, yyleng - 1);
+                                                cowl_yystring_init(yytext + 1, yyleng - 1);
                                             return LANG_TAG;
                                         }
 {QUOTED_STRING}                         {
                                             yylval->QUOTED_STRING =
-                                                COWL_YY_STRING_INIT(yytext + 1, yyleng - 2);
+                                                cowl_yystring_init(yytext + 1, yyleng - 2);
                                             return QUOTED_STRING;
                                         }
 
