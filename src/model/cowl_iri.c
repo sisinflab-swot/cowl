@@ -7,6 +7,11 @@
 #include "cowl_string_private.h"
 #include "khash_utils.h"
 
+#pragma mark - Namespace set
+
+KHASH_SET_UTILS_INIT(CowlNSSet, CowlString*, cowl_string_hash, cowl_string_equals);
+static khash_t(CowlNSSet) *ns_set = NULL;
+
 #pragma mark - Instance map
 
 static inline uint32_t cowl_iri_map_hash_func(CowlIRI iri) {
@@ -16,7 +21,7 @@ static inline uint32_t cowl_iri_map_hash_func(CowlIRI iri) {
 }
 
 static inline bool cowl_iri_map_hash_equal(CowlIRI a, CowlIRI b) {
-    return cowl_string_equals(a.ns, b.ns) && cowl_string_equals(a.rem, b.rem);
+    return a.ns == b.ns && cowl_string_equals(a.rem, b.rem);
 }
 
 KHASH_MAP_UTILS_INIT(CowlIRIMap, struct CowlIRI, CowlIRI*,
@@ -42,12 +47,17 @@ static void cowl_iri_free(CowlIRI *iri) {
 #pragma mark - Public
 
 CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
-    if (!inst_map) inst_map = kh_init(CowlIRIMap);
+    if (!inst_map) {
+        inst_map = kh_init(CowlIRIMap);
+        ns_set = kh_init(CowlNSSet);
+    }
+
+    bool absent = kh_insert_get_existing(CowlNSSet, ns_set, ns, &ns);
+    if (absent) cowl_string_retain(ns);
 
     CowlIRI key = { .ns = ns, .rem = rem };
     CowlIRI *iri;
 
-    bool absent;
     khint_t idx = kh_put_key(CowlIRIMap, inst_map, key, &absent);
 
     if (absent) {
@@ -67,6 +77,10 @@ CowlIRI* cowl_iri_retain(CowlIRI *iri) {
 
 void cowl_iri_release(CowlIRI *iri) {
     if (iri && !cowl_iri_ref_decr(iri)) {
+        if (cowl_string_ref_get(iri->ns) == 2) {
+            kh_remove(CowlNSSet, ns_set, iri->ns);
+            cowl_string_release(iri->ns);
+        }
         kh_del_val(CowlIRIMap, inst_map, (*iri));
         cowl_iri_free(iri);
     }

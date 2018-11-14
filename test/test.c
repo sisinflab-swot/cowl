@@ -25,7 +25,7 @@ void test_iri(void) {
 
     CowlIRI *iri = cowl_iri_get(ns, rem);
     assert(cowl_iri_ref_get(iri) == 1);
-    assert(cowl_string_ref_get(ns) == 2);
+    assert(cowl_string_ref_get(ns) == 3);
     assert(cowl_string_ref_get(rem) == 2);
 
     cowl_iri_retain(iri);
@@ -35,7 +35,7 @@ void test_iri(void) {
     assert(cowl_iri_ref_get(iri) == 1);
 
     cowl_iri_release(iri);
-    assert(cowl_string_ref_get(ns) == 1);
+    assert(cowl_string_ref_get(ns) == 2);
     assert(cowl_string_ref_get(rem) == 1);
 
     cowl_string_release(ns);

@@ -13,77 +13,77 @@ set(COWL_VERSION "1.0.0")
 
 # Directories
 
-set(COWL_PUBLIC_HEADERS_DIR ${CMAKE_CURRENT_LIST_DIR}/include)
-set(COWL_LIB_DIR ${CMAKE_CURRENT_LIST_DIR}/lib)
-set(COWL_VECTOR_DIR ${COWL_LIB_DIR}/vector_t/include)
-set(COWL_KLIB_DIR ${COWL_LIB_DIR}/klib)
-set(COWL_KHASH_UTILS_DIR ${COWL_LIB_DIR}/khash_utils/include)
-set(COWL_SRC_DIR ${CMAKE_CURRENT_LIST_DIR}/src)
-set(COWL_PRIVATE_HEADERS_DIR ${COWL_SRC_DIR}/include)
-set(COWL_MODEL_DIR ${COWL_SRC_DIR}/model)
-set(COWL_PARSER_DIR ${COWL_SRC_DIR}/parser)
-set(COWL_LOGGER_DIR ${COWL_SRC_DIR}/logger)
-set(COWL_PARSER_OUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/flex_bison)
-set(COWL_FUNCTIONAL_PARSER_DIR ${COWL_PARSER_DIR}/functional)
-set(COWL_TEST_DIR ${CMAKE_CURRENT_LIST_DIR}/test)
-set(COWL_TEST_DATA_DIR ${COWL_TEST_DIR}/data)
+set(COWL_PUBLIC_HEADERS_DIR "${CMAKE_CURRENT_LIST_DIR}/include")
+set(COWL_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/lib")
+set(COWL_VECTOR_DIR "${COWL_LIB_DIR}/vector_t/include")
+set(COWL_KLIB_DIR "${COWL_LIB_DIR}/klib")
+set(COWL_KHASH_UTILS_DIR "${COWL_LIB_DIR}/khash_utils/include")
+set(COWL_SRC_DIR "${CMAKE_CURRENT_LIST_DIR}/src")
+set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
+set(COWL_MODEL_DIR "${COWL_SRC_DIR}/model")
+set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
+set(COWL_LOGGER_DIR "${COWL_SRC_DIR}/logger")
+set(COWL_PARSER_OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/flex_bison")
+set(COWL_FUNCTIONAL_PARSER_DIR "${COWL_PARSER_DIR}/functional")
+set(COWL_TEST_DIR "${CMAKE_CURRENT_LIST_DIR}/test")
+set(COWL_TEST_DATA_DIR "${COWL_TEST_DIR}/data")
 
 # Build dir setup
 
-file(MAKE_DIRECTORY ${COWL_PARSER_OUT_DIR})
+file(MAKE_DIRECTORY "${COWL_PARSER_OUT_DIR}")
 
-file(GLOB COWL_TEST_DATA ${COWL_TEST_DATA_DIR}/*.owl)
-file(COPY ${COWL_TEST_DATA} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(GLOB COWL_TEST_DATA "${COWL_TEST_DATA_DIR}/*.owl")
+file(COPY ${COWL_TEST_DATA} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Flex & Bison
 
-set(COWL_FUNCTIONAL_LEXER_IN ${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_lexer.l)
-set(COWL_FUNCTIONAL_LEXER_HEADER ${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.h)
-set(COWL_FUNCTIONAL_LEXER_OUT ${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.c)
+set(COWL_FUNCTIONAL_LEXER_IN "${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_lexer.l")
+set(COWL_FUNCTIONAL_LEXER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.h")
+set(COWL_FUNCTIONAL_LEXER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.c")
 
-set(COWL_FUNCTIONAL_PARSER_IN ${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_parser.y)
-set(COWL_FUNCTIONAL_PARSER_HEADER ${COWL_PARSER_OUT_DIR}/cowl_functional_parser.h)
-set(COWL_FUNCTIONAL_PARSER_OUT ${COWL_PARSER_OUT_DIR}/cowl_functional_parser.c)
+set(COWL_FUNCTIONAL_PARSER_IN "${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_parser.y")
+set(COWL_FUNCTIONAL_PARSER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.h")
+set(COWL_FUNCTIONAL_PARSER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.c")
 
 find_package(BISON 3.1 REQUIRED)
 find_package(FLEX 2.6 REQUIRED)
 
-BISON_TARGET(COWL_FUNCTIONAL_PARSER ${COWL_FUNCTIONAL_PARSER_IN} ${COWL_FUNCTIONAL_PARSER_OUT}
-             DEFINES_FILE ${COWL_FUNCTIONAL_PARSER_HEADER})
-FLEX_TARGET(COWL_FUNCTIONAL_LEXER ${COWL_FUNCTIONAL_LEXER_IN} ${COWL_FUNCTIONAL_LEXER_OUT}
-            DEFINES_FILE ${COWL_FUNCTIONAL_LEXER_HEADER})
+BISON_TARGET(COWL_FUNCTIONAL_PARSER "${COWL_FUNCTIONAL_PARSER_IN}" "${COWL_FUNCTIONAL_PARSER_OUT}"
+             DEFINES_FILE "${COWL_FUNCTIONAL_PARSER_HEADER}")
+FLEX_TARGET(COWL_FUNCTIONAL_LEXER "${COWL_FUNCTIONAL_LEXER_IN}" "${COWL_FUNCTIONAL_LEXER_OUT}"
+            DEFINES_FILE "${COWL_FUNCTIONAL_LEXER_HEADER}")
 ADD_FLEX_BISON_DEPENDENCY(COWL_FUNCTIONAL_LEXER COWL_FUNCTIONAL_PARSER)
 
 # Header dirs
 
 set(COWL_HEADERS_DIRS
-    ${COWL_PUBLIC_HEADERS_DIR}
-    ${COWL_PRIVATE_HEADERS_DIR}
-    ${COWL_VECTOR_DIR}
-    ${COWL_KLIB_DIR}
-    ${COWL_KHASH_UTILS_DIR}
-    ${COWL_MODEL_DIR}
-    ${COWL_PARSER_DIR}
-    ${COWL_LOGGER_DIR}
-    ${COWL_PARSER_OUT_DIR})
+    "${COWL_PUBLIC_HEADERS_DIR}"
+    "${COWL_PRIVATE_HEADERS_DIR}"
+    "${COWL_VECTOR_DIR}"
+    "${COWL_KLIB_DIR}"
+    "${COWL_KHASH_UTILS_DIR}"
+    "${COWL_MODEL_DIR}"
+    "${COWL_PARSER_DIR}"
+    "${COWL_LOGGER_DIR}"
+    "${COWL_PARSER_OUT_DIR}")
 
 # Header files
 
 set(COWL_LIB_HEADERS
-    ${COWL_KLIB_DIR}/khash.h
-    ${COWL_KHASH_UTILS_DIR}/khash_utils.h)
+    "${COWL_KLIB_DIR}/khash.h"
+    "${COWL_KHASH_UTILS_DIR}/khash_utils.h")
 
 file(GLOB COWL_PUBLIC_HEADERS
-     ${COWL_PUBLIC_HEADERS_DIR}/*.h)
+     "${COWL_PUBLIC_HEADERS_DIR}/*.h")
 
 set(COWL_ALL_PUBLIC_HEADERS ${COWL_LIB_HEADERS} ${COWL_PUBLIC_HEADERS})
 
 # Sources
 
 file(GLOB COWL_SOURCES
-     ${COWL_MODEL_DIR}/*.c
-     ${COWL_PARSER_DIR}/*.c
-     ${COWL_LOGGER_DIR}/*.c)
+     "${COWL_MODEL_DIR}/*.c"
+     "${COWL_PARSER_DIR}/*.c"
+     "${COWL_LOGGER_DIR}/*.c")
 
 ###############
 ### Targets ###
@@ -118,19 +118,21 @@ add_library(cowl-static STATIC
             ${FLEX_COWL_FUNCTIONAL_LEXER_OUTPUTS}
             ${BISON_COWL_FUNCTIONAL_PARSER_OUTPUT_SOURCE})
 
-set_target_properties(cowl-static PROPERTIES PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}")
-set_target_properties(cowl-static PROPERTIES OUTPUT_NAME "cowl")
+set_target_properties(cowl-static PROPERTIES
+                      OUTPUT_NAME "cowl"
+                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}")
+target_compile_options(cowl-static PUBLIC
+                       "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
+                       "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
 target_include_directories(cowl-static PUBLIC ${COWL_HEADERS_DIRS})
-target_compile_options(cowl-static PUBLIC "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>")
-target_compile_options(cowl-static PUBLIC "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
 
 install(TARGETS cowl-static
-        ARCHIVE DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/include)
+        ARCHIVE DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
+        PUBLIC_HEADER DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/include")
 
 # Test
 
 add_executable(cowl-test "${COWL_TEST_DIR}/test.c")
 add_dependencies(cowl-test cowl-static)
-target_include_directories(cowl-test PUBLIC ${COWL_HEADERS_DIRS})
-target_link_libraries(cowl-test $<TARGET_FILE:cowl-static>)
+target_include_directories(cowl-test PUBLIC "${COWL_HEADERS_DIRS}")
+target_link_libraries(cowl-test "$<TARGET_FILE:cowl-static>")
