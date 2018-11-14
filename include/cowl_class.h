@@ -23,6 +23,9 @@ uint32_t cowl_class_hash(CowlClass *cls);
 
 bool cowl_class_iterate_signature(CowlClass *cls, void *ctx, CowlEntityIterator iter);
 
+CowlClass* cowl_class_get_thing(void);
+CowlClass* cowl_class_get_nothing(void);
+
 COWL_END_DECLS
 
 #endif // COWL_CLASS_H

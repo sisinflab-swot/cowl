@@ -22,6 +22,9 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri);
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
 uint32_t cowl_iri_hash(CowlIRI *iri);
 
+CowlIRI* cowl_iri_from_cstring(char const *cstring);
+CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem);
+
 COWL_END_DECLS
 
 #endif // COWL_IRI_H

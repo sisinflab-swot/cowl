@@ -3,6 +3,7 @@
 #include "cowl_class_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iri_private.h"
+#include "cowl_vocabulary.h"
 #include "khash_utils.h"
 
 #pragma mark - Instance map
@@ -77,4 +78,28 @@ uint32_t cowl_class_hash(CowlClass *cls) {
 
 bool cowl_class_iterate_signature(CowlClass *cls, void *ctx, CowlEntityIterator iter) {
     return iter(ctx, cowl_entity_wrap_class(cls));
+}
+
+CowlClass* cowl_class_get_thing(void) {
+    static CowlClass *thing = NULL;
+
+    if (!thing) {
+        CowlIRI *iri = cowl_iri_from_ns_rem(cowl_vocab_owl_ns, cowl_vocab_owl_thing_rem);
+        thing = cowl_class_retain(cowl_class_get(iri));
+        cowl_iri_release(iri);
+    }
+
+    return thing;
+}
+
+CowlClass* cowl_class_get_nothing(void) {
+    static CowlClass *nothing = NULL;
+
+    if (!nothing) {
+        CowlIRI *iri = cowl_iri_from_ns_rem(cowl_vocab_owl_ns, cowl_vocab_owl_nothing_rem);
+        nothing = cowl_class_retain(cowl_class_get(iri));
+        cowl_iri_release(iri);
+    }
+
+    return nothing;
 }

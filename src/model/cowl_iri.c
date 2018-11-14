@@ -114,3 +114,19 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
 uint32_t cowl_iri_hash(CowlIRI *iri) {
     return kh_ptr_hash_func(iri);
 }
+
+CowlIRI* cowl_iri_from_cstring(char const *cstring) {
+    return cowl_iri_parse(cstring, (uint32_t)strlen(cstring));
+}
+
+CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem) {
+    CowlString *ns_string = cowl_string_get(ns, (uint32_t)strlen(ns), false);
+    CowlString *rem_string = cowl_string_get(rem, (uint32_t)strlen(rem), false);
+
+    CowlIRI *iri = cowl_iri_get(ns_string, rem_string);
+
+    cowl_string_release(ns_string);
+    cowl_string_release(rem_string);
+
+    return iri;
+}

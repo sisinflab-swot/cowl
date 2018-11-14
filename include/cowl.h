@@ -42,5 +42,6 @@
 #include "cowl_std.h"
 #include "cowl_string.h"
 #include "cowl_sub_cls_axiom.h"
+#include "cowl_vocabulary.h"
 
 #endif // COWL_H
