@@ -19,6 +19,8 @@ uint32_t cowl_string_get_length(CowlString *string);
 bool cowl_string_equals(CowlString *lhs, CowlString *rhs);
 uint32_t cowl_string_hash(CowlString *string);
 
+#define cowl_string_from_static(CSTR) (cowl_string_get(CSTR, sizeof(CSTR) - 1, false))
+
 COWL_END_DECLS
 
 #endif // COWL_STRING_H

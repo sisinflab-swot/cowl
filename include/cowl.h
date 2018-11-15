@@ -4,6 +4,7 @@
 #define COWL_H
 
 #include "cowl_anon_individual.h"
+#include "cowl_api.h"
 #include "cowl_axiom.h"
 #include "cowl_axiom_type.h"
 #include "cowl_class.h"

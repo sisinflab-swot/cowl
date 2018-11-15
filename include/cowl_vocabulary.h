@@ -7,19 +7,33 @@
 
 COWL_BEGIN_DECLS
 
-#pragma mark - Namespaces
+typedef struct CowlClass const CowlClass;
+typedef struct CowlIRI const CowlIRI;
+typedef struct CowlString const CowlString;
 
-extern char const *cowl_vocab_owl_ns;
+typedef struct CowlVocabulary {
+    struct CowlNSVocabulary {
+        CowlString *owl;
+    } ns;
 
-#pragma mark - Remainders
+    struct CowlRemVocabulary {
+        CowlString *thing;
+        CowlString *nothing;
+    } rem;
 
-extern char const *cowl_vocab_owl_thing_rem;
-extern char const *cowl_vocab_owl_nothing_rem;
+    struct CowlIRIVocabulary {
+        CowlIRI *thing;
+        CowlIRI *nothing;
+    } iri;
 
-#pragma mark - Full IRIs
+    struct CowlClassVocabulary {
+        CowlClass *thing;
+        CowlClass *nothing;
+    } cls;
 
-extern char const *cowl_vocab_owl_thing;
-extern char const *cowl_vocab_owl_nothing;
+} const CowlVocabulary;
+
+CowlVocabulary* cowl_vocabulary_get(void);
 
 COWL_END_DECLS
 

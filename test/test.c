@@ -95,8 +95,11 @@ void test_parser(void) {
 #pragma mark - Main
 
 int main(void) {
+    cowl_api_init();
+
     test_iri();
     test_anon_individual();
     test_parser();
+
     return 0;
 }

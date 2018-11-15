@@ -1,26 +1,53 @@
 /// @author Ivano Bilenchi
 
-#include "cowl_vocabulary.h"
+#include "cowl_vocabulary_private.h"
+#include "cowl_class.h"
+#include "cowl_iri.h"
+#include "cowl_string.h"
 
 #pragma mark - Private
 
-#define COWL_IRI_STRING(ns, rem) ns rem
+#define COWL_STR_OWL_NS "http://www.w3.org/2002/07/owl#"
+#define COWL_STR_OWL_THING_REM "Thing"
+#define COWL_STR_OWL_NOTHING_REM "Nothing"
 
-#define COWL_OWL_NS "http://www.w3.org/2002/07/owl#"
+static struct CowlVocabulary cowl_vocabulary;
 
-#define COWL_OWL_THING_REM "Thing"
-#define COWL_OWL_NOTHING_REM "Nothing"
+void cowl_vocabulary_init(void) {
+    CowlString *owl_ns_str = cowl_string_from_static(COWL_STR_OWL_NS);
+    CowlString *owl_thing_rem_str = cowl_string_from_static(COWL_STR_OWL_THING_REM);
+    CowlString *owl_nothing_rem_str = cowl_string_from_static(COWL_STR_OWL_NOTHING_REM);
 
-#pragma mark - Namespaces
+    CowlIRI *owl_thing_iri = cowl_iri_get(owl_ns_str, owl_thing_rem_str);
+    CowlIRI *owl_nothing_iri = cowl_iri_get(owl_ns_str, owl_nothing_rem_str);
 
-char const *cowl_vocab_owl_ns = COWL_OWL_NS;
+    CowlClass *owl_thing = cowl_class_get(owl_thing_iri);
+    CowlClass *owl_nothing = cowl_class_get(owl_nothing_iri);
 
-#pragma mark - Remainders
+    cowl_vocabulary = (struct CowlVocabulary) {
+        .ns = {
+            .owl = owl_ns_str
+        },
 
-char const *cowl_vocab_owl_thing_rem = COWL_OWL_THING_REM;
-char const *cowl_vocab_owl_nothing_rem = COWL_OWL_NOTHING_REM;
+        .rem = {
+            .thing = owl_thing_rem_str,
+            .nothing = owl_nothing_rem_str
+        },
 
-#pragma mark - Full IRIs
+        .iri = {
+            .thing = owl_thing_iri,
+            .nothing = owl_nothing_iri
+        },
 
-char const *cowl_vocab_owl_thing = COWL_IRI_STRING(COWL_OWL_NS, COWL_OWL_THING_REM);
-char const *cowl_vocab_owl_nothing = COWL_IRI_STRING(COWL_OWL_NS, COWL_OWL_NOTHING_REM);
+        .cls = {
+            .thing = owl_thing,
+            .nothing = owl_nothing
+        }
+    };
+}
+
+#pragma mark - Public
+
+CowlVocabulary* cowl_vocabulary_get(void) {
+    return &cowl_vocabulary;
+}
