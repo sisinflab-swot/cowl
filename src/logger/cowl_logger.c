@@ -118,10 +118,19 @@ static bool axiom_logger(void *ctx, CowlAxiom *axiom) {
     return true;
 }
 
-void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *ontology) {
-    cowl_logger_log_ontology_id(logger, ontology->id);
-    cowl_logger_logf(logger, "\n");
+void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *ontology) {
     cowl_ontology_iterate_axioms(ontology, logger, axiom_logger);
+}
+
+static bool entity_logger(void *ctx, CowlEntity entity) {
+    struct CowlLogger *logger = ctx;
+    cowl_logger_log_entity(logger, entity);
+    cowl_logger_logf(logger, "\n");
+    return true;
+}
+
+void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *ontology) {
+    cowl_ontology_iterate_signature(ontology, logger, entity_logger);
 }
 
 void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id) {
@@ -134,6 +143,13 @@ void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id) {
     }
 
     cowl_logger_logf(logger, ")");
+}
+
+void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *ontology) {
+    cowl_logger_log_ontology_id(logger, ontology->id);
+    cowl_logger_logf(logger, "\n");
+    cowl_logger_log_entities_in_ontology(logger, ontology);
+    cowl_logger_log_axioms_in_ontology(logger, ontology);
 }
 
 void cowl_logger_log_iri(CowlLogger *logger, CowlIRI *iri) {

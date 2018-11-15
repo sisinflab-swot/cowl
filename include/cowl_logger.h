@@ -124,13 +124,20 @@ void cowl_logger_logf(CowlLogger *logger, char const *format, ...);
 void cowl_logger_log_string(CowlLogger *logger, CowlString *string);
 
 /**
- * Logs the specified ontology.
+ * Logs the axioms in the specified ontology.
  *
  * @param logger Logger instance.
  * @param ontology Ontology to log.
  */
-void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *ontology);
+void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *ontology);
 
+/**
+ * Logs the entities in the specified ontology.
+ *
+ * @param logger Logger instance.
+ * @param ontology Ontology to log.
+ */
+void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *ontology);
 
 /**
  * Logs the specified ontology identifier.
@@ -139,6 +146,14 @@ void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *ontology);
  * @param id Ontology identifier to log.
  */
 void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id);
+
+/**
+ * Logs the specified ontology.
+ *
+ * @param logger Logger instance.
+ * @param ontology Ontology to log.
+ */
+void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *ontology);
 
 /**
  * Logs the specified IRI.

@@ -60,7 +60,7 @@ uint32_t cowl_nary_bool_hash(CowlNAryBool *exp) {
 }
 
 bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp,
-                                             void *ctx, CowlEntityIterator iter) {
+                                      void *ctx, CowlEntityIterator iter) {
     kh_foreach_key(exp->operands, CowlClsExp *operand, {
         if (!cowl_cls_exp_iterate_signature(operand, ctx, iter)) return false;
     });

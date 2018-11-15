@@ -90,6 +90,46 @@ uint32_t cowl_ontology_hash(CowlOntology *onto) {
     return cowl_ontology_id_hash(onto->id);
 }
 
+void cowl_ontology_iterate_signature(CowlOntology *onto, void *ctx, CowlEntityIterator iter) {
+    kh_foreach_key(onto->class_refs, CowlClass *cls, {
+        if (!iter(ctx, cowl_entity_wrap_class(cls))) return;
+    });
+
+    kh_foreach_key(onto->obj_prop_refs, CowlObjProp *prop, {
+        if (!iter(ctx, cowl_entity_wrap_obj_prop(prop))) return;
+    });
+
+    kh_foreach_key(onto->named_ind_refs, CowlNamedIndividual *ind, {
+        if (!iter(ctx, cowl_entity_wrap_named_individual(ind))) return;
+    });
+}
+
+void cowl_ontology_iterate_classes(CowlOntology *onto, void *ctx, CowlClassIterator iter) {
+    kh_foreach_key(onto->class_refs, CowlClass *cls, {
+        if (!iter(ctx, cls)) return;
+    });
+}
+
+void cowl_ontology_iterate_obj_prop(CowlOntology *onto, void *ctx, CowlObjPropIterator iter) {
+    kh_foreach_key(onto->obj_prop_refs, CowlObjProp *prop, {
+        if (!iter(ctx, prop)) return;
+    });
+}
+
+void cowl_ontology_iterate_named_individuals(CowlOntology *onto, void *ctx,
+                                             CowlNamedIndividualIterator iter) {
+    kh_foreach_key(onto->named_ind_refs, CowlNamedIndividual *ind, {
+        if (!iter(ctx, ind)) return;
+    });
+}
+
+void cowl_ontology_iterate_anon_individuals(CowlOntology *onto, void *ctx,
+                                            CowlAnonIndividualIterator iter) {
+    kh_foreach_key(onto->anon_ind_refs, CowlAnonIndividual *ind, {
+        if (!iter(ctx, ind)) return;
+    });
+}
+
 void cowl_ontology_iterate_axioms(CowlOntology *onto, void *ctx, CowlAxiomIterator iter) {
     for (CowlAxiomType type = 0; type < CAT_COUNT; ++type) {
         CowlAxiomSet *axioms = onto->axioms_by_type[type];
