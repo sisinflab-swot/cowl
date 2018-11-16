@@ -3,7 +3,7 @@
 #ifndef COWL_PRIVATE_H
 #define COWL_PRIVATE_H
 
-#include "cowl.h"
+#include "cowl_api.h"
 #include "cowl_anon_individual_private.h"
 #include "cowl_axiom_private.h"
 #include "cowl_axiom_set.h"
