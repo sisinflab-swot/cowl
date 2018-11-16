@@ -41,7 +41,8 @@ CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
 }
 
 bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
-    if (lhs->type != rhs->type) return false;
+    if (lhs == rhs) return true;
+    if (lhs->type != rhs->type || lhs->super.hash != rhs->super.hash) return false;
 
 #define GEN_CASE_EQUAL(CCET, TYPE, PREFIX) \
     case CCET: return PREFIX##_equals((TYPE *)lhs, (TYPE *)rhs)

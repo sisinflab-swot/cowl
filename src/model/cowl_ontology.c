@@ -396,7 +396,7 @@ static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom *a
                                                 CowlClsExp *exp) {
     if (exp->type == CCET_CLASS) {
         cowl_add_axiom_to_set_in_map(CowlClassAxiomMap, onto->class_refs,
-                                     (struct CowlClass *)exp, axiom);
+                                     (CowlClass *)exp, axiom);
     } else {
         CowlAxiomEntityCtx ctx = { .onto = onto, .axiom = axiom };
         cowl_cls_exp_iterate_signature(exp, &ctx, cowl_ontology_entity_adder);

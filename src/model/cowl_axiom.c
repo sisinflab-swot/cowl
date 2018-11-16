@@ -40,7 +40,8 @@ CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
 }
 
 bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
-    if (lhs->type != rhs->type) return false;
+    if (lhs == rhs) return true;
+    if (lhs->type != rhs->type || lhs->super.hash != rhs->super.hash) return false;
 
 #define GEN_CASE_EQUAL(CAT, TYPE, PREFIX) \
     case CAT: return PREFIX##_equals((TYPE *)lhs, (TYPE *)rhs)
