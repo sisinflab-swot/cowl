@@ -90,16 +90,34 @@ file(GLOB COWL_SOURCES
 ### Targets ###
 ###############
 
-# Compiler flags
+# Defaults
 
 set(CMAKE_C_STANDARD 11)
 
+set(COWL_DEFAULT_BUILD_TYPE "Release")
+
 if (MSVC)
-    set(COWL_DEBUG_FLAGS /Zi /W4)
-    set(COWL_RELEASE_FLAGS /O2 /GL /W4)
+    set(COWL_DEFAULT_DEBUG_FLAGS /Zi /W4)
+    set(COWL_DEFAULT_RELEASE_FLAGS /O2 /GL /W4)
 else ()
-    set(COWL_DEBUG_FLAGS -g -Wall -Wextra)
-    set(COWL_RELEASE_FLAGS -O3 -flto -Wall -Wextra)
+    set(COWL_DEFAULT_DEBUG_FLAGS -g -Wall -Wextra)
+    set(COWL_DEFAULT_RELEASE_FLAGS -O3 -flto -Wall -Wextra)
+endif ()
+
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "No build type selected, default to ${COWL_DEFAULT_BUILD_TYPE}")
+    set(CMAKE_BUILD_TYPE "${COWL_DEFAULT_BUILD_TYPE}" CACHE STRING
+        "Build type (default ${COWL_DEFAULT_BUILD_TYPE})" FORCE)
+endif ()
+
+# Compiler flags
+
+if (NOT COWL_DEBUG_FLAGS)
+    set(COWL_DEBUG_FLAGS ${COWL_DEFAULT_DEBUG_FLAGS})
+endif ()
+
+if (NOT COWL_RELEASE_FLAGS)
+    set(COWL_RELEASE_FLAGS ${COWL_DEFAULT_RELEASE_FLAGS})
 endif ()
 
 # Defaults
@@ -110,7 +128,7 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "No build type selected, default to ${COWL_DEFAULT_BUILD_TYPE}")
     set(CMAKE_BUILD_TYPE "${COWL_DEFAULT_BUILD_TYPE}" CACHE STRING
         "Build type (default ${COWL_DEFAULT_BUILD_TYPE})" FORCE)
-endif()
+endif ()
 
 # Static library
 
