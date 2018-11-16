@@ -34,8 +34,6 @@ void cowl_parser_free(CowlParser *parser) {
     });
     kh_destroy(CowlPrefixNsMap, parser->prefix_ns_map);
 
-    cowl_ontology_release(parser->ontology);
-
     vector_foreach(CowlError, parser->errors, error, cowl_error_deinit(error));
     vector_free(CowlError, parser->errors);
 
