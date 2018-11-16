@@ -130,3 +130,7 @@ CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem) {
 
     return iri;
 }
+
+CowlString* cowl_iri_to_string(CowlIRI *iri) {
+    return cowl_string_concat(iri->ns, iri->rem);
+}

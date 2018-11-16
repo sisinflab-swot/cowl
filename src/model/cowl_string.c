@@ -51,6 +51,21 @@ void cowl_string_release(CowlString *string) {
     }
 }
 
+char const* cowl_string_release_copying_cstring(CowlString *string) {
+    if (!string) return NULL;
+    char const *cstring;
+
+    if (cowl_string_ref_decr(string)) {
+        cstring = string->cstring;
+        ((struct CowlString *)string)->cstring = NULL;
+        cowl_string_free(string);
+    } else {
+        cstring = strndup(string->cstring, string->length);
+    }
+
+    return cstring;
+}
+
 char const* cowl_string_get_cstring(CowlString *string) {
     return string->cstring;
 }
@@ -67,4 +82,13 @@ bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
 
 uint32_t cowl_string_hash(CowlString *string) {
     return cowl_string_hash_get(string);
+}
+
+CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs) {
+    uint32_t length = lhs->length + rhs->length;
+    char *cstring = malloc((length + 1) * sizeof(*cstring));
+    memcpy(cstring, lhs->cstring, lhs->length * sizeof(*cstring));
+    memcpy(cstring + lhs->length, rhs->cstring, rhs->length * sizeof(*cstring));
+    cstring[length] = '\0';
+    return cowl_string_get(cstring, length, true);
 }

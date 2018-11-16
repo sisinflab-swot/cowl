@@ -24,6 +24,7 @@ uint32_t cowl_iri_hash(CowlIRI *iri);
 
 CowlIRI* cowl_iri_from_cstring(char const *cstring);
 CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem);
+CowlString* cowl_iri_to_string(CowlIRI *iri);
 
 COWL_END_DECLS
 
