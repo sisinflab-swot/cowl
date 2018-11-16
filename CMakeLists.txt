@@ -70,6 +70,7 @@ set(COWL_HEADERS_DIRS
 # Header files
 
 set(COWL_LIB_HEADERS
+    "${COWL_VECTOR_DIR}/vector.h"
     "${COWL_KLIB_DIR}/khash.h"
     "${COWL_KHASH_UTILS_DIR}/khash_utils.h")
 
@@ -128,6 +129,25 @@ target_include_directories(cowl-static PUBLIC ${COWL_HEADERS_DIRS})
 
 install(TARGETS cowl-static
         ARCHIVE DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
+        PUBLIC_HEADER DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/include")
+
+# Shared library
+
+add_library(cowl-shared SHARED
+            ${COWL_SOURCES}
+            ${FLEX_COWL_FUNCTIONAL_LEXER_OUTPUTS}
+            ${BISON_COWL_FUNCTIONAL_PARSER_OUTPUT_SOURCE})
+
+set_target_properties(cowl-shared PROPERTIES
+                      OUTPUT_NAME "cowl"
+                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}")
+target_compile_options(cowl-shared PUBLIC
+                       "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
+                       "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
+target_include_directories(cowl-shared PUBLIC ${COWL_HEADERS_DIRS})
+
+install(TARGETS cowl-shared
+        LIBRARY DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
         PUBLIC_HEADER DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/include")
 
 # Test
