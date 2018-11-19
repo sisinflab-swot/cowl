@@ -4,6 +4,10 @@
 #include "cowl_hash_utils.h"
 #include "khash_utils.h"
 
+#include <assert.h>
+#include <stdarg.h>
+#include <stdio.h>
+
 #pragma mark - Private
 
 static struct CowlString* cowl_string_alloc(char const *cstring, uint32_t length) {
@@ -18,6 +22,16 @@ static void cowl_string_free(CowlString *string) {
     if (!string) return;
     free((void *)string->cstring);
     free((void *)string);
+}
+
+static uint32_t cowl_string_length_of_formatted(char const *format, va_list argptr) {
+    va_list args;
+    va_copy(args, argptr);
+    int res = vsnprintf(NULL, 0, format, args);
+    va_end(args);
+
+    assert(res >= 0);
+    return (uint32_t )res;
 }
 
 #pragma mark - Internal
@@ -82,6 +96,19 @@ bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
 
 uint32_t cowl_string_hash(CowlString *string) {
     return cowl_string_hash_get(string);
+}
+
+CowlString* cowl_string_with_format(char const *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    uint32_t length = cowl_string_length_of_formatted(format, args);
+    size_t size = (length + 1) * sizeof(char);
+    char *cstring = malloc(size);
+    vsnprintf(cstring, size, format, args);
+
+    va_end(args);
+    return cowl_string_get(cstring, length, true);
 }
 
 CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs) {

@@ -394,6 +394,12 @@ void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom) {
     }
 }
 
+void cowl_logger_log_error(CowlLogger *logger, CowlError error) {
+    CowlString *string = cowl_error_to_string(error);
+    cowl_logger_log_string(logger, string);
+    cowl_string_release(string);
+}
+
 #pragma mark - Other
 
 char const* cowl_logger_get_path(CowlLogger *logger) {

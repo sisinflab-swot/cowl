@@ -9,6 +9,7 @@
 
 #include "cowl_std.h"
 #include "cowl_entity.h"
+#include "cowl_error.h"
 
 COWL_BEGIN_DECLS
 
@@ -202,6 +203,14 @@ void cowl_logger_log_obj_prop_exp(CowlLogger *logger, CowlObjPropExp *exp);
  * @param axiom Axiom to log.
  */
 void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom);
+
+/**
+ * Logs the specified error.
+ *
+ * @param logger Logger instance.
+ * @param error Error to log.
+ */
+ void cowl_logger_log_error(CowlLogger *logger, CowlError error);
 
 #pragma mark - Other
 

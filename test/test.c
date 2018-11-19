@@ -80,11 +80,14 @@ void test_parser(void) {
     double stop = get_millis();
 
     if (ontology) cowl_logger_log_ontology(logger, ontology);
+
     Vector(CowlError) const *errors = cowl_parser_get_errors(parser);
-    printf("Ontology parsed in %.2f ms with %d errors.\n", stop - start, vector_count(errors));
+    cowl_logger_logf(logger, "Ontology parsed in %.2f ms with %d errors.\n",
+                     stop - start, vector_count(errors));
 
     vector_foreach(CowlError, errors, error, {
-        printf("Error %d on line %d - %s\n", error.code, error.line, error.description->cstring);
+        cowl_logger_log_error(logger, error);
+        cowl_logger_logf(logger, "\n");
     });
 
     cowl_ontology_release(ontology);

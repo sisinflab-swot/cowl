@@ -23,6 +23,8 @@ typedef struct CowlError {
 
 VECTOR_DECL(CowlError);
 
+CowlString* cowl_error_to_string(CowlError error);
+
 COWL_END_DECLS
 
 #endif // COWL_ERROR_H
