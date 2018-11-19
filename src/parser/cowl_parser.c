@@ -9,6 +9,8 @@
 #include "cowl_parser_private.h"
 #include "cowl_string_private.h"
 
+#include <errno.h>
+
 KHASH_MAP_UTILS_IMPL(CowlPrefixNsMap, CowlString*, CowlString*,
                      cowl_string_hash, cowl_string_equals);
 
@@ -45,11 +47,20 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path) {
     yylex_init(&scanner);
 
     FILE *yyin = fopen(path, "r");
+
+    if (!yyin) {
+        cowl_parser_log_error(parser, CEC_ONTOLOGY_LOAD, strdup(strerror(errno)), 0);
+        cowl_ontology_release(parser->ontology);
+        ((struct CowlParser *)parser)->ontology = NULL;
+        goto end;
+    }
+
     yyset_in(yyin, scanner);
-
     yyparse(scanner, parser);
-    yylex_destroy(scanner);
 
+end:
+    fclose(yyin);
+    yylex_destroy(scanner);
     return parser->ontology;
 }
 

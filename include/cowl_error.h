@@ -11,6 +11,7 @@ COWL_BEGIN_DECLS
 typedef struct CowlString const CowlString;
 
 typedef enum CowlErrorCode {
+    CEC_ONTOLOGY_LOAD,
     CEC_UNSUPPORTED
 } CowlErrorCode;
 

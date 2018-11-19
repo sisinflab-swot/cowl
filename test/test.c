@@ -79,7 +79,7 @@ void test_parser(void) {
     CowlOntology *ontology = cowl_parser_parse_ontology(parser, "test_ontology.owl");
     double stop = get_millis();
 
-    cowl_logger_log_ontology(logger, ontology);
+    if (ontology) cowl_logger_log_ontology(logger, ontology);
     Vector(CowlError) const *errors = cowl_parser_get_errors(parser);
     printf("Ontology parsed in %.2f ms with %d errors.\n", stop - start, vector_count(errors));
 
