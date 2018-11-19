@@ -16,7 +16,10 @@ CowlParser* cowl_parser_alloc(void);
 void cowl_parser_free(CowlParser *parser);
 
 CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path);
+
+uint32_t cowl_parser_get_error_count(CowlParser *parser);
 Vector(CowlError) const* cowl_parser_get_errors(CowlParser *parser);
+CowlError cowl_parser_get_last_error(CowlParser *parser);
 
 COWL_END_DECLS
 

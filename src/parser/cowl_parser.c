@@ -64,8 +64,16 @@ end:
     return parser->ontology;
 }
 
+uint32_t cowl_parser_get_error_count(CowlParser *parser) {
+    return vector_count(parser->errors);
+}
+
 Vector(CowlError) const* cowl_parser_get_errors(CowlParser *parser) {
     return parser->errors;
+}
+
+CowlError cowl_parser_get_last_error(CowlParser *parser) {
+    return vector_last(parser->errors);
 }
 
 #pragma mark - Internal
