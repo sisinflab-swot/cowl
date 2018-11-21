@@ -3,6 +3,7 @@
 #ifndef COWL_VOCABULARY_H
 #define COWL_VOCABULARY_H
 
+#include "cowl_iterator.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
@@ -34,6 +35,7 @@ typedef struct CowlVocabulary {
 } const CowlVocabulary;
 
 CowlVocabulary* cowl_vocabulary_get(void);
+void cowl_vocabulary_iterate_signature(void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 
