@@ -90,6 +90,32 @@ uint32_t cowl_ontology_hash(CowlOntology *onto) {
     return cowl_ontology_id_hash(onto->id);
 }
 
+uint32_t cowl_ontology_axiom_count(CowlOntology *onto) {
+    uint32_t count = 0;
+
+    for (CowlAxiomType type = 0; type < CAT_COUNT; ++type) {
+        count += kh_count(onto->axioms_by_type[type]);
+    }
+
+    return count;
+}
+
+uint32_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class) {
+    CowlAxiomSet *axioms = kh_get_val(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
+    return kh_count(axioms);
+}
+
+uint32_t cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop) {
+    CowlAxiomSet *axioms = kh_get_val(CowlObjPropAxiomMap, onto->obj_prop_refs, obj_prop, NULL);
+    return kh_count(axioms);
+}
+
+uint32_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
+                                                        CowlNamedIndividual *individual) {
+    CowlAxiomSet *axioms = kh_get_val(CowlNamedIndAxiomMap, onto->named_ind_refs, individual, NULL);
+    return kh_count(axioms);
+}
+
 void cowl_ontology_iterate_signature(CowlOntology *onto, void *ctx, CowlEntityIterator iter) {
     kh_foreach_key(onto->class_refs, CowlClass *cls, {
         if (!iter(ctx, cowl_entity_wrap_class(cls))) return;
