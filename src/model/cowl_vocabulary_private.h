@@ -9,6 +9,7 @@
 COWL_BEGIN_DECLS
 
 void cowl_vocabulary_init(void);
+void cowl_vocabulary_deinit(void);
 
 COWL_END_DECLS
 

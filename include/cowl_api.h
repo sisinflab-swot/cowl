@@ -48,6 +48,7 @@
 COWL_BEGIN_DECLS
 
 void cowl_api_init(void);
+void cowl_api_deinit(void);
 
 COWL_END_DECLS
 

@@ -46,6 +46,16 @@ void cowl_vocabulary_init(void) {
     };
 }
 
+void cowl_vocabulary_deinit(void) {
+    cowl_string_release(cowl_vocabulary.ns.owl);
+    cowl_string_release(cowl_vocabulary.rem.thing);
+    cowl_string_release(cowl_vocabulary.rem.nothing);
+    cowl_iri_release(cowl_vocabulary.iri.thing);
+    cowl_iri_release(cowl_vocabulary.iri.nothing);
+    cowl_class_release(cowl_vocabulary.cls.thing);
+    cowl_class_release(cowl_vocabulary.cls.nothing);
+}
+
 #pragma mark - Public
 
 CowlVocabulary* cowl_vocabulary_get(void) {
