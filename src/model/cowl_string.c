@@ -70,11 +70,11 @@ char const* cowl_string_release_copying_cstring(CowlString *string) {
     char const *cstring;
 
     if (cowl_string_ref_decr(string)) {
+        cstring = strndup(string->cstring, string->length);
+    } else {
         cstring = string->cstring;
         ((struct CowlString *)string)->cstring = NULL;
         cowl_string_free(string);
-    } else {
-        cstring = strndup(string->cstring, string->length);
     }
 
     return cstring;
