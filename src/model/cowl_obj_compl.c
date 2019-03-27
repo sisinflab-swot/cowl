@@ -3,8 +3,6 @@
 #include "cowl_obj_compl_private.h"
 #include "cowl_hash_utils.h"
 
-#pragma mark - Private
-
 static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
     uint32_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
@@ -23,8 +21,6 @@ static void cowl_obj_compl_free(CowlObjCompl *compl) {
     cowl_cls_exp_release(compl->operand);
     free((void *)compl);
 }
-
-#pragma mark - Public
 
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
     return cowl_obj_compl_alloc(operand);

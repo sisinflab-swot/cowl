@@ -5,8 +5,6 @@
 #include "cowl_cls_exp_set.h"
 #include "cowl_hash_utils.h"
 
-#pragma mark - Private
-
 static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlClsExpSet *classes) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM, type,
                                 kh_set_hash(CowlClsExpSet, classes));
@@ -26,8 +24,6 @@ static void cowl_nary_cls_axiom_free(CowlNAryClsAxiom *axiom) {
     cowl_cls_exp_set_free(axiom->classes);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryClsAxiomType type, CowlClsExpSet *classes) {
     return cowl_nary_cls_axiom_alloc(type + CAT_EQUIVALENT_CLASSES, classes);

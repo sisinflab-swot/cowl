@@ -4,8 +4,6 @@
 #include "cowl_cls_exp.h"
 #include "cowl_hash_utils.h"
 
-#pragma mark - Private
-
 static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *super) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM,
                                 cowl_cls_exp_hash(super),
@@ -28,8 +26,6 @@ static void cowl_sub_cls_axiom_free(CowlSubClsAxiom *axiom) {
     cowl_cls_exp_release(axiom->sub_class);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super) {
     return cowl_sub_cls_axiom_alloc(sub, super);

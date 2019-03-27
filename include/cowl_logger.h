@@ -24,8 +24,6 @@ typedef struct CowlOntologyId const CowlOntologyId;
 typedef struct CowlString const CowlString;
 /// @endcond
 
-#pragma mark - Logger
-
 /**
  * Provides logging facilities.
  *
@@ -33,7 +31,7 @@ typedef struct CowlString const CowlString;
  */
 typedef struct CowlLogger CowlLogger;
 
-#pragma mark - Lifecycle
+/// @name Lifecycle
 
 /**
  * Allocates a new logger instance that logs to stdout.
@@ -67,7 +65,7 @@ CowlLogger* cowl_logger_alloc_null(void);
  */
 void cowl_logger_free(CowlLogger *logger);
 
-#pragma mark - State
+/// @name State
 
 /**
  * Initializes the logger, ensuring its destination is correctly set up.
@@ -105,7 +103,18 @@ void cowl_logger_close(CowlLogger *logger);
  */
 void cowl_logger_clear(CowlLogger *logger);
 
-#pragma mark - Logging
+/**
+ * Returns the file path of this logger.
+ *
+ * @param logger Logger instance.
+ * @return File path.
+ *
+ * @note Must only be used on a file logger.
+ * @note The returned path is not copied, so you must not free it.
+ */
+char const* cowl_logger_get_path(CowlLogger *logger);
+
+/// @name Logging
 
 /**
  * Logs the specified formatted string.
@@ -211,19 +220,6 @@ void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom);
  * @param error Error to log.
  */
  void cowl_logger_log_error(CowlLogger *logger, CowlError error);
-
-#pragma mark - Other
-
-/**
- * Returns the file path of this logger.
- *
- * @param logger Logger instance.
- * @return File path.
- *
- * @note Must only be used on a file logger.
- * @note The returned path is not copied, so you must not free it.
- */
-char const* cowl_logger_get_path(CowlLogger *logger);
 
 COWL_END_DECLS
 

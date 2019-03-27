@@ -5,8 +5,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 
-#pragma mark - Private
-
 static CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp *prop,
                                                                 CowlClsExp *domain) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_DOMAIN_AXIOM,
@@ -30,8 +28,6 @@ static void cowl_obj_prop_domain_axiom_free(CowlObjPropDomainAxiom *axiom) {
     cowl_cls_exp_release(axiom->domain);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, CowlClsExp *domain) {
     return cowl_obj_prop_domain_axiom_alloc(prop, domain);

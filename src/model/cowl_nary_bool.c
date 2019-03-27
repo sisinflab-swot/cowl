@@ -4,8 +4,6 @@
 #include "cowl_cls_exp_set.h"
 #include "cowl_hash_utils.h"
 
-#pragma mark - Private
-
 static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlClsExpSet *operands) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
                                 kh_set_hash(CowlClsExpSet, operands));
@@ -25,8 +23,6 @@ static void cowl_nary_bool_free(CowlNAryBool *exp) {
     cowl_cls_exp_set_free(exp->operands);
     free((void *)exp);
 }
-
-#pragma mark - Public
 
 CowlNAryBool* cowl_nary_bool_get(CowlNAryBoolType type, CowlClsExpSet *operands) {
     return cowl_nary_bool_alloc(type + CCET_OBJ_INTERSECTION, operands);

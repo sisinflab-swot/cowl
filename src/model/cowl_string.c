@@ -8,8 +8,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#pragma mark - Private
-
 static struct CowlString* cowl_string_alloc(char const *cstring, uint32_t length) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length, kh_str_hash_func(cstring));
     CowlString init = COWL_STRING_INIT(cstring, length, hash);
@@ -34,8 +32,6 @@ static uint32_t cowl_string_length_of_formatted(char const *format, va_list argp
     return (uint32_t )res;
 }
 
-#pragma mark - Internal
-
 void cowl_string_split_two(char const *cstring, uint32_t length, char character, CowlString **out) {
     char const *chr = memchr(cstring, character, length);
     uint32_t ns_length = chr ? (uint32_t)(chr - cstring + 1) : length;
@@ -48,8 +44,6 @@ void cowl_string_split_two(char const *cstring, uint32_t length, char character,
         out[1] = cowl_string_get(chr + 1, length - ns_length, false);
     }
 }
-
-#pragma mark - Public
 
 CowlString* cowl_string_get(char const *cstring, uint32_t length, bool owned) {
     return cowl_string_alloc(owned ? cstring : strndup(cstring, length), length);

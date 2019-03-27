@@ -5,13 +5,9 @@
 #include "cowl_string.h"
 #include "khash_utils.h"
 
-#pragma mark - Instance map
-
 KHASH_MAP_UTILS_INIT(CowlAnonIndividualMap, CowlString*, CowlAnonIndividual*,
                      cowl_string_hash, cowl_string_equals);
 static khash_t(CowlAnonIndividualMap) *inst_map = NULL;
-
-#pragma mark - Private
 
 static CowlAnonIndividual* cowl_anon_individual_alloc(CowlString *id) {
     CowlAnonIndividual init = {
@@ -28,8 +24,6 @@ static void cowl_anon_individual_free(CowlAnonIndividual *ind) {
     cowl_string_release(ind->id);
     free((void *)ind);
 }
-
-#pragma mark - Public
 
 CowlAnonIndividual* cowl_anon_individual_get(CowlString *id) {
     if (!inst_map) inst_map = kh_init(CowlAnonIndividualMap);

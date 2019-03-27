@@ -5,12 +5,8 @@
 #include "cowl_iri_private.h"
 #include "khash_utils.h"
 
-#pragma mark - Instance map
-
 KHASH_MAP_UTILS_INIT(CowlDataPropMap, CowlIRI*, CowlDataProp*, cowl_iri_hash, cowl_iri_equals);
 static khash_t(CowlDataPropMap) *inst_map = NULL;
-
-#pragma mark - Private
 
 static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
     CowlDataProp init = { .super = COWL_DATA_PROP_EXP_INIT, .iri = cowl_iri_retain(iri) };
@@ -24,8 +20,6 @@ static void cowl_data_prop_free(CowlDataProp *prop) {
     cowl_iri_release(prop->iri);
     free((void *)prop);
 }
-
-#pragma mark - Public
 
 CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
     if (!inst_map) inst_map = kh_init(CowlDataPropMap);

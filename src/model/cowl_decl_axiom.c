@@ -3,8 +3,6 @@
 #include "cowl_decl_axiom_private.h"
 #include "cowl_hash_utils.h"
 
-#pragma mark - Private
-
 static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity) {
     uint32_t hash = cowl_hash_1(COWL_HASH_INIT_DECL_AXIOM, cowl_entity_hash(entity));
 
@@ -23,8 +21,6 @@ static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
     cowl_entity_release(axiom->entity);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity) {
     return cowl_decl_axiom_alloc(entity);

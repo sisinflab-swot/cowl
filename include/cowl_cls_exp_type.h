@@ -14,12 +14,12 @@ COWL_BEGIN_DECLS
 /// Represents the different types of OWL 2 class expressions.
 typedef enum CowlClsExpType {
 
-#pragma mark - Class
+/// @name Class
 
     /// Represents classes.
         CCET_CLASS,
 
-#pragma mark - Object property restrictions
+/// @name Object property restrictions
 
     /// Represents "some values from" object property restrictions.
         CCET_OBJ_SOME,
@@ -42,7 +42,7 @@ typedef enum CowlClsExpType {
     /// Represents "has self" object property restrictions.
         CCET_OBJ_HAS_SELF,
 
-#pragma mark - Data property restrictions
+/// @name Data property restrictions
 
     /// Represents "some values from" data property restrictions.
         CCET_DATA_SOME,
@@ -62,7 +62,7 @@ typedef enum CowlClsExpType {
     /// Represents "has value" data property restrictions.
         CCET_DATA_HAS_VALUE,
 
-#pragma mark - Boolean expressions
+/// @name Boolean expressions
 
     /// Represents the intersection of class expressions.
         CCET_OBJ_INTERSECTION,
@@ -73,7 +73,7 @@ typedef enum CowlClsExpType {
     /// Represents the complement of a class expression.
         CCET_OBJ_COMPLEMENT,
 
-#pragma mark - Enumeration
+/// @name Enumeration
 
     /// Represents enumerations of individuals.
         CCET_OBJ_ONE_OF

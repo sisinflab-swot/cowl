@@ -5,12 +5,8 @@
 #include "cowl_iri_private.h"
 #include "khash_utils.h"
 
-#pragma mark - Instance map
-
 KHASH_MAP_UTILS_INIT(CowlDatatypeMap, CowlIRI*, CowlDatatype*, cowl_iri_hash, cowl_iri_equals);
 static khash_t(CowlDatatypeMap) *inst_map = NULL;
-
-#pragma mark - Private
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     CowlDatatype init = COWL_DATATYPE_INIT(cowl_iri_retain(iri));
@@ -24,8 +20,6 @@ static void cowl_datatype_free(CowlDatatype *datatype) {
     cowl_iri_release(datatype->iri);
     free((void *)datatype);
 }
-
-#pragma mark - Public
 
 CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
     if (!inst_map) inst_map = kh_init(CowlDatatypeMap);

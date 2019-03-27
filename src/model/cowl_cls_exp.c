@@ -7,8 +7,6 @@
 #include "cowl_obj_compl.h"
 #include "cowl_obj_quant.h"
 
-#pragma mark - Public functions
-
 CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
     return cowl_cls_exp_ref_incr(exp);
 }

@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#pragma mark - Types
-
 typedef enum CowlLoggerType {
     COWL_LT_NULL,
     COWL_LT_CONSOLE,
@@ -20,8 +18,6 @@ struct CowlLogger {
     char const *path;
     FILE *file;
 };
-
-#pragma mark - Lifecycle
 
 static CowlLogger* cowl_logger_alloc(CowlLoggerType type, void *context) {
     CowlLogger logger_init = { .type = type };
@@ -84,8 +80,6 @@ void cowl_logger_clear(CowlLogger *logger) {
         remove(logger->path);
     }
 }
-
-#pragma mark - Logging
 
 void cowl_logger_logf(CowlLogger *logger, char const *format, ...) {
     va_list args;
@@ -399,8 +393,6 @@ void cowl_logger_log_error(CowlLogger *logger, CowlError error) {
     cowl_logger_log_string(logger, string);
     cowl_string_release(string);
 }
-
-#pragma mark - Other
 
 char const* cowl_logger_get_path(CowlLogger *logger) {
     if (logger->type != COWL_LT_FILE) return NULL;

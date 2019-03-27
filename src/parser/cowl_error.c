@@ -3,14 +3,10 @@
 #include "cowl_error_private.h"
 #include "cowl_string_private.h"
 
-#pragma mark - Private
-
 static char const *const cowl_error_code_descriptions[] = {
     "Unable to load ontology",
     "Unsupported construct"
 };
-
-#pragma mark - Public
 
 VECTOR_IMPL(CowlError);
 

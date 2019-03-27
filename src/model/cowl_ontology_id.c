@@ -4,8 +4,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_iri.h"
 
-#pragma mark - Private
-
 CowlOntologyId* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri) {
     CowlOntologyId init = {
         .onto_iri = cowl_iri_retain(onto_iri),
@@ -23,8 +21,6 @@ void cowl_ontology_id_free(CowlOntologyId *id) {
     cowl_iri_release(id->version_iri);
     free((void *)id);
 }
-
-#pragma mark - Public
 
 CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyId *id) {
     return id->onto_iri;

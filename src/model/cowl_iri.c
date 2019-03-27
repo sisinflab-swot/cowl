@@ -7,12 +7,8 @@
 #include "cowl_string_private.h"
 #include "khash_utils.h"
 
-#pragma mark - Namespace set
-
 KHASH_SET_UTILS_INIT(CowlNSSet, CowlString*, cowl_string_hash, cowl_string_equals);
 static khash_t(CowlNSSet) *ns_set = NULL;
-
-#pragma mark - Instance map
 
 static inline uint32_t cowl_iri_map_hash_func(CowlIRI iri) {
     return cowl_hash_2(COWL_HASH_INIT_IRI,
@@ -28,8 +24,6 @@ KHASH_MAP_UTILS_INIT(CowlIRIMap, struct CowlIRI, CowlIRI*,
                      cowl_iri_map_hash_func, cowl_iri_map_hash_equal);
 static khash_t(CowlIRIMap) *inst_map = NULL;
 
-#pragma mark - Private
-
 static struct CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     CowlIRI init = COWL_IRI_INIT(cowl_string_retain(ns), cowl_string_retain(rem));
     struct CowlIRI *iri = malloc(sizeof(*iri));
@@ -43,8 +37,6 @@ static void cowl_iri_free(CowlIRI *iri) {
     cowl_string_release(iri->rem);
     free((void *)iri);
 }
-
-#pragma mark - Public
 
 CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
     if (!inst_map) {

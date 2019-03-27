@@ -6,15 +6,11 @@
 
 #include "cowl_private.h"
 
-#pragma mark - Utils
-
 static inline double get_millis(void) {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
     return (double)ts.tv_sec * 1000.0 + (double)ts.tv_nsec / 1000000.0;
 }
-
-#pragma mark - Tests
 
 void test_iri(void) {
     const char ns_string[] = "http://test_namespace.owl#";
@@ -94,8 +90,6 @@ void test_parser(void) {
     cowl_parser_free(parser);
     cowl_logger_free(logger);
 }
-
-#pragma mark - Main
 
 int main(void) {
     cowl_api_init();

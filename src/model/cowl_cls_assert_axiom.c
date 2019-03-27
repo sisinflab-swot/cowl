@@ -5,8 +5,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_individual_private.h"
 
-#pragma mark - Private
-
 static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, CowlClsExp *exp) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM,
                                 cowl_individual_hash(ind),
@@ -29,8 +27,6 @@ static void cowl_cls_assert_axiom_free(CowlClsAssertAxiom *axiom) {
     cowl_cls_exp_release(axiom->cls_exp);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp) {
     return cowl_cls_assert_axiom_alloc(ind, exp);

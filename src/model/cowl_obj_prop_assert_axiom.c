@@ -5,8 +5,6 @@
 #include "cowl_individual.h"
 #include "cowl_obj_prop_exp.h"
 
-#pragma mark - Private
-
 static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlIndividual *source,
                                                                 CowlObjPropExp *prop,
                                                                 CowlIndividual *target) {
@@ -34,8 +32,6 @@ static void cowl_obj_prop_assert_axiom_free(CowlObjPropAssertAxiom *axiom) {
     cowl_obj_prop_exp_release(axiom->prop_exp);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *source, CowlObjPropExp *prop,
                                                        CowlIndividual *target) {

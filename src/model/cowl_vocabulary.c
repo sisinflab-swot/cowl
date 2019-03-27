@@ -5,8 +5,6 @@
 #include "cowl_iri.h"
 #include "cowl_string.h"
 
-#pragma mark - Private
-
 #define COWL_STR_OWL_NS "http://www.w3.org/2002/07/owl#"
 #define COWL_STR_OWL_THING_REM "Thing"
 #define COWL_STR_OWL_NOTHING_REM "Nothing"
@@ -55,8 +53,6 @@ void cowl_vocabulary_deinit(void) {
     cowl_class_release(cowl_vocabulary.cls.thing);
     cowl_class_release(cowl_vocabulary.cls.nothing);
 }
-
-#pragma mark - Public
 
 CowlVocabulary* cowl_vocabulary_get(void) {
     return &cowl_vocabulary;

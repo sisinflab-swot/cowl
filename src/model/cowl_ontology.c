@@ -3,8 +3,6 @@
 #include "cowl_ontology_private.h"
 #include "cowl_private.h"
 
-#pragma mark - Types
-
 KHASH_MAP_UTILS_IMPL(CowlClassAxiomMap, CowlClass*, CowlAxiomSet*,
                      cowl_class_hash, cowl_class_equals);
 
@@ -22,8 +20,6 @@ typedef struct CowlAxiomEntityCtx {
     CowlAxiom *axiom;
 } CowlAxiomEntityCtx;
 
-#pragma mark - Private prototypes
-
 static CowlMutableOntology* cowl_ontology_alloc(void);
 static void cowl_ontology_free(CowlOntology *ontology);
 
@@ -36,8 +32,6 @@ static void cowl_ontology_add_axiom_for_prop_exp(CowlOntology *onto, CowlAxiom *
                                                  CowlObjPropExp *prop_exp);
 static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,
                                                    CowlIndividual *individual);
-
-#pragma mark - Utils
 
 #define cowl_add_axiom_to_set_in_map(T, map, key, axiom) do {                                       \
     bool __cowl_absent;                                                                             \
@@ -65,8 +59,6 @@ static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom
                                                                                                     \
     kh_insert(CowlAxiomSet, __cowl_axioms, axiom);                                                  \
 } while(0)
-
-#pragma mark - Public API
 
 CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
     return cowl_ontology_ref_incr(onto);
@@ -270,13 +262,9 @@ void cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *individual,
     });
 }
 
-#pragma mark - Internal API
-
 CowlMutableOntology* cowl_ontology_get(void) {
     return cowl_ontology_alloc();
 }
-
-#pragma mark - Private API
 
 CowlMutableOntology* cowl_ontology_alloc(void) {
     CowlOntology init = COWL_ONTOLOGY_INIT;

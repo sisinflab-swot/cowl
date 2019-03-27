@@ -14,8 +14,6 @@
 KHASH_MAP_UTILS_IMPL(CowlPrefixNsMap, CowlString*, CowlString*,
                      cowl_string_hash, cowl_string_equals);
 
-#pragma mark - Public
-
 CowlParser* cowl_parser_alloc(void) {
     CowlParser init = {
         .prefix_ns_map = kh_init(CowlPrefixNsMap),
@@ -75,8 +73,6 @@ Vector(CowlError) const* cowl_parser_get_errors(CowlParser *parser) {
 CowlError cowl_parser_get_last_error(CowlParser *parser) {
     return vector_last(parser->errors);
 }
-
-#pragma mark - Internal
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id) {
     cowl_ontology_set_id(parser->ontology, id);

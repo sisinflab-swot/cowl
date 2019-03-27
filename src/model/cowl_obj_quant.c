@@ -4,8 +4,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 
-#pragma mark - Private
-
 static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                           CowlClsExp *filler) {
     uint32_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
@@ -28,8 +26,6 @@ static void cowl_obj_quant_free(CowlObjQuant *restr) {
     cowl_cls_exp_release(restr->filler);
     free((void *)restr);
 }
-
-#pragma mark - Public
 
 CowlObjQuant* cowl_obj_quant_get(CowlObjQuantType type, CowlObjPropExp *prop, CowlClsExp *filler) {
     return cowl_obj_quant_alloc(CCET_OBJ_SOME + type, prop, filler);

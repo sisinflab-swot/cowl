@@ -10,7 +10,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of axioms which can belong to ontologies.
 typedef enum CowlAxiomType {
 
-#pragma mark - Declaration/definition
+/// @name Declaration/definition
 
     /// Represents declaration axioms.
         CAT_DECLARATION,
@@ -18,7 +18,7 @@ typedef enum CowlAxiomType {
     /// Represents datatype definition axioms.
         CAT_DATATYPE_DEFINITION,
 
-#pragma mark - Class axioms
+/// @name Class axioms
 
     /// Represents subclass axioms.
         CAT_SUB_CLASS,
@@ -32,7 +32,7 @@ typedef enum CowlAxiomType {
     /// Represents disjoint union axioms.
         CAT_DISJOINT_UNION,
 
-#pragma mark - Individual axioms
+/// @name Individual axioms
 
     /// Represents class assertion axioms.
         CAT_CLASS_ASSERTION,
@@ -55,7 +55,7 @@ typedef enum CowlAxiomType {
     /// Represents negative data property assertion axioms.
         CAT_NEGATIVE_DATA_PROP_ASSERTION,
 
-#pragma mark - Object property axioms
+/// @name Object property axioms
 
     /// Represents equivalent object properties axioms.
         CAT_EQUIVALENT_OBJ_PROP,
@@ -99,7 +99,7 @@ typedef enum CowlAxiomType {
     /// Represents sub-property chain axioms.
         CAT_SUB_PROP_CHAIN,
 
-#pragma mark - Data property axioms
+/// @name Data property axioms
 
     /// Represents equivalent data properties axioms.
         CAT_EQUIVALENT_DATA_PROP,
@@ -119,12 +119,12 @@ typedef enum CowlAxiomType {
     /// Represents disjoint data properties axioms.
         CAT_DISJOINT_DATA_PROP,
 
-#pragma mark - Keys
+/// @name Keys
 
     /// Represents has key axioms.
         CAT_HAS_KEY,
 
-#pragma mark - Annotation axioms
+/// @name Annotation axioms
 
     /// Represents annotation assertion axioms.
         CAT_ANNOT_ASSERTION,
@@ -138,7 +138,7 @@ typedef enum CowlAxiomType {
     /// Represents annotation property range axioms.
         CAT_ANNOT_PROP_RANGE,
 
-#pragma mark - Markers
+/// @name Markers
 
     /// Number of axiom types.
         CAT_COUNT

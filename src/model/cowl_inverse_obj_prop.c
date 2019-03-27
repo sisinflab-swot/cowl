@@ -5,13 +5,9 @@
 #include "cowl_obj_prop.h"
 #include "khash_utils.h"
 
-#pragma mark - Instance map
-
 KHASH_MAP_UTILS_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInverseObjProp*,
                      cowl_obj_prop_hash, cowl_obj_prop_equals);
 static khash_t(CowlInvObjPropMap) *inst_map = NULL;
-
-#pragma mark - Private
 
 static CowlInverseObjProp* cowl_inverse_obj_prop_alloc(CowlObjProp *prop) {
     CowlInverseObjProp init = {
@@ -28,8 +24,6 @@ static void cowl_inverse_obj_prop_free(CowlInverseObjProp *inv) {
     cowl_obj_prop_release(inv->prop);
     free((void *)inv);
 }
-
-#pragma mark - Public
 
 CowlInverseObjProp* cowl_inverse_obj_prop_get(CowlObjProp *prop) {
     if (!inst_map) inst_map = kh_init(CowlInvObjPropMap);

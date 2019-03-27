@@ -7,8 +7,6 @@
 
 COWL_BEGIN_DECLS
 
-#pragma mark - Strings
-
 typedef struct CowlYYString {
     char const *cstring;
     uint32_t length;

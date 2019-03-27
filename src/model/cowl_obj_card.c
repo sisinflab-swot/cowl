@@ -4,8 +4,6 @@
 #include "cowl_obj_prop_exp.h"
 #include "cowl_hash_utils.h"
 
-#pragma mark - Private
-
 static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                         CowlClsExp *filler, uint32_t cardinality) {
     uint32_t hash;
@@ -37,8 +35,6 @@ static void cowl_obj_card_free(CowlObjCard *restr) {
     cowl_cls_exp_release(restr->filler);
     free((void *)restr);
 }
-
-#pragma mark - Public
 
 CowlObjCard* cowl_obj_card_get(CowlObjCardType type, CowlObjPropExp *prop,
                                CowlClsExp *filler, uint32_t cardinality) {

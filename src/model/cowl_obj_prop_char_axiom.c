@@ -5,8 +5,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp_private.h"
 
-#pragma mark - Private
-
 static CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_alloc(CowlAxiomType type,
                                                             CowlObjPropExp *prop) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_CHAR_AXIOM, type,
@@ -27,8 +25,6 @@ static void cowl_obj_prop_char_axiom_free(CowlObjPropCharAxiom *axiom) {
     cowl_obj_prop_exp_release(axiom->prop_exp);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlObjPropCharAxiomType type,
                                                    CowlObjPropExp *prop) {

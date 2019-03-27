@@ -5,8 +5,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 
-#pragma mark - Private
-
 static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *prop,
                                                               CowlClsExp *range) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_RANGE_AXIOM,
@@ -30,8 +28,6 @@ static void cowl_obj_prop_range_axiom_free(CowlObjPropRangeAxiom *axiom) {
     cowl_cls_exp_release(axiom->range);
     free((void *)axiom);
 }
-
-#pragma mark - Public
 
 CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_get(CowlObjPropExp *prop, CowlClsExp *range) {
     return cowl_obj_prop_range_axiom_alloc(prop, range);

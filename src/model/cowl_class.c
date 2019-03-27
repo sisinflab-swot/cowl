@@ -6,12 +6,8 @@
 #include "cowl_vocabulary.h"
 #include "khash_utils.h"
 
-#pragma mark - Instance map
-
 KHASH_MAP_UTILS_INIT(CowlClassMap, CowlIRI*, CowlClass*, cowl_iri_hash, cowl_iri_equals);
 static khash_t(CowlClassMap) *inst_map = NULL;
-
-#pragma mark - Private
 
 static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     CowlClass init = {
@@ -32,8 +28,6 @@ static void cowl_class_free(CowlClass *cls) {
     cowl_iri_release(cls->iri);
     free((void *)cls);
 }
-
-#pragma mark - Public
 
 CowlClass* cowl_class_get(CowlIRI *iri) {
     if (!inst_map) inst_map = kh_init(CowlClassMap);
