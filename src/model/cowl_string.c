@@ -2,14 +2,14 @@
 
 #include "cowl_string_private.h"
 #include "cowl_hash_utils.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
 #include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 
 static struct CowlString* cowl_string_alloc(char const *cstring, uint32_t length) {
-    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length, kh_str_hash_func(cstring));
+    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length, uhash_str_hash(cstring));
     CowlString init = COWL_STRING_INIT(cstring, length, hash);
     struct CowlString *string = malloc(sizeof(*string));
     memcpy(string, &init, sizeof(*string));

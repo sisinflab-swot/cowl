@@ -7,7 +7,7 @@
 
 static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlClsExpSet *classes) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM, type,
-                                kh_set_hash(CowlClsExpSet, classes));
+                                uhset_hash(CowlClsExpSet, classes));
 
     CowlNAryClsAxiom init = {
         .super = COWL_AXIOM_INIT(type, hash),
@@ -48,8 +48,8 @@ CowlClsExpSet *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
 }
 
 bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {
-    return lhs->super.type == rhs->super.type &&
-           kh_set_equals(CowlClsExpSet, lhs->classes, rhs->classes);
+    return (lhs->super.type == rhs->super.type &&
+            uhset_equals(CowlClsExpSet, lhs->classes, rhs->classes));
 }
 
 uint32_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
@@ -58,7 +58,7 @@ uint32_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
 
 bool cowl_nary_cls_axiom_iterate_signature(CowlNAryClsAxiom *axiom, void *ctx,
                                            CowlEntityIterator iter) {
-    kh_foreach_key(axiom->classes, CowlClsExp *exp, {
+    uhash_foreach_key(CowlClsExpSet, axiom->classes, exp, {
         if (!cowl_cls_exp_iterate_signature(exp, ctx, iter)) return false;
     });
     return true;

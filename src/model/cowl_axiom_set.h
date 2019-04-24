@@ -4,14 +4,14 @@
 #define COWL_AXIOM_SET_H
 
 #include "cowl_std.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
 COWL_BEGIN_DECLS
 
 typedef struct CowlAxiom const CowlAxiom;
 
-KHASH_SET_UTILS_DECL(CowlAxiomSet, CowlAxiom*);
-typedef khash_struct(CowlAxiomSet) CowlAxiomSet;
+UHASH_SET_DECL(CowlAxiomSet, CowlAxiom*)
+typedef UHash(CowlAxiomSet) CowlAxiomSet;
 
 void cowl_axiom_set_free(CowlAxiomSet *set);
 

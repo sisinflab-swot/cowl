@@ -5,10 +5,10 @@
 #include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_string_private.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
-KHASH_SET_UTILS_INIT(CowlNSSet, CowlString*, cowl_string_hash, cowl_string_equals);
-static khash_t(CowlNSSet) *ns_set = NULL;
+UHASH_SET_INIT(CowlNSSet, CowlString*, cowl_string_hash, cowl_string_equals)
+static UHash(CowlNSSet) *ns_set = NULL;
 
 static inline uint32_t cowl_iri_map_hash_func(CowlIRI iri) {
     return cowl_hash_2(COWL_HASH_INIT_IRI,
@@ -20,9 +20,9 @@ static inline bool cowl_iri_map_hash_equal(CowlIRI a, CowlIRI b) {
     return a.ns == b.ns && cowl_string_equals(a.rem, b.rem);
 }
 
-KHASH_MAP_UTILS_INIT(CowlIRIMap, struct CowlIRI, CowlIRI*,
-                     cowl_iri_map_hash_func, cowl_iri_map_hash_equal);
-static khash_t(CowlIRIMap) *inst_map = NULL;
+UHASH_MAP_INIT(CowlIRIMap, struct CowlIRI, CowlIRI*,
+               cowl_iri_map_hash_func, cowl_iri_map_hash_equal)
+static UHash(CowlIRIMap) *inst_map = NULL;
 
 static struct CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     CowlIRI init = COWL_IRI_INIT(cowl_string_retain(ns), cowl_string_retain(rem));
@@ -40,23 +40,23 @@ static void cowl_iri_free(CowlIRI *iri) {
 
 CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
     if (!inst_map) {
-        inst_map = kh_init(CowlIRIMap);
-        ns_set = kh_init(CowlNSSet);
+        inst_map = uhash_alloc(CowlIRIMap);
+        ns_set = uhash_alloc(CowlNSSet);
     }
 
-    bool absent = kh_insert_get_existing(CowlNSSet, ns_set, ns, &ns);
-    if (absent) cowl_string_retain(ns);
+    uhash_ret_t ret = uhset_insert_get_existing(CowlNSSet, ns_set, ns, &ns);
+    if (ret == UHASH_INSERTED) cowl_string_retain(ns);
 
     CowlIRI key = { .ns = ns, .rem = rem };
     CowlIRI *iri;
 
-    khint_t idx = kh_put_key(CowlIRIMap, inst_map, key, &absent);
+    uhash_uint_t idx = uhash_put(CowlIRIMap, inst_map, key, &ret);
 
-    if (absent) {
+    if (ret == UHASH_INSERTED) {
         iri = cowl_iri_alloc(ns, rem);
-        kh_value(inst_map, idx) = iri;
+        uhash_value(inst_map, idx) = iri;
     } else {
-        iri = kh_value(inst_map, idx);
+        iri = uhash_value(inst_map, idx);
         cowl_iri_ref_incr(iri);
     }
 
@@ -70,10 +70,10 @@ CowlIRI* cowl_iri_retain(CowlIRI *iri) {
 void cowl_iri_release(CowlIRI *iri) {
     if (iri && !cowl_iri_ref_decr(iri)) {
         if (cowl_string_ref_get(iri->ns) == 2) {
-            kh_remove(CowlNSSet, ns_set, iri->ns);
+            uhset_remove(CowlNSSet, ns_set, iri->ns);
             cowl_string_release(iri->ns);
         }
-        kh_del_val(CowlIRIMap, inst_map, (*iri));
+        uhmap_remove(CowlIRIMap, inst_map, (*iri));
         cowl_iri_free(iri);
     }
 }
@@ -104,7 +104,7 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
 }
 
 uint32_t cowl_iri_hash(CowlIRI *iri) {
-    return kh_ptr_hash_func(iri);
+    return uhash_ptr_hash(iri);
 }
 
 CowlIRI* cowl_iri_from_cstring(char const *cstring) {

@@ -3,11 +3,11 @@
 #include "cowl_inverse_obj_prop_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
-KHASH_MAP_UTILS_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInverseObjProp*,
-                     cowl_obj_prop_hash, cowl_obj_prop_equals);
-static khash_t(CowlInvObjPropMap) *inst_map = NULL;
+UHASH_MAP_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInverseObjProp*,
+               cowl_obj_prop_hash, cowl_obj_prop_equals)
+static UHash(CowlInvObjPropMap) *inst_map = NULL;
 
 static CowlInverseObjProp* cowl_inverse_obj_prop_alloc(CowlObjProp *prop) {
     CowlInverseObjProp init = {
@@ -26,17 +26,17 @@ static void cowl_inverse_obj_prop_free(CowlInverseObjProp *inv) {
 }
 
 CowlInverseObjProp* cowl_inverse_obj_prop_get(CowlObjProp *prop) {
-    if (!inst_map) inst_map = kh_init(CowlInvObjPropMap);
+    if (!inst_map) inst_map = uhash_alloc(CowlInvObjPropMap);
 
     CowlInverseObjProp *inv;
-    bool absent;
-    khint_t idx = kh_put_key(CowlInvObjPropMap, inst_map, prop, &absent);
+    uhash_ret_t ret;
+    uhash_uint_t idx = uhash_put(CowlInvObjPropMap, inst_map, prop, &ret);
 
-    if (absent) {
+    if (ret == UHASH_INSERTED) {
         inv = cowl_inverse_obj_prop_alloc(prop);
-        kh_value(inst_map, idx) = inv;
+        uhash_value(inst_map, idx) = inv;
     } else {
-        inv = kh_value(inst_map, idx);
+        inv = uhash_value(inst_map, idx);
         cowl_obj_prop_exp_ref_incr(inv);
     }
 
@@ -49,7 +49,7 @@ CowlInverseObjProp* cowl_inverse_obj_prop_retain(CowlInverseObjProp *inv) {
 
 void cowl_inverse_obj_prop_release(CowlInverseObjProp *inv) {
     if (inv && !cowl_obj_prop_exp_ref_decr(inv)) {
-        kh_del_val(CowlInvObjPropMap, inst_map, inv->prop);
+        uhmap_remove(CowlInvObjPropMap, inst_map, inv->prop);
         cowl_inverse_obj_prop_free(inv);
     }
 }
@@ -63,7 +63,7 @@ bool cowl_inverse_obj_prop_equals(CowlInverseObjProp *lhs, CowlInverseObjProp *r
 }
 
 uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp *inv) {
-    return kh_ptr_hash_func(inv);
+    return uhash_ptr_hash(inv);
 }
 
 bool cowl_inverse_obj_prop_iterate_signature(CowlInverseObjProp *inv,

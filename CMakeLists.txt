@@ -16,8 +16,7 @@ set(COWL_VERSION "1.0.0")
 set(COWL_PUBLIC_HEADERS_DIR "${CMAKE_CURRENT_LIST_DIR}/include")
 set(COWL_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/lib")
 set(COWL_VECTOR_DIR "${COWL_LIB_DIR}/vector_t/include")
-set(COWL_KLIB_DIR "${COWL_LIB_DIR}/klib")
-set(COWL_KHASH_UTILS_DIR "${COWL_LIB_DIR}/khash_utils/include")
+set(COWL_UHASH_DIR "${COWL_LIB_DIR}/uhash/include")
 set(COWL_SRC_DIR "${CMAKE_CURRENT_LIST_DIR}/src")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
 set(COWL_MODEL_DIR "${COWL_SRC_DIR}/model")
@@ -60,8 +59,7 @@ set(COWL_HEADERS_DIRS
     "${COWL_PUBLIC_HEADERS_DIR}"
     "${COWL_PRIVATE_HEADERS_DIR}"
     "${COWL_VECTOR_DIR}"
-    "${COWL_KLIB_DIR}"
-    "${COWL_KHASH_UTILS_DIR}"
+    "${COWL_UHASH_DIR}"
     "${COWL_MODEL_DIR}"
     "${COWL_PARSER_DIR}"
     "${COWL_LOGGER_DIR}"
@@ -71,8 +69,7 @@ set(COWL_HEADERS_DIRS
 
 set(COWL_LIB_HEADERS
     "${COWL_VECTOR_DIR}/vector.h"
-    "${COWL_KLIB_DIR}/khash.h"
-    "${COWL_KHASH_UTILS_DIR}/khash_utils.h")
+    "${COWL_UHASH_DIR}/uhash.h")
 
 file(GLOB COWL_PUBLIC_HEADERS
      "${COWL_PUBLIC_HEADERS_DIR}/*.h")

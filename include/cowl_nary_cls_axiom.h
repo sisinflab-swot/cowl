@@ -5,11 +5,11 @@
 
 #include "cowl_iterator.h"
 #include "cowl_std.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
 COWL_BEGIN_DECLS
 
-typedef khash_struct(CowlClsExpSet) const CowlClsExpSet;
+typedef struct UHash(CowlClsExpSet) const CowlClsExpSet;
 
 typedef struct CowlNAryClsAxiom const CowlNAryClsAxiom;
 

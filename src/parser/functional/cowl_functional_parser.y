@@ -1018,7 +1018,7 @@ annotation_property_range
 
 class_expression_list
     : class_expression {
-        $$ = kh_init(CowlClsExpSet);
+        $$ = uhash_alloc(CowlClsExpSet);
         cowl_cls_exp_set_insert($$, $1);
         cowl_cls_exp_release($1);
     }
@@ -1062,7 +1062,7 @@ data_range_2_list
 
 individual_list
     : individual {
-        $$ = kh_init(CowlIndividualSet);
+        $$ = uhash_alloc(CowlIndividualSet);
         cowl_individual_set_insert($$, $1);
         cowl_individual_release($1);
     }
@@ -1088,7 +1088,7 @@ literal_list
 
 object_property_expression_list
     : object_property_expression {
-        $$ = kh_init(CowlObjPropExpSet);
+        $$ = uhash_alloc(CowlObjPropExpSet);
         cowl_obj_prop_exp_set_insert($$, $1);
         cowl_obj_prop_exp_release($1);
     }
@@ -1109,7 +1109,7 @@ object_property_expression_2_list
 
 object_property_expression_star
     : %empty {
-        $$ = kh_init(CowlObjPropExpSet);
+        $$ = uhash_alloc(CowlObjPropExpSet);
     }
     | object_property_expression_star object_property_expression {
         $$ = $1;

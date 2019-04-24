@@ -11,12 +11,11 @@
 
 #include <errno.h>
 
-KHASH_MAP_UTILS_IMPL(CowlPrefixNsMap, CowlString*, CowlString*,
-                     cowl_string_hash, cowl_string_equals);
+UHASH_MAP_IMPL(CowlPrefixNsMap, CowlString*, CowlString*, cowl_string_hash, cowl_string_equals)
 
 CowlParser* cowl_parser_alloc(void) {
     CowlParser init = {
-        .prefix_ns_map = kh_init(CowlPrefixNsMap),
+        .prefix_ns_map = uhash_alloc(CowlPrefixNsMap),
         .ontology = cowl_ontology_get(),
         .errors = vector_alloc(CowlError)
     };
@@ -28,11 +27,11 @@ CowlParser* cowl_parser_alloc(void) {
 void cowl_parser_free(CowlParser *parser) {
     if (!parser) return;
 
-    kh_foreach(parser->prefix_ns_map, CowlString *prefix, CowlString *ns, {
+    uhash_foreach(CowlPrefixNsMap, parser->prefix_ns_map, prefix, ns, {
         cowl_string_release(prefix);
         cowl_string_release(ns);
     });
-    kh_destroy(CowlPrefixNsMap, parser->prefix_ns_map);
+    uhash_free(CowlPrefixNsMap, parser->prefix_ns_map);
 
     vector_foreach(CowlError, parser->errors, error, cowl_error_deinit(error));
     vector_free(CowlError, parser->errors);
@@ -83,7 +82,7 @@ void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom) {
 }
 
 void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns) {
-    if (!kh_set_val_if_missing(CowlPrefixNsMap, parser->prefix_ns_map, prefix, ns, NULL)) {
+    if (uhmap_add(CowlPrefixNsMap, parser->prefix_ns_map, prefix, ns, NULL) == UHASH_INSERTED) {
         cowl_string_retain(prefix);
         cowl_string_retain(ns);
     }
@@ -94,7 +93,7 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser,
     CowlString *parts[2] = { NULL };
     cowl_string_split_two(cstring, length, ':', parts);
 
-    CowlString *ns = kh_get_val(CowlPrefixNsMap, parser->prefix_ns_map, parts[0], NULL);
+    CowlString *ns = uhmap_get(CowlPrefixNsMap, parser->prefix_ns_map, parts[0], NULL);
     CowlIRI *iri = ns ? cowl_iri_get(ns, parts[1]) : NULL;
 
     cowl_string_release(parts[0]);

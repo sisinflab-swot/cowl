@@ -3,10 +3,10 @@
 #include "cowl_data_prop_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iri_private.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
-KHASH_MAP_UTILS_INIT(CowlDataPropMap, CowlIRI*, CowlDataProp*, cowl_iri_hash, cowl_iri_equals);
-static khash_t(CowlDataPropMap) *inst_map = NULL;
+UHASH_MAP_INIT(CowlDataPropMap, CowlIRI*, CowlDataProp*, cowl_iri_hash, cowl_iri_equals);
+static UHash(CowlDataPropMap) *inst_map = NULL;
 
 static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
     CowlDataProp init = { .super = COWL_DATA_PROP_EXP_INIT, .iri = cowl_iri_retain(iri) };
@@ -22,17 +22,17 @@ static void cowl_data_prop_free(CowlDataProp *prop) {
 }
 
 CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
-    if (!inst_map) inst_map = kh_init(CowlDataPropMap);
+    if (!inst_map) inst_map = uhash_alloc(CowlDataPropMap);
 
     CowlDataProp *prop;
-    bool absent;
-    khint_t idx = kh_put_key(CowlDataPropMap, inst_map, iri, &absent);
+    uhash_ret_t ret;
+    uhash_uint_t idx = uhash_put(CowlDataPropMap, inst_map, iri, &ret);
 
-    if (absent) {
+    if (ret == UHASH_INSERTED) {
         prop = cowl_data_prop_alloc(iri);
-        kh_value(inst_map, idx) = prop;
+        uhash_value(inst_map, idx) = prop;
     } else {
-        prop = kh_value(inst_map, idx);
+        prop = uhash_value(inst_map, idx);
         cowl_data_prop_exp_ref_incr(prop);
     }
 
@@ -45,7 +45,7 @@ CowlDataProp* cowl_data_prop_retain(CowlDataProp *prop) {
 
 void cowl_data_prop_release(CowlDataProp *prop) {
     if (prop && !cowl_data_prop_exp_ref_decr(prop)) {
-        kh_del_val(CowlDataPropMap, inst_map, prop->iri);
+        uhmap_remove(CowlDataPropMap, inst_map, prop->iri);
         cowl_data_prop_free(prop);
     }
 }
@@ -59,7 +59,7 @@ bool cowl_data_prop_equals(CowlDataProp *lhs, CowlDataProp *rhs) {
 }
 
 uint32_t cowl_data_prop_hash(CowlDataProp *prop) {
-    return kh_ptr_hash_func(prop);
+    return uhash_ptr_hash(prop);
 }
 
 bool cowl_data_prop_iterate_signature(CowlDataProp *prop, void *ctx, CowlEntityIterator iter) {

@@ -4,7 +4,7 @@
 #include "cowl_hash_utils.h"
 #include "cowl_inverse_obj_prop_private.h"
 #include "cowl_obj_prop_private.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
     return cowl_obj_prop_exp_ref_incr(prop);
@@ -37,7 +37,7 @@ bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
 }
 
 uint32_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
-    return kh_ptr_hash_func(exp);
+    return uhash_ptr_hash(exp);
 }
 
 bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, void *ctx, CowlEntityIterator iter) {

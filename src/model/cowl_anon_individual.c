@@ -3,11 +3,11 @@
 #include "cowl_anon_individual_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_string.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
-KHASH_MAP_UTILS_INIT(CowlAnonIndividualMap, CowlString*, CowlAnonIndividual*,
-                     cowl_string_hash, cowl_string_equals);
-static khash_t(CowlAnonIndividualMap) *inst_map = NULL;
+UHASH_MAP_INIT(CowlAnonIndividualMap, CowlString*, CowlAnonIndividual*,
+               cowl_string_hash, cowl_string_equals)
+static UHash(CowlAnonIndividualMap) *inst_map = NULL;
 
 static CowlAnonIndividual* cowl_anon_individual_alloc(CowlString *id) {
     CowlAnonIndividual init = {
@@ -26,17 +26,17 @@ static void cowl_anon_individual_free(CowlAnonIndividual *ind) {
 }
 
 CowlAnonIndividual* cowl_anon_individual_get(CowlString *id) {
-    if (!inst_map) inst_map = kh_init(CowlAnonIndividualMap);
+    if (!inst_map) inst_map = uhash_alloc(CowlAnonIndividualMap);
 
     CowlAnonIndividual *ind;
-    bool absent;
-    khint_t idx = kh_put_key(CowlAnonIndividualMap, inst_map, id, &absent);
+    uhash_ret_t ret;
+    uhash_uint_t idx = uhash_put(CowlAnonIndividualMap, inst_map, id, &ret);
 
-    if (absent) {
+    if (ret == UHASH_INSERTED) {
         ind = cowl_anon_individual_alloc(id);
-        kh_value(inst_map, idx) = ind;
+        uhash_value(inst_map, idx) = ind;
     } else {
-        ind = kh_value(inst_map, idx);
+        ind = uhash_value(inst_map, idx);
         cowl_individual_ref_incr(ind);
     }
 
@@ -49,7 +49,7 @@ CowlAnonIndividual* cowl_anon_individual_retain(CowlAnonIndividual *ind) {
 
 void cowl_anon_individual_release(CowlAnonIndividual *ind) {
     if (ind && !cowl_individual_ref_decr(ind)) {
-        kh_del_val(CowlAnonIndividualMap, inst_map, ind->id);
+        uhmap_remove(CowlAnonIndividualMap, inst_map, ind->id);
         cowl_anon_individual_free(ind);
     }
 }
@@ -63,5 +63,5 @@ bool cowl_anon_individual_equals(CowlAnonIndividual *lhs, CowlAnonIndividual *rh
 }
 
 uint32_t cowl_anon_individual_hash(CowlAnonIndividual *ind) {
-    return kh_ptr_hash_func(ind);
+    return uhash_ptr_hash(ind);
 }

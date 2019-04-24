@@ -3,10 +3,10 @@
 #include "cowl_datatype_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iri_private.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
-KHASH_MAP_UTILS_INIT(CowlDatatypeMap, CowlIRI*, CowlDatatype*, cowl_iri_hash, cowl_iri_equals);
-static khash_t(CowlDatatypeMap) *inst_map = NULL;
+UHASH_MAP_INIT(CowlDatatypeMap, CowlIRI*, CowlDatatype*, cowl_iri_hash, cowl_iri_equals)
+static UHash(CowlDatatypeMap) *inst_map = NULL;
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     CowlDatatype init = COWL_DATATYPE_INIT(cowl_iri_retain(iri));
@@ -22,17 +22,17 @@ static void cowl_datatype_free(CowlDatatype *datatype) {
 }
 
 CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
-    if (!inst_map) inst_map = kh_init(CowlDatatypeMap);
+    if (!inst_map) inst_map = uhash_alloc(CowlDatatypeMap);
 
     CowlDatatype *datatype;
-    bool absent;
-    khint_t idx = kh_put_key(CowlDatatypeMap, inst_map, iri, &absent);
+    uhash_ret_t ret;
+    uhash_uint_t idx = uhash_put(CowlDatatypeMap, inst_map, iri, &ret);
 
-    if (absent) {
+    if (ret == UHASH_INSERTED) {
         datatype = cowl_datatype_alloc(iri);
-        kh_value(inst_map, idx) = datatype;
+        uhash_value(inst_map, idx) = datatype;
     } else {
-        datatype = kh_value(inst_map, idx);
+        datatype = uhash_value(inst_map, idx);
         cowl_datatype_ref_incr(datatype);
     }
 
@@ -45,7 +45,7 @@ CowlDatatype* cowl_datatype_retain(CowlDatatype *datatype) {
 
 void cowl_datatype_release(CowlDatatype *datatype) {
     if (datatype && !cowl_datatype_ref_decr(datatype)) {
-        kh_del_val(CowlDatatypeMap, inst_map, datatype->iri);
+        uhmap_remove(CowlDatatypeMap, inst_map, datatype->iri);
         cowl_datatype_free(datatype);
     }
 }
@@ -59,7 +59,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
 }
 
 uint32_t cowl_datatype_hash(CowlDatatype *datatype) {
-    return kh_ptr_hash_func(datatype);
+    return uhash_ptr_hash(datatype);
 }
 
 bool cowl_datatype_iterate_signature(CowlDatatype *datatype, void *ctx, CowlEntityIterator iter) {

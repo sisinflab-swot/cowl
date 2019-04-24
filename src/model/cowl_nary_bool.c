@@ -6,7 +6,7 @@
 
 static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlClsExpSet *operands) {
     uint32_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
-                                kh_set_hash(CowlClsExpSet, operands));
+                                uhset_hash(CowlClsExpSet, operands));
 
     CowlNAryBool init = {
         .super = COWL_CLS_EXP_INIT(type, hash),
@@ -47,8 +47,8 @@ CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
 }
 
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
-    return lhs->super.type == rhs->super.type &&
-           kh_set_equals(CowlClsExpSet, lhs->operands, rhs->operands);
+    return (lhs->super.type == rhs->super.type &&
+            uhset_equals(CowlClsExpSet, lhs->operands, rhs->operands));
 }
 
 uint32_t cowl_nary_bool_hash(CowlNAryBool *exp) {
@@ -57,7 +57,7 @@ uint32_t cowl_nary_bool_hash(CowlNAryBool *exp) {
 
 bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp,
                                       void *ctx, CowlEntityIterator iter) {
-    kh_foreach_key(exp->operands, CowlClsExp *operand, {
+    uhash_foreach_key(CowlClsExpSet, exp->operands, operand, {
         if (!cowl_cls_exp_iterate_signature(operand, ctx, iter)) return false;
     });
     return true;

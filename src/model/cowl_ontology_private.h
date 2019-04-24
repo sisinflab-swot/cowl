@@ -5,25 +5,25 @@
 
 #include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
 COWL_BEGIN_DECLS
 
-typedef khash_struct(CowlAxiomSet) khash_t(CowlAxiomSet);
+typedef struct UHash(CowlAxiomSet) UHash(CowlAxiomSet);
 
-KHASH_MAP_UTILS_DECL(CowlClassAxiomMap, CowlClass*, khash_t(CowlAxiomSet)*);
-KHASH_MAP_UTILS_DECL(CowlObjPropAxiomMap, CowlObjProp*, khash_t(CowlAxiomSet)*);
-KHASH_MAP_UTILS_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual*, khash_t(CowlAxiomSet)*);
-KHASH_MAP_UTILS_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual*, khash_t(CowlAxiomSet)*);
+UHASH_MAP_DECL(CowlClassAxiomMap, CowlClass*, UHash(CowlAxiomSet)*)
+UHASH_MAP_DECL(CowlObjPropAxiomMap, CowlObjProp*, UHash(CowlAxiomSet)*)
+UHASH_MAP_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual*, UHash(CowlAxiomSet)*)
+UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual*, UHash(CowlAxiomSet)*)
 
 struct CowlOntology {
     uint32_t ref_count;
     CowlOntologyId *id;
-    khash_t(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
-    khash_t(CowlClassAxiomMap) *class_refs;
-    khash_t(CowlObjPropAxiomMap) *obj_prop_refs;
-    khash_t(CowlNamedIndAxiomMap) *named_ind_refs;
-    khash_t(CowlAnonIndAxiomMap) *anon_ind_refs;
+    UHash(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
+    UHash(CowlClassAxiomMap) *class_refs;
+    UHash(CowlObjPropAxiomMap) *obj_prop_refs;
+    UHash(CowlNamedIndAxiomMap) *named_ind_refs;
+    UHash(CowlAnonIndAxiomMap) *anon_ind_refs;
 };
 
 typedef struct CowlOntology CowlMutableOntology;
@@ -31,10 +31,10 @@ typedef struct CowlOntology CowlMutableOntology;
 #define COWL_ONTOLOGY_INIT {                                                                        \
     .ref_count = 1,                                                                                 \
     .id = NULL,                                                                                     \
-    .class_refs = kh_init(CowlClassAxiomMap),                                                       \
-    .obj_prop_refs = kh_init(CowlObjPropAxiomMap),                                                  \
-    .named_ind_refs = kh_init(CowlNamedIndAxiomMap),                                                \
-    .anon_ind_refs = kh_init(CowlAnonIndAxiomMap)                                                   \
+    .class_refs = uhash_alloc(CowlClassAxiomMap),                                                   \
+    .obj_prop_refs = uhash_alloc(CowlObjPropAxiomMap),                                              \
+    .named_ind_refs = uhash_alloc(CowlNamedIndAxiomMap),                                            \
+    .anon_ind_refs = uhash_alloc(CowlAnonIndAxiomMap)                                               \
 }
 
 #define cowl_ontology_ref_get(o) (((CowlMutableOntology *)(o))->ref_count)

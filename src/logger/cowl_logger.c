@@ -168,9 +168,9 @@ void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity) {
 }
 
 static void cowl_logger_log_cls_exp_set(CowlLogger *logger, CowlClsExpSet *set) {
-    uint32_t current = 0, last = kh_count(set) - 1;
+    uint32_t current = 0, last = uhash_count(set) - 1;
 
-    kh_foreach_key(set, CowlClsExp *exp, {
+    uhash_foreach_key(CowlClsExpSet, set, exp, {
         cowl_logger_log_cls_exp(logger, exp);
         if (current++ < last) cowl_logger_logf(logger, " ");
     });

@@ -4,7 +4,7 @@
 #define COWL_PARSER_PRIVATE_H
 
 #include "cowl_parser.h"
-#include "khash_utils.h"
+#include "uhash.h"
 
 COWL_BEGIN_DECLS
 
@@ -15,10 +15,10 @@ typedef struct CowlOntology const CowlOntology;
 typedef struct CowlOntology CowlMutableOntology;
 typedef struct CowlOntologyId const CowlOntologyId;
 
-KHASH_MAP_UTILS_DECL(CowlPrefixNsMap, CowlString*, CowlString*);
+UHASH_MAP_DECL(CowlPrefixNsMap, CowlString*, CowlString*)
 
 struct CowlParser {
-    khash_t(CowlPrefixNsMap) *prefix_ns_map;
+    UHash(CowlPrefixNsMap) *prefix_ns_map;
     CowlMutableOntology *ontology;
     Vector(CowlError) *errors;
 };
