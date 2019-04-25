@@ -21,7 +21,7 @@ typedef struct CowlError {
     uint32_t line;
 } CowlError;
 
-VECTOR_DECL(CowlError);
+VECTOR_DECL(CowlError)
 
 CowlString* cowl_error_to_string(CowlError error);
 

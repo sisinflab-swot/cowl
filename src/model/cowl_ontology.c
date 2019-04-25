@@ -50,11 +50,11 @@ static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom
 } while(0)
 
 #define cowl_add_axiom_to_set_in_array(array, idx, axiom) do {                                      \
-    CowlAxiomSet *__cowl_axioms = array[idx];                                                       \
+    CowlAxiomSet *__cowl_axioms = ((array))[idx];                                                     \
                                                                                                     \
     if (!__cowl_axioms) {                                                                           \
         __cowl_axioms = uhash_alloc(CowlAxiomSet);                                                  \
-        array[idx] = __cowl_axioms;                                                                 \
+        ((array))[idx] = __cowl_axioms;                                                               \
     }                                                                                               \
                                                                                                     \
     uhset_insert(CowlAxiomSet, __cowl_axioms, axiom);                                               \
@@ -85,7 +85,7 @@ uint32_t cowl_ontology_hash(CowlOntology *onto) {
 uint32_t cowl_ontology_axiom_count(CowlOntology *onto) {
     uint32_t count = 0;
 
-    for (CowlAxiomType type = 0; type < CAT_COUNT; ++type) {
+    for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; ++type) {
         count += uhash_count(onto->axioms_by_type[type]);
     }
 
@@ -149,7 +149,7 @@ void cowl_ontology_iterate_anon_individuals(CowlOntology *onto, void *ctx,
 }
 
 void cowl_ontology_iterate_axioms(CowlOntology *onto, void *ctx, CowlAxiomIterator iter) {
-    for (CowlAxiomType type = 0; type < CAT_COUNT; ++type) {
+    for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; ++type) {
         CowlAxiomSet *axioms = onto->axioms_by_type[type];
         uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return; });
     }
@@ -264,7 +264,7 @@ void cowl_ontology_free(CowlOntology *ontology) {
 
     cowl_ontology_id_free(ontology->id);
 
-    for (CowlAxiomType type = 0; type < CAT_COUNT; type++) {
+    for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; type++) {
         cowl_axiom_set_free(ontology->axioms_by_type[type]);
     }
 

@@ -28,7 +28,7 @@ static void cowl_obj_prop_char_axiom_free(CowlObjPropCharAxiom *axiom) {
 
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlObjPropCharAxiomType type,
                                                    CowlObjPropExp *prop) {
-    return cowl_obj_prop_char_axiom_alloc(type + CAT_FUNCTIONAL_OBJ_PROP, prop);
+    return cowl_obj_prop_char_axiom_alloc((CowlAxiomType)type + CAT_FUNCTIONAL_OBJ_PROP, prop);
 }
 
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom) {
@@ -42,7 +42,7 @@ void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom) {
 }
 
 CowlObjPropCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom) {
-    return axiom->super.type - CAT_FUNCTIONAL_OBJ_PROP;
+    return (CowlObjPropCharAxiomType)(axiom->super.type - CAT_FUNCTIONAL_OBJ_PROP);
 }
 
 CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
@@ -50,8 +50,8 @@ CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
 }
 
 bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharAxiom *rhs) {
-    return lhs->super.type == rhs->super.type &&
-           cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp);
+    return (lhs->super.type == rhs->super.type &&
+            cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp));
 }
 
 uint32_t cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom) {

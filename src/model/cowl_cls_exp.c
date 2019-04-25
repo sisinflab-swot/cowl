@@ -19,15 +19,15 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
 
     switch (exp->type) {
 
-        GEN_CASE_RELEASE(CCET_CLASS, CowlClass, cowl_class);
-        GEN_CASE_RELEASE(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
-        GEN_CASE_RELEASE(CCET_OBJ_INTERSECTION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_RELEASE(CCET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_RELEASE(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_RELEASE(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_RELEASE(CCET_CLASS, CowlClass, cowl_class)
+        GEN_CASE_RELEASE(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl)
+        GEN_CASE_RELEASE(CCET_OBJ_INTERSECTION, CowlNAryBool, cowl_nary_bool)
+        GEN_CASE_RELEASE(CCET_OBJ_UNION, CowlNAryBool, cowl_nary_bool)
+        GEN_CASE_RELEASE(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant)
+        GEN_CASE_RELEASE(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant)
+        GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card)
+        GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card)
+        GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card)
 
         default:
             break;

@@ -1,11 +1,10 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_obj_prop_private.h"
-#include "cowl_hash_utils.h"
 #include "cowl_iri_private.h"
 #include "uhash.h"
 
-UHASH_MAP_INIT(CowlObjPropMap, CowlIRI*, CowlObjProp*, cowl_iri_hash, cowl_iri_equals);
+UHASH_MAP_INIT(CowlObjPropMap, CowlIRI*, CowlObjProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlObjPropMap) *inst_map = NULL;
 
 static CowlObjProp* cowl_obj_prop_alloc(CowlIRI *iri) {

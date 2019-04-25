@@ -13,7 +13,7 @@ typedef enum CowlAxiomType {
 /// @name Declaration/definition
 
     /// Represents declaration axioms.
-        CAT_DECLARATION,
+        CAT_DECLARATION = 0,
 
     /// Represents datatype definition axioms.
         CAT_DATATYPE_DEFINITION,
@@ -141,7 +141,10 @@ typedef enum CowlAxiomType {
 /// @name Markers
 
     /// Number of axiom types.
-        CAT_COUNT
+        CAT_COUNT,
+
+    /// First axiom type.
+        CAT_FIRST = 0
 
 } CowlAxiomType;
 

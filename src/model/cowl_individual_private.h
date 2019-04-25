@@ -12,7 +12,7 @@ struct CowlIndividual {
     bool is_named;
 };
 
-#define COWL_INDIVIDUAL_INIT(N) { .ref_count = 1, .is_named = N }
+#define COWL_INDIVIDUAL_INIT(N) { .ref_count = 1, .is_named = ((N)) }
 
 #define cowl_individual_ref_get(i) (((struct CowlIndividual *)(i))->ref_count)
 #define cowl_individual_ref_incr(i) (++cowl_individual_ref_get(i), (i))

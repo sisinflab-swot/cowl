@@ -1,7 +1,6 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_named_individual_private.h"
-#include "cowl_hash_utils.h"
 #include "cowl_iri_private.h"
 #include "uhash.h"
 

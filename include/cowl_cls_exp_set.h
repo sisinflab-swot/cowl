@@ -10,7 +10,7 @@ COWL_BEGIN_DECLS
 
 typedef struct CowlClsExp const CowlClsExp;
 
-UHASH_SET_DECL(CowlClsExpSet, CowlClsExp*);
+UHASH_SET_DECL(CowlClsExpSet, CowlClsExp*)
 typedef struct UHash(CowlClsExpSet) const CowlClsExpSet;
 typedef struct UHash(CowlClsExpSet) CowlMutableClsExpSet;
 

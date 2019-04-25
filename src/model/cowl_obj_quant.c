@@ -42,7 +42,7 @@ void cowl_obj_quant_release(CowlObjQuant *restr) {
 }
 
 CowlObjQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
-    return restr->super.type - CCET_OBJ_SOME;
+    return (CowlObjQuantType)(restr->super.type - CCET_OBJ_SOME);
 }
 
 CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) {

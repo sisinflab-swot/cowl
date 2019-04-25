@@ -52,7 +52,7 @@ void cowl_obj_card_release(CowlObjCard *restr) {
 }
 
 CowlObjCardType cowl_obj_card_get_type(CowlObjCard *restr) {
-    return restr->super.type - CCET_OBJ_MIN_CARD;
+    return (CowlObjCardType)(restr->super.type - CCET_OBJ_MIN_CARD);
 }
 
 CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) {
