@@ -3,7 +3,6 @@
 #include "cowl_class_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_vocabulary.h"
-#include "uhash.h"
 
 UHASH_MAP_INIT(CowlClassMap, CowlIRI*, CowlClass*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlClassMap) *inst_map = NULL;
@@ -16,7 +15,7 @@ static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     struct CowlClass *cls = malloc(sizeof(*cls));
     memcpy(cls, &init, sizeof(*cls));
 
-    uint32_t hash = uhash_ptr_hash(cls);
+    cowl_uint_t hash = uhash_ptr_hash(cls);
     cowl_cls_exp_hash_set(cls, hash);
 
     return cls;
@@ -65,7 +64,7 @@ bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_class_hash(CowlClass *cls) {
+cowl_uint_t cowl_class_hash(CowlClass *cls) {
     return cowl_cls_exp_hash_get(cls);
 }
 

@@ -5,7 +5,6 @@
 
 #include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
-#include "uhash.h"
 
 COWL_BEGIN_DECLS
 
@@ -17,7 +16,7 @@ UHASH_MAP_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual*, UHash(CowlAxiomSet)*)
 UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual*, UHash(CowlAxiomSet)*)
 
 struct CowlOntology {
-    uint32_t ref_count;
+    cowl_uint_t ref_count;
     CowlOntologyId *id;
     UHash(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
     UHash(CowlClassAxiomMap) *class_refs;

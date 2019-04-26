@@ -15,7 +15,7 @@ CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyId *id);
 CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyId *id);
 
 bool cowl_ontology_id_equals(CowlOntologyId *lhs, CowlOntologyId *rhs);
-uint32_t cowl_ontology_id_hash(CowlOntologyId *id);
+cowl_uint_t cowl_ontology_id_hash(CowlOntologyId *id);
 
 COWL_END_DECLS
 

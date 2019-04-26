@@ -8,10 +8,10 @@
 static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlIndividual *source,
                                                                 CowlObjPropExp *prop,
                                                                 CowlIndividual *target) {
-    uint32_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_PROP_ASSERT_AXIOM,
-                                cowl_individual_hash(source),
-                                cowl_individual_hash(target),
-                                cowl_obj_prop_exp_hash(prop));
+    cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_PROP_ASSERT_AXIOM,
+                                   cowl_individual_hash(source),
+                                   cowl_individual_hash(target),
+                                   cowl_obj_prop_exp_hash(prop));
 
     CowlObjPropAssertAxiom init = {
         .super = COWL_AXIOM_INIT(CAT_OBJ_PROP_ASSERTION, hash),
@@ -66,7 +66,7 @@ bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropA
            cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp);
 }
 
-uint32_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom) {
+cowl_uint_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 

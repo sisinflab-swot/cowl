@@ -5,7 +5,6 @@
 
 #include "cowl_iterator.h"
 #include "cowl_std.h"
-#include "uhash.h"
 
 COWL_BEGIN_DECLS
 
@@ -26,7 +25,7 @@ CowlNAryClsAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom);
 CowlClsExpSet* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom);
 
 bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs);
-uint32_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
+cowl_uint_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
 
 bool cowl_nary_cls_axiom_iterate_signature(CowlNAryClsAxiom *axiom,
                                            void *ctx, CowlEntityIterator iter);

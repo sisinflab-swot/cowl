@@ -19,7 +19,7 @@ void cowl_inverse_obj_prop_release(CowlInverseObjProp *inv);
 CowlObjProp* cowl_inverse_obj_prop_get_prop(CowlInverseObjProp *inv);
 
 bool cowl_inverse_obj_prop_equals(CowlInverseObjProp *lhs, CowlInverseObjProp *rhs);
-uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp *inv);
+cowl_uint_t cowl_inverse_obj_prop_hash(CowlInverseObjProp *inv);
 
 bool cowl_inverse_obj_prop_iterate_signature(CowlInverseObjProp *inv,
                                              void *ctx, CowlEntityIterator iter);

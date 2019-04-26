@@ -78,12 +78,12 @@ bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
     return cowl_ontology_id_equals(lhs->id, rhs->id);
 }
 
-uint32_t cowl_ontology_hash(CowlOntology *onto) {
+cowl_uint_t cowl_ontology_hash(CowlOntology *onto) {
     return cowl_ontology_id_hash(onto->id);
 }
 
-uint32_t cowl_ontology_axiom_count(CowlOntology *onto) {
-    uint32_t count = 0;
+cowl_uint_t cowl_ontology_axiom_count(CowlOntology *onto) {
+    cowl_uint_t count = 0;
 
     for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; ++type) {
         count += uhash_count(onto->axioms_by_type[type]);
@@ -92,18 +92,18 @@ uint32_t cowl_ontology_axiom_count(CowlOntology *onto) {
     return count;
 }
 
-uint32_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class) {
+cowl_uint_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class) {
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
     return uhash_count(axioms);
 }
 
-uint32_t cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop) {
+cowl_uint_t cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop) {
     CowlAxiomSet *axioms = uhmap_get(CowlObjPropAxiomMap, onto->obj_prop_refs, obj_prop, NULL);
     return uhash_count(axioms);
 }
 
-uint32_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
-                                                        CowlNamedIndividual *individual) {
+cowl_uint_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
+                                                           CowlNamedIndividual *individual) {
     CowlAxiomSet *axioms = uhmap_get(CowlNamedIndAxiomMap, onto->named_ind_refs, individual, NULL);
     return uhash_count(axioms);
 }

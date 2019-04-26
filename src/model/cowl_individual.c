@@ -3,7 +3,6 @@
 #include "cowl_individual_private.h"
 #include "cowl_anon_individual.h"
 #include "cowl_named_individual.h"
-#include "uhash.h"
 
 CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
     return cowl_individual_ref_incr(ind);
@@ -27,7 +26,7 @@ bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_individual_hash(CowlIndividual *ind) {
+cowl_uint_t cowl_individual_hash(CowlIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 

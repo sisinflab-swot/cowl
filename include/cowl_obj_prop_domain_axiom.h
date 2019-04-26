@@ -21,7 +21,7 @@ CowlObjPropExp* cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom *axio
 CowlClsExp* cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom *axiom);
 
 bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom *lhs, CowlObjPropDomainAxiom *rhs);
-uint32_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom);
+cowl_uint_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom);
 
 bool cowl_obj_prop_domain_axiom_iterate_signature(CowlObjPropDomainAxiom *axiom,
                                                   void *ctx, CowlEntityIterator iter);

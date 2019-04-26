@@ -4,7 +4,7 @@
 #include "cowl_hash_utils.h"
 
 static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity) {
-    uint32_t hash = cowl_hash_1(COWL_HASH_INIT_DECL_AXIOM, cowl_entity_hash(entity));
+    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DECL_AXIOM, cowl_entity_hash(entity));
 
     CowlDeclAxiom init = {
         .super = COWL_AXIOM_INIT(CAT_DECLARATION, hash),
@@ -44,7 +44,7 @@ bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {
     return cowl_entity_equals(lhs->entity, rhs->entity);
 }
 
-uint32_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
+cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 

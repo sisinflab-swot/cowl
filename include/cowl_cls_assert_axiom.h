@@ -21,7 +21,7 @@ CowlIndividual* cowl_cls_assert_axiom_get_individual(CowlClsAssertAxiom *axiom);
 CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom);
 
 bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *rhs);
-uint32_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
+cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
 
 bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom *axiom,
                                              void *ctx, CowlEntityIterator iter);

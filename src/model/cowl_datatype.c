@@ -2,7 +2,6 @@
 
 #include "cowl_datatype_private.h"
 #include "cowl_iri_private.h"
-#include "uhash.h"
 
 UHASH_MAP_INIT(CowlDatatypeMap, CowlIRI*, CowlDatatype*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlDatatypeMap) *inst_map = NULL;
@@ -57,7 +56,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_datatype_hash(CowlDatatype *datatype) {
+cowl_uint_t cowl_datatype_hash(CowlDatatype *datatype) {
     return uhash_ptr_hash(datatype);
 }
 

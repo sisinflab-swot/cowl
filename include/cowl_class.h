@@ -19,7 +19,7 @@ void cowl_class_release(CowlClass *cls);
 CowlIRI* cowl_class_get_iri(CowlClass *cls);
 
 bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs);
-uint32_t cowl_class_hash(CowlClass *cls);
+cowl_uint_t cowl_class_hash(CowlClass *cls);
 
 bool cowl_class_iterate_signature(CowlClass *cls, void *ctx, CowlEntityIterator iter);
 

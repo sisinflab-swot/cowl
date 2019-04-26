@@ -9,7 +9,7 @@ COWL_BEGIN_DECLS
 
 #define cowl_error_init(CODE, STR, LINE) {                                                          \
     .code = (CODE),                                                                                 \
-    .description = cowl_string_get((STR), (uint32_t)strlen(STR), false),                            \
+    .description = cowl_string_get((STR), (cowl_uint_t)strlen(STR), false),                         \
     .line = (LINE)                                                                                  \
 }
 

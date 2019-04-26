@@ -61,7 +61,7 @@ end:
     return parser->ontology;
 }
 
-uint32_t cowl_parser_get_error_count(CowlParser *parser) {
+cowl_uint_t cowl_parser_get_error_count(CowlParser *parser) {
     return vector_count(parser->errors);
 }
 
@@ -89,7 +89,7 @@ void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString 
 }
 
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser,
-                                  char const *cstring, uint32_t length) {
+                                  char const *cstring, cowl_uint_t length) {
     CowlString *parts[2] = { NULL };
     cowl_string_split_two(cstring, length, ':', parts);
 
@@ -103,7 +103,7 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser,
 }
 
 void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,
-                           char const *description, uint32_t line) {
+                           char const *description, cowl_uint_t line) {
     CowlError error = cowl_error_init(code, description, line);
     vector_push(CowlError, parser->errors, error);
 }

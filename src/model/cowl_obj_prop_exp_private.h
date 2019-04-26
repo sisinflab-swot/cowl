@@ -8,8 +8,8 @@
 COWL_BEGIN_DECLS
 
 struct CowlObjPropExp {
-    uint32_t ref_count;
     bool is_inverse;
+    cowl_uint_t ref_count;
 };
 
 #define COWL_OBJ_PROP_EXP_INIT(I) { .ref_count = 1, .is_inverse = ((I)) }

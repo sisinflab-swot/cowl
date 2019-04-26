@@ -117,15 +117,10 @@ if (NOT COWL_RELEASE_FLAGS)
     set(COWL_RELEASE_FLAGS ${COWL_DEFAULT_RELEASE_FLAGS})
 endif ()
 
-# Defaults
-
-set(COWL_DEFAULT_BUILD_TYPE "Release")
-
-if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    message(STATUS "No build type selected, default to ${COWL_DEFAULT_BUILD_TYPE}")
-    set(CMAKE_BUILD_TYPE "${COWL_DEFAULT_BUILD_TYPE}" CACHE STRING
-        "Build type (default ${COWL_DEFAULT_BUILD_TYPE})" FORCE)
-endif ()
+if (COWL_EMBEDDED)
+    message(STATUS "Embedded build selected")
+    set(COWL_DEFINES VECTOR_TINY UHASH_TINY)
+endif()
 
 # Static library
 
@@ -140,6 +135,7 @@ set_target_properties(cowl-static PROPERTIES
 target_compile_options(cowl-static PUBLIC
                        "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
                        "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
+target_compile_definitions(cowl-static PUBLIC ${COWL_DEFINES})
 target_include_directories(cowl-static PUBLIC ${COWL_HEADERS_DIRS})
 
 install(TARGETS cowl-static
@@ -159,6 +155,7 @@ set_target_properties(cowl-shared PROPERTIES
 target_compile_options(cowl-shared PUBLIC
                        "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
                        "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
+target_compile_definitions(cowl-shared PUBLIC ${COWL_DEFINES})
 target_include_directories(cowl-shared PUBLIC ${COWL_HEADERS_DIRS})
 
 install(TARGETS cowl-shared
@@ -169,5 +166,6 @@ install(TARGETS cowl-shared
 
 add_executable(cowl-test "${COWL_TEST_DIR}/test.c")
 add_dependencies(cowl-test cowl-static)
+target_compile_definitions(cowl-test PUBLIC ${COWL_DEFINES})
 target_include_directories(cowl-test PUBLIC "${COWL_HEADERS_DIRS}")
 target_link_libraries(cowl-test "$<TARGET_FILE:cowl-static>")

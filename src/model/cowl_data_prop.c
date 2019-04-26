@@ -2,7 +2,6 @@
 
 #include "cowl_data_prop_private.h"
 #include "cowl_iri_private.h"
-#include "uhash.h"
 
 UHASH_MAP_INIT(CowlDataPropMap, CowlIRI*, CowlDataProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlDataPropMap) *inst_map = NULL;
@@ -57,7 +56,7 @@ bool cowl_data_prop_equals(CowlDataProp *lhs, CowlDataProp *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_data_prop_hash(CowlDataProp *prop) {
+cowl_uint_t cowl_data_prop_hash(CowlDataProp *prop) {
     return uhash_ptr_hash(prop);
 }
 

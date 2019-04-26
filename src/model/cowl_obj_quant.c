@@ -6,8 +6,8 @@
 
 static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                           CowlClsExp *filler) {
-    uint32_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
-                                cowl_obj_prop_exp_hash(prop), cowl_cls_exp_hash(filler));
+    cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
+                                   cowl_obj_prop_exp_hash(prop), cowl_cls_exp_hash(filler));
 
     CowlObjQuant init = {
         .super = COWL_CLS_EXP_INIT(type, hash),
@@ -59,7 +59,7 @@ bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
            cowl_cls_exp_equals(lhs->filler, rhs->filler);
 }
 
-uint32_t cowl_obj_quant_hash(CowlObjQuant *restr) {
+cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr) {
     return cowl_cls_exp_hash_get(restr);
 }
 

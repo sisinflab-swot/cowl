@@ -4,7 +4,6 @@
 #define COWL_PARSER_PRIVATE_H
 
 #include "cowl_parser.h"
-#include "uhash.h"
 
 COWL_BEGIN_DECLS
 
@@ -27,10 +26,10 @@ void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id);
 void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
 
 void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
-CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, char const *cstring, uint32_t length);
+CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, char const *cstring, cowl_uint_t length);
 
 void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,
-                           char const *description, uint32_t line);
+                           char const *description, cowl_uint_t line);
 
 COWL_END_DECLS
 

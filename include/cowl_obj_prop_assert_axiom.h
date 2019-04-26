@@ -24,7 +24,7 @@ CowlIndividual* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom *ax
 CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom);
 
 bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs);
-uint32_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
+cowl_uint_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
 
 bool cowl_obj_prop_assert_axiom_iterate_signature(CowlObjPropAssertAxiom *axiom,
                                                   void *ctx, CowlEntityIterator iter);

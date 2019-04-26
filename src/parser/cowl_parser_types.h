@@ -8,8 +8,8 @@
 COWL_BEGIN_DECLS
 
 typedef struct CowlYYString {
+    cowl_uint_t length;
     char const *cstring;
-    uint32_t length;
 } CowlYYString;
 
 #define cowl_yystring_init(CSTR, LEN) ((CowlYYString){ .cstring = (CSTR), .length = (LEN) })

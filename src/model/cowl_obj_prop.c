@@ -2,7 +2,6 @@
 
 #include "cowl_obj_prop_private.h"
 #include "cowl_iri_private.h"
-#include "uhash.h"
 
 UHASH_MAP_INIT(CowlObjPropMap, CowlIRI*, CowlObjProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlObjPropMap) *inst_map = NULL;
@@ -57,7 +56,7 @@ bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_obj_prop_hash(CowlObjProp *prop) {
+cowl_uint_t cowl_obj_prop_hash(CowlObjProp *prop) {
     return uhash_ptr_hash(prop);
 }
 

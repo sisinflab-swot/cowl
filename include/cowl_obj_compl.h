@@ -19,7 +19,7 @@ void cowl_obj_compl_release(CowlObjCompl *compl);
 CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *compl);
 
 bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs);
-uint32_t cowl_obj_compl_hash(CowlObjCompl *compl);
+cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *compl);
 
 bool cowl_obj_compl_iterate_signature(CowlObjCompl *compl, void *ctx, CowlEntityIterator iter);
 

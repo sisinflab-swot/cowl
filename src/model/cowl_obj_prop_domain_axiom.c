@@ -7,9 +7,9 @@
 
 static CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp *prop,
                                                                 CowlClsExp *domain) {
-    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_DOMAIN_AXIOM,
-                                cowl_obj_prop_exp_hash(prop),
-                                cowl_cls_exp_hash(domain));
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_DOMAIN_AXIOM,
+                                   cowl_obj_prop_exp_hash(prop),
+                                   cowl_cls_exp_hash(domain));
 
     CowlObjPropDomainAxiom init = {
         .super = COWL_AXIOM_INIT(CAT_OBJ_PROP_DOMAIN, hash),
@@ -56,7 +56,7 @@ bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom *lhs, CowlObjPropD
            cowl_cls_exp_equals(lhs->domain, rhs->domain);
 }
 
-uint32_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom) {
+cowl_uint_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 

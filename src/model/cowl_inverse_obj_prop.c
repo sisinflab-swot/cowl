@@ -2,7 +2,6 @@
 
 #include "cowl_inverse_obj_prop_private.h"
 #include "cowl_obj_prop.h"
-#include "uhash.h"
 
 UHASH_MAP_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInverseObjProp*,
                cowl_obj_prop_hash, cowl_obj_prop_equals)
@@ -61,7 +60,7 @@ bool cowl_inverse_obj_prop_equals(CowlInverseObjProp *lhs, CowlInverseObjProp *r
     return lhs == rhs;
 }
 
-uint32_t cowl_inverse_obj_prop_hash(CowlInverseObjProp *inv) {
+cowl_uint_t cowl_inverse_obj_prop_hash(CowlInverseObjProp *inv) {
     return uhash_ptr_hash(inv);
 }
 

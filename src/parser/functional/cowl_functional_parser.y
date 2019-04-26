@@ -42,7 +42,7 @@
 
 // Terminals
 
-%token <uint32_t> NON_NEGATIVE_INTEGER
+%token <cowl_uint_t> NON_NEGATIVE_INTEGER
 %token <CowlYYString> QUOTED_STRING
 %token <CowlYYString> BLANK_NODE_LABEL
 %token <CowlYYString> PNAME_NS
@@ -86,7 +86,7 @@
 %type <CowlString *> prefix_name node_id
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlOntologyId *> ontology_id
-%type <uint32_t> cardinality
+%type <cowl_uint_t> cardinality
 
 %type <CowlEntity> entity
 %type <CowlClass *> class

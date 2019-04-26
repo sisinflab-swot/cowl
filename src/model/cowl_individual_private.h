@@ -8,8 +8,8 @@
 COWL_BEGIN_DECLS
 
 struct CowlIndividual {
-    uint32_t ref_count;
     bool is_named;
+    cowl_uint_t ref_count;
 };
 
 #define COWL_INDIVIDUAL_INIT(N) { .ref_count = 1, .is_named = ((N)) }

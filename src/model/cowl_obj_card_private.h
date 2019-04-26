@@ -10,9 +10,9 @@ COWL_BEGIN_DECLS
 
 struct CowlObjCard {
     CowlClsExp super;
+    cowl_uint_t cardinality;
     CowlObjPropExp *prop;
     CowlClsExp *filler;
-    uint32_t cardinality;
 };
 
 COWL_END_DECLS

@@ -19,7 +19,7 @@ void cowl_named_individual_release(CowlNamedIndividual *ind);
 CowlIRI* cowl_named_individual_get_iri(CowlNamedIndividual *ind);
 
 bool cowl_named_individual_equals(CowlNamedIndividual *lhs, CowlNamedIndividual *rhs);
-uint32_t cowl_named_individual_hash(CowlNamedIndividual *ind);
+cowl_uint_t cowl_named_individual_hash(CowlNamedIndividual *ind);
 
 bool cowl_named_individual_iterate_signature(CowlNamedIndividual *ind,
                                              void *ctx, CowlEntityIterator iter);

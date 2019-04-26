@@ -4,7 +4,6 @@
 #define COWL_AXIOM_SET_H
 
 #include "cowl_std.h"
-#include "uhash.h"
 
 COWL_BEGIN_DECLS
 

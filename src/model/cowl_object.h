@@ -8,8 +8,8 @@
 COWL_BEGIN_DECLS
 
 typedef struct CowlObject {
-    uint32_t ref_count;
-    uint32_t hash;
+    cowl_uint_t ref_count;
+    cowl_uint_t hash;
 } CowlObject;
 
 #define COWL_OBJECT_INIT(H) { .ref_count = 1, .hash = (H) }

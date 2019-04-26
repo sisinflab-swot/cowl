@@ -16,9 +16,9 @@ typedef enum CowlErrorCode {
 } CowlErrorCode;
 
 typedef struct CowlError {
+    cowl_uint_t line;
     CowlErrorCode code;
     CowlString *description;
-    uint32_t line;
 } CowlError;
 
 VECTOR_DECL(CowlError)

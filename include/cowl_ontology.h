@@ -26,14 +26,14 @@ void cowl_ontology_release(CowlOntology *onto);
 CowlOntologyId* cowl_ontology_get_id(CowlOntology *onto);
 
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs);
-uint32_t cowl_ontology_hash(CowlOntology *onto);
+cowl_uint_t cowl_ontology_hash(CowlOntology *onto);
 
-uint32_t cowl_ontology_axiom_count(CowlOntology *onto);
+cowl_uint_t cowl_ontology_axiom_count(CowlOntology *onto);
 
-uint32_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class);
-uint32_t cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop);
-uint32_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
-                                                        CowlNamedIndividual *individual);
+cowl_uint_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class);
+cowl_uint_t cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop);
+cowl_uint_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
+                                                           CowlNamedIndividual *individual);
 
 void cowl_ontology_iterate_signature(CowlOntology *onto, void *ctx, CowlEntityIterator iter);
 

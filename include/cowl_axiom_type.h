@@ -149,7 +149,7 @@ typedef enum CowlAxiomType {
 } CowlAxiomType;
 
 #define cowl_axiom_type_equals(lhs, rhs) ((lhs) == (rhs))
-#define cowl_axiom_type_hash(axiom_type) (axiom_type)
+#define cowl_axiom_type_hash(axiom_type) (cowl_uint_t)(axiom_type)
 
 COWL_END_DECLS
 

@@ -6,8 +6,8 @@
 #include "cowl_hash_utils.h"
 
 static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlClsExpSet *classes) {
-    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM, type,
-                                uhset_hash(CowlClsExpSet, classes));
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM, type,
+                                   uhset_hash(CowlClsExpSet, classes));
 
     CowlNAryClsAxiom init = {
         .super = COWL_AXIOM_INIT(type, hash),
@@ -52,7 +52,7 @@ bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {
             uhset_equals(CowlClsExpSet, lhs->classes, rhs->classes));
 }
 
-uint32_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
+cowl_uint_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 

@@ -19,7 +19,7 @@ void cowl_cls_exp_release(CowlClsExp *exp);
 CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp);
 
 bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs);
-uint32_t cowl_cls_exp_hash(CowlClsExp *exp);
+cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp);
 
 bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterator iter);
 

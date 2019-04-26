@@ -2,7 +2,6 @@
 
 #include "cowl_anon_individual_private.h"
 #include "cowl_string.h"
-#include "uhash.h"
 
 UHASH_MAP_INIT(CowlAnonIndividualMap, CowlString*, CowlAnonIndividual*,
                cowl_string_hash, cowl_string_equals)
@@ -61,6 +60,6 @@ bool cowl_anon_individual_equals(CowlAnonIndividual *lhs, CowlAnonIndividual *rh
     return lhs == rhs;
 }
 
-uint32_t cowl_anon_individual_hash(CowlAnonIndividual *ind) {
+cowl_uint_t cowl_anon_individual_hash(CowlAnonIndividual *ind) {
     return uhash_ptr_hash(ind);
 }

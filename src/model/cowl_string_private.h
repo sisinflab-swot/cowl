@@ -10,7 +10,7 @@ COWL_BEGIN_DECLS
 
 struct CowlString {
     CowlObject super;
-    uint32_t length;
+    cowl_uint_t length;
     char const *cstring;
 };
 
@@ -22,7 +22,8 @@ struct CowlString {
 
 #define cowl_string_hash_get(s) cowl_object_hash_get(s)
 
-void cowl_string_split_two(char const *cstring, uint32_t length, char character, CowlString **out);
+void cowl_string_split_two(char const *cstring, cowl_uint_t length,
+                           char character, CowlString **out);
 
 COWL_END_DECLS
 

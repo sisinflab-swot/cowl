@@ -5,12 +5,11 @@
 #include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_string_private.h"
-#include "uhash.h"
 
 UHASH_SET_INIT(CowlNSSet, CowlString*, cowl_string_hash, cowl_string_equals)
 static UHash(CowlNSSet) *ns_set = NULL;
 
-static inline uint32_t cowl_iri_map_hash_func(CowlIRI iri) {
+static inline cowl_uint_t cowl_iri_map_hash_func(CowlIRI iri) {
     return cowl_hash_2(COWL_HASH_INIT_IRI,
                        cowl_string_hash(iri.ns),
                        cowl_string_hash(iri.rem));
@@ -78,7 +77,7 @@ void cowl_iri_release(CowlIRI *iri) {
     }
 }
 
-CowlIRI* cowl_iri_parse(char const *cstring, uint32_t length) {
+CowlIRI* cowl_iri_parse(char const *cstring, cowl_uint_t length) {
     // TODO: implement according to spec: https://www.w3.org/TR/REC-xml-names/#NT-NCName
     CowlString *parts[2] = { NULL };
     cowl_string_split_two(cstring, length, '#', parts);
@@ -103,17 +102,17 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
     return lhs == rhs;
 }
 
-uint32_t cowl_iri_hash(CowlIRI *iri) {
+cowl_uint_t cowl_iri_hash(CowlIRI *iri) {
     return uhash_ptr_hash(iri);
 }
 
 CowlIRI* cowl_iri_from_cstring(char const *cstring) {
-    return cowl_iri_parse(cstring, (uint32_t)strlen(cstring));
+    return cowl_iri_parse(cstring, (cowl_uint_t)strlen(cstring));
 }
 
 CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem) {
-    CowlString *ns_string = cowl_string_get(ns, (uint32_t)strlen(ns), false);
-    CowlString *rem_string = cowl_string_get(rem, (uint32_t)strlen(rem), false);
+    CowlString *ns_string = cowl_string_get(ns, (cowl_uint_t)strlen(ns), false);
+    CowlString *rem_string = cowl_string_get(rem, (cowl_uint_t)strlen(rem), false);
 
     CowlIRI *iri = cowl_iri_get(ns_string, rem_string);
 

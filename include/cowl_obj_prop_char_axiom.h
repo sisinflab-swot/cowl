@@ -31,7 +31,7 @@ CowlObjPropCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom 
 CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom);
 
 bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharAxiom *rhs);
-uint32_t cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom);
+cowl_uint_t cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom);
 
 bool cowl_obj_prop_char_axiom_iterate_signature(CowlObjPropCharAxiom *axiom,
                                                 void *ctx, CowlEntityIterator iter);

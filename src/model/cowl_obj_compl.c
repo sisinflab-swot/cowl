@@ -4,7 +4,7 @@
 #include "cowl_hash_utils.h"
 
 static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
-    uint32_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
+    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
     CowlObjCompl init = {
         .super = COWL_CLS_EXP_INIT(CCET_OBJ_COMPLEMENT, hash),
@@ -44,7 +44,7 @@ bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
     return cowl_cls_exp_equals(lhs->operand, rhs->operand);
 }
 
-uint32_t cowl_obj_compl_hash(CowlObjCompl *compl) {
+cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *compl) {
     return cowl_cls_exp_hash_get(compl);
 }
 

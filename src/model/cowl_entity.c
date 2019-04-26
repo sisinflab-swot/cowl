@@ -82,7 +82,7 @@ bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs) {
     }
 }
 
-uint32_t cowl_entity_hash(CowlEntity entity) {
+cowl_uint_t cowl_entity_hash(CowlEntity entity) {
 
 #define GEN_CASE_HASH(CET, PREFIX, FIELD) \
     case CET: return PREFIX##_hash(entity.FIELD)

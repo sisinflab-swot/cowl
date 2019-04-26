@@ -27,7 +27,7 @@ CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr);
 CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
 
 bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs);
-uint32_t cowl_obj_quant_hash(CowlObjQuant *restr);
+cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr);
 
 bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, void *ctx, CowlEntityIterator iter);
 

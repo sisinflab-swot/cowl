@@ -5,8 +5,8 @@
 #include "cowl_hash_utils.h"
 
 static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlClsExpSet *operands) {
-    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
-                                uhset_hash(CowlClsExpSet, operands));
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
+                                   uhset_hash(CowlClsExpSet, operands));
 
     CowlNAryBool init = {
         .super = COWL_CLS_EXP_INIT(type, hash),
@@ -51,7 +51,7 @@ bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
             uhset_equals(CowlClsExpSet, lhs->operands, rhs->operands));
 }
 
-uint32_t cowl_nary_bool_hash(CowlNAryBool *exp) {
+cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_cls_exp_hash_get(exp);
 }
 

@@ -19,7 +19,7 @@ void cowl_data_prop_release(CowlDataProp *prop);
 CowlIRI* cowl_data_prop_get_iri(CowlDataProp *prop);
 
 bool cowl_data_prop_equals(CowlDataProp *lhs, CowlDataProp *rhs);
-uint32_t cowl_data_prop_hash(CowlDataProp *prop);
+cowl_uint_t cowl_data_prop_hash(CowlDataProp *prop);
 
 bool cowl_data_prop_iterate_signature(CowlDataProp *prop, void *ctx, CowlEntityIterator iter);
 

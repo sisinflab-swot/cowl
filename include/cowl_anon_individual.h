@@ -18,7 +18,7 @@ void cowl_anon_individual_release(CowlAnonIndividual *ind);
 CowlString* cowl_anon_individual_get_id(CowlAnonIndividual *ind);
 
 bool cowl_anon_individual_equals(CowlAnonIndividual *lhs, CowlAnonIndividual *rhs);
-uint32_t cowl_anon_individual_hash(CowlAnonIndividual *ind);
+cowl_uint_t cowl_anon_individual_hash(CowlAnonIndividual *ind);
 
 COWL_END_DECLS
 

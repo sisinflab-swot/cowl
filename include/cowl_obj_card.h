@@ -20,17 +20,17 @@ typedef enum CowlObjCardType {
 } CowlObjCardType;
 
 CowlObjCard *cowl_obj_card_get(CowlObjCardType type, CowlObjPropExp *prop,
-                               CowlClsExp *filler, uint32_t cardinality);
+                               CowlClsExp *filler, cowl_uint_t cardinality);
 CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr);
 void cowl_obj_card_release(CowlObjCard *restr);
 
 CowlObjCardType cowl_obj_card_get_type(CowlObjCard *restr);
 CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr);
 CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr);
-uint32_t cowl_obj_card_get_cardinality(CowlObjCard *restr);
+cowl_uint_t cowl_obj_card_get_cardinality(CowlObjCard *restr);
 
 bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs);
-uint32_t cowl_obj_card_hash(CowlObjCard *restr);
+cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr);
 
 bool cowl_obj_card_iterate_signature(CowlObjCard *restr,
                                      void *ctx, CowlEntityIterator iter);

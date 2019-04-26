@@ -17,7 +17,7 @@ void cowl_decl_axiom_release(CowlDeclAxiom *axiom);
 CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
 
 bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
-uint32_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
+cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
 
 bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, void *ctx, CowlEntityIterator iter);
 

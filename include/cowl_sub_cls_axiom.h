@@ -20,7 +20,7 @@ CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom);
 CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom);
 
 bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs);
-uint32_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
+cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
 
 bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom *axiom,
                                           void *ctx, CowlEntityIterator iter);

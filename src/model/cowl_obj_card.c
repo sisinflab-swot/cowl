@@ -5,8 +5,8 @@
 #include "cowl_hash_utils.h"
 
 static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *prop,
-                                        CowlClsExp *filler, uint32_t cardinality) {
-    uint32_t hash;
+                                        CowlClsExp *filler, cowl_uint_t cardinality) {
+    cowl_uint_t hash;
 
     if (filler) {
         hash = cowl_hash_4(COWL_HASH_INIT_OBJ_CARD, type, cardinality,
@@ -37,7 +37,7 @@ static void cowl_obj_card_free(CowlObjCard *restr) {
 }
 
 CowlObjCard* cowl_obj_card_get(CowlObjCardType type, CowlObjPropExp *prop,
-                               CowlClsExp *filler, uint32_t cardinality) {
+                               CowlClsExp *filler, cowl_uint_t cardinality) {
     return cowl_obj_card_alloc(CCET_OBJ_MIN_CARD + type, prop, filler, cardinality);
 }
 
@@ -63,7 +63,7 @@ CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) {
     return restr->filler;
 }
 
-uint32_t cowl_obj_card_get_cardinality(CowlObjCard *restr) {
+cowl_uint_t cowl_obj_card_get_cardinality(CowlObjCard *restr) {
     return restr->cardinality;
 }
 
@@ -75,7 +75,7 @@ bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {
     return false;
 }
 
-uint32_t cowl_obj_card_hash(CowlObjCard *restr) {
+cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr) {
     return cowl_cls_exp_hash_get(restr);
 }
 

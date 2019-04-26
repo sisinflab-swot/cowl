@@ -8,7 +8,7 @@
 COWL_BEGIN_DECLS
 
 struct CowlIRI {
-    uint32_t ref_count;
+    cowl_uint_t ref_count;
     CowlString *ns;
     CowlString *rem;
 };

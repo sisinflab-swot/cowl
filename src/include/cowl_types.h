@@ -9,7 +9,6 @@
 #include "cowl_entity.h"
 #include "cowl_entity_type.h"
 #include "cowl_iterator.h"
-#include "uhash.h"
 
 COWL_BEGIN_DECLS
 

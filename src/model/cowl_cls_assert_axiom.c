@@ -6,9 +6,9 @@
 #include "cowl_individual_private.h"
 
 static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, CowlClsExp *exp) {
-    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM,
-                                cowl_individual_hash(ind),
-                                cowl_cls_exp_hash(exp));
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM,
+                                   cowl_individual_hash(ind),
+                                   cowl_cls_exp_hash(exp));
 
     CowlClsAssertAxiom init = {
         .super = COWL_AXIOM_INIT(CAT_CLASS_ASSERTION, hash),
@@ -62,6 +62,6 @@ bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *r
            cowl_cls_exp_equals(lhs->cls_exp, rhs->cls_exp);
 }
 
-uint32_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
+cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }

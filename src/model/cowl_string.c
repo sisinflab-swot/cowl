@@ -2,14 +2,13 @@
 
 #include "cowl_string_private.h"
 #include "cowl_hash_utils.h"
-#include "uhash.h"
 
 #include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 
-static struct CowlString* cowl_string_alloc(char const *cstring, uint32_t length) {
-    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length, uhash_str_hash(cstring));
+static struct CowlString* cowl_string_alloc(char const *cstring, cowl_uint_t length) {
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length, uhash_str_hash(cstring));
     CowlString init = COWL_STRING_INIT(cstring, length, hash);
     struct CowlString *string = malloc(sizeof(*string));
     memcpy(string, &init, sizeof(*string));
@@ -22,19 +21,20 @@ static void cowl_string_free(CowlString *string) {
     free((void *)string);
 }
 
-static uint32_t cowl_string_length_of_formatted(char const *format, va_list argptr) {
+static cowl_uint_t cowl_string_length_of_formatted(char const *format, va_list argptr) {
     va_list args;
     va_copy(args, argptr);
     int res = vsnprintf(NULL, 0, format, args);
     va_end(args);
 
     assert(res >= 0);
-    return (uint32_t )res;
+    return (cowl_uint_t)res;
 }
 
-void cowl_string_split_two(char const *cstring, uint32_t length, char character, CowlString **out) {
+void cowl_string_split_two(char const *cstring, cowl_uint_t length,
+                           char character, CowlString **out) {
     char const *chr = memchr(cstring, character, length);
-    uint32_t ns_length = chr ? (uint32_t)(chr - cstring + 1) : length;
+    cowl_uint_t ns_length = chr ? (cowl_uint_t)(chr - cstring + 1) : length;
 
     if (ns_length == length) {
         out[0] = cowl_string_get(cstring, length, false);
@@ -45,7 +45,7 @@ void cowl_string_split_two(char const *cstring, uint32_t length, char character,
     }
 }
 
-CowlString* cowl_string_get(char const *cstring, uint32_t length, bool owned) {
+CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool owned) {
     return cowl_string_alloc(owned ? cstring : strndup(cstring, length), length);
 }
 
@@ -78,7 +78,7 @@ char const* cowl_string_get_cstring(CowlString *string) {
     return string->cstring;
 }
 
-uint32_t cowl_string_get_length(CowlString *string) {
+cowl_uint_t cowl_string_get_length(CowlString *string) {
     return string->length;
 }
 
@@ -88,7 +88,7 @@ bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
            memcmp(lhs->cstring, rhs->cstring, lhs->length) == 0;
 }
 
-uint32_t cowl_string_hash(CowlString *string) {
+cowl_uint_t cowl_string_hash(CowlString *string) {
     return cowl_string_hash_get(string);
 }
 
@@ -96,7 +96,7 @@ CowlString* cowl_string_with_format(char const *format, ...) {
     va_list args;
     va_start(args, format);
 
-    uint32_t length = cowl_string_length_of_formatted(format, args);
+    cowl_uint_t length = cowl_string_length_of_formatted(format, args);
     size_t size = (length + 1) * sizeof(char);
     char *cstring = malloc(size);
     vsnprintf(cstring, size, format, args);
@@ -106,7 +106,7 @@ CowlString* cowl_string_with_format(char const *format, ...) {
 }
 
 CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs) {
-    uint32_t length = lhs->length + rhs->length;
+    cowl_uint_t length = lhs->length + rhs->length;
     char *cstring = malloc((length + 1) * sizeof(*cstring));
     memcpy(cstring, lhs->cstring, lhs->length * sizeof(*cstring));
     memcpy(cstring + lhs->length, rhs->cstring, rhs->length * sizeof(*cstring));

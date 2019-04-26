@@ -13,5 +13,6 @@
 #include <string.h>
 
 #include "cowl_compat.h"
+#include "cowl_base_types.h"
 
 #endif // COWL_STD_H

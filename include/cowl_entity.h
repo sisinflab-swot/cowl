@@ -64,7 +64,7 @@ void cowl_entity_release(CowlEntity entity);
 CowlIRI* cowl_entity_get_iri(CowlEntity entity);
 
 bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs);
-uint32_t cowl_entity_hash(CowlEntity entity);
+cowl_uint_t cowl_entity_hash(CowlEntity entity);
 
 COWL_END_DECLS
 

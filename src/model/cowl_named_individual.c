@@ -2,7 +2,6 @@
 
 #include "cowl_named_individual_private.h"
 #include "cowl_iri_private.h"
-#include "uhash.h"
 
 UHASH_MAP_INIT(CowlNamedIndividualMap, CowlIRI*, CowlNamedIndividual*,
                cowl_iri_hash, cowl_iri_equals)
@@ -61,7 +60,7 @@ bool cowl_named_individual_equals(CowlNamedIndividual *lhs, CowlNamedIndividual 
     return lhs == rhs;
 }
 
-uint32_t cowl_named_individual_hash(CowlNamedIndividual *ind) {
+cowl_uint_t cowl_named_individual_hash(CowlNamedIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 

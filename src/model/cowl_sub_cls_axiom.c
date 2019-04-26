@@ -5,9 +5,9 @@
 #include "cowl_hash_utils.h"
 
 static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *super) {
-    uint32_t hash = cowl_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM,
-                                cowl_cls_exp_hash(super),
-                                cowl_cls_exp_hash(sub));
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM,
+                                   cowl_cls_exp_hash(super),
+                                   cowl_cls_exp_hash(sub));
 
     CowlSubClsAxiom init = {
         .super = COWL_AXIOM_INIT(CAT_SUB_CLASS, hash),
@@ -54,7 +54,7 @@ bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs) {
            cowl_cls_exp_equals(lhs->super_class, rhs->super_class);
 }
 
-uint32_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
+cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
     return cowl_axiom_hash_get(axiom);
 }
 

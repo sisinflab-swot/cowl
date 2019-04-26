@@ -114,37 +114,31 @@ NON_NEGATIVE_INTEGER                    {DIGITS}
 "AnnotationPropertyRange"               { return ANNOTATION_PROPERTY_RANGE; }
 
 {NON_NEGATIVE_INTEGER}                  {
-                                            yylval->NON_NEGATIVE_INTEGER = atoi(yytext);
+                                            yylval->NON_NEGATIVE_INTEGER = (cowl_uint_t)atoi(yytext);
                                             return NON_NEGATIVE_INTEGER;
                                         }
 {IRI_REF}                               {
-                                            yylval->IRI_REF =
-                                                cowl_yystring_init(yytext + 1, yyleng - 2);
+                                            yylval->IRI_REF = cowl_yystring_init(yytext + 1, (cowl_uint_t)(yyleng - 2));
                                             return IRI_REF;
                                         }
 {PNAME_NS}                              {
-                                            yylval->PNAME_NS =
-                                                cowl_yystring_init(yytext, yyleng);
+                                            yylval->PNAME_NS = cowl_yystring_init(yytext, (cowl_uint_t)yyleng);
                                             return PNAME_NS;
                                         }
 {PNAME_LN}                              {
-                                            yylval->PNAME_LN =
-                                                cowl_yystring_init(yytext, yyleng);
+                                            yylval->PNAME_LN = cowl_yystring_init(yytext, (cowl_uint_t)yyleng);
                                             return PNAME_LN;
                                         }
 {BLANK_NODE_LABEL}                      {
-                                            yylval->BLANK_NODE_LABEL =
-                                                cowl_yystring_init(yytext + 2, yyleng - 2);
+                                            yylval->BLANK_NODE_LABEL = cowl_yystring_init(yytext + 2, (cowl_uint_t)(yyleng - 2));
                                             return BLANK_NODE_LABEL;
                                         }
 {LANG_TAG}                              {
-                                            yylval->LANG_TAG =
-                                                cowl_yystring_init(yytext + 1, yyleng - 1);
+                                            yylval->LANG_TAG = cowl_yystring_init(yytext + 1, (cowl_uint_t)(yyleng - 1));
                                             return LANG_TAG;
                                         }
 {QUOTED_STRING}                         {
-                                            yylval->QUOTED_STRING =
-                                                cowl_yystring_init(yytext + 1, yyleng - 2);
+                                            yylval->QUOTED_STRING = cowl_yystring_init(yytext + 1, (cowl_uint_t)(yyleng - 2));
                                             return QUOTED_STRING;
                                         }
 

@@ -8,7 +8,7 @@
 COWL_BEGIN_DECLS
 
 struct CowlDataPropExp {
-    uint32_t ref_count;
+    cowl_uint_t ref_count;
 };
 
 #define COWL_DATA_PROP_EXP_INIT { .ref_count = 1 }

@@ -35,7 +35,7 @@ bool cowl_ontology_id_equals(CowlOntologyId *lhs, CowlOntologyId *rhs) {
            cowl_iri_equals(lhs->version_iri, rhs->version_iri);
 }
 
-uint32_t cowl_ontology_id_hash(CowlOntologyId *id) {
+cowl_uint_t cowl_ontology_id_hash(CowlOntologyId *id) {
     return cowl_hash_2(COWL_HASH_INIT_ONTO_ID,
                        cowl_iri_hash(id->onto_iri),
                        cowl_iri_hash(id->version_iri));
