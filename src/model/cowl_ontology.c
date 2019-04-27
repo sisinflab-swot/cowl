@@ -50,11 +50,11 @@ static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom
 } while(0)
 
 #define cowl_add_axiom_to_set_in_array(array, idx, axiom) do {                                      \
-    CowlAxiomSet *__cowl_axioms = ((array))[idx];                                                     \
+    CowlAxiomSet *__cowl_axioms = ((array))[idx];                                                   \
                                                                                                     \
     if (!__cowl_axioms) {                                                                           \
         __cowl_axioms = uhash_alloc(CowlAxiomSet);                                                  \
-        ((array))[idx] = __cowl_axioms;                                                               \
+        ((array))[idx] = __cowl_axioms;                                                             \
     }                                                                                               \
                                                                                                     \
     uhset_insert(CowlAxiomSet, __cowl_axioms, axiom);                                               \

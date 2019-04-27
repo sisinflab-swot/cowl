@@ -6,7 +6,7 @@
 UHASH_SET_IMPL(CowlIndividualSet, CowlIndividual*, cowl_individual_hash, cowl_individual_equals)
 
 bool cowl_individual_set_insert(CowlMutableIndividualSet *set, CowlIndividual *exp) {
-    return uhset_insert(CowlIndividualSet, set, cowl_individual_retain(exp));
+    return uhset_insert(CowlIndividualSet, set, cowl_individual_retain(exp)) == UHASH_INSERTED;
 }
 
 void cowl_individual_set_free(CowlIndividualSet *set) {
