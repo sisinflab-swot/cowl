@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjProp const CowlObjProp;
+cowl_struct_decl(CowlObjProp);
 
-typedef struct CowlInverseObjProp const CowlInverseObjProp;
+cowl_struct_decl(CowlInverseObjProp);
 
 CowlInverseObjProp* cowl_inverse_obj_prop_get(CowlObjProp *prop);
 CowlInverseObjProp* cowl_inverse_obj_prop_retain(CowlInverseObjProp *inv);

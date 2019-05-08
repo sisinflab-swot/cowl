@@ -12,7 +12,7 @@ static CowlClass* cowl_class_alloc(CowlIRI *iri) {
         .super = COWL_CLS_EXP_INIT(CCET_CLASS, 0),
         .iri = cowl_iri_retain(iri)
     };
-    struct CowlClass *cls = malloc(sizeof(*cls));
+    cowl_struct(CowlClass) *cls = malloc(sizeof(*cls));
     memcpy(cls, &init, sizeof(*cls));
 
     cowl_uint_t hash = uhash_ptr_hash(cls);

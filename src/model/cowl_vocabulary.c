@@ -9,7 +9,7 @@
 #define COWL_STR_OWL_THING_REM "Thing"
 #define COWL_STR_OWL_NOTHING_REM "Nothing"
 
-static struct CowlVocabulary cowl_vocabulary;
+static cowl_struct(CowlVocabulary) cowl_vocabulary;
 
 void cowl_vocabulary_init(void) {
     CowlString *owl_ns_str = cowl_string_from_static(COWL_STR_OWL_NS);
@@ -22,7 +22,7 @@ void cowl_vocabulary_init(void) {
     CowlClass *owl_thing = cowl_class_get(owl_thing_iri);
     CowlClass *owl_nothing = cowl_class_get(owl_nothing_iri);
 
-    cowl_vocabulary = (struct CowlVocabulary) {
+    cowl_vocabulary = (cowl_struct(CowlVocabulary)) {
         .ns = {
             .owl = owl_ns_str
         },

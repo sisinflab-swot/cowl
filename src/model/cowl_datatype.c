@@ -8,7 +8,7 @@ static UHash(CowlDatatypeMap) *inst_map = NULL;
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     CowlDatatype init = COWL_DATATYPE_INIT(cowl_iri_retain(iri));
-    struct CowlDatatype *datatype = malloc(sizeof(*datatype));
+    cowl_struct(CowlDatatype) *datatype = malloc(sizeof(*datatype));
     memcpy(datatype, &init, sizeof(*datatype));
     return datatype;
 }

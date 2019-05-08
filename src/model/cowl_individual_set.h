@@ -7,11 +7,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIndividual const CowlIndividual;
+cowl_struct_decl(CowlIndividual);
 
 UHASH_SET_DECL(CowlIndividualSet, CowlIndividual*)
-typedef struct UHash(CowlIndividualSet) const CowlIndividualSet;
-typedef struct UHash(CowlIndividualSet) CowlMutableIndividualSet;
+cowl_hash_decl(CowlIndividualSet);
+cowl_hash_decl_mutable(CowlIndividualSet, CowlMutableIndividualSet);
 
 bool cowl_individual_set_insert(CowlMutableIndividualSet *set, CowlIndividual *exp);
 void cowl_individual_set_free(CowlIndividualSet *set);

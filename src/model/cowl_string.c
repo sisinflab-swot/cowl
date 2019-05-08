@@ -7,10 +7,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static struct CowlString* cowl_string_alloc(char const *cstring, cowl_uint_t length) {
+static cowl_struct(CowlString)* cowl_string_alloc(char const *cstring, cowl_uint_t length) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length, uhash_str_hash(cstring));
     CowlString init = COWL_STRING_INIT(cstring, length, hash);
-    struct CowlString *string = malloc(sizeof(*string));
+    cowl_struct(CowlString) *string = malloc(sizeof(*string));
     memcpy(string, &init, sizeof(*string));
     return string;
 }
@@ -67,7 +67,7 @@ char const* cowl_string_release_copying_cstring(CowlString *string) {
         cstring = strndup(string->cstring, string->length);
     } else {
         cstring = string->cstring;
-        ((struct CowlString *)string)->cstring = NULL;
+        ((cowl_struct(CowlString) *)string)->cstring = NULL;
         cowl_string_free(string);
     }
 

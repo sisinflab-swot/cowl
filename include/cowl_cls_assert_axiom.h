@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp const CowlClsExp;
-typedef struct CowlIndividual const CowlIndividual;
+cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlIndividual);
 
-typedef struct CowlClsAssertAxiom const CowlClsAssertAxiom;
+cowl_struct_decl(CowlClsAssertAxiom);
 
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp);
 CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom);

@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlString {
+cowl_struct(CowlString) {
     CowlObject super;
     cowl_uint_t length;
     char const *cstring;

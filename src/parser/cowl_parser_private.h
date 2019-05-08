@@ -7,16 +7,17 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAxiom const CowlAxiom;
-typedef struct CowlIRI const CowlIRI;
-typedef struct CowlString const CowlString;
-typedef struct CowlOntology const CowlOntology;
-typedef struct CowlOntology CowlMutableOntology;
-typedef struct CowlOntologyId const CowlOntologyId;
+cowl_struct_decl(CowlAxiom);
+cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlString);
+cowl_struct_decl(CowlOntology);
+cowl_struct_decl(CowlOntologyId);
+
+cowl_struct_decl_mutable(CowlOntology, CowlMutableOntology);
 
 UHASH_MAP_DECL(CowlPrefixNsMap, CowlString*, CowlString*)
 
-struct CowlParser {
+cowl_struct(CowlParser) {
     UHash(CowlPrefixNsMap) *prefix_ns_map;
     CowlMutableOntology *ontology;
     Vector(CowlError) *errors;

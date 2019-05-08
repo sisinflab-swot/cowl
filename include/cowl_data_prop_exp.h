@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlDataProp const CowlDataProp;
+cowl_struct_decl(CowlDataProp);
 
-typedef struct CowlDataPropExp const CowlDataPropExp;
+cowl_struct_decl(CowlDataPropExp);
 
 CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *prop);
 void cowl_data_prop_exp_release(CowlDataPropExp *prop);

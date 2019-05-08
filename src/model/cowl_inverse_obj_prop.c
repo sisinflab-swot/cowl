@@ -12,7 +12,7 @@ static CowlInverseObjProp* cowl_inverse_obj_prop_alloc(CowlObjProp *prop) {
         .super = COWL_OBJ_PROP_EXP_INIT(true),
         .prop = cowl_obj_prop_retain(prop)
     };
-    struct CowlInverseObjProp *inv = malloc(sizeof(*inv));
+    cowl_struct(CowlInverseObjProp) *inv = malloc(sizeof(*inv));
     memcpy(inv, &init, sizeof(*inv));
     return inv;
 }

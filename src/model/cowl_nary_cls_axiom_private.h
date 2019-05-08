@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlNAryClsAxiom {
+cowl_struct(CowlNAryClsAxiom) {
     CowlAxiom super;
     CowlClsExpSet *classes;
 };

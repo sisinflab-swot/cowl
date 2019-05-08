@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlOntology const CowlOntology;
+cowl_struct_decl(CowlOntology);
 
-typedef struct CowlParser const CowlParser;
+cowl_struct_decl(CowlParser);
 
 CowlParser* cowl_parser_alloc(void);
 void cowl_parser_free(CowlParser *parser);

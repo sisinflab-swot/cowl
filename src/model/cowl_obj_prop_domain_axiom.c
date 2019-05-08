@@ -17,7 +17,7 @@ static CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp *
         .domain = cowl_cls_exp_retain(domain)
     };
 
-    struct CowlObjPropDomainAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlObjPropDomainAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

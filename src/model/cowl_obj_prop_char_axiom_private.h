@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlObjPropCharAxiom {
+cowl_struct(CowlObjPropCharAxiom) {
     CowlAxiom super;
     CowlObjPropExp *prop_exp;
 };

@@ -7,9 +7,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlString const CowlString;
+cowl_struct_decl(CowlString);
 
-typedef struct CowlIRI const CowlIRI;
+cowl_struct_decl(CowlIRI);
 
 CowlIRI* cowl_iri_parse(char const *cstring, cowl_uint_t length);
 CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem);

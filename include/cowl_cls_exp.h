@@ -9,9 +9,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjPropExp const CowlObjPropExp;
+cowl_struct_decl(CowlObjPropExp);
 
-typedef struct CowlClsExp const CowlClsExp;
+cowl_struct_decl(CowlClsExp);
 
 CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp);
 void cowl_cls_exp_release(CowlClsExp *exp);

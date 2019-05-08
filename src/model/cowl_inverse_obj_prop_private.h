@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlInverseObjProp {
+cowl_struct(CowlInverseObjProp) {
     CowlObjPropExp super;
     CowlObjProp *prop;
 };

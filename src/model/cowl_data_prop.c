@@ -8,7 +8,7 @@ static UHash(CowlDataPropMap) *inst_map = NULL;
 
 static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
     CowlDataProp init = { .super = COWL_DATA_PROP_EXP_INIT, .iri = cowl_iri_retain(iri) };
-    struct CowlDataProp *prop = malloc(sizeof(*prop));
+    cowl_struct(CowlDataProp) *prop = malloc(sizeof(*prop));
     memcpy(prop, &init, sizeof(*prop));
     return prop;
 }

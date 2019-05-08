@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlClass {
+cowl_struct(CowlClass) {
     CowlClsExp super;
     CowlIRI *iri;
 };

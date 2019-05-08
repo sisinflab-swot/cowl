@@ -10,6 +10,7 @@
 #include "cowl_class_private.h"
 #include "cowl_cls_assert_axiom_private.h"
 #include "cowl_cls_exp_private.h"
+#include "cowl_cls_exp_set_private.h"
 #include "cowl_data_prop_private.h"
 #include "cowl_data_prop_exp_private.h"
 #include "cowl_datatype_private.h"

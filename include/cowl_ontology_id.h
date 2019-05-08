@@ -7,9 +7,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIRI const CowlIRI;
+cowl_struct_decl(CowlIRI);
 
-typedef struct CowlOntologyId const CowlOntologyId;
+cowl_struct_decl(CowlOntologyId);
 
 CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyId *id);
 CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyId *id);

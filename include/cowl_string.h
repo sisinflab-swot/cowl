@@ -7,7 +7,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlString const CowlString;
+cowl_struct_decl(CowlString);
 
 CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool owned);
 CowlString* cowl_string_retain(CowlString *string);

@@ -10,7 +10,7 @@ CowlOntologyId* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri) 
         .version_iri = version_iri ? cowl_iri_retain(version_iri) : NULL
     };
 
-    struct CowlOntologyId *id = malloc(sizeof(*id));
+    cowl_struct(CowlOntologyId) *id = malloc(sizeof(*id));
     memcpy(id, &init, sizeof(*id));
     return id;
 }

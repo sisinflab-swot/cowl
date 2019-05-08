@@ -16,7 +16,7 @@ static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, Cowl
         .cls_exp = cowl_cls_exp_retain(exp)
     };
 
-    struct CowlClsAssertAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlClsAssertAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

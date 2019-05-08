@@ -15,7 +15,7 @@ static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *su
         .sub_class = cowl_cls_exp_retain(sub)
     };
 
-    struct CowlSubClsAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlSubClsAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

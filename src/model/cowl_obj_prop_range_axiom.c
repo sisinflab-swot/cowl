@@ -17,7 +17,7 @@ static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *pr
         .range = cowl_cls_exp_retain(range)
     };
 
-    struct CowlObjPropRangeAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlObjPropRangeAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

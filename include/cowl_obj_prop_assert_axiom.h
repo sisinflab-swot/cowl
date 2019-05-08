@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIndividual const CowlIndividual;
-typedef struct CowlObjPropExp const CowlObjPropExp;
+cowl_struct_decl(CowlIndividual);
+cowl_struct_decl(CowlObjPropExp);
 
-typedef struct CowlObjPropAssertAxiom const CowlObjPropAssertAxiom;
+cowl_struct_decl(CowlObjPropAssertAxiom);
 
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *source,
                                                        CowlObjPropExp *prop,

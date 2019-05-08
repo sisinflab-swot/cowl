@@ -20,7 +20,7 @@ static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlIndividual *
         .prop_exp = cowl_obj_prop_exp_retain(prop)
     };
 
-    struct CowlObjPropAssertAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlObjPropAssertAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

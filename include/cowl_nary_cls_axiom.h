@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct UHash(CowlClsExpSet) const CowlClsExpSet;
+cowl_hash_decl(CowlClsExpSet);
 
-typedef struct CowlNAryClsAxiom const CowlNAryClsAxiom;
+cowl_struct_decl(CowlNAryClsAxiom);
 
 typedef enum CowlNAryClsAxiomType {
     CNCAT_EQUIVALENT_CLASSES,

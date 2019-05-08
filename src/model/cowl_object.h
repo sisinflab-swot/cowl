@@ -7,7 +7,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObject {
+typedef cowl_struct(CowlObject) {
     cowl_uint_t ref_count;
     cowl_uint_t hash;
 } CowlObject;

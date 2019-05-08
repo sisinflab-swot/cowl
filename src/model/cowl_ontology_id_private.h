@@ -7,7 +7,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlOntologyId {
+cowl_struct(CowlOntologyId) {
     CowlIRI *onto_iri;
     CowlIRI *version_iri;
 };

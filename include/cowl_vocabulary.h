@@ -8,31 +8,32 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClass const CowlClass;
-typedef struct CowlIRI const CowlIRI;
-typedef struct CowlString const CowlString;
+cowl_struct_decl(CowlClass);
+cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlString);
 
-typedef struct CowlVocabulary {
-    struct CowlNSVocabulary {
+cowl_struct(CowlVocabulary) {
+    cowl_struct(CowlNSVocabulary) {
         CowlString *owl;
     } ns;
 
-    struct CowlRemVocabulary {
+    cowl_struct(CowlRemVocabulary) {
         CowlString *thing;
         CowlString *nothing;
     } rem;
 
-    struct CowlIRIVocabulary {
+    cowl_struct(CowlIRIVocabulary) {
         CowlIRI *thing;
         CowlIRI *nothing;
     } iri;
 
-    struct CowlClassVocabulary {
+    cowl_struct(CowlClassVocabulary) {
         CowlClass *thing;
         CowlClass *nothing;
     } cls;
+};
 
-} const CowlVocabulary;
+cowl_struct_decl(CowlVocabulary);
 
 CowlVocabulary* cowl_vocabulary_get(void);
 void cowl_vocabulary_iterate_signature(void *ctx, CowlEntityIterator iter);

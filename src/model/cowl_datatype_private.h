@@ -7,14 +7,14 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlDatatype {
+cowl_struct(CowlDatatype) {
     cowl_uint_t ref_count;
     CowlIRI *iri;
 };
 
 #define COWL_DATATYPE_INIT(IRI) { .ref_count = 1, .iri = (IRI) }
 
-#define cowl_datatype_ref_get(i) (((struct CowlDatatype *)(i))->ref_count)
+#define cowl_datatype_ref_get(i) (((cowl_struct(CowlDatatype) *)(i))->ref_count)
 #define cowl_datatype_ref_incr(i) (++cowl_datatype_ref_get(i), (i))
 #define cowl_datatype_ref_decr(i) (--cowl_datatype_ref_get(i))
 

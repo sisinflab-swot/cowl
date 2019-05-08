@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjPropExp const CowlObjPropExp;
+cowl_struct_decl(CowlObjPropExp);
 
-typedef struct CowlObjPropCharAxiom const CowlObjPropCharAxiom;
+cowl_struct_decl(CowlObjPropCharAxiom);
 
 typedef enum CowlObjPropCharAxiomType {
     COPCAT_FUNCTIONAL,

@@ -12,42 +12,43 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAnonIndividual const CowlAnonIndividual;
-typedef struct CowlAxiom const CowlAxiom;
-typedef struct CowlClass const CowlClass;
-typedef struct CowlClsAssertAxiom const CowlClsAssertAxiom;
-typedef struct CowlClsExp const CowlClsExp;
-typedef struct UHash(CowlClsExpSet) const CowlClsExpSet;
-typedef struct UHash(CowlClsExpSet) CowlMutableClsExpSet;
-typedef struct CowlDataProp const CowlDataProp;
-typedef struct CowlDataPropExp const CowlDataPropExp;
-typedef struct CowlDatatype const CowlDatatype;
-typedef struct CowlDeclAxiom const CowlDeclAxiom;
-typedef struct CowlIndividual const CowlIndividual;
-typedef struct UHash(CowlIndividualSet) const CowlIndividualSet;
-typedef struct UHash(CowlIndividualSet) CowlMutableIndividualSet;
-typedef struct CowlInverseObjProp const CowlInverseObjProp;
-typedef struct CowlIRI const CowlIRI;
-typedef struct CowlLogger CowlLogger;
-typedef struct CowlNamedIndividual const CowlNamedIndividual;
-typedef struct CowlNAryBool const CowlNAryBool;
-typedef struct CowlNAryClsAxiom const CowlNAryClsAxiom;
-typedef struct CowlObjCard const CowlObjCard;
-typedef struct CowlObjCompl const CowlObjCompl;
-typedef struct CowlObjProp const CowlObjProp;
-typedef struct CowlObjPropAssertAxiom const CowlObjPropAssertAxiom;
-typedef struct CowlObjPropCharAxiom const CowlObjPropCharAxiom;
-typedef struct CowlObjPropDomainAxiom const CowlObjPropDomainAxiom;
-typedef struct CowlObjPropExp const CowlObjPropExp;
-typedef struct UHash(CowlObjPropExpSet) const CowlObjPropExpSet;
-typedef struct UHash(CowlObjPropExpSet) CowlMutableObjPropExpSet;
-typedef struct CowlObjPropRangeAxiom const CowlObjPropRangeAxiom;
-typedef struct CowlObjQuant const CowlObjQuant;
-typedef struct CowlOntology const CowlOntology;
-typedef struct CowlOntologyId const CowlOntologyId;
-typedef struct CowlParser const CowlParser;
-typedef struct CowlString const CowlString;
-typedef struct CowlSubClsAxiom const CowlSubClsAxiom;
+cowl_struct_decl(CowlAnonIndividual);
+cowl_struct_decl(CowlAxiom);
+cowl_struct_decl(CowlClass);
+cowl_struct_decl(CowlClsAssertAxiom);
+cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlDataProp);
+cowl_struct_decl(CowlDataPropExp);
+cowl_struct_decl(CowlDatatype);
+cowl_struct_decl(CowlDeclAxiom);
+cowl_struct_decl(CowlIndividual);
+cowl_struct_decl(CowlInverseObjProp);
+cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlLogger);
+cowl_struct_decl(CowlNamedIndividual);
+cowl_struct_decl(CowlNAryBool);
+cowl_struct_decl(CowlNAryClsAxiom);
+cowl_struct_decl(CowlObjCard);
+cowl_struct_decl(CowlObjCompl);
+cowl_struct_decl(CowlObjProp);
+cowl_struct_decl(CowlObjPropAssertAxiom);
+cowl_struct_decl(CowlObjPropCharAxiom);
+cowl_struct_decl(CowlObjPropDomainAxiom);
+cowl_struct_decl(CowlObjPropExp);
+cowl_struct_decl(CowlObjPropRangeAxiom);
+cowl_struct_decl(CowlObjQuant);
+cowl_struct_decl(CowlOntology);
+cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlParser);
+cowl_struct_decl(CowlString);
+cowl_struct_decl(CowlSubClsAxiom);
+
+cowl_hash_decl(CowlClsExpSet);
+cowl_hash_decl(CowlObjPropExpSet);
+cowl_hash_decl(CowlIndividualSet);
+cowl_hash_decl_mutable(CowlClsExpSet, CowlMutableClsExpSet);
+cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
+cowl_hash_decl_mutable(CowlIndividualSet, CowlMutableIndividualSet);
 
 COWL_END_DECLS
 

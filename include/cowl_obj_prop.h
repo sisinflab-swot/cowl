@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIRI const CowlIRI;
+cowl_struct_decl(CowlIRI);
 
-typedef struct CowlObjProp const CowlObjProp;
+cowl_struct_decl(CowlObjProp);
 
 CowlObjProp* cowl_obj_prop_get(CowlIRI *iri);
 CowlObjProp* cowl_obj_prop_retain(CowlObjProp *prop);

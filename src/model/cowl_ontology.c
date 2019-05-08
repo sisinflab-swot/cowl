@@ -15,7 +15,7 @@ UHASH_MAP_IMPL(CowlNamedIndAxiomMap, CowlNamedIndividual*, CowlAxiomSet*,
 UHASH_MAP_IMPL(CowlAnonIndAxiomMap, CowlAnonIndividual*, CowlAxiomSet*,
                cowl_anon_individual_hash, cowl_anon_individual_equals)
 
-typedef struct CowlAxiomEntityCtx {
+typedef cowl_struct(CowlAxiomEntityCtx) {
     CowlOntology *onto;
     CowlAxiom *axiom;
 } CowlAxiomEntityCtx;

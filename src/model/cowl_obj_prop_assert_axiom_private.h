@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlObjPropAssertAxiom {
+cowl_struct(CowlObjPropAssertAxiom) {
     CowlAxiom super;
     CowlIndividual *source;
     CowlIndividual *target;

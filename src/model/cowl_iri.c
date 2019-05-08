@@ -19,13 +19,13 @@ static inline bool cowl_iri_map_hash_equal(CowlIRI a, CowlIRI b) {
     return a.ns == b.ns && cowl_string_equals(a.rem, b.rem);
 }
 
-UHASH_MAP_INIT(CowlIRIMap, struct CowlIRI, CowlIRI*,
+UHASH_MAP_INIT(CowlIRIMap, cowl_struct(CowlIRI), CowlIRI*,
                cowl_iri_map_hash_func, cowl_iri_map_hash_equal)
 static UHash(CowlIRIMap) *inst_map = NULL;
 
-static struct CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
+static cowl_struct(CowlIRI)* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     CowlIRI init = COWL_IRI_INIT(cowl_string_retain(ns), cowl_string_retain(rem));
-    struct CowlIRI *iri = malloc(sizeof(*iri));
+    cowl_struct(CowlIRI) *iri = malloc(sizeof(*iri));
     memcpy(iri, &init, sizeof(*iri));
     return iri;
 }

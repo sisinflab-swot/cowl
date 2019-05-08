@@ -7,9 +7,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlString const CowlString;
+cowl_struct_decl(CowlString);
 
-typedef struct CowlAnonIndividual const CowlAnonIndividual;
+cowl_struct_decl(CowlAnonIndividual);
 
 CowlAnonIndividual* cowl_anon_individual_get(CowlString *id);
 CowlAnonIndividual* cowl_anon_individual_retain(CowlAnonIndividual *ind);

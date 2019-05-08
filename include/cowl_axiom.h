@@ -9,7 +9,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAxiom const CowlAxiom;
+cowl_struct_decl(CowlAxiom);
 
 CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom);
 void cowl_axiom_release(CowlAxiom *axiom);

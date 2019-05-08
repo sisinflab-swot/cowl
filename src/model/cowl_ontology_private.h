@@ -15,7 +15,7 @@ UHASH_MAP_DECL(CowlObjPropAxiomMap, CowlObjProp*, UHash(CowlAxiomSet)*)
 UHASH_MAP_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual*, UHash(CowlAxiomSet)*)
 UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual*, UHash(CowlAxiomSet)*)
 
-struct CowlOntology {
+cowl_struct(CowlOntology) {
     cowl_uint_t ref_count;
     CowlOntologyId *id;
     UHash(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
@@ -25,7 +25,7 @@ struct CowlOntology {
     UHash(CowlAnonIndAxiomMap) *anon_ind_refs;
 };
 
-typedef struct CowlOntology CowlMutableOntology;
+cowl_struct_decl_mutable(CowlOntology, CowlMutableOntology);
 
 #define COWL_ONTOLOGY_INIT {                                                                        \
     .ref_count = 1,                                                                                 \

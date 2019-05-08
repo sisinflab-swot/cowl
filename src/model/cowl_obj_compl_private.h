@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlObjCompl {
+cowl_struct(CowlObjCompl) {
     CowlClsExp super;
     CowlClsExp *operand;
 };

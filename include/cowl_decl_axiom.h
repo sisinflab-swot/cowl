@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlDeclAxiom const CowlDeclAxiom;
+cowl_struct_decl(CowlDeclAxiom);
 
 CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity);
 CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom);

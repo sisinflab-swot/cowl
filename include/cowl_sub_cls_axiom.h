@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp const CowlClsExp;
+cowl_struct_decl(CowlClsExp);
 
-typedef struct CowlSubClsAxiom const CowlSubClsAxiom;
+cowl_struct_decl(CowlSubClsAxiom);
 
 CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super);
 CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom);

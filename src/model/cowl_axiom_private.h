@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlAxiom {
+cowl_struct(CowlAxiom) {
     CowlObject super;
     CowlAxiomType type;
 };

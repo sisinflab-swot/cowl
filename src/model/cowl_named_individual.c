@@ -12,7 +12,7 @@ static CowlNamedIndividual* cowl_named_individual_alloc(CowlIRI *iri) {
         .super = COWL_INDIVIDUAL_INIT(true),
         .iri = cowl_iri_retain(iri)
     };
-    struct CowlNamedIndividual *ind = malloc(sizeof(*ind));
+    cowl_struct(CowlNamedIndividual) *ind = malloc(sizeof(*ind));
     memcpy(ind, &ind_init, sizeof(*ind));
     return ind;
 }

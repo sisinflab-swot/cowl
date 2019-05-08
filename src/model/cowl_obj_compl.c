@@ -11,7 +11,7 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
         .operand = cowl_cls_exp_retain(operand)
     };
 
-    struct CowlObjCompl *compl = malloc(sizeof(*compl));
+    cowl_struct(CowlObjCompl) *compl = malloc(sizeof(*compl));
     memcpy(compl, &init, sizeof(*compl));
     return compl;
 }

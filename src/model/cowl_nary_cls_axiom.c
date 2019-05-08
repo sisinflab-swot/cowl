@@ -14,7 +14,7 @@ static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlClsEx
         .classes = classes
     };
 
-    struct CowlNAryClsAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlNAryClsAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

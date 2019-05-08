@@ -15,7 +15,7 @@ static CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_alloc(CowlAxiomType type,
         .prop_exp = cowl_obj_prop_exp_retain(prop)
     };
 
-    struct CowlObjPropCharAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlObjPropCharAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

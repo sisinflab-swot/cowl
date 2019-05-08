@@ -7,7 +7,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAxiom const CowlAxiom;
+cowl_struct_decl(CowlAxiom);
 
 UHASH_SET_DECL(CowlAxiomSet, CowlAxiom*)
 typedef UHash(CowlAxiomSet) CowlAxiomSet;

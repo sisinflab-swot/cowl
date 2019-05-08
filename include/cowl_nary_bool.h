@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct UHash(CowlClsExpSet) const CowlClsExpSet;
+cowl_hash_decl(CowlClsExpSet);
 
-typedef struct CowlNAryBool const CowlNAryBool;
+cowl_struct_decl(CowlNAryBool);
 
 typedef enum CowlNAryBoolType {
     CNBT_INTERSECTION,

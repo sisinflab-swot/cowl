@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlString const CowlString;
+cowl_struct_decl(CowlString);
 
 typedef enum CowlErrorCode {
     CEC_ONTOLOGY_LOAD,

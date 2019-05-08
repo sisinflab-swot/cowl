@@ -12,7 +12,7 @@ static CowlAnonIndividual* cowl_anon_individual_alloc(CowlString *id) {
         .super = COWL_INDIVIDUAL_INIT(false),
         .id = cowl_string_retain(id)
     };
-    struct CowlAnonIndividual *ind = malloc(sizeof(*ind));
+    cowl_struct(CowlAnonIndividual) *ind = malloc(sizeof(*ind));
     memcpy(ind, &init, sizeof(*ind));
     return ind;
 }

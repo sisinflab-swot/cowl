@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlClsExp {
+cowl_struct(CowlClsExp) {
     CowlObject super;
     CowlClsExpType type;
 };

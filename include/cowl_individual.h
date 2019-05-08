@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIndividual const CowlIndividual;
+cowl_struct_decl(CowlIndividual);
 
 CowlIndividual* cowl_individual_retain(CowlIndividual *ind);
 void cowl_individual_release(CowlIndividual *ind);

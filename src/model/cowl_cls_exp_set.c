@@ -1,6 +1,6 @@
 /// @author Ivano Bilenchi
 
-#include "cowl_cls_exp_set.h"
+#include "cowl_cls_exp_set_private.h"
 #include "cowl_cls_exp.h"
 
 UHASH_SET_IMPL(CowlClsExpSet, CowlClsExp*, cowl_cls_exp_hash, cowl_cls_exp_equals)

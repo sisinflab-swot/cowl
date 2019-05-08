@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlObjPropDomainAxiom {
+cowl_struct(CowlObjPropDomainAxiom) {
     CowlAxiom super;
     CowlObjPropExp *prop_exp;
     CowlClsExp *domain;

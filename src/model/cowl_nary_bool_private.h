@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlNAryBool {
+cowl_struct(CowlNAryBool) {
     CowlClsExp super;
     CowlClsExpSet *operands;
 };

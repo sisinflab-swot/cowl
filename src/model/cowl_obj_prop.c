@@ -8,7 +8,7 @@ static UHash(CowlObjPropMap) *inst_map = NULL;
 
 static CowlObjProp* cowl_obj_prop_alloc(CowlIRI *iri) {
     CowlObjProp init = { .super = COWL_OBJ_PROP_EXP_INIT(false), .iri = cowl_iri_retain(iri) };
-    struct CowlObjProp *prop = malloc(sizeof(*prop));
+    cowl_struct(CowlObjProp) *prop = malloc(sizeof(*prop));
     memcpy(prop, &init, sizeof(*prop));
     return prop;
 }

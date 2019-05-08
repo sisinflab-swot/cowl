@@ -7,11 +7,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlObjPropExp const CowlObjPropExp;
+cowl_struct_decl(CowlObjPropExp);
 
 UHASH_SET_DECL(CowlObjPropExpSet, CowlObjPropExp*)
-typedef struct UHash(CowlObjPropExpSet) const CowlObjPropExpSet;
-typedef struct UHash(CowlObjPropExpSet) CowlMutableObjPropExpSet;
+cowl_hash_decl(CowlObjPropExpSet);
+cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
 
 bool cowl_obj_prop_exp_set_insert(CowlMutableObjPropExpSet *set, CowlObjPropExp *exp);
 void cowl_obj_prop_exp_set_free(CowlObjPropExpSet *set);

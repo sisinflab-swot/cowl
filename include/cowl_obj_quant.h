@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp const CowlClsExp;
-typedef struct CowlObjPropExp const CowlObjPropExp;
+cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlObjPropExp);
 
-typedef struct CowlObjQuant const CowlObjQuant;
+cowl_struct_decl(CowlObjQuant);
 
 typedef enum CowlObjQuantType {
     COQT_SOME,

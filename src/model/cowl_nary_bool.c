@@ -13,7 +13,7 @@ static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlClsExpSet *op
         .operands = operands
     };
 
-    struct CowlNAryBool *exp = malloc(sizeof(*exp));
+    cowl_struct(CowlNAryBool) *exp = malloc(sizeof(*exp));
     memcpy(exp, &init, sizeof(*exp));
     return exp;
 }

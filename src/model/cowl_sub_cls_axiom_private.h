@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlSubClsAxiom {
+cowl_struct(CowlSubClsAxiom) {
     CowlAxiom super;
     CowlClsExp *super_class;
     CowlClsExp *sub_class;

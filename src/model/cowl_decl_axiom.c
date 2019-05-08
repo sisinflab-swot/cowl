@@ -11,7 +11,7 @@ static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity) {
         .entity = cowl_entity_retain(entity)
     };
 
-    struct CowlDeclAxiom *axiom = malloc(sizeof(*axiom));
+    cowl_struct(CowlDeclAxiom) *axiom = malloc(sizeof(*axiom));
     memcpy(axiom, &init, sizeof(*axiom));
     return axiom;
 }

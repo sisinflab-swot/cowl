@@ -15,7 +15,7 @@ static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *p
         .filler = cowl_cls_exp_retain(filler)
     };
 
-    struct CowlObjQuant *restr = malloc(sizeof(*restr));
+    cowl_struct(CowlObjQuant) *restr = malloc(sizeof(*restr));
     memcpy(restr, &init, sizeof(*restr));
     return restr;
 }

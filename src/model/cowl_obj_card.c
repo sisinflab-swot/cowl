@@ -24,7 +24,7 @@ static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *pro
         .cardinality = cardinality
     };
 
-    struct CowlObjCard *restr = malloc(sizeof(*restr));
+    cowl_struct(CowlObjCard) *restr = malloc(sizeof(*restr));
     memcpy(restr, &init, sizeof(*restr));
     return restr;
 }

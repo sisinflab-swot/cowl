@@ -12,7 +12,7 @@ typedef enum CowlLoggerType {
     COWL_LT_FILE
 } CowlLoggerType;
 
-struct CowlLogger {
+cowl_struct(CowlLogger) {
     CowlLoggerType const type;
 
     char const *path;
@@ -21,7 +21,7 @@ struct CowlLogger {
 
 static CowlLogger* cowl_logger_alloc(CowlLoggerType type, void *context) {
     CowlLogger logger_init = { .type = type };
-    CowlLogger *logger = malloc(sizeof(*logger));
+    cowl_struct(CowlLogger) *logger = malloc(sizeof(*logger));
     memcpy(logger, &logger_init, sizeof(*logger));
 
     if (type == COWL_LT_FILE) {
@@ -53,14 +53,14 @@ void cowl_logger_free(CowlLogger *logger) {
         free((void *)logger->path);
     }
 
-    free(logger);
+    free((void *)logger);
 }
 
 void cowl_logger_open(CowlLogger *logger) {
     if (logger->type != COWL_LT_FILE) return;
 
     if (!logger->file) {
-        logger->file = fopen(logger->path, "a");
+        ((cowl_struct(CowlLogger) *)logger)->file = fopen(logger->path, "a");
     }
 }
 
@@ -69,7 +69,7 @@ void cowl_logger_close(CowlLogger *logger) {
 
     if (logger->file) {
         fclose(logger->file);
-        logger->file = NULL;
+        ((cowl_struct(CowlLogger)*)logger)->file = NULL;
     }
 }
 
@@ -113,18 +113,18 @@ static bool axiom_logger(void *ctx, CowlAxiom *axiom) {
 }
 
 void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *ontology) {
-    cowl_ontology_iterate_axioms(ontology, logger, axiom_logger);
+    cowl_ontology_iterate_axioms(ontology, (void *)logger, axiom_logger);
 }
 
 static bool entity_logger(void *ctx, CowlEntity entity) {
-    struct CowlLogger *logger = ctx;
+    cowl_struct(CowlLogger) *logger = ctx;
     cowl_logger_log_entity(logger, entity);
     cowl_logger_logf(logger, "\n");
     return true;
 }
 
 void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *ontology) {
-    cowl_ontology_iterate_signature(ontology, logger, entity_logger);
+    cowl_ontology_iterate_signature(ontology, (void *)logger, entity_logger);
 }
 
 void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id) {

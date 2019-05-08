@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp const CowlClsExp;
-typedef struct CowlObjPropExp const CowlObjPropExp;
+cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlObjPropExp);
 
-typedef struct CowlObjCard const CowlObjCard;
+cowl_struct_decl(CowlObjCard);
 
 typedef enum CowlObjCardType {
     COCT_MIN,

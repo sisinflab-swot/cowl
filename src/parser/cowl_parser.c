@@ -19,7 +19,7 @@ CowlParser* cowl_parser_alloc(void) {
         .ontology = cowl_ontology_get(),
         .errors = vector_alloc(CowlError)
     };
-    struct CowlParser *parser = malloc(sizeof(*parser));
+    cowl_struct(CowlParser) *parser = malloc(sizeof(*parser));
     memcpy(parser, &init, sizeof(*parser));
     return parser;
 }
@@ -48,7 +48,7 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path) {
     if (!yyin) {
         cowl_parser_log_error(parser, CEC_ONTOLOGY_LOAD, strdup(strerror(errno)), 0);
         cowl_ontology_release(parser->ontology);
-        ((struct CowlParser *)parser)->ontology = NULL;
+        ((cowl_struct(CowlParser) *)parser)->ontology = NULL;
         goto end;
     }
 

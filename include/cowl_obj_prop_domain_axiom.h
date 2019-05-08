@@ -8,10 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp const CowlClsExp;
-typedef struct CowlObjPropExp const CowlObjPropExp;
+cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlObjPropExp);
 
-typedef struct CowlObjPropDomainAxiom const CowlObjPropDomainAxiom;
+cowl_struct_decl(CowlObjPropDomainAxiom);
 
 CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, CowlClsExp *domain);
 CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_retain(CowlObjPropDomainAxiom *axiom);

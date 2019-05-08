@@ -7,7 +7,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlYYString {
+typedef cowl_struct(CowlYYString) {
     cowl_uint_t length;
     char const *cstring;
 } CowlYYString;

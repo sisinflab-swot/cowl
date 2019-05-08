@@ -8,9 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp const CowlClsExp;
+cowl_struct_decl(CowlClsExp);
 
-typedef struct CowlObjCompl const CowlObjCompl;
+cowl_struct_decl(CowlObjCompl);
 
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand);
 CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *compl);

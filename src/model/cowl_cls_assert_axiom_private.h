@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlClsAssertAxiom {
+cowl_struct(CowlClsAssertAxiom) {
     CowlAxiom super;
     CowlIndividual *individual;
     CowlClsExp *cls_exp;

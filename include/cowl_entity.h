@@ -8,12 +8,12 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlIRI const CowlIRI;
-typedef struct CowlClass const CowlClass;
-typedef struct CowlDataProp const CowlDataProp;
-typedef struct CowlDatatype const CowlDatatype;
-typedef struct CowlObjProp const CowlObjProp;
-typedef struct CowlNamedIndividual const CowlNamedIndividual;
+cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlClass);
+cowl_struct_decl(CowlDataProp);
+cowl_struct_decl(CowlDatatype);
+cowl_struct_decl(CowlObjProp);
+cowl_struct_decl(CowlNamedIndividual);
 
 typedef struct CowlEntity {
     CowlEntityType type;

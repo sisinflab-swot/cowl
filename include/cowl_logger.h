@@ -14,14 +14,14 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-typedef struct CowlAxiom const CowlAxiom;
-typedef struct CowlClsExp const CowlClsExp;
-typedef struct CowlIndividual const CowlIndividual;
-typedef struct CowlIRI const CowlIRI;
-typedef struct CowlObjPropExp const CowlObjPropExp;
-typedef struct CowlOntology const CowlOntology;
-typedef struct CowlOntologyId const CowlOntologyId;
-typedef struct CowlString const CowlString;
+cowl_struct_decl(CowlAxiom);
+cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlIndividual);
+cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlObjPropExp);
+cowl_struct_decl(CowlOntology);
+cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlString);
 /// @endcond
 
 /**
@@ -29,7 +29,7 @@ typedef struct CowlString const CowlString;
  *
  * A logger instance can log either to stdout, to file or to a memory buffer.
  */
-typedef struct CowlLogger CowlLogger;
+cowl_struct_decl(CowlLogger);
 
 /// @name Lifecycle
 

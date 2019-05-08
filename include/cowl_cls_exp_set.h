@@ -7,13 +7,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlClsExp const CowlClsExp;
+cowl_struct_decl(CowlClsExp);
 
 UHASH_SET_DECL(CowlClsExpSet, CowlClsExp*)
-typedef struct UHash(CowlClsExpSet) const CowlClsExpSet;
-typedef struct UHash(CowlClsExpSet) CowlMutableClsExpSet;
+cowl_hash_decl(CowlClsExpSet);
 
-bool cowl_cls_exp_set_insert(CowlMutableClsExpSet *set, CowlClsExp *exp);
 void cowl_cls_exp_set_free(CowlClsExpSet *set);
 
 COWL_END_DECLS

@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlAnonIndividual {
+cowl_struct(CowlAnonIndividual) {
     CowlIndividual super;
     CowlString *id;
 };

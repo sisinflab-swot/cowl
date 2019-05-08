@@ -9,16 +9,16 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct CowlAnonIndividual const CowlAnonIndividual;
-typedef struct CowlAxiom const CowlAxiom;
-typedef struct CowlClass const CowlClass;
-typedef struct CowlClsExp const CowlClsExp;
-typedef struct CowlIndividual const CowlIndividual;
-typedef struct CowlNamedIndividual const CowlNamedIndividual;
-typedef struct CowlObjProp const CowlObjProp;
-typedef struct CowlOntologyId const CowlOntologyId;
+cowl_struct_decl(CowlAnonIndividual);
+cowl_struct_decl(CowlAxiom);
+cowl_struct_decl(CowlClass);
+cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlIndividual);
+cowl_struct_decl(CowlNamedIndividual);
+cowl_struct_decl(CowlObjProp);
+cowl_struct_decl(CowlOntologyId);
 
-typedef struct CowlOntology const CowlOntology;
+cowl_struct_decl(CowlOntology);
 
 CowlOntology* cowl_ontology_retain(CowlOntology *onto);
 void cowl_ontology_release(CowlOntology *onto);

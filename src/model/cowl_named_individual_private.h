@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlNamedIndividual {
+cowl_struct(CowlNamedIndividual) {
     CowlIndividual super;
     CowlIRI *iri;
 };

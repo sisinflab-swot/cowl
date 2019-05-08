@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlObjCard {
+cowl_struct(CowlObjCard) {
     CowlClsExp super;
     cowl_uint_t cardinality;
     CowlObjPropExp *prop;

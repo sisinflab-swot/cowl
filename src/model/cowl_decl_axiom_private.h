@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlDeclAxiom {
+cowl_struct(CowlDeclAxiom) {
     CowlAxiom super;
     CowlEntity entity;
 };
