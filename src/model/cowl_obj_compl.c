@@ -11,43 +11,43 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
         .operand = cowl_cls_exp_retain(operand)
     };
 
-    cowl_struct(CowlObjCompl) *compl = malloc(sizeof(*compl));
-    memcpy(compl, &init, sizeof(*compl));
-    return compl;
+    cowl_struct(CowlObjCompl) *exp = malloc(sizeof(*exp));
+    memcpy(exp, &init, sizeof(*exp));
+    return exp;
 }
 
-static void cowl_obj_compl_free(CowlObjCompl *compl) {
-    if (!compl) return;
-    cowl_cls_exp_release(compl->operand);
-    free((void *)compl);
+static void cowl_obj_compl_free(CowlObjCompl *exp) {
+    if (!exp) return;
+    cowl_cls_exp_release(exp->operand);
+    free((void *)exp);
 }
 
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
     return cowl_obj_compl_alloc(operand);
 }
 
-CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *compl) {
-    return cowl_cls_exp_ref_incr(compl);
+CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp) {
+    return cowl_cls_exp_ref_incr(exp);
 }
 
-void cowl_obj_compl_release(CowlObjCompl *compl) {
-    if (compl && !cowl_cls_exp_ref_decr(compl)) {
-        cowl_obj_compl_free(compl);
+void cowl_obj_compl_release(CowlObjCompl *exp) {
+    if (exp && !cowl_cls_exp_ref_decr(exp)) {
+        cowl_obj_compl_free(exp);
     }
 }
 
-CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *compl) {
-    return compl->operand;
+CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp) {
+    return exp->operand;
 }
 
 bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
     return cowl_cls_exp_equals(lhs->operand, rhs->operand);
 }
 
-cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *compl) {
-    return cowl_cls_exp_hash_get(compl);
+cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *exp) {
+    return cowl_cls_exp_hash_get(exp);
 }
 
-bool cowl_obj_compl_iterate_signature(CowlObjCompl *compl, void *ctx, CowlEntityIterator iter) {
-    return cowl_cls_exp_iterate_signature(compl->operand, ctx, iter);
+bool cowl_obj_compl_iterate_signature(CowlObjCompl *exp, void *ctx, CowlEntityIterator iter) {
+    return cowl_cls_exp_iterate_signature(exp->operand, ctx, iter);
 }

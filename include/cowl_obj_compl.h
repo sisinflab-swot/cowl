@@ -13,15 +13,15 @@ cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlObjCompl);
 
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand);
-CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *compl);
-void cowl_obj_compl_release(CowlObjCompl *compl);
+CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp);
+void cowl_obj_compl_release(CowlObjCompl *exp);
 
-CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *compl);
+CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp);
 
 bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs);
-cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *compl);
+cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *exp);
 
-bool cowl_obj_compl_iterate_signature(CowlObjCompl *compl, void *ctx, CowlEntityIterator iter);
+bool cowl_obj_compl_iterate_signature(CowlObjCompl *exp, void *ctx, CowlEntityIterator iter);
 
 COWL_END_DECLS
 

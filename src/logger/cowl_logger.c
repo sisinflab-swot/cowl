@@ -212,9 +212,9 @@ static void cowl_logger_log_nary_bool(CowlLogger *logger, CowlNAryBool *nary) {
     cowl_logger_logf(logger, ")");
 }
 
-static void cowl_logger_log_obj_compl(CowlLogger *logger, CowlObjCompl *compl) {
+static void cowl_logger_log_obj_compl(CowlLogger *logger, CowlObjCompl *exp) {
     cowl_logger_logf(logger, "ObjectComplementOf(");
-    cowl_logger_log_cls_exp(logger, compl->operand);
+    cowl_logger_log_cls_exp(logger, exp->operand);
     cowl_logger_logf(logger, ")");
 }
 
