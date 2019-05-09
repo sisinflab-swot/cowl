@@ -10,7 +10,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlAxiom);
 
 UHASH_SET_DECL(CowlAxiomSet, CowlAxiom*)
-typedef UHash(CowlAxiomSet) CowlAxiomSet;
+cowl_hash_decl_mutable(CowlAxiomSet, CowlAxiomSet);
 
 void cowl_axiom_set_free(CowlAxiomSet *set);
 

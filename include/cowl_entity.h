@@ -15,7 +15,7 @@ cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlNamedIndividual);
 
-typedef struct CowlEntity {
+typedef cowl_struct(CowlEntity) {
     CowlEntityType type;
 
     union {

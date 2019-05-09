@@ -15,7 +15,7 @@ typedef enum CowlErrorCode {
     CEC_UNSUPPORTED
 } CowlErrorCode;
 
-typedef struct CowlError {
+typedef cowl_struct(CowlError) {
     cowl_uint_t line;
     CowlErrorCode code;
     CowlString *description;
