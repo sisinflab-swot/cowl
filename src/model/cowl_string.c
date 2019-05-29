@@ -49,6 +49,12 @@ CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool owned)
     return cowl_string_alloc(owned ? cstring : strndup(cstring, length), length);
 }
 
+CowlString* cowl_string_get_empty(void) {
+    static CowlString *empty = NULL;
+    if (!empty) empty = cowl_string_from_static("");
+    return empty;
+}
+
 CowlString* cowl_string_retain(CowlString *string) {
     return cowl_string_ref_incr(string);
 }

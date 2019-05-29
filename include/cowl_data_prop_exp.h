@@ -1,7 +1,7 @@
 /// @author Ivano Bilenchi
 
-#ifndef COWL_COWL_DATA_PROP_EXP_H
-#define COWL_COWL_DATA_PROP_EXP_H
+#ifndef COWL_DATA_PROP_EXP_H
+#define COWL_DATA_PROP_EXP_H
 
 #include "cowl_iterator.h"
 #include "cowl_std.h"
@@ -25,4 +25,4 @@ bool cowl_data_prop_exp_iterate_signature(CowlDataPropExp *prop, void *ctx,
 
 COWL_END_DECLS
 
-#endif // COWL_COWL_DATA_PROP_EXP_H
+#endif // COWL_DATA_PROP_EXP_H

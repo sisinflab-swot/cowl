@@ -10,6 +10,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlString);
 
 CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool owned);
+CowlString* cowl_string_get_empty(void);
 CowlString* cowl_string_retain(CowlString *string);
 void cowl_string_release(CowlString *string);
 char const* cowl_string_release_copying_cstring(CowlString *string);

@@ -36,7 +36,7 @@ static void cowl_obj_card_free(CowlObjCard *restr) {
     free((void *)restr);
 }
 
-CowlObjCard* cowl_obj_card_get(CowlObjCardType type, CowlObjPropExp *prop,
+CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
                                CowlClsExp *filler, cowl_uint_t cardinality) {
     return cowl_obj_card_alloc(CCET_OBJ_MIN_CARD + type, prop, filler, cardinality);
 }
@@ -51,8 +51,8 @@ void cowl_obj_card_release(CowlObjCard *restr) {
     }
 }
 
-CowlObjCardType cowl_obj_card_get_type(CowlObjCard *restr) {
-    return (CowlObjCardType)(restr->super.type - CCET_OBJ_MIN_CARD);
+CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
+    return (CowlCardType)(restr->super.type - CCET_OBJ_MIN_CARD);
 }
 
 CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) {

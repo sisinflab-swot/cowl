@@ -5,6 +5,7 @@
 
 #include "cowl_std.h"
 #include "cowl_iterator.h"
+#include "cowl_quant_type.h"
 
 COWL_BEGIN_DECLS
 
@@ -13,16 +14,11 @@ cowl_struct_decl(CowlObjPropExp);
 
 cowl_struct_decl(CowlObjQuant);
 
-typedef enum CowlObjQuantType {
-    COQT_SOME,
-    COQT_ALL
-} CowlObjQuantType;
-
-CowlObjQuant* cowl_obj_quant_get(CowlObjQuantType type, CowlObjPropExp *prop, CowlClsExp *filler);
+CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler);
 CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr);
 void cowl_obj_quant_release(CowlObjQuant *restr);
 
-CowlObjQuantType cowl_obj_quant_get_type(CowlObjQuant *restr);
+CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr);
 CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr);
 CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
 

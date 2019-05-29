@@ -4,19 +4,14 @@
 #define COWL_DATATYPE_PRIVATE_H
 
 #include "cowl_datatype.h"
+#include "cowl_data_range_private.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlDatatype) {
-    cowl_uint_t ref_count;
+    CowlDataRange super;
     CowlIRI *iri;
 };
-
-#define COWL_DATATYPE_INIT(IRI) { .ref_count = 1, .iri = (IRI) }
-
-#define cowl_datatype_ref_get(i) (((cowl_struct(CowlDatatype) *)(i))->ref_count)
-#define cowl_datatype_ref_incr(i) (++cowl_datatype_ref_get(i), (i))
-#define cowl_datatype_ref_decr(i) (--cowl_datatype_ref_get(i))
 
 COWL_END_DECLS
 

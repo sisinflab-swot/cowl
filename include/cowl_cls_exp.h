@@ -9,8 +9,6 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct_decl(CowlObjPropExp);
-
 cowl_struct_decl(CowlClsExp);
 
 CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp);

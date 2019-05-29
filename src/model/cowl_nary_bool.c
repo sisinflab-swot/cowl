@@ -24,7 +24,7 @@ static void cowl_nary_bool_free(CowlNAryBool *exp) {
     free((void *)exp);
 }
 
-CowlNAryBool* cowl_nary_bool_get(CowlNAryBoolType type, CowlClsExpSet *operands) {
+CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlClsExpSet *operands) {
     return cowl_nary_bool_alloc((CowlClsExpType)type + CCET_OBJ_INTERSECTION, operands);
 }
 
@@ -38,8 +38,8 @@ void cowl_nary_bool_release(CowlNAryBool *exp) {
     }
 }
 
-CowlNAryBoolType cowl_nary_bool_get_type(CowlNAryBool *exp) {
-    return (CowlNAryBoolType)(exp->super.type - CCET_OBJ_INTERSECTION);
+CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
+    return (CowlNAryType)(exp->super.type - CCET_OBJ_INTERSECTION);
 }
 
 CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp) {

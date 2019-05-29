@@ -99,11 +99,23 @@
 %type <CowlClsExp *> object_intersection_of object_union_of object_complement_of object_one_of
 %type <CowlClsExp *> object_some_values_from object_all_values_from object_has_value object_has_self
 %type <CowlClsExp *> object_min_cardinality object_max_cardinality object_exact_cardinality
+%type <CowlClsExp *> data_some_values_from data_all_values_from data_has_value
+%type <CowlClsExp *> data_min_cardinality data_max_cardinality data_exact_cardinality
 
 %type <CowlIndividual *> individual anonymous_individual
 %type <CowlIndividual *> source_individual target_individual
+
 %type <CowlObjPropExp *> object_property_expression inverse_object_property
 %type <CowlObjPropExp *> sub_object_property_expression super_object_property_expression
+
+%type <CowlDataPropExp *> data_property_expression
+%type <CowlDataPropExp *> sub_data_property_expression super_data_property_expression
+
+%type <CowlDataRange *> data_range data_intersection_of data_union_of data_complement_of
+%type <CowlDataRange *> data_one_of datatype_restriction
+
+%type <CowlLiteral *> literal target_value
+%type <CowlString *> string_literal language_tag
 
 %type <CowlAxiom *> axiom declaration
 %type <CowlAxiom *> class_axiom object_property_axiom data_property_axiom annotation_axiom
@@ -127,6 +139,9 @@
 %type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
 %type <CowlMutableObjPropExpSet *> object_property_expression_star
 %type <CowlMutableIndividualSet *> individual_list individual_2_list
+%type <CowlMutableDataPropExpSet *> data_property_expression_list data_property_expression_2_list
+%type <CowlMutableDataPropExpSet *> data_property_expression_star
+%type <CowlMutableDataRangeSet *> data_range_list data_range_2_list
 
 // Start symbol
 
@@ -145,10 +160,15 @@
 %destructor { cowl_cls_exp_release($$); } <CowlClsExp *>
 %destructor { cowl_individual_release($$); } <CowlIndividual *>
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
+%destructor { cowl_data_prop_exp_release($$); } <CowlDataPropExp *>
+%destructor { cowl_data_range_release($$); } <CowlDataRange *>
+%destructor { cowl_literal_release($$); } <CowlLiteral *>
 %destructor { cowl_axiom_release($$); } <CowlAxiom *>
 %destructor { cowl_cls_exp_set_free($$); } <CowlMutableClsExpSet *>
 %destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
 %destructor { cowl_individual_set_free($$); } <CowlMutableIndividualSet *>
+%destructor { cowl_data_prop_exp_set_free($$); } <CowlMutableDataPropExpSet *>
+%destructor { cowl_data_range_set_free($$); } <CowlMutableDataRangeSet *>
 
 %%
 
@@ -324,27 +344,32 @@ node_id
 // Literals
 
 literal
-    : typed_literal
-    | string_literal_no_language
-    | string_literal_with_language
-;
-
-typed_literal
-    : lexical_form DOUBLE_CARET datatype {
+    : string_literal DOUBLE_CARET datatype {
+        $$ = cowl_literal_get($3, $1, NULL);
+        cowl_string_release($1);
         cowl_datatype_release($3);
+    }
+    | string_literal language_tag {
+        $$ = cowl_literal_get(NULL, $1, $2);
+        cowl_string_release($1);
+        cowl_string_release($2);
+    }
+    | string_literal {
+        $$ = cowl_literal_get(NULL, $1, NULL);
+        cowl_string_release($1);
     }
 ;
 
-lexical_form
-    : QUOTED_STRING
+string_literal
+    : QUOTED_STRING {
+        $$ = cowl_string_get($1.cstring, $1.length, false);
+    }
 ;
 
-string_literal_no_language
-    : QUOTED_STRING
-;
-
-string_literal_with_language
-    : QUOTED_STRING LANG_TAG
+language_tag
+    : LANG_TAG {
+        $$ = cowl_string_get($1.cstring, $1.length, false);
+    }
 ;
 
 // Entity declarations and typing
@@ -395,13 +420,13 @@ inverse_object_property
 // Data property expressions
 
 data_property_expression
-    : data_property
+    : data_property { $$ = (CowlDataPropExp *)$1; }
 ;
 
 // Data ranges
 
 data_range
-    : datatype
+    : datatype { $$ = (CowlDataRange *)$1; }
     | data_intersection_of
     | data_union_of
     | data_complement_of
@@ -410,23 +435,33 @@ data_range
 ;
 
 data_intersection_of
-    : DATA_INTERSECTION_OF L_PAREN data_range_2_list R_PAREN
+    : DATA_INTERSECTION_OF L_PAREN data_range_2_list R_PAREN {
+        $$ = (CowlDataRange *)cowl_nary_data_get(CNT_INTERSECTION, $3);
+    }
 ;
 
 data_union_of
-    : DATA_UNION_OF L_PAREN data_range_2_list R_PAREN
+    : DATA_UNION_OF L_PAREN data_range_2_list R_PAREN {
+        $$ = (CowlDataRange *)cowl_nary_data_get(CNT_UNION, $3);
+    }
 ;
 
 data_complement_of
-    : DATA_COMPLEMENT_OF L_PAREN data_range R_PAREN
+    : DATA_COMPLEMENT_OF L_PAREN data_range R_PAREN {
+        $$ = (CowlDataRange *)cowl_data_compl_get($3);
+        cowl_data_range_release($3);
+    }
 ;
 
 data_one_of
-    : DATA_ONE_OF L_PAREN literal_list R_PAREN
+    : DATA_ONE_OF L_PAREN literal_list R_PAREN {
+        $$ = cowl_unsupported("'One of' data ranges are not supported.");
+    }
 ;
 
 datatype_restriction
     : DATATYPE_RESTRICTION L_PAREN datatype datatype_restriction_value_list R_PAREN {
+        $$ = cowl_unsupported("Datatype restrictions are not supported.");
         cowl_datatype_release($3);
     }
 ;
@@ -473,13 +508,13 @@ class_expression
 
 object_intersection_of
     : OBJECT_INTERSECTION_OF L_PAREN class_expression_2_list R_PAREN {
-        $$ = (CowlClsExp *)cowl_nary_bool_get(CNBT_INTERSECTION, $3);
+        $$ = (CowlClsExp *)cowl_nary_bool_get(CNT_INTERSECTION, $3);
     }
 ;
 
 object_union_of
     : OBJECT_UNION_OF L_PAREN class_expression_2_list R_PAREN {
-        $$ = (CowlClsExp *)cowl_nary_bool_get(CNBT_UNION, $3);
+        $$ = (CowlClsExp *)cowl_nary_bool_get(CNT_UNION, $3);
     }
 ;
 
@@ -499,7 +534,7 @@ object_one_of
 
 object_some_values_from
     : OBJECT_SOME_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_quant_get(COQT_SOME, $3, $4);
+        $$ = (CowlClsExp *)cowl_obj_quant_get(CQT_SOME, $3, $4);
         cowl_obj_prop_exp_release($3);
         cowl_cls_exp_release($4);
     }
@@ -507,7 +542,7 @@ object_some_values_from
 
 object_all_values_from
     : OBJECT_ALL_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_quant_get(COQT_ALL, $3, $4);
+        $$ = (CowlClsExp *)cowl_obj_quant_get(CQT_ALL, $3, $4);
         cowl_obj_prop_exp_release($3);
         cowl_cls_exp_release($4);
     }
@@ -515,7 +550,7 @@ object_all_values_from
 
 object_has_value
     : OBJECT_HAS_VALUE L_PAREN object_property_expression individual R_PAREN {
-        $$ = cowl_unsupported("'Has value' class espressions are not supported.");
+        $$ = cowl_unsupported("'Object has value' class espressions are not supported.");
         cowl_obj_prop_exp_release($3);
         cowl_individual_release($4);
     }
@@ -530,11 +565,11 @@ object_has_self
 
 object_min_cardinality
     : OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MIN, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MIN, $4, NULL, $3);
         cowl_obj_prop_exp_release($4);
     }
     | OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MIN, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MIN, $4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -542,11 +577,11 @@ object_min_cardinality
 
 object_max_cardinality
     : OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MAX, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MAX, $4, NULL, $3);
         cowl_obj_prop_exp_release($4);
     }
     | OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_MAX, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MAX, $4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -554,11 +589,11 @@ object_max_cardinality
 
 object_exact_cardinality
     : OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_EXACT, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_EXACT, $4, NULL, $3);
         cowl_obj_prop_exp_release($4);
     }
     | OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(COCT_EXACT, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_EXACT, $4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -569,30 +604,65 @@ cardinality
 ;
 
 data_some_values_from
-    : DATA_SOME_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN
+    : DATA_SOME_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN {
+        CowlDataPropExp *exp = uhset_get_any(CowlDataPropExpSet, $3, NULL);
+        $$ = (CowlClsExp *)cowl_data_quant_get(CQT_SOME, exp, $4);
+        cowl_data_prop_exp_set_free($3);
+        cowl_data_range_release($4);
+    }
 ;
 
 data_all_values_from
-    : DATA_ALL_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN
+    : DATA_ALL_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN {
+        CowlDataPropExp *exp = uhset_get_any(CowlDataPropExpSet, $3, NULL);
+        $$ = (CowlClsExp *)cowl_data_quant_get(CQT_ALL, exp, $4);
+        cowl_data_prop_exp_set_free($3);
+        cowl_data_range_release($4);
+    }
 ;
 
 data_has_value
-    : DATA_HAS_VALUE L_PAREN data_property_expression literal R_PAREN
+    : DATA_HAS_VALUE L_PAREN data_property_expression literal R_PAREN {
+        $$ = cowl_unsupported("'Data has value' class espressions are not supported.");
+        cowl_data_prop_exp_release($3);
+        cowl_literal_release($4);
+    }
 ;
 
 data_min_cardinality
-    : DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN
-    | DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN
+    : DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MIN, $4, NULL, $3);
+        cowl_data_prop_exp_release($4);
+    }
+    | DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MIN, $4, $5, $3);
+        cowl_data_prop_exp_release($4);
+        cowl_data_range_release($5);
+    }
 ;
 
 data_max_cardinality
-    : DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN
-    | DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN
+    : DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, NULL, $3);
+        cowl_data_prop_exp_release($4);
+    }
+    | DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, $5, $3);
+        cowl_data_prop_exp_release($4);
+        cowl_data_range_release($5);
+    }
 ;
 
 data_exact_cardinality
-    : DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN
-    | DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN
+    : DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, NULL, $3);
+        cowl_data_prop_exp_release($4);
+    }
+    | DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, $5, $3);
+        cowl_data_prop_exp_release($4);
+        cowl_data_range_release($5);
+    }
 ;
 
 // Axioms
@@ -807,6 +877,8 @@ data_property_axiom
 sub_data_property_of
     : SUB_DATA_PROPERTY_OF L_PAREN axiom_annotations sub_data_property_expression super_data_property_expression R_PAREN {
         $$ = cowl_unsupported("Sub data property axioms are not supported.");
+        cowl_data_prop_exp_release($4);
+        cowl_data_prop_exp_release($5);
     }
 ;
 
@@ -821,18 +893,21 @@ super_data_property_expression
 equivalent_data_properties
     : EQUIVALENT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
         $$ = cowl_unsupported("Equivalent data properties axioms are not supported.");
+        cowl_data_prop_exp_set_free($4);
     }
 ;
 
 disjoint_data_properties
     : DISJOINT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
         $$ = cowl_unsupported("Disjoint data properties axioms are not supported.");
+        cowl_data_prop_exp_set_free($4);
     }
 ;
 
 data_property_domain
     : DATA_PROPERTY_DOMAIN L_PAREN axiom_annotations data_property_expression class_expression R_PAREN {
         $$ = cowl_unsupported("Data property domain axioms are not supported.");
+        cowl_data_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
 ;
@@ -840,12 +915,15 @@ data_property_domain
 data_property_range
     : DATA_PROPERTY_RANGE L_PAREN axiom_annotations data_property_expression data_range R_PAREN {
         $$ = cowl_unsupported("Data property range axioms are not supported.");
+        cowl_data_prop_exp_release($4);
+        cowl_data_range_release($5);
     }
 ;
 
 functional_data_property
     : FUNCTIONAL_DATA_PROPERTY L_PAREN axiom_annotations data_property_expression R_PAREN {
         $$ = cowl_unsupported("Functional data property axioms are not supported.");
+        cowl_data_prop_exp_release($4);
     }
 ;
 
@@ -855,6 +933,7 @@ datatype_definition
     : DATATYPE_DEFINITION L_PAREN axiom_annotations datatype data_range R_PAREN {
         $$ = cowl_unsupported("Datatype definition axioms are not supported.");
         cowl_datatype_release($4);
+        cowl_data_range_release($5);
     }
 ;
 
@@ -868,6 +947,7 @@ has_key
         $$ = cowl_unsupported("'Has key' axioms are not supported.");
         cowl_cls_exp_release($4);
         cowl_obj_prop_exp_set_free($6);
+        cowl_data_prop_exp_set_free($9);
     }
 ;
 
@@ -926,14 +1006,18 @@ negative_object_property_assertion
 data_property_assertion
     : DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
         $$ = cowl_unsupported("Data property assertion axioms are not supported.");
+        cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
+        cowl_literal_release($6);
     }
 ;
 
 negative_data_property_assertion
     : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
         $$ = cowl_unsupported("Negative data property assertion axioms are not supported.");
+        cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
+        cowl_literal_release($6);
     }
 ;
 
@@ -1038,26 +1122,56 @@ class_expression_2_list
 ;
 
 data_property_expression_list
-    : data_property_expression
-    | data_property_expression_list data_property_expression
+    : data_property_expression {
+        $$ = uhash_alloc(CowlDataPropExpSet);
+        cowl_data_prop_exp_set_insert($$, $1);
+        cowl_data_prop_exp_release($1);
+    }
+    | data_property_expression_list data_property_expression {
+        $$ = $1;
+        cowl_data_prop_exp_set_insert($$, $2);
+        cowl_data_prop_exp_release($2);
+    }
 ;
 
 data_property_expression_2_list
-    : data_property_expression_list data_property_expression
+    : data_property_expression_list data_property_expression {
+        $$ = $1;
+        cowl_data_prop_exp_set_insert($$, $2);
+        cowl_data_prop_exp_release($2);
+    }
 ;
 
 data_property_expression_star
-    : %empty
-    | data_property_expression_star data_property_expression
+    : %empty {
+        $$ = uhash_alloc(CowlDataPropExpSet);
+    }
+    | data_property_expression_star data_property_expression {
+        $$ = $1;
+        cowl_data_prop_exp_set_insert($$, $2);
+        cowl_data_prop_exp_release($2);
+    }
 ;
 
 data_range_list
-    : data_range
-    | data_range_list data_range
+    : data_range {
+        $$ = uhash_alloc(CowlDataRangeSet);
+        cowl_data_range_set_insert($$, $1);
+        cowl_data_range_release($1);
+    }
+    | data_range_list data_range {
+        $$ = $1;
+        cowl_data_range_set_insert($$, $2);
+        cowl_data_range_release($2);
+    }
 ;
 
 data_range_2_list
-    : data_range_list data_range
+    : data_range_list data_range {
+        $$ = $1;
+        cowl_data_range_set_insert($$, $2);
+        cowl_data_range_release($2);
+    }
 ;
 
 individual_list
@@ -1083,7 +1197,9 @@ individual_2_list
 
 literal_list
     : literal
-    | literal_list literal
+    | literal_list literal {
+        cowl_literal_release($2);
+    }
 ;
 
 object_property_expression_list

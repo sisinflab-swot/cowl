@@ -7,9 +7,16 @@ UHASH_MAP_INIT(CowlDatatypeMap, CowlIRI*, CowlDatatype*, cowl_iri_hash, cowl_iri
 static UHash(CowlDatatypeMap) *inst_map = NULL;
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
-    CowlDatatype init = COWL_DATATYPE_INIT(cowl_iri_retain(iri));
+    CowlDatatype init = {
+        .super = COWL_DATA_RANGE_INIT(CDRT_DATATYPE, 0),
+        .iri = cowl_iri_retain(iri)
+    };
     cowl_struct(CowlDatatype) *datatype = malloc(sizeof(*datatype));
     memcpy(datatype, &init, sizeof(*datatype));
+
+    cowl_uint_t hash = uhash_ptr_hash(datatype);
+    cowl_data_range_hash_set(datatype, hash);
+
     return datatype;
 }
 
@@ -31,18 +38,18 @@ CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
         uhash_value(inst_map, idx) = datatype;
     } else {
         datatype = uhash_value(inst_map, idx);
-        cowl_datatype_ref_incr(datatype);
+        cowl_data_range_ref_incr(datatype);
     }
 
     return datatype;
 }
 
 CowlDatatype* cowl_datatype_retain(CowlDatatype *datatype) {
-    return cowl_datatype_ref_incr(datatype);
+    return cowl_data_range_ref_incr(datatype);
 }
 
 void cowl_datatype_release(CowlDatatype *datatype) {
-    if (datatype && !cowl_datatype_ref_decr(datatype)) {
+    if (datatype && !cowl_data_range_ref_decr(datatype)) {
         uhmap_remove(CowlDatatypeMap, inst_map, datatype->iri);
         cowl_datatype_free(datatype);
     }
@@ -57,7 +64,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
 }
 
 cowl_uint_t cowl_datatype_hash(CowlDatatype *datatype) {
-    return uhash_ptr_hash(datatype);
+    return cowl_data_range_hash_get(datatype);
 }
 
 bool cowl_datatype_iterate_signature(CowlDatatype *datatype, void *ctx, CowlEntityIterator iter) {
