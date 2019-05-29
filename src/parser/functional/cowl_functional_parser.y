@@ -996,7 +996,7 @@ object_property_assertion
 
 negative_object_property_assertion
     : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN axiom_annotations object_property_expression source_individual target_individual R_PAREN {
-        $$ = cowl_unsupported("Negative object property assertion axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom_get($5, $4, $6);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_individual_release($6);

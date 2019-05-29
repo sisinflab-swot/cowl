@@ -319,7 +319,8 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
-        case CAT_OBJ_PROP_ASSERTION: {
+        case CAT_OBJ_PROP_ASSERTION:
+        case CAT_NEGATIVE_OBJ_PROP_ASSERTION: {
             CowlObjPropAssertAxiom *as_axiom = (CowlObjPropAssertAxiom *)axiom;
             cowl_ontology_add_axiom_for_individual(ontology, axiom, as_axiom->source);
             cowl_ontology_add_axiom_for_individual(ontology, axiom, as_axiom->target);

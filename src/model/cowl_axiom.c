@@ -17,18 +17,21 @@ void cowl_axiom_release(CowlAxiom *axiom) {
     if (!axiom) return;
 
 #define GEN_CASE_RELEASE(CAT, TYPE, PREFIX) \
-    case CAT: PREFIX##_release((TYPE *)axiom); break;
+    case CAT: PREFIX##_release((TYPE *)axiom); break
 
     switch (axiom->type) {
 
-        GEN_CASE_RELEASE(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom)
-        GEN_CASE_RELEASE(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom)
-        GEN_CASE_RELEASE(CAT_EQUIVALENT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom)
-        GEN_CASE_RELEASE(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom)
-        GEN_CASE_RELEASE(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom)
-        GEN_CASE_RELEASE(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom)
-        GEN_CASE_RELEASE(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom)
-        GEN_CASE_RELEASE(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom)
+        GEN_CASE_RELEASE(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
+        GEN_CASE_RELEASE(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
+        GEN_CASE_RELEASE(CAT_EQUIVALENT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
+        GEN_CASE_RELEASE(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
+        GEN_CASE_RELEASE(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom,
+                         cowl_obj_prop_assert_axiom);
+        GEN_CASE_RELEASE(CAT_NEGATIVE_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom,
+                         cowl_obj_prop_assert_axiom);
 
         default:
             break;
@@ -56,6 +59,8 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_EQUAL(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
         GEN_CASE_EQUAL(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
+        GEN_CASE_EQUAL(CAT_NEGATIVE_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom,
+                       cowl_obj_prop_assert_axiom);
 
         default:
             return false;
@@ -81,6 +86,8 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_SIG(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
         GEN_CASE_SIG(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
+        GEN_CASE_SIG(CAT_NEGATIVE_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom,
+                     cowl_obj_prop_assert_axiom);
 
         default:
             return true;

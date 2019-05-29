@@ -16,9 +16,14 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *source,
                                                        CowlObjPropExp *prop,
                                                        CowlIndividual *target);
+CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *source,
+                                                           CowlObjPropExp *prop,
+                                                           CowlIndividual *target);
+
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom);
 void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom);
 
+bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom);
 CowlIndividual* cowl_obj_prop_assert_axiom_get_source(CowlObjPropAssertAxiom *axiom);
 CowlIndividual* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom *axiom);
 CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom);
