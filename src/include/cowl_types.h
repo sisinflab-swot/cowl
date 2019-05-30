@@ -35,6 +35,8 @@ cowl_struct_decl(CowlNAryBool);
 cowl_struct_decl(CowlNAryClsAxiom);
 cowl_struct_decl(CowlObjCard);
 cowl_struct_decl(CowlObjCompl);
+cowl_struct_decl(CowlObjHasSelf);
+cowl_struct_decl(CowlObjHasValue);
 cowl_struct_decl(CowlObjOneOf);
 cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlObjPropAssertAxiom);

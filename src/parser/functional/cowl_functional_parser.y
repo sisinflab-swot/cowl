@@ -549,7 +549,7 @@ object_all_values_from
 
 object_has_value
     : OBJECT_HAS_VALUE L_PAREN object_property_expression individual R_PAREN {
-        $$ = cowl_unsupported("'Object has value' class espressions are not supported.");
+        $$ = (CowlClsExp *)cowl_obj_has_value_get($3, $4);
         cowl_obj_prop_exp_release($3);
         cowl_individual_release($4);
     }
@@ -557,7 +557,7 @@ object_has_value
 
 object_has_self
     : OBJECT_HAS_SELF L_PAREN object_property_expression R_PAREN {
-        $$ = cowl_unsupported("'Has self' class expressions are not supported.");
+        $$ = (CowlClsExp *)cowl_obj_has_self_get($3);
         cowl_obj_prop_exp_release($3);
     }
 ;

@@ -7,6 +7,8 @@
 #include "cowl_nary_bool.h"
 #include "cowl_obj_card.h"
 #include "cowl_obj_compl.h"
+#include "cowl_obj_has_self.h"
+#include "cowl_obj_has_value.h"
 #include "cowl_obj_one_of.h"
 #include "cowl_obj_quant.h"
 
@@ -31,6 +33,8 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
         GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_RELEASE(CCET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
+        GEN_CASE_RELEASE(CCET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
         GEN_CASE_RELEASE(CCET_DATA_SOME, CowlDataQuant, cowl_data_quant);
         GEN_CASE_RELEASE(CCET_DATA_ALL, CowlDataQuant, cowl_data_quant);
         GEN_CASE_RELEASE(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
@@ -65,6 +69,8 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
         GEN_CASE_EQUAL(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_EQUAL(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_EQUAL(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_EQUAL(CCET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
+        GEN_CASE_EQUAL(CCET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
         GEN_CASE_EQUAL(CCET_DATA_SOME, CowlDataQuant, cowl_data_quant);
         GEN_CASE_EQUAL(CCET_DATA_ALL, CowlDataQuant, cowl_data_quant);
         GEN_CASE_EQUAL(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
@@ -97,6 +103,8 @@ bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterat
         GEN_CASE_SIG(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_SIG(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
         GEN_CASE_SIG(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_SIG(CCET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
+        GEN_CASE_SIG(CCET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
         GEN_CASE_SIG(CCET_DATA_SOME, CowlDataQuant, cowl_data_quant);
         GEN_CASE_SIG(CCET_DATA_ALL, CowlDataQuant, cowl_data_quant);
         GEN_CASE_SIG(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
