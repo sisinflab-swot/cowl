@@ -527,8 +527,7 @@ object_complement_of
 
 object_one_of
     : OBJECT_ONE_OF L_PAREN individual_list R_PAREN {
-        $$ = cowl_unsupported("'One of' class expressions are not supported.");
-        cowl_individual_set_free($3);
+        $$ = (CowlClsExp *)cowl_obj_one_of_get($3);
     }
 ;
 

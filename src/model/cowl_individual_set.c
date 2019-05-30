@@ -1,6 +1,6 @@
 /// @author Ivano Bilenchi
 
-#include "cowl_individual_set.h"
+#include "cowl_individual_set_private.h"
 #include "cowl_individual.h"
 
 UHASH_SET_IMPL(CowlIndividualSet, CowlIndividual*, cowl_individual_hash, cowl_individual_equals)

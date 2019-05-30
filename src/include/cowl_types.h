@@ -18,6 +18,7 @@ cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlClsAssertAxiom);
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataCard);
+cowl_struct_decl(CowlDataCompl);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlDataRange);
@@ -34,6 +35,7 @@ cowl_struct_decl(CowlNAryBool);
 cowl_struct_decl(CowlNAryClsAxiom);
 cowl_struct_decl(CowlObjCard);
 cowl_struct_decl(CowlObjCompl);
+cowl_struct_decl(CowlObjOneOf);
 cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlObjPropAssertAxiom);
 cowl_struct_decl(CowlObjPropCharAxiom);
@@ -50,13 +52,13 @@ cowl_struct_decl(CowlSubClsAxiom);
 cowl_hash_decl(CowlClsExpSet);
 cowl_hash_decl(CowlDataPropExpSet);
 cowl_hash_decl(CowlDataRangeSet);
-cowl_hash_decl(CowlObjPropExpSet);
 cowl_hash_decl(CowlIndividualSet);
+cowl_hash_decl(CowlObjPropExpSet);
 cowl_hash_decl_mutable(CowlClsExpSet, CowlMutableClsExpSet);
 cowl_hash_decl_mutable(CowlDataPropExpSet, CowlMutableDataPropExpSet);
 cowl_hash_decl_mutable(CowlDataRangeSet, CowlMutableDataRangeSet);
-cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
 cowl_hash_decl_mutable(CowlIndividualSet, CowlMutableIndividualSet);
+cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
 
 COWL_END_DECLS
 
