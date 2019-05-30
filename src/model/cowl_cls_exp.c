@@ -3,6 +3,7 @@
 #include "cowl_cls_exp_private.h"
 #include "cowl_class.h"
 #include "cowl_data_card.h"
+#include "cowl_data_has_value.h"
 #include "cowl_data_quant.h"
 #include "cowl_nary_bool.h"
 #include "cowl_obj_card.h"
@@ -40,6 +41,7 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
         GEN_CASE_RELEASE(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
         GEN_CASE_RELEASE(CCET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
         GEN_CASE_RELEASE(CCET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_RELEASE(CCET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
         GEN_CASE_RELEASE(CCET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
 
         default:
@@ -76,6 +78,7 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
         GEN_CASE_EQUAL(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
         GEN_CASE_EQUAL(CCET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
         GEN_CASE_EQUAL(CCET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_EQUAL(CCET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
         GEN_CASE_EQUAL(CCET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
 
         default:
@@ -110,6 +113,7 @@ bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterat
         GEN_CASE_SIG(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
         GEN_CASE_SIG(CCET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
         GEN_CASE_SIG(CCET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_SIG(CCET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
         GEN_CASE_SIG(CCET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
 
         default:

@@ -19,6 +19,7 @@ cowl_struct_decl(CowlClsAssertAxiom);
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataCard);
 cowl_struct_decl(CowlDataCompl);
+cowl_struct_decl(CowlDataHasValue);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlDataRange);

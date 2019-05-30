@@ -622,7 +622,7 @@ data_all_values_from
 
 data_has_value
     : DATA_HAS_VALUE L_PAREN data_property_expression literal R_PAREN {
-        $$ = cowl_unsupported("'Data has value' class espressions are not supported.");
+        $$ = (CowlClsExp *)cowl_data_has_value_get($3, $4);
         cowl_data_prop_exp_release($3);
         cowl_literal_release($4);
     }

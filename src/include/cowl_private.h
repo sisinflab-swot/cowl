@@ -13,6 +13,7 @@
 #include "cowl_cls_exp_set_private.h"
 #include "cowl_data_card_private.h"
 #include "cowl_data_compl_private.h"
+#include "cowl_data_has_value_private.h"
 #include "cowl_data_prop_private.h"
 #include "cowl_data_prop_exp_private.h"
 #include "cowl_data_prop_exp_set.h"
