@@ -746,12 +746,12 @@ object_property_axiom
 
 sub_object_property_of
     : SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations sub_object_property_expression super_object_property_expression R_PAREN {
-        $$ = cowl_unsupported("Sub object property axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_sub_obj_prop_axiom_get($4, $5);
         cowl_obj_prop_exp_release($4);
         cowl_obj_prop_exp_release($5);
     }
     | SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations property_expression_chain super_object_property_expression R_PAREN {
-        $$ = cowl_unsupported("Sub object property axioms are not supported.");
+        $$ = cowl_unsupported("Sub object property chain axioms are not supported.");
         cowl_obj_prop_exp_release($5);
     }
 ;
@@ -760,15 +760,15 @@ sub_object_property_expression
     : object_property_expression
 ;
 
+super_object_property_expression
+    : object_property_expression
+;
+
 property_expression_chain
     : OBJECT_PROPERTY_CHAIN L_PAREN object_property_expression_2_list R_PAREN {
         cowl_unsupported("Property expression chains are not supported.");
         cowl_obj_prop_exp_set_free($3);
     }
-;
-
-super_object_property_expression
-    : object_property_expression
 ;
 
 equivalent_object_properties

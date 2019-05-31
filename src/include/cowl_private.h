@@ -53,6 +53,7 @@
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
 #include "cowl_sub_cls_axiom_private.h"
+#include "cowl_sub_obj_prop_axiom_private.h"
 #include "cowl_vocabulary_private.h"
 
 #endif // COWL_PRIVATE_H

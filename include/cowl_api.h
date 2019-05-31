@@ -60,6 +60,7 @@
 #include "cowl_std.h"
 #include "cowl_string.h"
 #include "cowl_sub_cls_axiom.h"
+#include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_vocabulary.h"
 
 COWL_BEGIN_DECLS

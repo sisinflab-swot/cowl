@@ -336,6 +336,13 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_SUB_OBJ_PROP: {
+            CowlSubObjPropAxiom *sub_axiom = (CowlSubObjPropAxiom *)axiom;
+            cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, sub_axiom->super_prop);
+            cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, sub_axiom->sub_prop);
+            break;
+        }
+
         case CAT_OBJ_PROP_DOMAIN: {
             CowlObjPropDomainAxiom *dom_axiom = (CowlObjPropDomainAxiom *)axiom;
             cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, dom_axiom->prop_exp);
