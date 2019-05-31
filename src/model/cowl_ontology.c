@@ -313,17 +313,15 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
         case CAT_EQUIVALENT_CLASSES:
         case CAT_DISJOINT_CLASSES: {
             CowlNAryClsAxiom *nary_axiom = (CowlNAryClsAxiom *)axiom;
-
-            CowlAxiomEntityCtx ctx = { .onto = ontology, .axiom = axiom };
-            cowl_nary_cls_axiom_iterate_signature(nary_axiom, &ctx, cowl_ontology_entity_adder);
+            CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
+            cowl_nary_cls_axiom_iterate_signature(nary_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 
         case CAT_DISJOINT_UNION: {
             CowlDisjUnionAxiom *disj_axiom = (CowlDisjUnionAxiom *)axiom;
-
-            CowlAxiomEntityCtx ctx = { .onto = ontology, .axiom = axiom };
-            cowl_disj_union_axiom_iterate_signature(disj_axiom, &ctx, cowl_ontology_entity_adder);
+            CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
+            cowl_disj_union_axiom_iterate_signature(disj_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 
@@ -340,6 +338,14 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             CowlSubObjPropAxiom *sub_axiom = (CowlSubObjPropAxiom *)axiom;
             cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, sub_axiom->super_prop);
             cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, sub_axiom->sub_prop);
+            break;
+        }
+
+        case CAT_EQUIVALENT_OBJ_PROP:
+        case CAT_DISJOINT_OBJ_PROP: {
+            CowlNAryObjPropAxiom *nary_axiom = (CowlNAryObjPropAxiom *)axiom;
+            CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
+            cowl_nary_obj_prop_axiom_iterate_signature(nary_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 

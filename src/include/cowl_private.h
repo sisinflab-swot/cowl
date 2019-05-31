@@ -34,6 +34,7 @@
 #include "cowl_nary_bool_private.h"
 #include "cowl_nary_cls_axiom_private.h"
 #include "cowl_nary_data_private.h"
+#include "cowl_nary_obj_prop_axiom_private.h"
 #include "cowl_obj_card_private.h"
 #include "cowl_obj_compl_private.h"
 #include "cowl_obj_has_self_private.h"

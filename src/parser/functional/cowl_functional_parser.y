@@ -709,13 +709,13 @@ super_class_expression
 
 equivalent_classes
     : EQUIVALENT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNCAT_EQUIVALENT_CLASSES, $4);
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_EQUIVALENT, $4);
     }
 ;
 
 disjoint_classes
     : DISJOINT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNCAT_DISJOINT_CLASSES, $4);
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_DISJOINT, $4);
     }
 ;
 
@@ -773,15 +773,13 @@ property_expression_chain
 
 equivalent_object_properties
     : EQUIVALENT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN {
-        $$ = cowl_unsupported("Equivalent object properties axioms are not supported.");
-        cowl_obj_prop_exp_set_free($4);
+        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_EQUIVALENT, $4);
     }
 ;
 
 disjoint_object_properties
     : DISJOINT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN {
-        $$ = cowl_unsupported("Disjoint object properties axioms are not supported.");
-        cowl_obj_prop_exp_set_free($4);
+        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_DISJOINT, $4);
     }
 ;
 

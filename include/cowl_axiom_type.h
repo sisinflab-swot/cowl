@@ -57,14 +57,17 @@ typedef enum CowlAxiomType {
 
 /// @name Object property axioms
 
-    /// Represents equivalent object properties axioms.
-        CAT_EQUIVALENT_OBJ_PROP,
-
     /// Represents sub-object property axioms.
         CAT_SUB_OBJ_PROP,
 
     /// Represents inverse object properties axioms.
         CAT_INVERSE_OBJ_PROP,
+
+    /// Represents equivalent object properties axioms.
+        CAT_EQUIVALENT_OBJ_PROP,
+
+    /// Represents disjoint object properties axioms.
+        CAT_DISJOINT_OBJ_PROP,
 
     /// Represents functional object property axioms.
         CAT_FUNCTIONAL_OBJ_PROP,
@@ -93,19 +96,19 @@ typedef enum CowlAxiomType {
     /// Represents object property range axioms.
         CAT_OBJ_PROP_RANGE,
 
-    /// Represents disjoint object properties axioms.
-        CAT_DISJOINT_OBJ_PROP,
-
     /// Represents sub-property chain axioms.
         CAT_SUB_PROP_CHAIN,
 
 /// @name Data property axioms
 
+    /// Represents sub-data property axioms.
+        CAT_SUB_DATA_PROP,
+
     /// Represents equivalent data properties axioms.
         CAT_EQUIVALENT_DATA_PROP,
 
-    /// Represents sub-data property axioms.
-        CAT_SUB_DATA_PROP,
+    /// Represents disjoint data properties axioms.
+        CAT_DISJOINT_DATA_PROP,
 
     /// Represents functional data property axioms.
         CAT_FUNCTIONAL_DATA_PROP,
@@ -115,9 +118,6 @@ typedef enum CowlAxiomType {
 
     /// Represents data property range axioms.
         CAT_DATA_PROP_RANGE,
-
-    /// Represents disjoint data properties axioms.
-        CAT_DISJOINT_DATA_PROP,
 
 /// @name Keys
 
