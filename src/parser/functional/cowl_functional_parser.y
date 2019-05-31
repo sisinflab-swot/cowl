@@ -720,14 +720,10 @@ disjoint_classes
 ;
 
 disjoint_union
-    : DISJOINT_UNION L_PAREN axiom_annotations class disjoint_class_expressions R_PAREN {
-        $$ = cowl_unsupported("Disjoint union axioms are not supported.");
+    : DISJOINT_UNION L_PAREN axiom_annotations class class_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_disj_union_axiom_get($4, $5);
         cowl_class_release($4);
     }
-;
-
-disjoint_class_expressions
-    : class_expression_2_list
 ;
 
 // Object property axioms

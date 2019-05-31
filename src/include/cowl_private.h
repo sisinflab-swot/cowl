@@ -22,6 +22,7 @@
 #include "cowl_data_range_set_private.h"
 #include "cowl_datatype_private.h"
 #include "cowl_decl_axiom_private.h"
+#include "cowl_disj_union_axiom_private.h"
 #include "cowl_error_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_individual_private.h"

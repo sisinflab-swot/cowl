@@ -26,6 +26,7 @@ cowl_struct_decl(CowlDataRange);
 cowl_struct_decl(CowlDataQuant);
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlDeclAxiom);
+cowl_struct_decl(CowlDisjointUnionAxiom);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlInverseObjProp);
 cowl_struct_decl(CowlIRI);

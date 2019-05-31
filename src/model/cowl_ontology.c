@@ -319,6 +319,14 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_DISJOINT_UNION: {
+            CowlDisjUnionAxiom *disj_axiom = (CowlDisjUnionAxiom *)axiom;
+
+            CowlAxiomEntityCtx ctx = { .onto = ontology, .axiom = axiom };
+            cowl_disj_union_axiom_iterate_signature(disj_axiom, &ctx, cowl_ontology_entity_adder);
+            break;
+        }
+
         case CAT_OBJ_PROP_ASSERTION:
         case CAT_NEGATIVE_OBJ_PROP_ASSERTION: {
             CowlObjPropAssertAxiom *as_axiom = (CowlObjPropAssertAxiom *)axiom;
