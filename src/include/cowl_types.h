@@ -28,6 +28,7 @@ cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlDeclAxiom);
 cowl_struct_decl(CowlDisjUnionAxiom);
 cowl_struct_decl(CowlIndividual);
+cowl_struct_decl(CowlInvObjPropAxiom);
 cowl_struct_decl(CowlInverseObjProp);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlLiteral);

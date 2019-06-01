@@ -341,6 +341,13 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_INVERSE_OBJ_PROP: {
+            CowlInvObjPropAxiom *inv_axiom = (CowlInvObjPropAxiom *)axiom;
+            cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, inv_axiom->first);
+            cowl_ontology_add_axiom_for_prop_exp(ontology, axiom, inv_axiom->second);
+            break;
+        }
+
         case CAT_EQUIVALENT_OBJ_PROP:
         case CAT_DISJOINT_OBJ_PROP: {
             CowlNAryObjPropAxiom *nary_axiom = (CowlNAryObjPropAxiom *)axiom;

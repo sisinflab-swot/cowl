@@ -31,6 +31,7 @@
 #include "cowl_error.h"
 #include "cowl_individual.h"
 #include "cowl_individual_set.h"
+#include "cowl_inv_obj_prop_axiom.h"
 #include "cowl_inverse_obj_prop.h"
 #include "cowl_iri.h"
 #include "cowl_iterator.h"

@@ -785,7 +785,7 @@ disjoint_object_properties
 
 inverse_object_properties
     : INVERSE_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression object_property_expression R_PAREN {
-        $$ = cowl_unsupported("Inverse object property axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_inv_obj_prop_axiom_get($4, $5);
         cowl_obj_prop_exp_release($4);
         cowl_obj_prop_exp_release($5);
     }
