@@ -1,0 +1,18 @@
+/// @author Ivano Bilenchi
+
+#ifndef COWL_DATA_ONE_OF_PRIVATE_H
+#define COWL_DATA_ONE_OF_PRIVATE_H
+
+#include "cowl_data_one_of.h"
+#include "cowl_data_range_private.h"
+
+COWL_BEGIN_DECLS
+
+cowl_struct(CowlDataOneOf) {
+    CowlDataRange super;
+    CowlLiteralSet *values;
+};
+
+COWL_END_DECLS
+
+#endif // COWL_DATA_ONE_OF_PRIVATE_H

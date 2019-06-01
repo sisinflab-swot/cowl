@@ -136,12 +136,13 @@
 %type <CowlAxiom *> sub_annotation_property_of annotation_property_domain annotation_property_range
 
 %type <CowlMutableClsExpSet *> class_expression_list class_expression_2_list
-%type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
-%type <CowlMutableObjPropExpSet *> object_property_expression_star
-%type <CowlMutableIndividualSet *> individual_list individual_2_list
 %type <CowlMutableDataPropExpSet *> data_property_expression_list data_property_expression_2_list
 %type <CowlMutableDataPropExpSet *> data_property_expression_star
 %type <CowlMutableDataRangeSet *> data_range_list data_range_2_list
+%type <CowlMutableIndividualSet *> individual_list individual_2_list
+%type <CowlMutableLiteralSet *> literal_list
+%type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
+%type <CowlMutableObjPropExpSet *> object_property_expression_star
 
 // Start symbol
 
@@ -165,10 +166,11 @@
 %destructor { cowl_literal_release($$); } <CowlLiteral *>
 %destructor { cowl_axiom_release($$); } <CowlAxiom *>
 %destructor { cowl_cls_exp_set_free($$); } <CowlMutableClsExpSet *>
-%destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
-%destructor { cowl_individual_set_free($$); } <CowlMutableIndividualSet *>
 %destructor { cowl_data_prop_exp_set_free($$); } <CowlMutableDataPropExpSet *>
 %destructor { cowl_data_range_set_free($$); } <CowlMutableDataRangeSet *>
+%destructor { cowl_individual_set_free($$); } <CowlMutableIndividualSet *>
+%destructor { cowl_literal_set_free($$); } <CowlMutableLiteralSet *>
+%destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
 
 %%
 
@@ -455,7 +457,7 @@ data_complement_of
 
 data_one_of
     : DATA_ONE_OF L_PAREN literal_list R_PAREN {
-        $$ = cowl_unsupported("'One of' data ranges are not supported.");
+        $$ = (CowlDataRange *)cowl_data_one_of_get($3);
     }
 ;
 
@@ -1189,8 +1191,14 @@ individual_2_list
 ;
 
 literal_list
-    : literal
+    : literal {
+        $$ = uhash_alloc(CowlLiteralSet);
+        cowl_literal_set_insert($$, $1);
+        cowl_literal_release($1);
+    }
     | literal_list literal {
+        $$ = $1;
+        cowl_literal_set_insert($$, $2);
         cowl_literal_release($2);
     }
 ;

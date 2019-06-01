@@ -3,6 +3,7 @@
 #include "cowl_data_range_private.h"
 #include "cowl_datatype.h"
 #include "cowl_data_compl.h"
+#include "cowl_data_one_of.h"
 #include "cowl_nary_data.h"
 
 CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
@@ -21,6 +22,7 @@ void cowl_data_range_release(CowlDataRange *range) {
         GEN_CASE_RELEASE(CDRT_DATA_INTERSECTION, CowlNAryData, cowl_nary_data);
         GEN_CASE_RELEASE(CDRT_DATA_UNION, CowlNAryData, cowl_nary_data);
         GEN_CASE_RELEASE(CDRT_DATA_COMPLEMENT, CowlDataCompl, cowl_data_compl);
+        GEN_CASE_RELEASE(CDRT_DATA_ONE_OF, CowlDataOneOf, cowl_data_one_of);
 
         default:
             break;
@@ -44,6 +46,7 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
         GEN_CASE_EQUAL(CDRT_DATA_INTERSECTION, CowlNAryData, cowl_nary_data);
         GEN_CASE_EQUAL(CDRT_DATA_UNION, CowlNAryData, cowl_nary_data);
         GEN_CASE_EQUAL(CDRT_DATA_COMPLEMENT, CowlDataCompl, cowl_data_compl);
+        GEN_CASE_EQUAL(CDRT_DATA_ONE_OF, CowlDataOneOf, cowl_data_one_of);
 
         default:
             return false;
@@ -65,6 +68,7 @@ bool cowl_data_range_iterate_signature(CowlDataRange *range, void *ctx, CowlEnti
         GEN_CASE_SIG(CDRT_DATA_INTERSECTION, CowlNAryData, cowl_nary_data);
         GEN_CASE_SIG(CDRT_DATA_UNION, CowlNAryData, cowl_nary_data);
         GEN_CASE_SIG(CDRT_DATA_COMPLEMENT, CowlDataCompl, cowl_data_compl);
+        GEN_CASE_SIG(CDRT_DATA_ONE_OF, CowlDataOneOf, cowl_data_one_of);
 
         default:
             return true;

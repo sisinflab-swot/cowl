@@ -20,6 +20,7 @@ cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataCard);
 cowl_struct_decl(CowlDataCompl);
 cowl_struct_decl(CowlDataHasValue);
+cowl_struct_decl(CowlDataOneOf);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlDataRange);
@@ -60,11 +61,13 @@ cowl_hash_decl(CowlClsExpSet);
 cowl_hash_decl(CowlDataPropExpSet);
 cowl_hash_decl(CowlDataRangeSet);
 cowl_hash_decl(CowlIndividualSet);
+cowl_hash_decl(CowlLiteralSet);
 cowl_hash_decl(CowlObjPropExpSet);
 cowl_hash_decl_mutable(CowlClsExpSet, CowlMutableClsExpSet);
 cowl_hash_decl_mutable(CowlDataPropExpSet, CowlMutableDataPropExpSet);
 cowl_hash_decl_mutable(CowlDataRangeSet, CowlMutableDataRangeSet);
 cowl_hash_decl_mutable(CowlIndividualSet, CowlMutableIndividualSet);
+cowl_hash_decl_mutable(CowlLiteralSet, CowlMutableLiteralSet);
 cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
 
 COWL_END_DECLS
