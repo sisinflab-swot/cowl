@@ -412,7 +412,7 @@ object_property_expression
 
 inverse_object_property
     : OBJECT_INVERSE_OF L_PAREN object_property R_PAREN {
-        $$ = (CowlObjPropExp *)cowl_inverse_obj_prop_get($3);
+        $$ = (CowlObjPropExp *)cowl_inv_obj_prop_get($3);
         cowl_obj_prop_release($3);
     }
 ;

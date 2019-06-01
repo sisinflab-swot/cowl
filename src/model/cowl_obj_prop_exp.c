@@ -1,7 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_obj_prop_exp_private.h"
-#include "cowl_inverse_obj_prop_private.h"
+#include "cowl_inv_obj_prop_private.h"
 #include "cowl_obj_prop_private.h"
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
@@ -12,7 +12,7 @@ void cowl_obj_prop_exp_release(CowlObjPropExp *prop) {
     if (!prop) return;
 
     if (prop->is_inverse) {
-        cowl_inverse_obj_prop_release((CowlInverseObjProp *)prop);
+        cowl_inv_obj_prop_release((CowlInvObjProp *)prop);
     } else {
         cowl_obj_prop_release((CowlObjProp *)prop);
     }
@@ -24,7 +24,7 @@ bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
 
 CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp) {
     if (exp->is_inverse) {
-        return ((CowlInverseObjProp *)exp)->prop;
+        return ((CowlInvObjProp *)exp)->prop;
     } else {
         return (CowlObjProp *)exp;
     }
@@ -40,7 +40,7 @@ cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
 
 bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, void *ctx, CowlEntityIterator iter) {
     if (exp->is_inverse) {
-        return cowl_inverse_obj_prop_iterate_signature((CowlInverseObjProp *)exp, ctx, iter);
+        return cowl_inv_obj_prop_iterate_signature((CowlInvObjProp *)exp, ctx, iter);
     } else {
         return cowl_obj_prop_iterate_signature((CowlObjProp *)exp, ctx, iter);
     }
