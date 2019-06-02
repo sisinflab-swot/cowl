@@ -114,6 +114,7 @@
 %type <CowlDataRange *> data_range data_intersection_of data_union_of data_complement_of
 %type <CowlDataRange *> data_one_of datatype_restriction
 
+%type <CowlFacetRestr *> facet_restriction
 %type <CowlLiteral *> literal target_value
 %type <CowlString *> string_literal language_tag
 
@@ -139,6 +140,7 @@
 %type <CowlMutableDataPropExpSet *> data_property_expression_list data_property_expression_2_list
 %type <CowlMutableDataPropExpSet *> data_property_expression_star
 %type <CowlMutableDataRangeSet *> data_range_list data_range_2_list
+%type <CowlMutableFacetRestrSet *> facet_restriction_list
 %type <CowlMutableIndividualSet *> individual_list individual_2_list
 %type <CowlMutableLiteralSet *> literal_list
 %type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
@@ -150,7 +152,6 @@
 
 // Destructors
 
-%destructor { cowl_string_release($$); } <CowlString *>
 %destructor { cowl_iri_release($$); } <CowlIRI *>
 %destructor { cowl_entity_release($$); } <CowlEntity>
 %destructor { cowl_class_release($$); } <CowlClass *>
@@ -163,11 +164,14 @@
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
 %destructor { cowl_data_prop_exp_release($$); } <CowlDataPropExp *>
 %destructor { cowl_data_range_release($$); } <CowlDataRange *>
+%destructor { cowl_facet_restr_release($$); } <CowlFacetRestr *>
 %destructor { cowl_literal_release($$); } <CowlLiteral *>
+%destructor { cowl_string_release($$); } <CowlString *>
 %destructor { cowl_axiom_release($$); } <CowlAxiom *>
 %destructor { cowl_cls_exp_set_free($$); } <CowlMutableClsExpSet *>
 %destructor { cowl_data_prop_exp_set_free($$); } <CowlMutableDataPropExpSet *>
 %destructor { cowl_data_range_set_free($$); } <CowlMutableDataRangeSet *>
+%destructor { cowl_facet_restr_set_free($$); } <CowlMutableFacetRestrSet *>
 %destructor { cowl_individual_set_free($$); } <CowlMutableIndividualSet *>
 %destructor { cowl_literal_set_free($$); } <CowlMutableLiteralSet *>
 %destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
@@ -462,27 +466,31 @@ data_one_of
 ;
 
 datatype_restriction
-    : DATATYPE_RESTRICTION L_PAREN datatype datatype_restriction_value_list R_PAREN {
-        $$ = cowl_unsupported("Datatype restrictions are not supported.");
+    : DATATYPE_RESTRICTION L_PAREN datatype facet_restriction_list R_PAREN {
+        $$ = (CowlDataRange *)cowl_datatype_restr_get($3, $4);
         cowl_datatype_release($3);
     }
 ;
 
-datatype_restriction_value_list
-    : datatype_restriction_value
-    | datatype_restriction_value_list datatype_restriction_value
+facet_restriction_list
+    : facet_restriction {
+        $$ = uhash_alloc(CowlFacetRestrSet);
+        cowl_facet_restr_set_insert($$, $1);
+        cowl_facet_restr_release($1);
+    }
+    | facet_restriction_list facet_restriction {
+        $$ = $1;
+        cowl_facet_restr_set_insert($$, $2);
+        cowl_facet_restr_release($2);
+    }
 ;
 
-datatype_restriction_value
-    : constraining_facet restriction_value
-;
-
-constraining_facet
-    : iri
-;
-
-restriction_value
-    : literal
+facet_restriction
+    : iri literal {
+        $$ = cowl_facet_restr_get(cowl_facet_from_iri($1), $2);
+        cowl_iri_release($1);
+        cowl_literal_release($2);
+    }
 ;
 
 // Class expressions

@@ -2,6 +2,7 @@
 
 #include "cowl_data_range_private.h"
 #include "cowl_datatype.h"
+#include "cowl_datatype_restr.h"
 #include "cowl_data_compl.h"
 #include "cowl_data_one_of.h"
 #include "cowl_nary_data.h"
@@ -19,6 +20,7 @@ void cowl_data_range_release(CowlDataRange *range) {
     switch (range->type) {
 
         GEN_CASE_RELEASE(CDRT_DATATYPE, CowlDatatype, cowl_datatype);
+        GEN_CASE_RELEASE(CDRT_DATATYPE_RESTRICTION, CowlDatatypeRestr, cowl_datatype_restr);
         GEN_CASE_RELEASE(CDRT_DATA_INTERSECTION, CowlNAryData, cowl_nary_data);
         GEN_CASE_RELEASE(CDRT_DATA_UNION, CowlNAryData, cowl_nary_data);
         GEN_CASE_RELEASE(CDRT_DATA_COMPLEMENT, CowlDataCompl, cowl_data_compl);
@@ -43,6 +45,7 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
     switch (lhs->type) {
 
         GEN_CASE_EQUAL(CDRT_DATATYPE, CowlDatatype, cowl_datatype);
+        GEN_CASE_EQUAL(CDRT_DATATYPE_RESTRICTION, CowlDatatypeRestr, cowl_datatype_restr);
         GEN_CASE_EQUAL(CDRT_DATA_INTERSECTION, CowlNAryData, cowl_nary_data);
         GEN_CASE_EQUAL(CDRT_DATA_UNION, CowlNAryData, cowl_nary_data);
         GEN_CASE_EQUAL(CDRT_DATA_COMPLEMENT, CowlDataCompl, cowl_data_compl);
@@ -65,6 +68,7 @@ bool cowl_data_range_iterate_signature(CowlDataRange *range, void *ctx, CowlEnti
     switch (range->type) {
 
         GEN_CASE_SIG(CDRT_DATATYPE, CowlDatatype, cowl_datatype);
+        GEN_CASE_SIG(CDRT_DATATYPE_RESTRICTION, CowlDatatypeRestr, cowl_datatype_restr);
         GEN_CASE_SIG(CDRT_DATA_INTERSECTION, CowlNAryData, cowl_nary_data);
         GEN_CASE_SIG(CDRT_DATA_UNION, CowlNAryData, cowl_nary_data);
         GEN_CASE_SIG(CDRT_DATA_COMPLEMENT, CowlDataCompl, cowl_data_compl);

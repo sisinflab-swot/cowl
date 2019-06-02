@@ -14,21 +14,33 @@ cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 
 cowl_struct(CowlVocabulary) {
+
     cowl_struct(CowlNSVocabulary) {
         CowlString *owl;
         CowlString *rdf;
+        CowlString *xsd;
     } ns;
 
-    cowl_struct(CowlRemVocabulary) {
-        CowlString *thing;
-        CowlString *nothing;
-        CowlString *plain_literal;
-    } rem;
-
     cowl_struct(CowlIRIVocabulary) {
+        // OWL
         CowlIRI *thing;
         CowlIRI *nothing;
-        CowlIRI *plain_literal;
+
+        // RDF
+        CowlIRI *rdf_plain_literal;
+
+        // XSD
+        CowlIRI *xsd_length;
+        CowlIRI *xsd_min_length;
+        CowlIRI *xsd_max_length;
+        CowlIRI *xsd_pattern;
+        CowlIRI *xsd_min_inclusive;
+        CowlIRI *xsd_min_exclusive;
+        CowlIRI *xsd_max_inclusive;
+        CowlIRI *xsd_max_exclusive;
+        CowlIRI *xsd_total_digits;
+        CowlIRI *xsd_fraction_digits;
+        CowlIRI *xsd_lang_range;
     } iri;
 
     cowl_struct(CowlClassVocabulary) {
@@ -37,7 +49,7 @@ cowl_struct(CowlVocabulary) {
     } cls;
 
     cowl_struct(CowlDatatypeVocabulary) {
-        CowlDatatype *plain_literal;
+        CowlDatatype *rdf_plain_literal;
     } dt;
 };
 

@@ -33,7 +33,7 @@ static void cowl_literal_free(CowlLiteral *literal) {
 }
 
 CowlLiteral* cowl_literal_get(CowlDatatype *datatype, CowlString *literal, CowlString *lang) {
-    if (!datatype) datatype = cowl_datatype_retain(cowl_vocabulary_get()->dt.plain_literal);
+    if (!datatype) datatype = cowl_datatype_retain(cowl_vocabulary_get()->dt.rdf_plain_literal);
     if (!literal) literal = cowl_string_get_empty();
     if (!lang) lang = cowl_string_get_empty();
     return cowl_literal_alloc(datatype, literal, lang);
