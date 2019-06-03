@@ -405,9 +405,9 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
 
         case CAT_EQUIVALENT_OBJ_PROP:
         case CAT_DISJOINT_OBJ_PROP: {
-            CowlNAryObjPropAxiom *nary_axiom = (CowlNAryObjPropAxiom *)axiom;
+            CowlNAryObjPropAxiom *n_axiom = (CowlNAryObjPropAxiom *)axiom;
             CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
-            cowl_nary_obj_prop_axiom_iterate_signature(nary_axiom, &c, cowl_ontology_entity_adder);
+            cowl_nary_obj_prop_axiom_iterate_signature(n_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 
@@ -441,6 +441,14 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             CowlSubDataPropAxiom *d_axiom = (CowlSubDataPropAxiom *)axiom;
             cowl_ontology_add_axiom_for_data_prop_exp(ontology, axiom, d_axiom->super_prop);
             cowl_ontology_add_axiom_for_data_prop_exp(ontology, axiom, d_axiom->sub_prop);
+            break;
+        }
+
+        case CAT_EQUIVALENT_DATA_PROP:
+        case CAT_DISJOINT_DATA_PROP: {
+            CowlNAryDataPropAxiom *n_axiom = (CowlNAryDataPropAxiom *)axiom;
+            CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
+            cowl_nary_data_prop_axiom_iterate_signature(n_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 

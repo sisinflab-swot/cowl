@@ -6,6 +6,7 @@
 #include "cowl_nary_cls_axiom.h"
 #include "cowl_disj_union_axiom.h"
 #include "cowl_inv_obj_prop_axiom.h"
+#include "cowl_nary_data_prop_axiom.h"
 #include "cowl_nary_obj_prop_axiom.h"
 #include "cowl_obj_prop_assert_axiom.h"
 #include "cowl_obj_prop_char_axiom.h"
@@ -49,6 +50,8 @@ void cowl_axiom_release(CowlAxiom *axiom) {
         GEN_CASE_RELEASE(CAT_IRREFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_RELEASE(CAT_TRANSITIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_RELEASE(CAT_SUB_DATA_PROP, CowlSubDataPropAxiom, cowl_sub_data_prop_axiom);
+        GEN_CASE_RELEASE(CAT_EQUIVALENT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
+        GEN_CASE_RELEASE(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
 
         default:
             break;
@@ -90,6 +93,8 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_IRREFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_EQUAL(CAT_TRANSITIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_EQUAL(CAT_SUB_DATA_PROP, CowlSubDataPropAxiom, cowl_sub_data_prop_axiom);
+        GEN_CASE_EQUAL(CAT_EQUIVALENT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
+        GEN_CASE_EQUAL(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
 
         default:
             return false;
@@ -129,6 +134,8 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_IRREFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_SIG(CAT_TRANSITIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_SIG(CAT_SUB_DATA_PROP, CowlSubDataPropAxiom, cowl_sub_data_prop_axiom);
+        GEN_CASE_SIG(CAT_EQUIVALENT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
+        GEN_CASE_SIG(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
 
         default:
             return true;

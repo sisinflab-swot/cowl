@@ -895,15 +895,13 @@ super_data_property_expression
 
 equivalent_data_properties
     : EQUIVALENT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
-        $$ = cowl_unsupported("Equivalent data properties axioms are not supported.");
-        cowl_data_prop_exp_set_free($4);
+        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_EQUIVALENT, $4);
     }
 ;
 
 disjoint_data_properties
     : DISJOINT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
-        $$ = cowl_unsupported("Disjoint data properties axioms are not supported.");
-        cowl_data_prop_exp_set_free($4);
+        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_DISJOINT, $4);
     }
 ;
 

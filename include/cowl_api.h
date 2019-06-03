@@ -48,6 +48,7 @@
 #include "cowl_nary_bool.h"
 #include "cowl_nary_cls_axiom.h"
 #include "cowl_nary_data.h"
+#include "cowl_nary_data_prop_axiom.h"
 #include "cowl_nary_obj_prop_axiom.h"
 #include "cowl_nary_type.h"
 #include "cowl_obj_card.h"
