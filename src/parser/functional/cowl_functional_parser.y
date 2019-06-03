@@ -927,7 +927,7 @@ data_property_range
 
 functional_data_property
     : FUNCTIONAL_DATA_PROPERTY L_PAREN axiom_annotations data_property_expression R_PAREN {
-        $$ = cowl_unsupported("Functional data property axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_func_data_prop_axiom_get($4);
         cowl_data_prop_exp_release($4);
     }
 ;

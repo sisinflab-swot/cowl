@@ -5,6 +5,7 @@
 #include "cowl_data_prop_domain_axiom.h"
 #include "cowl_data_prop_range_axiom.h"
 #include "cowl_decl_axiom.h"
+#include "cowl_func_data_prop_axiom.h"
 #include "cowl_nary_cls_axiom.h"
 #include "cowl_disj_union_axiom.h"
 #include "cowl_inv_obj_prop_axiom.h"
@@ -56,6 +57,7 @@ void cowl_axiom_release(CowlAxiom *axiom) {
         GEN_CASE_RELEASE(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
         GEN_CASE_RELEASE(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_RELEASE(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
+        GEN_CASE_RELEASE(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
 
         default:
             break;
@@ -101,6 +103,7 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
         GEN_CASE_EQUAL(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_EQUAL(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
+        GEN_CASE_EQUAL(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
 
         default:
             return false;
@@ -144,6 +147,7 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
         GEN_CASE_SIG(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_SIG(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
+        GEN_CASE_SIG(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
 
         default:
             return true;

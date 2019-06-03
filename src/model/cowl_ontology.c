@@ -476,6 +476,12 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_FUNCTIONAL_DATA_PROP: {
+            CowlFuncDataPropAxiom *f_axiom = (CowlFuncDataPropAxiom *)axiom;
+            cowl_ontology_add_axiom_for_data_prop_exp(ontology, axiom, f_axiom->prop);
+            break;
+        }
+
         default:
             break;
     }

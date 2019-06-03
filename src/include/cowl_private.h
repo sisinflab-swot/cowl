@@ -32,6 +32,7 @@
 #include "cowl_facet_private.h"
 #include "cowl_facet_restr_private.h"
 #include "cowl_facet_restr_set_private.h"
+#include "cowl_func_data_prop_axiom_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_individual_private.h"
 #include "cowl_individual_set_private.h"

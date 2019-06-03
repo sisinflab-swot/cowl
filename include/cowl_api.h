@@ -37,6 +37,7 @@
 #include "cowl_facet.h"
 #include "cowl_facet_restr.h"
 #include "cowl_facet_restr_set.h"
+#include "cowl_func_data_prop_axiom.h"
 #include "cowl_individual.h"
 #include "cowl_individual_set.h"
 #include "cowl_inv_obj_prop.h"
