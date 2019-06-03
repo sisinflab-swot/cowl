@@ -63,6 +63,7 @@ cowl_struct_decl(CowlOntologyId);
 cowl_struct_decl(CowlParser);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubClsAxiom);
+cowl_struct_decl(CowlSubDataPropAxiom);
 cowl_struct_decl(CowlSubObjPropAxiom);
 
 cowl_hash_decl(CowlClsExpSet);

@@ -13,6 +13,8 @@ cowl_struct_decl(CowlAnonIndividual);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlDataProp);
+cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlNamedIndividual);
 cowl_struct_decl(CowlObjProp);
@@ -31,6 +33,8 @@ cowl_uint_t cowl_ontology_hash(CowlOntology *onto);
 cowl_uint_t cowl_ontology_axiom_count(CowlOntology *onto);
 
 cowl_uint_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class);
+cowl_uint_t cowl_ontology_axiom_count_for_data_prop(CowlOntology *onto, CowlDataProp *data_prop);
+cowl_uint_t cowl_ontology_axiom_count_for_datatype(CowlOntology *onto, CowlDatatype *datatype);
 cowl_uint_t cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop);
 cowl_uint_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
                                                            CowlNamedIndividual *individual);
@@ -38,6 +42,10 @@ cowl_uint_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
 void cowl_ontology_iterate_signature(CowlOntology *onto, void *ctx, CowlEntityIterator iter);
 
 void cowl_ontology_iterate_classes(CowlOntology *onto, void *ctx, CowlClassIterator iter);
+
+void cowl_ontology_iterate_data_prop(CowlOntology *onto, void *ctx, CowlDataPropIterator iter);
+
+void cowl_ontology_iterate_datatypes(CowlOntology *onto, void *ctx, CowlDatatypeIterator iter);
 
 void cowl_ontology_iterate_obj_prop(CowlOntology *onto, void *ctx, CowlObjPropIterator iter);
 
@@ -54,6 +62,12 @@ void cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
 
 void cowl_ontology_iterate_axioms_for_class(CowlOntology *onto, CowlClass *owl_class,
                                             void *ctx, CowlAxiomIterator iter);
+
+void cowl_ontology_iterate_axioms_for_data_prop(CowlOntology *onto, CowlDataProp *data_prop,
+                                                void *ctx, CowlAxiomIterator iter);
+
+void cowl_ontology_iterate_axioms_for_datatype(CowlOntology *onto, CowlDatatype *datatype,
+                                               void *ctx, CowlAxiomIterator iter);
 
 void cowl_ontology_iterate_axioms_for_obj_prop(CowlOntology *onto, CowlObjProp *obj_prop,
                                                void *ctx, CowlAxiomIterator iter);

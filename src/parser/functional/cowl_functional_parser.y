@@ -879,7 +879,7 @@ data_property_axiom
 
 sub_data_property_of
     : SUB_DATA_PROPERTY_OF L_PAREN axiom_annotations sub_data_property_expression super_data_property_expression R_PAREN {
-        $$ = cowl_unsupported("Sub data property axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_sub_data_prop_axiom_get($4, $5);
         cowl_data_prop_exp_release($4);
         cowl_data_prop_exp_release($5);
     }
