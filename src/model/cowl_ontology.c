@@ -133,6 +133,14 @@ void cowl_ontology_iterate_signature(CowlOntology *onto, void *ctx, CowlEntityIt
         if (!iter(ctx, cowl_entity_wrap_class(cls))) return;
     });
 
+    uhash_foreach_key(CowlDataPropAxiomMap, onto->data_prop_refs, prop, {
+        if (!iter(ctx, cowl_entity_wrap_data_prop(prop))) return;
+    });
+
+    uhash_foreach_key(CowlDatatypeAxiomMap, onto->datatype_refs, datatype, {
+        if (!iter(ctx, cowl_entity_wrap_datatype(datatype))) return;
+    });
+
     uhash_foreach_key(CowlObjPropAxiomMap, onto->obj_prop_refs, prop, {
         if (!iter(ctx, cowl_entity_wrap_obj_prop(prop))) return;
     });
