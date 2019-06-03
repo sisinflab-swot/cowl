@@ -9,6 +9,7 @@
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDatatype);
@@ -24,6 +25,7 @@ typedef cowl_struct(CowlEntity) {
         CowlDataProp *data_prop;
         CowlNamedIndividual *named_ind;
         CowlDatatype *datatype;
+        CowlAnnotProp *annot_prop;
     };
 
 } CowlEntity;
@@ -43,6 +45,9 @@ typedef cowl_struct(CowlEntity) {
 #define cowl_entity_wrap_datatype(DT) \
     ((CowlEntity const){ .type = CET_DATATYPE, .datatype = (DT) })
 
+#define cowl_entity_wrap_annot_prop(PROP) \
+    ((CowlEntity const){ .type = CET_ANNOTATION_PROP, .annot_prop = (PROP) })
+
 #define cowl_entity_init_class(CLS) \
     cowl_entity_wrap_class(cowl_class_retain(CLS))
 
@@ -57,6 +62,9 @@ typedef cowl_struct(CowlEntity) {
 
 #define cowl_entity_init_datatype(DT) \
     cowl_entity_wrap_datatype(cowl_datatype_retain(DT))
+
+#define cowl_entity_init_annot_prop(PROP) \
+    cowl_entity_wrap_annot_prop(cowl_annot_prop_retain(PROP))
 
 CowlEntity cowl_entity_retain(CowlEntity entity);
 void cowl_entity_release(CowlEntity entity);

@@ -3,6 +3,7 @@
 #ifndef COWL_API_H
 #define COWL_API_H
 
+#include "cowl_annot_prop.h"
 #include "cowl_anon_individual.h"
 #include "cowl_axiom.h"
 #include "cowl_axiom_type.h"

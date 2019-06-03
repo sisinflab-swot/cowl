@@ -18,6 +18,7 @@
 
 COWL_BEGIN_DECLS
 
+cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnonIndividual);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClass);

@@ -94,6 +94,7 @@
 %type <CowlDataProp *> data_property
 %type <CowlNamedIndividual *> named_individual
 %type <CowlDatatype *> datatype
+%type <CowlAnnotProp *> annotation_property sub_annotation_property super_annotation_property
 
 %type <CowlClsExp *> class_expression sub_class_expression super_class_expression
 %type <CowlClsExp *> object_intersection_of object_union_of object_complement_of object_one_of
@@ -159,6 +160,7 @@
 %destructor { cowl_data_prop_release($$); } <CowlDataProp *>
 %destructor { cowl_named_individual_release($$); } <CowlNamedIndividual *>
 %destructor { cowl_datatype_release($$); } <CowlDatatype *>
+%destructor { cowl_annot_prop_release($$); } <CowlAnnotProp *>
 %destructor { cowl_cls_exp_release($$); } <CowlClsExp *>
 %destructor { cowl_individual_release($$); } <CowlIndividual *>
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
@@ -317,7 +319,10 @@ data_property
 // Annotation properties
 
 annotation_property
-    : iri
+    : iri {
+        $$ = cowl_annot_prop_get($1);
+        cowl_iri_release($1);
+    }
 ;
 
 // Individuals
@@ -401,8 +406,7 @@ entity
         $$ = cowl_entity_wrap_data_prop($3);
     }
     | ANNOTATION_PROPERTY L_PAREN annotation_property R_PAREN {
-        $$ = cowl_unsupported_entity(CET_ANNOTATION_PROP,
-                                     "Annotation properties are not supported.");
+        $$ = cowl_entity_wrap_annot_prop($3);
     }
     | NAMED_INDIVIDUAL L_PAREN named_individual R_PAREN {
         $$ = cowl_entity_wrap_named_individual($3);
@@ -1037,7 +1041,9 @@ target_value
 // Annotations
 
 annotation
-    : ANNOTATION L_PAREN annotation_annotations annotation_property annotation_value R_PAREN
+    : ANNOTATION L_PAREN annotation_annotations annotation_property annotation_value R_PAREN {
+        cowl_annot_prop_release($4);
+    }
 ;
 
 annotation_annotations
@@ -1063,6 +1069,7 @@ annotation_axiom
 annotation_assertion
     : ANNOTATION_ASSERTION L_PAREN axiom_annotations annotation_property annotation_subject annotation_value R_PAREN {
         $$ = cowl_unsupported("Annotation assertion axioms are not supported.");
+        cowl_annot_prop_release($4);
     }
 ;
 
@@ -1074,6 +1081,8 @@ annotation_subject
 sub_annotation_property_of
     : SUB_ANNOTATION_PROPERTY_OF L_PAREN axiom_annotations sub_annotation_property super_annotation_property R_PAREN {
         $$ = cowl_unsupported("Sub annotation property axioms are not supported.");
+        cowl_annot_prop_release($4);
+        cowl_annot_prop_release($5);
     }
 ;
 
@@ -1088,6 +1097,7 @@ super_annotation_property
 annotation_property_domain
     : ANNOTATION_PROPERTY_DOMAIN L_PAREN axiom_annotations annotation_property iri R_PAREN {
         $$ = cowl_unsupported("Annotation property domain axioms are not supported.");
+        cowl_annot_prop_release($4);
         cowl_iri_release($5);
     }
 ;
@@ -1095,6 +1105,7 @@ annotation_property_domain
 annotation_property_range
     : ANNOTATION_PROPERTY_RANGE L_PAREN axiom_annotations annotation_property iri R_PAREN {
         $$ = cowl_unsupported("Annotation property range axioms are not supported.");
+        cowl_annot_prop_release($4);
         cowl_iri_release($5);
     }
 ;
