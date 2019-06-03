@@ -36,6 +36,8 @@ static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom *a
                                                 CowlClsExp *exp);
 static void cowl_ontology_add_axiom_for_data_prop_exp(CowlOntology *onto, CowlAxiom *axiom,
                                                       CowlDataPropExp *prop_exp);
+static void cowl_ontology_add_axiom_for_data_range(CowlOntology *onto, CowlAxiom *axiom,
+                                                   CowlDataRange *range);
 static void cowl_ontology_add_axiom_for_obj_prop_exp(CowlOntology *onto, CowlAxiom *axiom,
                                                      CowlObjPropExp *prop_exp);
 static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,
@@ -452,6 +454,20 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_DATA_PROP_DOMAIN: {
+            CowlDataPropDomainAxiom *d_axiom = (CowlDataPropDomainAxiom *)axiom;
+            cowl_ontology_add_axiom_for_data_prop_exp(ontology, axiom, d_axiom->prop_exp);
+            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, d_axiom->domain);
+            break;
+        }
+
+        case CAT_DATA_PROP_RANGE: {
+            CowlDataPropRangeAxiom *r_axiom = (CowlDataPropRangeAxiom *)axiom;
+            cowl_ontology_add_axiom_for_data_prop_exp(ontology, axiom, r_axiom->prop_exp);
+            cowl_ontology_add_axiom_for_data_range(ontology, axiom, r_axiom->range);
+            break;
+        }
+
         default:
             break;
     }
@@ -512,6 +528,17 @@ static void cowl_ontology_add_axiom_for_data_prop_exp(CowlOntology *onto, CowlAx
                                                       CowlDataPropExp *prop_exp) {
     cowl_add_axiom_to_set_in_map(CowlDataPropAxiomMap, onto->data_prop_refs,
                                  (CowlDataProp *)prop_exp, axiom);
+}
+
+static void cowl_ontology_add_axiom_for_data_range(CowlOntology *onto, CowlAxiom *axiom,
+                                                   CowlDataRange *range) {
+    if (range->type == CDRT_DATATYPE) {
+        cowl_add_axiom_to_set_in_map(CowlDatatypeAxiomMap, onto->datatype_refs,
+                                     (CowlDatatype *)range, axiom);
+    } else {
+        CowlAxiomEntityCtx ctx = { .onto = onto, .axiom = axiom };
+        cowl_data_range_iterate_signature(range, &ctx, cowl_ontology_entity_adder);
+    }
 }
 
 static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,

@@ -907,7 +907,7 @@ disjoint_data_properties
 
 data_property_domain
     : DATA_PROPERTY_DOMAIN L_PAREN axiom_annotations data_property_expression class_expression R_PAREN {
-        $$ = cowl_unsupported("Data property domain axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_data_prop_domain_axiom_get($4, $5);
         cowl_data_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -915,7 +915,7 @@ data_property_domain
 
 data_property_range
     : DATA_PROPERTY_RANGE L_PAREN axiom_annotations data_property_expression data_range R_PAREN {
-        $$ = cowl_unsupported("Data property range axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_data_prop_range_axiom_get($4, $5);
         cowl_data_prop_exp_release($4);
         cowl_data_range_release($5);
     }
