@@ -435,6 +435,14 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_SUB_OBJ_PROP_CHAIN: {
+            CowlSubObjPropChainAxiom *s_axiom = (CowlSubObjPropChainAxiom *)axiom;
+            CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
+            cowl_sub_obj_prop_chain_axiom_iterate_signature(s_axiom, &c,
+                                                            cowl_ontology_entity_adder);
+            break;
+        }
+
         case CAT_INVERSE_OBJ_PROP: {
             CowlInvObjPropAxiom *i_axiom = (CowlInvObjPropAxiom *)axiom;
             cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, i_axiom->first);

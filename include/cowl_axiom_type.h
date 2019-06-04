@@ -60,6 +60,9 @@ typedef enum CowlAxiomType {
     /// Represents sub-object property axioms.
         CAT_SUB_OBJ_PROP,
 
+    /// Represents sub-property chain axioms.
+        CAT_SUB_OBJ_PROP_CHAIN,
+
     /// Represents inverse object properties axioms.
         CAT_INVERSE_OBJ_PROP,
 
@@ -95,9 +98,6 @@ typedef enum CowlAxiomType {
 
     /// Represents object property range axioms.
         CAT_OBJ_PROP_RANGE,
-
-    /// Represents sub-property chain axioms.
-        CAT_SUB_PROP_CHAIN,
 
 /// @name Data property axioms
 

@@ -74,6 +74,7 @@ cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubClsAxiom);
 cowl_struct_decl(CowlSubDataPropAxiom);
 cowl_struct_decl(CowlSubObjPropAxiom);
+cowl_struct_decl(CowlSubObjPropChainAxiom);
 
 cowl_hash_decl(CowlClsExpSet);
 cowl_hash_decl(CowlDataPropExpSet);
@@ -89,6 +90,8 @@ cowl_hash_decl_mutable(CowlFacetRestrSet, CowlMutableFacetRestrSet);
 cowl_hash_decl_mutable(CowlIndividualSet, CowlMutableIndividualSet);
 cowl_hash_decl_mutable(CowlLiteralSet, CowlMutableLiteralSet);
 cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
+cowl_vector_decl(CowlObjPropExpPtr, CowlObjPropExpVec);
+cowl_vector_decl_mutable(CowlObjPropExpPtr, CowlMutableObjPropExpVec);
 
 COWL_END_DECLS
 

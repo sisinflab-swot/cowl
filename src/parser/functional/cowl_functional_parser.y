@@ -146,6 +146,7 @@
 %type <CowlMutableLiteralSet *> literal_list
 %type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
 %type <CowlMutableObjPropExpSet *> object_property_expression_star
+%type <CowlMutableObjPropExpVec *> object_property_expression_ordered_2_list property_expression_chain
 
 // Start symbol
 
@@ -177,6 +178,7 @@
 %destructor { cowl_individual_set_free($$); } <CowlMutableIndividualSet *>
 %destructor { cowl_literal_set_free($$); } <CowlMutableLiteralSet *>
 %destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
+%destructor { cowl_obj_prop_exp_vec_free($$); } <CowlMutableObjPropExpVec *>
 
 %%
 
@@ -765,7 +767,7 @@ sub_object_property_of
         cowl_obj_prop_exp_release($5);
     }
     | SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations property_expression_chain super_object_property_expression R_PAREN {
-        $$ = cowl_unsupported("Sub object property chain axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_sub_obj_prop_chain_axiom_get($4, $5);
         cowl_obj_prop_exp_release($5);
     }
 ;
@@ -779,9 +781,8 @@ super_object_property_expression
 ;
 
 property_expression_chain
-    : OBJECT_PROPERTY_CHAIN L_PAREN object_property_expression_2_list R_PAREN {
-        cowl_unsupported("Property expression chains are not supported.");
-        cowl_obj_prop_exp_set_free($3);
+    : OBJECT_PROPERTY_CHAIN L_PAREN object_property_expression_ordered_2_list R_PAREN {
+        $$ = $3;
     }
 ;
 
@@ -1235,6 +1236,21 @@ object_property_expression_2_list
     : object_property_expression_list object_property_expression {
         $$ = $1;
         cowl_obj_prop_exp_set_insert($$, $2);
+        cowl_obj_prop_exp_release($2);
+    }
+;
+
+object_property_expression_ordered_2_list
+    : object_property_expression object_property_expression {
+        $$ = vector_alloc(CowlObjPropExpPtr);
+        cowl_obj_prop_exp_vec_push($$, $1);
+        cowl_obj_prop_exp_vec_push($$, $2);
+        cowl_obj_prop_exp_release($1);
+        cowl_obj_prop_exp_release($2);
+    }
+    | object_property_expression_ordered_2_list object_property_expression {
+        $$ = $1;
+        cowl_obj_prop_exp_vec_push($$, $2);
         cowl_obj_prop_exp_release($2);
     }
 ;

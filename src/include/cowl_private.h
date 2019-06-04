@@ -61,6 +61,7 @@
 #include "cowl_obj_prop_domain_axiom_private.h"
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_obj_prop_exp_set_private.h"
+#include "cowl_obj_prop_exp_vec_private.h"
 #include "cowl_obj_prop_private.h"
 #include "cowl_obj_prop_range_axiom_private.h"
 #include "cowl_obj_quant_private.h"
@@ -72,6 +73,7 @@
 #include "cowl_sub_cls_axiom_private.h"
 #include "cowl_sub_data_prop_axiom_private.h"
 #include "cowl_sub_obj_prop_axiom_private.h"
+#include "cowl_sub_obj_prop_chain_axiom_private.h"
 #include "cowl_vocabulary_private.h"
 
 #endif // COWL_PRIVATE_H

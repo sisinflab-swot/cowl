@@ -31,4 +31,7 @@
 #define cowl_hash_decl(NAME) typedef struct UHash(NAME) const NAME
 #define cowl_hash_decl_mutable(NAME, MUTABLE_NAME) typedef struct UHash(NAME) MUTABLE_NAME
 
+#define cowl_vector_decl(NAME, CONST_NAME) typedef vector_struct(NAME) const CONST_NAME
+#define cowl_vector_decl_mutable(NAME, MUTABLE_NAME) typedef vector_struct(NAME) MUTABLE_NAME
+
 #endif // COWL_COMPAT_H

@@ -22,6 +22,7 @@
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
+#include "cowl_sub_obj_prop_chain_axiom.h"
 
 CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
     return cowl_axiom_ref_incr(axiom);
@@ -49,6 +50,7 @@ void cowl_axiom_release(CowlAxiom *axiom) {
         GEN_CASE_RELEASE(CAT_DATA_PROP_ASSERTION, CowlDataPropAssertAxiom, cowl_data_prop_assert_axiom);
         GEN_CASE_RELEASE(CAT_NEGATIVE_DATA_PROP_ASSERTION, CowlDataPropAssertAxiom, cowl_data_prop_assert_axiom);
         GEN_CASE_RELEASE(CAT_SUB_OBJ_PROP, CowlSubObjPropAxiom, cowl_sub_obj_prop_axiom);
+        GEN_CASE_RELEASE(CAT_SUB_OBJ_PROP_CHAIN, CowlSubObjPropChainAxiom, cowl_sub_obj_prop_chain_axiom);
         GEN_CASE_RELEASE(CAT_INVERSE_OBJ_PROP, CowlInvObjPropAxiom, cowl_inv_obj_prop_axiom);
         GEN_CASE_RELEASE(CAT_EQUIVALENT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
         GEN_CASE_RELEASE(CAT_DISJOINT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
@@ -101,6 +103,7 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_DATA_PROP_ASSERTION, CowlDataPropAssertAxiom, cowl_data_prop_assert_axiom);
         GEN_CASE_EQUAL(CAT_NEGATIVE_DATA_PROP_ASSERTION, CowlDataPropAssertAxiom, cowl_data_prop_assert_axiom);
         GEN_CASE_EQUAL(CAT_SUB_OBJ_PROP, CowlSubObjPropAxiom, cowl_sub_obj_prop_axiom);
+        GEN_CASE_EQUAL(CAT_SUB_OBJ_PROP_CHAIN, CowlSubObjPropChainAxiom, cowl_sub_obj_prop_chain_axiom);
         GEN_CASE_EQUAL(CAT_INVERSE_OBJ_PROP, CowlInvObjPropAxiom, cowl_inv_obj_prop_axiom);
         GEN_CASE_EQUAL(CAT_EQUIVALENT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
         GEN_CASE_EQUAL(CAT_DISJOINT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
@@ -151,6 +154,7 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_DATA_PROP_ASSERTION, CowlDataPropAssertAxiom, cowl_data_prop_assert_axiom);
         GEN_CASE_SIG(CAT_NEGATIVE_DATA_PROP_ASSERTION, CowlDataPropAssertAxiom, cowl_data_prop_assert_axiom);
         GEN_CASE_SIG(CAT_SUB_OBJ_PROP, CowlSubObjPropAxiom, cowl_sub_obj_prop_axiom);
+        GEN_CASE_SIG(CAT_SUB_OBJ_PROP_CHAIN, CowlSubObjPropChainAxiom, cowl_sub_obj_prop_chain_axiom);
         GEN_CASE_SIG(CAT_INVERSE_OBJ_PROP, CowlInvObjPropAxiom, cowl_inv_obj_prop_axiom);
         GEN_CASE_SIG(CAT_EQUIVALENT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
         GEN_CASE_SIG(CAT_DISJOINT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);

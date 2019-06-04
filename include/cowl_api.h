@@ -71,6 +71,7 @@
 #include "cowl_obj_prop_domain_axiom.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_obj_prop_exp_set.h"
+#include "cowl_obj_prop_exp_vec.h"
 #include "cowl_obj_prop_range_axiom.h"
 #include "cowl_obj_quant.h"
 #include "cowl_ontology.h"
@@ -82,6 +83,7 @@
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
+#include "cowl_sub_obj_prop_chain_axiom.h"
 #include "cowl_vocabulary.h"
 
 COWL_BEGIN_DECLS
