@@ -35,6 +35,7 @@ cowl_struct_decl(CowlDataPropRangeAxiom);
 cowl_struct_decl(CowlDataRange);
 cowl_struct_decl(CowlDataQuant);
 cowl_struct_decl(CowlDatatype);
+cowl_struct_decl(CowlDatatypeDefAxiom);
 cowl_struct_decl(CowlDatatypeRestr);
 cowl_struct_decl(CowlDeclAxiom);
 cowl_struct_decl(CowlDisjUnionAxiom);

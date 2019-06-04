@@ -28,6 +28,7 @@
 #include "cowl_data_range_set.h"
 #include "cowl_data_range_type.h"
 #include "cowl_datatype.h"
+#include "cowl_datatype_def_axiom.h"
 #include "cowl_datatype_restr.h"
 #include "cowl_decl_axiom.h"
 #include "cowl_disj_union_axiom.h"

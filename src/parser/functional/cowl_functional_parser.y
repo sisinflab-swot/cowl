@@ -936,7 +936,7 @@ functional_data_property
 
 datatype_definition
     : DATATYPE_DEFINITION L_PAREN axiom_annotations datatype data_range R_PAREN {
-        $$ = cowl_unsupported("Datatype definition axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_datatype_def_axiom_get($4, $5);
         cowl_datatype_release($4);
         cowl_data_range_release($5);
     }

@@ -32,12 +32,15 @@ static void cowl_ontology_free(CowlOntology *ontology);
 static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity);
 static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,
                                                CowlEntity entity);
+static void cowl_ontology_add_axiom_for_class(CowlOntology *onto, CowlAxiom *axiom, CowlClass *cls);
 static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom *axiom,
                                                 CowlClsExp *exp);
 static void cowl_ontology_add_axiom_for_data_prop_exp(CowlOntology *onto, CowlAxiom *axiom,
                                                       CowlDataPropExp *prop_exp);
 static void cowl_ontology_add_axiom_for_data_range(CowlOntology *onto, CowlAxiom *axiom,
                                                    CowlDataRange *range);
+static void cowl_ontology_add_axiom_for_datatype(CowlOntology *onto, CowlAxiom *axiom,
+                                                 CowlDatatype *datatype);
 static void cowl_ontology_add_axiom_for_obj_prop_exp(CowlOntology *onto, CowlAxiom *axiom,
                                                      CowlObjPropExp *prop_exp);
 static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,
@@ -355,16 +358,23 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
 
     switch (axiom->type) {
 
+        case CAT_DECLARATION: {
+            CowlDeclAxiom *decl_axiom = (CowlDeclAxiom *)axiom;
+            cowl_ontology_add_axiom_for_entity(ontology, axiom, decl_axiom->entity);
+            break;
+        }
+
+        case CAT_DATATYPE_DEFINITION: {
+            CowlDatatypeDefAxiom *d_axiom = (CowlDatatypeDefAxiom *)axiom;
+            cowl_ontology_add_axiom_for_datatype(ontology, axiom, d_axiom->datatype);
+            cowl_ontology_add_axiom_for_data_range(ontology, axiom, d_axiom->range);
+            break;
+        }
+
         case CAT_CLASS_ASSERTION: {
             CowlClsAssertAxiom *as_axiom = (CowlClsAssertAxiom *)axiom;
             cowl_ontology_add_axiom_for_individual(ontology, axiom, as_axiom->individual);
             cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, as_axiom->cls_exp);
-            break;
-        }
-
-        case CAT_DECLARATION: {
-            CowlDeclAxiom *decl_axiom = (CowlDeclAxiom *)axiom;
-            cowl_ontology_add_axiom_for_entity(ontology, axiom, decl_axiom->entity);
             break;
         }
 
@@ -384,9 +394,9 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
         }
 
         case CAT_DISJOINT_UNION: {
-            CowlDisjUnionAxiom *disj_axiom = (CowlDisjUnionAxiom *)axiom;
+            CowlDisjUnionAxiom *d_axiom = (CowlDisjUnionAxiom *)axiom;
             CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
-            cowl_disj_union_axiom_iterate_signature(disj_axiom, &c, cowl_ontology_entity_adder);
+            cowl_disj_union_axiom_iterate_signature(d_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 
@@ -527,11 +537,15 @@ static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity) {
     return true;
 }
 
+static void cowl_ontology_add_axiom_for_class(CowlOntology *onto, CowlAxiom *axiom,
+                                              CowlClass *cls) {
+    cowl_add_axiom_to_set_in_map(CowlClassAxiomMap, onto->class_refs, cls, axiom);
+}
+
 static void cowl_ontology_add_axiom_for_cls_exp(CowlOntology *onto, CowlAxiom *axiom,
                                                 CowlClsExp *exp) {
     if (exp->type == CCET_CLASS) {
-        cowl_add_axiom_to_set_in_map(CowlClassAxiomMap, onto->class_refs,
-                                     (CowlClass *)exp, axiom);
+        cowl_ontology_add_axiom_for_class(onto, axiom, (CowlClass *)exp);
     } else {
         CowlAxiomEntityCtx ctx = { .onto = onto, .axiom = axiom };
         cowl_cls_exp_iterate_signature(exp, &ctx, cowl_ontology_entity_adder);
@@ -547,12 +561,16 @@ static void cowl_ontology_add_axiom_for_data_prop_exp(CowlOntology *onto, CowlAx
 static void cowl_ontology_add_axiom_for_data_range(CowlOntology *onto, CowlAxiom *axiom,
                                                    CowlDataRange *range) {
     if (range->type == CDRT_DATATYPE) {
-        cowl_add_axiom_to_set_in_map(CowlDatatypeAxiomMap, onto->datatype_refs,
-                                     (CowlDatatype *)range, axiom);
+        cowl_ontology_add_axiom_for_datatype(onto, axiom, (CowlDatatype *)range);
     } else {
         CowlAxiomEntityCtx ctx = { .onto = onto, .axiom = axiom };
         cowl_data_range_iterate_signature(range, &ctx, cowl_ontology_entity_adder);
     }
+}
+
+static void cowl_ontology_add_axiom_for_datatype(CowlOntology *onto, CowlAxiom *axiom,
+                                                 CowlDatatype *datatype) {
+    cowl_add_axiom_to_set_in_map(CowlDatatypeAxiomMap, onto->datatype_refs, datatype, axiom);
 }
 
 static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,

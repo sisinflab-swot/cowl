@@ -4,6 +4,7 @@
 #include "cowl_cls_assert_axiom.h"
 #include "cowl_data_prop_domain_axiom.h"
 #include "cowl_data_prop_range_axiom.h"
+#include "cowl_datatype_def_axiom.h"
 #include "cowl_decl_axiom.h"
 #include "cowl_func_data_prop_axiom.h"
 #include "cowl_nary_cls_axiom.h"
@@ -32,6 +33,7 @@ void cowl_axiom_release(CowlAxiom *axiom) {
     switch (axiom->type) {
 
         GEN_CASE_RELEASE(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
+        GEN_CASE_RELEASE(CAT_DATATYPE_DEFINITION, CowlDatatypeDefAxiom, cowl_datatype_def_axiom);
         GEN_CASE_RELEASE(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
         GEN_CASE_RELEASE(CAT_EQUIVALENT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
         GEN_CASE_RELEASE(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
@@ -78,6 +80,7 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
     switch (lhs->type) {
 
         GEN_CASE_EQUAL(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
+        GEN_CASE_EQUAL(CAT_DATATYPE_DEFINITION, CowlDatatypeDefAxiom, cowl_datatype_def_axiom);
         GEN_CASE_EQUAL(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
         GEN_CASE_EQUAL(CAT_EQUIVALENT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
         GEN_CASE_EQUAL(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
@@ -122,6 +125,7 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
     switch (axiom->type) {
 
         GEN_CASE_SIG(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
+        GEN_CASE_SIG(CAT_DATATYPE_DEFINITION, CowlDatatypeDefAxiom, cowl_datatype_def_axiom);
         GEN_CASE_SIG(CAT_SUB_CLASS, CowlSubClsAxiom, cowl_sub_cls_axiom);
         GEN_CASE_SIG(CAT_EQUIVALENT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
         GEN_CASE_SIG(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
