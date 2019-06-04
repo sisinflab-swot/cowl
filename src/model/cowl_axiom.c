@@ -8,6 +8,7 @@
 #include "cowl_decl_axiom.h"
 #include "cowl_func_data_prop_axiom.h"
 #include "cowl_nary_cls_axiom.h"
+#include "cowl_nary_individual_axiom.h"
 #include "cowl_disj_union_axiom.h"
 #include "cowl_inv_obj_prop_axiom.h"
 #include "cowl_nary_data_prop_axiom.h"
@@ -39,6 +40,8 @@ void cowl_axiom_release(CowlAxiom *axiom) {
         GEN_CASE_RELEASE(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
         GEN_CASE_RELEASE(CAT_DISJOINT_UNION, CowlDisjUnionAxiom, cowl_disj_union_axiom);
         GEN_CASE_RELEASE(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
+        GEN_CASE_RELEASE(CAT_SAME_INDIVIDUAL, CowlNAryIndividualAxiom, cowl_nary_individual_axiom);
+        GEN_CASE_RELEASE(CAT_DIFFERENT_INDIVIDUALS, CowlNAryIndividualAxiom, cowl_nary_individual_axiom);
         GEN_CASE_RELEASE(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
         GEN_CASE_RELEASE(CAT_NEGATIVE_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
         GEN_CASE_RELEASE(CAT_SUB_OBJ_PROP, CowlSubObjPropAxiom, cowl_sub_obj_prop_axiom);
@@ -86,6 +89,8 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
         GEN_CASE_EQUAL(CAT_DISJOINT_UNION, CowlDisjUnionAxiom, cowl_disj_union_axiom);
         GEN_CASE_EQUAL(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
+        GEN_CASE_EQUAL(CAT_SAME_INDIVIDUAL, CowlNAryIndividualAxiom, cowl_nary_individual_axiom);
+        GEN_CASE_EQUAL(CAT_DIFFERENT_INDIVIDUALS, CowlNAryIndividualAxiom, cowl_nary_individual_axiom);
         GEN_CASE_EQUAL(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
         GEN_CASE_EQUAL(CAT_NEGATIVE_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
         GEN_CASE_EQUAL(CAT_SUB_OBJ_PROP, CowlSubObjPropAxiom, cowl_sub_obj_prop_axiom);
@@ -131,6 +136,8 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_DISJOINT_CLASSES, CowlNAryClsAxiom, cowl_nary_cls_axiom);
         GEN_CASE_SIG(CAT_DISJOINT_UNION, CowlDisjUnionAxiom, cowl_disj_union_axiom);
         GEN_CASE_SIG(CAT_CLASS_ASSERTION, CowlClsAssertAxiom, cowl_cls_assert_axiom);
+        GEN_CASE_SIG(CAT_SAME_INDIVIDUAL, CowlNAryIndividualAxiom, cowl_nary_individual_axiom);
+        GEN_CASE_SIG(CAT_DIFFERENT_INDIVIDUALS, CowlNAryIndividualAxiom, cowl_nary_individual_axiom);
         GEN_CASE_SIG(CAT_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
         GEN_CASE_SIG(CAT_NEGATIVE_OBJ_PROP_ASSERTION, CowlObjPropAssertAxiom, cowl_obj_prop_assert_axiom);
         GEN_CASE_SIG(CAT_SUB_OBJ_PROP, CowlSubObjPropAxiom, cowl_sub_obj_prop_axiom);

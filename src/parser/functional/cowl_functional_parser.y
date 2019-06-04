@@ -970,15 +970,13 @@ assertion
 
 same_individual
     : SAME_INDIVIDUAL L_PAREN axiom_annotations individual_2_list R_PAREN {
-        $$ = cowl_unsupported("Same individual axioms are not supported.");
-        cowl_individual_set_free($4);
+        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_SAME, $4);
     }
 ;
 
 different_individuals
     : DIFFERENT_INDIVIDUALS L_PAREN axiom_annotations individual_2_list R_PAREN {
-        $$ = cowl_unsupported("Different individuals axioms are not supported.");
-        cowl_individual_set_free($4);
+        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_DIFFERENT, $4);
     }
 ;
 

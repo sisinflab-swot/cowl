@@ -359,8 +359,8 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
     switch (axiom->type) {
 
         case CAT_DECLARATION: {
-            CowlDeclAxiom *decl_axiom = (CowlDeclAxiom *)axiom;
-            cowl_ontology_add_axiom_for_entity(ontology, axiom, decl_axiom->entity);
+            CowlDeclAxiom *d_axiom = (CowlDeclAxiom *)axiom;
+            cowl_ontology_add_axiom_for_entity(ontology, axiom, d_axiom->entity);
             break;
         }
 
@@ -372,24 +372,32 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
         }
 
         case CAT_CLASS_ASSERTION: {
-            CowlClsAssertAxiom *as_axiom = (CowlClsAssertAxiom *)axiom;
-            cowl_ontology_add_axiom_for_individual(ontology, axiom, as_axiom->individual);
-            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, as_axiom->cls_exp);
+            CowlClsAssertAxiom *a_axiom = (CowlClsAssertAxiom *)axiom;
+            cowl_ontology_add_axiom_for_individual(ontology, axiom, a_axiom->individual);
+            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, a_axiom->cls_exp);
+            break;
+        }
+
+        case CAT_SAME_INDIVIDUAL:
+        case CAT_DIFFERENT_INDIVIDUALS: {
+            CowlNAryIndividualAxiom *n_axiom = (CowlNAryIndividualAxiom *)axiom;
+            CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
+            cowl_nary_individual_axiom_iterate_signature(n_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 
         case CAT_SUB_CLASS: {
-            CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
-            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, sub_axiom->super_class);
-            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, sub_axiom->sub_class);
+            CowlSubClsAxiom *s_axiom = (CowlSubClsAxiom *)axiom;
+            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, s_axiom->super_class);
+            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, s_axiom->sub_class);
             break;
         }
 
         case CAT_EQUIVALENT_CLASSES:
         case CAT_DISJOINT_CLASSES: {
-            CowlNAryClsAxiom *nary_axiom = (CowlNAryClsAxiom *)axiom;
+            CowlNAryClsAxiom *n_axiom = (CowlNAryClsAxiom *)axiom;
             CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
-            cowl_nary_cls_axiom_iterate_signature(nary_axiom, &c, cowl_ontology_entity_adder);
+            cowl_nary_cls_axiom_iterate_signature(n_axiom, &c, cowl_ontology_entity_adder);
             break;
         }
 
@@ -402,24 +410,24 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
 
         case CAT_OBJ_PROP_ASSERTION:
         case CAT_NEGATIVE_OBJ_PROP_ASSERTION: {
-            CowlObjPropAssertAxiom *as_axiom = (CowlObjPropAssertAxiom *)axiom;
-            cowl_ontology_add_axiom_for_individual(ontology, axiom, as_axiom->source);
-            cowl_ontology_add_axiom_for_individual(ontology, axiom, as_axiom->target);
-            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, as_axiom->prop_exp);
+            CowlObjPropAssertAxiom *a_axiom = (CowlObjPropAssertAxiom *)axiom;
+            cowl_ontology_add_axiom_for_individual(ontology, axiom, a_axiom->source);
+            cowl_ontology_add_axiom_for_individual(ontology, axiom, a_axiom->target);
+            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, a_axiom->prop_exp);
             break;
         }
 
         case CAT_SUB_OBJ_PROP: {
-            CowlSubObjPropAxiom *sub_axiom = (CowlSubObjPropAxiom *)axiom;
-            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, sub_axiom->super_prop);
-            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, sub_axiom->sub_prop);
+            CowlSubObjPropAxiom *s_axiom = (CowlSubObjPropAxiom *)axiom;
+            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, s_axiom->super_prop);
+            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, s_axiom->sub_prop);
             break;
         }
 
         case CAT_INVERSE_OBJ_PROP: {
-            CowlInvObjPropAxiom *inv_axiom = (CowlInvObjPropAxiom *)axiom;
-            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, inv_axiom->first);
-            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, inv_axiom->second);
+            CowlInvObjPropAxiom *i_axiom = (CowlInvObjPropAxiom *)axiom;
+            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, i_axiom->first);
+            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, i_axiom->second);
             break;
         }
 
@@ -432,9 +440,9 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
         }
 
         case CAT_OBJ_PROP_DOMAIN: {
-            CowlObjPropDomainAxiom *dom_axiom = (CowlObjPropDomainAxiom *)axiom;
-            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, dom_axiom->prop_exp);
-            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, dom_axiom->domain);
+            CowlObjPropDomainAxiom *d_axiom = (CowlObjPropDomainAxiom *)axiom;
+            cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, d_axiom->prop_exp);
+            cowl_ontology_add_axiom_for_cls_exp(ontology, axiom, d_axiom->domain);
             break;
         }
 

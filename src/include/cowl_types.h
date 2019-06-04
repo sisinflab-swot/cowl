@@ -51,6 +51,7 @@ cowl_struct_decl(CowlNamedIndividual);
 cowl_struct_decl(CowlNAryBool);
 cowl_struct_decl(CowlNAryClsAxiom);
 cowl_struct_decl(CowlNAryDataPropAxiom);
+cowl_struct_decl(CowlNAryIndividualAxiom);
 cowl_struct_decl(CowlNAryObjPropAxiom);
 cowl_struct_decl(CowlObjCard);
 cowl_struct_decl(CowlObjCompl);

@@ -8,8 +8,13 @@
 COWL_BEGIN_DECLS
 
 typedef enum CowlNAryAxiomType {
+    // Classes/properties
     CNAT_EQUIVALENT,
-    CNAT_DISJOINT
+    CNAT_DISJOINT,
+
+    // Individuals
+    CNAT_SAME = CNAT_EQUIVALENT,
+    CNAT_DIFFERENT = CNAT_DISJOINT
 } CowlNAryAxiomType;
 
 COWL_END_DECLS
