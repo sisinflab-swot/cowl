@@ -16,8 +16,11 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClsExp);
+cowl_struct_decl(CowlDataPropExp);
+cowl_struct_decl(CowlDataRange);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyId);
@@ -190,12 +193,36 @@ void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity);
 void cowl_logger_log_cls_exp(CowlLogger *logger, CowlClsExp *exp);
 
 /**
+ * Logs the specified data property expression.
+ *
+ * @param logger Logger instance.
+ * @param exp Data property expression to log.
+ */
+void cowl_logger_log_data_prop_exp(CowlLogger *logger, CowlDataPropExp *exp);
+
+/**
+ * Logs the specified data range.
+ *
+ * @param logger Logger instance.
+ * @param exp Data range to log.
+ */
+void cowl_logger_log_data_range(CowlLogger *logger, CowlDataRange *range);
+
+/**
  * Logs the specified individual.
  *
  * @param logger Logger instance.
  * @param individual Individual to log.
  */
 void cowl_logger_log_individual(CowlLogger *logger, CowlIndividual *individual);
+
+/**
+ * Logs the specified literal.
+ *
+ * @param logger Logger instance.
+ * @param individual Literal to log.
+ */
+void cowl_logger_log_literal(CowlLogger *logger, CowlLiteral *literal);
 
 /**
  * Logs the specified object property expression.
