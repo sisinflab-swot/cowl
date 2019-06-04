@@ -1,6 +1,6 @@
 /// @author Ivano Bilenchi
 
-#include "cowl_data_prop_exp_set.h"
+#include "cowl_data_prop_exp_set_private.h"
 #include "cowl_data_prop_exp.h"
 
 UHASH_SET_IMPL(CowlDataPropExpSet, CowlDataPropExp*,

@@ -11,9 +11,7 @@ cowl_struct_decl(CowlDataPropExp);
 
 UHASH_SET_DECL(CowlDataPropExpSet, CowlDataPropExp*)
 cowl_hash_decl(CowlDataPropExpSet);
-cowl_hash_decl_mutable(CowlDataPropExpSet, CowlMutableDataPropExpSet);
 
-bool cowl_data_prop_exp_set_insert(CowlMutableDataPropExpSet *set, CowlDataPropExp *exp);
 void cowl_data_prop_exp_set_free(CowlDataPropExpSet *set);
 
 COWL_END_DECLS
