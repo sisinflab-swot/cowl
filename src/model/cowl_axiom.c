@@ -8,6 +8,7 @@
 #include "cowl_datatype_def_axiom.h"
 #include "cowl_decl_axiom.h"
 #include "cowl_func_data_prop_axiom.h"
+#include "cowl_has_key_axiom.h"
 #include "cowl_nary_cls_axiom.h"
 #include "cowl_nary_individual_axiom.h"
 #include "cowl_disj_union_axiom.h"
@@ -51,8 +52,6 @@ void cowl_axiom_release(CowlAxiom *axiom) {
         GEN_CASE_RELEASE(CAT_INVERSE_OBJ_PROP, CowlInvObjPropAxiom, cowl_inv_obj_prop_axiom);
         GEN_CASE_RELEASE(CAT_EQUIVALENT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
         GEN_CASE_RELEASE(CAT_DISJOINT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
-        GEN_CASE_RELEASE(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
-        GEN_CASE_RELEASE(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_RELEASE(CAT_FUNCTIONAL_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_RELEASE(CAT_INVERSE_FUNCTIONAL_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_RELEASE(CAT_SYMMETRIC_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
@@ -60,12 +59,15 @@ void cowl_axiom_release(CowlAxiom *axiom) {
         GEN_CASE_RELEASE(CAT_REFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_RELEASE(CAT_IRREFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_RELEASE(CAT_TRANSITIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
+        GEN_CASE_RELEASE(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_RELEASE(CAT_SUB_DATA_PROP, CowlSubDataPropAxiom, cowl_sub_data_prop_axiom);
         GEN_CASE_RELEASE(CAT_EQUIVALENT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
         GEN_CASE_RELEASE(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
+        GEN_CASE_RELEASE(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
         GEN_CASE_RELEASE(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_RELEASE(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
-        GEN_CASE_RELEASE(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
+        GEN_CASE_RELEASE(CAT_HAS_KEY, CowlHasKeyAxiom, cowl_has_key_axiom);
 
         default:
             break;
@@ -102,8 +104,6 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_INVERSE_OBJ_PROP, CowlInvObjPropAxiom, cowl_inv_obj_prop_axiom);
         GEN_CASE_EQUAL(CAT_EQUIVALENT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
         GEN_CASE_EQUAL(CAT_DISJOINT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
-        GEN_CASE_EQUAL(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
-        GEN_CASE_EQUAL(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_EQUAL(CAT_FUNCTIONAL_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_EQUAL(CAT_INVERSE_FUNCTIONAL_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_EQUAL(CAT_SYMMETRIC_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
@@ -111,12 +111,15 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_REFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_EQUAL(CAT_IRREFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_EQUAL(CAT_TRANSITIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
+        GEN_CASE_EQUAL(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
+        GEN_CASE_EQUAL(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_EQUAL(CAT_SUB_DATA_PROP, CowlSubDataPropAxiom, cowl_sub_data_prop_axiom);
         GEN_CASE_EQUAL(CAT_EQUIVALENT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
         GEN_CASE_EQUAL(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
+        GEN_CASE_EQUAL(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
         GEN_CASE_EQUAL(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_EQUAL(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
-        GEN_CASE_EQUAL(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
+        GEN_CASE_EQUAL(CAT_HAS_KEY, CowlHasKeyAxiom, cowl_has_key_axiom);
 
         default:
             return false;
@@ -151,8 +154,6 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_INVERSE_OBJ_PROP, CowlInvObjPropAxiom, cowl_inv_obj_prop_axiom);
         GEN_CASE_SIG(CAT_EQUIVALENT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
         GEN_CASE_SIG(CAT_DISJOINT_OBJ_PROP, CowlNAryObjPropAxiom, cowl_nary_obj_prop_axiom);
-        GEN_CASE_SIG(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
-        GEN_CASE_SIG(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_SIG(CAT_FUNCTIONAL_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_SIG(CAT_INVERSE_FUNCTIONAL_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_SIG(CAT_SYMMETRIC_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
@@ -160,12 +161,15 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_REFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_SIG(CAT_IRREFLEXIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
         GEN_CASE_SIG(CAT_TRANSITIVE_OBJ_PROP, CowlObjPropCharAxiom, cowl_obj_prop_char_axiom);
+        GEN_CASE_SIG(CAT_OBJ_PROP_DOMAIN, CowlObjPropDomainAxiom, cowl_obj_prop_domain_axiom);
+        GEN_CASE_SIG(CAT_OBJ_PROP_RANGE, CowlObjPropRangeAxiom, cowl_obj_prop_range_axiom);
         GEN_CASE_SIG(CAT_SUB_DATA_PROP, CowlSubDataPropAxiom, cowl_sub_data_prop_axiom);
         GEN_CASE_SIG(CAT_EQUIVALENT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
         GEN_CASE_SIG(CAT_DISJOINT_DATA_PROP, CowlNAryDataPropAxiom, cowl_nary_data_prop_axiom);
+        GEN_CASE_SIG(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
         GEN_CASE_SIG(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_SIG(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
-        GEN_CASE_SIG(CAT_FUNCTIONAL_DATA_PROP, CowlFuncDataPropAxiom, cowl_func_data_prop_axiom);
+        GEN_CASE_SIG(CAT_HAS_KEY, CowlHasKeyAxiom, cowl_has_key_axiom);
 
         default:
             return true;

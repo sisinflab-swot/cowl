@@ -42,6 +42,7 @@ cowl_struct_decl(CowlDeclAxiom);
 cowl_struct_decl(CowlDisjUnionAxiom);
 cowl_struct_decl(CowlFacetRestr);
 cowl_struct_decl(CowlFuncDataPropAxiom);
+cowl_struct_decl(CowlHasKeyAxiom);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlInvObjProp);
 cowl_struct_decl(CowlInvObjPropAxiom);

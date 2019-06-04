@@ -949,7 +949,7 @@ has_key
             L_PAREN object_property_expression_star R_PAREN
             L_PAREN data_property_expression_star L_PAREN
         R_PAREN {
-        $$ = cowl_unsupported("'Has key' axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_has_key_axiom_get($4, $6, $9);
         cowl_cls_exp_release($4);
         cowl_obj_prop_exp_set_free($6);
         cowl_data_prop_exp_set_free($9);

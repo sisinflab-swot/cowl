@@ -511,6 +511,13 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_HAS_KEY: {
+            CowlHasKeyAxiom *k_axiom = (CowlHasKeyAxiom *)axiom;
+            CowlAxiomEntityCtx c = { .onto = ontology, .axiom = axiom };
+            cowl_has_key_axiom_iterate_signature(k_axiom, &c, cowl_ontology_entity_adder);
+            break;
+        }
+
         default:
             break;
     }
