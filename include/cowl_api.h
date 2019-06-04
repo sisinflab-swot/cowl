@@ -20,6 +20,7 @@
 #include "cowl_data_has_value.h"
 #include "cowl_data_one_of.h"
 #include "cowl_data_prop.h"
+#include "cowl_data_prop_assert_axiom.h"
 #include "cowl_data_prop_domain_axiom.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_prop_range_axiom.h"

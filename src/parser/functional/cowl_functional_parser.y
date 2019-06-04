@@ -1008,7 +1008,7 @@ negative_object_property_assertion
 
 data_property_assertion
     : DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
-        $$ = cowl_unsupported("Data property assertion axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_data_prop_assert_axiom_get($5, $4, $6);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_literal_release($6);
@@ -1017,7 +1017,7 @@ data_property_assertion
 
 negative_data_property_assertion
     : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
-        $$ = cowl_unsupported("Negative data property assertion axioms are not supported.");
+        $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom_get($5, $4, $6);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_literal_release($6);

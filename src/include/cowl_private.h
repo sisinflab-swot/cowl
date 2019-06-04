@@ -16,6 +16,7 @@
 #include "cowl_data_compl_private.h"
 #include "cowl_data_has_value_private.h"
 #include "cowl_data_one_of_private.h"
+#include "cowl_data_prop_assert_axiom_private.h"
 #include "cowl_data_prop_domain_axiom_private.h"
 #include "cowl_data_prop_private.h"
 #include "cowl_data_prop_exp_private.h"

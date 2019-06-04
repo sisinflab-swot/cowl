@@ -41,6 +41,8 @@ static void cowl_ontology_add_axiom_for_data_range(CowlOntology *onto, CowlAxiom
                                                    CowlDataRange *range);
 static void cowl_ontology_add_axiom_for_datatype(CowlOntology *onto, CowlAxiom *axiom,
                                                  CowlDatatype *datatype);
+static void cowl_ontology_add_axiom_for_literal(CowlOntology *onto, CowlAxiom *axiom,
+                                                CowlLiteral *literal);
 static void cowl_ontology_add_axiom_for_obj_prop_exp(CowlOntology *onto, CowlAxiom *axiom,
                                                      CowlObjPropExp *prop_exp);
 static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,
@@ -417,6 +419,15 @@ void cowl_ontology_add_axiom(CowlMutableOntology *ontology, CowlAxiom *axiom) {
             break;
         }
 
+        case CAT_DATA_PROP_ASSERTION:
+        case CAT_NEGATIVE_DATA_PROP_ASSERTION: {
+            CowlDataPropAssertAxiom *a_axiom = (CowlDataPropAssertAxiom *)axiom;
+            cowl_ontology_add_axiom_for_individual(ontology, axiom, a_axiom->source);
+            cowl_ontology_add_axiom_for_literal(ontology, axiom, a_axiom->target);
+            cowl_ontology_add_axiom_for_data_prop_exp(ontology, axiom, a_axiom->prop);
+            break;
+        }
+
         case CAT_SUB_OBJ_PROP: {
             CowlSubObjPropAxiom *s_axiom = (CowlSubObjPropAxiom *)axiom;
             cowl_ontology_add_axiom_for_obj_prop_exp(ontology, axiom, s_axiom->super_prop);
@@ -579,6 +590,11 @@ static void cowl_ontology_add_axiom_for_data_range(CowlOntology *onto, CowlAxiom
 static void cowl_ontology_add_axiom_for_datatype(CowlOntology *onto, CowlAxiom *axiom,
                                                  CowlDatatype *datatype) {
     cowl_add_axiom_to_set_in_map(CowlDatatypeAxiomMap, onto->datatype_refs, datatype, axiom);
+}
+
+static void cowl_ontology_add_axiom_for_literal(CowlOntology *onto, CowlAxiom *axiom,
+                                                CowlLiteral *literal) {
+    cowl_ontology_add_axiom_for_datatype(onto, axiom, literal->dt);
 }
 
 static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom *axiom,

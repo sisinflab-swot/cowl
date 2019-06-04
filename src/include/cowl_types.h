@@ -29,6 +29,7 @@ cowl_struct_decl(CowlDataCompl);
 cowl_struct_decl(CowlDataHasValue);
 cowl_struct_decl(CowlDataOneOf);
 cowl_struct_decl(CowlDataProp);
+cowl_struct_decl(CowlDataPropAssertAxiom);
 cowl_struct_decl(CowlDataPropDomainAxiom);
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlDataPropRangeAxiom);
