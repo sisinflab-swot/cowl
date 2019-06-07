@@ -56,11 +56,11 @@ CowlString* cowl_string_get_empty(void) {
 }
 
 CowlString* cowl_string_retain(CowlString *string) {
-    return cowl_string_ref_incr(string);
+    return cowl_object_retain(string);
 }
 
 void cowl_string_release(CowlString *string) {
-    if (string && !cowl_string_ref_decr(string)) {
+    if (string && !cowl_object_release(string)) {
         cowl_string_free(string);
     }
 }
@@ -69,7 +69,7 @@ char const* cowl_string_release_copying_cstring(CowlString *string) {
     if (!string) return NULL;
     char const *cstring;
 
-    if (cowl_string_ref_decr(string)) {
+    if (cowl_object_release(string)) {
         cstring = strndup(string->cstring, string->length);
     } else {
         cstring = string->cstring;
@@ -95,7 +95,7 @@ bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
 }
 
 cowl_uint_t cowl_string_hash(CowlString *string) {
-    return cowl_string_hash_get(string);
+    return cowl_object_hash_get(string);
 }
 
 CowlString* cowl_string_with_format(char const *format, ...) {

@@ -4,6 +4,7 @@
 #define COWL_ONTOLOGY_PRIVATE_H
 
 #include "cowl_ontology.h"
+#include "cowl_object.h"
 #include "cowl_axiom_type.h"
 
 COWL_BEGIN_DECLS
@@ -18,7 +19,7 @@ UHASH_MAP_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual*, UHash(CowlAxiomSet)*)
 UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual*, UHash(CowlAxiomSet)*)
 
 cowl_struct(CowlOntology) {
-    cowl_uint_t ref_count;
+    CowlObject super;
     CowlOntologyId *id;
     UHash(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
     UHash(CowlClassAxiomMap) *class_refs;
@@ -32,7 +33,7 @@ cowl_struct(CowlOntology) {
 cowl_struct_decl_mutable(CowlOntology, CowlMutableOntology);
 
 #define COWL_ONTOLOGY_INIT {                                                                        \
-    .ref_count = 1,                                                                                 \
+    .super = COWL_OBJECT_INIT,                                                                      \
     .id = NULL,                                                                                     \
     .class_refs = uhash_alloc(CowlClassAxiomMap),                                                   \
     .data_prop_refs = uhash_alloc(CowlDataPropAxiomMap),                                            \
@@ -41,10 +42,6 @@ cowl_struct_decl_mutable(CowlOntology, CowlMutableOntology);
     .named_ind_refs = uhash_alloc(CowlNamedIndAxiomMap),                                            \
     .anon_ind_refs = uhash_alloc(CowlAnonIndAxiomMap)                                               \
 }
-
-#define cowl_ontology_ref_get(o) (((CowlMutableOntology *)(o))->ref_count)
-#define cowl_ontology_ref_incr(o) (++cowl_ontology_ref_get(o), (o))
-#define cowl_ontology_ref_decr(o) (--cowl_ontology_ref_get(o))
 
 CowlMutableOntology* cowl_ontology_get(void);
 

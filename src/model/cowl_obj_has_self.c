@@ -28,11 +28,11 @@ CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop) {
 }
 
 CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp) {
-    return cowl_cls_exp_ref_incr(exp);
+    return cowl_object_retain(exp);
 }
 
 void cowl_obj_has_self_release(CowlObjHasSelf *exp) {
-    if (exp && !cowl_cls_exp_ref_decr(exp)) {
+    if (exp && !cowl_object_release(exp)) {
         cowl_obj_has_self_free(exp);
     }
 }
@@ -46,7 +46,7 @@ bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {
 }
 
 cowl_uint_t cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
-    return cowl_cls_exp_hash_get(exp);
+    return cowl_object_hash_get(exp);
 }
 
 bool cowl_obj_has_self_iterate_signature(CowlObjHasSelf *exp, void *ctx, CowlEntityIterator iter) {

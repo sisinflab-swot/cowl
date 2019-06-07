@@ -5,7 +5,7 @@
 #include "cowl_named_individual.h"
 
 CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
-    return cowl_individual_ref_incr(ind);
+    return cowl_object_retain(ind);
 }
 
 void cowl_individual_release(CowlIndividual *ind) {

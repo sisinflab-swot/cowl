@@ -20,19 +20,19 @@ void test_iri(void) {
     CowlString *rem = cowl_string_get(rem_string, sizeof(rem_string), false);
 
     CowlIRI *iri = cowl_iri_get(ns, rem);
-    assert(cowl_iri_ref_get(iri) == 1);
-    assert(cowl_string_ref_get(ns) == 3);
-    assert(cowl_string_ref_get(rem) == 2);
+    assert(cowl_object_ref_get(iri) == 1);
+    assert(cowl_object_ref_get(ns) == 3);
+    assert(cowl_object_ref_get(rem) == 2);
 
     cowl_iri_retain(iri);
-    assert(cowl_iri_ref_get(iri) == 2);
+    assert(cowl_object_ref_get(iri) == 2);
 
     cowl_iri_release(iri);
-    assert(cowl_iri_ref_get(iri) == 1);
+    assert(cowl_object_ref_get(iri) == 1);
 
     cowl_iri_release(iri);
-    assert(cowl_string_ref_get(ns) == 2);
-    assert(cowl_string_ref_get(rem) == 1);
+    assert(cowl_object_ref_get(ns) == 2);
+    assert(cowl_object_ref_get(rem) == 1);
 
     cowl_string_release(ns);
     cowl_string_release(rem);
@@ -41,28 +41,28 @@ void test_iri(void) {
 void test_anon_individual(void) {
     char const id_str[] = "_:12345";
     CowlString *id = cowl_string_get(id_str, sizeof(id_str) - 1, false);
-    assert(cowl_string_ref_get(id) == 1);
+    assert(cowl_object_ref_get(id) == 1);
 
     CowlAnonIndividual *anon_ind = cowl_anon_individual_get(id);
-    assert(cowl_individual_ref_get(anon_ind) == 1);
-    assert(cowl_string_ref_get(id) == 2);
+    assert(cowl_object_ref_get(anon_ind) == 1);
+    assert(cowl_object_ref_get(id) == 2);
 
     CowlAnonIndividual *other_ind = cowl_anon_individual_get(id);
     assert(other_ind == anon_ind);
     assert(cowl_anon_individual_equals(other_ind, anon_ind));
-    assert(cowl_individual_ref_get(other_ind) == 2);
+    assert(cowl_object_ref_get(other_ind) == 2);
 
     cowl_anon_individual_retain(anon_ind);
-    assert(cowl_individual_ref_get(anon_ind) == 3);
+    assert(cowl_object_ref_get(anon_ind) == 3);
 
     cowl_anon_individual_release(other_ind);
-    assert(cowl_individual_ref_get(anon_ind) == 2);
+    assert(cowl_object_ref_get(anon_ind) == 2);
 
     cowl_anon_individual_release(anon_ind);
-    assert(cowl_individual_ref_get(anon_ind) == 1);
+    assert(cowl_object_ref_get(anon_ind) == 1);
 
     cowl_anon_individual_release(anon_ind);
-    assert(cowl_string_ref_get(id) == 1);
+    assert(cowl_object_ref_get(id) == 1);
 
     cowl_string_release(id);
 }

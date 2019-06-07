@@ -32,11 +32,11 @@ CowlNAryIndividualAxiom* cowl_nary_individual_axiom_get(CowlNAryAxiomType type,
 }
 
 CowlNAryIndividualAxiom* cowl_nary_individual_axiom_retain(CowlNAryIndividualAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_nary_individual_axiom_release(CowlNAryIndividualAxiom *axiom) {
-    if (axiom && !cowl_axiom_ref_decr(axiom)) {
+    if (axiom && !cowl_object_release(axiom)) {
         cowl_nary_individual_axiom_free(axiom);
     }
 }
@@ -55,7 +55,7 @@ bool cowl_nary_individual_axiom_equals(CowlNAryIndividualAxiom *lhs, CowlNAryInd
 }
 
 cowl_uint_t cowl_nary_individual_axiom_hash(CowlNAryIndividualAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_nary_individual_axiom_iterate_signature(CowlNAryIndividualAxiom *axiom, void *ctx,

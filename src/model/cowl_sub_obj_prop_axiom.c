@@ -33,11 +33,11 @@ CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_get(CowlObjPropExp *sub, CowlObjPro
 }
 
 CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_retain(CowlSubObjPropAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_sub_obj_prop_axiom_release(CowlSubObjPropAxiom *axiom) {
-    if (axiom && !cowl_axiom_ref_decr(axiom)) {
+    if (axiom && !cowl_object_release(axiom)) {
         cowl_sub_obj_prop_axiom_free(axiom);
     }
 }
@@ -56,7 +56,7 @@ bool cowl_sub_obj_prop_axiom_equals(CowlSubObjPropAxiom *lhs, CowlSubObjPropAxio
 }
 
 cowl_uint_t cowl_sub_obj_prop_axiom_hash(CowlSubObjPropAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_sub_obj_prop_axiom_iterate_signature(CowlSubObjPropAxiom *axiom,

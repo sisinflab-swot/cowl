@@ -16,7 +16,7 @@ static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     memcpy(cls, &init, sizeof(*cls));
 
     cowl_uint_t hash = uhash_ptr_hash(cls);
-    cowl_cls_exp_hash_set(cls, hash);
+    cowl_object_hash_set(cls, hash);
 
     return cls;
 }
@@ -39,18 +39,18 @@ CowlClass* cowl_class_get(CowlIRI *iri) {
         uhash_value(inst_map, idx) = cls;
     } else {
         cls = uhash_value(inst_map, idx);
-        cowl_cls_exp_ref_incr(cls);
+        cowl_object_retain(cls);
     }
 
     return cls;
 }
 
 CowlClass* cowl_class_retain(CowlClass *cls) {
-    return cowl_cls_exp_ref_incr(cls);
+    return cowl_object_retain(cls);
 }
 
 void cowl_class_release(CowlClass *cls) {
-    if (cls && !cowl_cls_exp_ref_decr(cls)) {
+    if (cls && !cowl_object_release(cls)) {
         uhmap_remove(CowlClassMap, inst_map, cls->iri);
         cowl_class_free(cls);
     }
@@ -65,7 +65,7 @@ bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
 }
 
 cowl_uint_t cowl_class_hash(CowlClass *cls) {
-    return cowl_cls_exp_hash_get(cls);
+    return cowl_object_hash_get(cls);
 }
 
 bool cowl_class_iterate_signature(CowlClass *cls, void *ctx, CowlEntityIterator iter) {

@@ -35,18 +35,18 @@ CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
         uhash_value(inst_map, idx) = inv;
     } else {
         inv = uhash_value(inst_map, idx);
-        cowl_obj_prop_exp_ref_incr(inv);
+        cowl_object_retain(inv);
     }
 
     return inv;
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) {
-    return cowl_obj_prop_exp_ref_incr(inv);
+    return cowl_object_retain(inv);
 }
 
 void cowl_inv_obj_prop_release(CowlInvObjProp *inv) {
-    if (inv && !cowl_obj_prop_exp_ref_decr(inv)) {
+    if (inv && !cowl_object_release(inv)) {
         uhmap_remove(CowlInvObjPropMap, inst_map, inv->prop);
         cowl_inv_obj_prop_free(inv);
     }

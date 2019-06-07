@@ -35,11 +35,11 @@ CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlFacetRest
 }
 
 CowlDatatypeRestr* cowl_datatype_restr_retain(CowlDatatypeRestr *restr) {
-    return cowl_data_range_ref_incr(restr);
+    return cowl_object_retain(restr);
 }
 
 void cowl_datatype_restr_release(CowlDatatypeRestr *restr) {
-    if (restr && !cowl_data_range_ref_decr(restr)) {
+    if (restr && !cowl_object_release(restr)) {
         cowl_datatype_restr_free(restr);
     }
 }
@@ -58,7 +58,7 @@ bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) 
 }
 
 cowl_uint_t cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
-    return cowl_data_range_hash_get(restr);
+    return cowl_object_hash_get(restr);
 }
 
 bool cowl_datatype_restr_iterate_signature(CowlDatatypeRestr *restr, void *ctx,

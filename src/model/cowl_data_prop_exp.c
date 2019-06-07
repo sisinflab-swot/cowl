@@ -4,7 +4,7 @@
 #include "cowl_data_prop_private.h"
 
 CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *prop) {
-    return cowl_data_prop_exp_ref_incr(prop);
+    return cowl_object_retain(prop);
 }
 
 void cowl_data_prop_exp_release(CowlDataPropExp *prop) {

@@ -30,11 +30,11 @@ CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *individuals) {
 }
 
 CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp) {
-    return cowl_cls_exp_ref_incr(exp);
+    return cowl_object_retain(exp);
 }
 
 void cowl_obj_one_of_release(CowlObjOneOf *exp) {
-    if (exp && !cowl_cls_exp_ref_decr(exp)) {
+    if (exp && !cowl_object_release(exp)) {
         cowl_obj_one_of_free(exp);
     }
 }
@@ -48,7 +48,7 @@ bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
 }
 
 cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp) {
-    return cowl_cls_exp_hash_get(exp);
+    return cowl_object_hash_get(exp);
 }
 
 bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, void *ctx, CowlEntityIterator iter) {

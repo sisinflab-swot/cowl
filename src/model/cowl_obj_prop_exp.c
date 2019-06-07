@@ -5,7 +5,7 @@
 #include "cowl_obj_prop_private.h"
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
-    return cowl_obj_prop_exp_ref_incr(prop);
+    return cowl_object_retain(prop);
 }
 
 void cowl_obj_prop_exp_release(CowlObjPropExp *prop) {

@@ -29,11 +29,11 @@ CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop) {
 }
 
 CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom) {
-    if (axiom && !cowl_axiom_ref_decr(axiom)) {
+    if (axiom && !cowl_object_release(axiom)) {
         cowl_func_data_prop_axiom_free(axiom);
     }
 }
@@ -47,7 +47,7 @@ bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPr
 }
 
 cowl_uint_t cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_func_data_prop_axiom_iterate_signature(CowlFuncDataPropAxiom *axiom,

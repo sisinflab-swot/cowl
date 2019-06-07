@@ -32,18 +32,18 @@ CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
         uhash_value(inst_map, idx) = prop;
     } else {
         prop = uhash_value(inst_map, idx);
-        cowl_annot_prop_ref_incr(prop);
+        cowl_object_retain(prop);
     }
 
     return prop;
 }
 
 CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) {
-    return cowl_annot_prop_ref_incr(prop);
+    return cowl_object_retain(prop);
 }
 
 void cowl_annot_prop_release(CowlAnnotProp *prop) {
-    if (prop && !cowl_annot_prop_ref_decr(prop)) {
+    if (prop && !cowl_object_release(prop)) {
         uhmap_remove(CowlAnnotPropMap, inst_map, prop->iri);
         cowl_annot_prop_free(prop);
     }

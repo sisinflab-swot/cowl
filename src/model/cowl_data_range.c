@@ -8,7 +8,7 @@
 #include "cowl_nary_data.h"
 
 CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
-    return cowl_data_range_ref_incr(range);
+    return cowl_object_retain(range);
 }
 
 void cowl_data_range_release(CowlDataRange *range) {
@@ -57,7 +57,7 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
 }
 
 cowl_uint_t cowl_data_range_hash(CowlDataRange *range) {
-    return cowl_data_range_hash_get(range);
+    return cowl_object_hash_get(range);
 }
 
 bool cowl_data_range_iterate_signature(CowlDataRange *range, void *ctx, CowlEntityIterator iter) {

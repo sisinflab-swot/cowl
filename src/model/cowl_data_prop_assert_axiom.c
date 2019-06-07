@@ -49,11 +49,11 @@ CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *sou
 }
 
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_retain(CowlDataPropAssertAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_data_prop_assert_axiom_release(CowlDataPropAssertAxiom *axiom) {
-    if (axiom && !cowl_axiom_ref_decr(axiom)) {
+    if (axiom && !cowl_object_release(axiom)) {
         cowl_data_prop_assert_axiom_free(axiom);
     }
 }
@@ -83,7 +83,7 @@ bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs,
 }
 
 cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_data_prop_assert_axiom_iterate_signature(CowlDataPropAssertAxiom *axiom,

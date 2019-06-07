@@ -25,7 +25,7 @@
 #include "cowl_sub_obj_prop_chain_axiom.h"
 
 CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_axiom_release(CowlAxiom *axiom) {
@@ -130,7 +130,7 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
 }
 
 cowl_uint_t cowl_axiom_hash(CowlAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterator iter) {

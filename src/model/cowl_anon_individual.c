@@ -35,18 +35,18 @@ CowlAnonIndividual* cowl_anon_individual_get(CowlString *id) {
         uhash_value(inst_map, idx) = ind;
     } else {
         ind = uhash_value(inst_map, idx);
-        cowl_individual_ref_incr(ind);
+        cowl_object_retain(ind);
     }
 
     return ind;
 }
 
 CowlAnonIndividual* cowl_anon_individual_retain(CowlAnonIndividual *ind) {
-    return cowl_individual_ref_incr(ind);
+    return cowl_object_retain(ind);
 }
 
 void cowl_anon_individual_release(CowlAnonIndividual *ind) {
-    if (ind && !cowl_individual_ref_decr(ind)) {
+    if (ind && !cowl_object_release(ind)) {
         uhmap_remove(CowlAnonIndividualMap, inst_map, ind->id);
         cowl_anon_individual_free(ind);
     }

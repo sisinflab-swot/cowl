@@ -4,20 +4,17 @@
 #define COWL_IRI_PRIVATE_H
 
 #include "cowl_iri.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlIRI) {
-    cowl_uint_t ref_count;
+    CowlObject super;
     CowlString *ns;
     CowlString *rem;
 };
 
-#define COWL_IRI_INIT(NS, REM) { .ref_count = 1, .ns = ((NS)), .rem = ((REM)) }
-
-#define cowl_iri_ref_get(i) (((cowl_struct(CowlIRI) *)(i))->ref_count)
-#define cowl_iri_ref_incr(i) (++cowl_iri_ref_get(i), (i))
-#define cowl_iri_ref_decr(i) (--cowl_iri_ref_get(i))
+#define COWL_IRI_INIT(NS, REM) { .super = COWL_OBJECT_INIT, .ns = (NS), .rem = (REM) }
 
 COWL_END_DECLS
 

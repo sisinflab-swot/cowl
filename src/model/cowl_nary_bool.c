@@ -29,11 +29,11 @@ CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlClsExpSet *operands) {
 }
 
 CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp) {
-    return cowl_cls_exp_ref_incr(exp);
+    return cowl_object_retain(exp);
 }
 
 void cowl_nary_bool_release(CowlNAryBool *exp) {
-    if (exp && !cowl_cls_exp_ref_decr(exp)) {
+    if (exp && !cowl_object_release(exp)) {
         cowl_nary_bool_free(exp);
     }
 }
@@ -52,7 +52,7 @@ bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
 }
 
 cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp) {
-    return cowl_cls_exp_hash_get(exp);
+    return cowl_object_hash_get(exp);
 }
 
 bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp,

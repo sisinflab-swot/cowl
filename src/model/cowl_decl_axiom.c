@@ -27,11 +27,11 @@ CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity) {
 }
 
 CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_decl_axiom_release(CowlDeclAxiom *axiom) {
-    if (axiom && !cowl_axiom_ref_decr(axiom)) {
+    if (axiom && !cowl_object_release(axiom)) {
         cowl_decl_axiom_free(axiom);
     }
 }
@@ -45,7 +45,7 @@ bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {
 }
 
 cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, void *ctx, CowlEntityIterator iter) {

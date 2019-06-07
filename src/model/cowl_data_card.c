@@ -43,11 +43,11 @@ CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
 }
 
 CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) {
-    return cowl_cls_exp_ref_incr(restr);
+    return cowl_object_retain(restr);
 }
 
 void cowl_data_card_release(CowlDataCard *restr) {
-    if (restr && !cowl_cls_exp_ref_decr(restr)) {
+    if (restr && !cowl_object_release(restr)) {
         cowl_data_card_free(restr);
     }
 }
@@ -77,7 +77,7 @@ bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {
 }
 
 cowl_uint_t cowl_data_card_hash(CowlDataCard *restr) {
-    return cowl_cls_exp_hash_get(restr);
+    return cowl_object_hash_get(restr);
 }
 
 bool cowl_data_card_iterate_signature(CowlDataCard *restr,

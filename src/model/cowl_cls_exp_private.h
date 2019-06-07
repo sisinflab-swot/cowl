@@ -9,18 +9,11 @@
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlClsExp) {
-    CowlObject super;
+    CowlHashObject super;
     CowlClsExpType type;
 };
 
-#define COWL_CLS_EXP_INIT(T, H) { .super = COWL_OBJECT_INIT(H), .type = (T) }
-
-#define cowl_cls_exp_ref_get(c) cowl_object_ref_get(c)
-#define cowl_cls_exp_ref_incr(c) cowl_object_retain(c)
-#define cowl_cls_exp_ref_decr(c) cowl_object_release(c)
-
-#define cowl_cls_exp_hash_get(c) cowl_object_hash_get(c)
-#define cowl_cls_exp_hash_set(c, h) cowl_object_hash_set(c, h)
+#define COWL_CLS_EXP_INIT(T, H) { .super = COWL_HASH_OBJECT_INIT(H), .type = (T) }
 
 COWL_END_DECLS
 

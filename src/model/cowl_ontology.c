@@ -76,11 +76,11 @@ static void cowl_ontology_add_axiom_for_individual(CowlOntology *onto, CowlAxiom
 } while(0)
 
 CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
-    return cowl_ontology_ref_incr(onto);
+    return cowl_object_retain(onto);
 }
 
 void cowl_ontology_release(CowlOntology *onto) {
-    if (onto && !cowl_ontology_ref_decr(onto)) {
+    if (onto && !cowl_object_release(onto)) {
         cowl_ontology_free(onto);
     }
 }

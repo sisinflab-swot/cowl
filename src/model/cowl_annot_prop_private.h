@@ -4,19 +4,16 @@
 #define COWL_ANNOT_PROP_PRIVATE_H
 
 #include "cowl_annot_prop.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlAnnotProp) {
-    cowl_uint_t ref_count;
+    CowlObject super;
     CowlIRI *iri;
 };
 
-#define COWL_ANNOT_PROP_INIT(IRI) { .ref_count = 1, .iri = (IRI) }
-
-#define cowl_annot_prop_ref_get(i) (((cowl_struct(CowlAnnotProp) *)(i))->ref_count)
-#define cowl_annot_prop_ref_incr(i) (++cowl_annot_prop_ref_get(i), (i))
-#define cowl_annot_prop_ref_decr(i) (--cowl_annot_prop_ref_get(i))
+#define COWL_ANNOT_PROP_INIT(IRI) { .super = COWL_OBJECT_INIT, .iri = (IRI) }
 
 COWL_END_DECLS
 

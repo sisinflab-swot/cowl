@@ -14,7 +14,7 @@
 #include "cowl_obj_quant.h"
 
 CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
-    return cowl_cls_exp_ref_incr(exp);
+    return cowl_object_retain(exp);
 }
 
 void cowl_cls_exp_release(CowlClsExp *exp) {
@@ -87,7 +87,7 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
 }
 
 cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp) {
-    return cowl_cls_exp_hash_get(exp);
+    return cowl_object_hash_get(exp);
 }
 
 bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterator iter) {

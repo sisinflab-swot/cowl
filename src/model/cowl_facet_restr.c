@@ -6,13 +6,7 @@
 
 static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *value) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, facet, cowl_literal_hash(value));
-
-    CowlFacetRestr init = {
-        .super = COWL_OBJECT_INIT(hash),
-        .facet = facet,
-        .value = cowl_literal_retain(value)
-    };
-
+    CowlFacetRestr init = COWL_FACET_RESTR_INIT(facet, cowl_literal_retain(value), hash);
     cowl_struct(CowlFacetRestr) *restr = malloc(sizeof(*restr));
     memcpy(restr, &init, sizeof(*restr));
     return restr;

@@ -56,19 +56,19 @@ CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
         uhash_value(inst_map, idx) = iri;
     } else {
         iri = uhash_value(inst_map, idx);
-        cowl_iri_ref_incr(iri);
+        cowl_object_retain(iri);
     }
 
     return iri;
 }
 
 CowlIRI* cowl_iri_retain(CowlIRI *iri) {
-    return cowl_iri_ref_incr(iri);
+    return cowl_object_retain(iri);
 }
 
 void cowl_iri_release(CowlIRI *iri) {
-    if (iri && !cowl_iri_ref_decr(iri)) {
-        if (cowl_string_ref_get(iri->ns) == 2) {
+    if (iri && !cowl_object_release(iri)) {
+        if (cowl_object_ref_get(iri->ns) == 2) {
             uhset_remove(CowlNSSet, ns_set, iri->ns);
             cowl_string_release(iri->ns);
         }

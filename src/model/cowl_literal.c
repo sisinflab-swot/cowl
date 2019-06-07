@@ -12,12 +12,12 @@ static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
                                    cowl_string_hash(value),
                                    cowl_string_hash(lang));
 
-    CowlLiteral init = {
-        .super = COWL_OBJECT_INIT(hash),
-        .dt = cowl_datatype_retain(dt),
-        .value = cowl_string_retain(value),
-        .lang = cowl_string_retain(lang)
-    };
+    CowlLiteral init = COWL_LITERAL_INIT(
+        cowl_datatype_retain(dt),
+        cowl_string_retain(value),
+        cowl_string_retain(value),
+        hash
+    );
 
     cowl_struct(CowlLiteral) *literal = malloc(sizeof(*literal));
     memcpy(literal, &init, sizeof(*literal));

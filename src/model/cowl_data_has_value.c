@@ -33,11 +33,11 @@ CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *va
 }
 
 CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *exp) {
-    return cowl_cls_exp_ref_incr(exp);
+    return cowl_object_retain(exp);
 }
 
 void cowl_data_has_value_release(CowlDataHasValue *exp) {
-    if (exp && !cowl_cls_exp_ref_decr(exp)) {
+    if (exp && !cowl_object_release(exp)) {
         cowl_data_has_value_free(exp);
     }
 }
@@ -56,7 +56,7 @@ bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
 }
 
 cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *exp) {
-    return cowl_cls_exp_hash_get(exp);
+    return cowl_object_hash_get(exp);
 }
 
 bool cowl_data_has_value_iterate_signature(CowlDataHasValue *exp, void *ctx,

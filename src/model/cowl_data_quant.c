@@ -34,11 +34,11 @@ CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,
 }
 
 CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) {
-    return cowl_cls_exp_ref_incr(restr);
+    return cowl_object_retain(restr);
 }
 
 void cowl_data_quant_release(CowlDataQuant *restr) {
-    if (restr && !cowl_cls_exp_ref_decr(restr)) {
+    if (restr && !cowl_object_release(restr)) {
         cowl_data_quant_free(restr);
     }
 }
@@ -62,7 +62,7 @@ bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
 }
 
 cowl_uint_t cowl_data_quant_hash(CowlDataQuant *restr) {
-    return cowl_cls_exp_hash_get(restr);
+    return cowl_object_hash_get(restr);
 }
 
 bool cowl_data_quant_iterate_signature(CowlDataQuant *restr, void *ctx, CowlEntityIterator iter) {

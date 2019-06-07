@@ -32,11 +32,11 @@ CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super) {
 }
 
 CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom) {
-    if (axiom && !cowl_axiom_ref_decr(axiom)) {
+    if (axiom && !cowl_object_release(axiom)) {
         cowl_sub_cls_axiom_free(axiom);
     }
 }
@@ -55,7 +55,7 @@ bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs) {
 }
 
 cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom *axiom,

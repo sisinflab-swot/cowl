@@ -9,10 +9,13 @@
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlFacetRestr) {
-    CowlObject super;
+    CowlHashObject super;
     CowlFacet facet;
     CowlLiteral *value;
 };
+
+#define COWL_FACET_RESTR_INIT(F, V, H) \
+    { .super = COWL_HASH_OBJECT_INIT(H), .facet = (F), .value = (V) }
 
 COWL_END_DECLS
 

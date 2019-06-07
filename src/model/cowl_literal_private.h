@@ -12,11 +12,14 @@ cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlString);
 
 cowl_struct(CowlLiteral) {
-    CowlObject super;
+    CowlHashObject super;
     CowlDatatype *dt;
     CowlString *value;
     CowlString *lang;
 };
+
+#define COWL_LITERAL_INIT(D, V, L, H) \
+    { .super = COWL_HASH_OBJECT_INIT(H), .dt = (D), .value = (V), .lang = (L) }
 
 COWL_END_DECLS
 

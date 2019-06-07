@@ -29,11 +29,11 @@ CowlDataOneOf* cowl_data_one_of_get(CowlLiteralSet *values) {
 }
 
 CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range) {
-    return cowl_data_range_ref_incr(range);
+    return cowl_object_retain(range);
 }
 
 void cowl_data_one_of_release(CowlDataOneOf *range) {
-    if (range && !cowl_data_range_ref_decr(range)) {
+    if (range && !cowl_object_release(range)) {
         cowl_data_one_of_free(range);
     }
 }
@@ -47,7 +47,7 @@ bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {
 }
 
 cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range) {
-    return cowl_data_range_hash_get(range);
+    return cowl_object_hash_get(range);
 }
 
 bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, void *ctx, CowlEntityIterator iter) {

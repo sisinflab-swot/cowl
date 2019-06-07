@@ -29,11 +29,11 @@ CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlDataRangeSet *operands) 
 }
 
 CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) {
-    return cowl_data_range_ref_incr(range);
+    return cowl_object_retain(range);
 }
 
 void cowl_nary_data_release(CowlNAryData *range) {
-    if (range && !cowl_data_range_ref_decr(range)) {
+    if (range && !cowl_object_release(range)) {
         cowl_nary_data_free(range);
     }
 }
@@ -52,7 +52,7 @@ bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
 }
 
 cowl_uint_t cowl_nary_data_hash(CowlNAryData *range) {
-    return cowl_data_range_hash_get(range);
+    return cowl_object_hash_get(range);
 }
 
 bool cowl_nary_data_iterate_signature(CowlNAryData *range,

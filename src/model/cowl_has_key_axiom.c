@@ -41,11 +41,11 @@ CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlObjPropExpSet *
 }
 
 CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) {
-    return cowl_axiom_ref_incr(axiom);
+    return cowl_object_retain(axiom);
 }
 
 void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom) {
-    if (axiom && !cowl_axiom_ref_decr(axiom)) {
+    if (axiom && !cowl_object_release(axiom)) {
         cowl_has_key_axiom_free(axiom);
     }
 }
@@ -69,7 +69,7 @@ bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
 }
 
 cowl_uint_t cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
-    return cowl_axiom_hash_get(axiom);
+    return cowl_object_hash_get(axiom);
 }
 
 bool cowl_has_key_axiom_iterate_signature(CowlHasKeyAxiom *axiom, void *ctx,

@@ -32,11 +32,11 @@ CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlC
 }
 
 CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) {
-    return cowl_cls_exp_ref_incr(restr);
+    return cowl_object_retain(restr);
 }
 
 void cowl_obj_quant_release(CowlObjQuant *restr) {
-    if (restr && !cowl_cls_exp_ref_decr(restr)) {
+    if (restr && !cowl_object_release(restr)) {
         cowl_obj_quant_free(restr);
     }
 }
@@ -60,7 +60,7 @@ bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
 }
 
 cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr) {
-    return cowl_cls_exp_hash_get(restr);
+    return cowl_object_hash_get(restr);
 }
 
 bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, void *ctx, CowlEntityIterator iter) {

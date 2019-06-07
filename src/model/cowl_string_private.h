@@ -9,18 +9,13 @@
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlString) {
-    CowlObject super;
+    CowlHashObject super;
     cowl_uint_t length;
     char const *cstring;
 };
 
-#define COWL_STRING_INIT(S, L, H) { .super = COWL_OBJECT_INIT(H), .cstring = (S), .length = (L) }
-
-#define cowl_string_ref_get(s) cowl_object_ref_get(s)
-#define cowl_string_ref_incr(s) cowl_object_retain(s)
-#define cowl_string_ref_decr(s) cowl_object_release(s)
-
-#define cowl_string_hash_get(s) cowl_object_hash_get(s)
+#define COWL_STRING_INIT(S, L, H) \
+    { .super = COWL_HASH_OBJECT_INIT(H), .cstring = (S), .length = (L) }
 
 void cowl_string_split_two(char const *cstring, cowl_uint_t length,
                            char character, CowlString **out);
