@@ -12,8 +12,10 @@ cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyId);
-
 cowl_struct_decl_mutable(CowlOntology, CowlMutableOntology);
+
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl_mutable(CowlAnnotationPtr, CowlMutableAnnotationVec);
 
 UHASH_MAP_DECL(CowlPrefixNsMap, CowlString*, CowlString*)
 
@@ -24,6 +26,7 @@ cowl_struct(CowlParser) {
 };
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id);
+void cowl_parser_set_annotations(CowlParser *parser, CowlMutableAnnotationVec *annot);
 void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
 
 void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);

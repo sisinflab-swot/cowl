@@ -1,6 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_parser.h"
+#include "cowl_annotation_vec.h"
 #include "cowl_error_private.h"
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
@@ -75,6 +76,10 @@ CowlError cowl_parser_get_last_error(CowlParser *parser) {
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id) {
     cowl_ontology_set_id(parser->ontology, id);
+}
+
+void cowl_parser_set_annotations(CowlParser *parser, CowlMutableAnnotationVec *annot) {
+    cowl_ontology_set_annotations(parser->ontology, annot);
 }
 
 void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom) {

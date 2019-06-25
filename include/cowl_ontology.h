@@ -9,6 +9,7 @@
 
 COWL_BEGIN_DECLS
 
+cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAnonIndividual);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClass);
@@ -32,6 +33,7 @@ cowl_uint_t cowl_ontology_hash(CowlOntology *onto);
 
 cowl_uint_t cowl_ontology_axiom_count(CowlOntology *onto);
 
+cowl_uint_t cowl_ontology_axiom_count_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop);
 cowl_uint_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class);
 cowl_uint_t cowl_ontology_axiom_count_for_data_prop(CowlOntology *onto, CowlDataProp *data_prop);
 cowl_uint_t cowl_ontology_axiom_count_for_datatype(CowlOntology *onto, CowlDatatype *datatype);
@@ -49,6 +51,8 @@ void cowl_ontology_iterate_datatypes(CowlOntology *onto, void *ctx, CowlDatatype
 
 void cowl_ontology_iterate_obj_prop(CowlOntology *onto, void *ctx, CowlObjPropIterator iter);
 
+void cowl_ontology_iterate_annot_prop(CowlOntology *onto, void *ctx, CowlAnnotPropIterator iter);
+
 void cowl_ontology_iterate_named_individuals(CowlOntology *onto, void *ctx,
                                              CowlNamedIndividualIterator iter);
 
@@ -59,6 +63,9 @@ void cowl_ontology_iterate_axioms(CowlOntology *onto, void *ctx, CowlAxiomIterat
 
 void cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
                                           void *ctx, CowlAxiomIterator iter);
+
+void cowl_ontology_iterate_axioms_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop,
+                                                 void *ctx, CowlAxiomIterator iter);
 
 void cowl_ontology_iterate_axioms_for_class(CowlOntology *onto, CowlClass *owl_class,
                                             void *ctx, CowlAxiomIterator iter);

@@ -1,34 +1,35 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_nary_obj_prop_axiom_private.h"
-#include "cowl_hash_utils.h"
-#include "cowl_obj_prop_exp.h"
 #include "cowl_obj_prop_exp_set.h"
 
 static CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_alloc(CowlAxiomType type,
-                                                            CowlObjPropExpSet *props) {
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_OBJ_PROP_AXIOM, type,
-                                   uhset_hash(CowlObjPropExpSet, props));
+                                                            CowlObjPropExpSet *props,
+                                                            CowlAnnotationVec *annot) {
+    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_OBJ_PROP_AXIOM, annot, type,
+                                         cowl_obj_prop_exp_set_hash(props));
 
     CowlNAryObjPropAxiom init = {
-        .super = COWL_AXIOM_INIT(type, hash),
+        .super = COWL_AXIOM_INIT(type, hash, annot),
         .props = props
     };
 
-    cowl_struct(CowlNAryObjPropAxiom) *axiom = malloc(sizeof(*axiom));
-    memcpy(axiom, &init, sizeof(*axiom));
+    cowl_struct(CowlNAryObjPropAxiom) *axiom;
+    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 
 static void cowl_nary_obj_prop_axiom_free(CowlNAryObjPropAxiom *axiom) {
     if (!axiom) return;
     cowl_obj_prop_exp_set_free(axiom->props);
-    free((void *)axiom);
+    cowl_axiom_free(axiom);
 }
 
 CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_get(CowlNAryAxiomType type,
-                                                   CowlObjPropExpSet *props) {
-    return cowl_nary_obj_prop_axiom_alloc((CowlAxiomType)type + CAT_EQUIVALENT_OBJ_PROP, props);
+                                                   CowlObjPropExpSet *props,
+                                                   CowlAnnotationVec *annot) {
+    CowlAxiomType axiom_type = (CowlAxiomType)type + CAT_EQUIVALENT_OBJ_PROP;
+    return cowl_nary_obj_prop_axiom_alloc(axiom_type, props, annot);
 }
 
 CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_retain(CowlNAryObjPropAxiom *axiom) {
@@ -42,16 +43,20 @@ void cowl_nary_obj_prop_axiom_release(CowlNAryObjPropAxiom *axiom) {
 }
 
 CowlNAryAxiomType cowl_nary_obj_prop_axiom_get_type(CowlNAryObjPropAxiom *axiom) {
-    return (CowlNAryAxiomType)(axiom->super.type - CAT_EQUIVALENT_OBJ_PROP);
+    CowlAxiomFlags flags = axiom->super.flags;
+    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - CAT_EQUIVALENT_OBJ_PROP);
 }
 
 CowlObjPropExpSet* cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom) {
     return axiom->props;
 }
 
+CowlAnnotationVec* cowl_nary_obj_prop_axiom_get_annot(CowlNAryObjPropAxiom *axiom) {
+    return cowl_axiom_get_annot(axiom);
+}
+
 bool cowl_nary_obj_prop_axiom_equals(CowlNAryObjPropAxiom *lhs, CowlNAryObjPropAxiom *rhs) {
-    return lhs->super.type == rhs->super.type &&
-           uhset_equals(CowlObjPropExpSet, lhs->props, rhs->props);
+    return cowl_axiom_equals_impl(lhs, rhs, cowl_obj_prop_exp_set_equals(lhs->props, rhs->props));
 }
 
 cowl_uint_t cowl_nary_obj_prop_axiom_hash(CowlNAryObjPropAxiom *axiom) {
@@ -60,9 +65,7 @@ cowl_uint_t cowl_nary_obj_prop_axiom_hash(CowlNAryObjPropAxiom *axiom) {
 
 bool cowl_nary_obj_prop_axiom_iterate_signature(CowlNAryObjPropAxiom *axiom,
                                                 void *ctx, CowlEntityIterator iter) {
-    uhash_foreach_key(CowlObjPropExpSet, axiom->props, prop, {
-        if (!cowl_obj_prop_exp_iterate_signature(prop, ctx, iter)) return false;
-    });
-
+    if (!cowl_obj_prop_exp_set_iterate_signature(axiom->props, ctx, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
     return true;
 }

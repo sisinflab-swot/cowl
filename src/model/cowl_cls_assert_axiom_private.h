@@ -8,11 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlClsAssertAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlClsAssertAxiom,
     CowlIndividual *individual;
     CowlClsExp *cls_exp;
-};
+);
 
 COWL_END_DECLS
 

@@ -24,11 +24,6 @@
     #include "cowl_functional_lexer.h"
     #include "cowl_private.h"
 
-    #define cowl_unsupported_entity(T, MSG) (                                                       \
-        cowl_parser_log_error(parser, CEC_UNSUPPORTED, MSG, yylloc.last_line),                      \
-        ((CowlEntity){ .type = (T), .owl_class = NULL })                                            \
-    )
-
     #define cowl_unsupported(MSG) \
         (cowl_parser_log_error(parser, CEC_UNSUPPORTED, MSG, yylloc.last_line), NULL)
 
@@ -86,6 +81,8 @@
 %type <CowlString *> prefix_name node_id
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlOntologyId *> ontology_id
+%type <CowlAnnotation *> annotation
+%type <CowlAnnotValue> annotation_subject annotation_value
 %type <cowl_uint_t> cardinality
 
 %type <CowlEntity> entity
@@ -147,6 +144,7 @@
 %type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
 %type <CowlMutableObjPropExpSet *> object_property_expression_star
 %type <CowlMutableObjPropExpVec *> object_property_expression_ordered_2_list property_expression_chain
+%type <CowlMutableAnnotationVec *> annotation_star
 
 // Start symbol
 
@@ -154,6 +152,7 @@
 
 // Destructors
 
+%destructor { cowl_axiom_release($$); } <CowlAxiom *>
 %destructor { cowl_iri_release($$); } <CowlIRI *>
 %destructor { cowl_entity_release($$); } <CowlEntity>
 %destructor { cowl_class_release($$); } <CowlClass *>
@@ -170,7 +169,6 @@
 %destructor { cowl_facet_restr_release($$); } <CowlFacetRestr *>
 %destructor { cowl_literal_release($$); } <CowlLiteral *>
 %destructor { cowl_string_release($$); } <CowlString *>
-%destructor { cowl_axiom_release($$); } <CowlAxiom *>
 %destructor { cowl_cls_exp_set_free($$); } <CowlMutableClsExpSet *>
 %destructor { cowl_data_prop_exp_set_free($$); } <CowlMutableDataPropExpSet *>
 %destructor { cowl_data_range_set_free($$); } <CowlMutableDataRangeSet *>
@@ -179,6 +177,7 @@
 %destructor { cowl_literal_set_free($$); } <CowlMutableLiteralSet *>
 %destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
 %destructor { cowl_obj_prop_exp_vec_free($$); } <CowlMutableObjPropExpVec *>
+%destructor { cowl_annotation_vec_free($$); } <CowlMutableAnnotationVec *>
 
 %%
 
@@ -229,8 +228,9 @@ prefix_declaration
 ;
 
 ontology
-    : ONTOLOGY L_PAREN ontology_id directly_imports_documents ontology_annotations axioms R_PAREN {
+    : ONTOLOGY L_PAREN ontology_id directly_imports_documents annotation_star axioms R_PAREN {
         cowl_parser_set_id(parser, $3);
+        cowl_parser_set_annotations(parser, $5);
     }
 ;
 
@@ -267,11 +267,6 @@ import
         cowl_unsupported("Ontology imports are not supported.");
         cowl_iri_release($3);
     }
-;
-
-ontology_annotations
-    : %empty
-    | ontology_annotations annotation
 ;
 
 axioms
@@ -388,8 +383,8 @@ language_tag
 // Entity declarations and typing
 
 declaration
-    : DECLARATION L_PAREN axiom_annotations entity R_PAREN {
-        $$ = (CowlAxiom *)cowl_decl_axiom_get($4);
+    : DECLARATION L_PAREN annotation_star entity R_PAREN {
+        $$ = (CowlAxiom *)cowl_decl_axiom_get($4, $3);
         cowl_entity_release($4);
     }
 ;
@@ -693,11 +688,6 @@ axiom
     | annotation_axiom
 ;
 
-axiom_annotations
-    : %empty
-    | axiom_annotations annotation
-;
-
 // Class expression axioms
 
 class_axiom
@@ -708,8 +698,8 @@ class_axiom
 ;
 
 sub_class_of
-    : SUB_CLASS_OF L_PAREN axiom_annotations sub_class_expression super_class_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_sub_cls_axiom_get($4, $5);
+    : SUB_CLASS_OF L_PAREN annotation_star sub_class_expression super_class_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_sub_cls_axiom_get($4, $5, $3);
         cowl_cls_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -724,20 +714,20 @@ super_class_expression
 ;
 
 equivalent_classes
-    : EQUIVALENT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_EQUIVALENT, $4);
+    : EQUIVALENT_CLASSES L_PAREN annotation_star class_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_EQUIVALENT, $4, $3);
     }
 ;
 
 disjoint_classes
-    : DISJOINT_CLASSES L_PAREN axiom_annotations class_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_DISJOINT, $4);
+    : DISJOINT_CLASSES L_PAREN annotation_star class_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_DISJOINT, $4, $3);
     }
 ;
 
 disjoint_union
-    : DISJOINT_UNION L_PAREN axiom_annotations class class_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_disj_union_axiom_get($4, $5);
+    : DISJOINT_UNION L_PAREN annotation_star class class_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_disj_union_axiom_get($4, $5, $3);
         cowl_class_release($4);
     }
 ;
@@ -761,13 +751,13 @@ object_property_axiom
 ;
 
 sub_object_property_of
-    : SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations sub_object_property_expression super_object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_sub_obj_prop_axiom_get($4, $5);
+    : SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star sub_object_property_expression super_object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_sub_obj_prop_axiom_get($4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_obj_prop_exp_release($5);
     }
-    | SUB_OBJECT_PROPERTY_OF L_PAREN axiom_annotations property_expression_chain super_object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_sub_obj_prop_chain_axiom_get($4, $5);
+    | SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star property_expression_chain super_object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_sub_obj_prop_chain_axiom_get($4, $5, $3);
         cowl_obj_prop_exp_release($5);
     }
 ;
@@ -787,86 +777,86 @@ property_expression_chain
 ;
 
 equivalent_object_properties
-    : EQUIVALENT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_EQUIVALENT, $4);
+    : EQUIVALENT_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_EQUIVALENT, $4, $3);
     }
 ;
 
 disjoint_object_properties
-    : DISJOINT_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_DISJOINT, $4);
+    : DISJOINT_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_DISJOINT, $4, $3);
     }
 ;
 
 inverse_object_properties
-    : INVERSE_OBJECT_PROPERTIES L_PAREN axiom_annotations object_property_expression object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_inv_obj_prop_axiom_get($4, $5);
+    : INVERSE_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_inv_obj_prop_axiom_get($4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_obj_prop_exp_release($5);
     }
 ;
 
 object_property_domain
-    : OBJECT_PROPERTY_DOMAIN L_PAREN axiom_annotations object_property_expression class_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_domain_axiom_get($4, $5);
+    : OBJECT_PROPERTY_DOMAIN L_PAREN annotation_star object_property_expression class_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_domain_axiom_get($4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
 ;
 
 object_property_range
-    : OBJECT_PROPERTY_RANGE L_PAREN axiom_annotations object_property_expression class_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_range_axiom_get($4, $5);
+    : OBJECT_PROPERTY_RANGE L_PAREN annotation_star object_property_expression class_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_range_axiom_get($4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
 ;
 
 functional_object_property
-    : FUNCTIONAL_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_FUNCTIONAL, $4);
+    : FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_FUNCTIONAL, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 inverse_functional_object_property
-    : INVERSE_FUNCTIONAL_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_INVERSE_FUNCTIONAL, $4);
+    : INVERSE_FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_INVERSE_FUNCTIONAL, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 reflexive_object_property
-    : REFLEXIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_REFLEXIVE, $4);
+    : REFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_REFLEXIVE, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 irreflexive_object_property
-    : IRREFLEXIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_IRREFLEXIVE, $4);
+    : IRREFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_IRREFLEXIVE, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 symmetric_object_property
-    : SYMMETRIC_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_SYMMETRIC, $4);
+    : SYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_SYMMETRIC, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 asymmetric_object_property
-    : ASYMMETRIC_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_ASYMMETRIC, $4);
+    : ASYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_ASYMMETRIC, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 transitive_object_property
-    : TRANSITIVE_OBJECT_PROPERTY L_PAREN axiom_annotations object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_TRANSITIVE, $4);
+    : TRANSITIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_TRANSITIVE, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -883,8 +873,8 @@ data_property_axiom
 ;
 
 sub_data_property_of
-    : SUB_DATA_PROPERTY_OF L_PAREN axiom_annotations sub_data_property_expression super_data_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_sub_data_prop_axiom_get($4, $5);
+    : SUB_DATA_PROPERTY_OF L_PAREN annotation_star sub_data_property_expression super_data_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_sub_data_prop_axiom_get($4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_data_prop_exp_release($5);
     }
@@ -899,36 +889,36 @@ super_data_property_expression
 ;
 
 equivalent_data_properties
-    : EQUIVALENT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_EQUIVALENT, $4);
+    : EQUIVALENT_DATA_PROPERTIES L_PAREN annotation_star data_property_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_EQUIVALENT, $4, $3);
     }
 ;
 
 disjoint_data_properties
-    : DISJOINT_DATA_PROPERTIES L_PAREN axiom_annotations data_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_DISJOINT, $4);
+    : DISJOINT_DATA_PROPERTIES L_PAREN annotation_star data_property_expression_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_DISJOINT, $4, $3);
     }
 ;
 
 data_property_domain
-    : DATA_PROPERTY_DOMAIN L_PAREN axiom_annotations data_property_expression class_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_data_prop_domain_axiom_get($4, $5);
+    : DATA_PROPERTY_DOMAIN L_PAREN annotation_star data_property_expression class_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_data_prop_domain_axiom_get($4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
 ;
 
 data_property_range
-    : DATA_PROPERTY_RANGE L_PAREN axiom_annotations data_property_expression data_range R_PAREN {
-        $$ = (CowlAxiom *)cowl_data_prop_range_axiom_get($4, $5);
+    : DATA_PROPERTY_RANGE L_PAREN annotation_star data_property_expression data_range R_PAREN {
+        $$ = (CowlAxiom *)cowl_data_prop_range_axiom_get($4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_data_range_release($5);
     }
 ;
 
 functional_data_property
-    : FUNCTIONAL_DATA_PROPERTY L_PAREN axiom_annotations data_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_func_data_prop_axiom_get($4);
+    : FUNCTIONAL_DATA_PROPERTY L_PAREN annotation_star data_property_expression R_PAREN {
+        $$ = (CowlAxiom *)cowl_func_data_prop_axiom_get($4, $3);
         cowl_data_prop_exp_release($4);
     }
 ;
@@ -936,8 +926,8 @@ functional_data_property
 // Datatype definitions
 
 datatype_definition
-    : DATATYPE_DEFINITION L_PAREN axiom_annotations datatype data_range R_PAREN {
-        $$ = (CowlAxiom *)cowl_datatype_def_axiom_get($4, $5);
+    : DATATYPE_DEFINITION L_PAREN annotation_star datatype data_range R_PAREN {
+        $$ = (CowlAxiom *)cowl_datatype_def_axiom_get($4, $5, $3);
         cowl_datatype_release($4);
         cowl_data_range_release($5);
     }
@@ -946,14 +936,12 @@ datatype_definition
 // Keys
 
 has_key
-    :   HAS_KEY L_PAREN axiom_annotations class_expression
+    :   HAS_KEY L_PAREN annotation_star class_expression
             L_PAREN object_property_expression_star R_PAREN
             L_PAREN data_property_expression_star L_PAREN
         R_PAREN {
-        $$ = (CowlAxiom *)cowl_has_key_axiom_get($4, $6, $9);
+        $$ = (CowlAxiom *)cowl_has_key_axiom_get($4, $6, $9, $3);
         cowl_cls_exp_release($4);
-        cowl_obj_prop_exp_set_free($6);
-        cowl_data_prop_exp_set_free($9);
     }
 ;
 
@@ -970,28 +958,28 @@ assertion
 ;
 
 same_individual
-    : SAME_INDIVIDUAL L_PAREN axiom_annotations individual_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_SAME, $4);
+    : SAME_INDIVIDUAL L_PAREN annotation_star individual_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_SAME, $4, $3);
     }
 ;
 
 different_individuals
-    : DIFFERENT_INDIVIDUALS L_PAREN axiom_annotations individual_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_DIFFERENT, $4);
+    : DIFFERENT_INDIVIDUALS L_PAREN annotation_star individual_2_list R_PAREN {
+        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_DIFFERENT, $4, $3);
     }
 ;
 
 class_assertion
-    : CLASS_ASSERTION L_PAREN axiom_annotations class_expression individual R_PAREN {
-        $$ = (CowlAxiom *)cowl_cls_assert_axiom_get($5, $4);
+    : CLASS_ASSERTION L_PAREN annotation_star class_expression individual R_PAREN {
+        $$ = (CowlAxiom *)cowl_cls_assert_axiom_get($5, $4, $3);
         cowl_cls_exp_release($4);
         cowl_individual_release($5);
     }
 ;
 
 object_property_assertion
-    : OBJECT_PROPERTY_ASSERTION L_PAREN axiom_annotations object_property_expression source_individual target_individual R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom_get($5, $4, $6);
+    : OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression source_individual target_individual R_PAREN {
+        $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_individual_release($6);
@@ -999,8 +987,8 @@ object_property_assertion
 ;
 
 negative_object_property_assertion
-    : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN axiom_annotations object_property_expression source_individual target_individual R_PAREN {
-        $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom_get($5, $4, $6);
+    : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression source_individual target_individual R_PAREN {
+        $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_individual_release($6);
@@ -1008,8 +996,8 @@ negative_object_property_assertion
 ;
 
 data_property_assertion
-    : DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
-        $$ = (CowlAxiom *)cowl_data_prop_assert_axiom_get($5, $4, $6);
+    : DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression source_individual target_value R_PAREN {
+        $$ = (CowlAxiom *)cowl_data_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_literal_release($6);
@@ -1017,8 +1005,8 @@ data_property_assertion
 ;
 
 negative_data_property_assertion
-    : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN axiom_annotations data_property_expression source_individual target_value R_PAREN {
-        $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom_get($5, $4, $6);
+    : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression source_individual target_value R_PAREN {
+        $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_literal_release($6);
@@ -1040,20 +1028,23 @@ target_value
 // Annotations
 
 annotation
-    : ANNOTATION L_PAREN annotation_annotations annotation_property annotation_value R_PAREN {
+    : ANNOTATION L_PAREN annotation_star annotation_property annotation_value R_PAREN {
+        $$ = cowl_annotation_get($4, $5, $3);
         cowl_annot_prop_release($4);
+        cowl_annot_value_release($5);
     }
 ;
 
-annotation_annotations
-    : %empty
-    | annotation_annotations annotation
-;
-
 annotation_value
-    : anonymous_individual
-    | iri
-    | literal
+    : anonymous_individual {
+        $$ = cowl_annot_value_wrap_anon_ind($1);
+    }
+    | iri {
+        $$ = cowl_annot_value_wrap_iri($1);
+    }
+    | literal {
+        $$ = cowl_annot_value_wrap_literal($1);
+    }
 ;
 
 // Annotation axioms
@@ -1066,20 +1057,26 @@ annotation_axiom
 ;
 
 annotation_assertion
-    : ANNOTATION_ASSERTION L_PAREN axiom_annotations annotation_property annotation_subject annotation_value R_PAREN {
-        $$ = cowl_unsupported("Annotation assertion axioms are not supported.");
+    : ANNOTATION_ASSERTION L_PAREN annotation_star annotation_property annotation_subject annotation_value R_PAREN {
+        $$ = (CowlAxiom *)cowl_annot_assert_axiom_get($5, $4, $6, $3);
         cowl_annot_prop_release($4);
+        cowl_annot_value_release($5);
+        cowl_annot_value_release($6);
     }
 ;
 
 annotation_subject
-    : iri
-    | anonymous_individual
+    : iri {
+        $$ = cowl_annot_value_wrap_iri($1);
+    }
+    | anonymous_individual {
+        $$ = cowl_annot_value_wrap_anon_ind($1);
+    }
 ;
 
 sub_annotation_property_of
-    : SUB_ANNOTATION_PROPERTY_OF L_PAREN axiom_annotations sub_annotation_property super_annotation_property R_PAREN {
-        $$ = cowl_unsupported("Sub annotation property axioms are not supported.");
+    : SUB_ANNOTATION_PROPERTY_OF L_PAREN annotation_star sub_annotation_property super_annotation_property R_PAREN {
+        $$ = (CowlAxiom *)cowl_sub_annot_prop_axiom_get($4, $5, $3);
         cowl_annot_prop_release($4);
         cowl_annot_prop_release($5);
     }
@@ -1094,22 +1091,34 @@ super_annotation_property
 ;
 
 annotation_property_domain
-    : ANNOTATION_PROPERTY_DOMAIN L_PAREN axiom_annotations annotation_property iri R_PAREN {
-        $$ = cowl_unsupported("Annotation property domain axioms are not supported.");
+    : ANNOTATION_PROPERTY_DOMAIN L_PAREN annotation_star annotation_property iri R_PAREN {
+        $$ = (CowlAxiom *)cowl_annot_prop_domain_axiom_get($4, $5, $3);
         cowl_annot_prop_release($4);
         cowl_iri_release($5);
     }
 ;
 
 annotation_property_range
-    : ANNOTATION_PROPERTY_RANGE L_PAREN axiom_annotations annotation_property iri R_PAREN {
-        $$ = cowl_unsupported("Annotation property range axioms are not supported.");
+    : ANNOTATION_PROPERTY_RANGE L_PAREN annotation_star annotation_property iri R_PAREN {
+        $$ = (CowlAxiom *)cowl_annot_prop_range_axiom_get($4, $5, $3);
         cowl_annot_prop_release($4);
         cowl_iri_release($5);
     }
 ;
 
 // Lists
+
+annotation_star
+    : %empty {
+        $$ = NULL;
+    }
+    | annotation_star annotation {
+        if (!$1) $1 = vector_alloc(CowlAnnotationPtr);
+        $$ = $1;
+        cowl_annotation_vec_push($$, $2);
+        cowl_annotation_release($2);
+    }
+;
 
 class_expression_list
     : class_expression {

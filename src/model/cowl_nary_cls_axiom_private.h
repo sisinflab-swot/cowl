@@ -8,10 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlNAryClsAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlNAryClsAxiom,
     CowlClsExpSet *classes;
-};
+);
 
 COWL_END_DECLS
 

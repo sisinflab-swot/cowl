@@ -8,12 +8,11 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlHasKeyAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlHasKeyAxiom,
     CowlClsExp *cls_exp;
     CowlDataPropExpSet *data_props;
     CowlObjPropExpSet *obj_props;
-};
+);
 
 COWL_END_DECLS
 

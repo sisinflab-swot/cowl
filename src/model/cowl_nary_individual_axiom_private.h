@@ -8,10 +8,9 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlNAryIndividualAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlNAryIndividualAxiom,
     CowlIndividualSet *operands;
-};
+);
 
 COWL_END_DECLS
 

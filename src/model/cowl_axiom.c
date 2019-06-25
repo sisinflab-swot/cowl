@@ -1,6 +1,9 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_axiom_private.h"
+#include "cowl_annot_assert_axiom.h"
+#include "cowl_annot_prop_domain_axiom.h"
+#include "cowl_annot_prop_range_axiom.h"
 #include "cowl_cls_assert_axiom.h"
 #include "cowl_data_prop_assert_axiom.h"
 #include "cowl_data_prop_domain_axiom.h"
@@ -19,6 +22,7 @@
 #include "cowl_obj_prop_char_axiom.h"
 #include "cowl_obj_prop_domain_axiom.h"
 #include "cowl_obj_prop_range_axiom.h"
+#include "cowl_sub_annot_prop_axiom.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
@@ -34,7 +38,7 @@ void cowl_axiom_release(CowlAxiom *axiom) {
 #define GEN_CASE_RELEASE(CAT, TYPE, PREFIX) \
     case CAT: PREFIX##_release((TYPE *)axiom); break
 
-    switch (axiom->type) {
+    switch (cowl_axiom_flags_get_type(axiom->flags)) {
 
         GEN_CASE_RELEASE(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
         GEN_CASE_RELEASE(CAT_DATATYPE_DEFINITION, CowlDatatypeDefAxiom, cowl_datatype_def_axiom);
@@ -70,6 +74,10 @@ void cowl_axiom_release(CowlAxiom *axiom) {
         GEN_CASE_RELEASE(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_RELEASE(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
         GEN_CASE_RELEASE(CAT_HAS_KEY, CowlHasKeyAxiom, cowl_has_key_axiom);
+        GEN_CASE_RELEASE(CAT_ANNOT_ASSERTION, CowlAnnotAssertAxiom, cowl_annot_assert_axiom);
+        GEN_CASE_RELEASE(CAT_SUB_ANNOT_PROP, CowlSubAnnotPropAxiom, cowl_sub_annot_prop_axiom);
+        GEN_CASE_RELEASE(CAT_ANNOT_PROP_DOMAIN, CowlAnnotPropDomainAxiom, cowl_annot_prop_domain_axiom);
+        GEN_CASE_RELEASE(CAT_ANNOT_PROP_RANGE, CowlAnnotPropRangeAxiom, cowl_annot_prop_range_axiom);
 
         default:
             break;
@@ -77,17 +85,17 @@ void cowl_axiom_release(CowlAxiom *axiom) {
 }
 
 CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
-    return axiom->type;
+    return cowl_axiom_flags_get_type(axiom->flags);
 }
 
 bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
     if (lhs == rhs) return true;
-    if (lhs->type != rhs->type || lhs->super.hash != rhs->super.hash) return false;
+    if (lhs->flags != rhs->flags || lhs->super.hash != rhs->super.hash) return false;
 
 #define GEN_CASE_EQUAL(CAT, TYPE, PREFIX) \
     case CAT: return PREFIX##_equals((TYPE *)lhs, (TYPE *)rhs)
 
-    switch (lhs->type) {
+    switch (cowl_axiom_flags_get_type(lhs->flags)) {
 
         GEN_CASE_EQUAL(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
         GEN_CASE_EQUAL(CAT_DATATYPE_DEFINITION, CowlDatatypeDefAxiom, cowl_datatype_def_axiom);
@@ -123,6 +131,10 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
         GEN_CASE_EQUAL(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_EQUAL(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
         GEN_CASE_EQUAL(CAT_HAS_KEY, CowlHasKeyAxiom, cowl_has_key_axiom);
+        GEN_CASE_EQUAL(CAT_ANNOT_ASSERTION, CowlAnnotAssertAxiom, cowl_annot_assert_axiom);
+        GEN_CASE_EQUAL(CAT_SUB_ANNOT_PROP, CowlSubAnnotPropAxiom, cowl_sub_annot_prop_axiom);
+        GEN_CASE_EQUAL(CAT_ANNOT_PROP_DOMAIN, CowlAnnotPropDomainAxiom, cowl_annot_prop_domain_axiom);
+        GEN_CASE_EQUAL(CAT_ANNOT_PROP_RANGE, CowlAnnotPropRangeAxiom, cowl_annot_prop_range_axiom);
 
         default:
             return false;
@@ -138,7 +150,7 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
 #define GEN_CASE_SIG(CAT, TYPE, PREFIX) \
     case CAT: return PREFIX##_iterate_signature((TYPE *)axiom, ctx, iter)
 
-    switch (axiom->type) {
+    switch (cowl_axiom_flags_get_type(axiom->flags)) {
 
         GEN_CASE_SIG(CAT_DECLARATION, CowlDeclAxiom, cowl_decl_axiom);
         GEN_CASE_SIG(CAT_DATATYPE_DEFINITION, CowlDatatypeDefAxiom, cowl_datatype_def_axiom);
@@ -174,6 +186,10 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterato
         GEN_CASE_SIG(CAT_DATA_PROP_DOMAIN, CowlDataPropDomainAxiom, cowl_data_prop_domain_axiom);
         GEN_CASE_SIG(CAT_DATA_PROP_RANGE, CowlDataPropRangeAxiom, cowl_data_prop_range_axiom);
         GEN_CASE_SIG(CAT_HAS_KEY, CowlHasKeyAxiom, cowl_has_key_axiom);
+        GEN_CASE_SIG(CAT_ANNOT_ASSERTION, CowlAnnotAssertAxiom, cowl_annot_assert_axiom);
+        GEN_CASE_SIG(CAT_SUB_ANNOT_PROP, CowlSubAnnotPropAxiom, cowl_sub_annot_prop_axiom);
+        GEN_CASE_SIG(CAT_ANNOT_PROP_DOMAIN, CowlAnnotPropDomainAxiom, cowl_annot_prop_domain_axiom);
+        GEN_CASE_SIG(CAT_ANNOT_PROP_RANGE, CowlAnnotPropRangeAxiom, cowl_annot_prop_range_axiom);
 
         default:
             return true;

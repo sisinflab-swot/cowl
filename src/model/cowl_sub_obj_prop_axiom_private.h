@@ -8,11 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlSubObjPropAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlSubObjPropAxiom,
     CowlObjPropExp *super_prop;
     CowlObjPropExp *sub_prop;
-};
+);
 
 COWL_END_DECLS
 

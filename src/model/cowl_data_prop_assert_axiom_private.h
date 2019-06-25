@@ -8,12 +8,11 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataPropAssertAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlDataPropAssertAxiom,
     CowlIndividual *source;
     CowlDataPropExp *prop;
     CowlLiteral *target;
-};
+);
 
 COWL_END_DECLS
 

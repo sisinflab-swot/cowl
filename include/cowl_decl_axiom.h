@@ -8,13 +8,16 @@
 
 COWL_BEGIN_DECLS
 
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+
 cowl_struct_decl(CowlDeclAxiom);
 
-CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity);
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity, CowlAnnotationVec *annot);
 CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom);
 void cowl_decl_axiom_release(CowlDeclAxiom *axiom);
 
 CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
+CowlAnnotationVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom);
 
 bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
 cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);

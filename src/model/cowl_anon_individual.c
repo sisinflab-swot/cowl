@@ -56,6 +56,10 @@ CowlString* cowl_anon_individual_get_id(CowlAnonIndividual *ind) {
     return ind->id;
 }
 
+CowlString* cowl_anon_individual_to_string(CowlAnonIndividual *ind) {
+    return cowl_string_retain(ind->id);
+}
+
 bool cowl_anon_individual_equals(CowlAnonIndividual *lhs, CowlAnonIndividual *rhs) {
     return lhs == rhs;
 }

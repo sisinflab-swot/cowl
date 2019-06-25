@@ -3,7 +3,14 @@
 #ifndef COWL_API_H
 #define COWL_API_H
 
+#include "cowl_annot_assert_axiom.h"
 #include "cowl_annot_prop.h"
+#include "cowl_annot_prop_domain_axiom.h"
+#include "cowl_annot_prop_range_axiom.h"
+#include "cowl_annot_value.h"
+#include "cowl_annot_value_type.h"
+#include "cowl_annotation.h"
+#include "cowl_annotation_vec.h"
 #include "cowl_anon_individual.h"
 #include "cowl_axiom.h"
 #include "cowl_axiom_type.h"
@@ -40,6 +47,7 @@
 #include "cowl_facet.h"
 #include "cowl_facet_restr.h"
 #include "cowl_facet_restr_set.h"
+#include "cowl_flags.h"
 #include "cowl_func_data_prop_axiom.h"
 #include "cowl_has_key_axiom.h"
 #include "cowl_individual.h"
@@ -68,6 +76,7 @@
 #include "cowl_obj_prop.h"
 #include "cowl_obj_prop_assert_axiom.h"
 #include "cowl_obj_prop_char_axiom.h"
+#include "cowl_obj_prop_char_axiom_type.h"
 #include "cowl_obj_prop_domain_axiom.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_obj_prop_exp_set.h"
@@ -80,6 +89,7 @@
 #include "cowl_quant_type.h"
 #include "cowl_std.h"
 #include "cowl_string.h"
+#include "cowl_sub_annot_prop_axiom.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"

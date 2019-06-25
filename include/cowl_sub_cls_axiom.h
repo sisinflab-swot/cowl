@@ -9,15 +9,18 @@
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlClsExp);
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 
 cowl_struct_decl(CowlSubClsAxiom);
 
-CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super);
+CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super,
+                                        CowlAnnotationVec *annot);
 CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom);
 void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom);
 
 CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom);
 CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom);
+CowlAnnotationVec* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom);
 
 bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs);
 cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);

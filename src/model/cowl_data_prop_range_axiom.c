@@ -3,22 +3,22 @@
 #include "cowl_data_prop_range_axiom_private.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
-#include "cowl_hash_utils.h"
 
 static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp *prop,
-                                                                CowlDataRange *range) {
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM,
-                                   cowl_data_prop_exp_hash(prop),
-                                   cowl_data_range_hash(range));
+                                                                CowlDataRange *range,
+                                                                CowlAnnotationVec *annot) {
+    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM, annot,
+                                         cowl_data_prop_exp_hash(prop),
+                                         cowl_data_range_hash(range));
 
     CowlDataPropRangeAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_DATA_PROP_RANGE, hash),
+        .super = COWL_AXIOM_INIT(CAT_DATA_PROP_RANGE, hash, annot),
         .prop_exp = cowl_data_prop_exp_retain(prop),
         .range = cowl_data_range_retain(range)
     };
 
-    cowl_struct(CowlDataPropRangeAxiom) *axiom = malloc(sizeof(*axiom));
-    memcpy(axiom, &init, sizeof(*axiom));
+    cowl_struct(CowlDataPropRangeAxiom) *axiom;
+    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 
@@ -26,11 +26,12 @@ static void cowl_data_prop_range_axiom_free(CowlDataPropRangeAxiom *axiom) {
     if (!axiom) return;
     cowl_data_prop_exp_release(axiom->prop_exp);
     cowl_data_range_release(axiom->range);
-    free((void *)axiom);
+    cowl_axiom_free(axiom);
 }
 
-CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range) {
-    return cowl_data_prop_range_axiom_alloc(prop, range);
+CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range,
+                                                       CowlAnnotationVec *annot) {
+    return cowl_data_prop_range_axiom_alloc(prop, range, annot);
 }
 
 CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_retain(CowlDataPropRangeAxiom *axiom) {
@@ -51,9 +52,14 @@ CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axio
     return axiom->range;
 }
 
+CowlAnnotationVec* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) {
+    return cowl_axiom_get_annot(axiom);
+}
+
 bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataPropRangeAxiom *rhs) {
-    return cowl_data_prop_exp_equals(lhs->prop_exp, rhs->prop_exp) &&
-           cowl_data_range_equals(lhs->range, rhs->range);
+    return cowl_axiom_equals_impl(lhs, rhs,
+                                  cowl_data_prop_exp_equals(lhs->prop_exp, rhs->prop_exp) &&
+                                  cowl_data_range_equals(lhs->range, rhs->range));
 }
 
 cowl_uint_t cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom) {
@@ -64,5 +70,6 @@ bool cowl_data_prop_range_axiom_iterate_signature(CowlDataPropRangeAxiom *axiom,
                                                  void *ctx, CowlEntityIterator iter) {
     if (!cowl_data_prop_exp_iterate_signature(axiom->prop_exp, ctx, iter)) return false;
     if (!cowl_data_range_iterate_signature(axiom->range, ctx, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
     return true;
 }

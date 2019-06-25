@@ -1,23 +1,23 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_inv_obj_prop_axiom_private.h"
-#include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 
 static CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_alloc(CowlObjPropExp *first,
-                                                          CowlObjPropExp *second) {
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_INV_OBJ_PROP_AXIOM,
-                                   cowl_obj_prop_exp_hash(first),
-                                   cowl_obj_prop_exp_hash(second));
+                                                          CowlObjPropExp *second,
+                                                          CowlAnnotationVec *annot) {
+    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_INV_OBJ_PROP_AXIOM, annot,
+                                         cowl_obj_prop_exp_hash(first),
+                                         cowl_obj_prop_exp_hash(second));
 
     CowlInvObjPropAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_INVERSE_OBJ_PROP, hash),
+        .super = COWL_AXIOM_INIT(CAT_INVERSE_OBJ_PROP, hash, annot),
         .first = cowl_obj_prop_exp_retain(first),
         .second = cowl_obj_prop_exp_retain(second)
     };
 
-    cowl_struct(CowlInvObjPropAxiom) *axiom = malloc(sizeof(*axiom));
-    memcpy(axiom, &init, sizeof(*axiom));
+    cowl_struct(CowlInvObjPropAxiom) *axiom;
+    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 
@@ -25,11 +25,12 @@ static void cowl_inv_obj_prop_axiom_free(CowlInvObjPropAxiom *axiom) {
     if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->first);
     cowl_obj_prop_exp_release(axiom->second);
-    free((void *)axiom);
+    cowl_axiom_free(axiom);
 }
 
-CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_get(CowlObjPropExp *first, CowlObjPropExp *second) {
-    return cowl_inv_obj_prop_axiom_alloc(first, second);
+CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_get(CowlObjPropExp *first, CowlObjPropExp *second,
+                                                 CowlAnnotationVec *annot) {
+    return cowl_inv_obj_prop_axiom_alloc(first, second, annot);
 }
 
 CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_retain(CowlInvObjPropAxiom *axiom) {
@@ -50,9 +51,14 @@ CowlObjPropExp* cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axi
     return axiom->second;
 }
 
+CowlAnnotationVec* cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
+    return cowl_axiom_get_annot(axiom);
+}
+
 bool cowl_inv_obj_prop_axiom_equals(CowlInvObjPropAxiom *lhs, CowlInvObjPropAxiom *rhs) {
-    return cowl_obj_prop_exp_equals(lhs->first, rhs->first) &&
-           cowl_obj_prop_exp_equals(lhs->second, rhs->second);
+    return cowl_axiom_equals_impl(lhs, rhs,
+                                  cowl_obj_prop_exp_equals(lhs->first, rhs->first) &&
+                                  cowl_obj_prop_exp_equals(lhs->second, rhs->second));
 }
 
 cowl_uint_t cowl_inv_obj_prop_axiom_hash(CowlInvObjPropAxiom *axiom) {
@@ -63,5 +69,6 @@ bool cowl_inv_obj_prop_axiom_iterate_signature(CowlInvObjPropAxiom *axiom,
                                                void *ctx, CowlEntityIterator iter) {
     if (!cowl_obj_prop_exp_iterate_signature(axiom->first, ctx, iter)) return false;
     if (!cowl_obj_prop_exp_iterate_signature(axiom->second, ctx, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
     return true;
 }

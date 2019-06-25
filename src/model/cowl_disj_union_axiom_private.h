@@ -8,11 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDisjUnionAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlDisjUnionAxiom,
     CowlClass *cls;
     CowlClsExpSet *disjoints;
-};
+);
 
 COWL_END_DECLS
 

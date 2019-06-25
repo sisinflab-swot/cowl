@@ -2,30 +2,31 @@
 
 #include "cowl_func_data_prop_axiom_private.h"
 #include "cowl_data_prop_exp.h"
-#include "cowl_hash_utils.h"
 
-static CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_alloc(CowlDataPropExp *prop) {
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_FUNCTIONAL_DATA_PROP_AXIOM,
-                                   cowl_data_prop_exp_hash(prop));
+static CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_alloc(CowlDataPropExp *prop,
+                                                              CowlAnnotationVec *annot) {
+    cowl_uint_t hash = cowl_axiom_hash_1(COWL_HASH_INIT_FUNCTIONAL_DATA_PROP_AXIOM, annot,
+                                         cowl_data_prop_exp_hash(prop));
 
     CowlFuncDataPropAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_FUNCTIONAL_DATA_PROP, hash),
+        .super = COWL_AXIOM_INIT(CAT_FUNCTIONAL_DATA_PROP, hash, annot),
         .prop = cowl_data_prop_exp_retain(prop)
     };
 
-    cowl_struct(CowlFuncDataPropAxiom) *axiom = malloc(sizeof(*axiom));
-    memcpy(axiom, &init, sizeof(*axiom));
+    cowl_struct(CowlFuncDataPropAxiom) *axiom;
+    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 
 static void cowl_func_data_prop_axiom_free(CowlFuncDataPropAxiom *axiom) {
     if (!axiom) return;
     cowl_data_prop_exp_release(axiom->prop);
-    free((void *)axiom);
+    cowl_axiom_free(axiom);
 }
 
-CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop) {
-    return cowl_func_data_prop_axiom_alloc(prop);
+CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop,
+                                                     CowlAnnotationVec *annot) {
+    return cowl_func_data_prop_axiom_alloc(prop, annot);
 }
 
 CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom) {
@@ -42,8 +43,12 @@ CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom
     return axiom->prop;
 }
 
+CowlAnnotationVec* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
+    return cowl_axiom_get_annot(axiom);
+}
+
 bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPropAxiom *rhs) {
-    return cowl_data_prop_exp_equals(lhs->prop, rhs->prop);
+    return cowl_axiom_equals_impl(lhs, rhs, cowl_data_prop_exp_equals(lhs->prop, rhs->prop));
 }
 
 cowl_uint_t cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom) {
@@ -52,5 +57,7 @@ cowl_uint_t cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom) {
 
 bool cowl_func_data_prop_axiom_iterate_signature(CowlFuncDataPropAxiom *axiom,
                                                  void *ctx, CowlEntityIterator iter) {
-    return cowl_data_prop_exp_iterate_signature(axiom->prop, ctx, iter);
+    if (!cowl_data_prop_exp_iterate_signature(axiom->prop, ctx, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+    return true;
 }

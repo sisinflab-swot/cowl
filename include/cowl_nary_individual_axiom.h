@@ -11,16 +11,19 @@ COWL_BEGIN_DECLS
 
 cowl_hash_decl(CowlIndividualSet);
 cowl_struct_decl(CowlIndividual);
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 
 cowl_struct_decl(CowlNAryIndividualAxiom);
 
 CowlNAryIndividualAxiom* cowl_nary_individual_axiom_get(CowlNAryAxiomType type,
-                                                        CowlIndividualSet *operands);
+                                                        CowlIndividualSet *operands,
+                                                        CowlAnnotationVec *annot);
 CowlNAryIndividualAxiom* cowl_nary_individual_axiom_retain(CowlNAryIndividualAxiom *axiom);
 void cowl_nary_individual_axiom_release(CowlNAryIndividualAxiom *axiom);
 
 CowlNAryAxiomType cowl_nary_individual_axiom_get_type(CowlNAryIndividualAxiom *axiom);
 CowlIndividualSet* cowl_nary_individual_axiom_get_operands(CowlNAryIndividualAxiom *axiom);
+CowlAnnotationVec* cowl_nary_individual_axiom_get_annot(CowlNAryIndividualAxiom *axiom);
 
 bool cowl_nary_individual_axiom_equals(CowlNAryIndividualAxiom *lhs, CowlNAryIndividualAxiom *rhs);
 cowl_uint_t cowl_nary_individual_axiom_hash(CowlNAryIndividualAxiom *axiom);

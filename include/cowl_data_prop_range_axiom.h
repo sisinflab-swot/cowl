@@ -10,15 +10,18 @@ COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlDataRange);
 cowl_struct_decl(CowlDataPropExp);
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 
 cowl_struct_decl(CowlDataPropRangeAxiom);
 
-CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range);
+CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range,
+                                                       CowlAnnotationVec *annot);
 CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_retain(CowlDataPropRangeAxiom *axiom);
 void cowl_data_prop_range_axiom_release(CowlDataPropRangeAxiom *axiom);
 
 CowlDataPropExp* cowl_data_prop_range_axiom_get_prop(CowlDataPropRangeAxiom *axiom);
 CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axiom);
+CowlAnnotationVec* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom);
 
 bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataPropRangeAxiom *rhs);
 cowl_uint_t cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom);

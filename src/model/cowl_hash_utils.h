@@ -26,6 +26,7 @@
 
 #define COWL_HASH_INIT_FACET_RESTR 61
 #define COWL_HASH_INIT_LITERAL 67
+#define COWL_HASH_INIT_ANNOTATION 71
 
 #define COWL_HASH_INIT_OBJ_PROP 127
 #define COWL_HASH_INIT_INV_OBJ_PROP 131
@@ -59,6 +60,11 @@
 #define COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM 283
 #define COWL_HASH_INIT_HAS_KEY_AXIOM 293
 
+#define COWL_HASH_INIT_ANNOT_ASSERT_AXIOM 307
+#define COWL_HASH_INIT_SUB_ANNOT_PROP_AXIOM 311
+#define COWL_HASH_INIT_ANNOT_PROP_DOMAIN_AXIOM 313
+#define COWL_HASH_INIT_ANNOT_PROP_RANGE_AXIOM 317
+
 #define COWL_HASH_INIT_ONTO_ID 997
 
 #define cowl_hash_iter(hash_acc, hash_new) ((hash_acc) * COWL_HASH_MULT + (hash_new))
@@ -68,5 +74,7 @@
 #define cowl_hash_3(init, a, b, c) (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c))
 #define cowl_hash_4(init, a, b, c, d) \
     (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c), d))
+#define cowl_hash_5(init, a, b, c, d, e) \
+    (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c), d), e))
 
 #endif // COWL_HASH_UTILS_H

@@ -1,29 +1,29 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_decl_axiom_private.h"
-#include "cowl_hash_utils.h"
 
-static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity) {
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DECL_AXIOM, cowl_entity_hash(entity));
+static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity, CowlAnnotationVec *annot) {
+    cowl_uint_t hash = cowl_axiom_hash_1(COWL_HASH_INIT_DECL_AXIOM, annot,
+                                         cowl_entity_hash(entity));
 
     CowlDeclAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_DECLARATION, hash),
+        .super = COWL_AXIOM_INIT(CAT_DECLARATION, hash, annot),
         .entity = cowl_entity_retain(entity)
     };
 
-    cowl_struct(CowlDeclAxiom) *axiom = malloc(sizeof(*axiom));
-    memcpy(axiom, &init, sizeof(*axiom));
+    cowl_struct(CowlDeclAxiom) *axiom;
+    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 
 static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
     if (!axiom) return;
     cowl_entity_release(axiom->entity);
-    free((void *)axiom);
+    cowl_axiom_free(axiom);
 }
 
-CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity) {
-    return cowl_decl_axiom_alloc(entity);
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity, CowlAnnotationVec *annot) {
+    return cowl_decl_axiom_alloc(entity, annot);
 }
 
 CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) {
@@ -40,8 +40,12 @@ CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
     return axiom->entity;
 }
 
+CowlAnnotationVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
+    return cowl_axiom_get_annot(axiom);
+}
+
 bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {
-    return cowl_entity_equals(lhs->entity, rhs->entity);
+    return cowl_axiom_equals_impl(lhs, rhs, cowl_entity_equals(lhs->entity, rhs->entity));
 }
 
 cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
@@ -49,5 +53,7 @@ cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
 }
 
 bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, axiom->entity);
+    if (!iter(ctx, axiom->entity)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+    return true;
 }

@@ -7,13 +7,15 @@
 #ifndef COWL_LOGGER_H
 #define COWL_LOGGER_H
 
-#include "cowl_std.h"
+#include "cowl_annot_value.h"
 #include "cowl_entity.h"
 #include "cowl_error.h"
+#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataPropExp);
@@ -140,17 +142,17 @@ void cowl_logger_log_string(CowlLogger *logger, CowlString *string);
  * Logs the axioms in the specified ontology.
  *
  * @param logger Logger instance.
- * @param ontology Ontology to log.
+ * @param onto Ontology to log.
  */
-void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *ontology);
+void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the entities in the specified ontology.
  *
  * @param logger Logger instance.
- * @param ontology Ontology to log.
+ * @param onto Ontology to log.
  */
-void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *ontology);
+void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the specified ontology identifier.
@@ -164,9 +166,17 @@ void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id);
  * Logs the specified ontology.
  *
  * @param logger Logger instance.
- * @param ontology Ontology to log.
+ * @param onto Ontology to log.
  */
-void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *ontology);
+void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
+
+/**
+ * Logs the specified annotation.
+ *
+ * @param logger Logger instance.
+ * @param annotation Annotation to log.
+ */
+void cowl_logger_log_annotation(CowlLogger *logger, CowlAnnotation *annotation);
 
 /**
  * Logs the specified IRI.
@@ -183,6 +193,22 @@ void cowl_logger_log_iri(CowlLogger *logger, CowlIRI *iri);
  * @param entity Entity to log.
  */
 void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity);
+
+/**
+ * Logs the specified annotation value.
+ *
+ * @param logger Logger instance.
+ * @param value Annotation value to log.
+ */
+void cowl_logger_log_annot_value(CowlLogger *logger, CowlAnnotValue value);
+
+/**
+ * Logs the specified annotation property.
+ *
+ * @param logger Logger instance.
+ * @param prop Annotation property to log.
+ */
+void cowl_logger_log_annot_prop(CowlLogger *logger, CowlAnnotProp *prop);
 
 /**
  * Logs the specified class expression.

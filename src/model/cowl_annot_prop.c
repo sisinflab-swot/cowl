@@ -1,7 +1,6 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_annot_prop_private.h"
-#include "cowl_hash_utils.h"
 #include "cowl_iri.h"
 
 UHASH_MAP_INIT(CowlAnnotPropMap, CowlIRI*, CowlAnnotProp*, cowl_iri_hash, cowl_iri_equals)

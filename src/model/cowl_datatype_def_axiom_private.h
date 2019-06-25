@@ -8,11 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDatatypeDefAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlDatatypeDefAxiom,
     CowlDatatype *datatype;
     CowlDataRange *range;
-};
+);
 
 COWL_END_DECLS
 

@@ -32,7 +32,7 @@ CowlFacet cowl_facet_from_iri(CowlIRI *iri);
 CowlIRI* cowl_facet_get_iri(CowlFacet facet);
 
 #define cowl_facet_foreach(var_name) \
-    for (CowlFacet var_name = CF_FIRST; var_name < CF_COUNT; ++var_name)
+    for (CowlFacet var_name = CF_FIRST; (var_name) < CF_COUNT; ++(var_name))
 
 COWL_END_DECLS
 

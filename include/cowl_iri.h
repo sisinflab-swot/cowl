@@ -19,12 +19,12 @@ void cowl_iri_release(CowlIRI *iri);
 CowlString* cowl_iri_get_ns(CowlIRI *iri);
 CowlString* cowl_iri_get_rem(CowlIRI *iri);
 
+CowlString* cowl_iri_to_string(CowlIRI *iri);
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
 cowl_uint_t cowl_iri_hash(CowlIRI *iri);
 
 CowlIRI* cowl_iri_from_cstring(char const *cstring);
 CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem);
-CowlString* cowl_iri_to_string(CowlIRI *iri);
 
 COWL_END_DECLS
 

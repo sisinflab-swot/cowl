@@ -9,14 +9,17 @@
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlDataPropExp);
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 
 cowl_struct_decl(CowlFuncDataPropAxiom);
 
-CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop);
+CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop,
+                                                     CowlAnnotationVec *annot);
 CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom);
 void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom);
 
 CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom);
+CowlAnnotationVec* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom);
 
 bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPropAxiom *rhs);
 cowl_uint_t cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom);

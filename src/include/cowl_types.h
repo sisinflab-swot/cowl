@@ -4,6 +4,7 @@
 #define COWL_TYPES_H
 
 #include "cowl_std.h"
+#include "cowl_annot_value.h"
 #include "cowl_axiom_type.h"
 #include "cowl_card_type.h"
 #include "cowl_cls_exp_type.h"
@@ -18,7 +19,11 @@
 
 COWL_BEGIN_DECLS
 
+cowl_struct_decl(CowlAnnotAssertAxiom);
 cowl_struct_decl(CowlAnnotProp);
+cowl_struct_decl(CowlAnnotPropDomainAxiom);
+cowl_struct_decl(CowlAnnotPropRangeAxiom);
+cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAnonIndividual);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClass);
@@ -71,6 +76,7 @@ cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyId);
 cowl_struct_decl(CowlParser);
 cowl_struct_decl(CowlString);
+cowl_struct_decl(CowlSubAnnotPropAxiom);
 cowl_struct_decl(CowlSubClsAxiom);
 cowl_struct_decl(CowlSubDataPropAxiom);
 cowl_struct_decl(CowlSubObjPropAxiom);
@@ -90,8 +96,10 @@ cowl_hash_decl_mutable(CowlFacetRestrSet, CowlMutableFacetRestrSet);
 cowl_hash_decl_mutable(CowlIndividualSet, CowlMutableIndividualSet);
 cowl_hash_decl_mutable(CowlLiteralSet, CowlMutableLiteralSet);
 cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 cowl_vector_decl(CowlObjPropExpPtr, CowlObjPropExpVec);
 cowl_vector_decl_mutable(CowlObjPropExpPtr, CowlMutableObjPropExpVec);
+cowl_vector_decl_mutable(CowlAnnotationPtr, CowlMutableAnnotationVec);
 
 COWL_END_DECLS
 

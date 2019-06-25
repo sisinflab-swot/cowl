@@ -8,11 +8,10 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataPropDomainAxiom) {
-    CowlAxiom super;
+cowl_axiom_struct(CowlDataPropDomainAxiom,
     CowlDataPropExp *prop_exp;
     CowlClsExp *domain;
-};
+);
 
 COWL_END_DECLS
 

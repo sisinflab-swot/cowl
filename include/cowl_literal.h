@@ -21,6 +21,7 @@ CowlDatatype* cowl_literal_get_datatype(CowlLiteral *literal);
 CowlString* cowl_literal_get_value(CowlLiteral *literal);
 CowlString* cowl_literal_get_lang(CowlLiteral *literal);
 
+CowlString* cowl_literal_to_string(CowlLiteral *literal);
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs);
 cowl_uint_t cowl_literal_hash(CowlLiteral *literal);
 
