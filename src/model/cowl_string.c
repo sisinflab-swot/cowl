@@ -7,8 +7,32 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+static cowl_uint_t cowl_string_hash_func(char const *string, cowl_uint_t length) {
+    #define cowl_string_hash_range(HASH, STR, START, END) do {                                      \
+        for (uhash_uint_t i = (START); i < (END); ++i) {                                            \
+            (HASH) = ((HASH) << 5u) - (HASH) + (cowl_uint_t)(STR)[i];                               \
+        }                                                                                           \
+    } while (0)
+
+    cowl_uint_t const part_size = 32;
+    cowl_uint_t hash = (cowl_uint_t)string[0];
+
+    if (length <= 3 * part_size) {
+        cowl_string_hash_range(hash, string, 1, length);
+    } else {
+        uhash_uint_t const half_idx = length / 2;
+        uhash_uint_t const half_part_size = part_size / 2;
+        cowl_string_hash_range(hash, string, 1, part_size);
+        cowl_string_hash_range(hash, string, half_idx - half_part_size, half_idx + half_part_size);
+        cowl_string_hash_range(hash, string, length - part_size, length);
+    }
+
+    return hash;
+}
+
 static cowl_struct(CowlString)* cowl_string_alloc(char const *cstring, cowl_uint_t length) {
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length, uhash_str_hash(cstring));
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, length,
+                                   cowl_string_hash_func(cstring, length));
     CowlString init = COWL_STRING_INIT(cstring, length, hash);
     cowl_struct(CowlString) *string = malloc(sizeof(*string));
     memcpy(string, &init, sizeof(*string));
