@@ -28,12 +28,6 @@
 #define COWL_HASH_INIT_LITERAL 67
 #define COWL_HASH_INIT_ANNOTATION 71
 
-#define COWL_HASH_INIT_OBJ_PROP 127
-#define COWL_HASH_INIT_INV_OBJ_PROP 131
-
-#define COWL_HASH_INIT_NAMED_INDIVIDUAL 151
-#define COWL_HASH_INIT_ANON_INDIVIDUAL 157
-
 #define COWL_HASH_INIT_DECL_AXIOM 179
 #define COWL_HASH_INIT_SUBCLASS_AXIOM 181
 #define COWL_HASH_INIT_NARY_CLS_AXIOM 191
@@ -70,11 +64,9 @@
 #define cowl_hash_iter(hash_acc, hash_new) ((hash_acc) * COWL_HASH_MULT + (hash_new))
 
 #define cowl_hash_1(init, a) (cowl_hash_iter(init, a))
-#define cowl_hash_2(init, a, b) (cowl_hash_iter(cowl_hash_iter(init, a), b))
-#define cowl_hash_3(init, a, b, c) (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c))
-#define cowl_hash_4(init, a, b, c, d) \
-    (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c), d))
-#define cowl_hash_5(init, a, b, c, d, e) \
-    (cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(cowl_hash_iter(init, a), b), c), d), e))
+#define cowl_hash_2(init, a, b) (cowl_hash_iter(cowl_hash_1(init, a), b))
+#define cowl_hash_3(init, a, b, c) (cowl_hash_iter(cowl_hash_2(init, a, b), c))
+#define cowl_hash_4(init, a, b, c, d) (cowl_hash_iter(cowl_hash_3(init, a, b, c), d))
+#define cowl_hash_5(init, a, b, c, d, e) (cowl_hash_iter(cowl_hash_4(init, a, b, c, d), e))
 
 #endif // COWL_HASH_UTILS_H
