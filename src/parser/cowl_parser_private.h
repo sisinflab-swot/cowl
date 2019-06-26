@@ -25,15 +25,18 @@ cowl_struct(CowlParser) {
     UHash(CowlNodeIdMap) *node_id_map;
     CowlMutableOntology *ontology;
     Vector(CowlError) *errors;
+    CowlImportsLoader loader;
 };
 
-void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id);
-void cowl_parser_set_annotations(CowlParser *parser, CowlMutableAnnotationVec *annot);
-void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
-
-void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
+CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri);
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, char const *cstring, cowl_uint_t length);
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id);
+
+void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id);
+void cowl_parser_set_imports(CowlParser *parser, CowlMutableOntologyVec *imports);
+void cowl_parser_set_annotations(CowlParser *parser, CowlMutableAnnotationVec *annot);
+void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
+void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
 
 void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,
                            char const *description, cowl_uint_t line);

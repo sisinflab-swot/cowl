@@ -23,6 +23,15 @@ typedef cowl_struct(CowlError) {
 
 VECTOR_DECL(CowlError)
 
+#define cowl_error_init(CODE, CSTR, LINE) ((CowlError) {                                            \
+    .code = (CODE),                                                                                 \
+    .description = cowl_string_get((CSTR), (cowl_uint_t)strlen(CSTR), false),                       \
+    .line = (LINE)                                                                                  \
+})
+
+CowlError cowl_error_retain(CowlError error);
+void cowl_error_release(CowlError error);
+
 CowlString* cowl_error_to_string(CowlError error);
 
 COWL_END_DECLS

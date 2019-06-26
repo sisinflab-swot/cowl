@@ -24,9 +24,6 @@
     #include "cowl_functional_lexer.h"
     #include "cowl_private.h"
 
-    #define cowl_unsupported(MSG) \
-        (cowl_parser_log_error(parser, CEC_UNSUPPORTED, MSG, yylloc.last_line), NULL)
-
     static void yyerror(YYLTYPE *yylloc, cowl_unused yyscan_t yyscanner,
                         cowl_unused CowlParser *parser, const char* s) {
         fprintf(stderr, "Parse error on line %d: %s\n", yylloc->last_line, s);
@@ -80,6 +77,7 @@
 
 %type <CowlString *> prefix_name node_id
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
+%type <CowlOntology *> import
 %type <CowlOntologyId *> ontology_id
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue> annotation_subject annotation_value
@@ -145,6 +143,7 @@
 %type <CowlMutableObjPropExpSet *> object_property_expression_star
 %type <CowlMutableObjPropExpVec *> object_property_expression_ordered_2_list property_expression_chain
 %type <CowlMutableAnnotationVec *> annotation_star
+%type <CowlMutableOntologyVec *> import_star
 
 // Start symbol
 
@@ -152,6 +151,7 @@
 
 // Destructors
 
+%destructor { cowl_ontology_release($$); } <CowlOntology *>
 %destructor { cowl_axiom_release($$); } <CowlAxiom *>
 %destructor { cowl_iri_release($$); } <CowlIRI *>
 %destructor { cowl_entity_release($$); } <CowlEntity>
@@ -178,6 +178,7 @@
 %destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
 %destructor { cowl_obj_prop_exp_vec_free($$); } <CowlMutableObjPropExpVec *>
 %destructor { cowl_annotation_vec_free($$); } <CowlMutableAnnotationVec *>
+%destructor { cowl_ontology_vec_free($$); } <CowlMutableOntologyVec *>
 
 %%
 
@@ -228,8 +229,9 @@ prefix_declaration
 ;
 
 ontology
-    : ONTOLOGY L_PAREN ontology_id directly_imports_documents annotation_star axioms R_PAREN {
+    : ONTOLOGY L_PAREN ontology_id import_star annotation_star axioms R_PAREN {
         cowl_parser_set_id(parser, $3);
+        cowl_parser_set_imports(parser, $4);
         cowl_parser_set_annotations(parser, $5);
     }
 ;
@@ -257,14 +259,9 @@ version_iri
     : iri
 ;
 
-directly_imports_documents
-    : %empty
-    | directly_imports_documents import
-;
-
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_unsupported("Ontology imports are not supported.");
+        $$ = cowl_parser_load_import(parser, $3);
         cowl_iri_release($3);
     }
 ;
@@ -1192,6 +1189,21 @@ data_range_2_list
         $$ = $1;
         cowl_data_range_set_insert($$, $2);
         cowl_data_range_release($2);
+    }
+;
+
+import_star
+    : %empty {
+        $$ = NULL;
+    }
+    | import_star import {
+        $$ = $1;
+
+        if ($2) {
+            if (!$$) $$ = vector_alloc(CowlOntologyPtr);
+            cowl_ontology_vec_push($$, $2);
+            cowl_ontology_release($2);
+        }
     }
 ;
 

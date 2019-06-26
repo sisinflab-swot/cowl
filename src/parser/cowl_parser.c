@@ -2,7 +2,7 @@
 
 #include "cowl_parser.h"
 #include "cowl_annotation_vec.h"
-#include "cowl_error_private.h"
+#include "cowl_error.h"
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
 #include "cowl_iri_private.h"
@@ -10,8 +10,6 @@
 #include "cowl_ontology_private.h"
 #include "cowl_parser_private.h"
 #include "cowl_string_private.h"
-
-#include <errno.h>
 
 UHASH_MAP_IMPL(CowlPrefixNsMap, CowlString*, CowlString*, cowl_string_hash, cowl_string_equals)
 UHASH_MAP_IMPL(CowlNodeIdMap, CowlString*, cowl_uint_t, cowl_string_hash, cowl_string_equals)
@@ -40,8 +38,8 @@ void cowl_parser_free(CowlParser *parser) {
     uhash_foreach_key(CowlNodeIdMap, parser->node_id_map, id, cowl_string_release(id));
     uhash_free(CowlNodeIdMap, parser->node_id_map);
 
-    vector_foreach(CowlError, parser->errors, error, cowl_error_deinit(error));
-    vector_free(CowlError, parser->errors);
+    vector_deep_free(CowlError, parser->errors, cowl_error_release);
+    if (parser->loader.free) parser->loader.free(parser->loader.ctx);
 
     free((void *)parser);
 }
@@ -80,8 +78,16 @@ CowlError cowl_parser_get_last_error(CowlParser *parser) {
     return vector_last(parser->errors);
 }
 
+void cowl_parser_set_ontology_loader(CowlParser *parser, CowlImportsLoader loader) {
+    ((cowl_struct(CowlParser) *)parser)->loader = loader;
+}
+
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id) {
     cowl_ontology_set_id(parser->ontology, id);
+}
+
+void cowl_parser_set_imports(CowlParser *parser, CowlMutableOntologyVec *imports) {
+    cowl_ontology_set_imports(parser->ontology, imports);
 }
 
 void cowl_parser_set_annotations(CowlParser *parser, CowlMutableAnnotationVec *annot) {
@@ -97,6 +103,11 @@ void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString 
         cowl_string_retain(prefix);
         cowl_string_retain(ns);
     }
+}
+
+CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri) {
+    CowlImportsLoader loader = parser->loader;
+    return loader.load_ontology ? loader.load_ontology(loader.ctx, iri, parser->errors) : NULL;
 }
 
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser,

@@ -9,12 +9,13 @@
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlAnnotation);
+cowl_struct_decl(CowlAnonIndividual);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlObjPropExp);
-cowl_struct_decl(CowlAnonIndividual);
+cowl_struct_decl(CowlOntology);
 
 typedef bool (*CowlAxiomIterator)(void *ctx, CowlAxiom *axiom);
 typedef bool (*CowlClsExpIterator)(void *ctx, CowlClsExp *exp);
@@ -22,6 +23,7 @@ typedef bool (*CowlDataPropExpIterator)(void *ctx, CowlDataPropExp *prop);
 typedef bool (*CowlObjPropExpIterator)(void *ctx, CowlObjPropExp *prop);
 typedef bool (*CowlIndividualIterator)(void *ctx, CowlIndividual *ind);
 typedef bool (*CowlEntityIterator)(void *ctx, CowlEntity entity);
+typedef bool (*CowlOntologyIterator)(void *ctx, CowlOntology *ontology);
 
 typedef bool (*CowlAnnotPropIterator)(void *ctx, CowlAnnotProp *prop);
 typedef bool (*CowlClassIterator)(void *ctx, CowlClass *cls);

@@ -12,7 +12,7 @@ static inline double get_millis(void) {
     return (double)ts.tv_sec * 1000.0 + (double)ts.tv_nsec / 1000000.0;
 }
 
-void test_iri(void) {
+static void test_iri(void) {
     const char ns_string[] = "http://test_namespace.owl#";
     const char rem_string[] = "remainder";
 
@@ -38,7 +38,7 @@ void test_iri(void) {
     cowl_string_release(rem);
 }
 
-void test_anon_individual(void) {
+static void test_anon_individual(void) {
     CowlNodeID id = cowl_node_id_get_next();
     CowlAnonIndividual *anon_ind = cowl_anon_individual_get(id);
     assert(cowl_object_ref_get(anon_ind) == 1);
@@ -60,9 +60,21 @@ void test_anon_individual(void) {
     cowl_anon_individual_release(anon_ind);
 }
 
-void test_parser(void) {
+static CowlOntology* test_imports_loader(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
+                                         Vector(CowlError) *errors) {
+    CowlParser *parser = cowl_parser_alloc();
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, "test_import.owl");
+    vector_deep_append(CowlError, errors, parser->errors, cowl_error_retain);
+    cowl_parser_free(parser);
+    return onto;
+}
+
+static void test_parser(void) {
     CowlLogger *logger = cowl_logger_alloc_console();
     CowlParser *parser = cowl_parser_alloc();
+
+    CowlImportsLoader loader = cowl_imports_loader_init(NULL, test_imports_loader, NULL);
+    cowl_parser_set_ontology_loader(parser, loader);
 
     double start = get_millis();
     CowlOntology *ontology = cowl_parser_parse_ontology(parser, "test_ontology.owl");

@@ -50,6 +50,7 @@
 #include "cowl_flags.h"
 #include "cowl_func_data_prop_axiom.h"
 #include "cowl_has_key_axiom.h"
+#include "cowl_imports_loader.h"
 #include "cowl_individual.h"
 #include "cowl_individual_set.h"
 #include "cowl_inv_obj_prop.h"

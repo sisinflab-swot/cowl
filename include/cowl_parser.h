@@ -4,6 +4,7 @@
 #define COWL_PARSER_H
 
 #include "cowl_error.h"
+#include "cowl_imports_loader.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
@@ -20,6 +21,8 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path);
 cowl_uint_t cowl_parser_get_error_count(CowlParser *parser);
 Vector(CowlError) const* cowl_parser_get_errors(CowlParser *parser);
 CowlError cowl_parser_get_last_error(CowlParser *parser);
+
+void cowl_parser_set_ontology_loader(CowlParser *parser, CowlImportsLoader loader);
 
 COWL_END_DECLS
 
