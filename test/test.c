@@ -39,13 +39,9 @@ void test_iri(void) {
 }
 
 void test_anon_individual(void) {
-    char const id_str[] = "_:12345";
-    CowlString *id = cowl_string_get(id_str, sizeof(id_str) - 1, false);
-    assert(cowl_object_ref_get(id) == 1);
-
+    CowlNodeID id = cowl_node_id_get_next();
     CowlAnonIndividual *anon_ind = cowl_anon_individual_get(id);
     assert(cowl_object_ref_get(anon_ind) == 1);
-    assert(cowl_object_ref_get(id) == 2);
 
     CowlAnonIndividual *other_ind = cowl_anon_individual_get(id);
     assert(other_ind == anon_ind);
@@ -62,9 +58,6 @@ void test_anon_individual(void) {
     assert(cowl_object_ref_get(anon_ind) == 1);
 
     cowl_anon_individual_release(anon_ind);
-    assert(cowl_object_ref_get(id) == 1);
-
-    cowl_string_release(id);
 }
 
 void test_parser(void) {

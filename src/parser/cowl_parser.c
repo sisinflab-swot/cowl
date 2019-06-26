@@ -6,6 +6,7 @@
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
 #include "cowl_iri_private.h"
+#include "cowl_node_id.h"
 #include "cowl_ontology_private.h"
 #include "cowl_parser_private.h"
 #include "cowl_string_private.h"
@@ -13,10 +14,12 @@
 #include <errno.h>
 
 UHASH_MAP_IMPL(CowlPrefixNsMap, CowlString*, CowlString*, cowl_string_hash, cowl_string_equals)
+UHASH_MAP_IMPL(CowlNodeIdMap, CowlString*, cowl_uint_t, cowl_string_hash, cowl_string_equals)
 
 CowlParser* cowl_parser_alloc(void) {
     CowlParser init = {
         .prefix_ns_map = uhash_alloc(CowlPrefixNsMap),
+        .node_id_map = uhash_alloc(CowlNodeIdMap),
         .ontology = cowl_ontology_get(),
         .errors = vector_alloc(CowlError)
     };
@@ -33,6 +36,9 @@ void cowl_parser_free(CowlParser *parser) {
         cowl_string_release(ns);
     });
     uhash_free(CowlPrefixNsMap, parser->prefix_ns_map);
+
+    uhash_foreach_key(CowlNodeIdMap, parser->node_id_map, id, cowl_string_release(id));
+    uhash_free(CowlNodeIdMap, parser->node_id_map);
 
     vector_foreach(CowlError, parser->errors, error, cowl_error_deinit(error));
     vector_free(CowlError, parser->errors);
@@ -105,6 +111,22 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser,
     cowl_string_release(parts[1]);
 
     return iri;
+}
+
+CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id) {
+    uhash_ret_t ret;
+    uhash_uint_t idx = uhash_put(CowlNodeIdMap, parser->node_id_map, id, &ret);
+    CowlNodeID node_id;
+
+    if (ret == UHASH_INSERTED) {
+        node_id = cowl_node_id_get_next();
+        cowl_string_retain(id);
+        uhash_value(parser->node_id_map, idx) = node_id;
+    } else {
+        node_id = uhash_value(parser->node_id_map, idx);
+    }
+
+    return node_id;
 }
 
 void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,

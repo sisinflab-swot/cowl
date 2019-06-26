@@ -338,7 +338,8 @@ named_individual
 
 anonymous_individual
     : node_id {
-        $$ = (CowlIndividual *)cowl_anon_individual_get($1);
+        CowlNodeID id = cowl_parser_get_node_id(parser, $1);
+        $$ = (CowlIndividual *)cowl_anon_individual_get(id);
         cowl_string_release($1);
     }
 ;

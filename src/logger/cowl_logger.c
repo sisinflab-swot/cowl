@@ -504,9 +504,11 @@ static void cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntology *on
 }
 
 static void cowl_logger_log_anon_individual(CowlLogger *logger, CowlAnonIndividual *ind) {
+    CowlString *string = cowl_anon_individual_to_string(ind);
     cowl_logger_logf(logger, "AnonymousIndividual(");
-    cowl_logger_log_string(logger, ind->id);
+    cowl_logger_log_string(logger, string);
     cowl_logger_logf(logger, ")");
+    cowl_string_release(string);
 }
 
 static void cowl_logger_log_cls_exp_set(CowlLogger *logger, CowlClsExpSet *set) {
