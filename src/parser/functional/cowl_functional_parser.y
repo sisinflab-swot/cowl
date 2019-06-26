@@ -132,18 +132,18 @@
 %type <CowlAxiom *> datatype_definition has_key
 %type <CowlAxiom *> sub_annotation_property_of annotation_property_domain annotation_property_range
 
-%type <CowlMutableClsExpSet *> class_expression_list class_expression_2_list
-%type <CowlMutableDataPropExpSet *> data_property_expression_list data_property_expression_2_list
-%type <CowlMutableDataPropExpSet *> data_property_expression_star
-%type <CowlMutableDataRangeSet *> data_range_list data_range_2_list
-%type <CowlMutableFacetRestrSet *> facet_restriction_list
-%type <CowlMutableIndividualSet *> individual_list individual_2_list
-%type <CowlMutableLiteralSet *> literal_list
-%type <CowlMutableObjPropExpSet *> object_property_expression_list object_property_expression_2_list
-%type <CowlMutableObjPropExpSet *> object_property_expression_star
-%type <CowlMutableObjPropExpVec *> object_property_expression_ordered_2_list property_expression_chain
-%type <CowlMutableAnnotationVec *> annotation_star
-%type <CowlMutableOntologyVec *> import_star
+%type <UHash(CowlClsExpSet)*> class_expression_list class_expression_2_list
+%type <UHash(CowlDataPropExpSet)*> data_property_expression_list data_property_expression_2_list
+%type <UHash(CowlDataPropExpSet)*> data_property_expression_star
+%type <UHash(CowlDataRangeSet)*> data_range_list data_range_2_list
+%type <UHash(CowlFacetRestrSet)*> facet_restriction_list
+%type <UHash(CowlIndividualSet)*> individual_list individual_2_list
+%type <UHash(CowlLiteralSet)*> literal_list
+%type <UHash(CowlObjPropExpSet)*> object_property_expression_list object_property_expression_2_list
+%type <UHash(CowlObjPropExpSet)*> object_property_expression_star
+%type <Vector(CowlObjPropExpPtr)*> object_property_expression_ordered_2_list property_expression_chain
+%type <Vector(CowlAnnotationPtr)*> annotation_star
+%type <Vector(CowlOntologyPtr)*> import_star
 
 // Start symbol
 
@@ -169,16 +169,16 @@
 %destructor { cowl_facet_restr_release($$); } <CowlFacetRestr *>
 %destructor { cowl_literal_release($$); } <CowlLiteral *>
 %destructor { cowl_string_release($$); } <CowlString *>
-%destructor { cowl_cls_exp_set_free($$); } <CowlMutableClsExpSet *>
-%destructor { cowl_data_prop_exp_set_free($$); } <CowlMutableDataPropExpSet *>
-%destructor { cowl_data_range_set_free($$); } <CowlMutableDataRangeSet *>
-%destructor { cowl_facet_restr_set_free($$); } <CowlMutableFacetRestrSet *>
-%destructor { cowl_individual_set_free($$); } <CowlMutableIndividualSet *>
-%destructor { cowl_literal_set_free($$); } <CowlMutableLiteralSet *>
-%destructor { cowl_obj_prop_exp_set_free($$); } <CowlMutableObjPropExpSet *>
-%destructor { cowl_obj_prop_exp_vec_free($$); } <CowlMutableObjPropExpVec *>
-%destructor { cowl_annotation_vec_free($$); } <CowlMutableAnnotationVec *>
-%destructor { cowl_ontology_vec_free($$); } <CowlMutableOntologyVec *>
+%destructor { cowl_cls_exp_set_free($$); } <UHash(CowlClsExpSet)*>
+%destructor { cowl_data_prop_exp_set_free($$); } <UHash(CowlDataPropExpSet)*>
+%destructor { cowl_data_range_set_free($$); } <UHash(CowlDataRangeSet)*>
+%destructor { cowl_facet_restr_set_free($$); } <UHash(CowlFacetRestrSet)*>
+%destructor { cowl_individual_set_free($$); } <UHash(CowlIndividualSet)*>
+%destructor { cowl_literal_set_free($$); } <UHash(CowlLiteralSet)*>
+%destructor { cowl_obj_prop_exp_set_free($$); } <UHash(CowlObjPropExpSet)*>
+%destructor { cowl_obj_prop_exp_vec_free($$); } <Vector(CowlObjPropExpPtr)*>
+%destructor { cowl_annotation_vec_free($$); } <Vector(CowlAnnotationPtr)*>
+%destructor { cowl_ontology_vec_free($$); } <Vector(CowlOntologyPtr)*>
 
 %%
 
@@ -474,13 +474,11 @@ datatype_restriction
 facet_restriction_list
     : facet_restriction {
         $$ = uhash_alloc(CowlFacetRestrSet);
-        cowl_facet_restr_set_insert($$, $1);
-        cowl_facet_restr_release($1);
+        uhset_insert(CowlFacetRestrSet, $$, $1);
     }
     | facet_restriction_list facet_restriction {
         $$ = $1;
-        cowl_facet_restr_set_insert($$, $2);
-        cowl_facet_restr_release($2);
+        uhset_insert(CowlFacetRestrSet, $$, $2);
     }
 ;
 
@@ -1113,50 +1111,43 @@ annotation_star
     | annotation_star annotation {
         if (!$1) $1 = vector_alloc(CowlAnnotationPtr);
         $$ = $1;
-        cowl_annotation_vec_push($$, $2);
-        cowl_annotation_release($2);
+        vector_push(CowlAnnotationPtr, $$, $2);
     }
 ;
 
 class_expression_list
     : class_expression {
         $$ = uhash_alloc(CowlClsExpSet);
-        cowl_cls_exp_set_insert($$, $1);
-        cowl_cls_exp_release($1);
+        uhset_insert(CowlClsExpSet, $$, $1);
     }
     | class_expression_list class_expression {
         $$ = $1;
-        cowl_cls_exp_set_insert($$, $2);
-        cowl_cls_exp_release($2);
+        uhset_insert(CowlClsExpSet, $$, $2);
     }
 ;
 
 class_expression_2_list
     : class_expression_list class_expression {
         $$ = $1;
-        cowl_cls_exp_set_insert($$, $2);
-        cowl_cls_exp_release($2);
+        uhset_insert(CowlClsExpSet, $$, $2);
     }
 ;
 
 data_property_expression_list
     : data_property_expression {
         $$ = uhash_alloc(CowlDataPropExpSet);
-        cowl_data_prop_exp_set_insert($$, $1);
-        cowl_data_prop_exp_release($1);
+        uhset_insert(CowlDataPropExpSet, $$, $1);
     }
     | data_property_expression_list data_property_expression {
         $$ = $1;
-        cowl_data_prop_exp_set_insert($$, $2);
-        cowl_data_prop_exp_release($2);
+        uhset_insert(CowlDataPropExpSet, $$, $2);
     }
 ;
 
 data_property_expression_2_list
     : data_property_expression_list data_property_expression {
         $$ = $1;
-        cowl_data_prop_exp_set_insert($$, $2);
-        cowl_data_prop_exp_release($2);
+        uhset_insert(CowlDataPropExpSet, $$, $2);
     }
 ;
 
@@ -1166,29 +1157,25 @@ data_property_expression_star
     }
     | data_property_expression_star data_property_expression {
         $$ = $1;
-        cowl_data_prop_exp_set_insert($$, $2);
-        cowl_data_prop_exp_release($2);
+        uhset_insert(CowlDataPropExpSet, $$, $2);
     }
 ;
 
 data_range_list
     : data_range {
         $$ = uhash_alloc(CowlDataRangeSet);
-        cowl_data_range_set_insert($$, $1);
-        cowl_data_range_release($1);
+        uhset_insert(CowlDataRangeSet, $$, $1);
     }
     | data_range_list data_range {
         $$ = $1;
-        cowl_data_range_set_insert($$, $2);
-        cowl_data_range_release($2);
+        uhset_insert(CowlDataRangeSet, $$, $2);
     }
 ;
 
 data_range_2_list
     : data_range_list data_range {
         $$ = $1;
-        cowl_data_range_set_insert($$, $2);
-        cowl_data_range_release($2);
+        uhset_insert(CowlDataRangeSet, $$, $2);
     }
 ;
 
@@ -1201,8 +1188,7 @@ import_star
 
         if ($2) {
             if (!$$) $$ = vector_alloc(CowlOntologyPtr);
-            cowl_ontology_vec_push($$, $2);
-            cowl_ontology_release($2);
+            vector_push(CowlOntologyPtr, $$, $2);
         }
     }
 ;
@@ -1210,70 +1196,59 @@ import_star
 individual_list
     : individual {
         $$ = uhash_alloc(CowlIndividualSet);
-        cowl_individual_set_insert($$, $1);
-        cowl_individual_release($1);
+        uhset_insert(CowlIndividualSet, $$, $1);
     }
     | individual_list individual {
         $$ = $1;
-        cowl_individual_set_insert($$, $2);
-        cowl_individual_release($2);
+        uhset_insert(CowlIndividualSet, $$, $2);
     }
 ;
 
 individual_2_list
     : individual_list individual {
         $$ = $1;
-        cowl_individual_set_insert($$, $2);
-        cowl_individual_release($2);
+        uhset_insert(CowlIndividualSet, $$, $2);
     }
 ;
 
 literal_list
     : literal {
         $$ = uhash_alloc(CowlLiteralSet);
-        cowl_literal_set_insert($$, $1);
-        cowl_literal_release($1);
+        uhset_insert(CowlLiteralSet, $$, $1);
     }
     | literal_list literal {
         $$ = $1;
-        cowl_literal_set_insert($$, $2);
-        cowl_literal_release($2);
+        uhset_insert(CowlLiteralSet, $$, $2);
     }
 ;
 
 object_property_expression_list
     : object_property_expression {
         $$ = uhash_alloc(CowlObjPropExpSet);
-        cowl_obj_prop_exp_set_insert($$, $1);
-        cowl_obj_prop_exp_release($1);
+        uhset_insert(CowlObjPropExpSet, $$, $1);
     }
     | object_property_expression_list object_property_expression {
         $$ = $1;
-        cowl_obj_prop_exp_set_insert($$, $2);
-        cowl_obj_prop_exp_release($2);
+        uhset_insert(CowlObjPropExpSet, $$, $2);
     }
 ;
 
 object_property_expression_2_list
     : object_property_expression_list object_property_expression {
         $$ = $1;
-        cowl_obj_prop_exp_set_insert($$, $2);
-        cowl_obj_prop_exp_release($2);
+        uhset_insert(CowlObjPropExpSet, $$, $2);
     }
 ;
 
 object_property_expression_ordered_2_list
     : object_property_expression object_property_expression {
         $$ = vector_alloc(CowlObjPropExpPtr);
-        cowl_obj_prop_exp_vec_push($$, $1);
-        cowl_obj_prop_exp_vec_push($$, $2);
-        cowl_obj_prop_exp_release($1);
-        cowl_obj_prop_exp_release($2);
+        vector_push(CowlObjPropExpPtr, $$, $1);
+        vector_push(CowlObjPropExpPtr, $$, $2);
     }
     | object_property_expression_ordered_2_list object_property_expression {
         $$ = $1;
-        cowl_obj_prop_exp_vec_push($$, $2);
-        cowl_obj_prop_exp_release($2);
+        vector_push(CowlObjPropExpPtr, $$, $2);
     }
 ;
 
@@ -1283,8 +1258,7 @@ object_property_expression_star
     }
     | object_property_expression_star object_property_expression {
         $$ = $1;
-        cowl_obj_prop_exp_set_insert($$, $2);
-        cowl_obj_prop_exp_release($2);
+        uhset_insert(CowlObjPropExpSet, $$, $2);
     }
 ;
 

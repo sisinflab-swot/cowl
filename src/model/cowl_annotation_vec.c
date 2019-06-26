@@ -1,6 +1,6 @@
 /// @author Ivano Bilenchi
 
-#include "cowl_annotation_vec_private.h"
+#include "cowl_annotation_vec.h"
 #include "cowl_annotation.h"
 #include "cowl_hash_utils.h"
 
@@ -8,10 +8,6 @@ VECTOR_IMPL_EQUATABLE(CowlAnnotationPtr, cowl_annotation_equals)
 
 void cowl_annotation_vec_free(CowlAnnotationVec *vec) {
     vector_deep_free(CowlAnnotationPtr, (Vector(CowlAnnotationPtr)*)vec, cowl_annotation_release);
-}
-
-void cowl_annotation_vec_push(CowlMutableAnnotationVec *vec, CowlAnnotation *annot) {
-    vector_push(CowlAnnotationPtr, vec, cowl_annotation_retain(annot));
 }
 
 bool cowl_annotation_vec_equals(CowlAnnotationVec *lhs, CowlAnnotationVec *rhs) {

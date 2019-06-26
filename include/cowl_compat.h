@@ -24,14 +24,14 @@
 #endif
 
 #define cowl_struct(NAME) struct NAME##_s
-
 #define cowl_struct_decl(NAME) typedef cowl_struct(NAME) const NAME
-#define cowl_struct_decl_mutable(NAME, MUTABLE_NAME) typedef cowl_struct(NAME) MUTABLE_NAME
 
-#define cowl_hash_decl(NAME) typedef struct UHash(NAME) const NAME
-#define cowl_hash_decl_mutable(NAME, MUTABLE_NAME) typedef struct UHash(NAME) MUTABLE_NAME
+#define cowl_hash_decl(NAME)                                                                        \
+    typedef struct UHash(NAME) UHash(NAME);                                                         \
+    typedef struct UHash(NAME) const NAME
 
-#define cowl_vector_decl(NAME, CONST_NAME) typedef vector_struct(NAME) const CONST_NAME
-#define cowl_vector_decl_mutable(NAME, MUTABLE_NAME) typedef vector_struct(NAME) MUTABLE_NAME
+#define cowl_vector_decl(NAME, VEC_NAME)                                                            \
+    typedef vector_struct(NAME) Vector(NAME);                                                       \
+    typedef vector_struct(NAME) const VEC_NAME
 
 #endif // COWL_COMPAT_H

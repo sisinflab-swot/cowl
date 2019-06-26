@@ -89,19 +89,9 @@ cowl_hash_decl(CowlFacetRestrSet);
 cowl_hash_decl(CowlIndividualSet);
 cowl_hash_decl(CowlLiteralSet);
 cowl_hash_decl(CowlObjPropExpSet);
-cowl_hash_decl_mutable(CowlClsExpSet, CowlMutableClsExpSet);
-cowl_hash_decl_mutable(CowlDataPropExpSet, CowlMutableDataPropExpSet);
-cowl_hash_decl_mutable(CowlDataRangeSet, CowlMutableDataRangeSet);
-cowl_hash_decl_mutable(CowlFacetRestrSet, CowlMutableFacetRestrSet);
-cowl_hash_decl_mutable(CowlIndividualSet, CowlMutableIndividualSet);
-cowl_hash_decl_mutable(CowlLiteralSet, CowlMutableLiteralSet);
-cowl_hash_decl_mutable(CowlObjPropExpSet, CowlMutableObjPropExpSet);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 cowl_vector_decl(CowlObjPropExpPtr, CowlObjPropExpVec);
 cowl_vector_decl(CowlOntologyPtr, CowlOntologyVec);
-cowl_vector_decl_mutable(CowlAnnotationPtr, CowlMutableAnnotationVec);
-cowl_vector_decl_mutable(CowlObjPropExpPtr, CowlMutableObjPropExpVec);
-cowl_vector_decl_mutable(CowlOntologyPtr, CowlMutableOntologyVec);
 
 COWL_END_DECLS
 

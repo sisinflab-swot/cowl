@@ -30,7 +30,7 @@ typedef cowl_struct(CowlAxiomEntityCtx) {
     CowlAxiom *axiom;
 } CowlAxiomEntityCtx;
 
-static CowlMutableOntology* cowl_ontology_alloc(void);
+static cowl_struct(CowlOntology)* cowl_ontology_alloc(void);
 static void cowl_ontology_free(CowlOntology *onto);
 
 static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity);
@@ -497,13 +497,13 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
     return true;
 }
 
-CowlMutableOntology* cowl_ontology_get(void) {
+cowl_struct(CowlOntology)* cowl_ontology_get(void) {
     return cowl_ontology_alloc();
 }
 
-CowlMutableOntology* cowl_ontology_alloc(void) {
+cowl_struct(CowlOntology)* cowl_ontology_alloc(void) {
     CowlOntology init = COWL_ONTOLOGY_INIT;
-    CowlMutableOntology *onto = malloc(sizeof(*onto));
+    cowl_struct(CowlOntology) *onto = malloc(sizeof(*onto));
     memcpy(onto, &init, sizeof(*onto));
     return onto;
 }
@@ -545,19 +545,20 @@ void cowl_ontology_free(CowlOntology *onto) {
     free((void *)onto);
 }
 
-void cowl_ontology_set_id(CowlMutableOntology *onto, CowlOntologyId *id) {
+void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyId *id) {
     onto->id = id;
 }
 
-void cowl_ontology_set_annotations(CowlMutableOntology *onto, Vector(CowlAnnotationPtr) *annot) {
+void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto,
+                             Vector(CowlAnnotationPtr) *annot) {
     onto->annotations = annot;
 }
 
-void cowl_ontology_set_imports(CowlMutableOntology *onto, Vector(CowlOntologyPtr) *imports) {
+void cowl_ontology_set_imports(cowl_struct(CowlOntology) *onto, Vector(CowlOntologyPtr) *imports) {
     onto->imports = imports;
 }
 
-void cowl_ontology_add_axiom(CowlMutableOntology *onto, CowlAxiom *axiom) {
+void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom) {
 
     cowl_axiom_retain(axiom);
     CowlAxiomType type = cowl_axiom_flags_get_type(axiom->flags);

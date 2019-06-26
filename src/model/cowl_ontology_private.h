@@ -36,8 +36,6 @@ cowl_struct(CowlOntology) {
     UHash(CowlAnonIndAxiomMap) *anon_ind_refs;
 };
 
-cowl_struct_decl_mutable(CowlOntology, CowlMutableOntology);
-
 #define COWL_ONTOLOGY_INIT {                                                                        \
     .super = COWL_OBJECT_INIT,                                                                      \
     .id = NULL,                                                                                     \
@@ -52,12 +50,12 @@ cowl_struct_decl_mutable(CowlOntology, CowlMutableOntology);
     .anon_ind_refs = uhash_alloc(CowlAnonIndAxiomMap),                                              \
 }
 
-CowlMutableOntology* cowl_ontology_get(void);
+cowl_struct(CowlOntology)* cowl_ontology_get(void);
 
-void cowl_ontology_set_id(CowlMutableOntology *onto, CowlOntologyId *id);
-void cowl_ontology_set_imports(CowlMutableOntology *onto, Vector(CowlOntologyPtr) *imports);
-void cowl_ontology_set_annotations(CowlMutableOntology *onto, Vector(CowlAnnotationPtr) *annot);
-void cowl_ontology_add_axiom(CowlMutableOntology *onto, CowlAxiom *axiom);
+void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyId *id);
+void cowl_ontology_set_imports(cowl_struct(CowlOntology) *onto, Vector(CowlOntologyPtr) *imports);
+void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto, Vector(CowlAnnotationPtr) *annot);
+void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom);
 
 COWL_END_DECLS
 

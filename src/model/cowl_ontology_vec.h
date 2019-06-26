@@ -12,10 +12,8 @@ typedef CowlOntology* CowlOntologyPtr;
 
 VECTOR_DECL_EQUATABLE(CowlOntologyPtr)
 cowl_vector_decl(CowlOntologyPtr, CowlOntologyVec);
-cowl_vector_decl_mutable(CowlOntologyPtr, CowlMutableOntologyVec);
 
-void cowl_ontology_vec_push(CowlMutableOntologyVec *vec, CowlOntology *onto);
-void cowl_ontology_vec_free(CowlMutableOntologyVec *vec);
+void cowl_ontology_vec_free(Vector(CowlOntologyPtr) *vec);
 
 COWL_END_DECLS
 

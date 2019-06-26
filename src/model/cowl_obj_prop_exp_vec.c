@@ -1,6 +1,6 @@
 /// @author Ivano Bilenchi
 
-#include "cowl_obj_prop_exp_vec_private.h"
+#include "cowl_obj_prop_exp_vec.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 
@@ -8,10 +8,6 @@ VECTOR_IMPL_EQUATABLE(CowlObjPropExpPtr, cowl_obj_prop_exp_equals)
 
 void cowl_obj_prop_exp_vec_free(CowlObjPropExpVec *vec) {
     vector_deep_free(CowlObjPropExpPtr, (Vector(CowlObjPropExpPtr)*)vec, cowl_obj_prop_exp_release);
-}
-
-void cowl_obj_prop_exp_vec_push(CowlMutableObjPropExpVec *vec, CowlObjPropExp *exp) {
-    vector_push(CowlObjPropExpPtr, vec, cowl_obj_prop_exp_retain(exp));
 }
 
 bool cowl_obj_prop_exp_vec_equals(CowlObjPropExpVec *lhs, CowlObjPropExpVec *rhs) {

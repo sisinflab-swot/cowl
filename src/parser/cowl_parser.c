@@ -86,12 +86,12 @@ void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id) {
     cowl_ontology_set_id(parser->ontology, id);
 }
 
-void cowl_parser_set_imports(CowlParser *parser, CowlMutableOntologyVec *imports) {
+void cowl_parser_set_imports(CowlParser *parser, Vector(CowlOntologyPtr) *imports) {
     cowl_ontology_set_imports(parser->ontology, imports);
 }
 
-void cowl_parser_set_annotations(CowlParser *parser, CowlMutableAnnotationVec *annot) {
-    cowl_ontology_set_annotations(parser->ontology, annot);
+void cowl_parser_set_annotations(CowlParser *parser, Vector(CowlAnnotationPtr) *annot) {
+    cowl_ontology_set_annot(parser->ontology, annot);
 }
 
 void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom) {
