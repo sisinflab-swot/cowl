@@ -19,7 +19,7 @@ CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *e
 CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom);
 void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom);
 
-CowlIndividual* cowl_cls_assert_axiom_get_individual(CowlClsAssertAxiom *axiom);
+CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom);
 CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom);
 CowlAnnotationVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom);
 

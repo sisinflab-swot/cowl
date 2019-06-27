@@ -10,7 +10,7 @@ COWL_BEGIN_DECLS
 
 cowl_struct(CowlObjOneOf) {
     CowlClsExp super;
-    CowlIndividualSet *individuals;
+    CowlIndividualSet *inds;
 };
 
 COWL_END_DECLS

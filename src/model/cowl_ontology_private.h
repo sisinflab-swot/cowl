@@ -18,8 +18,8 @@ UHASH_MAP_DECL(CowlClassAxiomMap, CowlClass*, UHash(CowlAxiomSet)*)
 UHASH_MAP_DECL(CowlDataPropAxiomMap, CowlDataProp*, UHash(CowlAxiomSet)*)
 UHASH_MAP_DECL(CowlDatatypeAxiomMap, CowlDatatype*, UHash(CowlAxiomSet)*)
 UHASH_MAP_DECL(CowlObjPropAxiomMap, CowlObjProp*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlNamedIndAxiomMap, CowlNamedIndividual*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonIndividual*, UHash(CowlAxiomSet)*)
+UHASH_MAP_DECL(CowlNamedIndAxiomMap, CowlNamedInd*, UHash(CowlAxiomSet)*)
+UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, UHash(CowlAxiomSet)*)
 
 cowl_struct(CowlOntology) {
     CowlObject super;

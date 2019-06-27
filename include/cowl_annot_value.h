@@ -8,7 +8,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct_decl(CowlAnonIndividual);
+cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlString);
@@ -18,7 +18,7 @@ typedef cowl_struct(CowlAnnotValue) {
 
     union {
         CowlIRI *iri;
-        CowlAnonIndividual *anon_ind;
+        CowlAnonInd *anon_ind;
         CowlLiteral *literal;
     };
 } CowlAnnotValue;
@@ -27,7 +27,7 @@ typedef cowl_struct(CowlAnnotValue) {
     ((CowlAnnotValue const){ .type = CAVT_IRI, .iri = (IRI)})
 
 #define cowl_annot_value_wrap_anon_ind(IND) \
-    ((CowlAnnotValue const){ .type = CAVT_ANON_IND, .anon_ind = (CowlAnonIndividual *)(IND) })
+    ((CowlAnnotValue const){ .type = CAVT_ANON_IND, .anon_ind = (CowlAnonInd *)(IND) })
 
 #define cowl_annot_value_wrap_literal(LITERAL) \
     ((CowlAnnotValue const){ .type = CAVT_LITERAL, .literal = (LITERAL) })
@@ -36,7 +36,7 @@ typedef cowl_struct(CowlAnnotValue) {
     cowl_annot_value_wrap_iri(cowl_iri_retain(IRI))
 
 #define cowl_annot_value_init_anon_ind(IND) \
-    cowl_annot_value_wrap_anon_ind(cowl_anon_individual_retain(IND))
+    cowl_annot_value_wrap_anon_ind(cowl_anon_ind_retain(IND))
 
 #define cowl_annot_value_init_literal(LITERAL) \
     cowl_annot_value_wrap_literal(cowl_literal_retain(LITERAL))

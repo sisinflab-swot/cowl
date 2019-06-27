@@ -10,14 +10,14 @@
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlAnnotation);
-cowl_struct_decl(CowlAnonIndividual);
+cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlIndividual);
-cowl_struct_decl(CowlNamedIndividual);
+cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlOntologyId);
 
@@ -39,8 +39,7 @@ cowl_uint_t cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *o
 cowl_uint_t cowl_ontology_axiom_count_for_data_prop(CowlOntology *onto, CowlDataProp *prop);
 cowl_uint_t cowl_ontology_axiom_count_for_datatype(CowlOntology *onto, CowlDatatype *datatype);
 cowl_uint_t cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *prop);
-cowl_uint_t cowl_ontology_axiom_count_for_named_individual(CowlOntology *onto,
-                                                           CowlNamedIndividual *ind);
+cowl_uint_t cowl_ontology_axiom_count_for_named_ind(CowlOntology *onto, CowlNamedInd *ind);
 
 bool cowl_ontology_iterate_signature(CowlOntology *onto, void *ctx, CowlEntityIterator iter);
 
@@ -48,19 +47,17 @@ bool cowl_ontology_iterate_imports(CowlOntology *onto, void *ctx, CowlOntologyIt
 
 bool cowl_ontology_iterate_classes(CowlOntology *onto, void *ctx, CowlClassIterator iter);
 
-bool cowl_ontology_iterate_data_prop(CowlOntology *onto, void *ctx, CowlDataPropIterator iter);
+bool cowl_ontology_iterate_data_props(CowlOntology *onto, void *ctx, CowlDataPropIterator iter);
 
 bool cowl_ontology_iterate_datatypes(CowlOntology *onto, void *ctx, CowlDatatypeIterator iter);
 
-bool cowl_ontology_iterate_obj_prop(CowlOntology *onto, void *ctx, CowlObjPropIterator iter);
+bool cowl_ontology_iterate_obj_props(CowlOntology *onto, void *ctx, CowlObjPropIterator iter);
 
-bool cowl_ontology_iterate_annot_prop(CowlOntology *onto, void *ctx, CowlAnnotPropIterator iter);
+bool cowl_ontology_iterate_annot_props(CowlOntology *onto, void *ctx, CowlAnnotPropIterator iter);
 
-bool cowl_ontology_iterate_named_individuals(CowlOntology *onto, void *ctx,
-                                             CowlNamedIndividualIterator iter);
+bool cowl_ontology_iterate_named_inds(CowlOntology *onto, void *ctx, CowlNamedIndIterator iter);
 
-bool cowl_ontology_iterate_anon_individuals(CowlOntology *onto, void *ctx,
-                                            CowlAnonIndividualIterator iter);
+bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, void *ctx, CowlAnonIndIterator iter);
 
 bool cowl_ontology_iterate_axioms(CowlOntology *onto, void *ctx, CowlAxiomIterator iter);
 
@@ -82,10 +79,10 @@ bool cowl_ontology_iterate_axioms_for_datatype(CowlOntology *onto, CowlDatatype 
 bool cowl_ontology_iterate_axioms_for_obj_prop(CowlOntology *onto, CowlObjProp *prop,
                                                void *ctx, CowlAxiomIterator iter);
 
-bool cowl_ontology_iterate_axioms_for_named_individual(CowlOntology *onto, CowlNamedIndividual *ind,
+bool cowl_ontology_iterate_axioms_for_named_ind(CowlOntology *onto, CowlNamedInd *ind,
                                                        void *ctx, CowlAxiomIterator iter);
 
-bool cowl_ontology_iterate_axioms_for_anon_individual(CowlOntology *onto, CowlAnonIndividual *ind,
+bool cowl_ontology_iterate_axioms_for_anon_ind(CowlOntology *onto, CowlAnonInd *ind,
                                                       void *ctx, CowlAxiomIterator iter);
 
 bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,

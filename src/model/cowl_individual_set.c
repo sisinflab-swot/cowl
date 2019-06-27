@@ -21,8 +21,8 @@ cowl_uint_t cowl_individual_set_hash(CowlIndividualSet *set) {
 
 bool cowl_individual_set_iterate_signature(CowlIndividualSet *set, void *ctx,
                                            CowlEntityIterator iter) {
-    uhash_foreach_key(CowlIndividualSet, set, individual, {
-        if (!cowl_individual_iterate_signature(individual, ctx, iter)) return false;
+    uhash_foreach_key(CowlIndividualSet, set, ind, {
+        if (!cowl_individual_iterate_signature(ind, ctx, iter)) return false;
     });
     return true;
 }

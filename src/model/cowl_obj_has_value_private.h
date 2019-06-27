@@ -11,7 +11,7 @@ COWL_BEGIN_DECLS
 cowl_struct(CowlObjHasValue) {
     CowlClsExp super;
     CowlObjPropExp *prop;
-    CowlIndividual *individual;
+    CowlIndividual *ind;
 };
 
 COWL_END_DECLS

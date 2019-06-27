@@ -12,7 +12,7 @@ static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, Cowl
 
     CowlClsAssertAxiom init = {
         .super = COWL_AXIOM_INIT(CAT_CLASS_ASSERTION, hash, annot),
-        .individual = cowl_individual_retain(ind),
+        .ind = cowl_individual_retain(ind),
         .cls_exp = cowl_cls_exp_retain(exp)
     };
 
@@ -23,7 +23,7 @@ static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, Cowl
 
 static void cowl_cls_assert_axiom_free(CowlClsAssertAxiom *axiom) {
     if (!axiom) return;
-    cowl_individual_release(axiom->individual);
+    cowl_individual_release(axiom->ind);
     cowl_cls_exp_release(axiom->cls_exp);
     cowl_axiom_free(axiom);
 }
@@ -43,8 +43,8 @@ void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom) {
     }
 }
 
-CowlIndividual* cowl_cls_assert_axiom_get_individual(CowlClsAssertAxiom *axiom) {
-    return axiom->individual;
+CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
+    return axiom->ind;
 }
 
 CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
@@ -57,7 +57,7 @@ CowlAnnotationVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
 
 bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
-                                  cowl_individual_equals(lhs->individual, rhs->individual) &&
+                                  cowl_individual_equals(lhs->ind, rhs->ind) &&
                                   cowl_cls_exp_equals(lhs->cls_exp, rhs->cls_exp));
 }
 
@@ -67,7 +67,7 @@ cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
 
 bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom *axiom, void *ctx,
                                              CowlEntityIterator iter) {
-    if (!cowl_individual_iterate_signature(axiom->individual, ctx, iter)) return false;
+    if (!cowl_individual_iterate_signature(axiom->ind, ctx, iter)) return false;
     if (!cowl_cls_exp_iterate_signature(axiom->cls_exp, ctx, iter)) return false;
     if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
     return true;

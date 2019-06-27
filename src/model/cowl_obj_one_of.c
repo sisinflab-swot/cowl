@@ -5,13 +5,13 @@
 #include "cowl_individual.h"
 #include "cowl_individual_set.h"
 
-static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *individuals) {
+static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *inds) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF,
-                                   uhset_hash(CowlIndividualSet, individuals));
+                                   uhset_hash(CowlIndividualSet, inds));
 
     CowlObjOneOf init = {
         .super = COWL_CLS_EXP_INIT(CCET_OBJ_ONE_OF, hash),
-        .individuals = individuals
+        .inds = inds
     };
 
     cowl_struct(CowlObjOneOf) *exp = malloc(sizeof(*exp));
@@ -21,12 +21,12 @@ static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *individuals) {
 
 static void cowl_obj_one_of_free(CowlObjOneOf *exp) {
     if (!exp) return;
-    cowl_individual_set_free(exp->individuals);
+    cowl_individual_set_free(exp->inds);
     free((void *)exp);
 }
 
-CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *individuals) {
-    return cowl_obj_one_of_alloc(individuals);
+CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *inds) {
+    return cowl_obj_one_of_alloc(inds);
 }
 
 CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp) {
@@ -39,12 +39,12 @@ void cowl_obj_one_of_release(CowlObjOneOf *exp) {
     }
 }
 
-CowlIndividualSet* cowl_obj_one_of_get_individuals(CowlObjOneOf *exp) {
-    return exp->individuals;
+CowlIndividualSet* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
+    return exp->inds;
 }
 
 bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
-    return uhset_equals(CowlIndividualSet, lhs->individuals, rhs->individuals);
+    return uhset_equals(CowlIndividualSet, lhs->inds, rhs->inds);
 }
 
 cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp) {
@@ -52,8 +52,8 @@ cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp) {
 }
 
 bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, void *ctx, CowlEntityIterator iter) {
-    uhash_foreach_key(CowlIndividualSet, exp->individuals, individual, {
-        if (!cowl_individual_iterate_signature(individual, ctx, iter)) return false;
+    uhash_foreach_key(CowlIndividualSet, exp->inds, ind, {
+        if (!cowl_individual_iterate_signature(ind, ctx, iter)) return false;
     });
     return true;
 }

@@ -24,10 +24,10 @@ typedef enum CowlEntityType {
     CET_DATA_PROP,
 
     /// Represents CowlAnnotationProperty.
-    CET_ANNOTATION_PROP,
+    CET_ANNOT_PROP,
 
-    /// Represents CowlNamedIndividual.
-    CET_NAMED_INDIVIDUAL,
+    /// Represents CowlNamedInd.
+    CET_NAMED_IND,
 
     /// Represents CowlDatatype.
     CET_DATATYPE

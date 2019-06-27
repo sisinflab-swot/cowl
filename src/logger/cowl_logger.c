@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-static void cowl_logger_log_anon_individual(CowlLogger *logger, CowlAnonIndividual *ind);
+static void cowl_logger_log_anon_ind(CowlLogger *logger, CowlAnonInd *ind);
 static void cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntology *onto);
 
 static void cowl_logger_log_cls_exp_set(CowlLogger *logger, CowlClsExpSet *set);
@@ -39,7 +39,7 @@ static void cowl_logger_log_sub_cls_axiom(CowlLogger *logger, CowlSubClsAxiom *a
 static void cowl_logger_log_nary_cls_axiom(CowlLogger *logger, CowlNAryClsAxiom *axiom);
 static void cowl_logger_log_disj_union_axiom(CowlLogger *logger, CowlDisjUnionAxiom *axiom);
 static void cowl_logger_log_cls_assert(CowlLogger *logger, CowlClsAssertAxiom *axiom);
-static void cowl_logger_log_nary_ind_axiom(CowlLogger *logger, CowlNAryIndividualAxiom *axiom);
+static void cowl_logger_log_nary_ind_axiom(CowlLogger *logger, CowlNAryIndAxiom *axiom);
 static void cowl_logger_log_obj_prop_assert(CowlLogger *logger, CowlObjPropAssertAxiom *axiom);
 static void cowl_logger_log_data_prop_assert(CowlLogger *logger, CowlDataPropAssertAxiom *axiom);
 static void cowl_logger_log_sub_obj_prop_axiom(CowlLogger *logger, CowlSubObjPropAxiom *axiom);
@@ -219,8 +219,8 @@ void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity) {
         case CET_CLASS: type = "Class"; break;
         case CET_OBJ_PROP: type = "ObjectProperty"; break;
         case CET_DATA_PROP: type = "DataProperty"; break;
-        case CET_ANNOTATION_PROP: type = "AnnotationProperty"; break;
-        case CET_NAMED_INDIVIDUAL: type = "NamedIndividual"; break;
+        case CET_ANNOT_PROP: type = "AnnotationProperty"; break;
+        case CET_NAMED_IND: type = "Namedind"; break;
         case CET_DATATYPE: type = "Datatype"; break;
     }
 
@@ -231,7 +231,7 @@ void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity) {
 
 void cowl_logger_log_annot_value(CowlLogger *logger, CowlAnnotValue value) {
     switch (value.type) {
-        case CAVT_ANON_IND: cowl_logger_log_anon_individual(logger, value.anon_ind); break;
+        case CAVT_ANON_IND: cowl_logger_log_anon_ind(logger, value.anon_ind); break;
         case CAVT_IRI: cowl_logger_log_iri(logger, value.iri); break;
         case CAVT_LITERAL: cowl_logger_log_literal(logger, value.literal); break;
     }
@@ -333,12 +333,12 @@ void cowl_logger_log_data_range(CowlLogger *logger, CowlDataRange *range) {
     }
 }
 
-void cowl_logger_log_individual(CowlLogger *logger, CowlIndividual *individual) {
-    if (individual->is_named) {
-        CowlNamedIndividual *named_ind = (CowlNamedIndividual *)individual;
-        cowl_logger_log_entity(logger, cowl_entity_wrap_named_individual(named_ind));
+void cowl_logger_log_individual(CowlLogger *logger, CowlIndividual *ind) {
+    if (ind->is_named) {
+        CowlNamedInd *named_ind = (CowlNamedInd *)ind;
+        cowl_logger_log_entity(logger, cowl_entity_wrap_named_ind(named_ind));
     } else {
-        cowl_logger_log_anon_individual(logger, (CowlAnonIndividual *)individual);
+        cowl_logger_log_anon_ind(logger, (CowlAnonInd *)ind);
     }
 }
 
@@ -386,7 +386,7 @@ void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom) {
 
         case CAT_SAME_INDIVIDUAL:
         case CAT_DIFFERENT_INDIVIDUALS:
-            cowl_logger_log_nary_ind_axiom(logger, (CowlNAryIndividualAxiom *)axiom);
+            cowl_logger_log_nary_ind_axiom(logger, (CowlNAryIndAxiom *)axiom);
             break;
 
         case CAT_OBJ_PROP_ASSERTION:
@@ -503,8 +503,8 @@ static void cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntology *on
     cowl_logger_logf(logger, ")");
 }
 
-static void cowl_logger_log_anon_individual(CowlLogger *logger, CowlAnonIndividual *ind) {
-    CowlString *string = cowl_anon_individual_to_string(ind);
+static void cowl_logger_log_anon_ind(CowlLogger *logger, CowlAnonInd *ind) {
+    CowlString *string = cowl_anon_ind_to_string(ind);
     cowl_logger_logf(logger, "AnonymousIndividual(");
     cowl_logger_log_string(logger, string);
     cowl_logger_logf(logger, ")");
@@ -570,8 +570,8 @@ static void cowl_logger_log_facet_restr_set(CowlLogger *logger, CowlFacetRestrSe
 static void cowl_logger_log_individual_set(CowlLogger *logger, CowlIndividualSet *set) {
     cowl_uint_t current = 0, last = uhash_count(set) - 1;
 
-    uhash_foreach_key(CowlIndividualSet, set, individual, {
-        cowl_logger_log_individual(logger, individual);
+    uhash_foreach_key(CowlIndividualSet, set, ind, {
+        cowl_logger_log_individual(logger, ind);
         if (current++ < last) cowl_logger_logf(logger, " ");
     });
 }
@@ -618,7 +618,7 @@ static void cowl_logger_log_obj_has_value(CowlLogger *logger, CowlObjHasValue *e
     cowl_logger_logf(logger, "ObjectHasValue(");
     cowl_logger_log_obj_prop_exp(logger, exp->prop);
     cowl_logger_logf(logger, " ");
-    cowl_logger_log_individual(logger, exp->individual);
+    cowl_logger_log_individual(logger, exp->ind);
     cowl_logger_logf(logger, ")");
 }
 
@@ -643,7 +643,7 @@ static void cowl_logger_log_obj_compl(CowlLogger *logger, CowlObjCompl *exp) {
 
 static void cowl_logger_log_obj_one_of(CowlLogger *logger, CowlObjOneOf *exp) {
     cowl_logger_logf(logger, "ObjectOneOf(");
-    cowl_logger_log_individual_set(logger, exp->individuals);
+    cowl_logger_log_individual_set(logger, exp->inds);
     cowl_logger_logf(logger, ")");
 }
 
@@ -751,14 +751,13 @@ static void cowl_logger_log_disj_union_axiom(CowlLogger *logger, CowlDisjUnionAx
 
 static void cowl_logger_log_cls_assert(CowlLogger *logger, CowlClsAssertAxiom *axiom) {
     cowl_logger_logf(logger, "ClassAssertion(");
-    cowl_logger_log_individual(logger, axiom->individual);
+    cowl_logger_log_individual(logger, axiom->ind);
     cowl_logger_logf(logger, " ");
     cowl_logger_log_cls_exp(logger, axiom->cls_exp);
     cowl_logger_logf(logger, ")");
 }
 
-static void cowl_logger_log_nary_ind_axiom(CowlLogger *logger,
-                                           CowlNAryIndividualAxiom *axiom) {
+static void cowl_logger_log_nary_ind_axiom(CowlLogger *logger, CowlNAryIndAxiom *axiom) {
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
     char const *str = type == CAT_SAME_INDIVIDUAL ? "SameIndividual" : "DifferentIndividuals";
     cowl_logger_logf(logger, "%s(", str);

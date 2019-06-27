@@ -238,15 +238,15 @@ void cowl_logger_log_data_range(CowlLogger *logger, CowlDataRange *range);
  * Logs the specified individual.
  *
  * @param logger Logger instance.
- * @param individual Individual to log.
+ * @param ind Individual to log.
  */
-void cowl_logger_log_individual(CowlLogger *logger, CowlIndividual *individual);
+void cowl_logger_log_individual(CowlLogger *logger, CowlIndividual *ind);
 
 /**
  * Logs the specified literal.
  *
  * @param logger Logger instance.
- * @param individual Literal to log.
+ * @param literal Literal to log.
  */
 void cowl_logger_log_literal(CowlLogger *logger, CowlLiteral *literal);
 

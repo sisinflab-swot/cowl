@@ -5,7 +5,7 @@
 #include "cowl_class_private.h"
 #include "cowl_data_prop_private.h"
 #include "cowl_datatype_private.h"
-#include "cowl_named_individual_private.h"
+#include "cowl_named_ind_private.h"
 #include "cowl_obj_prop_private.h"
 
 CowlEntity cowl_entity_retain(CowlEntity entity) {
@@ -17,10 +17,10 @@ CowlEntity cowl_entity_retain(CowlEntity entity) {
 
         GEN_CASE_RETAIN(CET_CLASS, cowl_class, owl_class);
         GEN_CASE_RETAIN(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
-        GEN_CASE_RETAIN(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
+        GEN_CASE_RETAIN(CET_NAMED_IND, cowl_named_ind, named_ind);
         GEN_CASE_RETAIN(CET_DATA_PROP, cowl_data_prop, data_prop);
         GEN_CASE_RETAIN(CET_DATATYPE, cowl_datatype, datatype);
-        GEN_CASE_RETAIN(CET_ANNOTATION_PROP, cowl_annot_prop, annot_prop);
+        GEN_CASE_RETAIN(CET_ANNOT_PROP, cowl_annot_prop, annot_prop);
 
         default:
             break;
@@ -38,10 +38,10 @@ void cowl_entity_release(CowlEntity entity) {
 
         GEN_CASE_RELEASE(CET_CLASS, cowl_class, owl_class);
         GEN_CASE_RELEASE(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
-        GEN_CASE_RELEASE(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
+        GEN_CASE_RELEASE(CET_NAMED_IND, cowl_named_ind, named_ind);
         GEN_CASE_RELEASE(CET_DATA_PROP, cowl_data_prop, data_prop);
         GEN_CASE_RELEASE(CET_DATATYPE, cowl_datatype, datatype);
-        GEN_CASE_RELEASE(CET_ANNOTATION_PROP, cowl_annot_prop, annot_prop);
+        GEN_CASE_RELEASE(CET_ANNOT_PROP, cowl_annot_prop, annot_prop);
 
         default:
             break;
@@ -57,10 +57,10 @@ CowlIRI* cowl_entity_get_iri(CowlEntity entity) {
 
         GEN_CASE_IRI(CET_CLASS, owl_class);
         GEN_CASE_IRI(CET_OBJ_PROP, obj_prop);
-        GEN_CASE_IRI(CET_NAMED_INDIVIDUAL, named_ind);
+        GEN_CASE_IRI(CET_NAMED_IND, named_ind);
         GEN_CASE_IRI(CET_DATA_PROP, data_prop);
         GEN_CASE_IRI(CET_DATATYPE, datatype);
-        GEN_CASE_IRI(CET_ANNOTATION_PROP, annot_prop);
+        GEN_CASE_IRI(CET_ANNOT_PROP, annot_prop);
 
         default:
             return NULL;
@@ -77,10 +77,10 @@ bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs) {
 
         GEN_CASE_EQUALS(CET_CLASS, cowl_class, owl_class);
         GEN_CASE_EQUALS(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
-        GEN_CASE_EQUALS(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
+        GEN_CASE_EQUALS(CET_NAMED_IND, cowl_named_ind, named_ind);
         GEN_CASE_EQUALS(CET_DATA_PROP, cowl_data_prop, data_prop);
         GEN_CASE_EQUALS(CET_DATATYPE, cowl_datatype, datatype);
-        GEN_CASE_EQUALS(CET_ANNOTATION_PROP, cowl_annot_prop, annot_prop);
+        GEN_CASE_EQUALS(CET_ANNOT_PROP, cowl_annot_prop, annot_prop);
 
         default:
             return false;
@@ -96,10 +96,10 @@ cowl_uint_t cowl_entity_hash(CowlEntity entity) {
 
         GEN_CASE_HASH(CET_CLASS, cowl_class, owl_class);
         GEN_CASE_HASH(CET_OBJ_PROP, cowl_obj_prop, obj_prop);
-        GEN_CASE_HASH(CET_NAMED_INDIVIDUAL, cowl_named_individual, named_ind);
+        GEN_CASE_HASH(CET_NAMED_IND, cowl_named_ind, named_ind);
         GEN_CASE_HASH(CET_DATA_PROP, cowl_data_prop, data_prop);
         GEN_CASE_HASH(CET_DATATYPE, cowl_datatype, datatype);
-        GEN_CASE_HASH(CET_ANNOTATION_PROP, cowl_annot_prop, annot_prop);
+        GEN_CASE_HASH(CET_ANNOT_PROP, cowl_annot_prop, annot_prop);
 
         default:
             return 0;

@@ -9,7 +9,7 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlClsAssertAxiom,
-    CowlIndividual *individual;
+    CowlIndividual *ind;
     CowlClsExp *cls_exp;
 );
 

@@ -87,7 +87,7 @@
 %type <CowlClass *> class
 %type <CowlObjProp *> object_property
 %type <CowlDataProp *> data_property
-%type <CowlNamedIndividual *> named_individual
+%type <CowlNamedInd *> named_individual
 %type <CowlDatatype *> datatype
 %type <CowlAnnotProp *> annotation_property sub_annotation_property super_annotation_property
 
@@ -158,7 +158,7 @@
 %destructor { cowl_class_release($$); } <CowlClass *>
 %destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
 %destructor { cowl_data_prop_release($$); } <CowlDataProp *>
-%destructor { cowl_named_individual_release($$); } <CowlNamedIndividual *>
+%destructor { cowl_named_ind_release($$); } <CowlNamedInd *>
 %destructor { cowl_datatype_release($$); } <CowlDatatype *>
 %destructor { cowl_annot_prop_release($$); } <CowlAnnotProp *>
 %destructor { cowl_cls_exp_release($$); } <CowlClsExp *>
@@ -328,7 +328,7 @@ individual
 
 named_individual
     : iri {
-        $$ = cowl_named_individual_get($1);
+        $$ = cowl_named_ind_get($1);
         cowl_iri_release($1);
     }
 ;
@@ -336,7 +336,7 @@ named_individual
 anonymous_individual
     : node_id {
         CowlNodeID id = cowl_parser_get_node_id(parser, $1);
-        $$ = (CowlIndividual *)cowl_anon_individual_get(id);
+        $$ = (CowlIndividual *)cowl_anon_ind_get(id);
         cowl_string_release($1);
     }
 ;
@@ -404,7 +404,7 @@ entity
         $$ = cowl_entity_wrap_annot_prop($3);
     }
     | NAMED_INDIVIDUAL L_PAREN named_individual R_PAREN {
-        $$ = cowl_entity_wrap_named_individual($3);
+        $$ = cowl_entity_wrap_named_ind($3);
     }
 ;
 
@@ -955,13 +955,13 @@ assertion
 
 same_individual
     : SAME_INDIVIDUAL L_PAREN annotation_star individual_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_SAME, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(CNAT_SAME, $4, $3);
     }
 ;
 
 different_individuals
     : DIFFERENT_INDIVIDUALS L_PAREN annotation_star individual_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_individual_axiom_get(CNAT_DIFFERENT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(CNAT_DIFFERENT, $4, $3);
     }
 ;
 

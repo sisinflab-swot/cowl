@@ -14,7 +14,7 @@ cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlObjProp);
-cowl_struct_decl(CowlNamedIndividual);
+cowl_struct_decl(CowlNamedInd);
 
 typedef cowl_struct(CowlEntity) {
     CowlEntityType type;
@@ -23,7 +23,7 @@ typedef cowl_struct(CowlEntity) {
         CowlClass *owl_class;
         CowlObjProp *obj_prop;
         CowlDataProp *data_prop;
-        CowlNamedIndividual *named_ind;
+        CowlNamedInd *named_ind;
         CowlDatatype *datatype;
         CowlAnnotProp *annot_prop;
     };
@@ -39,14 +39,14 @@ typedef cowl_struct(CowlEntity) {
 #define cowl_entity_wrap_data_prop(PROP) \
     ((CowlEntity const){ .type = CET_DATA_PROP, .data_prop = (PROP) })
 
-#define cowl_entity_wrap_named_individual(IND) \
-    ((CowlEntity const){ .type = CET_NAMED_INDIVIDUAL, .named_ind = (IND) })
+#define cowl_entity_wrap_named_ind(IND) \
+    ((CowlEntity const){ .type = CET_NAMED_IND, .named_ind = (IND) })
 
 #define cowl_entity_wrap_datatype(DT) \
     ((CowlEntity const){ .type = CET_DATATYPE, .datatype = (DT) })
 
 #define cowl_entity_wrap_annot_prop(PROP) \
-    ((CowlEntity const){ .type = CET_ANNOTATION_PROP, .annot_prop = (PROP) })
+    ((CowlEntity const){ .type = CET_ANNOT_PROP, .annot_prop = (PROP) })
 
 #define cowl_entity_init_class(CLS) \
     cowl_entity_wrap_class(cowl_class_retain(CLS))
@@ -57,8 +57,8 @@ typedef cowl_struct(CowlEntity) {
 #define cowl_entity_init_data_prop(PROP) \
     cowl_entity_wrap_data_prop(cowl_data_prop_retain(PROP))
 
-#define cowl_entity_init_named_individual(IND) \
-    cowl_entity_wrap_named_individual(cowl_named_individual_retain(IND))
+#define cowl_entity_init_named_ind(IND) \
+    cowl_entity_wrap_named_ind(cowl_named_ind_retain(IND))
 
 #define cowl_entity_init_datatype(DT) \
     cowl_entity_wrap_datatype(cowl_datatype_retain(DT))

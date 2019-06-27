@@ -40,24 +40,24 @@ static void test_iri(void) {
 
 static void test_anon_individual(void) {
     CowlNodeID id = cowl_node_id_get_next();
-    CowlAnonIndividual *anon_ind = cowl_anon_individual_get(id);
+    CowlAnonInd *anon_ind = cowl_anon_ind_get(id);
     assert(cowl_object_ref_get(anon_ind) == 1);
 
-    CowlAnonIndividual *other_ind = cowl_anon_individual_get(id);
+    CowlAnonInd *other_ind = cowl_anon_ind_get(id);
     assert(other_ind == anon_ind);
-    assert(cowl_anon_individual_equals(other_ind, anon_ind));
+    assert(cowl_anon_ind_equals(other_ind, anon_ind));
     assert(cowl_object_ref_get(other_ind) == 2);
 
-    cowl_anon_individual_retain(anon_ind);
+    cowl_anon_ind_retain(anon_ind);
     assert(cowl_object_ref_get(anon_ind) == 3);
 
-    cowl_anon_individual_release(other_ind);
+    cowl_anon_ind_release(other_ind);
     assert(cowl_object_ref_get(anon_ind) == 2);
 
-    cowl_anon_individual_release(anon_ind);
+    cowl_anon_ind_release(anon_ind);
     assert(cowl_object_ref_get(anon_ind) == 1);
 
-    cowl_anon_individual_release(anon_ind);
+    cowl_anon_ind_release(anon_ind);
 }
 
 static CowlOntology* test_imports_loader(cowl_unused void *ctx, cowl_unused CowlIRI *iri,

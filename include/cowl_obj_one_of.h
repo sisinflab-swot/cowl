@@ -12,11 +12,11 @@ cowl_hash_decl(CowlIndividualSet);
 
 cowl_struct_decl(CowlObjOneOf);
 
-CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *individuals);
+CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *inds);
 CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp);
 void cowl_obj_one_of_release(CowlObjOneOf *exp);
 
-CowlIndividualSet* cowl_obj_one_of_get_individuals(CowlObjOneOf *exp);
+CowlIndividualSet* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
 
 bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs);
 cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp);
