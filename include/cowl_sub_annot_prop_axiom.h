@@ -26,7 +26,7 @@ bool cowl_sub_annot_prop_axiom_equals(CowlSubAnnotPropAxiom *lhs, CowlSubAnnotPr
 cowl_uint_t cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom);
 
 bool cowl_sub_annot_prop_axiom_iterate_signature(CowlSubAnnotPropAxiom *axiom,
-                                                 void *ctx, CowlEntityIterator iter);
+                                                 CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -56,7 +56,7 @@ cowl_struct(CowlVocabulary) {
 cowl_struct_decl(CowlVocabulary);
 
 CowlVocabulary* cowl_vocabulary_get(void);
-void cowl_vocabulary_iterate_signature(void *ctx, CowlEntityIterator iter);
+void cowl_vocabulary_iterate_signature(CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

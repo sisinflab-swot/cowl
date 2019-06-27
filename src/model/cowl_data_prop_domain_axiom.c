@@ -68,9 +68,9 @@ cowl_uint_t cowl_data_prop_domain_axiom_hash(CowlDataPropDomainAxiom *axiom) {
 }
 
 bool cowl_data_prop_domain_axiom_iterate_signature(CowlDataPropDomainAxiom *axiom,
-                                                  void *ctx, CowlEntityIterator iter) {
-    if (!cowl_data_prop_exp_iterate_signature(axiom->prop_exp, ctx, iter)) return false;
-    if (!cowl_cls_exp_iterate_signature(axiom->domain, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                                  CowlEntityIterator *iter) {
+    if (!cowl_data_prop_exp_iterate_signature(axiom->prop_exp, iter)) return false;
+    if (!cowl_cls_exp_iterate_signature(axiom->domain, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

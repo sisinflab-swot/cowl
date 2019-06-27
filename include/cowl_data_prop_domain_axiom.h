@@ -27,7 +27,7 @@ bool cowl_data_prop_domain_axiom_equals(CowlDataPropDomainAxiom *lhs, CowlDataPr
 cowl_uint_t cowl_data_prop_domain_axiom_hash(CowlDataPropDomainAxiom *axiom);
 
 bool cowl_data_prop_domain_axiom_iterate_signature(CowlDataPropDomainAxiom *axiom,
-                                                   void *ctx, CowlEntityIterator iter);
+                                                   CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

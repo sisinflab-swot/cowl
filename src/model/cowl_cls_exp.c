@@ -90,10 +90,10 @@ cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, void *ctx, CowlEntityIterator iter) {
+bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, CowlEntityIterator *iter) {
 
 #define GEN_CASE_SIG(CCET, TYPE, PREFIX) \
-    case CCET: return PREFIX##_iterate_signature((TYPE *)exp, ctx, iter)
+    case CCET: return PREFIX##_iterate_signature((TYPE *)exp, iter)
 
     switch (exp->type) {
 

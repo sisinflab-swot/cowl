@@ -51,9 +51,6 @@ cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, void *ctx, CowlEntityIterator iter) {
-    uhash_foreach_key(CowlIndividualSet, exp->inds, ind, {
-        if (!cowl_individual_iterate_signature(ind, ctx, iter)) return false;
-    });
-    return true;
+bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, CowlEntityIterator *iter) {
+    return cowl_individual_set_iterate_signature(exp->inds, iter);
 }

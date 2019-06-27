@@ -48,6 +48,6 @@ cowl_uint_t cowl_data_compl_hash(CowlDataCompl *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_data_compl_iterate_signature(CowlDataCompl *exp, void *ctx, CowlEntityIterator iter) {
-    return cowl_data_range_iterate_signature(exp->operand, ctx, iter);
+bool cowl_data_compl_iterate_signature(CowlDataCompl *exp, CowlEntityIterator *iter) {
+    return cowl_data_range_iterate_signature(exp->operand, iter);
 }

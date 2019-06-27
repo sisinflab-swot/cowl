@@ -38,10 +38,10 @@ cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
     return uhash_ptr_hash(exp);
 }
 
-bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, void *ctx, CowlEntityIterator iter) {
+bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, CowlEntityIterator *iter) {
     if (exp->is_inverse) {
-        return cowl_inv_obj_prop_iterate_signature((CowlInvObjProp *)exp, ctx, iter);
+        return cowl_inv_obj_prop_iterate_signature((CowlInvObjProp *)exp, iter);
     } else {
-        return cowl_obj_prop_iterate_signature((CowlObjProp *)exp, ctx, iter);
+        return cowl_obj_prop_iterate_signature((CowlObjProp *)exp, iter);
     }
 }

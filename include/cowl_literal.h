@@ -25,7 +25,7 @@ CowlString* cowl_literal_to_string(CowlLiteral *literal);
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs);
 cowl_uint_t cowl_literal_hash(CowlLiteral *literal);
 
-bool cowl_literal_iterate_signature(CowlLiteral *literal, void *ctx, CowlEntityIterator iter);
+bool cowl_literal_iterate_signature(CowlLiteral *literal, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

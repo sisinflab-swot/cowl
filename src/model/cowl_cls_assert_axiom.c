@@ -65,10 +65,9 @@ cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom *axiom, void *ctx,
-                                             CowlEntityIterator iter) {
-    if (!cowl_individual_iterate_signature(axiom->ind, ctx, iter)) return false;
-    if (!cowl_cls_exp_iterate_signature(axiom->cls_exp, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom *axiom, CowlEntityIterator *iter) {
+    if (!cowl_individual_iterate_signature(axiom->ind, iter)) return false;
+    if (!cowl_cls_exp_iterate_signature(axiom->cls_exp, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

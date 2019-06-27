@@ -26,7 +26,7 @@ bool cowl_inv_obj_prop_axiom_equals(CowlInvObjPropAxiom *lhs, CowlInvObjPropAxio
 cowl_uint_t cowl_inv_obj_prop_axiom_hash(CowlInvObjPropAxiom *axiom);
 
 bool cowl_inv_obj_prop_axiom_iterate_signature(CowlInvObjPropAxiom *axiom,
-                                               void *ctx, CowlEntityIterator iter);
+                                               CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

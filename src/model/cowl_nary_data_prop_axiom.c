@@ -64,8 +64,8 @@ cowl_uint_t cowl_nary_data_prop_axiom_hash(CowlNAryDataPropAxiom *axiom) {
 }
 
 bool cowl_nary_data_prop_axiom_iterate_signature(CowlNAryDataPropAxiom *axiom,
-                                                 void *ctx, CowlEntityIterator iter) {
-    if (!cowl_data_prop_exp_set_iterate_signature(axiom->props, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                                 CowlEntityIterator *iter) {
+    if (!cowl_data_prop_exp_set_iterate_signature(axiom->props, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

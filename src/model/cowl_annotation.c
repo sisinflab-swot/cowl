@@ -69,8 +69,8 @@ cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot) {
     return cowl_object_hash_get(annot);
 }
 
-bool cowl_annotation_iterate_signature(CowlAnnotation *annot, void *ctx, CowlEntityIterator iter) {
-    if (!cowl_annot_prop_iterate_signature(annot->prop, ctx, iter)) return false;
-    if (!cowl_annotation_vec_iterate_signature(annot->annot, ctx, iter)) return false;
+bool cowl_annotation_iterate_signature(CowlAnnotation *annot, CowlEntityIterator *iter) {
+    if (!cowl_annot_prop_iterate_signature(annot->prop, iter)) return false;
+    if (!cowl_annotation_vec_iterate_signature(annot->annot, iter)) return false;
     return true;
 }

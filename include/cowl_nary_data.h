@@ -23,7 +23,7 @@ CowlDataRangeSet* cowl_nary_data_get_operands(CowlNAryData *exp);
 bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs);
 cowl_uint_t cowl_nary_data_hash(CowlNAryData *exp);
 
-bool cowl_nary_data_iterate_signature(CowlNAryData *exp, void *ctx, CowlEntityIterator iter);
+bool cowl_nary_data_iterate_signature(CowlNAryData *exp, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

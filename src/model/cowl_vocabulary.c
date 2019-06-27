@@ -117,8 +117,8 @@ CowlVocabulary* cowl_vocabulary_get(void) {
     return &cowl_vocabulary;
 }
 
-void cowl_vocabulary_iterate_signature(void *ctx, CowlEntityIterator iter) {
-    iter(ctx, cowl_entity_wrap_class(cowl_vocabulary.cls.thing));
-    iter(ctx, cowl_entity_wrap_class(cowl_vocabulary.cls.nothing));
-    iter(ctx, cowl_entity_wrap_datatype(cowl_vocabulary.dt.rdf_plain_literal));
+void cowl_vocabulary_iterate_signature(CowlEntityIterator *iter) {
+    cowl_iterate(iter, cowl_entity_wrap_class(cowl_vocabulary.cls.thing));
+    cowl_iterate(iter, cowl_entity_wrap_class(cowl_vocabulary.cls.nothing));
+    cowl_iterate(iter, cowl_entity_wrap_datatype(cowl_vocabulary.dt.rdf_plain_literal));
 }

@@ -21,7 +21,7 @@ CowlIRI* cowl_datatype_get_iri(CowlDatatype *prop);
 bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs);
 cowl_uint_t cowl_datatype_hash(CowlDatatype *prop);
 
-bool cowl_datatype_iterate_signature(CowlDatatype *prop, void *ctx, CowlEntityIterator iter);
+bool cowl_datatype_iterate_signature(CowlDatatype *prop, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

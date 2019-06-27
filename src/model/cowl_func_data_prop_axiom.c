@@ -56,8 +56,8 @@ cowl_uint_t cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom) {
 }
 
 bool cowl_func_data_prop_axiom_iterate_signature(CowlFuncDataPropAxiom *axiom,
-                                                 void *ctx, CowlEntityIterator iter) {
-    if (!cowl_data_prop_exp_iterate_signature(axiom->prop, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                                 CowlEntityIterator *iter) {
+    if (!cowl_data_prop_exp_iterate_signature(axiom->prop, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

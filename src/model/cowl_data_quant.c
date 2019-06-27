@@ -65,8 +65,8 @@ cowl_uint_t cowl_data_quant_hash(CowlDataQuant *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_data_quant_iterate_signature(CowlDataQuant *restr, void *ctx, CowlEntityIterator iter) {
-    if (!cowl_data_prop_exp_iterate_signature(restr->prop, ctx, iter)) return false;
-    if (!cowl_data_range_iterate_signature(restr->range, ctx, iter)) return false;
+bool cowl_data_quant_iterate_signature(CowlDataQuant *restr, CowlEntityIterator *iter) {
+    if (!cowl_data_prop_exp_iterate_signature(restr->prop, iter)) return false;
+    if (!cowl_data_range_iterate_signature(restr->range, iter)) return false;
     return true;
 }

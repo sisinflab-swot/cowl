@@ -21,8 +21,7 @@ CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
 bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs);
 cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp);
 
-bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp,
-                                         void *ctx, CowlEntityIterator iter);
+bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -18,8 +18,7 @@ void cowl_individual_set_free(CowlIndividualSet *set);
 bool cowl_individual_set_equals(CowlIndividualSet *lhs, CowlIndividualSet *rhs);
 cowl_uint_t cowl_individual_set_hash(CowlIndividualSet *set);
 
-bool cowl_individual_set_iterate_signature(CowlIndividualSet *set, void *ctx,
-                                           CowlEntityIterator iter);
+bool cowl_individual_set_iterate_signature(CowlIndividualSet *set, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -18,7 +18,7 @@ bool cowl_individual_is_named(CowlIndividual *ind);
 bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs);
 cowl_uint_t cowl_individual_hash(CowlIndividual *ind);
 
-bool cowl_individual_iterate_signature(CowlIndividual *ind, void *ctx, CowlEntityIterator iter);
+bool cowl_individual_iterate_signature(CowlIndividual *ind, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

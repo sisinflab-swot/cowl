@@ -55,10 +55,6 @@ cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp,
-                                      void *ctx, CowlEntityIterator iter) {
-    uhash_foreach_key(CowlClsExpSet, exp->operands, operand, {
-        if (!cowl_cls_exp_iterate_signature(operand, ctx, iter)) return false;
-    });
-    return true;
+bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, CowlEntityIterator *iter) {
+    return cowl_cls_exp_set_iterate_signature(exp->operands, iter);
 }

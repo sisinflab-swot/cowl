@@ -19,8 +19,7 @@ void cowl_annotation_vec_free(CowlAnnotationVec *vec);
 bool cowl_annotation_vec_equals(CowlAnnotationVec *lhs, CowlAnnotationVec *rhs);
 cowl_uint_t cowl_annotation_vec_hash(CowlAnnotationVec *vec);
 
-bool cowl_annotation_vec_iterate_signature(CowlAnnotationVec *vec, void *ctx,
-                                           CowlEntityIterator iter);
+bool cowl_annotation_vec_iterate_signature(CowlAnnotationVec *vec, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

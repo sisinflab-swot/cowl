@@ -23,7 +23,7 @@ CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr);
 bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs);
 cowl_uint_t cowl_facet_restr_hash(CowlFacetRestr *restr);
 
-bool cowl_facet_restr_iterate_signature(CowlFacetRestr *restr, void *ctx, CowlEntityIterator iter);
+bool cowl_facet_restr_iterate_signature(CowlFacetRestr *restr, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

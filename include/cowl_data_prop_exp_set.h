@@ -18,8 +18,7 @@ void cowl_data_prop_exp_set_free(CowlDataPropExpSet *set);
 bool cowl_data_prop_exp_set_equals(CowlDataPropExpSet *lhs, CowlDataPropExpSet *rhs);
 cowl_uint_t cowl_data_prop_exp_set_hash(CowlDataPropExpSet *set);
 
-bool cowl_data_prop_exp_set_iterate_signature(CowlDataPropExpSet *set, void *ctx,
-                                              CowlEntityIterator iter);
+bool cowl_data_prop_exp_set_iterate_signature(CowlDataPropExpSet *set, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

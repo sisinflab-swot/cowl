@@ -93,6 +93,6 @@ cowl_uint_t cowl_literal_hash(CowlLiteral *literal) {
     return cowl_object_hash_get(literal);
 }
 
-bool cowl_literal_iterate_signature(CowlLiteral *literal, void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, cowl_entity_wrap_datatype(literal->dt));
+bool cowl_literal_iterate_signature(CowlLiteral *literal, CowlEntityIterator *iter) {
+    return cowl_iterate(iter, cowl_entity_wrap_datatype(literal->dt));
 }

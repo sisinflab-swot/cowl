@@ -60,9 +60,8 @@ cowl_uint_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_nary_cls_axiom_iterate_signature(CowlNAryClsAxiom *axiom, void *ctx,
-                                           CowlEntityIterator iter) {
-    if (!cowl_cls_exp_set_iterate_signature(axiom->classes, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+bool cowl_nary_cls_axiom_iterate_signature(CowlNAryClsAxiom *axiom, CowlEntityIterator *iter) {
+    if (!cowl_cls_exp_set_iterate_signature(axiom->classes, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

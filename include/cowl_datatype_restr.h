@@ -22,8 +22,7 @@ CowlFacetRestrSet* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr
 bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs);
 cowl_uint_t cowl_datatype_restr_hash(CowlDatatypeRestr *restr);
 
-bool cowl_datatype_restr_iterate_signature(CowlDatatypeRestr *restr, void *ctx,
-                                           CowlEntityIterator iter);
+bool cowl_datatype_restr_iterate_signature(CowlDatatypeRestr *restr, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

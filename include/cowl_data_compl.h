@@ -21,7 +21,7 @@ CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *range);
 bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs);
 cowl_uint_t cowl_data_compl_hash(CowlDataCompl *range);
 
-bool cowl_data_compl_iterate_signature(CowlDataCompl *range, void *ctx, CowlEntityIterator iter);
+bool cowl_data_compl_iterate_signature(CowlDataCompl *range, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -145,10 +145,10 @@ cowl_uint_t cowl_axiom_hash(CowlAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_axiom_iterate_signature(CowlAxiom *axiom, void *ctx, CowlEntityIterator iter) {
+bool cowl_axiom_iterate_signature(CowlAxiom *axiom, CowlEntityIterator *iter) {
 
 #define GEN_CASE_SIG(CAT, TYPE, PREFIX) \
-    case CAT: return PREFIX##_iterate_signature((TYPE *)axiom, ctx, iter)
+    case CAT: return PREFIX##_iterate_signature((TYPE *)axiom, iter)
 
     switch (cowl_axiom_flags_get_type(axiom->flags)) {
 

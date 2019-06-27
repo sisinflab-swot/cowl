@@ -68,9 +68,9 @@ cowl_struct(CowlAxiom) {
     ((ANNOT) ? cowl_hash_5(INIT, A, B, C, D, cowl_annotation_vec_hash(ANNOT)) :                     \
      cowl_hash_4(INIT, A, B, C, D))
 
-#define cowl_axiom_annot_iterate_signature(AXIOM, CTX, ITER)                                        \
+#define cowl_axiom_annot_iterate_signature(AXIOM, ITER)                                             \
     (!cowl_axiom_has_annot(AXIOM) ||                                                                \
-     cowl_annotation_vec_iterate_signature((AXIOM)->annot[0], CTX, ITER))
+     cowl_annotation_vec_iterate_signature((AXIOM)->annot[0], ITER))
 
 COWL_END_DECLS
 

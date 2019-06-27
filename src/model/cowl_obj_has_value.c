@@ -59,9 +59,8 @@ cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, void *ctx,
-                                          CowlEntityIterator iter) {
-    if (!cowl_obj_prop_exp_iterate_signature(exp->prop, ctx, iter)) return false;
-    if (!cowl_individual_iterate_signature(exp->ind, ctx, iter)) return false;
+bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, CowlEntityIterator *iter) {
+    if (!cowl_obj_prop_exp_iterate_signature(exp->prop, iter)) return false;
+    if (!cowl_individual_iterate_signature(exp->ind, iter)) return false;
     return true;
 }

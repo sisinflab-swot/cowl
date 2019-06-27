@@ -19,8 +19,7 @@ void cowl_obj_prop_exp_vec_free(CowlObjPropExpVec *vec);
 bool cowl_obj_prop_exp_vec_equals(CowlObjPropExpVec *lhs, CowlObjPropExpVec *rhs);
 cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec);
 
-bool cowl_obj_prop_exp_vec_iterate_signature(CowlObjPropExpVec *vec, void *ctx,
-                                             CowlEntityIterator iter);
+bool cowl_obj_prop_exp_vec_iterate_signature(CowlObjPropExpVec *vec, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

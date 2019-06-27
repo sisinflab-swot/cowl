@@ -37,7 +37,7 @@ bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs, CowlDataPr
 cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom);
 
 bool cowl_data_prop_assert_axiom_iterate_signature(CowlDataPropAssertAxiom *axiom,
-                                                   void *ctx, CowlEntityIterator iter);
+                                                   CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

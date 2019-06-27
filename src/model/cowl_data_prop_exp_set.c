@@ -20,10 +20,9 @@ cowl_uint_t cowl_data_prop_exp_set_hash(CowlDataPropExpSet *set) {
     return uhset_hash(CowlDataPropExpSet, set);
 }
 
-bool cowl_data_prop_exp_set_iterate_signature(CowlDataPropExpSet *set, void *ctx,
-                                              CowlEntityIterator iter) {
+bool cowl_data_prop_exp_set_iterate_signature(CowlDataPropExpSet *set, CowlEntityIterator *iter) {
     uhash_foreach_key(CowlDataPropExpSet, set, prop, {
-        if (!cowl_data_prop_exp_iterate_signature(prop, ctx, iter)) return false;
+        if (!cowl_data_prop_exp_iterate_signature(prop, iter)) return false;
     });
     return true;
 }

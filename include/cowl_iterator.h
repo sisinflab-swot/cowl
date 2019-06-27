@@ -17,22 +17,37 @@ cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlOntology);
 
-typedef bool (*CowlAxiomIterator)(void *ctx, CowlAxiom *axiom);
-typedef bool (*CowlClsExpIterator)(void *ctx, CowlClsExp *exp);
-typedef bool (*CowlDataPropExpIterator)(void *ctx, CowlDataPropExp *prop);
-typedef bool (*CowlObjPropExpIterator)(void *ctx, CowlObjPropExp *prop);
-typedef bool (*CowlIndividualIterator)(void *ctx, CowlIndividual *ind);
-typedef bool (*CowlEntityIterator)(void *ctx, CowlEntity entity);
-typedef bool (*CowlOntologyIterator)(void *ctx, CowlOntology *ontology);
+#define COWL_ITERATOR_PTR *
+#define COWL_ITERATOR_NO_PTR
 
-typedef bool (*CowlAnnotPropIterator)(void *ctx, CowlAnnotProp *prop);
-typedef bool (*CowlClassIterator)(void *ctx, CowlClass *cls);
-typedef bool (*CowlDataPropIterator)(void *ctx, CowlDataProp *prop);
-typedef bool (*CowlDatatypeIterator)(void *ctx, CowlDatatype *datatype);
-typedef bool (*CowlObjPropIterator)(void *ctx, CowlObjProp *prop);
-typedef bool (*CowlNamedIndIterator)(void *ctx, CowlNamedInd *ind);
-typedef bool (*CowlAnonIndIterator)(void *ctx, CowlAnonInd *ind);
-typedef bool (*CowlAnnotationIterator)(void *ctx, CowlAnnotation *annotation);
+#define cowl_iterator_def(T, PTR)                                                                   \
+    typedef cowl_struct(T##Iterator) {                                                              \
+        void *ctx;                                                                                  \
+        bool (*for_each)(void *ctx, T PTR elem);                                                    \
+    } const T##Iterator
+
+#define cowl_iterator_init(T, CTX, FOR_EACH) \
+    ((T##Iterator){ .ctx = (void *)(CTX), .for_each = (FOR_EACH) })
+
+#define cowl_iterate(iter, elem) ((iter)->for_each((iter)->ctx, elem))
+
+cowl_iterator_def(CowlEntity, COWL_ITERATOR_NO_PTR);
+
+cowl_iterator_def(CowlAxiom, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlClsExp, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlDataPropExp, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlObjPropExp, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlIndividual, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlOntology, COWL_ITERATOR_PTR);
+
+cowl_iterator_def(CowlAnnotProp, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlClass, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlDataProp, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlDatatype, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlObjProp, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlNamedInd, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlAnonInd, COWL_ITERATOR_PTR);
+cowl_iterator_def(CowlAnnotation, COWL_ITERATOR_PTR);
 
 COWL_END_DECLS
 

@@ -170,7 +170,8 @@ static bool axiom_logger(void *ctx, CowlAxiom *axiom) {
 }
 
 void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto) {
-    cowl_ontology_iterate_axioms(onto, (void *)logger, axiom_logger);
+    CowlAxiomIterator iter = cowl_iterator_init(CowlAxiom, logger, axiom_logger);
+    cowl_ontology_iterate_axioms(onto, &iter);
 }
 
 static bool entity_logger(void *ctx, CowlEntity entity) {
@@ -181,7 +182,8 @@ static bool entity_logger(void *ctx, CowlEntity entity) {
 }
 
 void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto) {
-    cowl_ontology_iterate_signature(onto, (void *)logger, entity_logger);
+    CowlEntityIterator iter = cowl_iterator_init(CowlEntity, logger, entity_logger);
+    cowl_ontology_iterate_signature(onto, &iter);
 }
 
 void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id) {

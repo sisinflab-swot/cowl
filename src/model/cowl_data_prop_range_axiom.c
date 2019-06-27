@@ -67,9 +67,9 @@ cowl_uint_t cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom) {
 }
 
 bool cowl_data_prop_range_axiom_iterate_signature(CowlDataPropRangeAxiom *axiom,
-                                                 void *ctx, CowlEntityIterator iter) {
-    if (!cowl_data_prop_exp_iterate_signature(axiom->prop_exp, ctx, iter)) return false;
-    if (!cowl_data_range_iterate_signature(axiom->range, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                                  CowlEntityIterator *iter) {
+    if (!cowl_data_prop_exp_iterate_signature(axiom->prop_exp, iter)) return false;
+    if (!cowl_data_range_iterate_signature(axiom->range, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

@@ -60,10 +60,10 @@ cowl_uint_t cowl_data_range_hash(CowlDataRange *range) {
     return cowl_object_hash_get(range);
 }
 
-bool cowl_data_range_iterate_signature(CowlDataRange *range, void *ctx, CowlEntityIterator iter) {
+bool cowl_data_range_iterate_signature(CowlDataRange *range, CowlEntityIterator *iter) {
 
 #define GEN_CASE_SIG(CDRT, TYPE, PREFIX) \
-    case CDRT: return PREFIX##_iterate_signature((TYPE *)range, ctx, iter)
+    case CDRT: return PREFIX##_iterate_signature((TYPE *)range, iter)
 
     switch (range->type) {
 

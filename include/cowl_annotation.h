@@ -25,7 +25,7 @@ CowlAnnotationVec* cowl_annotation_get_annot(CowlAnnotation *annot);
 bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs);
 cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot);
 
-bool cowl_annotation_iterate_signature(CowlAnnotation *annot, void *ctx, CowlEntityIterator iter);
+bool cowl_annotation_iterate_signature(CowlAnnotation *annot, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

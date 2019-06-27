@@ -66,9 +66,9 @@ cowl_uint_t cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom) {
 }
 
 bool cowl_sub_annot_prop_axiom_iterate_signature(CowlSubAnnotPropAxiom *axiom,
-                                                 void *ctx, CowlEntityIterator iter) {
-    if (!cowl_annot_prop_iterate_signature(axiom->super_prop, ctx, iter)) return false;
-    if (!cowl_annot_prop_iterate_signature(axiom->sub_prop, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                                 CowlEntityIterator *iter) {
+    if (!cowl_annot_prop_iterate_signature(axiom->super_prop, iter)) return false;
+    if (!cowl_annot_prop_iterate_signature(axiom->sub_prop, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

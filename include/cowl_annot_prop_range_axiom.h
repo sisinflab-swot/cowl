@@ -28,7 +28,7 @@ bool cowl_annot_prop_range_axiom_equals(CowlAnnotPropRangeAxiom *lhs,
 cowl_uint_t cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom);
 
 bool cowl_annot_prop_range_axiom_iterate_signature(CowlAnnotPropRangeAxiom *axiom,
-                                                   void *ctx, CowlEntityIterator iter);
+                                                   CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -21,7 +21,7 @@ CowlLiteralSet* cowl_data_one_of_get_values(CowlDataOneOf *range);
 bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs);
 cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range);
 
-bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, void *ctx, CowlEntityIterator iter);
+bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

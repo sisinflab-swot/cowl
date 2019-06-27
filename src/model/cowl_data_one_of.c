@@ -50,9 +50,9 @@ cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range) {
     return cowl_object_hash_get(range);
 }
 
-bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, void *ctx, CowlEntityIterator iter) {
+bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, CowlEntityIterator *iter) {
     uhash_foreach_key(CowlLiteralSet, range->values, value, {
-        if (!cowl_literal_iterate_signature(value, ctx, iter)) return false;
+        if (!cowl_literal_iterate_signature(value, iter)) return false;
     });
     return true;
 }

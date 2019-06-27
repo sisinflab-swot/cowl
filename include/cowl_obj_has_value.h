@@ -23,7 +23,7 @@ CowlIndividual* cowl_obj_has_value_get_individual(CowlObjHasValue *exp);
 bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs);
 cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp);
 
-bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, void *ctx, CowlEntityIterator iter);
+bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

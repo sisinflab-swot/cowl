@@ -25,8 +25,7 @@ CowlAnnotationVec* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom);
 bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs);
 cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom);
 
-bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom,
-                                             void *ctx, CowlEntityIterator iter);
+bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

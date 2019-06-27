@@ -66,10 +66,10 @@ cowl_uint_t cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_datatype_def_axiom_iterate_signature(CowlDatatypeDefAxiom *axiom, void *ctx,
-                                               CowlEntityIterator iter) {
-    if (!cowl_datatype_iterate_signature(axiom->datatype, ctx, iter)) return false;
-    if (!cowl_data_range_iterate_signature(axiom->range, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+bool cowl_datatype_def_axiom_iterate_signature(CowlDatatypeDefAxiom *axiom,
+                                               CowlEntityIterator *iter) {
+    if (!cowl_datatype_iterate_signature(axiom->datatype, iter)) return false;
+    if (!cowl_data_range_iterate_signature(axiom->range, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

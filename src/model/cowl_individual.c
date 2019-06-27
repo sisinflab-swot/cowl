@@ -30,7 +30,7 @@ cowl_uint_t cowl_individual_hash(CowlIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_individual_iterate_signature(CowlIndividual *ind, void *ctx, CowlEntityIterator iter) {
+bool cowl_individual_iterate_signature(CowlIndividual *ind, CowlEntityIterator *iter) {
     if (!ind->is_named) return true;
-    return cowl_named_ind_iterate_signature((CowlNamedInd *)ind, ctx, iter);
+    return cowl_named_ind_iterate_signature((CowlNamedInd *)ind, iter);
 }

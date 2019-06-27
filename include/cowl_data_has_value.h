@@ -23,8 +23,7 @@ CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *exp);
 bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs);
 cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *exp);
 
-bool cowl_data_has_value_iterate_signature(CowlDataHasValue *exp, void *ctx,
-                                           CowlEntityIterator iter);
+bool cowl_data_has_value_iterate_signature(CowlDataHasValue *exp, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

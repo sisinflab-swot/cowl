@@ -63,8 +63,8 @@ cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, void *ctx, CowlEntityIterator iter) {
-    if (!cowl_obj_prop_exp_iterate_signature(restr->prop, ctx, iter)) return false;
-    if (!cowl_cls_exp_iterate_signature(restr->filler, ctx, iter)) return false;
+bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, CowlEntityIterator *iter) {
+    if (!cowl_obj_prop_exp_iterate_signature(restr->prop, iter)) return false;
+    if (!cowl_cls_exp_iterate_signature(restr->filler, iter)) return false;
     return true;
 }

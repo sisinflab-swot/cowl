@@ -27,7 +27,7 @@ cowl_uint_t cowl_obj_card_get_cardinality(CowlObjCard *restr);
 bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs);
 cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr);
 
-bool cowl_obj_card_iterate_signature(CowlObjCard *restr, void *ctx, CowlEntityIterator iter);
+bool cowl_obj_card_iterate_signature(CowlObjCard *restr, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

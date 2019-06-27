@@ -60,6 +60,6 @@ cowl_uint_t cowl_obj_prop_hash(CowlObjProp *prop) {
     return uhash_ptr_hash(prop);
 }
 
-bool cowl_obj_prop_iterate_signature(CowlObjProp *prop, void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, cowl_entity_wrap_obj_prop(prop));
+bool cowl_obj_prop_iterate_signature(CowlObjProp *prop, CowlEntityIterator *iter) {
+    return cowl_iterate(iter, cowl_entity_wrap_obj_prop(prop));
 }

@@ -176,234 +176,255 @@ cowl_uint_t cowl_ontology_axiom_count_for_named_ind(CowlOntology *onto, CowlName
     return count;
 }
 
-bool cowl_ontology_iterate_signature(CowlOntology *onto, void *ctx, CowlEntityIterator iter) {
+bool cowl_ontology_iterate_signature(CowlOntology *onto, CowlEntityIterator *iter) {
     uhash_foreach_key(CowlClassAxiomMap, onto->class_refs, cls, {
-        if (!iter(ctx, cowl_entity_wrap_class(cls))) return false;
+        if (!cowl_iterate(iter, cowl_entity_wrap_class(cls))) return false;
     });
 
     uhash_foreach_key(CowlNamedIndAxiomMap, onto->named_ind_refs, ind, {
-        if (!iter(ctx, cowl_entity_wrap_named_ind(ind))) return false;
+        if (!cowl_iterate(iter, cowl_entity_wrap_named_ind(ind))) return false;
     });
 
     uhash_foreach_key(CowlDatatypeAxiomMap, onto->datatype_refs, datatype, {
-        if (!iter(ctx, cowl_entity_wrap_datatype(datatype))) return false;
+        if (!cowl_iterate(iter, cowl_entity_wrap_datatype(datatype))) return false;
     });
 
     uhash_foreach_key(CowlObjPropAxiomMap, onto->obj_prop_refs, prop, {
-        if (!iter(ctx, cowl_entity_wrap_obj_prop(prop))) return false;
+        if (!cowl_iterate(iter, cowl_entity_wrap_obj_prop(prop))) return false;
     });
 
     uhash_foreach_key(CowlDataPropAxiomMap, onto->data_prop_refs, prop, {
-        if (!iter(ctx, cowl_entity_wrap_data_prop(prop))) return false;
+        if (!cowl_iterate(iter, cowl_entity_wrap_data_prop(prop))) return false;
     });
 
     uhash_foreach_key(CowlAnnotPropAxiomMap, onto->annot_prop_refs, prop, {
-        if (!iter(ctx, cowl_entity_wrap_annot_prop(prop))) return false;
+        if (!cowl_iterate(iter, cowl_entity_wrap_annot_prop(prop))) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_signature(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_signature(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_imports(CowlOntology *onto, void *ctx, CowlOntologyIterator iter) {
+bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlOntologyIterator *iter) {
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!iter(ctx, import)) return false;
+        if (!cowl_iterate(iter, import)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_imports(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_imports(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_classes(CowlOntology *onto, void *ctx, CowlClassIterator iter) {
+bool cowl_ontology_iterate_classes(CowlOntology *onto, CowlClassIterator *iter) {
     uhash_foreach_key(CowlClassAxiomMap, onto->class_refs, cls, {
-        if (!iter(ctx, cls)) return false;
+        if (!cowl_iterate(iter, cls)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_classes(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_classes(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_data_props(CowlOntology *onto, void *ctx, CowlDataPropIterator iter) {
+bool cowl_ontology_iterate_data_props(CowlOntology *onto, CowlDataPropIterator *iter) {
     uhash_foreach_key(CowlDataPropAxiomMap, onto->data_prop_refs, prop, {
-        if (!iter(ctx, prop)) return false;
+        if (!cowl_iterate(iter, prop)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_data_props(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_data_props(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_datatypes(CowlOntology *onto, void *ctx, CowlDatatypeIterator iter) {
+bool cowl_ontology_iterate_datatypes(CowlOntology *onto, CowlDatatypeIterator *iter) {
     uhash_foreach_key(CowlDatatypeAxiomMap, onto->datatype_refs, datatype, {
-        if (!iter(ctx, datatype)) return false;
+        if (!cowl_iterate(iter, datatype)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_datatypes(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_datatypes(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_obj_props(CowlOntology *onto, void *ctx, CowlObjPropIterator iter) {
+bool cowl_ontology_iterate_obj_props(CowlOntology *onto, CowlObjPropIterator *iter) {
     uhash_foreach_key(CowlObjPropAxiomMap, onto->obj_prop_refs, prop, {
-        if (!iter(ctx, prop)) return false;
+        if (!cowl_iterate(iter, prop)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_obj_props(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_obj_props(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_annot_props(CowlOntology *onto, void *ctx, CowlAnnotPropIterator iter) {
+bool cowl_ontology_iterate_annot_props(CowlOntology *onto, CowlAnnotPropIterator *iter) {
     uhash_foreach_key(CowlAnnotPropAxiomMap, onto->annot_prop_refs, prop, {
-        if (!iter(ctx, prop)) return false;
+        if (!cowl_iterate(iter, prop)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_annot_props(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_annot_props(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_named_inds(CowlOntology *onto, void *ctx, CowlNamedIndIterator iter) {
+bool cowl_ontology_iterate_named_inds(CowlOntology *onto, CowlNamedIndIterator *iter) {
     uhash_foreach_key(CowlNamedIndAxiomMap, onto->named_ind_refs, ind, {
-        if (!iter(ctx, ind)) return false;
+        if (!cowl_iterate(iter, ind)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_named_inds(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_named_inds(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, void *ctx,
-                                            CowlAnonIndIterator iter) {
+bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, CowlAnonIndIterator *iter) {
     uhash_foreach_key(CowlAnonIndAxiomMap, onto->anon_ind_refs, ind, {
-        if (!iter(ctx, ind)) return false;
+        if (!cowl_iterate(iter, ind)) return false;
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_anon_inds(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_anon_inds(import, iter)) return false;
     });
 
     return true;
 }
 
-bool cowl_ontology_iterate_axioms(CowlOntology *onto, void *ctx, CowlAxiomIterator iter) {
+bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlAxiomIterator *iter) {
     for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; ++type) {
         CowlAxiomSet *axioms = onto->axioms_by_type[type];
-        uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+        uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+            if (!cowl_iterate(iter, axiom)) return false;
+        });
     }
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms(import, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms(import, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
-                                          void *ctx, CowlAxiomIterator iter) {
+                                          CowlAxiomIterator *iter) {
     CowlAxiomSet *axioms = onto->axioms_by_type[type];
-    uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+
+    uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+        if (!cowl_iterate(iter, axiom)) return false;
+    });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms_of_type(import, type, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms_of_type(import, type, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_axioms_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop,
-                                                 void *ctx, CowlAxiomIterator iter) {
+                                                 CowlAxiomIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlAnnotPropAxiomMap, onto->annot_prop_refs, prop, NULL);
-    uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+
+    uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+        if (!cowl_iterate(iter, axiom)) return false;
+    });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms_for_annot_prop(import, prop, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms_for_annot_prop(import, prop, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_axioms_for_class(CowlOntology *onto, CowlClass *owl_class,
-                                            void *ctx, CowlAxiomIterator iter) {
+                                            CowlAxiomIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
-    uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+
+    uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+        if (!cowl_iterate(iter, axiom)) return false;
+    });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms_for_class(import, owl_class, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms_for_class(import, owl_class, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_axioms_for_data_prop(CowlOntology *onto, CowlDataProp *prop,
-                                                void *ctx, CowlAxiomIterator iter) {
+                                                CowlAxiomIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlDataPropAxiomMap, onto->data_prop_refs, prop, NULL);
-    uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+
+    uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+        if (!cowl_iterate(iter, axiom)) return false; }
+    );
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms_for_data_prop(import, prop, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms_for_data_prop(import, prop, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_axioms_for_datatype(CowlOntology *onto, CowlDatatype *datatype,
-                                               void *ctx, CowlAxiomIterator iter) {
+                                               CowlAxiomIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlDatatypeAxiomMap, onto->datatype_refs, datatype, NULL);
-    uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+    uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+        if (!cowl_iterate(iter, axiom)) return false;
+    });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms_for_datatype(import, datatype, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms_for_datatype(import, datatype, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_axioms_for_obj_prop(CowlOntology *onto, CowlObjProp *prop,
-                                               void *ctx, CowlAxiomIterator iter) {
+                                               CowlAxiomIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlObjPropAxiomMap, onto->obj_prop_refs, prop, NULL);
-    uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+
+    uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+        if (!cowl_iterate(iter, axiom)) return false;
+    });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms_for_obj_prop(import, prop, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms_for_obj_prop(import, prop, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_axioms_for_named_ind(CowlOntology *onto, CowlNamedInd *ind,
-                                                void *ctx, CowlAxiomIterator iter) {
+                                                CowlAxiomIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlNamedIndAxiomMap, onto->named_ind_refs, ind, NULL);
-    uhash_foreach_key(CowlAxiomSet, axioms, axiom, { if (!iter(ctx, axiom)) return false; });
+
+    uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
+        if (!cowl_iterate(iter, axiom)) return false;
+    });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_axioms_for_named_ind(import, ind, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_axioms_for_named_ind(import, ind, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
-                                       void *ctx, CowlClsExpIterator iter) {
+                                       CowlClsExpIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
@@ -411,20 +432,20 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
             CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
             if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->super_class)) {
-                if (!iter(ctx, sub_axiom->sub_class)) return false;
+                if (!cowl_iterate(iter, sub_axiom->sub_class)) return false;
             }
         }
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_sub_classes(import, owl_class, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_sub_classes(import, owl_class, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
-                                         void *ctx, CowlClsExpIterator iter) {
+                                         CowlClsExpIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
@@ -432,20 +453,20 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
             CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
             if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->sub_class)) {
-                if (!iter(ctx, sub_axiom->super_class)) return false;
+                if (!cowl_iterate(iter, sub_axiom->super_class)) return false;
             }
         }
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_super_classes(import, owl_class, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_super_classes(import, owl_class, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
-                                      void *ctx, CowlClsExpIterator iter) {
+                                      CowlClsExpIterator *iter) {
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
@@ -455,21 +476,21 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
             uhash_uint_t cls_idx = uhash_get(CowlClsExpSet, eq_classes, (CowlClsExp *)owl_class);
             if (cls_idx < uhash_end(eq_classes)) {
                 for (uhash_uint_t i = uhash_begin(eq_classes); i != uhash_end(eq_classes); ++i) {
-                    if (i != cls_idx && !iter(ctx, uhash_key(eq_classes, i))) return false;
+                    if (i != cls_idx && !cowl_iterate(iter, uhash_key(eq_classes, i))) return false;
                 }
             }
         }
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_eq_classes(import, owl_class, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_eq_classes(import, owl_class, iter)) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
-                                 void *ctx, CowlClsExpIterator iter) {
+                                 CowlClsExpIterator *iter) {
     CowlAxiomSet *axioms;
 
     if (ind->is_named) {
@@ -481,12 +502,12 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
         if (cowl_axiom_flags_get_type(axiom->flags) == CAT_CLASS_ASSERTION) {
             CowlClsAssertAxiom *assert_axiom = (CowlClsAssertAxiom *)axiom;
-            if (!iter(ctx, assert_axiom->cls_exp)) return false;
+            if (!cowl_iterate(iter, assert_axiom->cls_exp)) return false;
         }
     });
 
     vector_foreach(CowlOntologyPtr, onto->imports, import, {
-        if (!cowl_ontology_iterate_types(import, ind, ctx, iter)) return false;
+        if (!cowl_ontology_iterate_types(import, ind, iter)) return false;
     });
 
     return true;
@@ -560,7 +581,8 @@ void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom) 
     cowl_add_axiom_to_set_in_array(onto->axioms_by_type, type, axiom);
 
     CowlAxiomEntityCtx c = { .onto = onto, .axiom = axiom };
-    cowl_axiom_iterate_signature(axiom, &c, cowl_ontology_entity_adder);
+    CowlEntityIterator iter = cowl_iterator_init(CowlEntity, &c, cowl_ontology_entity_adder);
+    cowl_axiom_iterate_signature(axiom, &iter);
 }
 
 static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,

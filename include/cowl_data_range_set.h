@@ -18,8 +18,7 @@ void cowl_data_range_set_free(CowlDataRangeSet *set);
 bool cowl_data_range_set_equals(CowlDataRangeSet *lhs, CowlDataRangeSet *rhs);
 cowl_uint_t cowl_data_range_set_hash(CowlDataRangeSet *set);
 
-bool cowl_data_range_set_iterate_signature(CowlDataRangeSet *set, void *ctx,
-                                           CowlEntityIterator iter);
+bool cowl_data_range_set_iterate_signature(CowlDataRangeSet *set, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -62,9 +62,8 @@ cowl_uint_t cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_nary_ind_axiom_iterate_signature(CowlNAryIndAxiom *axiom, void *ctx,
-                                           CowlEntityIterator iter) {
-    if (!cowl_individual_set_iterate_signature(axiom->operands, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+bool cowl_nary_ind_axiom_iterate_signature(CowlNAryIndAxiom *axiom, CowlEntityIterator *iter) {
+    if (!cowl_individual_set_iterate_signature(axiom->operands, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

@@ -22,7 +22,7 @@ CowlAnnotationVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom);
 bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
 cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
 
-bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, void *ctx, CowlEntityIterator iter);
+bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -79,9 +79,8 @@ cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_obj_card_iterate_signature(CowlObjCard *restr,
-                                     void *ctx, CowlEntityIterator iter) {
-    if (!cowl_obj_prop_exp_iterate_signature(restr->prop, ctx, iter)) return false;
-    if (restr->filler && !cowl_cls_exp_iterate_signature(restr->filler, ctx, iter)) return false;
+bool cowl_obj_card_iterate_signature(CowlObjCard *restr, CowlEntityIterator *iter) {
+    if (!cowl_obj_prop_exp_iterate_signature(restr->prop, iter)) return false;
+    if (restr->filler && !cowl_cls_exp_iterate_signature(restr->filler, iter)) return false;
     return true;
 }

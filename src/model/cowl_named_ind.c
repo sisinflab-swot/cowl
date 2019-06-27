@@ -63,6 +63,6 @@ cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_named_ind_iterate_signature(CowlNamedInd *ind, void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, cowl_entity_wrap_named_ind(ind));
+bool cowl_named_ind_iterate_signature(CowlNamedInd *ind, CowlEntityIterator *iter) {
+    return cowl_iterate(iter, cowl_entity_wrap_named_ind(ind));
 }

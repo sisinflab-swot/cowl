@@ -19,10 +19,9 @@ cowl_uint_t cowl_facet_restr_set_hash(CowlFacetRestrSet *set) {
     return uhset_hash(CowlFacetRestrSet, set);
 }
 
-bool cowl_facet_restr_set_iterate_signature(CowlFacetRestrSet *set, void *ctx,
-                                            CowlEntityIterator iter) {
+bool cowl_facet_restr_set_iterate_signature(CowlFacetRestrSet *set, CowlEntityIterator *iter) {
     uhash_foreach_key(CowlFacetRestrSet, set, restr, {
-        if (!cowl_facet_restr_iterate_signature(restr, ctx, iter)) return false;
+        if (!cowl_facet_restr_iterate_signature(restr, iter)) return false;
     });
     return true;
 }

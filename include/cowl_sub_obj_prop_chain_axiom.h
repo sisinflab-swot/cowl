@@ -28,8 +28,8 @@ bool cowl_sub_obj_prop_chain_axiom_equals(CowlSubObjPropChainAxiom *lhs,
                                           CowlSubObjPropChainAxiom *rhs);
 cowl_uint_t cowl_sub_obj_prop_chain_axiom_hash(CowlSubObjPropChainAxiom *axiom);
 
-bool cowl_sub_obj_prop_chain_axiom_iterate_signature(CowlSubObjPropChainAxiom *axiom, void *ctx,
-                                                     CowlEntityIterator iter);
+bool cowl_sub_obj_prop_chain_axiom_iterate_signature(CowlSubObjPropChainAxiom *axiom,
+                                                     CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

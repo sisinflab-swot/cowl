@@ -55,10 +55,6 @@ cowl_uint_t cowl_nary_data_hash(CowlNAryData *range) {
     return cowl_object_hash_get(range);
 }
 
-bool cowl_nary_data_iterate_signature(CowlNAryData *range,
-                                      void *ctx, CowlEntityIterator iter) {
-    uhash_foreach_key(CowlDataRangeSet, range->operands, operand, {
-        if (!cowl_data_range_iterate_signature(operand, ctx, iter)) return false;
-    });
-    return true;
+bool cowl_nary_data_iterate_signature(CowlNAryData *range, CowlEntityIterator *iter) {
+    return cowl_data_range_set_iterate_signature(range->operands, iter);
 }

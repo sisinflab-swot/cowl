@@ -18,8 +18,7 @@ void cowl_facet_restr_set_free(CowlFacetRestrSet *set);
 bool cowl_facet_restr_set_equals(CowlFacetRestrSet *lhs, CowlFacetRestrSet *rhs);
 cowl_uint_t cowl_facet_restr_set_hash(CowlFacetRestrSet *set);
 
-bool cowl_facet_restr_set_iterate_signature(CowlFacetRestrSet *set, void *ctx,
-                                            CowlEntityIterator iter);
+bool cowl_facet_restr_set_iterate_signature(CowlFacetRestrSet *set, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -65,10 +65,9 @@ cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom,
-                                                 void *ctx, CowlEntityIterator iter) {
-    if (!cowl_class_iterate_signature(axiom->cls, ctx, iter)) return false;
-    if (!cowl_cls_exp_set_iterate_signature(axiom->disjoints, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom, CowlEntityIterator *iter) {
+    if (!cowl_class_iterate_signature(axiom->cls, iter)) return false;
+    if (!cowl_cls_exp_set_iterate_signature(axiom->disjoints, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

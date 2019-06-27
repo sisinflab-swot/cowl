@@ -64,8 +64,8 @@ cowl_uint_t cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom) {
 }
 
 bool cowl_obj_prop_char_axiom_iterate_signature(CowlObjPropCharAxiom *axiom,
-                                                void *ctx, CowlEntityIterator iter) {
-    if (!cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                                CowlEntityIterator *iter) {
+    if (!cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

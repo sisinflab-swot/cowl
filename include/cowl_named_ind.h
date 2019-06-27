@@ -21,7 +21,7 @@ CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind);
 bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs);
 cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind);
 
-bool cowl_named_ind_iterate_signature(CowlNamedInd *ind, void *ctx, CowlEntityIterator iter);
+bool cowl_named_ind_iterate_signature(CowlNamedInd *ind, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

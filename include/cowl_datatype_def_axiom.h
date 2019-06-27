@@ -26,8 +26,8 @@ CowlAnnotationVec* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom
 bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAxiom *rhs);
 cowl_uint_t cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom);
 
-bool cowl_datatype_def_axiom_iterate_signature(CowlDatatypeDefAxiom *axiom, void *ctx,
-                                               CowlEntityIterator iter);
+bool cowl_datatype_def_axiom_iterate_signature(CowlDatatypeDefAxiom *axiom,
+                                               CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

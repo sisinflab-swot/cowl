@@ -27,7 +27,7 @@ bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRan
 cowl_uint_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom);
 
 bool cowl_obj_prop_range_axiom_iterate_signature(CowlObjPropRangeAxiom *axiom,
-                                                 void *ctx, CowlEntityIterator iter);
+                                                 CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

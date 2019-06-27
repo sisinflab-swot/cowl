@@ -23,7 +23,7 @@ CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp);
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs);
 cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp);
 
-bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, void *ctx, CowlEntityIterator iter);
+bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

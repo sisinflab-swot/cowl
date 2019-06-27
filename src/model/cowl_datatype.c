@@ -67,6 +67,6 @@ cowl_uint_t cowl_datatype_hash(CowlDatatype *datatype) {
     return cowl_object_hash_get(datatype);
 }
 
-bool cowl_datatype_iterate_signature(CowlDatatype *datatype, void *ctx, CowlEntityIterator iter) {
-    return iter(ctx, cowl_entity_wrap_datatype(datatype));
+bool cowl_datatype_iterate_signature(CowlDatatype *datatype, CowlEntityIterator *iter) {
+    return cowl_iterate(iter, cowl_entity_wrap_datatype(datatype));
 }

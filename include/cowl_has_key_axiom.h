@@ -28,8 +28,7 @@ CowlAnnotationVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
 bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs);
 cowl_uint_t cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom);
 
-bool cowl_has_key_axiom_iterate_signature(CowlHasKeyAxiom *axiom, void *ctx,
-                                          CowlEntityIterator iter);
+bool cowl_has_key_axiom_iterate_signature(CowlHasKeyAxiom *axiom, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

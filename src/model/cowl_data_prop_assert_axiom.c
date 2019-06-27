@@ -93,10 +93,10 @@ cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
 }
 
 bool cowl_data_prop_assert_axiom_iterate_signature(CowlDataPropAssertAxiom *axiom,
-                                                   void *ctx, CowlEntityIterator iter) {
-    if (!cowl_individual_iterate_signature(axiom->source, ctx, iter)) return false;
-    if (!cowl_data_prop_exp_iterate_signature(axiom->prop, ctx, iter)) return false;
-    if (!cowl_literal_iterate_signature(axiom->target, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                                   CowlEntityIterator *iter) {
+    if (!cowl_individual_iterate_signature(axiom->source, iter)) return false;
+    if (!cowl_data_prop_exp_iterate_signature(axiom->prop, iter)) return false;
+    if (!cowl_literal_iterate_signature(axiom->target, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

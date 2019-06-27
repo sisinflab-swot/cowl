@@ -27,8 +27,7 @@ CowlAnnotationVec *cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom);
 bool cowl_nary_ind_axiom_equals(CowlNAryIndAxiom *lhs, CowlNAryIndAxiom *rhs);
 cowl_uint_t cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom);
 
-bool cowl_nary_ind_axiom_iterate_signature(CowlNAryIndAxiom *axiom, void *ctx,
-                                           CowlEntityIterator iter);
+bool cowl_nary_ind_axiom_iterate_signature(CowlNAryIndAxiom *axiom, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

@@ -21,7 +21,7 @@ CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range);
 bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs);
 cowl_uint_t cowl_data_range_hash(CowlDataRange *range);
 
-bool cowl_data_range_iterate_signature(CowlDataRange *range, void *ctx, CowlEntityIterator iter);
+bool cowl_data_range_iterate_signature(CowlDataRange *range, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

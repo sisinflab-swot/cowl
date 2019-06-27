@@ -48,6 +48,6 @@ cowl_uint_t cowl_facet_restr_hash(CowlFacetRestr *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_facet_restr_iterate_signature(CowlFacetRestr *restr, void *ctx, CowlEntityIterator iter) {
-    return cowl_literal_iterate_signature(restr->value, ctx, iter);
+bool cowl_facet_restr_iterate_signature(CowlFacetRestr *restr, CowlEntityIterator *iter) {
+    return cowl_literal_iterate_signature(restr->value, iter);
 }

@@ -65,9 +65,9 @@ cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
 }
 
 bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom *axiom,
-                                          void *ctx, CowlEntityIterator iter) {
-    if (!cowl_cls_exp_iterate_signature(axiom->super_class, ctx, iter)) return false;
-    if (!cowl_cls_exp_iterate_signature(axiom->sub_class, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                          CowlEntityIterator *iter) {
+    if (!cowl_cls_exp_iterate_signature(axiom->super_class, iter)) return false;
+    if (!cowl_cls_exp_iterate_signature(axiom->sub_class, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

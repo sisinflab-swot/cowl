@@ -75,8 +75,8 @@ cowl_uint_t cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom) {
 }
 
 bool cowl_annot_assert_axiom_iterate_signature(CowlAnnotAssertAxiom *axiom,
-                                               void *ctx, CowlEntityIterator iter) {
-    if (!cowl_annot_prop_iterate_signature(axiom->prop, ctx, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, ctx, iter)) return false;
+                                               CowlEntityIterator *iter) {
+    if (!cowl_annot_prop_iterate_signature(axiom->prop, iter)) return false;
+    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
