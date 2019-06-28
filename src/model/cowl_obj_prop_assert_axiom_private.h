@@ -9,8 +9,8 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlObjPropAssertAxiom,
-    CowlIndividual *source;
-    CowlIndividual *target;
+    CowlIndividual *subject;
+    CowlIndividual *object;
     CowlObjPropExp *prop_exp;
 );
 

@@ -771,11 +771,11 @@ static void cowl_logger_log_obj_prop_assert(CowlLogger *logger, CowlObjPropAsser
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
     cowl_logger_logf(logger, "%sObjectPropertyAssertion(",
                      type == CAT_NEGATIVE_OBJ_PROP_ASSERTION ? "Negative" : "");
-    cowl_logger_log_individual(logger, axiom->source);
+    cowl_logger_log_individual(logger, axiom->subject);
     cowl_logger_logf(logger, " ");
     cowl_logger_log_obj_prop_exp(logger, axiom->prop_exp);
     cowl_logger_logf(logger, " ");
-    cowl_logger_log_individual(logger, axiom->target);
+    cowl_logger_log_individual(logger, axiom->object);
     cowl_logger_logf(logger, ")");
 }
 
@@ -783,11 +783,11 @@ static void cowl_logger_log_data_prop_assert(CowlLogger *logger, CowlDataPropAss
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
     cowl_logger_logf(logger, "%sDataPropertyAssertion(",
                      type == CAT_NEGATIVE_OBJ_PROP_ASSERTION ? "Negative" : "");
-    cowl_logger_log_individual(logger, axiom->source);
+    cowl_logger_log_individual(logger, axiom->subject);
     cowl_logger_logf(logger, " ");
     cowl_logger_log_data_prop_exp(logger, axiom->prop);
     cowl_logger_logf(logger, " ");
-    cowl_logger_log_literal(logger, axiom->target);
+    cowl_logger_log_literal(logger, axiom->object);
     cowl_logger_logf(logger, ")");
 }
 

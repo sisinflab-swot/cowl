@@ -17,9 +17,9 @@ static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType 
 
     CowlDataPropAssertAxiom init = {
         .super = COWL_AXIOM_INIT(type, hash, annot),
-        .source = cowl_individual_retain(source),
+        .subject = cowl_individual_retain(source),
         .prop = cowl_data_prop_exp_retain(prop),
-        .target = cowl_literal_retain(target)
+        .object = cowl_literal_retain(target)
     };
 
     cowl_struct(CowlDataPropAssertAxiom) *axiom;
@@ -29,25 +29,25 @@ static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType 
 
 static void cowl_data_prop_assert_axiom_free(CowlDataPropAssertAxiom *axiom) {
     if (!axiom) return;
-    cowl_individual_release(axiom->source);
+    cowl_individual_release(axiom->subject);
     cowl_data_prop_exp_release(axiom->prop);
-    cowl_literal_release(axiom->target);
+    cowl_literal_release(axiom->object);
     cowl_axiom_free(axiom);
 }
 
-CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *source,
+CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subject,
                                                          CowlDataPropExp *prop,
-                                                         CowlLiteral *target,
+                                                         CowlLiteral *object,
                                                          CowlAnnotationVec *annot) {
-    return cowl_data_prop_assert_axiom_alloc(CAT_DATA_PROP_ASSERTION, source, prop, target, annot);
+    return cowl_data_prop_assert_axiom_alloc(CAT_DATA_PROP_ASSERTION, subject, prop, object, annot);
 }
 
-CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *source,
+CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subject,
                                                              CowlDataPropExp *prop,
-                                                             CowlLiteral *target,
+                                                             CowlLiteral *object,
                                                              CowlAnnotationVec *annot) {
     return cowl_data_prop_assert_axiom_alloc(CAT_NEGATIVE_DATA_PROP_ASSERTION,
-                                             source, prop, target, annot);
+                                             subject, prop, object, annot);
 }
 
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_retain(CowlDataPropAssertAxiom *axiom) {
@@ -64,12 +64,12 @@ bool cowl_data_prop_assert_axiom_is_negative(CowlDataPropAssertAxiom *axiom) {
     return cowl_axiom_flags_get_type(axiom->super.flags) == CAT_NEGATIVE_DATA_PROP_ASSERTION;
 }
 
-CowlIndividual* cowl_data_prop_assert_axiom_get_source(CowlDataPropAssertAxiom *axiom) {
-    return axiom->source;
+CowlIndividual* cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom *axiom) {
+    return axiom->subject;
 }
 
-CowlLiteral* cowl_data_prop_assert_axiom_get_target(CowlDataPropAssertAxiom *axiom) {
-    return axiom->target;
+CowlLiteral* cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axiom) {
+    return axiom->object;
 }
 
 CowlDataPropExp* cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *axiom) {
@@ -83,9 +83,9 @@ CowlAnnotationVec* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom
 bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs,
                                         CowlDataPropAssertAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
-                                  cowl_literal_equals(lhs->target, rhs->target) &&
+                                  cowl_literal_equals(lhs->object, rhs->object) &&
                                   cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&
-                                  cowl_individual_equals(lhs->source, rhs->source));
+                                  cowl_individual_equals(lhs->subject, rhs->subject));
 }
 
 cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
@@ -94,9 +94,9 @@ cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
 
 bool cowl_data_prop_assert_axiom_iterate_signature(CowlDataPropAssertAxiom *axiom,
                                                    CowlEntityIterator *iter) {
-    if (!cowl_individual_iterate_signature(axiom->source, iter)) return false;
+    if (!cowl_individual_iterate_signature(axiom->subject, iter)) return false;
     if (!cowl_data_prop_exp_iterate_signature(axiom->prop, iter)) return false;
-    if (!cowl_literal_iterate_signature(axiom->target, iter)) return false;
+    if (!cowl_literal_iterate_signature(axiom->object, iter)) return false;
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }

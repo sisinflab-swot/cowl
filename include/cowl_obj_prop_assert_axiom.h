@@ -14,21 +14,21 @@ cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 
 cowl_struct_decl(CowlObjPropAssertAxiom);
 
-CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *source,
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                        CowlObjPropExp *prop,
-                                                       CowlIndividual *target,
+                                                       CowlIndividual *object,
                                                        CowlAnnotationVec *annot);
-CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *source,
+CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                            CowlObjPropExp *prop,
-                                                           CowlIndividual *target,
+                                                           CowlIndividual *object,
                                                            CowlAnnotationVec *annot);
 
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom);
 void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom);
 
 bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom);
-CowlIndividual* cowl_obj_prop_assert_axiom_get_source(CowlObjPropAssertAxiom *axiom);
-CowlIndividual* cowl_obj_prop_assert_axiom_get_target(CowlObjPropAssertAxiom *axiom);
+CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom);
+CowlIndividual* cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *axiom);
 CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom);
 CowlAnnotationVec* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom);
 

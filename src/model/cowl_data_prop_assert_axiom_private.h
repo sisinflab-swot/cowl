@@ -9,9 +9,9 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlDataPropAssertAxiom,
-    CowlIndividual *source;
+    CowlIndividual *subject;
     CowlDataPropExp *prop;
-    CowlLiteral *target;
+    CowlLiteral *object;
 );
 
 COWL_END_DECLS
