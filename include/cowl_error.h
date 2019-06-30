@@ -12,7 +12,7 @@ cowl_struct_decl(CowlString);
 
 typedef enum CowlErrorCode {
     CEC_ONTOLOGY_LOAD,
-    CEC_UNSUPPORTED
+    CEC_SYNTAX
 } CowlErrorCode;
 
 typedef cowl_struct(CowlError) {

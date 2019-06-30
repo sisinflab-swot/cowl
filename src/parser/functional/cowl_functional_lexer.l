@@ -113,34 +113,40 @@ NON_NEGATIVE_INTEGER                    {DIGITS}
 "AnnotationPropertyDomain"              { return ANNOTATION_PROPERTY_DOMAIN; }
 "AnnotationPropertyRange"               { return ANNOTATION_PROPERTY_RANGE; }
 
-{NON_NEGATIVE_INTEGER}                  {
-                                            yylval->NON_NEGATIVE_INTEGER = (cowl_uint_t)atoi(yytext);
-                                            return NON_NEGATIVE_INTEGER;
-                                        }
-{IRI_REF}                               {
-                                            yylval->IRI_REF = cowl_yystring_init(yytext + 1, (cowl_uint_t)(yyleng - 2));
-                                            return IRI_REF;
-                                        }
-{PNAME_NS}                              {
-                                            yylval->PNAME_NS = cowl_yystring_init(yytext, (cowl_uint_t)yyleng);
-                                            return PNAME_NS;
-                                        }
-{PNAME_LN}                              {
-                                            yylval->PNAME_LN = cowl_yystring_init(yytext, (cowl_uint_t)yyleng);
-                                            return PNAME_LN;
-                                        }
-{BLANK_NODE_LABEL}                      {
-                                            yylval->BLANK_NODE_LABEL = cowl_yystring_init(yytext + 2, (cowl_uint_t)(yyleng - 2));
-                                            return BLANK_NODE_LABEL;
-                                        }
-{LANG_TAG}                              {
-                                            yylval->LANG_TAG = cowl_yystring_init(yytext + 1, (cowl_uint_t)(yyleng - 1));
-                                            return LANG_TAG;
-                                        }
-{QUOTED_STRING}                         {
-                                            yylval->QUOTED_STRING = cowl_yystring_init(yytext + 1, (cowl_uint_t)(yyleng - 2));
-                                            return QUOTED_STRING;
-                                        }
+{NON_NEGATIVE_INTEGER} {
+    yylval->NON_NEGATIVE_INTEGER = (cowl_uint_t)atoi(yytext);
+    return NON_NEGATIVE_INTEGER;
+}
+
+{IRI_REF} {
+    yylval->IRI_REF = cowl_raw_string_init(yytext + 1, (cowl_uint_t)(yyleng - 2), false);
+    return IRI_REF;
+}
+
+{PNAME_NS} {
+    yylval->PNAME_NS = cowl_raw_string_init(yytext, (cowl_uint_t)yyleng, false);
+    return PNAME_NS;
+}
+
+{PNAME_LN} {
+    yylval->PNAME_LN = cowl_raw_string_init(yytext, (cowl_uint_t)yyleng, false);
+    return PNAME_LN;
+}
+
+{BLANK_NODE_LABEL} {
+    yylval->BLANK_NODE_LABEL = cowl_raw_string_init(yytext + 2, (cowl_uint_t)(yyleng - 2), false);
+    return BLANK_NODE_LABEL;
+}
+
+{LANG_TAG} {
+    yylval->LANG_TAG = cowl_raw_string_init(yytext + 1, (cowl_uint_t)(yyleng - 1), false);
+    return LANG_TAG;
+}
+
+{QUOTED_STRING} {
+    yylval->QUOTED_STRING = cowl_raw_string_init(yytext + 1, (cowl_uint_t)(yyleng - 2), false);
+    return QUOTED_STRING;
+}
 
 "^^"                                    { return DOUBLE_CARET; }
 "("                                     { return L_PAREN; }

@@ -16,6 +16,7 @@
 #include "cowl_nary_type.h"
 #include "cowl_nary_axiom_type.h"
 #include "cowl_quant_type.h"
+#include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 

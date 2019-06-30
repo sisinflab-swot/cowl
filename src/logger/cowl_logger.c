@@ -159,7 +159,7 @@ void cowl_logger_logf(CowlLogger *logger, char const *format, ...) {
 }
 
 void cowl_logger_log_string(CowlLogger *logger, CowlString *string) {
-    cowl_logger_logf(logger, "%s", string->cstring);
+    cowl_logger_logf(logger, "%s", string->raw_string.cstring);
 }
 
 static bool axiom_logger(void *ctx, CowlAxiom *axiom) {
@@ -211,7 +211,7 @@ void cowl_logger_log_annotation(CowlLogger *logger, CowlAnnotation *annotation) 
 }
 
 void cowl_logger_log_iri(CowlLogger *logger, CowlIRI *iri) {
-    cowl_logger_logf(logger, "<%s%s>", iri->ns->cstring, iri->rem->cstring);
+    cowl_logger_logf(logger, "<%s%s>", iri->ns->raw_string.cstring, iri->rem->raw_string.cstring);
 }
 
 void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity) {

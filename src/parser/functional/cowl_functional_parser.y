@@ -11,7 +11,6 @@
 %code requires {
     #include "cowl_std.h"
     #include "cowl_types.h"
-    #include "cowl_parser_types.h"
 
     #ifndef YY_TYPEDEF_YY_SCANNER_T
     #define YY_TYPEDEF_YY_SCANNER_T
@@ -25,8 +24,8 @@
     #include "cowl_private.h"
 
     static void yyerror(YYLTYPE *yylloc, cowl_unused yyscan_t yyscanner,
-                        cowl_unused CowlParser *parser, const char* s) {
-        fprintf(stderr, "Parse error on line %d: %s\n", yylloc->last_line, s);
+                        CowlParser *parser, const char* s) {
+        cowl_parser_log_error(parser, CEC_SYNTAX, strdup(s), yylloc->last_line);
     }
 }
 
@@ -35,12 +34,12 @@
 // Terminals
 
 %token <cowl_uint_t> NON_NEGATIVE_INTEGER
-%token <CowlYYString> QUOTED_STRING
-%token <CowlYYString> BLANK_NODE_LABEL
-%token <CowlYYString> PNAME_NS
-%token <CowlYYString> PNAME_LN
-%token <CowlYYString> LANG_TAG
-%token <CowlYYString> IRI_REF
+%token <CowlRawString> QUOTED_STRING
+%token <CowlRawString> BLANK_NODE_LABEL
+%token <CowlRawString> PNAME_NS
+%token <CowlRawString> PNAME_LN
+%token <CowlRawString> LANG_TAG
+%token <CowlRawString> IRI_REF
 
 %token L_PAREN R_PAREN EQUALS DOUBLE_CARET
 

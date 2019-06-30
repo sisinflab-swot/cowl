@@ -5,17 +5,16 @@
 
 #include "cowl_string.h"
 #include "cowl_object.h"
+#include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlString) {
     CowlHashObject super;
-    cowl_uint_t length;
-    char const *cstring;
+    CowlRawString raw_string;
 };
 
-#define COWL_STRING_INIT(S, L, H) \
-    { .super = COWL_HASH_OBJECT_INIT(H), .cstring = (S), .length = (L) }
+cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string);
 
 void cowl_string_split_two(char const *cstring, cowl_uint_t length,
                            char character, CowlString **out);
