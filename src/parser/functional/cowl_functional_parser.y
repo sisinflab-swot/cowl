@@ -247,7 +247,7 @@ ontology
 
 ontology_id
     : %empty {
-        $$ = NULL;
+        $$ = cowl_ontology_id_alloc_anonymous();
     }
     | ontology_iri {
         $$ = cowl_ontology_id_alloc($1, NULL);

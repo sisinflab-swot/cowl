@@ -6,13 +6,17 @@
 
 CowlOntologyId* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri) {
     CowlOntologyId init = {
-        .onto_iri = cowl_iri_retain(onto_iri),
+        .onto_iri = onto_iri ? cowl_iri_retain(onto_iri) : NULL,
         .version_iri = version_iri ? cowl_iri_retain(version_iri) : NULL
     };
 
     cowl_struct(CowlOntologyId) *id = malloc(sizeof(*id));
     memcpy(id, &init, sizeof(*id));
     return id;
+}
+
+CowlOntologyId* cowl_ontology_id_alloc_anonymous(void) {
+    return cowl_ontology_id_alloc(NULL, NULL);
 }
 
 void cowl_ontology_id_free(CowlOntologyId *id) {
@@ -31,11 +35,20 @@ CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyId *id) {
 }
 
 bool cowl_ontology_id_equals(CowlOntologyId *lhs, CowlOntologyId *rhs) {
+    if (lhs == rhs) return true;
+
+    // If either of the ontology IRIs are NULL, then we assume the IDs are not equal.
+    // In fact, if they are both NULL, then the IDs are anonymous and they didn't pass
+    // the pointer equality test. If only one of them is NULL, then one of the IDs is
+    // anonymous, while the other is named.
+    if (!(lhs->onto_iri && rhs->onto_iri)) return false;
+
     return cowl_iri_equals(lhs->onto_iri, rhs->onto_iri) &&
            cowl_iri_equals(lhs->version_iri, rhs->version_iri);
 }
 
 cowl_uint_t cowl_ontology_id_hash(CowlOntologyId *id) {
+    if (!id->onto_iri) return uhash_ptr_hash(id);
     return cowl_hash_2(COWL_HASH_INIT_ONTO_ID,
                        cowl_iri_hash(id->onto_iri),
                        cowl_iri_hash(id->version_iri));

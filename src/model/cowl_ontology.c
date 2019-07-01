@@ -79,7 +79,7 @@ CowlOntologyId* cowl_ontology_get_id(CowlOntology *onto) {
 }
 
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
-    return cowl_ontology_id_equals(lhs->id, rhs->id);
+    return lhs == rhs || cowl_ontology_id_equals(lhs->id, rhs->id);
 }
 
 cowl_uint_t cowl_ontology_hash(CowlOntology *onto) {

@@ -13,6 +13,7 @@ cowl_struct(CowlOntologyId) {
 };
 
 CowlOntologyId* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri);
+CowlOntologyId* cowl_ontology_id_alloc_anonymous(void);
 void cowl_ontology_id_free(CowlOntologyId *id);
 
 COWL_END_DECLS
