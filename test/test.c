@@ -63,8 +63,7 @@ static void test_anon_individual(void) {
 static CowlOntology* test_imports_loader(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
                                          Vector(CowlError) *errors) {
     CowlParser *parser = cowl_parser_alloc();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "test_import.owl");
-    vector_deep_append(CowlError, errors, parser->errors, cowl_error_retain);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, "test_import.owl", errors);
     cowl_parser_free(parser);
     return onto;
 }
@@ -72,17 +71,17 @@ static CowlOntology* test_imports_loader(cowl_unused void *ctx, cowl_unused Cowl
 static void test_parser(void) {
     CowlLogger *logger = cowl_logger_alloc_console();
     CowlParser *parser = cowl_parser_alloc();
+    Vector(CowlError) *errors = vector_alloc(CowlError);
 
     CowlImportsLoader loader = cowl_imports_loader_init(NULL, test_imports_loader, NULL);
-    cowl_parser_set_ontology_loader(parser, loader);
+    cowl_parser_set_imports_loader(parser, loader);
 
     double start = get_millis();
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, "test_ontology.owl");
+    CowlOntology *ontology = cowl_parser_parse_ontology(parser, "test_ontology.owl", errors);
     double stop = get_millis();
 
     if (ontology) cowl_logger_log_ontology(logger, ontology);
 
-    Vector(CowlError) const *errors = cowl_parser_get_errors(parser);
     cowl_logger_logf(logger, "Ontology parsed in %.2f ms with %d errors.\n",
                      stop - start, vector_count(errors));
 

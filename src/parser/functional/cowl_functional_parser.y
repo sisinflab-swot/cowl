@@ -1,5 +1,6 @@
 // API configuration
 
+%define api.prefix {cowl_functional_}
 %define api.pure full
 %lex-param { yyscan_t scanner }
 %parse-param { yyscan_t scanner }
@@ -7,6 +8,14 @@
 %locations
 
 // Code
+
+%code provides {
+    #undef YYSTYPE
+    #undef YYLTYPE
+
+    #define YYSTYPE COWL_FUNCTIONAL_STYPE
+    #define YYLTYPE COWL_FUNCTIONAL_LTYPE
+}
 
 %code requires {
     #include "cowl_std.h"
@@ -23,8 +32,9 @@
     #include "cowl_functional_lexer.h"
     #include "cowl_private.h"
 
-    static void yyerror(YYLTYPE *yylloc, cowl_unused yyscan_t yyscanner,
-                        CowlParser *parser, const char* s) {
+    static void cowl_functional_error(COWL_FUNCTIONAL_LTYPE *yylloc,
+                                      cowl_unused yyscan_t scanner,
+                                      CowlParser *parser, const char* s) {
         cowl_parser_log_error(parser, CEC_SYNTAX, strdup(s), yylloc->last_line);
     }
 }

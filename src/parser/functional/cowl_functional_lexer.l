@@ -1,3 +1,4 @@
+%option prefix="cowl_functional_"
 %option 8bit reentrant bison-bridge bison-locations
 %option warn nodefault
 %option yylineno batch

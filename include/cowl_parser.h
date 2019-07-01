@@ -16,13 +16,9 @@ cowl_struct_decl(CowlParser);
 CowlParser* cowl_parser_alloc(void);
 void cowl_parser_free(CowlParser *parser);
 
-CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path);
-
-cowl_uint_t cowl_parser_get_error_count(CowlParser *parser);
-Vector(CowlError) const* cowl_parser_get_errors(CowlParser *parser);
-CowlError cowl_parser_get_last_error(CowlParser *parser);
-
-void cowl_parser_set_ontology_loader(CowlParser *parser, CowlImportsLoader loader);
+void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader);
+CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
+                                         Vector(CowlError) *errors);
 
 COWL_END_DECLS
 

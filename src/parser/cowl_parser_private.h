@@ -3,6 +3,7 @@
 #ifndef COWL_PARSER_PRIVATE_H
 #define COWL_PARSER_PRIVATE_H
 
+#include "cowl_node_id.h"
 #include "cowl_parser.h"
 
 COWL_BEGIN_DECLS
@@ -12,6 +13,9 @@ cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyId);
+
+typedef vector_struct(CowlAnnotationPtr) Vector(CowlAnnotationPtr);
+typedef vector_struct(CowlOntologyPtr) Vector(CowlOntologyPtr);
 
 UHASH_MAP_DECL(CowlPrefixNsMap, CowlString*, CowlString*)
 UHASH_MAP_DECL(CowlNodeIdMap, CowlString*, CowlNodeID)

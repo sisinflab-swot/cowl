@@ -1,6 +1,6 @@
 /// @author Ivano Bilenchi
 
-#include "cowl_parser.h"
+#include "cowl_parser_private.h"
 #include "cowl_annotation_vec.h"
 #include "cowl_error.h"
 #include "cowl_functional_lexer.h"
@@ -8,7 +8,6 @@
 #include "cowl_iri_private.h"
 #include "cowl_node_id.h"
 #include "cowl_ontology_private.h"
-#include "cowl_parser_private.h"
 #include "cowl_string_private.h"
 
 UHASH_MAP_IMPL(CowlPrefixNsMap, CowlString*, CowlString*, cowl_string_hash, cowl_string_equals)
@@ -19,7 +18,7 @@ CowlParser* cowl_parser_alloc(void) {
         .prefix_ns_map = uhash_alloc(CowlPrefixNsMap),
         .node_id_map = uhash_alloc(CowlNodeIdMap),
         .ontology = cowl_ontology_get(),
-        .errors = vector_alloc(CowlError)
+        .errors = NULL
     };
     cowl_struct(CowlParser) *parser = malloc(sizeof(*parser));
     memcpy(parser, &init, sizeof(*parser));
@@ -37,48 +36,43 @@ void cowl_parser_free(CowlParser *parser) {
 
     uhash_foreach_key(CowlNodeIdMap, parser->node_id_map, id, cowl_string_release(id));
     uhash_free(CowlNodeIdMap, parser->node_id_map);
-
-    vector_deep_free(CowlError, parser->errors, cowl_error_release);
     if (parser->loader.free) parser->loader.free(parser->loader.ctx);
 
     free((void *)parser);
 }
 
-CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path) {
+CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
+                                         Vector(CowlError) *errors) {
+    ((cowl_struct(CowlParser)*)parser)->errors = errors;
+
     yyscan_t scanner;
-    yylex_init(&scanner);
+    cowl_functional_lex_init(&scanner);
 
     FILE *yyin = fopen(path, "r");
+    bool error;
 
     if (!yyin) {
         cowl_parser_log_error(parser, CEC_ONTOLOGY_LOAD, strdup(strerror(errno)), 0);
-        cowl_ontology_release(parser->ontology);
-        ((cowl_struct(CowlParser) *)parser)->ontology = NULL;
+        error = true;
         goto end;
     }
 
-    yyset_in(yyin, scanner);
-    yyparse(scanner, parser);
+    cowl_functional_set_in(yyin, scanner);
+    error = cowl_functional_parse(scanner, parser) != 0;
 
 end:
     fclose(yyin);
-    yylex_destroy(scanner);
+    cowl_functional_lex_destroy(scanner);
+
+    if (error) {
+        cowl_ontology_release(parser->ontology);
+        ((cowl_struct(CowlParser) *)parser)->ontology = NULL;
+    }
+
     return parser->ontology;
 }
 
-cowl_uint_t cowl_parser_get_error_count(CowlParser *parser) {
-    return vector_count(parser->errors);
-}
-
-Vector(CowlError) const* cowl_parser_get_errors(CowlParser *parser) {
-    return parser->errors;
-}
-
-CowlError cowl_parser_get_last_error(CowlParser *parser) {
-    return vector_last(parser->errors);
-}
-
-void cowl_parser_set_ontology_loader(CowlParser *parser, CowlImportsLoader loader) {
+void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader) {
     ((cowl_struct(CowlParser) *)parser)->loader = loader;
 }
 
@@ -142,6 +136,7 @@ CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id) {
 
 void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,
                            char const *description, cowl_uint_t line) {
+    if (!parser->errors) return;
     CowlError error = cowl_error_init(code, description, line);
     vector_push(CowlError, parser->errors, error);
 }
