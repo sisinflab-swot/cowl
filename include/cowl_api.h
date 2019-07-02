@@ -96,7 +96,7 @@
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sub_obj_prop_chain_axiom.h"
-#include "cowl_vocabulary.h"
+#include "cowl_vocab.h"
 
 COWL_BEGIN_DECLS
 

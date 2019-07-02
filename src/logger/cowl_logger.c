@@ -562,7 +562,9 @@ static void cowl_logger_log_facet_restr_set(CowlLogger *logger, CowlFacetRestrSe
     cowl_uint_t current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlFacetRestrSet, set, restr, {
-        cowl_logger_log_iri(logger, cowl_facet_get_iri(restr->facet));
+        CowlIRI *iri = cowl_facet_get_iri(restr->facet);
+        cowl_logger_log_iri(logger, iri);
+        cowl_iri_release(iri);
         cowl_logger_logf(logger, " ");
         cowl_logger_log_literal(logger, restr->value);
         if (current++ < last) cowl_logger_logf(logger, " ");
