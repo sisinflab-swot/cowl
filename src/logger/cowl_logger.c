@@ -186,7 +186,7 @@ void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto
     cowl_ontology_iterate_signature(onto, &iter);
 }
 
-void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id) {
+void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyID *id) {
     cowl_logger_log_iri(logger, id->onto_iri);
 
     if (id->version_iri) {

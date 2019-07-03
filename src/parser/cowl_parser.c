@@ -76,7 +76,7 @@ void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader
     ((cowl_struct(CowlParser) *)parser)->loader = loader;
 }
 
-void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id) {
+void cowl_parser_set_id(CowlParser *parser, CowlOntologyID *id) {
     cowl_ontology_set_id(parser->ontology, id);
 }
 

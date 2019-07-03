@@ -12,7 +12,7 @@ cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlOntologyID);
 
 typedef vector_struct(CowlAnnotationPtr) Vector(CowlAnnotationPtr);
 typedef vector_struct(CowlOntologyPtr) Vector(CowlOntologyPtr);
@@ -32,7 +32,7 @@ CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri);
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, char const *cstring, cowl_uint_t length);
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id);
 
-void cowl_parser_set_id(CowlParser *parser, CowlOntologyId *id);
+void cowl_parser_set_id(CowlParser *parser, CowlOntologyID *id);
 void cowl_parser_set_imports(CowlParser *parser, Vector(CowlOntologyPtr) *imports);
 void cowl_parser_set_annotations(CowlParser *parser, Vector(CowlAnnotationPtr) *annot);
 void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);

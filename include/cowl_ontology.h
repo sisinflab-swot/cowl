@@ -19,14 +19,14 @@ cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
-cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlOntologyID);
 
 cowl_struct_decl(CowlOntology);
 
 CowlOntology* cowl_ontology_retain(CowlOntology *onto);
 void cowl_ontology_release(CowlOntology *onto);
 
-CowlOntologyId* cowl_ontology_get_id(CowlOntology *onto);
+CowlOntologyID* cowl_ontology_get_id(CowlOntology *onto);
 
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs);
 cowl_uint_t cowl_ontology_hash(CowlOntology *onto);

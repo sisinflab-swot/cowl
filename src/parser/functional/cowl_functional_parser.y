@@ -87,7 +87,7 @@
 %type <CowlString *> prefix_name node_id
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlOntology *> import
-%type <CowlOntologyId *> ontology_id
+%type <CowlOntologyID *> ontology_id
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue> annotation_subject annotation_value
 %type <cowl_uint_t> cardinality

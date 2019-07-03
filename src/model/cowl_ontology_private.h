@@ -23,7 +23,7 @@ UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, UHash(CowlAxiomSet)*)
 
 cowl_struct(CowlOntology) {
     CowlObject super;
-    CowlOntologyId *id;
+    CowlOntologyID *id;
     Vector(CowlOntologyPtr) *imports;
     Vector(CowlAnnotationPtr) *annotations;
     UHash(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
@@ -52,7 +52,7 @@ cowl_struct(CowlOntology) {
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void);
 
-void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyId *id);
+void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyID *id);
 void cowl_ontology_set_imports(cowl_struct(CowlOntology) *onto, Vector(CowlOntologyPtr) *imports);
 void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto, Vector(CowlAnnotationPtr) *annot);
 void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom);

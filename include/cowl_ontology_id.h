@@ -9,13 +9,13 @@ COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlIRI);
 
-cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlOntologyID);
 
-CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyId *id);
-CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyId *id);
+CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyID *id);
+CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyID *id);
 
-bool cowl_ontology_id_equals(CowlOntologyId *lhs, CowlOntologyId *rhs);
-cowl_uint_t cowl_ontology_id_hash(CowlOntologyId *id);
+bool cowl_ontology_id_equals(CowlOntologyID *lhs, CowlOntologyID *rhs);
+cowl_uint_t cowl_ontology_id_hash(CowlOntologyID *id);
 
 COWL_END_DECLS
 

@@ -74,7 +74,7 @@ cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlObjPropRangeAxiom);
 cowl_struct_decl(CowlObjQuant);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlOntologyID);
 cowl_struct_decl(CowlParser);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubAnnotPropAxiom);

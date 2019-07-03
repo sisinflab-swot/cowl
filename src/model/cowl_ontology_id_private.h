@@ -7,14 +7,14 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlOntologyId) {
+cowl_struct(CowlOntologyID) {
     CowlIRI *onto_iri;
     CowlIRI *version_iri;
 };
 
-CowlOntologyId* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri);
-CowlOntologyId* cowl_ontology_id_alloc_anonymous(void);
-void cowl_ontology_id_free(CowlOntologyId *id);
+CowlOntologyID* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri);
+CowlOntologyID* cowl_ontology_id_alloc_anonymous(void);
+void cowl_ontology_id_free(CowlOntologyID *id);
 
 COWL_END_DECLS
 

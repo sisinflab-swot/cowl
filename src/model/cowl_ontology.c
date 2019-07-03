@@ -74,7 +74,7 @@ void cowl_ontology_release(CowlOntology *onto) {
     }
 }
 
-CowlOntologyId* cowl_ontology_get_id(CowlOntology *onto) {
+CowlOntologyID* cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
 }
 
@@ -561,7 +561,7 @@ void cowl_ontology_free(CowlOntology *onto) {
     free((void *)onto);
 }
 
-void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyId *id) {
+void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyID *id) {
     onto->id = id;
 }
 

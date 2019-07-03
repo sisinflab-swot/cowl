@@ -25,7 +25,7 @@ cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlOntologyID);
 cowl_struct_decl(CowlString);
 /// @endcond
 
@@ -160,7 +160,7 @@ void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto
  * @param logger Logger instance.
  * @param id Ontology identifier to log.
  */
-void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyId *id);
+void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyID *id);
 
 /**
  * Logs the specified ontology.
