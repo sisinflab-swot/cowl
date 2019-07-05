@@ -39,36 +39,44 @@ cowl_struct_decl(CowlLogger);
 /// @name Lifecycle
 
 /**
- * Allocates a new logger instance that logs to stdout.
+ * Returns a retained logger that logs to stdout.
  *
- * @return Logger instance.
+ * @return Retained logger.
  */
-CowlLogger* cowl_logger_alloc_console(void);
+CowlLogger* cowl_logger_console_get(void);
 
 /**
- * Allocates a new logger instance that logs to file.
+ * Returns a retained logger that logs to the specified file.
  *
  * @param path Path of the log file.
- * @return Logger instance.
+ * @return Retained logger.
  *
  * @note The path is copied by the logger, so you are still responsible for
  *       deallocating the string passed to this allocator.
  */
-CowlLogger* cowl_logger_alloc_file(char const *path);
+CowlLogger* cowl_logger_file_get(char const *path);
 
 /**
- * Allocates a new logger that logs nowhere.
+ * Returns a retained logger that logs nowhere.
  *
- * @return Logger instance.
+ * @return Retained logger.
  */
-CowlLogger* cowl_logger_alloc_null(void);
+CowlLogger* cowl_logger_null_get(void);
 
 /**
- * Deallocates the logger instance.
+ * Retains the specified logger.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
+ * @return Retained logger.
  */
-void cowl_logger_free(CowlLogger *logger);
+CowlLogger* cowl_logger_retain(CowlLogger *logger);
+
+/**
+ * Releases the specified logger.
+ *
+ * @param logger The logger.
+ */
+void cowl_logger_release(CowlLogger *logger);
 
 /// @name State
 
@@ -80,7 +88,7 @@ void cowl_logger_free(CowlLogger *logger);
  *
  * - File: opens the file in append mode.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  */
 void cowl_logger_open(CowlLogger *logger);
 
@@ -92,7 +100,7 @@ void cowl_logger_open(CowlLogger *logger);
  *
  * - File: closes the file.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  */
 void cowl_logger_close(CowlLogger *logger);
 
@@ -104,14 +112,14 @@ void cowl_logger_close(CowlLogger *logger);
  *
  * - File: deletes the file.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  */
 void cowl_logger_clear(CowlLogger *logger);
 
 /**
  * Returns the file path of this logger.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @return File path.
  *
  * @note Must only be used on a file logger.
@@ -124,7 +132,7 @@ char const* cowl_logger_get_path(CowlLogger *logger);
 /**
  * Logs the specified formatted string.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param format Format string.
  * @param ... Format arguments.
  */
@@ -133,7 +141,7 @@ void cowl_logger_logf(CowlLogger *logger, char const *format, ...);
 /**
  * Logs the specified counted string.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param string String to log.
  */
 void cowl_logger_log_string(CowlLogger *logger, CowlString *string);
@@ -141,7 +149,7 @@ void cowl_logger_log_string(CowlLogger *logger, CowlString *string);
 /**
  * Logs the axioms in the specified ontology.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param onto Ontology to log.
  */
 void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
@@ -149,7 +157,7 @@ void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
 /**
  * Logs the entities in the specified ontology.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param onto Ontology to log.
  */
 void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto);
@@ -157,7 +165,7 @@ void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto
 /**
  * Logs the specified ontology identifier.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param id Ontology identifier to log.
  */
 void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyID *id);
@@ -165,7 +173,7 @@ void cowl_logger_log_ontology_id(CowlLogger *logger, CowlOntologyID *id);
 /**
  * Logs the specified ontology.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param onto Ontology to log.
  */
 void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
@@ -173,7 +181,7 @@ void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
 /**
  * Logs the specified annotation.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param annotation Annotation to log.
  */
 void cowl_logger_log_annotation(CowlLogger *logger, CowlAnnotation *annotation);
@@ -181,7 +189,7 @@ void cowl_logger_log_annotation(CowlLogger *logger, CowlAnnotation *annotation);
 /**
  * Logs the specified IRI.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param iri IRI to log.
  */
 void cowl_logger_log_iri(CowlLogger *logger, CowlIRI *iri);
@@ -189,7 +197,7 @@ void cowl_logger_log_iri(CowlLogger *logger, CowlIRI *iri);
 /**
  * Logs the specified entity.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param entity Entity to log.
  */
 void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity);
@@ -197,7 +205,7 @@ void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity);
 /**
  * Logs the specified annotation value.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param value Annotation value to log.
  */
 void cowl_logger_log_annot_value(CowlLogger *logger, CowlAnnotValue value);
@@ -205,7 +213,7 @@ void cowl_logger_log_annot_value(CowlLogger *logger, CowlAnnotValue value);
 /**
  * Logs the specified annotation property.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param prop Annotation property to log.
  */
 void cowl_logger_log_annot_prop(CowlLogger *logger, CowlAnnotProp *prop);
@@ -213,7 +221,7 @@ void cowl_logger_log_annot_prop(CowlLogger *logger, CowlAnnotProp *prop);
 /**
  * Logs the specified class expression.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param exp Class expression to log.
  */
 void cowl_logger_log_cls_exp(CowlLogger *logger, CowlClsExp *exp);
@@ -221,7 +229,7 @@ void cowl_logger_log_cls_exp(CowlLogger *logger, CowlClsExp *exp);
 /**
  * Logs the specified data property expression.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param exp Data property expression to log.
  */
 void cowl_logger_log_data_prop_exp(CowlLogger *logger, CowlDataPropExp *exp);
@@ -229,7 +237,7 @@ void cowl_logger_log_data_prop_exp(CowlLogger *logger, CowlDataPropExp *exp);
 /**
  * Logs the specified data range.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param exp Data range to log.
  */
 void cowl_logger_log_data_range(CowlLogger *logger, CowlDataRange *range);
@@ -237,7 +245,7 @@ void cowl_logger_log_data_range(CowlLogger *logger, CowlDataRange *range);
 /**
  * Logs the specified individual.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param ind Individual to log.
  */
 void cowl_logger_log_individual(CowlLogger *logger, CowlIndividual *ind);
@@ -245,7 +253,7 @@ void cowl_logger_log_individual(CowlLogger *logger, CowlIndividual *ind);
 /**
  * Logs the specified literal.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param literal Literal to log.
  */
 void cowl_logger_log_literal(CowlLogger *logger, CowlLiteral *literal);
@@ -253,7 +261,7 @@ void cowl_logger_log_literal(CowlLogger *logger, CowlLiteral *literal);
 /**
  * Logs the specified object property expression.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param exp Object property expression to log.
  */
 void cowl_logger_log_obj_prop_exp(CowlLogger *logger, CowlObjPropExp *exp);
@@ -261,7 +269,7 @@ void cowl_logger_log_obj_prop_exp(CowlLogger *logger, CowlObjPropExp *exp);
 /**
  * Logs the specified axiom.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param axiom Axiom to log.
  */
 void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom);
@@ -269,7 +277,7 @@ void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom);
 /**
  * Logs the specified error.
  *
- * @param logger Logger instance.
+ * @param logger The logger.
  * @param error Error to log.
  */
  void cowl_logger_log_error(CowlLogger *logger, CowlError error);

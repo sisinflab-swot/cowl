@@ -70,47 +70,83 @@ typedef enum CowlLoggerType {
 } CowlLoggerType;
 
 cowl_struct(CowlLogger) {
+    CowlObject super;
     CowlLoggerType const type;
-
     char const *path;
     FILE *file;
 };
 
+static CowlLogger* console_logger = NULL;
+static CowlLogger* null_logger = NULL;
+
 static CowlLogger* cowl_logger_alloc(CowlLoggerType type, void *context) {
-    CowlLogger logger_init = { .type = type };
+    CowlLogger init = {
+        .super = COWL_OBJECT_INIT,
+        .type = type,
+        .path = type == COWL_LT_FILE ? context : NULL
+    };
+
     cowl_struct(CowlLogger) *logger = malloc(sizeof(*logger));
-    memcpy(logger, &logger_init, sizeof(*logger));
-
-    if (type == COWL_LT_FILE) {
-        logger->path = context;
-        logger->file = NULL;
-    }
-
+    memcpy(logger, &init, sizeof(*logger));
     cowl_logger_open(logger);
+
     return logger;
 }
 
-CowlLogger* cowl_logger_alloc_console(void) {
-    return cowl_logger_alloc(COWL_LT_CONSOLE, NULL);
-}
-
-CowlLogger* cowl_logger_alloc_file(char const *path) {
-    return cowl_logger_alloc(COWL_LT_FILE, strdup(path));
-}
-
-CowlLogger* cowl_logger_alloc_null(void) {
-    return cowl_logger_alloc(COWL_LT_NULL, NULL);
-}
-
-void cowl_logger_free(CowlLogger *logger) {
+static void cowl_logger_free(CowlLogger *logger) {
     if (!logger) return;
 
-    if (logger->type == COWL_LT_FILE) {
-        cowl_logger_close(logger);
-        free((void *)logger->path);
+    switch (logger->type) {
+        case COWL_LT_NULL:
+            null_logger = NULL;
+            break;
+
+        case COWL_LT_CONSOLE:
+            console_logger = NULL;
+            break;
+
+        case COWL_LT_FILE:
+            cowl_logger_close(logger);
+            free((void *)logger->path);
+            break;
+
+        default:
+            break;
     }
 
     free((void *)logger);
+}
+
+CowlLogger* cowl_logger_console_get(void) {
+    if (console_logger) {
+        cowl_logger_retain(console_logger);
+    } else {
+        console_logger = cowl_logger_alloc(COWL_LT_CONSOLE, NULL);
+    }
+    return console_logger;
+}
+
+CowlLogger* cowl_logger_file_get(char const *path) {
+    return cowl_logger_alloc(COWL_LT_FILE, strdup(path));
+}
+
+CowlLogger* cowl_logger_null_get(void) {
+    if (null_logger) {
+        cowl_logger_retain(null_logger);
+    } else {
+        null_logger = cowl_logger_alloc(COWL_LT_NULL, NULL);
+    }
+    return null_logger;
+}
+
+CowlLogger* cowl_logger_retain(CowlLogger *logger) {
+    return cowl_object_retain(logger);
+}
+
+void cowl_logger_release(CowlLogger *logger) {
+    if (logger && !cowl_object_release(logger)) {
+        cowl_logger_free(logger);
+    }
 }
 
 void cowl_logger_open(CowlLogger *logger) {

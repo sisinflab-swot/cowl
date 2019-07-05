@@ -13,8 +13,9 @@
 UHASH_MAP_IMPL(CowlPrefixNsMap, CowlString*, CowlString*, cowl_string_hash, cowl_string_equals)
 UHASH_MAP_IMPL(CowlNodeIdMap, CowlString*, cowl_uint_t, cowl_string_hash, cowl_string_equals)
 
-CowlParser* cowl_parser_alloc(void) {
+static CowlParser* cowl_parser_alloc(void) {
     CowlParser init = {
+        .super = COWL_OBJECT_INIT,
         .prefix_ns_map = uhash_alloc(CowlPrefixNsMap),
         .node_id_map = uhash_alloc(CowlNodeIdMap),
         .ontology = cowl_ontology_get(),
@@ -25,7 +26,7 @@ CowlParser* cowl_parser_alloc(void) {
     return parser;
 }
 
-void cowl_parser_free(CowlParser *parser) {
+static void cowl_parser_free(CowlParser *parser) {
     if (!parser) return;
 
     uhash_foreach(CowlPrefixNsMap, parser->prefix_ns_map, prefix, ns, {
@@ -39,6 +40,20 @@ void cowl_parser_free(CowlParser *parser) {
     if (parser->loader.free) parser->loader.free(parser->loader.ctx);
 
     free((void *)parser);
+}
+
+CowlParser* cowl_parser_get(void) {
+    return cowl_parser_alloc();
+}
+
+CowlParser* cowl_parser_retain(CowlParser *parser) {
+    return cowl_object_retain(parser);
+}
+
+void cowl_parser_release(CowlParser *parser) {
+    if (parser && !cowl_object_release(parser)) {
+        cowl_parser_free(parser);
+    }
 }
 
 CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,

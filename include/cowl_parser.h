@@ -13,8 +13,9 @@ cowl_struct_decl(CowlOntology);
 
 cowl_struct_decl(CowlParser);
 
-CowlParser* cowl_parser_alloc(void);
-void cowl_parser_free(CowlParser *parser);
+CowlParser* cowl_parser_get(void);
+CowlParser* cowl_parser_retain(CowlParser *parser);
+void cowl_parser_release(CowlParser *parser);
 
 void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader);
 CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,

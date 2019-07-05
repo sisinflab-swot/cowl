@@ -62,15 +62,15 @@ static void test_anon_individual(void) {
 
 static CowlOntology* test_imports_loader(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
                                          Vector(CowlError) *errors) {
-    CowlParser *parser = cowl_parser_alloc();
+    CowlParser *parser = cowl_parser_get();
     CowlOntology *onto = cowl_parser_parse_ontology(parser, "test_import.owl", errors);
-    cowl_parser_free(parser);
+    cowl_parser_release(parser);
     return onto;
 }
 
 static void test_parser(void) {
-    CowlLogger *logger = cowl_logger_alloc_console();
-    CowlParser *parser = cowl_parser_alloc();
+    CowlLogger *logger = cowl_logger_console_get();
+    CowlParser *parser = cowl_parser_get();
     Vector(CowlError) *errors = vector_alloc(CowlError);
 
     CowlImportsLoader loader = cowl_imports_loader_init(NULL, test_imports_loader, NULL);
@@ -91,8 +91,8 @@ static void test_parser(void) {
     });
 
     cowl_ontology_release(ontology);
-    cowl_parser_free(parser);
-    cowl_logger_free(logger);
+    cowl_parser_release(parser);
+    cowl_logger_release(logger);
 }
 
 int main(void) {
