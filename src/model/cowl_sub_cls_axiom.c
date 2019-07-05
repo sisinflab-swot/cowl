@@ -10,7 +10,7 @@ static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *su
                                          cowl_cls_exp_hash(sub));
 
     CowlSubClsAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_SUB_CLASS, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_SUB_CLASS, hash, annot),
         .super_class = cowl_cls_exp_retain(super),
         .sub_class = cowl_cls_exp_retain(sub)
     };

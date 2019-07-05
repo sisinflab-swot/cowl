@@ -12,7 +12,7 @@ static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *datatyp
                                          cowl_data_range_hash(range));
 
     CowlDatatypeDefAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_DATATYPE_DEFINITION, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_DATATYPE_DEF, hash, annot),
         .datatype = cowl_datatype_retain(datatype),
         .range = cowl_data_range_retain(range)
     };

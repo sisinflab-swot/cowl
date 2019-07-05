@@ -78,7 +78,7 @@
 #include "cowl_obj_prop.h"
 #include "cowl_obj_prop_assert_axiom.h"
 #include "cowl_obj_prop_char_axiom.h"
-#include "cowl_obj_prop_char_axiom_type.h"
+#include "cowl_char_axiom_type.h"
 #include "cowl_obj_prop_domain_axiom.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_obj_prop_exp_set.h"

@@ -9,7 +9,7 @@ static CowlDataOneOf* cowl_data_one_of_alloc(CowlLiteralSet *values) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, uhset_hash(CowlLiteralSet, values));
 
     CowlDataOneOf init = {
-        .super = COWL_DATA_RANGE_INIT(CDRT_DATA_ONE_OF, hash),
+        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_ONE_OF, hash),
         .values = values
     };
 

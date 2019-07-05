@@ -13,138 +13,138 @@ typedef enum CowlAxiomType {
 /// @name Declaration/definition
 
     /// Represents declaration axioms.
-        CAT_DECLARATION = 0,
+        COWL_AT_DECL,
 
     /// Represents datatype definition axioms.
-        CAT_DATATYPE_DEFINITION,
+        COWL_AT_DATATYPE_DEF,
 
 /// @name Class axioms
 
     /// Represents subclass axioms.
-        CAT_SUB_CLASS,
+        COWL_AT_SUB_CLASS,
 
     /// Represents equivalent classes axioms.
-        CAT_EQUIVALENT_CLASSES,
+        COWL_AT_EQUIV_CLASSES,
 
     /// Represents disjoint classes axioms.
-        CAT_DISJOINT_CLASSES,
+        COWL_AT_DISJ_CLASSES,
 
     /// Represents disjoint union axioms.
-        CAT_DISJOINT_UNION,
+        COWL_AT_DISJ_UNION,
 
 /// @name Individual axioms
 
     /// Represents class assertion axioms.
-        CAT_CLASS_ASSERTION,
+        COWL_AT_CLASS_ASSERT,
 
     /// Represents same individual axioms.
-        CAT_SAME_INDIVIDUAL,
+        COWL_AT_SAME_IND,
 
     /// Represents different individuals axioms.
-        CAT_DIFFERENT_INDIVIDUALS,
+        COWL_AT_DIFF_IND,
 
     /// Represents object property assertion axioms.
-        CAT_OBJ_PROP_ASSERTION,
+        COWL_AT_OBJ_PROP_ASSERT,
 
     /// Represents negative object property assertion axioms.
-        CAT_NEGATIVE_OBJ_PROP_ASSERTION,
+        COWL_AT_NEG_OBJ_PROP_ASSERT,
 
     /// Represents data property assertion axioms.
-        CAT_DATA_PROP_ASSERTION,
+        COWL_AT_DATA_PROP_ASSERT,
 
     /// Represents negative data property assertion axioms.
-        CAT_NEGATIVE_DATA_PROP_ASSERTION,
+        COWL_AT_NEG_DATA_PROP_ASSERT,
 
 /// @name Object property axioms
 
     /// Represents sub-object property axioms.
-        CAT_SUB_OBJ_PROP,
+        COWL_AT_SUB_OBJ_PROP,
 
     /// Represents sub-property chain axioms.
-        CAT_SUB_OBJ_PROP_CHAIN,
+        COWL_AT_SUB_OBJ_PROP_CHAIN,
 
     /// Represents inverse object properties axioms.
-        CAT_INVERSE_OBJ_PROP,
+        COWL_AT_INV_OBJ_PROP,
 
     /// Represents equivalent object properties axioms.
-        CAT_EQUIVALENT_OBJ_PROP,
+        COWL_AT_EQUIV_OBJ_PROP,
 
     /// Represents disjoint object properties axioms.
-        CAT_DISJOINT_OBJ_PROP,
+        COWL_AT_DISJ_OBJ_PROP,
 
     /// Represents functional object property axioms.
-        CAT_FUNCTIONAL_OBJ_PROP,
+        COWL_AT_FUNC_OBJ_PROP,
 
     /// Represents inverse functional object property axioms.
-        CAT_INVERSE_FUNCTIONAL_OBJ_PROP,
+        COWL_AT_INV_FUNC_OBJ_PROP,
 
     /// Represents symmetric object property axioms.
-        CAT_SYMMETRIC_OBJ_PROP,
+        COWL_AT_SYMM_OBJ_PROP,
 
     /// Represents asymmetric object property axioms.
-        CAT_ASYMMETRIC_OBJ_PROP,
+        COWL_AT_ASYMM_OBJ_PROP,
 
     /// Represents transitive object property axioms.
-        CAT_TRANSITIVE_OBJ_PROP,
+        COWL_AT_TRANS_OBJ_PROP,
 
     /// Represents reflexive object property axioms.
-        CAT_REFLEXIVE_OBJ_PROP,
+        COWL_AT_REFL_OBJ_PROP,
 
     /// Represents irreflexive object property axioms.
-        CAT_IRREFLEXIVE_OBJ_PROP,
+        COWL_AT_IRREFL_OBJ_PROP,
 
     /// Represents object property domain axioms.
-        CAT_OBJ_PROP_DOMAIN,
+        COWL_AT_OBJ_PROP_DOMAIN,
 
     /// Represents object property range axioms.
-        CAT_OBJ_PROP_RANGE,
+        COWL_AT_OBJ_PROP_RANGE,
 
 /// @name Data property axioms
 
     /// Represents sub-data property axioms.
-        CAT_SUB_DATA_PROP,
+        COWL_AT_SUB_DATA_PROP,
 
     /// Represents equivalent data properties axioms.
-        CAT_EQUIVALENT_DATA_PROP,
+        COWL_AT_EQUIV_DATA_PROP,
 
     /// Represents disjoint data properties axioms.
-        CAT_DISJOINT_DATA_PROP,
+        COWL_AT_DISJ_DATA_PROP,
 
     /// Represents functional data property axioms.
-        CAT_FUNCTIONAL_DATA_PROP,
+        COWL_AT_FUNC_DATA_PROP,
 
     /// Represents data property domain axioms.
-        CAT_DATA_PROP_DOMAIN,
+        COWL_AT_DATA_PROP_DOMAIN,
 
     /// Represents data property range axioms.
-        CAT_DATA_PROP_RANGE,
+        COWL_AT_DATA_PROP_RANGE,
 
 /// @name Keys
 
     /// Represents has key axioms.
-        CAT_HAS_KEY,
+        COWL_AT_HAS_KEY,
 
 /// @name Annotation axioms
 
     /// Represents annotation assertion axioms.
-        CAT_ANNOT_ASSERTION,
+        COWL_AT_ANNOT_ASSERT,
 
     /// Represents sub-annotation property axioms.
-        CAT_SUB_ANNOT_PROP,
+        COWL_AT_SUB_ANNOT_PROP,
 
     /// Represents annotation property domain axioms.
-        CAT_ANNOT_PROP_DOMAIN,
+        COWL_AT_ANNOT_PROP_DOMAIN,
 
     /// Represents annotation property range axioms.
-        CAT_ANNOT_PROP_RANGE,
+        COWL_AT_ANNOT_PROP_RANGE,
 
 /// @name Markers
 
     /// Number of axiom types.
-        CAT_COUNT,
+        COWL_AT_COUNT,
 
     /// First axiom type.
-        CAT_FIRST = 0
+        COWL_AT_FIRST = 0
 
 } CowlAxiomType;
 

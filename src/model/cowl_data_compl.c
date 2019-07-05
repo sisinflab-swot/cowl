@@ -7,7 +7,7 @@ static CowlDataCompl* cowl_data_compl_alloc(CowlDataRange *operand) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_COMPL, cowl_data_range_hash(operand));
 
     CowlDataCompl init = {
-        .super = COWL_DATA_RANGE_INIT(CDRT_DATA_COMPLEMENT, hash),
+        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_COMPL, hash),
         .operand = cowl_data_range_retain(operand)
     };
 

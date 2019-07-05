@@ -11,7 +11,7 @@ static CowlSubDataPropAxiom* cowl_sub_data_prop_axiom_alloc(CowlDataPropExp *sub
                                          cowl_data_prop_exp_hash(super));
 
     CowlSubDataPropAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_SUB_DATA_PROP, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_SUB_DATA_PROP, hash, annot),
         .super_prop = cowl_data_prop_exp_retain(super),
         .sub_prop = cowl_data_prop_exp_retain(sub)
     };

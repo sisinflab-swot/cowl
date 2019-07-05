@@ -26,7 +26,7 @@ static void cowl_nary_ind_axiom_free(CowlNAryIndAxiom *axiom) {
 
 CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlIndividualSet *operands,
                                           CowlAnnotationVec *annot) {
-    CowlAxiomType axiom_type = (CowlAxiomType)type + CAT_SAME_INDIVIDUAL;
+    CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_SAME_IND;
     return cowl_nary_ind_axiom_alloc(axiom_type, operands, annot);
 }
 
@@ -42,7 +42,7 @@ void cowl_nary_ind_axiom_release(CowlNAryIndAxiom *axiom) {
 
 CowlNAryAxiomType cowl_nary_ind_axiom_get_type(CowlNAryIndAxiom *axiom) {
     CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - CAT_SAME_INDIVIDUAL);
+    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - COWL_AT_SAME_IND);
 }
 
 CowlIndividualSet* cowl_nary_ind_axiom_get_operands(CowlNAryIndAxiom *axiom) {

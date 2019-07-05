@@ -25,24 +25,24 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
 
     switch (exp->type) {
 
-        GEN_CASE_RELEASE(CCET_CLASS, CowlClass, cowl_class);
-        GEN_CASE_RELEASE(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
-        GEN_CASE_RELEASE(CCET_OBJ_INTERSECTION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_RELEASE(CCET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_RELEASE(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_RELEASE(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_RELEASE(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_RELEASE(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_RELEASE(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_RELEASE(CCET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
-        GEN_CASE_RELEASE(CCET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
-        GEN_CASE_RELEASE(CCET_DATA_SOME, CowlDataQuant, cowl_data_quant);
-        GEN_CASE_RELEASE(CCET_DATA_ALL, CowlDataQuant, cowl_data_quant);
-        GEN_CASE_RELEASE(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_RELEASE(CCET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_RELEASE(CCET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_RELEASE(CCET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
-        GEN_CASE_RELEASE(CCET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
+        GEN_CASE_RELEASE(COWL_CET_CLASS, CowlClass, cowl_class);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_COMPL, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_INTERSECT, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
+        GEN_CASE_RELEASE(COWL_CET_DATA_SOME, CowlDataQuant, cowl_data_quant);
+        GEN_CASE_RELEASE(COWL_CET_DATA_ALL, CowlDataQuant, cowl_data_quant);
+        GEN_CASE_RELEASE(COWL_CET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_RELEASE(COWL_CET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_RELEASE(COWL_CET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_RELEASE(COWL_CET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
+        GEN_CASE_RELEASE(COWL_CET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
 
         default:
             break;
@@ -62,24 +62,24 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
 
     switch (lhs->type) {
 
-        GEN_CASE_EQUAL(CCET_CLASS, CowlClass, cowl_class);
-        GEN_CASE_EQUAL(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
-        GEN_CASE_EQUAL(CCET_OBJ_INTERSECTION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_EQUAL(CCET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_EQUAL(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_EQUAL(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_EQUAL(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_EQUAL(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_EQUAL(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_EQUAL(CCET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
-        GEN_CASE_EQUAL(CCET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
-        GEN_CASE_EQUAL(CCET_DATA_SOME, CowlDataQuant, cowl_data_quant);
-        GEN_CASE_EQUAL(CCET_DATA_ALL, CowlDataQuant, cowl_data_quant);
-        GEN_CASE_EQUAL(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_EQUAL(CCET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_EQUAL(CCET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_EQUAL(CCET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
-        GEN_CASE_EQUAL(CCET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
+        GEN_CASE_EQUAL(COWL_CET_CLASS, CowlClass, cowl_class);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_COMPL, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_INTERSECT, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
+        GEN_CASE_EQUAL(COWL_CET_DATA_SOME, CowlDataQuant, cowl_data_quant);
+        GEN_CASE_EQUAL(COWL_CET_DATA_ALL, CowlDataQuant, cowl_data_quant);
+        GEN_CASE_EQUAL(COWL_CET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_EQUAL(COWL_CET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_EQUAL(COWL_CET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_EQUAL(COWL_CET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
+        GEN_CASE_EQUAL(COWL_CET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
 
         default:
             return false;
@@ -97,24 +97,24 @@ bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, CowlEntityIterator *iter) {
 
     switch (exp->type) {
 
-        GEN_CASE_SIG(CCET_CLASS, CowlClass, cowl_class);
-        GEN_CASE_SIG(CCET_OBJ_COMPLEMENT, CowlObjCompl, cowl_obj_compl);
-        GEN_CASE_SIG(CCET_OBJ_INTERSECTION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_SIG(CCET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
-        GEN_CASE_SIG(CCET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_SIG(CCET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
-        GEN_CASE_SIG(CCET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_SIG(CCET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_SIG(CCET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
-        GEN_CASE_SIG(CCET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
-        GEN_CASE_SIG(CCET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
-        GEN_CASE_SIG(CCET_DATA_SOME, CowlDataQuant, cowl_data_quant);
-        GEN_CASE_SIG(CCET_DATA_ALL, CowlDataQuant, cowl_data_quant);
-        GEN_CASE_SIG(CCET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_SIG(CCET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_SIG(CCET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
-        GEN_CASE_SIG(CCET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
-        GEN_CASE_SIG(CCET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
+        GEN_CASE_SIG(COWL_CET_CLASS, CowlClass, cowl_class);
+        GEN_CASE_SIG(COWL_CET_OBJ_COMPL, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_SIG(COWL_CET_OBJ_INTERSECT, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_SIG(COWL_CET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_SIG(COWL_CET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_SIG(COWL_CET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_SIG(COWL_CET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_SIG(COWL_CET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_SIG(COWL_CET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_SIG(COWL_CET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
+        GEN_CASE_SIG(COWL_CET_OBJ_HAS_SELF, CowlObjHasSelf, cowl_obj_has_self);
+        GEN_CASE_SIG(COWL_CET_DATA_SOME, CowlDataQuant, cowl_data_quant);
+        GEN_CASE_SIG(COWL_CET_DATA_ALL, CowlDataQuant, cowl_data_quant);
+        GEN_CASE_SIG(COWL_CET_DATA_MIN_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_SIG(COWL_CET_DATA_MAX_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_SIG(COWL_CET_DATA_EXACT_CARD, CowlDataCard, cowl_data_card);
+        GEN_CASE_SIG(COWL_CET_DATA_HAS_VALUE, CowlDataHasValue, cowl_data_has_value);
+        GEN_CASE_SIG(COWL_CET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
 
         default:
             return true;

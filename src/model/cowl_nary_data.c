@@ -25,7 +25,7 @@ static void cowl_nary_data_free(CowlNAryData *range) {
 }
 
 CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlDataRangeSet *operands) {
-    return cowl_nary_data_alloc((CowlDataRangeType)type + CDRT_DATA_INTERSECTION, operands);
+    return cowl_nary_data_alloc((CowlDataRangeType)type + COWL_DRT_DATA_INTERSECT, operands);
 }
 
 CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) {
@@ -39,7 +39,7 @@ void cowl_nary_data_release(CowlNAryData *range) {
 }
 
 CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
-    return (CowlNAryType)(range->super.type - CDRT_DATA_INTERSECTION);
+    return (CowlNAryType)(range->super.type - COWL_DRT_DATA_INTERSECT);
 }
 
 CowlDataRangeSet* cowl_nary_data_get_operands(CowlNAryData *range) {

@@ -15,13 +15,13 @@ cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 
 cowl_struct_decl(CowlDataPropAssertAxiom);
 
-CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subject,
+CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                          CowlDataPropExp *prop,
-                                                         CowlLiteral *object,
+                                                         CowlLiteral *obj,
                                                          CowlAnnotationVec *annot);
-CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subject,
+CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                              CowlDataPropExp *prop,
-                                                             CowlLiteral *object,
+                                                             CowlLiteral *obj,
                                                              CowlAnnotationVec *annot);
 
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_retain(CowlDataPropAssertAxiom *axiom);

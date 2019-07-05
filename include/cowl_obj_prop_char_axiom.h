@@ -4,7 +4,7 @@
 #define COWL_OBJ_PROP_CHAR_AXIOM_H
 
 #include "cowl_iterator.h"
-#include "cowl_obj_prop_char_axiom_type.h"
+#include "cowl_char_axiom_type.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
@@ -14,13 +14,13 @@ cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 
 cowl_struct_decl(CowlObjPropCharAxiom);
 
-CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlObjPropCharAxiomType type,
+CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
                                                    CowlAnnotationVec *annot);
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom);
 void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom);
 
-CowlObjPropCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom);
+CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom);
 CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom);
 CowlAnnotationVec* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom);
 

@@ -12,7 +12,7 @@ static CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_alloc(CowlAnnotProp 
                                          cowl_iri_hash(range));
 
     CowlAnnotPropRangeAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_ANNOT_PROP_RANGE, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_ANNOT_PROP_RANGE, hash, annot),
         .prop = cowl_annot_prop_retain(prop),
         .range = cowl_iri_retain(range)
     };

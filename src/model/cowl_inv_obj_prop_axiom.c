@@ -11,7 +11,7 @@ static CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_alloc(CowlObjPropExp *first,
                                          cowl_obj_prop_exp_hash(second));
 
     CowlInvObjPropAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_INVERSE_OBJ_PROP, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_INV_OBJ_PROP, hash, annot),
         .first = cowl_obj_prop_exp_retain(first),
         .second = cowl_obj_prop_exp_retain(second)
     };

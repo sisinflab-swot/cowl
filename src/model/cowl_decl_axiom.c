@@ -7,7 +7,7 @@ static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity, CowlAnnotationVec
                                          cowl_entity_hash(entity));
 
     CowlDeclAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_DECLARATION, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_DECL, hash, annot),
         .entity = cowl_entity_retain(entity)
     };
 

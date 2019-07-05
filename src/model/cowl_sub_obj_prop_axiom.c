@@ -11,7 +11,7 @@ static CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_alloc(CowlObjPropExp *sub,
                                          cowl_obj_prop_exp_hash(super));
 
     CowlSubObjPropAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_SUB_OBJ_PROP, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_SUB_OBJ_PROP, hash, annot),
         .super_prop = cowl_obj_prop_exp_retain(super),
         .sub_prop = cowl_obj_prop_exp_retain(sub)
     };

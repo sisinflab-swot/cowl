@@ -10,7 +10,7 @@ static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *inds) {
                                    uhset_hash(CowlIndividualSet, inds));
 
     CowlObjOneOf init = {
-        .super = COWL_CLS_EXP_INIT(CCET_OBJ_ONE_OF, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_ONE_OF, hash),
         .inds = inds
     };
 

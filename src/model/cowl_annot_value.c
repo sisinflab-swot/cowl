@@ -12,9 +12,9 @@ CowlAnnotValue cowl_annot_value_retain(CowlAnnotValue value) {
 
     switch (value.type) {
 
-        GEN_CASE_RETAIN(CAVT_IRI, cowl_iri, iri);
-        GEN_CASE_RETAIN(CAVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_RETAIN(CAVT_LITERAL, cowl_literal, literal);
+        GEN_CASE_RETAIN(COWL_AVT_IRI, cowl_iri, iri);
+        GEN_CASE_RETAIN(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
+        GEN_CASE_RETAIN(COWL_AVT_LITERAL, cowl_literal, literal);
 
         default:
             break;
@@ -30,9 +30,9 @@ void cowl_annot_value_release(CowlAnnotValue value) {
 
     switch (value.type) {
 
-        GEN_CASE_RELEASE(CAVT_IRI, cowl_iri, iri);
-        GEN_CASE_RELEASE(CAVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_RELEASE(CAVT_LITERAL, cowl_literal, literal);
+        GEN_CASE_RELEASE(COWL_AVT_IRI, cowl_iri, iri);
+        GEN_CASE_RELEASE(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
+        GEN_CASE_RELEASE(COWL_AVT_LITERAL, cowl_literal, literal);
 
         default:
             break;
@@ -46,9 +46,9 @@ CowlString* cowl_annot_value_to_string(CowlAnnotValue value) {
 
     switch (value.type) {
 
-        GEN_CASE_TO_STRING(CAVT_IRI, cowl_iri, iri);
-        GEN_CASE_TO_STRING(CAVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_TO_STRING(CAVT_LITERAL, cowl_literal, literal);
+        GEN_CASE_TO_STRING(COWL_AVT_IRI, cowl_iri, iri);
+        GEN_CASE_TO_STRING(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
+        GEN_CASE_TO_STRING(COWL_AVT_LITERAL, cowl_literal, literal);
 
         default:
             return NULL;
@@ -63,9 +63,9 @@ bool cowl_annot_value_equals(CowlAnnotValue lhs, CowlAnnotValue rhs) {
 
     switch (lhs.type) {
 
-        GEN_CASE_EQUALS(CAVT_IRI, cowl_iri, iri);
-        GEN_CASE_EQUALS(CAVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_EQUALS(CAVT_LITERAL, cowl_literal, literal);
+        GEN_CASE_EQUALS(COWL_AVT_IRI, cowl_iri, iri);
+        GEN_CASE_EQUALS(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
+        GEN_CASE_EQUALS(COWL_AVT_LITERAL, cowl_literal, literal);
 
         default:
             return false;
@@ -79,9 +79,9 @@ cowl_uint_t cowl_annot_value_hash(CowlAnnotValue value) {
 
     switch (value.type) {
 
-        GEN_CASE_HASH(CAVT_IRI, cowl_iri, iri);
-        GEN_CASE_HASH(CAVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_HASH(CAVT_LITERAL, cowl_literal, literal);
+        GEN_CASE_HASH(COWL_AVT_IRI, cowl_iri, iri);
+        GEN_CASE_HASH(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
+        GEN_CASE_HASH(COWL_AVT_LITERAL, cowl_literal, literal);
 
         default:
             return 0;

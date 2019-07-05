@@ -24,13 +24,13 @@ typedef cowl_struct(CowlAnnotValue) {
 } CowlAnnotValue;
 
 #define cowl_annot_value_wrap_iri(IRI) \
-    ((CowlAnnotValue const){ .type = CAVT_IRI, .iri = (IRI)})
+    ((CowlAnnotValue const){ .type = COWL_AVT_IRI, .iri = (IRI)})
 
 #define cowl_annot_value_wrap_anon_ind(IND) \
-    ((CowlAnnotValue const){ .type = CAVT_ANON_IND, .anon_ind = (CowlAnonInd *)(IND) })
+    ((CowlAnnotValue const){ .type = COWL_AVT_ANON_IND, .anon_ind = (CowlAnonInd *)(IND) })
 
 #define cowl_annot_value_wrap_literal(LITERAL) \
-    ((CowlAnnotValue const){ .type = CAVT_LITERAL, .literal = (LITERAL) })
+    ((CowlAnnotValue const){ .type = COWL_AVT_LITERAL, .literal = (LITERAL) })
 
 #define cowl_annot_value_init_iri(IRI) \
     cowl_annot_value_wrap_iri(cowl_iri_retain(IRI))

@@ -12,7 +12,7 @@ static CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_alloc(CowlObjProp
                                          cowl_obj_prop_exp_hash(super_prop));
 
     CowlSubObjPropChainAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_SUB_OBJ_PROP_CHAIN, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_SUB_OBJ_PROP_CHAIN, hash, annot),
         .sub_props = sub_props,
         .super_prop = cowl_obj_prop_exp_retain(super_prop)
     };

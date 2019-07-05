@@ -11,7 +11,7 @@ static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, Cowl
                                          cowl_cls_exp_hash(exp));
 
     CowlClsAssertAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_CLASS_ASSERTION, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_CLASS_ASSERT, hash, annot),
         .ind = cowl_individual_retain(ind),
         .cls_exp = cowl_cls_exp_retain(exp)
     };

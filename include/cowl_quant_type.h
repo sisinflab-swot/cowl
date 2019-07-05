@@ -8,8 +8,10 @@
 COWL_BEGIN_DECLS
 
 typedef enum CowlQuantType {
-    CQT_SOME,
-    CQT_ALL
+    COWL_QT_SOME,
+    COWL_QT_ALL,
+    COWL_QT_COUNT,
+    COWL_QT_FIRST = COWL_QT_SOME
 } CowlQuantType;
 
 COWL_END_DECLS

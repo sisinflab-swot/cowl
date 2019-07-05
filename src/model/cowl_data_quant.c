@@ -30,7 +30,7 @@ static void cowl_data_quant_free(CowlDataQuant *restr) {
 
 CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,
                                    CowlDataRange *range) {
-    return cowl_data_quant_alloc(CCET_DATA_SOME + type, prop, range);
+    return cowl_data_quant_alloc(COWL_CET_DATA_SOME + type, prop, range);
 }
 
 CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) {
@@ -44,7 +44,7 @@ void cowl_data_quant_release(CowlDataQuant *restr) {
 }
 
 CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr) {
-    return (CowlQuantType)(restr->super.type - CCET_DATA_SOME);
+    return (CowlQuantType)(restr->super.type - COWL_CET_DATA_SOME);
 }
 
 CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {

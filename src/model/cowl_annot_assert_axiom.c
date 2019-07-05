@@ -13,7 +13,7 @@ static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue subjec
                                          cowl_annot_value_hash(value));
 
     CowlAnnotAssertAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_ANNOT_ASSERTION, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_ANNOT_ASSERT, hash, annot),
         .subject = cowl_annot_value_retain(subject),
         .prop = cowl_annot_prop_retain(prop),
         .value = cowl_annot_value_retain(value)

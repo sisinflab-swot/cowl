@@ -11,7 +11,7 @@ static CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_alloc(CowlAnnotProp *sub
                                          cowl_annot_prop_hash(super));
 
     CowlSubAnnotPropAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_SUB_ANNOT_PROP, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_SUB_ANNOT_PROP, hash, annot),
         .sub_prop = cowl_annot_prop_retain(sub),
         .super_prop = cowl_annot_prop_retain(super)
     };

@@ -89,7 +89,7 @@ cowl_uint_t cowl_ontology_hash(CowlOntology *onto) {
 cowl_uint_t cowl_ontology_axiom_count(CowlOntology *onto) {
     cowl_uint_t count = 0;
 
-    for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; ++type) {
+    for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
         count += uhash_count(onto->axioms_by_type[type]);
     }
 
@@ -305,7 +305,7 @@ bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, CowlAnonIndIterator *it
 }
 
 bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlAxiomIterator *iter) {
-    for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; ++type) {
+    for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
         CowlAxiomSet *axioms = onto->axioms_by_type[type];
         uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
             if (!cowl_iterate(iter, axiom)) return false;
@@ -428,7 +428,7 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) == CAT_SUB_CLASS) {
+        if (cowl_axiom_flags_get_type(axiom->flags) == COWL_AT_SUB_CLASS) {
             CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
             if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->super_class)) {
@@ -449,7 +449,7 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) == CAT_SUB_CLASS) {
+        if (cowl_axiom_flags_get_type(axiom->flags) == COWL_AT_SUB_CLASS) {
             CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
             if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->sub_class)) {
@@ -470,7 +470,7 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
     CowlAxiomSet *axioms = uhmap_get(CowlClassAxiomMap, onto->class_refs, owl_class, NULL);
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) == CAT_EQUIVALENT_CLASSES) {
+        if (cowl_axiom_flags_get_type(axiom->flags) == COWL_AT_EQUIV_CLASSES) {
             CowlClsExpSet *eq_classes = ((CowlNAryClsAxiom *)axiom)->classes;
 
             uhash_uint_t cls_idx = uhash_get(CowlClsExpSet, eq_classes, (CowlClsExp *)owl_class);
@@ -500,7 +500,7 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
     }
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) == CAT_CLASS_ASSERTION) {
+        if (cowl_axiom_flags_get_type(axiom->flags) == COWL_AT_CLASS_ASSERT) {
             CowlClsAssertAxiom *assert_axiom = (CowlClsAssertAxiom *)axiom;
             if (!cowl_iterate(iter, assert_axiom->cls_exp)) return false;
         }
@@ -531,7 +531,7 @@ void cowl_ontology_free(CowlOntology *onto) {
     cowl_ontology_vec_free(onto->imports);
     cowl_annotation_vec_free(onto->annotations);
 
-    for (CowlAxiomType type = CAT_FIRST; type < CAT_COUNT; type++) {
+    for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; type++) {
         cowl_axiom_set_free(onto->axioms_by_type[type]);
     }
 
@@ -589,32 +589,32 @@ static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *ax
                                                CowlEntity entity) {
     switch (entity.type) {
 
-        case CET_CLASS:
+        case COWL_ET_CLASS:
             cowl_add_axiom_to_set_in_map(CowlClassAxiomMap, onto->class_refs,
                                          entity.owl_class, axiom);
             break;
 
-        case CET_DATA_PROP:
+        case COWL_ET_DATA_PROP:
             cowl_add_axiom_to_set_in_map(CowlDataPropAxiomMap, onto->data_prop_refs,
                                          entity.data_prop, axiom);
             break;
 
-        case CET_DATATYPE:
+        case COWL_ET_DATATYPE:
             cowl_add_axiom_to_set_in_map(CowlDatatypeAxiomMap, onto->datatype_refs,
                                          entity.datatype, axiom);
             break;
 
-        case CET_OBJ_PROP:
+        case COWL_ET_OBJ_PROP:
             cowl_add_axiom_to_set_in_map(CowlObjPropAxiomMap, onto->obj_prop_refs,
                                          entity.obj_prop, axiom);
             break;
 
-        case CET_ANNOT_PROP:
+        case COWL_ET_ANNOT_PROP:
             cowl_add_axiom_to_set_in_map(CowlAnnotPropAxiomMap, onto->annot_prop_refs,
                                          entity.annot_prop, axiom);
             break;
 
-        case CET_NAMED_IND:
+        case COWL_ET_NAMED_IND:
             cowl_add_axiom_to_set_in_map(CowlNamedIndAxiomMap, onto->named_ind_refs,
                                          entity.named_ind, axiom);
             break;

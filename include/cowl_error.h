@@ -11,8 +11,8 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlString);
 
 typedef enum CowlErrorCode {
-    CEC_ONTOLOGY_LOAD,
-    CEC_SYNTAX
+    COWL_ERR_ONTOLOGY_LOAD,
+    COWL_ERR_SYNTAX
 } CowlErrorCode;
 
 typedef cowl_struct(CowlError) {

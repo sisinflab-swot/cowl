@@ -12,7 +12,7 @@ static CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_alloc(CowlDataPropEx
                                          cowl_cls_exp_hash(domain));
 
     CowlDataPropDomainAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_DATA_PROP_DOMAIN, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_DATA_PROP_DOMAIN, hash, annot),
         .prop_exp = cowl_data_prop_exp_retain(prop),
         .domain = cowl_cls_exp_retain(domain)
     };

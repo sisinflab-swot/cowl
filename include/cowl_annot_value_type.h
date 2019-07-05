@@ -8,9 +8,11 @@
 COWL_BEGIN_DECLS
 
 typedef enum CowlAnnotValueType {
-    CAVT_IRI,
-    CAVT_LITERAL,
-    CAVT_ANON_IND
+    COWL_AVT_IRI,
+    COWL_AVT_LITERAL,
+    COWL_AVT_ANON_IND,
+    COWL_AVT_COUNT,
+    COWL_AVT_FIRST = COWL_AVT_IRI
 } CowlAnnotValueType;
 
 COWL_END_DECLS

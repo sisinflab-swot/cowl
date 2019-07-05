@@ -11,7 +11,7 @@ static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlClsEx
                                          cowl_cls_exp_set_hash(disjoints));
 
     CowlDisjUnionAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_DISJOINT_UNION, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_DISJ_UNION, hash, annot),
         .cls = cowl_class_retain(cls),
         .disjoints = disjoints
     };

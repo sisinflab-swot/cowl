@@ -26,7 +26,7 @@ static void cowl_nary_cls_axiom_free(CowlNAryClsAxiom *axiom) {
 
 CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlClsExpSet *classes,
                                           CowlAnnotationVec *annot) {
-    return cowl_nary_cls_axiom_alloc((CowlAxiomType)type + CAT_EQUIVALENT_CLASSES, classes, annot);
+    return cowl_nary_cls_axiom_alloc((CowlAxiomType)type + COWL_AT_EQUIV_CLASSES, classes, annot);
 }
 
 CowlNAryClsAxiom* cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom) {
@@ -41,7 +41,7 @@ void cowl_nary_cls_axiom_release(CowlNAryClsAxiom *axiom) {
 
 CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom) {
     CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlNAryAxiomType)(flags - CAT_EQUIVALENT_CLASSES);
+    return (CowlNAryAxiomType)(flags - COWL_AT_EQUIV_CLASSES);
 }
 
 CowlClsExpSet *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {

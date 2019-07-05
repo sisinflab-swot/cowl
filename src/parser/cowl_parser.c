@@ -67,7 +67,7 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
     bool error;
 
     if (!yyin) {
-        cowl_parser_log_error(parser, CEC_ONTOLOGY_LOAD, strdup(strerror(errno)), 0);
+        cowl_parser_log_error(parser, COWL_ERR_ONTOLOGY_LOAD, strdup(strerror(errno)), 0);
         error = true;
         goto end;
     }

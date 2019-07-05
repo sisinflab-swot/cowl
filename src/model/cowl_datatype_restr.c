@@ -13,7 +13,7 @@ static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
                                    uhset_hash(CowlFacetRestrSet, restrictions));
 
     CowlDatatypeRestr init = {
-        .super = COWL_DATA_RANGE_INIT(CDRT_DATATYPE_RESTRICTION, hash),
+        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE_RESTR, hash),
         .datatype = cowl_datatype_retain(datatype),
         .restrictions = restrictions
     };

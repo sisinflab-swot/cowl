@@ -8,9 +8,11 @@
 COWL_BEGIN_DECLS
 
 typedef enum CowlCardType {
-    CCT_MIN,
-    CCT_MAX,
-    CCT_EXACT
+    COWL_CT_MIN,
+    COWL_CT_MAX,
+    COWL_CT_EXACT,
+    COWL_CT_COUNT,
+    COWL_CT_FIRST = COWL_CT_MIN
 } CowlCardType;
 
 COWL_END_DECLS

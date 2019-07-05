@@ -39,7 +39,7 @@ static void cowl_data_card_free(CowlDataCard *restr) {
 
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
                                CowlDataRange *range, cowl_uint_t cardinality) {
-    return cowl_data_card_alloc(CCET_OBJ_MIN_CARD + type, prop, range, cardinality);
+    return cowl_data_card_alloc(COWL_CET_OBJ_MIN_CARD + type, prop, range, cardinality);
 }
 
 CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) {
@@ -53,7 +53,7 @@ void cowl_data_card_release(CowlDataCard *restr) {
 }
 
 CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
-    return (CowlCardType)(restr->super.type - CCET_OBJ_MIN_CARD);
+    return (CowlCardType)(restr->super.type - COWL_CET_OBJ_MIN_CARD);
 }
 
 CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {

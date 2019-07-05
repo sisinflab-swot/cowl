@@ -11,7 +11,7 @@ static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLi
                                    cowl_literal_hash(value));
 
     CowlDataHasValue init = {
-        .super = COWL_CLS_EXP_INIT(CCET_DATA_HAS_VALUE, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_DATA_HAS_VALUE, hash),
         .prop = cowl_data_prop_exp_retain(prop),
         .value = cowl_literal_retain(value)
     };

@@ -25,10 +25,10 @@ static void cowl_obj_prop_char_axiom_free(CowlObjPropCharAxiom *axiom) {
     cowl_axiom_free(axiom);
 }
 
-CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlObjPropCharAxiomType type,
+CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
                                                    CowlAnnotationVec *annot) {
-    CowlAxiomType axiom_type = (CowlAxiomType)type + CAT_FUNCTIONAL_OBJ_PROP;
+    CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_FUNC_OBJ_PROP;
     return cowl_obj_prop_char_axiom_alloc(axiom_type, prop, annot);
 }
 
@@ -42,9 +42,9 @@ void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom) {
     }
 }
 
-CowlObjPropCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom) {
+CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom) {
     CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlObjPropCharAxiomType)(cowl_axiom_flags_get_type(flags) - CAT_FUNCTIONAL_OBJ_PROP);
+    return (CowlCharAxiomType)(cowl_axiom_flags_get_type(flags) - COWL_AT_FUNC_OBJ_PROP);
 }
 
 CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {

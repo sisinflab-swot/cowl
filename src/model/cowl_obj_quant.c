@@ -28,7 +28,7 @@ static void cowl_obj_quant_free(CowlObjQuant *restr) {
 }
 
 CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler) {
-    return cowl_obj_quant_alloc(CCET_OBJ_SOME + type, prop, filler);
+    return cowl_obj_quant_alloc(COWL_CET_OBJ_SOME + type, prop, filler);
 }
 
 CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) {
@@ -42,7 +42,7 @@ void cowl_obj_quant_release(CowlObjQuant *restr) {
 }
 
 CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
-    return (CowlQuantType)(restr->super.type - CCET_OBJ_SOME);
+    return (CowlQuantType)(restr->super.type - COWL_CET_OBJ_SOME);
 }
 
 CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) {

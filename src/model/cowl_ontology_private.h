@@ -26,7 +26,7 @@ cowl_struct(CowlOntology) {
     CowlOntologyID *id;
     Vector(CowlOntologyPtr) *imports;
     Vector(CowlAnnotationPtr) *annotations;
-    UHash(CowlAxiomSet) *axioms_by_type[CAT_COUNT];
+    UHash(CowlAxiomSet) *axioms_by_type[COWL_AT_COUNT];
     UHash(CowlAnnotPropAxiomMap) *annot_prop_refs;
     UHash(CowlClassAxiomMap) *class_refs;
     UHash(CowlDataPropAxiomMap) *data_prop_refs;

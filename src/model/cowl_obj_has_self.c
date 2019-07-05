@@ -8,7 +8,7 @@ static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(prop));
 
     CowlObjHasSelf init = {
-        .super = COWL_CLS_EXP_INIT(CCET_OBJ_HAS_SELF, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_SELF, hash),
         .prop = cowl_obj_prop_exp_retain(prop)
     };
 

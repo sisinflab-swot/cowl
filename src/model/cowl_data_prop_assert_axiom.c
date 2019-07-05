@@ -35,19 +35,19 @@ static void cowl_data_prop_assert_axiom_free(CowlDataPropAssertAxiom *axiom) {
     cowl_axiom_free(axiom);
 }
 
-CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subject,
+CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                          CowlDataPropExp *prop,
-                                                         CowlLiteral *object,
+                                                         CowlLiteral *obj,
                                                          CowlAnnotationVec *annot) {
-    return cowl_data_prop_assert_axiom_alloc(CAT_DATA_PROP_ASSERTION, subject, prop, object, annot);
+    return cowl_data_prop_assert_axiom_alloc(COWL_AT_DATA_PROP_ASSERT, subj, prop, obj, annot);
 }
 
-CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subject,
+CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                              CowlDataPropExp *prop,
-                                                             CowlLiteral *object,
+                                                             CowlLiteral *obj,
                                                              CowlAnnotationVec *annot) {
-    return cowl_data_prop_assert_axiom_alloc(CAT_NEGATIVE_DATA_PROP_ASSERTION,
-                                             subject, prop, object, annot);
+    return cowl_data_prop_assert_axiom_alloc(COWL_AT_NEG_DATA_PROP_ASSERT,
+                                             subj, prop, obj, annot);
 }
 
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_retain(CowlDataPropAssertAxiom *axiom) {
@@ -61,7 +61,7 @@ void cowl_data_prop_assert_axiom_release(CowlDataPropAssertAxiom *axiom) {
 }
 
 bool cowl_data_prop_assert_axiom_is_negative(CowlDataPropAssertAxiom *axiom) {
-    return cowl_axiom_flags_get_type(axiom->super.flags) == CAT_NEGATIVE_DATA_PROP_ASSERTION;
+    return cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_NEG_DATA_PROP_ASSERT;
 }
 
 CowlIndividual* cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom *axiom) {

@@ -254,12 +254,13 @@ void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity) {
     char const *type = NULL;
 
     switch (entity.type) {
-        case CET_CLASS: type = "Class"; break;
-        case CET_OBJ_PROP: type = "ObjectProperty"; break;
-        case CET_DATA_PROP: type = "DataProperty"; break;
-        case CET_ANNOT_PROP: type = "AnnotationProperty"; break;
-        case CET_NAMED_IND: type = "Namedind"; break;
-        case CET_DATATYPE: type = "Datatype"; break;
+        case COWL_ET_CLASS: type = "Class"; break;
+        case COWL_ET_OBJ_PROP: type = "ObjectProperty"; break;
+        case COWL_ET_DATA_PROP: type = "DataProperty"; break;
+        case COWL_ET_ANNOT_PROP: type = "AnnotationProperty"; break;
+        case COWL_ET_NAMED_IND: type = "Namedind"; break;
+        case COWL_ET_DATATYPE: type = "Datatype"; break;
+        default: break;
     }
 
     cowl_logger_logf(logger, "%s(", type);
@@ -269,9 +270,10 @@ void cowl_logger_log_entity(CowlLogger *logger, CowlEntity entity) {
 
 void cowl_logger_log_annot_value(CowlLogger *logger, CowlAnnotValue value) {
     switch (value.type) {
-        case CAVT_ANON_IND: cowl_logger_log_anon_ind(logger, value.anon_ind); break;
-        case CAVT_IRI: cowl_logger_log_iri(logger, value.iri); break;
-        case CAVT_LITERAL: cowl_logger_log_literal(logger, value.literal); break;
+        case COWL_AVT_ANON_IND: cowl_logger_log_anon_ind(logger, value.anon_ind); break;
+        case COWL_AVT_IRI: cowl_logger_log_iri(logger, value.iri); break;
+        case COWL_AVT_LITERAL: cowl_logger_log_literal(logger, value.literal); break;
+        default: break;
     }
 }
 
@@ -282,54 +284,54 @@ void cowl_logger_log_annot_prop(CowlLogger *logger, CowlAnnotProp *prop) {
 void cowl_logger_log_cls_exp(CowlLogger *logger, CowlClsExp *exp) {
     switch (exp->type) {
 
-        case CCET_CLASS:
+        case COWL_CET_CLASS:
             cowl_logger_log_entity(logger, cowl_entity_wrap_class((CowlClass *)exp));
             break;
 
-        case CCET_OBJ_SOME:
-        case CCET_OBJ_ALL:
+        case COWL_CET_OBJ_SOME:
+        case COWL_CET_OBJ_ALL:
             cowl_logger_log_obj_quant(logger, (CowlObjQuant *)exp);
             break;
 
-        case CCET_OBJ_MIN_CARD:
-        case CCET_OBJ_MAX_CARD:
-        case CCET_OBJ_EXACT_CARD:
+        case COWL_CET_OBJ_MIN_CARD:
+        case COWL_CET_OBJ_MAX_CARD:
+        case COWL_CET_OBJ_EXACT_CARD:
             cowl_logger_log_obj_card(logger, (CowlObjCard *)exp);
             break;
 
-        case CCET_OBJ_HAS_VALUE:
+        case COWL_CET_OBJ_HAS_VALUE:
             cowl_logger_log_obj_has_value(logger, (CowlObjHasValue *)exp);
             break;
 
-        case CCET_OBJ_HAS_SELF:
+        case COWL_CET_OBJ_HAS_SELF:
             cowl_logger_log_obj_has_self(logger, (CowlObjHasSelf *)exp);
             break;
 
-        case CCET_OBJ_INTERSECTION:
-        case CCET_OBJ_UNION:
+        case COWL_CET_OBJ_INTERSECT:
+        case COWL_CET_OBJ_UNION:
             cowl_logger_log_nary_bool(logger, (CowlNAryBool *)exp);
             break;
 
-        case CCET_OBJ_COMPLEMENT:
+        case COWL_CET_OBJ_COMPL:
             cowl_logger_log_obj_compl(logger, (CowlObjCompl *)exp);
             break;
 
-        case CCET_OBJ_ONE_OF:
+        case COWL_CET_OBJ_ONE_OF:
             cowl_logger_log_obj_one_of(logger, (CowlObjOneOf *)exp);
             break;
 
-        case CCET_DATA_SOME:
-        case CCET_DATA_ALL:
+        case COWL_CET_DATA_SOME:
+        case COWL_CET_DATA_ALL:
             cowl_logger_log_data_quant(logger, (CowlDataQuant *)exp);
             break;
 
-        case CCET_DATA_MIN_CARD:
-        case CCET_DATA_MAX_CARD:
-        case CCET_DATA_EXACT_CARD:
+        case COWL_CET_DATA_MIN_CARD:
+        case COWL_CET_DATA_MAX_CARD:
+        case COWL_CET_DATA_EXACT_CARD:
             cowl_logger_log_data_card(logger, (CowlDataCard *)exp);
             break;
 
-        case CCET_DATA_HAS_VALUE:
+        case COWL_CET_DATA_HAS_VALUE:
             cowl_logger_log_data_has_value(logger, (CowlDataHasValue *)exp);
             break;
 
@@ -345,24 +347,24 @@ void cowl_logger_log_data_prop_exp(CowlLogger *logger, CowlDataPropExp *exp) {
 void cowl_logger_log_data_range(CowlLogger *logger, CowlDataRange *range) {
     switch (range->type) {
 
-        case CDRT_DATATYPE:
+        case COWL_DRT_DATATYPE:
             cowl_logger_log_entity(logger, cowl_entity_wrap_datatype((CowlDatatype *)range));
             break;
 
-        case CDRT_DATATYPE_RESTRICTION:
+        case COWL_DRT_DATATYPE_RESTR:
             cowl_logger_log_datatype_restr(logger, (CowlDatatypeRestr *)range);
             break;
 
-        case CDRT_DATA_INTERSECTION:
-        case CDRT_DATA_UNION:
+        case COWL_DRT_DATA_INTERSECT:
+        case COWL_DRT_DATA_UNION:
             cowl_logger_log_nary_data(logger, (CowlNAryData *)range);
             break;
 
-        case CDRT_DATA_COMPLEMENT:
+        case COWL_DRT_DATA_COMPL:
             cowl_logger_log_data_compl(logger, (CowlDataCompl *)range);
             break;
 
-        case CDRT_DATA_ONE_OF:
+        case COWL_DRT_DATA_ONE_OF:
             cowl_logger_log_data_one_of(logger, (CowlDataOneOf *)range);
             break;
 
@@ -397,119 +399,119 @@ void cowl_logger_log_axiom(CowlLogger *logger, CowlAxiom *axiom) {
 
     switch (type) {
 
-        case CAT_DECLARATION:
+        case COWL_AT_DECL:
             cowl_logger_log_decl_axiom(logger, (CowlDeclAxiom *)axiom);
             break;
 
-        case CAT_DATATYPE_DEFINITION:
+        case COWL_AT_DATATYPE_DEF:
             cowl_logger_log_datatype_def_axiom(logger, (CowlDatatypeDefAxiom *)axiom);
             break;
 
-        case CAT_SUB_CLASS:
+        case COWL_AT_SUB_CLASS:
             cowl_logger_log_sub_cls_axiom(logger, (CowlSubClsAxiom *)axiom);
             break;
 
-        case CAT_EQUIVALENT_CLASSES:
-        case CAT_DISJOINT_CLASSES:
+        case COWL_AT_EQUIV_CLASSES:
+        case COWL_AT_DISJ_CLASSES:
             cowl_logger_log_nary_cls_axiom(logger, (CowlNAryClsAxiom *)axiom);
             break;
 
-        case CAT_DISJOINT_UNION:
+        case COWL_AT_DISJ_UNION:
             cowl_logger_log_disj_union_axiom(logger, (CowlDisjUnionAxiom *)axiom);
             break;
 
-        case CAT_CLASS_ASSERTION:
+        case COWL_AT_CLASS_ASSERT:
             cowl_logger_log_cls_assert(logger, (CowlClsAssertAxiom *)axiom);
             break;
 
-        case CAT_SAME_INDIVIDUAL:
-        case CAT_DIFFERENT_INDIVIDUALS:
+        case COWL_AT_SAME_IND:
+        case COWL_AT_DIFF_IND:
             cowl_logger_log_nary_ind_axiom(logger, (CowlNAryIndAxiom *)axiom);
             break;
 
-        case CAT_OBJ_PROP_ASSERTION:
-        case CAT_NEGATIVE_OBJ_PROP_ASSERTION:
+        case COWL_AT_OBJ_PROP_ASSERT:
+        case COWL_AT_NEG_OBJ_PROP_ASSERT:
             cowl_logger_log_obj_prop_assert(logger, (CowlObjPropAssertAxiom *)axiom);
             break;
 
-        case CAT_DATA_PROP_ASSERTION:
-        case CAT_NEGATIVE_DATA_PROP_ASSERTION:
+        case COWL_AT_DATA_PROP_ASSERT:
+        case COWL_AT_NEG_DATA_PROP_ASSERT:
             cowl_logger_log_data_prop_assert(logger, (CowlDataPropAssertAxiom *)axiom);
             break;
 
-        case CAT_SUB_OBJ_PROP:
+        case COWL_AT_SUB_OBJ_PROP:
             cowl_logger_log_sub_obj_prop_axiom(logger, (CowlSubObjPropAxiom *)axiom);
             break;
 
-        case CAT_SUB_OBJ_PROP_CHAIN:
+        case COWL_AT_SUB_OBJ_PROP_CHAIN:
             cowl_logger_log_sub_obj_prop_chain_axiom(logger, (CowlSubObjPropChainAxiom *)axiom);
             break;
 
-        case CAT_INVERSE_OBJ_PROP:
+        case COWL_AT_INV_OBJ_PROP:
             cowl_logger_log_inv_obj_prop_axiom(logger, (CowlInvObjPropAxiom *)axiom);
             break;
 
-        case CAT_EQUIVALENT_OBJ_PROP:
-        case CAT_DISJOINT_OBJ_PROP:
+        case COWL_AT_EQUIV_OBJ_PROP:
+        case COWL_AT_DISJ_OBJ_PROP:
             cowl_logger_log_nary_obj_prop_axiom(logger, (CowlNAryObjPropAxiom *)axiom);
             break;
 
-        case CAT_FUNCTIONAL_OBJ_PROP:
-        case CAT_INVERSE_FUNCTIONAL_OBJ_PROP:
-        case CAT_SYMMETRIC_OBJ_PROP:
-        case CAT_ASYMMETRIC_OBJ_PROP:
-        case CAT_REFLEXIVE_OBJ_PROP:
-        case CAT_IRREFLEXIVE_OBJ_PROP:
-        case CAT_TRANSITIVE_OBJ_PROP:
+        case COWL_AT_FUNC_OBJ_PROP:
+        case COWL_AT_INV_FUNC_OBJ_PROP:
+        case COWL_AT_SYMM_OBJ_PROP:
+        case COWL_AT_ASYMM_OBJ_PROP:
+        case COWL_AT_REFL_OBJ_PROP:
+        case COWL_AT_IRREFL_OBJ_PROP:
+        case COWL_AT_TRANS_OBJ_PROP:
             cowl_logger_log_obj_prop_char(logger, (CowlObjPropCharAxiom *)axiom);
             break;
 
-        case CAT_OBJ_PROP_DOMAIN:
+        case COWL_AT_OBJ_PROP_DOMAIN:
             cowl_logger_log_obj_prop_domain(logger, (CowlObjPropDomainAxiom *)axiom);
             break;
 
-        case CAT_OBJ_PROP_RANGE:
+        case COWL_AT_OBJ_PROP_RANGE:
             cowl_logger_log_obj_prop_range(logger, (CowlObjPropRangeAxiom *)axiom);
             break;
 
-        case CAT_SUB_DATA_PROP:
+        case COWL_AT_SUB_DATA_PROP:
             cowl_logger_log_sub_data_prop_axiom(logger, (CowlSubDataPropAxiom *)axiom);
             break;
 
-        case CAT_EQUIVALENT_DATA_PROP:
-        case CAT_DISJOINT_DATA_PROP:
+        case COWL_AT_EQUIV_DATA_PROP:
+        case COWL_AT_DISJ_DATA_PROP:
             cowl_logger_log_nary_data_prop_axiom(logger, (CowlNAryDataPropAxiom *)axiom);
             break;
 
-        case CAT_FUNCTIONAL_DATA_PROP:
+        case COWL_AT_FUNC_DATA_PROP:
             cowl_logger_log_func_data_prop_axiom(logger, (CowlFuncDataPropAxiom *)axiom);
             break;
 
-        case CAT_DATA_PROP_DOMAIN:
+        case COWL_AT_DATA_PROP_DOMAIN:
             cowl_logger_log_data_prop_domain(logger, (CowlDataPropDomainAxiom *)axiom);
             break;
 
-        case CAT_DATA_PROP_RANGE:
+        case COWL_AT_DATA_PROP_RANGE:
             cowl_logger_log_data_prop_range(logger, (CowlDataPropRangeAxiom *)axiom);
             break;
 
-        case CAT_HAS_KEY:
+        case COWL_AT_HAS_KEY:
             cowl_logger_log_has_key_axiom(logger, (CowlHasKeyAxiom *)axiom);
             break;
 
-        case CAT_ANNOT_ASSERTION:
+        case COWL_AT_ANNOT_ASSERT:
             cowl_logger_log_annot_assert(logger, (CowlAnnotAssertAxiom *)axiom);
             break;
 
-        case CAT_SUB_ANNOT_PROP:
+        case COWL_AT_SUB_ANNOT_PROP:
             cowl_logger_log_sub_annot_prop_axiom(logger, (CowlSubAnnotPropAxiom *)axiom);
             break;
 
-        case CAT_ANNOT_PROP_DOMAIN:
+        case COWL_AT_ANNOT_PROP_DOMAIN:
             cowl_logger_log_annot_prop_domain_axiom(logger, (CowlAnnotPropDomainAxiom *)axiom);
             break;
 
-        case CAT_ANNOT_PROP_RANGE:
+        case COWL_AT_ANNOT_PROP_RANGE:
             cowl_logger_log_annot_prop_range_axiom(logger, (CowlAnnotPropRangeAxiom *)axiom);
             break;
 
@@ -626,7 +628,7 @@ static void cowl_logger_log_literal_set(CowlLogger *logger, CowlLiteralSet *set)
 }
 
 static void cowl_logger_log_obj_quant(CowlLogger *logger, CowlObjQuant *restr) {
-    char const *str = restr->super.type == CCET_OBJ_SOME ? "Some" : "All";
+    char const *str = restr->super.type == COWL_CET_OBJ_SOME ? "Some" : "All";
     cowl_logger_logf(logger, "Object%sValuesFrom(", str);
     cowl_logger_log_obj_prop_exp(logger, restr->prop);
     cowl_logger_logf(logger, " ");
@@ -638,8 +640,8 @@ static void cowl_logger_log_obj_card(CowlLogger *logger, CowlObjCard *card) {
     char const *str;
 
     switch (card->super.type) {
-        case CCET_OBJ_MIN_CARD: str = "Min"; break;
-        case CCET_OBJ_MAX_CARD: str = "Max"; break;
+        case COWL_CET_OBJ_MIN_CARD: str = "Min"; break;
+        case COWL_CET_OBJ_MAX_CARD: str = "Max"; break;
         default: str = "Exact"; break;
     }
 
@@ -669,7 +671,7 @@ static void cowl_logger_log_obj_has_self(CowlLogger *logger, CowlObjHasSelf *exp
 }
 
 static void cowl_logger_log_nary_bool(CowlLogger *logger, CowlNAryBool *nary) {
-    char const *str = nary->super.type == CCET_OBJ_INTERSECTION ? "Intersection" : "Union";
+    char const *str = nary->super.type == COWL_CET_OBJ_INTERSECT ? "Intersection" : "Union";
     cowl_logger_logf(logger, "Object%sOf(", str);
     cowl_logger_log_cls_exp_set(logger, nary->operands);
     cowl_logger_logf(logger, ")");
@@ -688,7 +690,7 @@ static void cowl_logger_log_obj_one_of(CowlLogger *logger, CowlObjOneOf *exp) {
 }
 
 static void cowl_logger_log_data_quant(CowlLogger *logger, CowlDataQuant *exp) {
-    char const *str = exp->super.type == CCET_DATA_SOME ? "Some" : "All";
+    char const *str = exp->super.type == COWL_CET_DATA_SOME ? "Some" : "All";
     cowl_logger_logf(logger, "Data%sValuesFrom(", str);
     cowl_logger_log_data_prop_exp(logger, exp->prop);
     cowl_logger_logf(logger, " ");
@@ -700,8 +702,8 @@ static void cowl_logger_log_data_card(CowlLogger *logger, CowlDataCard *exp) {
     char const *str;
 
     switch (exp->super.type) {
-        case CCET_DATA_MIN_CARD: str = "Min"; break;
-        case CCET_DATA_MAX_CARD: str = "Max"; break;
+        case COWL_CET_DATA_MIN_CARD: str = "Min"; break;
+        case COWL_CET_DATA_MAX_CARD: str = "Max"; break;
         default: str = "Exact"; break;
     }
 
@@ -733,7 +735,7 @@ static void cowl_logger_log_datatype_restr(CowlLogger *logger, CowlDatatypeRestr
 }
 
 static void cowl_logger_log_nary_data(CowlLogger *logger, CowlNAryData *nary) {
-    char const *str = nary->super.type == CDRT_DATA_INTERSECTION ? "Intersection" : "Union";
+    char const *str = nary->super.type == COWL_DRT_DATA_INTERSECT ? "Intersection" : "Union";
     cowl_logger_logf(logger, "Data%sOf(", str);
     cowl_logger_log_data_range_set(logger, nary->operands);
     cowl_logger_logf(logger, ")");
@@ -775,7 +777,7 @@ static void cowl_logger_log_sub_cls_axiom(CowlLogger *logger, CowlSubClsAxiom *a
 
 static void cowl_logger_log_nary_cls_axiom(CowlLogger *logger, CowlNAryClsAxiom *axiom) {
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
-    char const *str = type == CAT_EQUIVALENT_CLASSES ? "Equivalent" : "Disjoint";
+    char const *str = type == COWL_AT_EQUIV_CLASSES ? "Equivalent" : "Disjoint";
     cowl_logger_logf(logger, "%sClasses(", str);
     cowl_logger_log_cls_exp_set(logger, axiom->classes);
     cowl_logger_logf(logger, ")");
@@ -799,7 +801,7 @@ static void cowl_logger_log_cls_assert(CowlLogger *logger, CowlClsAssertAxiom *a
 
 static void cowl_logger_log_nary_ind_axiom(CowlLogger *logger, CowlNAryIndAxiom *axiom) {
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
-    char const *str = type == CAT_SAME_INDIVIDUAL ? "SameIndividual" : "DifferentIndividuals";
+    char const *str = type == COWL_AT_SAME_IND ? "SameIndividual" : "DifferentIndividuals";
     cowl_logger_logf(logger, "%s(", str);
     cowl_logger_log_individual_set(logger, axiom->operands);
     cowl_logger_logf(logger, ")");
@@ -808,7 +810,7 @@ static void cowl_logger_log_nary_ind_axiom(CowlLogger *logger, CowlNAryIndAxiom 
 static void cowl_logger_log_obj_prop_assert(CowlLogger *logger, CowlObjPropAssertAxiom *axiom) {
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
     cowl_logger_logf(logger, "%sObjectPropertyAssertion(",
-                     type == CAT_NEGATIVE_OBJ_PROP_ASSERTION ? "Negative" : "");
+                     type == COWL_AT_NEG_OBJ_PROP_ASSERT ? "Negative" : "");
     cowl_logger_log_individual(logger, axiom->subject);
     cowl_logger_logf(logger, " ");
     cowl_logger_log_obj_prop_exp(logger, axiom->prop_exp);
@@ -820,7 +822,7 @@ static void cowl_logger_log_obj_prop_assert(CowlLogger *logger, CowlObjPropAsser
 static void cowl_logger_log_data_prop_assert(CowlLogger *logger, CowlDataPropAssertAxiom *axiom) {
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
     cowl_logger_logf(logger, "%sDataPropertyAssertion(",
-                     type == CAT_NEGATIVE_OBJ_PROP_ASSERTION ? "Negative" : "");
+                     type == COWL_AT_NEG_OBJ_PROP_ASSERT ? "Negative" : "");
     cowl_logger_log_individual(logger, axiom->subject);
     cowl_logger_logf(logger, " ");
     cowl_logger_log_data_prop_exp(logger, axiom->prop);
@@ -856,7 +858,7 @@ static void cowl_logger_log_inv_obj_prop_axiom(CowlLogger *logger, CowlInvObjPro
 
 static void cowl_logger_log_nary_obj_prop_axiom(CowlLogger *logger, CowlNAryObjPropAxiom *axiom) {
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
-    char const *str = type == CAT_EQUIVALENT_OBJ_PROP ? "Equivalent" : "Disjoint";
+    char const *str = type == COWL_AT_EQUIV_OBJ_PROP ? "Equivalent" : "Disjoint";
     cowl_logger_logf(logger, "%sObjectProperties(", str);
     cowl_logger_log_obj_prop_exp_set(logger, axiom->props);
     cowl_logger_logf(logger, ")");
@@ -866,12 +868,12 @@ static void cowl_logger_log_obj_prop_char(CowlLogger *logger, CowlObjPropCharAxi
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
     const char *str;
     switch (type) {
-        case CAT_FUNCTIONAL_OBJ_PROP: str = "Functional"; break;
-        case CAT_INVERSE_FUNCTIONAL_OBJ_PROP: str = "InverseFunctional"; break;
-        case CAT_SYMMETRIC_OBJ_PROP: str = "Symmetric"; break;
-        case CAT_ASYMMETRIC_OBJ_PROP: str = "Asymmetric"; break;
-        case CAT_REFLEXIVE_OBJ_PROP: str = "Reflexive"; break;
-        case CAT_IRREFLEXIVE_OBJ_PROP: str = "Irreflexive"; break;
+        case COWL_AT_FUNC_OBJ_PROP: str = "Functional"; break;
+        case COWL_AT_INV_FUNC_OBJ_PROP: str = "InverseFunctional"; break;
+        case COWL_AT_SYMM_OBJ_PROP: str = "Symmetric"; break;
+        case COWL_AT_ASYMM_OBJ_PROP: str = "Asymmetric"; break;
+        case COWL_AT_REFL_OBJ_PROP: str = "Reflexive"; break;
+        case COWL_AT_IRREFL_OBJ_PROP: str = "Irreflexive"; break;
         default: str = "Transitive"; break;
     }
     cowl_logger_logf(logger, "%sObjectProperty(", str);
@@ -905,7 +907,7 @@ static void cowl_logger_log_sub_data_prop_axiom(CowlLogger *logger, CowlSubDataP
 
 static void cowl_logger_log_nary_data_prop_axiom(CowlLogger *logger, CowlNAryDataPropAxiom *axiom) {
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
-    char const *str = type == CAT_EQUIVALENT_DATA_PROP ? "Equivalent" : "Disjoint";
+    char const *str = type == COWL_AT_EQUIV_DATA_PROP ? "Equivalent" : "Disjoint";
     cowl_logger_logf(logger, "%sDataProperties(", str);
     cowl_logger_log_data_prop_exp_set(logger, axiom->props);
     cowl_logger_logf(logger, ")");

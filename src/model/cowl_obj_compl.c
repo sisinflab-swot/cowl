@@ -7,7 +7,7 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
     CowlObjCompl init = {
-        .super = COWL_CLS_EXP_INIT(CCET_OBJ_COMPLEMENT, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_COMPL, hash),
         .operand = cowl_cls_exp_retain(operand)
     };
 

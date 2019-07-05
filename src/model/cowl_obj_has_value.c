@@ -11,7 +11,7 @@ static CowlObjHasValue* cowl_obj_has_value_alloc(CowlObjPropExp *prop, CowlIndiv
                                    cowl_individual_hash(ind));
 
     CowlObjHasValue init = {
-        .super = COWL_CLS_EXP_INIT(CCET_OBJ_HAS_VALUE, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_VALUE, hash),
         .prop = cowl_obj_prop_exp_retain(prop),
         .ind = cowl_individual_retain(ind)
     };

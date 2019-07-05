@@ -15,22 +15,25 @@ COWL_BEGIN_DECLS
 typedef enum CowlEntityType {
 
     /// Represents CowlClass.
-    CET_CLASS,
+    COWL_ET_CLASS,
 
     /// Represents CowlObjectProperty.
-    CET_OBJ_PROP,
+    COWL_ET_OBJ_PROP,
 
     /// Represents CowlDataProperty.
-    CET_DATA_PROP,
+    COWL_ET_DATA_PROP,
 
     /// Represents CowlAnnotationProperty.
-    CET_ANNOT_PROP,
+    COWL_ET_ANNOT_PROP,
 
     /// Represents CowlNamedInd.
-    CET_NAMED_IND,
+    COWL_ET_NAMED_IND,
 
     /// Represents CowlDatatype.
-    CET_DATATYPE
+    COWL_ET_DATATYPE,
+
+    COWL_ET_COUNT,
+    COWL_ET_FIRST = COWL_ET_CLASS
 
 } CowlEntityType;
 

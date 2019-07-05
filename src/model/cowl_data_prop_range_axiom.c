@@ -12,7 +12,7 @@ static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp 
                                          cowl_data_range_hash(range));
 
     CowlDataPropRangeAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_DATA_PROP_RANGE, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_DATA_PROP_RANGE, hash, annot),
         .prop_exp = cowl_data_prop_exp_retain(prop),
         .range = cowl_data_range_retain(range)
     };

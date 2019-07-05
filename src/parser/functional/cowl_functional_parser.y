@@ -35,7 +35,7 @@
     static void cowl_functional_error(COWL_FUNCTIONAL_LTYPE *yylloc,
                                       cowl_unused yyscan_t scanner,
                                       CowlParser *parser, const char* s) {
-        cowl_parser_log_error(parser, CEC_SYNTAX, strdup(s), yylloc->last_line);
+        cowl_parser_log_error(parser, COWL_ERR_SYNTAX, strdup(s), yylloc->last_line);
     }
 }
 
@@ -450,13 +450,13 @@ data_range
 
 data_intersection_of
     : DATA_INTERSECTION_OF L_PAREN data_range_2_list R_PAREN {
-        $$ = (CowlDataRange *)cowl_nary_data_get(CNT_INTERSECTION, $3);
+        $$ = (CowlDataRange *)cowl_nary_data_get(COWL_NT_INTERSECT, $3);
     }
 ;
 
 data_union_of
     : DATA_UNION_OF L_PAREN data_range_2_list R_PAREN {
-        $$ = (CowlDataRange *)cowl_nary_data_get(CNT_UNION, $3);
+        $$ = (CowlDataRange *)cowl_nary_data_get(COWL_NT_UNION, $3);
     }
 ;
 
@@ -524,13 +524,13 @@ class_expression
 
 object_intersection_of
     : OBJECT_INTERSECTION_OF L_PAREN class_expression_2_list R_PAREN {
-        $$ = (CowlClsExp *)cowl_nary_bool_get(CNT_INTERSECTION, $3);
+        $$ = (CowlClsExp *)cowl_nary_bool_get(COWL_NT_INTERSECT, $3);
     }
 ;
 
 object_union_of
     : OBJECT_UNION_OF L_PAREN class_expression_2_list R_PAREN {
-        $$ = (CowlClsExp *)cowl_nary_bool_get(CNT_UNION, $3);
+        $$ = (CowlClsExp *)cowl_nary_bool_get(COWL_NT_UNION, $3);
     }
 ;
 
@@ -549,7 +549,7 @@ object_one_of
 
 object_some_values_from
     : OBJECT_SOME_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_quant_get(CQT_SOME, $3, $4);
+        $$ = (CowlClsExp *)cowl_obj_quant_get(COWL_QT_SOME, $3, $4);
         cowl_obj_prop_exp_release($3);
         cowl_cls_exp_release($4);
     }
@@ -557,7 +557,7 @@ object_some_values_from
 
 object_all_values_from
     : OBJECT_ALL_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_quant_get(CQT_ALL, $3, $4);
+        $$ = (CowlClsExp *)cowl_obj_quant_get(COWL_QT_ALL, $3, $4);
         cowl_obj_prop_exp_release($3);
         cowl_cls_exp_release($4);
     }
@@ -580,11 +580,11 @@ object_has_self
 
 object_min_cardinality
     : OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MIN, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(COWL_CT_MIN, $4, NULL, $3);
         cowl_obj_prop_exp_release($4);
     }
     | OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MIN, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(COWL_CT_MIN, $4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -592,11 +592,11 @@ object_min_cardinality
 
 object_max_cardinality
     : OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MAX, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(COWL_CT_MAX, $4, NULL, $3);
         cowl_obj_prop_exp_release($4);
     }
     | OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_MAX, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(COWL_CT_MAX, $4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -604,11 +604,11 @@ object_max_cardinality
 
 object_exact_cardinality
     : OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_EXACT, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(COWL_CT_EXACT, $4, NULL, $3);
         cowl_obj_prop_exp_release($4);
     }
     | OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_obj_card_get(CCT_EXACT, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_obj_card_get(COWL_CT_EXACT, $4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -621,7 +621,7 @@ cardinality
 data_some_values_from
     : DATA_SOME_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN {
         CowlDataPropExp *exp = uhset_get_any(CowlDataPropExpSet, $3, NULL);
-        $$ = (CowlClsExp *)cowl_data_quant_get(CQT_SOME, exp, $4);
+        $$ = (CowlClsExp *)cowl_data_quant_get(COWL_QT_SOME, exp, $4);
         cowl_data_prop_exp_set_free($3);
         cowl_data_range_release($4);
     }
@@ -630,7 +630,7 @@ data_some_values_from
 data_all_values_from
     : DATA_ALL_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN {
         CowlDataPropExp *exp = uhset_get_any(CowlDataPropExpSet, $3, NULL);
-        $$ = (CowlClsExp *)cowl_data_quant_get(CQT_ALL, exp, $4);
+        $$ = (CowlClsExp *)cowl_data_quant_get(COWL_QT_ALL, exp, $4);
         cowl_data_prop_exp_set_free($3);
         cowl_data_range_release($4);
     }
@@ -646,11 +646,11 @@ data_has_value
 
 data_min_cardinality
     : DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MIN, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MIN, $4, NULL, $3);
         cowl_data_prop_exp_release($4);
     }
     | DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
-        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MIN, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MIN, $4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_data_range_release($5);
     }
@@ -658,11 +658,11 @@ data_min_cardinality
 
 data_max_cardinality
     : DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MAX, $4, NULL, $3);
         cowl_data_prop_exp_release($4);
     }
     | DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
-        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MAX, $4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_data_range_release($5);
     }
@@ -670,11 +670,11 @@ data_max_cardinality
 
 data_exact_cardinality
     : DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MAX, $4, NULL, $3);
         cowl_data_prop_exp_release($4);
     }
     | DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
-        $$ = (CowlClsExp *)cowl_data_card_get(CCT_MAX, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MAX, $4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_data_range_release($5);
     }
@@ -720,13 +720,13 @@ super_class_expression
 
 equivalent_classes
     : EQUIVALENT_CLASSES L_PAREN annotation_star class_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_EQUIVALENT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(COWL_NAT_EQUIV, $4, $3);
     }
 ;
 
 disjoint_classes
     : DISJOINT_CLASSES L_PAREN annotation_star class_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(CNAT_DISJOINT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(COWL_NAT_DISJ, $4, $3);
     }
 ;
 
@@ -783,13 +783,13 @@ property_expression_chain
 
 equivalent_object_properties
     : EQUIVALENT_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_EQUIVALENT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(COWL_NAT_EQUIV, $4, $3);
     }
 ;
 
 disjoint_object_properties
     : DISJOINT_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(CNAT_DISJOINT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(COWL_NAT_DISJ, $4, $3);
     }
 ;
 
@@ -819,49 +819,49 @@ object_property_range
 
 functional_object_property
     : FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_FUNCTIONAL, $4, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_FUNC, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 inverse_functional_object_property
     : INVERSE_FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_INVERSE_FUNCTIONAL, $4, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_INV_FUNC, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 reflexive_object_property
     : REFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_REFLEXIVE, $4, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_REFL, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 irreflexive_object_property
     : IRREFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_IRREFLEXIVE, $4, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_IRREFL, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 symmetric_object_property
     : SYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_SYMMETRIC, $4, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_SYMM, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 asymmetric_object_property
     : ASYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_ASYMMETRIC, $4, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_ASYMM, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
 
 transitive_object_property
     : TRANSITIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COPCAT_TRANSITIVE, $4, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_TRANS, $4, $3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -895,13 +895,13 @@ super_data_property_expression
 
 equivalent_data_properties
     : EQUIVALENT_DATA_PROPERTIES L_PAREN annotation_star data_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_EQUIVALENT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(COWL_NAT_EQUIV, $4, $3);
     }
 ;
 
 disjoint_data_properties
     : DISJOINT_DATA_PROPERTIES L_PAREN annotation_star data_property_expression_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(CNAT_DISJOINT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(COWL_NAT_DISJ, $4, $3);
     }
 ;
 

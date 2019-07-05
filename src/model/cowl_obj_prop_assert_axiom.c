@@ -15,7 +15,7 @@ static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType ty
                                          cowl_obj_prop_exp_hash(prop));
 
     CowlObjPropAssertAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_OBJ_PROP_ASSERTION, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_OBJ_PROP_ASSERT, hash, annot),
         .subject = cowl_individual_retain(source),
         .object = cowl_individual_retain(target),
         .prop_exp = cowl_obj_prop_exp_retain(prop)
@@ -38,14 +38,14 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                        CowlObjPropExp *prop,
                                                        CowlIndividual *object,
                                                        CowlAnnotationVec *annot) {
-    return cowl_obj_prop_assert_axiom_alloc(CAT_OBJ_PROP_ASSERTION, subject, prop, object, annot);
+    return cowl_obj_prop_assert_axiom_alloc(COWL_AT_OBJ_PROP_ASSERT, subject, prop, object, annot);
 }
 
 CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                            CowlObjPropExp *prop,
                                                            CowlIndividual *object,
                                                            CowlAnnotationVec *annot) {
-    return cowl_obj_prop_assert_axiom_alloc(CAT_NEGATIVE_OBJ_PROP_ASSERTION, subject, prop,
+    return cowl_obj_prop_assert_axiom_alloc(COWL_AT_NEG_OBJ_PROP_ASSERT, subject, prop,
                                             object, annot);
 }
 
@@ -60,7 +60,7 @@ void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom) {
 }
 
 bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom) {
-    return cowl_axiom_flags_get_type(axiom->super.flags) == CAT_NEGATIVE_OBJ_PROP_ASSERTION;
+    return cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_NEG_OBJ_PROP_ASSERT;
 }
 
 CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom) {

@@ -12,7 +12,7 @@ static CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_alloc(CowlAnnotPro
                                          cowl_iri_hash(domain));
 
     CowlAnnotPropDomainAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_ANNOT_PROP_DOMAIN, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_ANNOT_PROP_DOMAIN, hash, annot),
         .prop = cowl_annot_prop_retain(prop),
         .domain = cowl_iri_retain(domain)
     };

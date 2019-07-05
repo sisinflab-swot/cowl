@@ -12,7 +12,7 @@ static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *pr
                                          cowl_cls_exp_hash(range));
 
     CowlObjPropRangeAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_OBJ_PROP_RANGE, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_OBJ_PROP_RANGE, hash, annot),
         .prop_exp = cowl_obj_prop_exp_retain(prop),
         .range = cowl_cls_exp_retain(range)
     };

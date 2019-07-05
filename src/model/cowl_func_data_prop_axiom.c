@@ -9,7 +9,7 @@ static CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_alloc(CowlDataPropExp *p
                                          cowl_data_prop_exp_hash(prop));
 
     CowlFuncDataPropAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_FUNCTIONAL_DATA_PROP, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_FUNC_DATA_PROP, hash, annot),
         .prop = cowl_data_prop_exp_retain(prop)
     };
 

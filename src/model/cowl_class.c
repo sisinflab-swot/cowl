@@ -9,7 +9,7 @@ static UHash(CowlClassMap) *inst_map = NULL;
 
 static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     CowlClass init = {
-        .super = COWL_CLS_EXP_INIT(CCET_CLASS, 0),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_CLASS, 0),
         .iri = cowl_iri_retain(iri)
     };
     cowl_struct(CowlClass) *cls = malloc(sizeof(*cls));

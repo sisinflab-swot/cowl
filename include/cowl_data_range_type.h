@@ -11,22 +11,25 @@ COWL_BEGIN_DECLS
 typedef enum CowlDataRangeType {
 
     /// Represents datatypes.
-    CDRT_DATATYPE,
+    COWL_DRT_DATATYPE,
 
     /// Represents datatype restrictions.
-    CDRT_DATATYPE_RESTRICTION,
+    COWL_DRT_DATATYPE_RESTR,
 
     /// Represents the intersection of data ranges.
-    CDRT_DATA_INTERSECTION,
+    COWL_DRT_DATA_INTERSECT,
 
     /// Represents the union of data ranges.
-    CDRT_DATA_UNION,
+    COWL_DRT_DATA_UNION,
 
     /// Represents the complement of data ranges.
-    CDRT_DATA_COMPLEMENT,
+    COWL_DRT_DATA_COMPL,
 
     /// Represents enumerations of literals.
-    CDRT_DATA_ONE_OF
+    COWL_DRT_DATA_ONE_OF,
+
+    COWL_DRT_COUNT,
+    COWL_DRT_FIRST = COWL_DRT_DATATYPE
 
 } CowlDataRangeType;
 

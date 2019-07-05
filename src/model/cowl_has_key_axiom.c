@@ -15,7 +15,7 @@ static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObjPro
                                          obj_props_hash, data_props_hash);
 
     CowlHasKeyAxiom init = {
-        .super = COWL_AXIOM_INIT(CAT_HAS_KEY, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_HAS_KEY, hash, annot),
         .cls_exp = cowl_cls_exp_retain(cls_exp),
         .obj_props = obj_props,
         .data_props = data_props

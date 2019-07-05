@@ -28,7 +28,7 @@ static void cowl_nary_data_prop_axiom_free(CowlNAryDataPropAxiom *axiom) {
 CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_get(CowlNAryAxiomType type,
                                                      CowlDataPropExpSet *props,
                                                      CowlAnnotationVec *annot) {
-    CowlAxiomType axiom_type = (CowlAxiomType)type + CAT_EQUIVALENT_DATA_PROP;
+    CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_EQUIV_DATA_PROP;
     return cowl_nary_data_prop_axiom_alloc(axiom_type, props, annot);
 }
 
@@ -44,7 +44,7 @@ void cowl_nary_data_prop_axiom_release(CowlNAryDataPropAxiom *axiom) {
 
 CowlNAryAxiomType cowl_nary_data_prop_axiom_get_type(CowlNAryDataPropAxiom *axiom) {
     CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - CAT_EQUIVALENT_DATA_PROP);
+    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - COWL_AT_EQUIV_DATA_PROP);
 }
 
 CowlDataPropExpSet* cowl_nary_data_prop_axiom_get_props(CowlNAryDataPropAxiom *axiom) {
