@@ -4,9 +4,9 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "@COWL_NAME@"
-PROJECT_NUMBER         = "@COWL_VERSION@"
-PROJECT_BRIEF          = "@COWL_DESCRIPTION@"
+PROJECT_NAME           = "@PROJECT_NAME@"
+PROJECT_NUMBER         = "@PROJECT_VERSION@"
+PROJECT_BRIEF          = "@PROJECT_DESCRIPTION@"
 PROJECT_LOGO           = "@COWL_ICON@"
 OUTPUT_DIRECTORY       = "@COWL_DOCS_OUT_DIR@"
 CREATE_SUBDIRS         = NO

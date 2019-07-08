@@ -9,10 +9,10 @@ cmake_policy(SET CMP0063 NEW)
 
 # Project
 
-project(cowl C)
-set(COWL_NAME "Cowl")
-set(COWL_DESCRIPTION "A lightweight C API for working with OWL ontologies.")
-set(COWL_VERSION "1.0.0")
+project(Cowl
+        VERSION 0.1.0
+        DESCRIPTION "A lightweight C API for working with OWL ontologies."
+        LANGUAGES C)
 
 # Directories
 
