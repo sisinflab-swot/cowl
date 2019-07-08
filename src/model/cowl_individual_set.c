@@ -1,4 +1,12 @@
-/// @author Ivano Bilenchi
+/**
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #include "cowl_individual_set.h"
 #include "cowl_individual.h"

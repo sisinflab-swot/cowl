@@ -1,3 +1,13 @@
+/**
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
+
 // API configuration
 
 %define api.prefix {cowl_functional_}
