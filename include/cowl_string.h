@@ -32,13 +32,13 @@ cowl_struct_decl(CowlString);
  *
  * @param cstring The base string.
  * @param length Length of the base string (excluding the NULL terminator).
- * @param owned If true, the buffer is not copied, otherwise it is.
+ * @param copy If true, the buffer is copied, otherwise it is not.
  * @return Retained string.
  *
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool owned);
+CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool copy);
 
 /**
  * Returns a retained empty string.
@@ -163,7 +163,7 @@ CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs);
  *
  * @public @related CowlString
  */
-#define cowl_string_from_static(CSTR) (cowl_string_get(CSTR, sizeof(CSTR) - 1, false))
+#define cowl_string_from_static(CSTR) cowl_string_get((CSTR), sizeof(CSTR) - 1, true)
 
 COWL_END_DECLS
 

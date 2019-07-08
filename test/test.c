@@ -24,8 +24,8 @@ static void test_iri(void) {
     const char ns_string[] = "http://test_namespace.owl#";
     const char rem_string[] = "remainder";
 
-    CowlString *ns = cowl_string_get(ns_string, sizeof(ns_string), false);
-    CowlString *rem = cowl_string_get(rem_string, sizeof(rem_string), false);
+    CowlString *ns = cowl_string_get(ns_string, sizeof(ns_string), true);
+    CowlString *rem = cowl_string_get(rem_string, sizeof(rem_string), true);
 
     CowlIRI *iri = cowl_iri_get(ns, rem);
     assert(cowl_object_ref_get(iri) == 1);

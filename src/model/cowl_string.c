@@ -42,16 +42,16 @@ void cowl_string_split_two(char const *cstring, cowl_uint_t length,
     cowl_uint_t ns_length = chr ? (cowl_uint_t)(chr - cstring + 1) : length;
 
     if (ns_length == length) {
-        out[0] = cowl_string_get(cstring, length, false);
-        out[1] = cowl_string_get("", 0, false);
+        out[0] = cowl_string_get(cstring, length, true);
+        out[1] = cowl_string_get("", 0, true);
     } else {
-        out[0] = cowl_string_get(strndup(cstring, ns_length), ns_length, true);
-        out[1] = cowl_string_get(chr + 1, length - ns_length, false);
+        out[0] = cowl_string_get(strndup(cstring, ns_length), ns_length, false);
+        out[1] = cowl_string_get(chr + 1, length - ns_length, true);
     }
 }
 
-CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool owned) {
-    CowlRawString raw_string = cowl_raw_string_init(cstring, length, !owned);
+CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool copy) {
+    CowlRawString raw_string = cowl_raw_string_init(cstring, length, copy);
     return cowl_string_alloc(raw_string);
 }
 

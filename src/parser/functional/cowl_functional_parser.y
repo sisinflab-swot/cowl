@@ -213,7 +213,7 @@ full_iri
 
 prefix_name
     : PNAME_NS {
-        $$ = cowl_string_get($1.cstring, $1.length, false);
+        $$ = cowl_string_get($1.cstring, $1.length, true);
     }
 ;
 
@@ -362,7 +362,7 @@ anonymous_individual
 
 node_id
     : BLANK_NODE_LABEL {
-        $$ = cowl_string_get($1.cstring, $1.length, false);
+        $$ = cowl_string_get($1.cstring, $1.length, true);
     }
 ;
 
@@ -387,13 +387,13 @@ literal
 
 string_literal
     : QUOTED_STRING {
-        $$ = cowl_string_get($1.cstring, $1.length, false);
+        $$ = cowl_string_get($1.cstring, $1.length, true);
     }
 ;
 
 language_tag
     : LANG_TAG {
-        $$ = cowl_string_get($1.cstring, $1.length, false);
+        $$ = cowl_string_get($1.cstring, $1.length, true);
     }
 ;
 
