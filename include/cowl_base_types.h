@@ -23,6 +23,9 @@ COWL_BEGIN_DECLS
 /// Unsigned integer type.
 typedef uhash_uint_t cowl_uint_t;
 
+/// Maximum value of a cowl_uint_t variable.
+#define COWL_UINT_MAX UHASH_UINT_MAX
+
 COWL_END_DECLS
 
 #endif // COWL_BASE_TYPES_H
