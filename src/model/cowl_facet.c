@@ -10,7 +10,7 @@
 
 #include "cowl_facet_private.h"
 #include "cowl_iri.h"
-#include "cowl_vocab.h"
+#include "cowl_xsd_vocab.h"
 
 static CowlIRI *cowl_facet_iris[COWL_FACET_COUNT] = { NULL };
 

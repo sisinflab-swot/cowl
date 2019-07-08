@@ -97,8 +97,10 @@
 #include "cowl_obj_quant.h"
 #include "cowl_ontology.h"
 #include "cowl_ontology_id.h"
+#include "cowl_owl_vocab.h"
 #include "cowl_parser.h"
 #include "cowl_quant_type.h"
+#include "cowl_rdf_vocab.h"
 #include "cowl_std.h"
 #include "cowl_string.h"
 #include "cowl_sub_annot_prop_axiom.h"
@@ -106,7 +108,7 @@
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sub_obj_prop_chain_axiom.h"
-#include "cowl_vocab.h"
+#include "cowl_xsd_vocab.h"
 
 COWL_BEGIN_DECLS
 

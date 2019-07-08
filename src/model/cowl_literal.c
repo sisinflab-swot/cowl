@@ -13,8 +13,8 @@
 #include "cowl_hash_utils.h"
 #include "cowl_iri.h"
 #include "cowl_iterator_private.h"
+#include "cowl_rdf_vocab.h"
 #include "cowl_string.h"
-#include "cowl_vocab.h"
 
 static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_LITERAL,

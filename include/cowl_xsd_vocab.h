@@ -1,5 +1,5 @@
 /**
- * Defines CowlOWLVocab, CowlRDFVocab and CowlXSDVocab.
+ * Defines CowlXSDVocab.
  *
  * @author Ivano Bilenchi
  *
@@ -10,74 +10,17 @@
  * @file
  */
 
-#ifndef COWL_VOCAB_H
-#define COWL_VOCAB_H
+#ifndef COWL_XSD_VOCAB_H
+#define COWL_XSD_VOCAB_H
 
-#include "cowl_iterator.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlClass);
-cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 /// @endcond
-
-/// The OWL 2 vocabulary.
-typedef cowl_struct(CowlOWLVocab) {
-
-    /// OWL namespace.
-    CowlString *ns;
-
-    /// IRIs.
-    struct {
-
-        /// owl:Thing
-        CowlIRI *thing;
-
-        /// owl:Nothing
-        CowlIRI *nothing;
-
-    } iri;
-
-    /// Classes.
-    struct {
-
-        /// owl:Thing
-        CowlClass *thing;
-
-        /// owl:Nothing
-        CowlClass *nothing;
-
-    } cls;
-
-} const CowlOWLVocab;
-
-/// The RDF vocabulary.
-typedef cowl_struct(CowlRDFVocab) {
-
-    /// RDF namespace.
-    CowlString *ns;
-
-    /// IRIs.
-    struct {
-
-        /// rdf:PlainLiteral
-        CowlIRI *plain_literal;
-
-    } iri;
-
-    /// Datatypes.
-    struct {
-
-        /// rdf:PlainLiteral
-        CowlDatatype *plain_literal;
-
-    } dt;
-
-} const CowlRDFVocab;
 
 /// The XSD vocabulary.
 typedef cowl_struct(CowlXSDVocab) {
@@ -126,26 +69,6 @@ typedef cowl_struct(CowlXSDVocab) {
 } const CowlXSDVocab;
 
 /**
- * Gets the OWL 2 vocabulary.
- *
- * @return The OWL 2 vocabulary.
- *
- * @public @memberof CowlOWLVocab
- */
-COWL_PUBLIC
-CowlOWLVocab* cowl_owl_vocab_get(void);
-
-/**
- * Gets the RDF vocabulary.
- *
- * @return The RDF vocabulary.
- *
- * @public @memberof CowlRDFVocab
- */
-COWL_PUBLIC
-CowlRDFVocab* cowl_rdf_vocab_get(void);
-
-/**
  * Gets the XSD vocabulary.
  *
  * @return The XSD vocabulary.
@@ -157,4 +80,4 @@ CowlXSDVocab* cowl_xsd_vocab_get(void);
 
 COWL_END_DECLS
 
-#endif // COWL_VOCAB_H
+#endif // COWL_XSD_VOCAB_H

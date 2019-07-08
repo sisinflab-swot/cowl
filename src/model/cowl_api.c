@@ -10,20 +10,26 @@
 
 #include "cowl_api.h"
 #include "cowl_facet_private.h"
-#include "cowl_vocab_private.h"
+#include "cowl_owl_vocab_private.h"
+#include "cowl_rdf_vocab_private.h"
+#include "cowl_xsd_vocab_private.h"
 
 static bool cowl_api_initialized = false;
 
 void cowl_api_init(void) {
     if (cowl_api_initialized) return;
     cowl_api_initialized = true;
-    cowl_vocab_init();
+    cowl_owl_vocab_init();
+    cowl_rdf_vocab_init();
+    cowl_xsd_vocab_init();
     cowl_facet_init();
 }
 
 void cowl_api_deinit(void) {
     if (!cowl_api_initialized) return;
     cowl_facet_deinit();
-    cowl_vocab_deinit();
+    cowl_owl_vocab_deinit();
+    cowl_rdf_vocab_deinit();
+    cowl_xsd_vocab_deinit();
     cowl_api_initialized = false;
 }
