@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Defines the #CowlAnnotValueType enumeration.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_ANNOT_VALUE_TYPE_H
 #define COWL_ANNOT_VALUE_TYPE_H
@@ -7,12 +17,32 @@
 
 COWL_BEGIN_DECLS
 
+/**
+ * Represents the type of CowlAnnotValue.
+ *
+ * @public @memberof CowlAnnotValue
+ */
 typedef enum CowlAnnotValueType {
-    COWL_AVT_IRI,
-    COWL_AVT_LITERAL,
-    COWL_AVT_ANON_IND,
-    COWL_AVT_COUNT,
-    COWL_AVT_FIRST = COWL_AVT_IRI
+
+/// @name Types
+
+    /// IRI.
+        COWL_AVT_IRI,
+
+    /// Literal.
+        COWL_AVT_LITERAL,
+
+    /// Anonymous individual.
+        COWL_AVT_ANON_IND,
+
+/// @name Markers
+
+    /// Number of enum values.
+        COWL_AVT_COUNT,
+
+    /// First enum value.
+        COWL_AVT_FIRST = 0
+
 } CowlAnnotValueType;
 
 COWL_END_DECLS

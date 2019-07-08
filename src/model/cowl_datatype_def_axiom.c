@@ -4,16 +4,16 @@
 #include "cowl_data_range.h"
 #include "cowl_datatype.h"
 
-static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *datatype,
+static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *dt,
                                                            CowlDataRange *range,
                                                            CowlAnnotationVec *annot) {
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATATYPE_DEF_AXIOM, annot,
-                                         cowl_datatype_hash(datatype),
+                                         cowl_datatype_hash(dt),
                                          cowl_data_range_hash(range));
 
     CowlDatatypeDefAxiom init = {
         .super = COWL_AXIOM_INIT(COWL_AT_DATATYPE_DEF, hash, annot),
-        .datatype = cowl_datatype_retain(datatype),
+        .datatype = cowl_datatype_retain(dt),
         .range = cowl_data_range_retain(range)
     };
 
@@ -29,9 +29,9 @@ static void cowl_datatype_def_axiom_free(CowlDatatypeDefAxiom *axiom) {
     cowl_axiom_free(axiom);
 }
 
-CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *datatype, CowlDataRange *range,
+CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRange *range,
                                                   CowlAnnotationVec *annot) {
-    return cowl_datatype_def_axiom_alloc(datatype, range, annot);
+    return cowl_datatype_def_axiom_alloc(dt, range, annot);
 }
 
 CowlDatatypeDefAxiom* cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom) {

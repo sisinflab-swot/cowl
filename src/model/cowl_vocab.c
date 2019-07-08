@@ -3,7 +3,7 @@
 #include "cowl_vocab_private.h"
 #include "cowl_class.h"
 #include "cowl_datatype.h"
-#include "cowl_iri.h"
+#include "cowl_iri_private.h"
 #include "cowl_string.h"
 
 #define CS_OWL_NS "http://www.w3.org/2002/07/owl#"

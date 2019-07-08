@@ -1,6 +1,7 @@
 /// @author Ivano Bilenchi
 
 #include "cowl_decl_axiom_private.h"
+#include "cowl_iterator_private.h"
 
 static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity, CowlAnnotationVec *annot) {
     cowl_uint_t hash = cowl_axiom_hash_1(COWL_HASH_INIT_DECL_AXIOM, annot,

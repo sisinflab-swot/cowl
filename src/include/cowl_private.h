@@ -41,6 +41,7 @@
 #include "cowl_inv_obj_prop_private.h"
 #include "cowl_inv_obj_prop_axiom_private.h"
 #include "cowl_iri_private.h"
+#include "cowl_iterator_private.h"
 #include "cowl_literal_private.h"
 #include "cowl_macros.h"
 #include "cowl_named_ind_private.h"

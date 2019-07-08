@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlNAryBool and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_NARY_BOOL_H
 #define COWL_NARY_BOOL_H
@@ -9,20 +19,109 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_hash_decl(CowlClsExpSet);
-
 cowl_struct_decl(CowlNAryBool);
+/// @endcond
 
+/**
+ * Represents [ObjectIntersectionOf] and [ObjectUnionOf] in the OWL 2 specification.
+ *
+ * [ObjectIntersectionOf]: https://www.w3.org/TR/owl2-syntax/#Intersection_of_Class_Expressions
+ * [ObjectUnionOf]: https://www.w3.org/TR/owl2-syntax/#Union_of_Class_Expressions
+ *
+ * @struct CowlNAryBool
+ * @extends CowlClsExp
+ */
+
+/**
+ * Returns a retained N-ary boolean class expression.
+ *
+ * @param type N-ary class expression type.
+ * @param operands The operands.
+ * @return Retained expression.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlClsExpSet *operands);
+
+/**
+ * Retains the specified N-ary boolean class expression.
+ *
+ * @param exp The expression.
+ * @return Retained expression.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp);
+
+/**
+ * Releases the specified N-ary boolean class expression.
+ *
+ * @param exp The expression.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 void cowl_nary_bool_release(CowlNAryBool *exp);
 
+/**
+ * Gets the type of the specified N-ary boolean class expression.
+ *
+ * @param exp The expression.
+ * @return The type.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp);
+
+/**
+ * Gets the operands of the specified N-ary boolean class expression.
+ *
+ * @param exp The expression.
+ * @return The operands.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param exp The expression.
+ * @return The hash value.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp);
 
+/**
+ * Iterates over the signature of the specified N-ary boolean class expression.
+ *
+ * @param exp The expression.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
 bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, CowlEntityIterator *iter);
 
 COWL_END_DECLS

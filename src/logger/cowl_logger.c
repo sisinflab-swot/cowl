@@ -206,7 +206,7 @@ static bool axiom_logger(void *ctx, CowlAxiom *axiom) {
 }
 
 void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto) {
-    CowlAxiomIterator iter = cowl_iterator_init(CowlAxiom, logger, axiom_logger);
+    CowlAxiomIterator iter = cowl_iterator_init(logger, axiom_logger);
     cowl_ontology_iterate_axioms(onto, &iter);
 }
 
@@ -218,7 +218,7 @@ static bool entity_logger(void *ctx, CowlEntity entity) {
 }
 
 void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto) {
-    CowlEntityIterator iter = cowl_iterator_init(CowlEntity, logger, entity_logger);
+    CowlEntityIterator iter = cowl_iterator_init(logger, entity_logger);
     cowl_ontology_iterate_signature(onto, &iter);
 }
 
@@ -526,6 +526,13 @@ void cowl_logger_log_error(CowlLogger *logger, CowlError error) {
     cowl_string_release(string);
 }
 
+void cowl_logger_log_errors(CowlLogger *logger, Vector(CowlError) *errors) {
+    vector_foreach(CowlError, errors, error, {
+        cowl_logger_log_error(logger, error);
+        cowl_logger_logf(logger, "\n");
+    });
+}
+
 char const* cowl_logger_get_path(CowlLogger *logger) {
     if (logger->type != COWL_LT_FILE) return NULL;
     return logger->path;
@@ -803,7 +810,7 @@ static void cowl_logger_log_nary_ind_axiom(CowlLogger *logger, CowlNAryIndAxiom 
     CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
     char const *str = type == COWL_AT_SAME_IND ? "SameIndividual" : "DifferentIndividuals";
     cowl_logger_logf(logger, "%s(", str);
-    cowl_logger_log_individual_set(logger, axiom->operands);
+    cowl_logger_log_individual_set(logger, axiom->individuals);
     cowl_logger_logf(logger, ")");
 }
 

@@ -9,7 +9,7 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlNAryIndAxiom,
-    CowlIndividualSet *operands;
+    CowlIndividualSet *individuals;
 );
 
 COWL_END_DECLS

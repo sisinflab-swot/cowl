@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Defines the iterator API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_ITERATOR_H
 #define COWL_ITERATOR_H
@@ -8,6 +18,7 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlAxiom);
@@ -16,38 +27,77 @@ cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlOntology);
+/// @endcond
 
-#define COWL_ITERATOR_PTR *
-#define COWL_ITERATOR_NO_PTR
+/**
+ * Iterator API.
+ *
+ * A CowlIterator is a wrapper around a function that gets called for every element
+ * matched by a query submitted to a CowlOntology. By providing a generic context pointer,
+ * you can plug any data structure (loggers, collections, etc.) thus allowing
+ * for arbitrarily complex queries.
+ *
+ * The iterator function returns a `bool`: by returning `true` iteration goes on to the next
+ * element, while returning `false` causes the iteration to stop. This is useful if, for example,
+ * you want to find the first element matching certain criteria.
+ *
+ * @see @ref ex-query
+ *
+ * @note This is not a real data structure, though it's declared as such
+ *       for better grouping in the generated documentation.
+ *
+ * @struct CowlIterator
+ */
 
-#define cowl_iterator_def(T, PTR)                                                                   \
+/**
+ * Defines a new iterator type.
+ *
+ * @param T Element base type.
+ * @param PTR One between COWL_ITERATOR_PTR and COWL_ITERATOR_NO_PTR.
+ *
+ * @note Under normal circumstances you don't need to use this.
+ *       It's used in the CowlIterator header to generate
+ *       the iterator types used throughout the API.
+ *
+ * @public @related CowlIterator
+ */
+#define COWL_ITERATOR_DEF(T, PTR)                                                                   \
+    /** T PTR iterator. */                                                                          \
+    /** @extends CowlIterator */                                                                    \
     typedef cowl_struct(T##Iterator) {                                                              \
+        /** The iterator context, can be anything. */                                               \
         void *ctx;                                                                                  \
+        /** Pointer to a function called by the iterator for every element. */                      \
         bool (*for_each)(void *ctx, T PTR elem);                                                    \
     } const T##Iterator
 
-#define cowl_iterator_init(T, CTX, FOR_EACH) \
-    ((T##Iterator){ .ctx = (void *)(CTX), .for_each = (FOR_EACH) })
+/**
+ * Initializes an iterator.
+ *
+ * @param CTX Iterator context, can be anything.
+ * @param FOR_EACH Pointer to a function called by the iterator for every element.
+ * @return Initialized iterator.
+ *
+ * @public @related CowlIterator
+ */
+#define cowl_iterator_init(CTX, FOR_EACH) \
+    { .ctx = (void *)(CTX), .for_each = (FOR_EACH) }
 
-#define cowl_iterate(iter, elem) ((iter)->for_each((iter)->ctx, elem))
-
-cowl_iterator_def(CowlEntity, COWL_ITERATOR_NO_PTR);
-
-cowl_iterator_def(CowlAxiom, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlClsExp, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlDataPropExp, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlObjPropExp, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlIndividual, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlOntology, COWL_ITERATOR_PTR);
-
-cowl_iterator_def(CowlAnnotProp, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlClass, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlDataProp, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlDatatype, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlObjProp, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlNamedInd, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlAnonInd, COWL_ITERATOR_PTR);
-cowl_iterator_def(CowlAnnotation, COWL_ITERATOR_PTR);
+COWL_ITERATOR_DEF(CowlEntity, );
+COWL_ITERATOR_DEF(CowlAxiom, *);
+COWL_ITERATOR_DEF(CowlClsExp, *);
+COWL_ITERATOR_DEF(CowlDataPropExp, *);
+COWL_ITERATOR_DEF(CowlObjPropExp, *);
+COWL_ITERATOR_DEF(CowlIndividual, *);
+COWL_ITERATOR_DEF(CowlOntology, *);
+COWL_ITERATOR_DEF(CowlAnnotProp, *);
+COWL_ITERATOR_DEF(CowlClass, *);
+COWL_ITERATOR_DEF(CowlDataProp, *);
+COWL_ITERATOR_DEF(CowlDatatype, *);
+COWL_ITERATOR_DEF(CowlObjProp, *);
+COWL_ITERATOR_DEF(CowlNamedInd, *);
+COWL_ITERATOR_DEF(CowlAnonInd, *);
+COWL_ITERATOR_DEF(CowlAnnotation, *);
 
 COWL_END_DECLS
 

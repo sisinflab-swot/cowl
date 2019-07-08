@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Defines the #CowlNAryAxiomType enumeration.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_NARY_AXIOM_TYPE_H
 #define COWL_NARY_AXIOM_TYPE_H
@@ -7,17 +17,38 @@
 
 COWL_BEGIN_DECLS
 
+/**
+ * Represents the type of CowlNAryClsAxiom, CowlNAryObjPropAxiom,
+ * CowlNAryDataPropAxiom and CowlNAryIndAxiom.
+ *
+ * @public @memberof CowlNAryClsAxiom
+ */
 typedef enum CowlNAryAxiomType {
-    // Classes/properties
-    COWL_NAT_EQUIV,
-    COWL_NAT_DISJ,
 
-    COWL_NAT_COUNT,
-    COWL_NAT_FIRST = COWL_NAT_EQUIV,
+/// @name Classes and Properties
 
-    // Individuals
-    CNAT_SAME = COWL_NAT_EQUIV,
-    CNAT_DIFFERENT = COWL_NAT_DISJ
+    /// Equivalence.
+        COWL_NAT_EQUIV,
+
+    /// Disjointness.
+        COWL_NAT_DISJ,
+
+/// @name Markers
+
+    /// Number of enum values.
+        COWL_NAT_COUNT,
+
+    /// First enum value.
+        COWL_NAT_FIRST = 0,
+
+/// @name Individuals
+
+    /// Same individuals.
+        COWL_NAT_SAME = COWL_NAT_EQUIV,
+
+    /// Different individuals.
+        COWL_NAT_DIFF = COWL_NAT_DISJ
+
 } CowlNAryAxiomType;
 
 COWL_END_DECLS

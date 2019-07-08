@@ -7,7 +7,7 @@
 
 COWL_BEGIN_DECLS
 
-typedef CowlFlags8 CowlAxiomFlags;
+typedef CowlFlags(8) CowlAxiomFlags;
 
 #define COWL_AXIOM_FLAGS_ANNOT_BIT (CowlAxiomFlags)((1u << 7u))
 

@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlObjQuant and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_OBJ_QUANT_H
 #define COWL_OBJ_QUANT_H
@@ -9,22 +19,122 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlObjPropExp);
-
 cowl_struct_decl(CowlObjQuant);
+/// @endcond
 
+/**
+ * Represents [ObjectSomeValuesFrom] and [ObjectAllValuesFrom] in the OWL 2 specification.
+ *
+ * [ObjectSomeValuesFrom]: https://www.w3.org/TR/owl2-syntax/#Existential_Quantification
+ * [ObjectAllValuesFrom]: https://www.w3.org/TR/owl2-syntax/#Universal_Quantification
+ *
+ * @struct CowlObjQuant
+ * @extends CowlClsExp
+ */
+
+/**
+ * Returns a retained object quantifier.
+ *
+ * @param type Object quantifier type.
+ * @param prop The object property.
+ * @param filler Filler of the quantifier.
+ * @return Retained object quantifier.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler);
+
+/**
+ * Retains the specified object quantifier.
+ *
+ * @param restr The object quantifier.
+ * @return Retained object quantifier.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr);
+
+/**
+ * Releases the specified object quantifier.
+ *
+ * @param restr The object quantifier.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 void cowl_obj_quant_release(CowlObjQuant *restr);
 
+/**
+ * Gets the type of the specified object quantifier.
+ *
+ * @param restr The object quantifier.
+ * @return The type of the object quantifier.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr);
+
+/**
+ * Gets the object property.
+ *
+ * @param restr The object quantifier.
+ * @return The object property.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr);
+
+/**
+ * Gets the filler of the specified object quantifier.
+ *
+ * @param restr The object quantifier.
+ * @return Range of the object quantifier.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param restr The object quantifier.
+ * @return The hash value.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr);
 
+/**
+ * Iterates over the signature of the specified object quantifier.
+ *
+ * @param restr The object quantifier.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
 bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, CowlEntityIterator *iter);
 
 COWL_END_DECLS

@@ -1,7 +1,13 @@
-/** @file
- * Defines the CowlEntityType enum.
+/**
+ * Defines the #CowlEntityType enumeration.
  *
  * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
  */
 
 #ifndef COWL_ENTITY_TYPE_H
@@ -11,29 +17,40 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the different types of OWL 2 Entities.
+/**
+ * Represents the type of CowlEntity.
+ *
+ * @public @memberof CowlEntity
+ */
 typedef enum CowlEntityType {
 
-    /// Represents CowlClass.
-    COWL_ET_CLASS,
+/// @name Types
 
-    /// Represents CowlObjectProperty.
-    COWL_ET_OBJ_PROP,
+    /// CowlClass - class.
+        COWL_ET_CLASS,
 
-    /// Represents CowlDataProperty.
-    COWL_ET_DATA_PROP,
+    /// CowlObjProp - object property.
+        COWL_ET_OBJ_PROP,
 
-    /// Represents CowlAnnotationProperty.
-    COWL_ET_ANNOT_PROP,
+    /// CowlDataProp - data property.
+        COWL_ET_DATA_PROP,
 
-    /// Represents CowlNamedInd.
-    COWL_ET_NAMED_IND,
+    /// CowlAnnotProp - annotation property.
+        COWL_ET_ANNOT_PROP,
 
-    /// Represents CowlDatatype.
-    COWL_ET_DATATYPE,
+    /// CowlNamedInd - named individual.
+        COWL_ET_NAMED_IND,
 
-    COWL_ET_COUNT,
-    COWL_ET_FIRST = COWL_ET_CLASS
+    /// CowlDatatype - datatype.
+        COWL_ET_DATATYPE,
+
+/// @name Markers
+
+    /// Number of enum values.
+        COWL_ET_COUNT,
+
+    /// First enum value.
+        COWL_ET_FIRST = 0
 
 } CowlEntityType;
 

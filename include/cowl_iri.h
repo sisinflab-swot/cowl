@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlIRI and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_IRI_H
 #define COWL_IRI_H
@@ -7,24 +17,119 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlString);
-
 cowl_struct_decl(CowlIRI);
+/// @endcond
 
-CowlIRI* cowl_iri_parse(char const *cstring, cowl_uint_t length);
-CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem);
+/**
+ * Represents [International Resource Identifiers].
+ *
+ * [International Resource Identifiers]: https://www.w3.org/TR/owl2-syntax/#IRIs
+ *
+ * @struct CowlIRI
+ */
+
+/**
+ * Returns a retained IRI given its string representation.
+ *
+ * @param cstring String representation of the IRI.
+ * @param length Length of the string.
+ * @return Retained IRI.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
+CowlIRI* cowl_iri_from_cstring(char const *cstring, cowl_uint_t length);
+
+/**
+ * Retains the specified IRI.
+ *
+ * @param iri The IRI.
+ * @return Retained IRI.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
 CowlIRI* cowl_iri_retain(CowlIRI *iri);
+
+/**
+ * Releases the specified IRI.
+ *
+ * @param iri The IRI.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
 void cowl_iri_release(CowlIRI *iri);
 
+/**
+ * Gets the namespace of the specified IRI.
+ *
+ * @param iri The IRI.
+ * @return The namespace.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
 CowlString* cowl_iri_get_ns(CowlIRI *iri);
+
+/**
+ * Gets the remainder of the specified IRI.
+ *
+ * @param iri The IRI.
+ * @return The remainder.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
 CowlString* cowl_iri_get_rem(CowlIRI *iri);
 
+/**
+ * Returns the string representation of the specified IRI.
+ *
+ * @param iri The IRI.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
 CowlString* cowl_iri_to_string(CowlIRI *iri);
+
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param iri The IRI.
+ * @return The hash value.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_iri_hash(CowlIRI *iri);
 
-CowlIRI* cowl_iri_from_cstring(char const *cstring);
-CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem);
+/**
+ * Returns a retained IRI given its static string representation.
+ *
+ * @param CSTR [char const[]] Static string.
+ * @return [CowlIRI *] Retained IRI.
+ *
+ * @public @related CowlIRI
+ */
+#define cowl_iri_from_static(CSTR) (cowl_iri_from_cstring((CSTR), sizeof(CSTR) - 1))
 
 COWL_END_DECLS
 

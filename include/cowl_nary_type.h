@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Defines the #CowlNAryType enumeration.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_NARY_TYPE_H
 #define COWL_NARY_TYPE_H
@@ -7,11 +17,29 @@
 
 COWL_BEGIN_DECLS
 
+/**
+ * Represents the type of CowlNAryBool and CowlNAryData.
+ *
+ * @public @memberof CowlNAryBool
+ */
 typedef enum CowlNAryType {
-    COWL_NT_INTERSECT,
-    COWL_NT_UNION,
-    COWL_NT_COUNT,
-    COWL_NT_FIRST = COWL_NT_INTERSECT
+
+/// @name Types
+
+    /// Intersection of class expressions.
+        COWL_NT_INTERSECT,
+
+    /// Union of class expressions.
+        COWL_NT_UNION,
+
+/// @name Markers
+
+    /// Number of enum values.
+        COWL_NT_COUNT,
+
+    /// First enum value.
+        COWL_NT_FIRST = 0
+
 } CowlNAryType;
 
 COWL_END_DECLS

@@ -14,7 +14,7 @@ cowl_struct(CowlIRI) {
     CowlString *rem;
 };
 
-#define COWL_IRI_INIT(NS, REM) { .super = COWL_OBJECT_INIT, .ns = (NS), .rem = (REM) }
+CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem);
 
 COWL_END_DECLS
 

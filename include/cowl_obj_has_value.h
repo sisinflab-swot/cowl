@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlObjHasValue and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_OBJ_HAS_VALUE_H
 #define COWL_OBJ_HAS_VALUE_H
@@ -8,21 +18,109 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlObjPropExp);
-
 cowl_struct_decl(CowlObjHasValue);
+/// @endcond
 
+/**
+ * Represents [ObjectHasValue] in the OWL 2 specification.
+ *
+ * [ObjectHasValue]: https://www.w3.org/TR/owl2-syntax/#Individual_Value_Restriction
+ *
+ * @struct CowlObjHasValue
+ * @extends CowlClsExp
+ */
+
+/**
+ * Returns a retained individual value restriction.
+ *
+ * @param prop The object property expression.
+ * @param individual The individual.
+ * @return Retained restriction.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *individual);
+
+/**
+ * Retains the specified individual value restriction.
+ *
+ * @param exp The restriction.
+ * @return Retained restriction.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp);
+
+/**
+ * Releases the specified individual value restriction.
+ *
+ * @param exp The restriction.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 void cowl_obj_has_value_release(CowlObjHasValue *exp);
 
+/**
+ * Gets the object property expression of the specified individual value restriction.
+ *
+ * @param exp The restriction.
+ * @return The object property expression.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp);
+
+/**
+ * Gets the individual of the specified individual value restriction.
+ *
+ * @param exp The restriction.
+ * @return The individual.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 CowlIndividual* cowl_obj_has_value_get_individual(CowlObjHasValue *exp);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param exp The restriction.
+ * @return The hash value.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp);
 
+/**
+ * Iterates over the signature of the specified individual value restriction.
+ *
+ * @param exp The restriction.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
 bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, CowlEntityIterator *iter);
 
 COWL_END_DECLS

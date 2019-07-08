@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Defines bitmask manipulation API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_FLAGS_H
 #define COWL_FLAGS_H
@@ -7,19 +17,29 @@
 
 COWL_BEGIN_DECLS
 
-/// 8-bit bitmask.
-typedef uint8_t CowlFlags8;
+/**
+ * Bitmask manipulation API.
+ *
+ * @note This is not a real data structure, though it's declared as such
+ *       for better grouping in the generated documentation.
+ *
+ * @struct CowlFlags
+ */
 
-/// 16-bit bitmask.
-typedef uint16_t CowlFlags16;
+/**
+ * Bitmask type.
+ *
+ * @param N Number of bits. Allowed values: 8, 16, 32 and 64.
+ *
+ * @public @related CowlFlags
+ */
+#define CowlFlags(N) uint##N##_t
 
-/// 32-bit bitmask.
-typedef uint32_t CowlFlags32;
-
-/// 64-bit bitmask.
-typedef uint64_t CowlFlags64;
-
-/// Empty bitmask.
+/**
+ * Empty bitmask.
+ *
+ * @public @related CowlFlags
+ */
 #define cowl_flags_empty (0u)
 
 /**
@@ -27,6 +47,8 @@ typedef uint64_t CowlFlags64;
  *
  * @param N Bit to set.
  * @return Bitmask with the specified bit set.
+ *
+ * @public @related CowlFlags
  */
 #define cowl_flags_bit(N) (1u << N##u)
 
@@ -37,6 +59,8 @@ typedef uint64_t CowlFlags64;
  * @param OPTION Bits to check.
  *
  * @return True if the bits are set, false otherwise.
+ *
+ * @public @related CowlFlags
  */
 #define cowl_flags_is_set(OPTIONS, OPTION) (((OPTIONS) & (OPTION)) == (OPTION))
 
@@ -47,6 +71,8 @@ typedef uint64_t CowlFlags64;
  * @param OPTION Bits to check.
  *
  * @return True if at least one of the specified bits is set, false otherwise.
+ *
+ * @public @related CowlFlags
  */
 #define cowl_flags_is_any_set(OPTIONS, OPTION) (((OPTIONS) & (OPTION)) != 0)
 
@@ -55,6 +81,8 @@ typedef uint64_t CowlFlags64;
  *
  * @param OPTIONS Bitmask.
  * @param OPTION Bits to set.
+ *
+ * @public @related CowlFlags
  */
 #define cowl_flags_set(OPTIONS, OPTION) ((OPTIONS) |= (OPTION))
 
@@ -63,6 +91,8 @@ typedef uint64_t CowlFlags64;
  *
  * @param OPTIONS Bitmask.
  * @param OPTION Bits to unset.
+ *
+ * @public @related CowlFlags
  */
 #define cowl_flags_unset(OPTIONS, OPTION) ((OPTIONS) &= ~(OPTION))
 
@@ -71,6 +101,8 @@ typedef uint64_t CowlFlags64;
  *
  * @param OPTIONS Bitmask.
  * @param OPTION Bits to toggle.
+ *
+ * @public @related CowlFlags
  */
 #define cowl_flags_toggle(OPTIONS, OPTION) ((OPTIONS) ^= (OPTION))
 

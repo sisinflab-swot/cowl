@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlAnnotProp and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_ANNOT_PROP_H
 #define COWL_ANNOT_PROP_H
@@ -8,19 +18,95 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlIRI);
-
 cowl_struct_decl(CowlAnnotProp);
+/// @endcond
 
+/**
+ * Represents an [AnnotationProperty] in the OWL 2 specification.
+ *
+ * [AnnotationProperty]: https://www.w3.org/TR/owl2-syntax/#Annotation_Properties
+ *
+ * @struct CowlAnnotProp
+ */
+
+/**
+ * Returns a retained annotation property.
+ *
+ * @param iri IRI of the property.
+ * @return Retained annotation property.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
 CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri);
+
+/**
+ * Retains the specified annotation property.
+ *
+ * @param prop The annotation property.
+ * @return Retained annotation property.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
 CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop);
+
+/**
+ * Releases the specified annotation property.
+ *
+ * @param prop The annotation property.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
 void cowl_annot_prop_release(CowlAnnotProp *prop);
 
+/**
+ * Gets the IRI of the specified annotation property.
+ *
+ * @param prop The annotation property.
+ * @return IRI of the annotation property.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
 CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
 bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param prop The annotation property.
+ * @return The hash value.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_annot_prop_hash(CowlAnnotProp *prop);
 
+/**
+ * Iterates over the signature of the specified annotation property.
+ *
+ * @param prop The annotation property.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
 bool cowl_annot_prop_iterate_signature(CowlAnnotProp *prop, CowlEntityIterator *iter);
 
 COWL_END_DECLS

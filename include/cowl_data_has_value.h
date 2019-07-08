@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlDataHasValue and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_DATA_HAS_VALUE_H
 #define COWL_DATA_HAS_VALUE_H
@@ -8,22 +18,110 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlLiteral);
-
 cowl_struct_decl(CowlDataHasValue);
+/// @endcond
 
+/**
+ * Represents [DataHasValue] in the OWL 2 specification.
+ *
+ * [DataHasValue]: https://www.w3.org/TR/owl2-syntax/#Literal_Value_Restriction
+ *
+ * @struct CowlDataHasValue
+ * @extends CowlClsExp
+ */
+
+/**
+ * Returns a retained literal value restriction.
+ *
+ * @param prop The data property expression.
+ * @param value The restriction value.
+ * @return Retained restriction.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
 CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value);
-CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *exp);
-void cowl_data_has_value_release(CowlDataHasValue *exp);
 
-CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *exp);
-CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *exp);
+/**
+ * Retains the specified literal value restriction.
+ *
+ * @param restr The restriction.
+ * @return Retained restriction.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
+CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr);
 
+/**
+ * Releases the specified literal value restriction.
+ *
+ * @param restr The restriction.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
+void cowl_data_has_value_release(CowlDataHasValue *restr);
+
+/**
+ * Gets the property of the restriction.
+ *
+ * @param restr The restriction.
+ * @return The property.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
+CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr);
+
+/**
+ * Gets the value of the restriction.
+ *
+ * @param restr The restriction.
+ * @return The value.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
+CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr);
+
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
 bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs);
-cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *exp);
 
-bool cowl_data_has_value_iterate_signature(CowlDataHasValue *exp, CowlEntityIterator *iter);
+/**
+ * Hash function.
+ *
+ * @param restr The restriction.
+ * @return The hash value.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *restr);
+
+/**
+ * Iterates over the signature of the specified literal value restriction.
+ *
+ * @param restr The restriction.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
+bool cowl_data_has_value_iterate_signature(CowlDataHasValue *restr, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

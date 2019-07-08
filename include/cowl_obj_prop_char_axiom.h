@@ -1,32 +1,162 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlObjPropCharAxiom and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_OBJ_PROP_CHAR_AXIOM_H
 #define COWL_OBJ_PROP_CHAR_AXIOM_H
 
-#include "cowl_iterator.h"
 #include "cowl_char_axiom_type.h"
+#include "cowl_iterator.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlObjPropExp);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
-
 cowl_struct_decl(CowlObjPropCharAxiom);
+/// @endcond
 
+/**
+ * Represents [FunctionalObjectProperty], [InverseFunctionalObjectProperty],
+ * [SymmetricObjectProperty], [AsymmetricObjectProperty], [TransitiveObjectProperty],
+ * [ReflexiveObjectProperty] and [IrreflexiveObjectProperty] axioms in the OWL 2 specification.
+ *
+ * [FunctionalObjectProperty]:
+ * https://www.w3.org/TR/owl2-syntax/#Functional_Object_Properties
+ *
+ * [InverseFunctionalObjectProperty]:
+ * https://www.w3.org/TR/owl2-syntax/#Inverse-Functional_Object_Properties
+ *
+ * [SymmetricObjectProperty]:
+ * https://www.w3.org/TR/owl2-syntax/#Symmetric_Object_Properties
+ *
+ * [AsymmetricObjectProperty]:
+ * https://www.w3.org/TR/owl2-syntax/#Asymmetric_Object_Properties
+ *
+ * [TransitiveObjectProperty]:
+ * https://www.w3.org/TR/owl2-syntax/#Transitive_Object_Properties
+ *
+ * [ReflexiveObjectProperty]:
+ * https://www.w3.org/TR/owl2-syntax/#Reflexive_Object_Properties
+ *
+ * [IrreflexiveObjectProperty]:
+ * https://www.w3.org/TR/owl2-syntax/#Irreflexive_Object_Properties
+ *
+ * @struct CowlObjPropCharAxiom
+ * @extends CowlAxiom
+ */
+
+/**
+ * Returns a retained object property characteristic axiom.
+ *
+ * @param type The type.
+ * @param prop The object property expression.
+ * @param annot The annotations.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
                                                    CowlAnnotationVec *annot);
+
+/**
+ * Retains the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom);
+
+/**
+ * Releases the specified axiom.
+ *
+ * @param axiom The axiom.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom);
 
+/**
+ * Gets the type of the specified object property characteristic axiom.
+ *
+ * @param axiom The axiom.
+ * @return The type.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom);
+
+/**
+ * Gets the object property expression of the specified characteristic axiom.
+ *
+ * @param axiom The axiom.
+ * @return The object property expression.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom);
+
+/**
+ * Gets the annotations of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return The annotations.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 CowlAnnotationVec* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharAxiom *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param axiom The axiom.
+ * @return The hash value.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom);
 
+/**
+ * Iterates over the signature of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjPropCharAxiom
+ */
+COWL_PUBLIC
 bool cowl_obj_prop_char_axiom_iterate_signature(CowlObjPropCharAxiom *axiom,
                                                 CowlEntityIterator *iter);
 

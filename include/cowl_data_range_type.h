@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Defines the #CowlDataRangeType enumeration.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_DATA_RANGE_TYPE_H
 #define COWL_DATA_RANGE_TYPE_H
@@ -7,29 +17,40 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the different types of OWL 2 data ranges.
+/**
+ * Represents the type of CowlDataRange.
+ *
+ * @public @memberof CowlDataRange
+ */
 typedef enum CowlDataRangeType {
 
-    /// Represents datatypes.
-    COWL_DRT_DATATYPE,
+/// @name Types
 
-    /// Represents datatype restrictions.
-    COWL_DRT_DATATYPE_RESTR,
+    /// CowlDatatype: datatype.
+        COWL_DRT_DATATYPE,
 
-    /// Represents the intersection of data ranges.
-    COWL_DRT_DATA_INTERSECT,
+    /// CowlDatatypeRestr: datatype restriction.
+        COWL_DRT_DATATYPE_RESTR,
 
-    /// Represents the union of data ranges.
-    COWL_DRT_DATA_UNION,
+    /// CowlNAryData: intersection of data ranges.
+        COWL_DRT_DATA_INTERSECT,
 
-    /// Represents the complement of data ranges.
-    COWL_DRT_DATA_COMPL,
+    /// CowlNAryData: union of data ranges.
+        COWL_DRT_DATA_UNION,
 
-    /// Represents enumerations of literals.
-    COWL_DRT_DATA_ONE_OF,
+    /// CowlDataCompl: complement of data ranges.
+        COWL_DRT_DATA_COMPL,
 
-    COWL_DRT_COUNT,
-    COWL_DRT_FIRST = COWL_DRT_DATATYPE
+    /// CowlDataOneOf: enumeration of literals.
+        COWL_DRT_DATA_ONE_OF,
+
+/// @name Markers
+
+    /// Number of enum values.
+        COWL_DRT_COUNT,
+
+    /// First enum value.
+        COWL_DRT_FIRST = 0
 
 } CowlDataRangeType;
 

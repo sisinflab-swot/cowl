@@ -6,7 +6,7 @@
 #include "cowl_literal_set.h"
 
 static CowlDataOneOf* cowl_data_one_of_alloc(CowlLiteralSet *values) {
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, uhset_hash(CowlLiteralSet, values));
+    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_literal_set_hash(values));
 
     CowlDataOneOf init = {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_ONE_OF, hash),
@@ -43,7 +43,7 @@ CowlLiteralSet* cowl_data_one_of_get_values(CowlDataOneOf *range) {
 }
 
 bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {
-    return uhset_equals(CowlLiteralSet, lhs->values, rhs->values);
+    return cowl_literal_set_equals(lhs->values, rhs->values);
 }
 
 cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range) {
@@ -51,8 +51,5 @@ cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range) {
 }
 
 bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, CowlEntityIterator *iter) {
-    uhash_foreach_key(CowlLiteralSet, range->values, value, {
-        if (!cowl_literal_iterate_signature(value, iter)) return false;
-    });
-    return true;
+    return cowl_literal_set_iterate_signature(range->values, iter);
 }

@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlObjPropRangeAxiom and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_OBJ_PROP_RANGE_AXIOM_H
 #define COWL_OBJ_PROP_RANGE_AXIOM_H
@@ -8,24 +18,123 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlObjPropExp);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
-
 cowl_struct_decl(CowlObjPropRangeAxiom);
+/// @endcond
 
+/**
+ * Represents an [ObjectPropertyRange] axiom in the OWL 2 specification.
+ *
+ * [ObjectPropertyRange]: https://www.w3.org/TR/owl2-syntax/#Object_Property_Range
+ *
+ * @struct CowlObjPropRangeAxiom
+ * @extends CowlAxiom
+ */
+
+/**
+ * Returns a retained object property range axiom.
+ *
+ * @param prop The object property.
+ * @param range Range of the object property.
+ * @param annot The annotations.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_get(CowlObjPropExp *prop, CowlClsExp *range,
                                                      CowlAnnotationVec *annot);
+
+/**
+ * Retains the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_retain(CowlObjPropRangeAxiom *axiom);
+
+/**
+ * Releases the specified axiom.
+ *
+ * @param axiom The axiom.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 void cowl_obj_prop_range_axiom_release(CowlObjPropRangeAxiom *axiom);
 
+/**
+ * Gets the object property.
+ *
+ * @param axiom The axiom.
+ * @return The object property.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 CowlObjPropExp* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom *axiom);
+
+/**
+ * Gets the range of the object property.
+ *
+ * @param axiom The axiom.
+ * @return Range of the object property.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 CowlClsExp* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom);
+
+/**
+ * Gets the annotations of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return The annotations.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 CowlAnnotationVec* cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRangeAxiom *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param axiom The axiom.
+ * @return The hash value.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom);
 
+/**
+ * Iterates over the signature of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
 bool cowl_obj_prop_range_axiom_iterate_signature(CowlObjPropRangeAxiom *axiom,
                                                  CowlEntityIterator *iter);
 

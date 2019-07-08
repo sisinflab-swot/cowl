@@ -581,7 +581,7 @@ void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom) 
     cowl_add_axiom_to_set_in_array(onto->axioms_by_type, type, axiom);
 
     CowlAxiomEntityCtx c = { .onto = onto, .axiom = axiom };
-    CowlEntityIterator iter = cowl_iterator_init(CowlEntity, &c, cowl_ontology_entity_adder);
+    CowlEntityIterator iter = cowl_iterator_init(&c, cowl_ontology_entity_adder);
     cowl_axiom_iterate_signature(axiom, &iter);
 }
 

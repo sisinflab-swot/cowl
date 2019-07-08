@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlDeclAxiom and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_DECL_AXIOM_H
 #define COWL_DECL_AXIOM_H
@@ -8,20 +18,108 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
-
 cowl_struct_decl(CowlDeclAxiom);
+/// @endcond
 
+/**
+ * Represents a [Declaration] in the OWL 2 specification.
+ *
+ * [Declaration]: https://www.w3.org/TR/owl2-syntax/#Entity_Declarations_and_Typing
+ *
+ * @struct CowlDeclAxiom
+ * @extends CowlAxiom
+ */
+
+/**
+ * Returns a retained declaration axiom.
+ *
+ * @param entity The declared entity.
+ * @param annot The annotations.
+ * @return Retained declaration.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity, CowlAnnotationVec *annot);
+
+/**
+ * Retains the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom);
+
+/**
+ * Releases the specified axiom.
+ *
+ * @param axiom The axiom.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 void cowl_decl_axiom_release(CowlDeclAxiom *axiom);
 
+/**
+ * Gets the declared entity.
+ *
+ * @param axiom The axiom.
+ * @return The entity.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
+
+/**
+ * Gets the annotations of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return The annotations.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 CowlAnnotationVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param axiom The axiom.
+ * @return The hash value.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
 
+/**
+ * Iterates over the signature of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDeclAxiom
+ */
+COWL_PUBLIC
 bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, CowlEntityIterator *iter);
 
 COWL_END_DECLS

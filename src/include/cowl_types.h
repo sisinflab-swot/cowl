@@ -12,7 +12,7 @@
 #include "cowl_entity.h"
 #include "cowl_entity_type.h"
 #include "cowl_facet.h"
-#include "cowl_iterator.h"
+#include "cowl_iterator_private.h"
 #include "cowl_nary_type.h"
 #include "cowl_nary_axiom_type.h"
 #include "cowl_quant_type.h"

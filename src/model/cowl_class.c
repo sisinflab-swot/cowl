@@ -2,7 +2,7 @@
 
 #include "cowl_class_private.h"
 #include "cowl_iri_private.h"
-#include "cowl_vocab.h"
+#include "cowl_iterator_private.h"
 
 UHASH_MAP_INIT(CowlClassMap, CowlIRI*, CowlClass*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlClassMap) *inst_map = NULL;

@@ -197,7 +197,7 @@
 
 full_iri
     : IRI_REF {
-        $$ = cowl_iri_parse($1.cstring, $1.length);
+        $$ = cowl_iri_from_cstring($1.cstring, $1.length);
     }
 ;
 
@@ -964,13 +964,13 @@ assertion
 
 same_individual
     : SAME_INDIVIDUAL L_PAREN annotation_star individual_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(CNAT_SAME, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(COWL_NAT_SAME, $4, $3);
     }
 ;
 
 different_individuals
     : DIFFERENT_INDIVIDUALS L_PAREN annotation_star individual_2_list R_PAREN {
-        $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(CNAT_DIFFERENT, $4, $3);
+        $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(COWL_NAT_DIFF, $4, $3);
     }
 ;
 

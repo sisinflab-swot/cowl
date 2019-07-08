@@ -2,6 +2,7 @@
 
 #include "cowl_annot_prop_private.h"
 #include "cowl_iri.h"
+#include "cowl_iterator_private.h"
 
 UHASH_MAP_INIT(CowlAnnotPropMap, CowlIRI*, CowlAnnotProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlAnnotPropMap) *inst_map = NULL;

@@ -39,7 +39,7 @@ static void test_iri(void) {
 }
 
 static void test_anon_individual(void) {
-    CowlNodeID id = cowl_node_id_get_next();
+    CowlNodeID id = cowl_node_id_get_unique();
     CowlAnonInd *anon_ind = cowl_anon_ind_get(id);
     assert(cowl_object_ref_get(anon_ind) == 1);
 

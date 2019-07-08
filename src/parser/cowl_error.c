@@ -22,15 +22,6 @@ static CowlRawString cowl_error_code_description(CowlErrorCode code) {
     }
 }
 
-CowlError cowl_error_retain(CowlError error) {
-    cowl_string_retain(error.description);
-    return error;
-}
-
-void cowl_error_release(CowlError error) {
-    cowl_string_release(error.description);
-}
-
 CowlString* cowl_error_to_string(CowlError error) {
     size_t n_comp = 4;
     CowlRawString comp[n_comp];

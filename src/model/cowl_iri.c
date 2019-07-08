@@ -24,7 +24,11 @@ UHASH_MAP_INIT(CowlIRIMap, cowl_struct(CowlIRI), CowlIRI*,
 static UHash(CowlIRIMap) *inst_map = NULL;
 
 static cowl_struct(CowlIRI)* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
-    CowlIRI init = COWL_IRI_INIT(cowl_string_retain(ns), cowl_string_retain(rem));
+    CowlIRI init = {
+        .super = COWL_OBJECT_INIT,
+        .ns = cowl_string_retain(ns),
+        .rem = cowl_string_retain(rem)
+    };
     cowl_struct(CowlIRI) *iri = malloc(sizeof(*iri));
     memcpy(iri, &init, sizeof(*iri));
     return iri;
@@ -77,7 +81,7 @@ void cowl_iri_release(CowlIRI *iri) {
     }
 }
 
-CowlIRI* cowl_iri_parse(char const *cstring, cowl_uint_t length) {
+CowlIRI* cowl_iri_from_cstring(char const *cstring, cowl_uint_t length) {
     // TODO: implement according to spec: https://www.w3.org/TR/REC-xml-names/#NT-NCName
     CowlString *parts[2] = { NULL };
     cowl_string_split_two(cstring, length, '#', parts);
@@ -98,30 +102,14 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri) {
     return iri->rem;
 }
 
+CowlString* cowl_iri_to_string(CowlIRI *iri) {
+    return cowl_string_concat(iri->ns, iri->rem);
+}
+
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
     return lhs == rhs;
 }
 
 cowl_uint_t cowl_iri_hash(CowlIRI *iri) {
     return uhash_ptr_hash(iri);
-}
-
-CowlIRI* cowl_iri_from_cstring(char const *cstring) {
-    return cowl_iri_parse(cstring, (cowl_uint_t)strlen(cstring));
-}
-
-CowlIRI* cowl_iri_from_ns_rem(char const *ns, char const *rem) {
-    CowlString *ns_string = cowl_string_get(ns, (cowl_uint_t)strlen(ns), false);
-    CowlString *rem_string = cowl_string_get(rem, (cowl_uint_t)strlen(rem), false);
-
-    CowlIRI *iri = cowl_iri_get(ns_string, rem_string);
-
-    cowl_string_release(ns_string);
-    cowl_string_release(rem_string);
-
-    return iri;
-}
-
-CowlString* cowl_iri_to_string(CowlIRI *iri) {
-    return cowl_string_concat(iri->ns, iri->rem);
 }

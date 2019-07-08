@@ -2,6 +2,7 @@
 
 #include "cowl_obj_prop_private.h"
 #include "cowl_iri_private.h"
+#include "cowl_iterator_private.h"
 
 UHASH_MAP_INIT(CowlObjPropMap, CowlIRI*, CowlObjProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlObjPropMap) *inst_map = NULL;

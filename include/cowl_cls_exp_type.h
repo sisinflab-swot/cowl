@@ -1,7 +1,13 @@
-/** @file
- * Defines the CowlClsExpType enum.
+/**
+ * Defines the #CowlClsExpType enumeration.
  *
  * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
  */
 
 #ifndef COWL_CLS_EXP_TYPE_H
@@ -11,80 +17,82 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the different types of OWL 2 class expressions.
+/**
+ * Represents the type of CowlClsExp.
+ *
+ * @public @memberof CowlClsExp
+ */
 typedef enum CowlClsExpType {
 
-/// @name Class
-
-    /// Represents classes.
+    /// CowlClass: class.
         COWL_CET_CLASS,
 
 /// @name Object property restrictions
 
-    /// Represents "some values from" object property restrictions.
+    /// CowlObjQuant - "some values from" object property restriction.
         COWL_CET_OBJ_SOME,
 
-    /// Represents "all values from" object property restrictions.
+    /// CowlObjQuant - "all values from" object property restriction.
         COWL_CET_OBJ_ALL,
 
-    /// Represents "min cardinality" object property restrictions.
+    /// CowlObjCard - "minimum cardinality" object property restriction.
         COWL_CET_OBJ_MIN_CARD,
 
-    /// Represents "max cardinality" object property restrictions.
+    /// CowlObjCard - "maximum cardinality" object property restriction.
         COWL_CET_OBJ_MAX_CARD,
 
-    /// Represents "exact cardinality" object property restrictions.
+    /// CowlObjCard - "exact cardinality" object property restriction.
         COWL_CET_OBJ_EXACT_CARD,
 
-    /// Represents "has value" object property restrictions.
+    /// CowlObjHasValue - "has value" object property restriction.
         COWL_CET_OBJ_HAS_VALUE,
 
-    /// Represents "has self" object property restrictions.
+    /// CowlObjHasSelf - "has self" object property restriction.
         COWL_CET_OBJ_HAS_SELF,
 
 /// @name Data property restrictions
 
-    /// Represents "some values from" data property restrictions.
+    /// CowlDataQuant - "some values from" data property restriction.
         COWL_CET_DATA_SOME,
 
-    /// Represents "all values from" data property restrictions.
+    /// CowlDataQuant - "all values from" data property restriction.
         COWL_CET_DATA_ALL,
 
-    /// Represents "min cardinality" data property restrictions.
+    /// CowlDataCard - "min cardinality" data property restriction.
         COWL_CET_DATA_MIN_CARD,
 
-    /// Represents "max cardinality" data property restrictions.
+    /// CowlDataCard - "max cardinality" data property restriction.
         COWL_CET_DATA_MAX_CARD,
 
-    /// Represents "exact cardinality" data property restrictions.
+    /// CowlDataCard - "exact cardinality" data property restriction.
         COWL_CET_DATA_EXACT_CARD,
 
-    /// Represents "has value" data property restrictions.
+    /// CowlDataHasValue - "has value" data property restriction.
         COWL_CET_DATA_HAS_VALUE,
 
 /// @name Boolean expressions
 
-    /// Represents the intersection of class expressions.
+    /// CowlNAryBool - Intersection of class expressions.
         COWL_CET_OBJ_INTERSECT,
 
-    /// Represents the union of class expressions.
+    /// CowlNAryBool - Union of class expressions.
         COWL_CET_OBJ_UNION,
 
-    /// Represents the complement of a class expression.
+    /// CowlObjCompl - Complement of a class expression.
         COWL_CET_OBJ_COMPL,
 
 /// @name Enumeration
 
-    /// Represents enumerations of individuals.
+    /// CowlObjOneOf - Enumeration of individuals.
         COWL_CET_OBJ_ONE_OF,
 
 /// @name Markers
 
-    /// Number of class expression types.
+    /// Number of enum values.
         COWL_CET_COUNT,
 
-    /// First class expression type.
-        COWL_CET_FIRST = COWL_CET_CLASS
+    /// First enum value.
+        COWL_CET_FIRST = 0
 
 } CowlClsExpType;
 

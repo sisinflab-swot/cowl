@@ -1,6 +1,6 @@
 [submodule "lib/vector_t"]
 	path = lib/vector_t
-	url = git@github.com:IvanoBilenchi/vector_t.git
+	url = https://github.com/IvanoBilenchi/vector_t.git
 [submodule "lib/uhash"]
 	path = lib/uhash
 	url = https://github.com/IvanoBilenchi/uhash

@@ -139,7 +139,7 @@ CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id) {
     CowlNodeID node_id;
 
     if (ret == UHASH_INSERTED) {
-        node_id = cowl_node_id_get_next();
+        node_id = cowl_node_id_get_unique();
         cowl_string_retain(id);
         uhash_value(parser->node_id_map, idx) = node_id;
     } else {
@@ -152,6 +152,6 @@ CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id) {
 void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,
                            char const *description, cowl_uint_t line) {
     if (!parser->errors) return;
-    CowlError error = cowl_error_init(code, description, line);
+    CowlError error = cowl_error_init_cstring(code, description, line);
     vector_push(CowlError, parser->errors, error);
 }

@@ -4,17 +4,17 @@
 #include "cowl_obj_prop_exp.h"
 #include "cowl_obj_prop_exp_vec.h"
 
-static CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_alloc(CowlObjPropExpVec *sub_props,
-                                                                     CowlObjPropExp *super_prop,
+static CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_alloc(CowlObjPropExpVec *sub,
+                                                                     CowlObjPropExp *super,
                                                                      CowlAnnotationVec *annot) {
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUB_OBJ_PROP_CHAIN_AXIOM, annot,
-                                         cowl_obj_prop_exp_vec_hash(sub_props),
-                                         cowl_obj_prop_exp_hash(super_prop));
+                                         cowl_obj_prop_exp_vec_hash(sub),
+                                         cowl_obj_prop_exp_hash(super));
 
     CowlSubObjPropChainAxiom init = {
         .super = COWL_AXIOM_INIT(COWL_AT_SUB_OBJ_PROP_CHAIN, hash, annot),
-        .sub_props = sub_props,
-        .super_prop = cowl_obj_prop_exp_retain(super_prop)
+        .sub_props = sub,
+        .super_prop = cowl_obj_prop_exp_retain(super)
     };
 
     cowl_struct(CowlSubObjPropChainAxiom) *axiom;
@@ -29,10 +29,10 @@ static void cowl_sub_obj_prop_chain_axiom_free(CowlSubObjPropChainAxiom *axiom) 
     cowl_axiom_free(axiom);
 }
 
-CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlObjPropExpVec *sub_props,
-                                                            CowlObjPropExp *super_prop,
+CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlObjPropExpVec *sub,
+                                                            CowlObjPropExp *super,
                                                             CowlAnnotationVec *annot) {
-    return cowl_sub_obj_prop_chain_axiom_alloc(sub_props, super_prop, annot);
+    return cowl_sub_obj_prop_chain_axiom_alloc(sub, super, annot);
 }
 
 CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_retain(CowlSubObjPropChainAxiom *axiom) {

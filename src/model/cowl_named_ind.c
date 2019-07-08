@@ -2,6 +2,7 @@
 
 #include "cowl_named_ind_private.h"
 #include "cowl_iri_private.h"
+#include "cowl_iterator_private.h"
 
 UHASH_MAP_INIT(CowlNamedIndMap, CowlIRI*, CowlNamedInd*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlNamedIndMap) *inst_map = NULL;

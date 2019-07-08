@@ -1,38 +1,40 @@
-cmake_minimum_required(VERSION 3.0)
-project(cowl C)
-
 #################
 # Configuration #
 #################
 
-# Project metadata
+# Cmake
 
+cmake_minimum_required(VERSION 3.0)
+cmake_policy(SET CMP0063 NEW)
+
+# Project
+
+project(cowl C)
 set(COWL_NAME "Cowl")
-set(COWL_DESCRIPTION "C API to work with OWL ontologies.")
+set(COWL_DESCRIPTION "A lightweight C API for working with OWL ontologies.")
 set(COWL_VERSION "1.0.0")
 
 # Directories
 
-set(COWL_PUBLIC_HEADERS_DIR "${CMAKE_CURRENT_LIST_DIR}/include")
-set(COWL_LIB_DIR "${CMAKE_CURRENT_LIST_DIR}/lib")
+set(COWL_PROJECT_DIR "${CMAKE_CURRENT_LIST_DIR}")
+set(COWL_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+set(COWL_PUBLIC_HEADERS_DIR "${COWL_PROJECT_DIR}/include")
+set(COWL_LIB_DIR "${COWL_PROJECT_DIR}/lib")
+set(COWL_SRC_DIR "${COWL_PROJECT_DIR}/src")
 set(COWL_VECTOR_DIR "${COWL_LIB_DIR}/vector_t/include")
 set(COWL_UHASH_DIR "${COWL_LIB_DIR}/uhash/include")
-set(COWL_SRC_DIR "${CMAKE_CURRENT_LIST_DIR}/src")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
 set(COWL_MODEL_DIR "${COWL_SRC_DIR}/model")
 set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
 set(COWL_LOGGER_DIR "${COWL_SRC_DIR}/logger")
-set(COWL_PARSER_OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/flex_bison")
 set(COWL_FUNCTIONAL_PARSER_DIR "${COWL_PARSER_DIR}/functional")
-set(COWL_TEST_DIR "${CMAKE_CURRENT_LIST_DIR}/test")
-set(COWL_TEST_DATA_DIR "${COWL_TEST_DIR}/data")
 
-# Build dir setup
+set(COWL_DOCS_DIR "${COWL_PROJECT_DIR}/docs")
+set(COWL_EXAMPLES_DIR "${COWL_PROJECT_DIR}/examples")
+set(COWL_TEST_DIR "${COWL_PROJECT_DIR}/test")
 
+set(COWL_PARSER_OUT_DIR "${COWL_OUTPUT_DIR}/flex_bison")
 file(MAKE_DIRECTORY "${COWL_PARSER_OUT_DIR}")
-
-file(GLOB COWL_TEST_DATA "${COWL_TEST_DATA_DIR}/*.owl")
-file(COPY ${COWL_TEST_DATA} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Flex & Bison
 
@@ -44,7 +46,7 @@ set(COWL_FUNCTIONAL_PARSER_IN "${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_par
 set(COWL_FUNCTIONAL_PARSER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.h")
 set(COWL_FUNCTIONAL_PARSER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.c")
 
-find_package(BISON 3.1 REQUIRED)
+find_package(BISON 3.0 REQUIRED)
 find_package(FLEX 2.6 REQUIRED)
 
 BISON_TARGET(COWL_FUNCTIONAL_PARSER "${COWL_FUNCTIONAL_PARSER_IN}" "${COWL_FUNCTIONAL_PARSER_OUT}"
@@ -131,7 +133,9 @@ add_library(cowl-static STATIC
 
 set_target_properties(cowl-static PROPERTIES
                       OUTPUT_NAME "cowl"
-                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}")
+                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}"
+                      C_VISIBILITY_PRESET hidden
+                      VISIBILITY_INLINES_HIDDEN ON)
 target_compile_options(cowl-static PUBLIC
                        "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
                        "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
@@ -139,8 +143,8 @@ target_compile_definitions(cowl-static PUBLIC ${COWL_DEFINES})
 target_include_directories(cowl-static PUBLIC ${COWL_HEADERS_DIRS})
 
 install(TARGETS cowl-static
-        ARCHIVE DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
-        PUBLIC_HEADER DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/include")
+        ARCHIVE DESTINATION "${COWL_OUTPUT_DIR}"
+        PUBLIC_HEADER DESTINATION "${COWL_OUTPUT_DIR}/include")
 
 # Shared library
 
@@ -151,7 +155,9 @@ add_library(cowl-shared SHARED
 
 set_target_properties(cowl-shared PROPERTIES
                       OUTPUT_NAME "cowl"
-                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}")
+                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}"
+                      C_VISIBILITY_PRESET hidden
+                      VISIBILITY_INLINES_HIDDEN ON)
 target_compile_options(cowl-shared PUBLIC
                        "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
                        "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
@@ -159,13 +165,11 @@ target_compile_definitions(cowl-shared PUBLIC ${COWL_DEFINES})
 target_include_directories(cowl-shared PUBLIC ${COWL_HEADERS_DIRS})
 
 install(TARGETS cowl-shared
-        LIBRARY DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
-        PUBLIC_HEADER DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/include")
+        LIBRARY DESTINATION "${COWL_OUTPUT_DIR}"
+        PUBLIC_HEADER DESTINATION "${COWL_OUTPUT_DIR}/include")
 
-# Test
+# Subprojects
 
-add_executable(cowl-test "${COWL_TEST_DIR}/test.c")
-add_dependencies(cowl-test cowl-static)
-target_compile_definitions(cowl-test PUBLIC ${COWL_DEFINES})
-target_include_directories(cowl-test PUBLIC "${COWL_HEADERS_DIRS}")
-target_link_libraries(cowl-test cowl-static)
+add_subdirectory("${COWL_DOCS_DIR}")
+add_subdirectory("${COWL_EXAMPLES_DIR}")
+add_subdirectory("${COWL_TEST_DIR}")

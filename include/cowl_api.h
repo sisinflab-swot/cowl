@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Umbrella header for the Cowl API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_API_H
 #define COWL_API_H
@@ -100,7 +110,22 @@
 
 COWL_BEGIN_DECLS
 
+/**
+ * Initializes the API.
+ *
+ * @note It's mandatory to call this function before making any other Cowl API call.
+ */
+COWL_PUBLIC
 void cowl_api_init(void);
+
+/**
+ * Deinitializes the API.
+ *
+ * @note Calling this function releases any resource loaded when the API was initialized.
+ *       You must not make API calls on objects retrieved before deinitializing the API, even
+ *       if you later re-initialize it.
+ */
+COWL_PUBLIC
 void cowl_api_deinit(void);
 
 COWL_END_DECLS

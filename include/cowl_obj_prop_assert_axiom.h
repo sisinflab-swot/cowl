@@ -1,4 +1,14 @@
-/// @author Ivano Bilenchi
+/**
+ * Declares CowlObjPropAssertAxiom and its API.
+ *
+ * @author Ivano Bilenchi
+ *
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright SPDX-License-Identifier: EPL-2.0
+ *
+ * @file
+ */
 
 #ifndef COWL_OBJ_PROP_ASSERT_AXIOM_H
 #define COWL_OBJ_PROP_ASSERT_AXIOM_H
@@ -8,33 +18,170 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlObjPropExp);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
-
 cowl_struct_decl(CowlObjPropAssertAxiom);
+/// @endcond
 
+/**
+ * Represents [ObjectPropertyAssertion] and [NegativeObjectPropertyAssertion] axioms
+ * in the OWL 2 specification.
+ *
+ * [ObjectPropertyAssertion]:
+ * https://www.w3.org/TR/owl2-syntax/#Positive_Object_Property_Assertions
+ *
+ * [NegativeObjectPropertyAssertion]:
+ * https://www.w3.org/TR/owl2-syntax/#Negative_Object_Property_Assertions
+ *
+ * @struct CowlObjPropAssertAxiom
+ * @extends CowlAxiom
+ */
+
+/**
+ * Returns a retained object property assertion axiom.
+ *
+ * @param subject The assertion subject.
+ * @param prop The object property.
+ * @param object The assertion object.
+ * @param annot The annotations.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                        CowlObjPropExp *prop,
                                                        CowlIndividual *object,
                                                        CowlAnnotationVec *annot);
+
+/**
+ * Returns a retained negative object property assertion axiom.
+ *
+ * @param subject The assertion subject.
+ * @param prop The object property.
+ * @param object The assertion object.
+ * @param annot The annotations.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                            CowlObjPropExp *prop,
                                                            CowlIndividual *object,
                                                            CowlAnnotationVec *annot);
 
+/**
+ * Retains the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return Retained axiom.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom);
+
+/**
+ * Releases the specified axiom.
+ *
+ * @param axiom The axiom.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom);
 
+/**
+ * Returns true if the specified object property assertion axiom is negative.
+ *
+ * @param axiom The axiom.
+ * @return True if the assertion is negative, false otherwise.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom);
+
+/**
+ * Gets the assertion subject.
+ *
+ * @param axiom The axiom.
+ * @return The assertion subject.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom);
+
+/**
+ * Gets the assertion object.
+ *
+ * @param axiom The axiom.
+ * @return The assertion object.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 CowlIndividual* cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *axiom);
+
+/**
+ * Gets the object property expression.
+ *
+ * @param axiom The axiom.
+ * @return The object property expression.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom);
+
+/**
+ * Gets the annotations of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return The annotations.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 CowlAnnotationVec* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom);
 
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param axiom The axiom.
+ * @return The hash value.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
 
+/**
+ * Iterates over the signature of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_PUBLIC
 bool cowl_obj_prop_assert_axiom_iterate_signature(CowlObjPropAssertAxiom *axiom,
                                                   CowlEntityIterator *iter);
 
