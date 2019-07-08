@@ -79,12 +79,14 @@
 #include "cowl_parser_private.h"
 #include "cowl_raw_string.h"
 #include "cowl_rdf_vocab_private.h"
+#include "cowl_rdfs_vocab_private.h"
 #include "cowl_string_private.h"
 #include "cowl_sub_annot_prop_axiom_private.h"
 #include "cowl_sub_cls_axiom_private.h"
 #include "cowl_sub_data_prop_axiom_private.h"
 #include "cowl_sub_obj_prop_axiom_private.h"
 #include "cowl_sub_obj_prop_chain_axiom_private.h"
+#include "cowl_vocab_utils.h"
 #include "cowl_xsd_vocab_private.h"
 
 #endif // COWL_PRIVATE_H

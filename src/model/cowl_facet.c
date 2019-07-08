@@ -10,24 +10,26 @@
 
 #include "cowl_facet_private.h"
 #include "cowl_iri.h"
+#include "cowl_rdf_vocab.h"
 #include "cowl_xsd_vocab.h"
 
 static CowlIRI *cowl_facet_iris[COWL_FACET_COUNT] = { NULL };
 
 void cowl_facet_init(void) {
-    CowlXSDVocab *v = cowl_xsd_vocab_get();
+    CowlXSDVocab *xsd = cowl_xsd_vocab_get();
+    CowlRDFVocab *rdf = cowl_rdf_vocab_get();
     cowl_facet_iris[COWL_FACET_NONE] = NULL;
-    cowl_facet_iris[COWL_FACET_LENGTH] = v->iri.length;
-    cowl_facet_iris[COWL_FACET_MIN_LENGTH] = v->iri.min_length;
-    cowl_facet_iris[COWL_FACET_MAX_LENGTH] = v->iri.max_length;
-    cowl_facet_iris[COWL_FACET_PATTERN] = v->iri.pattern;
-    cowl_facet_iris[COWL_FACET_MIN_INCL] = v->iri.min_inclusive;
-    cowl_facet_iris[COWL_FACET_MIN_EXCL] = v->iri.min_exclusive;
-    cowl_facet_iris[COWL_FACET_MAX_INCL] = v->iri.max_inclusive;
-    cowl_facet_iris[COWL_FACET_MAX_EXCL] = v->iri.max_exclusive;
-    cowl_facet_iris[COWL_FACET_TOTAL_DIGITS] = v->iri.total_digits;
-    cowl_facet_iris[COWL_FACET_FRAC_DIGITS] = v->iri.fraction_digits;
-    cowl_facet_iris[COWL_FACET_LANG_RANGE] = v->iri.lang_range;
+    cowl_facet_iris[COWL_FACET_LENGTH] = xsd->iri.length;
+    cowl_facet_iris[COWL_FACET_MIN_LENGTH] = xsd->iri.min_length;
+    cowl_facet_iris[COWL_FACET_MAX_LENGTH] = xsd->iri.max_length;
+    cowl_facet_iris[COWL_FACET_PATTERN] = xsd->iri.pattern;
+    cowl_facet_iris[COWL_FACET_MIN_INCL] = xsd->iri.min_inclusive;
+    cowl_facet_iris[COWL_FACET_MIN_EXCL] = xsd->iri.min_exclusive;
+    cowl_facet_iris[COWL_FACET_MAX_INCL] = xsd->iri.max_inclusive;
+    cowl_facet_iris[COWL_FACET_MAX_EXCL] = xsd->iri.max_exclusive;
+    cowl_facet_iris[COWL_FACET_TOTAL_DIGITS] = xsd->iri.total_digits;
+    cowl_facet_iris[COWL_FACET_FRAC_DIGITS] = xsd->iri.fraction_digits;
+    cowl_facet_iris[COWL_FACET_LANG_RANGE] = rdf->iri.lang_range;
 }
 
 void cowl_facet_deinit(void) { /* No-op */ }

@@ -9,47 +9,99 @@
  */
 
 #include "cowl_owl_vocab_private.h"
-#include "cowl_class.h"
-#include "cowl_iri_private.h"
-#include "cowl_string.h"
-
-#define CS_OWL_NS "http://www.w3.org/2002/07/owl#"
-#define CS_OWL_THING_REM "Thing"
-#define CS_OWL_NOTHING_REM "Nothing"
+#include "cowl_vocab_utils.h"
 
 static cowl_struct(CowlOWLVocab) vocab;
 
 void cowl_owl_vocab_init(void) {
-    CowlString *owl_ns_str = cowl_string_from_static(CS_OWL_NS);
-    CowlString *owl_thing_str = cowl_string_from_static(CS_OWL_THING_REM);
-    CowlString *owl_nothing_str = cowl_string_from_static(CS_OWL_NOTHING_REM);
+    CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2002/07/owl#");
 
-    CowlIRI *owl_thing_iri = cowl_iri_get(owl_ns_str, owl_thing_str);
-    CowlIRI *owl_nothing_iri = cowl_iri_get(owl_ns_str, owl_nothing_str);
+    CowlOWLVocab v = {
+        .iri = {
+            .thing = cowl_iri_vocab_get(ns, "Thing"),
+            .nothing = cowl_iri_vocab_get(ns, "Nothing"),
+            .top_obj_prop = cowl_iri_vocab_get(ns, "topObjectProperty"),
+            .bottom_obj_prop = cowl_iri_vocab_get(ns, "bottomObjectProperty"),
+            .top_data_prop = cowl_iri_vocab_get(ns, "topDataProperty"),
+            .bottom_data_prop = cowl_iri_vocab_get(ns, "bottomDataProperty"),
+            .backward_comp = cowl_iri_vocab_get(ns, "backwardCompatibleWith"),
+            .deprecated = cowl_iri_vocab_get(ns, "deprecated"),
+            .incompatible = cowl_iri_vocab_get(ns, "incompatibleWith"),
+            .prior_version = cowl_iri_vocab_get(ns, "priorVersion"),
+            .rational = cowl_iri_vocab_get(ns, "rational"),
+            .real = cowl_iri_vocab_get(ns, "real"),
+            .version_info = cowl_iri_vocab_get(ns, "versionInfo")
+        }
+    };
 
     vocab = (cowl_struct(CowlOWLVocab)) {
-        .ns = owl_ns_str,
-
-        .iri = {
-            .thing = owl_thing_iri,
-            .nothing = owl_nothing_iri
-        },
+        .ns = ns,
+        .iri = v.iri,
 
         .cls = {
-            .thing = cowl_class_get(owl_thing_iri),
-            .nothing = cowl_class_get(owl_nothing_iri)
+            .thing = cowl_class_vocab_get(v.iri.thing),
+            .nothing = cowl_class_vocab_get(v.iri.nothing)
+        },
+
+        .dt = {
+            .rational = cowl_datatype_vocab_get(v.iri.rational),
+            .real = cowl_datatype_vocab_get(v.iri.real)
+        },
+
+        .obj_props = {
+            .top_obj_prop = cowl_obj_prop_vocab_get(v.iri.top_obj_prop),
+            .bottom_obj_prop = cowl_obj_prop_vocab_get(v.iri.bottom_obj_prop)
+        },
+
+        .data_props = {
+            .top_data_prop = cowl_data_prop_vocab_get(v.iri.top_data_prop),
+            .bottom_data_prop = cowl_data_prop_vocab_get(v.iri.bottom_data_prop)
+        },
+
+        .annot_props = {
+            .backward_comp = cowl_annot_prop_vocab_get(v.iri.backward_comp),
+            .deprecated = cowl_annot_prop_vocab_get(v.iri.deprecated),
+            .incompatible = cowl_annot_prop_vocab_get(v.iri.incompatible),
+            .prior_version = cowl_annot_prop_vocab_get(v.iri.prior_version),
+            .version_info = cowl_annot_prop_vocab_get(v.iri.version_info)
         }
     };
 }
 
 void cowl_owl_vocab_deinit(void) {
-    cowl_string_release(vocab.ns);
+    cowl_string_vocab_free(vocab.ns);
 
-    cowl_iri_release(vocab.iri.thing);
-    cowl_iri_release(vocab.iri.nothing);
+    cowl_iri_vocab_free(vocab.iri.thing);
+    cowl_iri_vocab_free(vocab.iri.nothing);
+    cowl_iri_vocab_free(vocab.iri.top_obj_prop);
+    cowl_iri_vocab_free(vocab.iri.bottom_obj_prop);
+    cowl_iri_vocab_free(vocab.iri.top_data_prop);
+    cowl_iri_vocab_free(vocab.iri.bottom_data_prop);
+    cowl_iri_vocab_free(vocab.iri.backward_comp);
+    cowl_iri_vocab_free(vocab.iri.deprecated);
+    cowl_iri_vocab_free(vocab.iri.incompatible);
+    cowl_iri_vocab_free(vocab.iri.prior_version);
+    cowl_iri_vocab_free(vocab.iri.rational);
+    cowl_iri_vocab_free(vocab.iri.real);
+    cowl_iri_vocab_free(vocab.iri.version_info);
 
-    cowl_class_release(vocab.cls.thing);
-    cowl_class_release(vocab.cls.nothing);
+    cowl_class_vocab_free(vocab.cls.thing);
+    cowl_class_vocab_free(vocab.cls.nothing);
+
+    cowl_datatype_vocab_free(vocab.dt.rational);
+    cowl_datatype_vocab_free(vocab.dt.real);
+
+    cowl_obj_prop_vocab_free(vocab.obj_props.top_obj_prop);
+    cowl_obj_prop_vocab_free(vocab.obj_props.bottom_obj_prop);
+
+    cowl_data_prop_vocab_free(vocab.data_props.top_data_prop);
+    cowl_data_prop_vocab_free(vocab.data_props.bottom_data_prop);
+
+    cowl_annot_prop_vocab_free(vocab.annot_props.backward_comp);
+    cowl_annot_prop_vocab_free(vocab.annot_props.deprecated);
+    cowl_annot_prop_vocab_free(vocab.annot_props.incompatible);
+    cowl_annot_prop_vocab_free(vocab.annot_props.prior_version);
+    cowl_annot_prop_vocab_free(vocab.annot_props.version_info);
 }
 
 CowlOWLVocab* cowl_owl_vocab_get(void) {

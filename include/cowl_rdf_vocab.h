@@ -32,8 +32,14 @@ typedef cowl_struct(CowlRDFVocab) {
     /// IRIs.
     struct {
 
+        /// rdf:langRange
+        CowlIRI *lang_range;
+
         /// rdf:PlainLiteral
         CowlIRI *plain_literal;
+
+        /// rdf:XMLLiteral
+        CowlIRI *xml_literal;
 
     } iri;
 
@@ -42,6 +48,9 @@ typedef cowl_struct(CowlRDFVocab) {
 
         /// rdf:PlainLiteral
         CowlDatatype *plain_literal;
+
+        /// rdf:XMLLiteral
+        CowlDatatype *xml_literal;
 
     } dt;
 
