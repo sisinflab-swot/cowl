@@ -33,8 +33,6 @@ cowl_struct_decl(CowlOntology);
  * left to the implementor.
  *
  * [ontology imports]: https://www.w3.org/TR/owl2-syntax/#Imports
- *
- * @see @ref ex-errors-imports
  */
 typedef cowl_struct(CowlImportsLoader) {
 

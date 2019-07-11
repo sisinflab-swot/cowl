@@ -1,0 +1,5 @@
+==============
+Disjoint Union
+==============
+
+.. doxygenstruct:: CowlDisjUnionAxiom

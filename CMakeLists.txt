@@ -12,7 +12,12 @@ cmake_policy(SET CMP0063 NEW)
 project(Cowl
         VERSION 0.1.0
         DESCRIPTION "A lightweight C API for working with OWL ontologies."
+        HOMEPAGE_URL "http://sisinflab.poliba.it/swottools/cowl"
         LANGUAGES C)
+
+set(COWL_VENDOR "SisInf Lab")
+set(COWL_COPYRIGHT_YEAR "2019")
+set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
 # Directories
 
@@ -35,6 +40,8 @@ set(COWL_TEST_DIR "${COWL_PROJECT_DIR}/test")
 
 set(COWL_PARSER_OUT_DIR "${COWL_OUTPUT_DIR}/flex_bison")
 file(MAKE_DIRECTORY "${COWL_PARSER_OUT_DIR}")
+
+set(CMAKE_MODULE_PATH "${COWL_PROJECT_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 # Flex & Bison
 

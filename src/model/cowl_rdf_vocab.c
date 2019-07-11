@@ -16,20 +16,18 @@ static cowl_struct(CowlRDFVocab) vocab;
 void cowl_rdf_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 
-    CowlRDFVocab v = {
-        .iri = {
-            .plain_literal = cowl_iri_vocab_get(ns, "PlainLiteral"),
-            .xml_literal = cowl_iri_vocab_get(ns, "XMLLiteral"),
-            .lang_range = cowl_iri_vocab_get(ns, "langRange")
-        }
+    CowlRDFIRIVocab v = {
+        .plain_literal = cowl_iri_vocab_get(ns, "PlainLiteral"),
+        .xml_literal = cowl_iri_vocab_get(ns, "XMLLiteral"),
+        .lang_range = cowl_iri_vocab_get(ns, "langRange")
     };
 
     vocab = (cowl_struct(CowlRDFVocab)) {
         .ns = ns,
-        .iri = v.iri,
+        .iri = v,
         .dt = {
-            .plain_literal = cowl_datatype_vocab_get(v.iri.plain_literal),
-            .xml_literal = cowl_datatype_vocab_get(v.iri.xml_literal)
+            .plain_literal = cowl_datatype_vocab_get(v.plain_literal),
+            .xml_literal = cowl_datatype_vocab_get(v.xml_literal)
         }
     };
 }

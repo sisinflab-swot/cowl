@@ -27,7 +27,7 @@ cowl_struct_decl(CowlNAryIndAxiom);
 /// @endcond
 
 /**
- * Represents a [SameIndividuals] or [DifferentIndividuals] axioms in the OWL 2 specification.
+ * Represents a [SameIndividuals] or [DifferentIndividuals] axiom in the OWL 2 specification.
  *
  * [SameIndividuals]: https://www.w3.org/TR/owl2-syntax/#Individual_Equality
  * [DifferentIndividuals]: https://www.w3.org/TR/owl2-syntax/#Individual_Inequality

@@ -1,0 +1,8 @@
+===========
+Collections
+===========
+
+.. toctree::
+
+   Vector
+   UHash

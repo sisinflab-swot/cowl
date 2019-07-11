@@ -1,0 +1,5 @@
+======
+Logger
+======
+
+.. doxygenstruct:: CowlLogger

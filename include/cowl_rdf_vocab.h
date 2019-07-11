@@ -23,36 +23,42 @@ cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 /// @endcond
 
+/// Vocabulary of RDF IRIs.
+typedef cowl_struct(CowlRDFIRIVocab) {
+
+    /// rdf:langRange
+    CowlIRI *lang_range;
+
+    /// rdf:PlainLiteral
+    CowlIRI *plain_literal;
+
+    /// rdf:XMLLiteral
+    CowlIRI *xml_literal;
+
+} CowlRDFIRIVocab;
+
+/// Vocabulary of RDF datatypes.
+typedef cowl_struct(CowlRDFDatatypeVocab) {
+
+    /// rdf:PlainLiteral
+    CowlDatatype *plain_literal;
+
+    /// rdf:XMLLiteral
+    CowlDatatype *xml_literal;
+
+} CowlRDFDatatypeVocab;
+
 /// The RDF vocabulary.
 typedef cowl_struct(CowlRDFVocab) {
 
     /// RDF namespace.
     CowlString *ns;
 
-    /// IRIs.
-    struct {
+    /// IRIs sub-vocabulary.
+    CowlRDFIRIVocab iri;
 
-        /// rdf:langRange
-        CowlIRI *lang_range;
-
-        /// rdf:PlainLiteral
-        CowlIRI *plain_literal;
-
-        /// rdf:XMLLiteral
-        CowlIRI *xml_literal;
-
-    } iri;
-
-    /// Datatypes.
-    struct {
-
-        /// rdf:PlainLiteral
-        CowlDatatype *plain_literal;
-
-        /// rdf:XMLLiteral
-        CowlDatatype *xml_literal;
-
-    } dt;
+    /// Datatypes sub-vocabulary.
+    CowlRDFDatatypeVocab dt;
 
 } const CowlRDFVocab;
 

@@ -38,10 +38,6 @@ The API is thoroughly documented. HTML docs are automatically generated while bu
 if [Doxygen][doxygen] is installed. For convenience, the latest HTML docs
 are also available [online][docs].
 
-### Getting started
-
-Check out the [How-to](@ref howto) page to learn how you can use Cowl in your projects.
-
 ### License
 
 Cowl is distributed under the [Eclipse Public License, Version 2.0][epl2].

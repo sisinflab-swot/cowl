@@ -21,11 +21,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlIRI);
 /// @endcond
 
-/**
- * Represents the facets that can be used for restricting a datatype.
- *
- * @public @memberof CowlFacetRestr
- */
+/// Represents the facets that can be used for restricting a datatype.
 typedef enum CowlFacet {
 
 /// @name Facets

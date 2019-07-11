@@ -17,11 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/**
- * Represents the type of CowlEntity.
- *
- * @public @memberof CowlEntity
- */
+/// Represents the type of CowlEntity.
 typedef enum CowlEntityType {
 
 /// @name Types

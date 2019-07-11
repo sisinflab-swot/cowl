@@ -125,7 +125,7 @@ void cowl_api_init(void);
  * Deinitializes the API.
  *
  * @note Calling this function releases any resource loaded when the API was initialized.
- *       You must not make API calls on objects retrieved before deinitializing the API, even
+ *       You **must not** make API calls on objects retrieved before deinitializing the API, even
  *       if you later re-initialize it.
  */
 COWL_PUBLIC

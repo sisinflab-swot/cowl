@@ -1,0 +1,5 @@
+=====================
+Annotation Properties
+=====================
+
+.. doxygenstruct:: CowlAnnotProp

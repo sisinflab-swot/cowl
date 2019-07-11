@@ -24,56 +24,65 @@ cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 /// @endcond
 
+/// Vocabulary of RDFS IRIs.
+typedef cowl_struct(CowlRDFSIRIVocab) {
+
+    /// rdfs:comment
+    CowlIRI *comment;
+
+    /// rdfs:isDefinedBy
+    CowlIRI *defined_by;
+
+    /// rdfs:label
+    CowlIRI *label;
+
+    /// rdfs:Literal
+    CowlIRI *literal;
+
+    /// rdfs:seeAlso
+    CowlIRI *see_also;
+
+} CowlRDFSIRIVocab;
+
+/// Vocabulary of RDFS datatypes.
+typedef cowl_struct(CowlRDFSDatatypeVocab) {
+
+    /// rdfs:Literal
+    CowlDatatype *literal;
+
+} CowlRDFSDatatypeVocab;
+
+/// Vocabulary of RDFS annotation properties.
+typedef cowl_struct(CowlRDFSAnnotPropVocab) {
+
+    /// rdfs:comment
+    CowlAnnotProp *comment;
+
+    /// rdfs:isDefinedBy
+    CowlAnnotProp *defined_by;
+
+    /// rdfs:label
+    CowlAnnotProp *label;
+
+    /// rdfs:seeAlso
+    CowlAnnotProp *see_also;
+
+} CowlRDFSAnnotPropVocab;
+
 /// The RDFS vocabulary.
 typedef cowl_struct(CowlRDFSVocab) {
 
     /// RDFS namespace.
     CowlString *ns;
 
-    /// IRIs.
-    struct {
+    /// IRIs sub-vocabulary.
+    CowlRDFSIRIVocab iri;
 
-        /// rdfs:comment
-        CowlIRI *comment;
+    /// Datatypes sub-vocabulary.
+    CowlRDFSDatatypeVocab dt;
 
-        /// rdfs:isDefinedBy
-        CowlIRI *defined_by;
-
-        /// rdfs:label
-        CowlIRI *label;
-
-        /// rdfs:Literal
-        CowlIRI *literal;
-
-        /// rdfs:seeAlso
-        CowlIRI *see_also;
-
-    } iri;
-
-    /// Datatypes.
-    struct {
-
-        /// rdfs:Literal
-        CowlDatatype *literal;
-
-    } dt;
-
-    /// Annotation properties.
-    struct {
-
-        /// rdfs:comment
-        CowlAnnotProp *comment;
-
-        /// rdfs:isDefinedBy
-        CowlAnnotProp *defined_by;
-
-        /// rdfs:label
-        CowlAnnotProp *label;
-
-        /// rdfs:seeAlso
-        CowlAnnotProp *see_also;
-
-    } annot_props;
+    /// Annotation properties sub-vocabulary.
+    CowlRDFSAnnotPropVocab annot_prop;
 
 } const CowlRDFSVocab;
 

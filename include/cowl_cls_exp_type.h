@@ -17,11 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/**
- * Represents the type of CowlClsExp.
- *
- * @public @memberof CowlClsExp
- */
+/// Represents the type of CowlClsExp.
 typedef enum CowlClsExpType {
 
     /// CowlClass: class.

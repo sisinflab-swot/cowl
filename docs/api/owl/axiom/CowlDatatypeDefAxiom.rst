@@ -1,0 +1,5 @@
+====================
+Datatype Definitions
+====================
+
+.. doxygenstruct:: CowlDatatypeDefAxiom

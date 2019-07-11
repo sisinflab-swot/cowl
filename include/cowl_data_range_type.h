@@ -17,11 +17,8 @@
 
 COWL_BEGIN_DECLS
 
-/**
- * Represents the type of CowlDataRange.
- *
- * @public @memberof CowlDataRange
- */
+
+/// Represents the type of CowlDataRange.
 typedef enum CowlDataRangeType {
 
 /// @name Types

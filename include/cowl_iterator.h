@@ -41,8 +41,6 @@ cowl_struct_decl(CowlOntology);
  * element, while returning `false` causes the iteration to stop. This is useful if, for example,
  * you want to find the first element matching certain criteria.
  *
- * @see @ref ex-query
- *
  * @note This is not a real data structure, though it's declared as such
  *       for better grouping in the generated documentation.
  *

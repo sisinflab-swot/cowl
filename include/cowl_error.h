@@ -37,11 +37,7 @@ typedef enum CowlErrorCode {
 
 } CowlErrorCode;
 
-/**
- * Error data structure.
- *
- * @see @ref ex-errors-imports
- */
+/// Error data structure.
 typedef cowl_struct(CowlError) {
 
     /// If code is 'CEC_SYNTAX', this is the line where the error occurred.
@@ -58,6 +54,13 @@ typedef cowl_struct(CowlError) {
 /// @cond
 VECTOR_DECL_SPEC(CowlError, COWL_PUBLIC)
 /// @endcond
+
+/**
+ * Vector of CowlError elements.
+ *
+ * @struct Vector_CowlError
+ * @extends Vector
+ */
 
 /**
  * Initializes a new error.

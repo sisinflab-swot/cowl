@@ -17,11 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/**
- * Represents the type of CowlObjQuant and CowlDataQuant.
- *
- * @public @memberof CowlObjQuant
- */
+/// Represents the type of CowlObjQuant and CowlDataQuant.
 typedef enum CowlQuantType {
 
 /// @name Types

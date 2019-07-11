@@ -16,54 +16,52 @@ static cowl_struct(CowlOWLVocab) vocab;
 void cowl_owl_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2002/07/owl#");
 
-    CowlOWLVocab v = {
-        .iri = {
-            .thing = cowl_iri_vocab_get(ns, "Thing"),
-            .nothing = cowl_iri_vocab_get(ns, "Nothing"),
-            .top_obj_prop = cowl_iri_vocab_get(ns, "topObjectProperty"),
-            .bottom_obj_prop = cowl_iri_vocab_get(ns, "bottomObjectProperty"),
-            .top_data_prop = cowl_iri_vocab_get(ns, "topDataProperty"),
-            .bottom_data_prop = cowl_iri_vocab_get(ns, "bottomDataProperty"),
-            .backward_comp = cowl_iri_vocab_get(ns, "backwardCompatibleWith"),
-            .deprecated = cowl_iri_vocab_get(ns, "deprecated"),
-            .incompatible = cowl_iri_vocab_get(ns, "incompatibleWith"),
-            .prior_version = cowl_iri_vocab_get(ns, "priorVersion"),
-            .rational = cowl_iri_vocab_get(ns, "rational"),
-            .real = cowl_iri_vocab_get(ns, "real"),
-            .version_info = cowl_iri_vocab_get(ns, "versionInfo")
-        }
+    CowlOWLIRIVocab v = {
+        .thing = cowl_iri_vocab_get(ns, "Thing"),
+        .nothing = cowl_iri_vocab_get(ns, "Nothing"),
+        .top_obj_prop = cowl_iri_vocab_get(ns, "topObjectProperty"),
+        .bottom_obj_prop = cowl_iri_vocab_get(ns, "bottomObjectProperty"),
+        .top_data_prop = cowl_iri_vocab_get(ns, "topDataProperty"),
+        .bottom_data_prop = cowl_iri_vocab_get(ns, "bottomDataProperty"),
+        .backward_comp = cowl_iri_vocab_get(ns, "backwardCompatibleWith"),
+        .deprecated = cowl_iri_vocab_get(ns, "deprecated"),
+        .incompatible = cowl_iri_vocab_get(ns, "incompatibleWith"),
+        .prior_version = cowl_iri_vocab_get(ns, "priorVersion"),
+        .rational = cowl_iri_vocab_get(ns, "rational"),
+        .real = cowl_iri_vocab_get(ns, "real"),
+        .version_info = cowl_iri_vocab_get(ns, "versionInfo")
     };
 
     vocab = (cowl_struct(CowlOWLVocab)) {
         .ns = ns,
-        .iri = v.iri,
+        .iri = v,
 
         .cls = {
-            .thing = cowl_class_vocab_get(v.iri.thing),
-            .nothing = cowl_class_vocab_get(v.iri.nothing)
+            .thing = cowl_class_vocab_get(v.thing),
+            .nothing = cowl_class_vocab_get(v.nothing)
         },
 
         .dt = {
-            .rational = cowl_datatype_vocab_get(v.iri.rational),
-            .real = cowl_datatype_vocab_get(v.iri.real)
+            .rational = cowl_datatype_vocab_get(v.rational),
+            .real = cowl_datatype_vocab_get(v.real)
         },
 
-        .obj_props = {
-            .top_obj_prop = cowl_obj_prop_vocab_get(v.iri.top_obj_prop),
-            .bottom_obj_prop = cowl_obj_prop_vocab_get(v.iri.bottom_obj_prop)
+        .obj_prop = {
+            .top_obj_prop = cowl_obj_prop_vocab_get(v.top_obj_prop),
+            .bottom_obj_prop = cowl_obj_prop_vocab_get(v.bottom_obj_prop)
         },
 
-        .data_props = {
-            .top_data_prop = cowl_data_prop_vocab_get(v.iri.top_data_prop),
-            .bottom_data_prop = cowl_data_prop_vocab_get(v.iri.bottom_data_prop)
+        .data_prop = {
+            .top_data_prop = cowl_data_prop_vocab_get(v.top_data_prop),
+            .bottom_data_prop = cowl_data_prop_vocab_get(v.bottom_data_prop)
         },
 
-        .annot_props = {
-            .backward_comp = cowl_annot_prop_vocab_get(v.iri.backward_comp),
-            .deprecated = cowl_annot_prop_vocab_get(v.iri.deprecated),
-            .incompatible = cowl_annot_prop_vocab_get(v.iri.incompatible),
-            .prior_version = cowl_annot_prop_vocab_get(v.iri.prior_version),
-            .version_info = cowl_annot_prop_vocab_get(v.iri.version_info)
+        .annot_prop = {
+            .backward_comp = cowl_annot_prop_vocab_get(v.backward_comp),
+            .deprecated = cowl_annot_prop_vocab_get(v.deprecated),
+            .incompatible = cowl_annot_prop_vocab_get(v.incompatible),
+            .prior_version = cowl_annot_prop_vocab_get(v.prior_version),
+            .version_info = cowl_annot_prop_vocab_get(v.version_info)
         }
     };
 }
@@ -91,17 +89,17 @@ void cowl_owl_vocab_deinit(void) {
     cowl_datatype_vocab_free(vocab.dt.rational);
     cowl_datatype_vocab_free(vocab.dt.real);
 
-    cowl_obj_prop_vocab_free(vocab.obj_props.top_obj_prop);
-    cowl_obj_prop_vocab_free(vocab.obj_props.bottom_obj_prop);
+    cowl_obj_prop_vocab_free(vocab.obj_prop.top_obj_prop);
+    cowl_obj_prop_vocab_free(vocab.obj_prop.bottom_obj_prop);
 
-    cowl_data_prop_vocab_free(vocab.data_props.top_data_prop);
-    cowl_data_prop_vocab_free(vocab.data_props.bottom_data_prop);
+    cowl_data_prop_vocab_free(vocab.data_prop.top_data_prop);
+    cowl_data_prop_vocab_free(vocab.data_prop.bottom_data_prop);
 
-    cowl_annot_prop_vocab_free(vocab.annot_props.backward_comp);
-    cowl_annot_prop_vocab_free(vocab.annot_props.deprecated);
-    cowl_annot_prop_vocab_free(vocab.annot_props.incompatible);
-    cowl_annot_prop_vocab_free(vocab.annot_props.prior_version);
-    cowl_annot_prop_vocab_free(vocab.annot_props.version_info);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.backward_comp);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.deprecated);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.incompatible);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.prior_version);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.version_info);
 }
 
 CowlOWLVocab* cowl_owl_vocab_get(void) {

@@ -17,11 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/**
- * Represents the type of CowlNAryBool and CowlNAryData.
- *
- * @public @memberof CowlNAryBool
- */
+/// Represents the type of CowlNAryBool and CowlNAryData.
 typedef enum CowlNAryType {
 
 /// @name Types

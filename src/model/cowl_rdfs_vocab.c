@@ -16,27 +16,27 @@ static cowl_struct(CowlRDFSVocab) vocab;
 void cowl_rdfs_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2000/01/rdf-schema#");
 
-    CowlRDFSVocab v = {
-        .iri = {
-            .comment = cowl_iri_vocab_get(ns, "comment"),
-            .defined_by = cowl_iri_vocab_get(ns, "isDefinedBy"),
-            .label = cowl_iri_vocab_get(ns, "label"),
-            .literal = cowl_iri_vocab_get(ns, "Literal"),
-            .see_also = cowl_iri_vocab_get(ns, "seeAlso")
-        }
+    CowlRDFSIRIVocab v = {
+        .comment = cowl_iri_vocab_get(ns, "comment"),
+        .defined_by = cowl_iri_vocab_get(ns, "isDefinedBy"),
+        .label = cowl_iri_vocab_get(ns, "label"),
+        .literal = cowl_iri_vocab_get(ns, "Literal"),
+        .see_also = cowl_iri_vocab_get(ns, "seeAlso")
     };
 
     vocab = (cowl_struct(CowlRDFSVocab)) {
         .ns = ns,
-        .iri = v.iri,
+        .iri = v,
+
         .dt = {
-            .literal = cowl_datatype_vocab_get(v.iri.literal)
+            .literal = cowl_datatype_vocab_get(v.literal)
         },
-        .annot_props = {
-            .comment = cowl_annot_prop_vocab_get(v.iri.comment),
-            .defined_by = cowl_annot_prop_vocab_get(v.iri.defined_by),
-            .label = cowl_annot_prop_vocab_get(v.iri.label),
-            .see_also = cowl_annot_prop_vocab_get(v.iri.see_also)
+
+        .annot_prop = {
+            .comment = cowl_annot_prop_vocab_get(v.comment),
+            .defined_by = cowl_annot_prop_vocab_get(v.defined_by),
+            .label = cowl_annot_prop_vocab_get(v.label),
+            .see_also = cowl_annot_prop_vocab_get(v.see_also)
         }
     };
 }
@@ -51,10 +51,10 @@ void cowl_rdfs_vocab_deinit(void) {
     cowl_iri_vocab_free(vocab.iri.see_also);
 
     cowl_datatype_vocab_free(vocab.dt.literal);
-    cowl_annot_prop_vocab_free(vocab.annot_props.comment);
-    cowl_annot_prop_vocab_free(vocab.annot_props.defined_by);
-    cowl_annot_prop_vocab_free(vocab.annot_props.label);
-    cowl_annot_prop_vocab_free(vocab.annot_props.see_also);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.comment);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.defined_by);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.label);
+    cowl_annot_prop_vocab_free(vocab.annot_prop.see_also);
 }
 
 CowlRDFSVocab* cowl_rdfs_vocab_get(void) {

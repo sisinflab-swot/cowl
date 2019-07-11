@@ -17,11 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/**
- * Represents the type of CowlAnnotValue.
- *
- * @public @memberof CowlAnnotValue
- */
+/// Represents the type of CowlAnnotValue.
 typedef enum CowlAnnotValueType {
 
 /// @name Types

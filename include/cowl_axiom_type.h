@@ -17,11 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/**
- * Represents the type of CowlAxiom.
- *
- * @public @memberof CowlAxiom
- */
+/// Represents the type of CowlAxiom.
 typedef enum CowlAxiomType {
 
 /// @name Declaration/definition

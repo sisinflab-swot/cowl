@@ -26,7 +26,7 @@ cowl_struct_decl(CowlObjPropDomainAxiom);
 /// @endcond
 
 /**
- * Represents [ObjectPropertyDomain] axioms in the OWL 2 specification.
+ * Represents an [ObjectPropertyDomain] axiom in the OWL 2 specification.
  *
  * [ObjectPropertyDomain]: https://www.w3.org/TR/owl2-syntax/#Object_Property_Domain
  *

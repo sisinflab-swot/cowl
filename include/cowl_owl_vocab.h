@@ -27,119 +27,137 @@ cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlString);
 /// @endcond
 
+/// Vocabulary of OWL IRIs.
+typedef cowl_struct(CowlOWLIRIVocab) {
+
+    /// owl:backwardCompatibleWith
+    CowlIRI *backward_comp;
+
+    /// owl:bottomDataProperty
+    CowlIRI *bottom_data_prop;
+
+    /// owl:bottomObjectProperty
+    CowlIRI *bottom_obj_prop;
+
+    /// owl:deprecated
+    CowlIRI *deprecated;
+
+    /// owl:incompatibleWith
+    CowlIRI *incompatible;
+
+    /// owl:Nothing
+    CowlIRI *nothing;
+
+    /// owl:priorVersion
+    CowlIRI *prior_version;
+
+    /// owl:rational
+    CowlIRI *rational;
+
+    /// owl:real
+    CowlIRI *real;
+
+    /// owl:version_info
+    CowlIRI *version_info;
+
+    /// owl:Thing
+    CowlIRI *thing;
+
+    /// owl:topDataProperty
+    CowlIRI *top_data_prop;
+
+    /// owl:topObjectProperty
+    CowlIRI *top_obj_prop;
+
+} const CowlOWLIRIVocab;
+
+/// Vocabulary of OWL classes.
+typedef cowl_struct(CowlOWLClassVocab) {
+
+    /// owl:Thing
+    CowlClass *thing;
+
+    /// owl:Nothing
+    CowlClass *nothing;
+
+} const CowlOWLClassVocab;
+
+/// Vocabulary of OWL datatypes.
+typedef cowl_struct(CowlOWLDatatypeVocab) {
+
+    /// owl:rational
+    CowlDatatype *rational;
+
+    /// owl:real
+    CowlDatatype *real;
+
+} const CowlOWLDatatypeVocab;
+
+/// Vocabulary of OWL object properties.
+typedef cowl_struct(CowlOWLObjPropVocab) {
+
+    /// owl:topObjectProperty
+    CowlObjProp *top_obj_prop;
+
+    /// owl:bottomObjectProperty
+    CowlObjProp *bottom_obj_prop;
+
+} const CowlOWLObjPropVocab;
+
+/// Vocabulary of OWL data properties.
+typedef cowl_struct(CowlOWLDataPropVocab) {
+
+    /// owl:topDataProperty
+    CowlDataProp *top_data_prop;
+
+    /// owl:bottomDataProperty
+    CowlDataProp *bottom_data_prop;
+
+} const CowlOWLDataPropVocab;
+
+/// Vocabulary of OWL annotation properties.
+typedef cowl_struct(CowlOWLAnnotPropVocab) {
+
+    /// owl:backwardCompatibleWith
+    CowlAnnotProp *backward_comp;
+
+    /// owl:deprecated
+    CowlAnnotProp *deprecated;
+
+    /// owl:incompatibleWith
+    CowlAnnotProp *incompatible;
+
+    /// owl:priorVersion
+    CowlAnnotProp *prior_version;
+
+    /// owl:version_info
+    CowlAnnotProp *version_info;
+
+} const CowlOWLAnnotPropVocab;
+
 /// The OWL 2 vocabulary.
 typedef cowl_struct(CowlOWLVocab) {
 
     /// OWL namespace.
     CowlString *ns;
 
-    /// IRIs.
-    struct {
+    /// IRIs sub-vocabulary.
+    CowlOWLIRIVocab iri;
 
-        /// owl:backwardCompatibleWith
-        CowlIRI *backward_comp;
+    /// Classes sub-vocabulary.
+    CowlOWLClassVocab cls;
 
-        /// owl:bottomDataProperty
-        CowlIRI *bottom_data_prop;
+    /// Datatypes sub-vocabulary.
+    CowlOWLDatatypeVocab dt;
 
-        /// owl:bottomObjectProperty
-        CowlIRI *bottom_obj_prop;
+    /// Object properties sub-vocabulary.
+    CowlOWLObjPropVocab obj_prop;
 
-        /// owl:deprecated
-        CowlIRI *deprecated;
+    /// Data properties sub-vocabulary.
+    CowlOWLDataPropVocab data_prop;
 
-        /// owl:incompatibleWith
-        CowlIRI *incompatible;
-
-        /// owl:Nothing
-        CowlIRI *nothing;
-
-        /// owl:priorVersion
-        CowlIRI *prior_version;
-
-        /// owl:rational
-        CowlIRI *rational;
-
-        /// owl:real
-        CowlIRI *real;
-
-        /// owl:version_info
-        CowlIRI *version_info;
-
-        /// owl:Thing
-        CowlIRI *thing;
-
-        /// owl:topDataProperty
-        CowlIRI *top_data_prop;
-
-        /// owl:topObjectProperty
-        CowlIRI *top_obj_prop;
-
-    } iri;
-
-    /// Classes.
-    struct {
-
-        /// owl:Thing
-        CowlClass *thing;
-
-        /// owl:Nothing
-        CowlClass *nothing;
-
-    } cls;
-
-    /// Datatypes
-    struct {
-
-        /// owl:rational
-        CowlDatatype *rational;
-
-        /// owl:real
-        CowlDatatype *real;
-
-    } dt;
-
-    /// Object properties.
-    struct {
-
-        /// owl:topObjectProperty
-        CowlObjProp *top_obj_prop;
-
-        /// owl:bottomObjectProperty
-        CowlObjProp *bottom_obj_prop;
-
-    } obj_props;
-
-    /// Data properties.
-    struct {
-
-        /// owl:topDataProperty
-        CowlDataProp *top_data_prop;
-
-        /// owl:bottomDataProperty
-        CowlDataProp *bottom_data_prop;
-
-    } data_props;
-
-    /// Annotation properties.
-    struct {
-
-        /// owl:backwardCompatibleWith
-        CowlAnnotProp *backward_comp;
-
-        /// owl:deprecated
-        CowlAnnotProp *deprecated;
-
-        /// owl:incompatibleWith
-        CowlAnnotProp *incompatible;
-
-        /// owl:priorVersion
-        CowlAnnotProp *prior_version;
-
-        /// owl:version_info
-        CowlAnnotProp *version_info;
-
-    } annot_props;
+    /// Annotation properties sub-vocabulary.
+    CowlOWLAnnotPropVocab annot_prop;
 
 } const CowlOWLVocab;
 

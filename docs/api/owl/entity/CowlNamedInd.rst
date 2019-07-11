@@ -1,0 +1,5 @@
+=================
+Named Individuals
+=================
+
+.. doxygenstruct:: CowlNamedInd

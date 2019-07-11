@@ -7,8 +7,8 @@ DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "@PROJECT_NAME@"
 PROJECT_NUMBER         = "@PROJECT_VERSION@"
 PROJECT_BRIEF          = "@PROJECT_DESCRIPTION@"
-PROJECT_LOGO           = "@COWL_ICON@"
-OUTPUT_DIRECTORY       = "@COWL_DOCS_OUT_DIR@"
+PROJECT_LOGO           =
+OUTPUT_DIRECTORY       = "@COWL_DOXYGEN_OUT_DIR@"
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -100,7 +100,7 @@ SHOW_USED_FILES        = YES
 SHOW_FILES             = YES
 SHOW_NAMESPACES        = YES
 FILE_VERSION_FILTER    =
-LAYOUT_FILE            = "@COWL_DOXYGEN_LAYOUT@"
+LAYOUT_FILE            =
 CITE_BIB_FILES         =
 #---------------------------------------------------------------------------
 # Configuration options related to warning and progress messages
@@ -117,7 +117,6 @@ WARN_LOGFILE           =
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = "@COWL_README@" \
-                         "@COWL_DOCS_PAGES_DIR@" \
                          "@COWL_PUBLIC_HEADERS_DIR@" \
                          "@COWL_VECTOR_DIR@" \
                          "@COWL_UHASH_DIR@"
@@ -171,10 +170,10 @@ EXCLUDE                =
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       =
 EXCLUDE_SYMBOLS        = __*
-EXAMPLE_PATH           = "@COWL_EXAMPLES_DIR@"
+EXAMPLE_PATH           =
 EXAMPLE_PATTERNS       = *.c
 EXAMPLE_RECURSIVE      = NO
-IMAGE_PATH             = "@COWL_DOCS_DIR@"
+IMAGE_PATH             =
 INPUT_FILTER           =
 FILTER_PATTERNS        =
 FILTER_SOURCE_FILES    = NO
@@ -208,9 +207,9 @@ GENERATE_HTML          = YES
 HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
 HTML_HEADER            =
-HTML_FOOTER            = "@COWL_DOXYGEN_FOOTER@"
+HTML_FOOTER            =
 HTML_STYLESHEET        =
-HTML_EXTRA_STYLESHEET  = "@COWL_DOXYGEN_STYLESHEET@"
+HTML_EXTRA_STYLESHEET  =
 HTML_EXTRA_FILES       =
 HTML_COLORSTYLE_HUE    = 220
 HTML_COLORSTYLE_SAT    = 100
@@ -304,7 +303,7 @@ MAN_LINKS              = NO
 #---------------------------------------------------------------------------
 # Configuration options related to the XML output
 #---------------------------------------------------------------------------
-GENERATE_XML           = NO
+GENERATE_XML           = YES
 XML_OUTPUT             = xml
 XML_PROGRAMLISTING     = YES
 XML_NS_MEMB_FILE_SCOPE = NO
