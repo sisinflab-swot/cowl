@@ -24,7 +24,8 @@ rst_epilog = """
 
 html_theme = 'sphinx_rtd_theme'
 html_theme_options = { 'logo_only': False }
-html_static_path = ['@COWL_SPHINX_SRC_DIR@/_static']
+templates_path = ['@COWL_SPHINX_SRC_DIR@/_templates']
+html_static_path = ['@COWL_SPHINX_SRC_DIR@/_static', '@COWL_DOCS_IMG_DIR@']
 html_logo = logo
 html_short_title = '{} docs'.format(project)
 html_copy_source = False
