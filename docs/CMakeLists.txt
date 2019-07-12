@@ -25,39 +25,35 @@ set(COWL_SPHINX_CONF_OUT "${COWL_SPHINX_OUT_DIR}/conf.py")
 set(COWL_ICON "${COWL_DOCS_IMG_DIR}/cowl_logo.png")
 set(COWL_README "${COWL_PROJECT_DIR}/README.md")
 
-# Documentation target
+# Documentation targets
 
-option(BUILD_DOCS "Generate documentation" ON)
+find_package(Doxygen)
 
-if (BUILD_DOCS)
-    find_package(Doxygen)
+if (DOXYGEN_FOUND)
+    add_custom_target(cowl-doxygen
+                      COMMAND "${DOXYGEN_EXECUTABLE}" "${COWL_DOXYFILE_OUT}"
+                      WORKING_DIRECTORY "${COWL_DOXYGEN_OUT_DIR}"
+                      COMMENT "Generate documentation via Doxygen"
+                      VERBATIM)
 
-    if (DOXYGEN_FOUND)
-        configure_file("${COWL_DOXYFILE_IN}" "${COWL_DOXYFILE_OUT}" @ONLY)
+    find_package(Sphinx)
 
-        add_custom_target(cowl-doxygen-docs ALL
-                          COMMAND "${DOXYGEN_EXECUTABLE}" "${COWL_DOXYFILE_OUT}"
-                          WORKING_DIRECTORY "${COWL_DOXYGEN_OUT_DIR}"
-                          COMMENT "Generate documentation via Doxygen"
+    if (SPHINX_FOUND)
+        add_custom_target(cowl-sphinx
+                          DEPENDS cowl-doxygen
+                          COMMAND "${CMAKE_COMMAND}" -E remove_directory
+                                  "${COWL_SPHINX_HTML_OUT_DIR}"
+                          COMMAND "${SPHINX_EXECUTABLE}" -b html -c "${COWL_SPHINX_OUT_DIR}"
+                                  "${COWL_SPHINX_SRC_DIR}" "${COWL_SPHINX_HTML_OUT_DIR}"
+                          WORKING_DIRECTORY "${COWL_SPHINX_OUT_DIR}"
+                          COMMENT "Generate documentation via Sphinx"
                           VERBATIM)
 
-        find_package(Sphinx)
+        configure_file("${COWL_SPHINX_CONF_IN}" "${COWL_SPHINX_CONF_OUT}" @ONLY)
+        add_custom_target(cowl-docs DEPENDS cowl-sphinx)
+    else()
+        add_custom_target(cowl-docs DEPENDS cowl-doxygen)
+    endif()
 
-        if (SPHINX_FOUND)
-            configure_file("${COWL_SPHINX_CONF_IN}" "${COWL_SPHINX_CONF_OUT}" @ONLY)
-
-            add_custom_target(cowl-sphinx-docs ALL
-                              DEPENDS cowl-doxygen-docs
-                              COMMAND "${SPHINX_EXECUTABLE}"
-                              -b html -c ${COWL_SPHINX_OUT_DIR} -E
-                              ${COWL_SPHINX_SRC_DIR} ${COWL_SPHINX_HTML_OUT_DIR}
-                              WORKING_DIRECTORY ${COWL_SPHINX_OUT_DIR}
-                              COMMENT "Generate documentation via Sphinx"
-                              VERBATIM)
-        endif ()
-    else ()
-        message(WARNING "Doxygen needs to be installed in order to generate the documentation.")
-    endif ()
-else ()
-    message(STATUS "Skipping docs generation...")
-endif ()
+    configure_file("${COWL_DOXYFILE_IN}" "${COWL_DOXYFILE_OUT}" @ONLY)
+endif()

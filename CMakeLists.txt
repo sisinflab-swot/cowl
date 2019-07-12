@@ -6,6 +6,7 @@
 
 cmake_minimum_required(VERSION 3.0)
 cmake_policy(SET CMP0063 NEW)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 
 # Project
 
@@ -38,10 +39,10 @@ set(COWL_DOCS_DIR "${COWL_PROJECT_DIR}/docs")
 set(COWL_EXAMPLES_DIR "${COWL_PROJECT_DIR}/examples")
 set(COWL_TEST_DIR "${COWL_PROJECT_DIR}/test")
 
+set(COWL_HEADERS_OUT_DIR "${COWL_OUTPUT_DIR}/include")
 set(COWL_PARSER_OUT_DIR "${COWL_OUTPUT_DIR}/flex_bison")
-file(MAKE_DIRECTORY "${COWL_PARSER_OUT_DIR}")
 
-set(CMAKE_MODULE_PATH "${COWL_PROJECT_DIR}/cmake" ${CMAKE_MODULE_PATH})
+file(MAKE_DIRECTORY "${COWL_PARSER_OUT_DIR}")
 
 # Flex & Bison
 
@@ -149,10 +150,6 @@ target_compile_options(cowl-static PUBLIC
 target_compile_definitions(cowl-static PUBLIC ${COWL_DEFINES})
 target_include_directories(cowl-static PUBLIC ${COWL_HEADERS_DIRS})
 
-install(TARGETS cowl-static
-        ARCHIVE DESTINATION "${COWL_OUTPUT_DIR}"
-        PUBLIC_HEADER DESTINATION "${COWL_OUTPUT_DIR}/include")
-
 # Shared library
 
 add_library(cowl-shared SHARED
@@ -171,12 +168,27 @@ target_compile_options(cowl-shared PUBLIC
 target_compile_definitions(cowl-shared PUBLIC ${COWL_DEFINES})
 target_include_directories(cowl-shared PUBLIC ${COWL_HEADERS_DIRS})
 
-install(TARGETS cowl-shared
-        LIBRARY DESTINATION "${COWL_OUTPUT_DIR}"
-        PUBLIC_HEADER DESTINATION "${COWL_OUTPUT_DIR}/include")
-
 # Subprojects
 
 add_subdirectory("${COWL_DOCS_DIR}")
 add_subdirectory("${COWL_EXAMPLES_DIR}")
 add_subdirectory("${COWL_TEST_DIR}")
+
+# Main target
+
+option(COWL_BUILD_DOCS "Generate documentation" ON)
+
+add_custom_target(cowl
+                  COMMAND "${CMAKE_COMMAND}" -E remove_directory "${COWL_HEADERS_OUT_DIR}"
+                  COMMAND "${CMAKE_COMMAND}" -E make_directory "${COWL_HEADERS_OUT_DIR}"
+                  COMMAND ${CMAKE_COMMAND} -E copy
+                          ${COWL_ALL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
+                  COMMENT "Build Cowl")
+
+if (COWL_BUILD_DOCS)
+    add_dependencies(cowl cowl-docs)
+else()
+    message(STATUS "Skipping docs generation.")
+endif()
+
+add_dependencies(cowl cowl-static cowl-shared)
