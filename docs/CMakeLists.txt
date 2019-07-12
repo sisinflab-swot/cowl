@@ -23,7 +23,6 @@ set(COWL_DOXYFILE_OUT "${COWL_DOXYGEN_OUT_DIR}/Doxyfile")
 set(COWL_SPHINX_CONF_IN "${COWL_SPHINX_SRC_DIR}/conf.py")
 set(COWL_SPHINX_CONF_OUT "${COWL_SPHINX_OUT_DIR}/conf.py")
 set(COWL_ICON "${COWL_DOCS_IMG_DIR}/cowl_logo.png")
-set(COWL_README "${COWL_PROJECT_DIR}/README.md")
 
 # Documentation targets
 
