@@ -10,7 +10,7 @@ Welcome to Cowl's documentation!
 .. toctree::
    :caption: Getting started
 
-   howto/howto
+   howto/index
    howto/examples
 
 .. toctree::

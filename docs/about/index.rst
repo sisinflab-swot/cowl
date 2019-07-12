@@ -1,3 +1,5 @@
+.. _about:
+
 =============
 What is this?
 =============
@@ -37,6 +39,10 @@ Cowl currently only supports ontologies in **functional syntax**.
 Furthermore, it does not yet provide ontology editing and serialization capabilities.
 We plan to address these shortcomings soon.
 
+Finally, it's important to note that the library is in **early development**, as denoted by
+the `0.x version number <semver_>`_, so expect its API to change between minor releases.
+The public API will be considered stable once we're confident enough to bump it to 1.0.0.
+
 License
 =======
 
@@ -48,6 +54,7 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _owl-cpp: http://owl-cpp.sourceforge.net
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
 .. _Polytechnic University of Bari: http://www.poliba.it
+.. _semver: https://semver.org
 .. _SisInf Lab: http://sisinflab.poliba.it/swottools
 .. _uHash: https://github.com/IvanoBilenchi/uhash
 .. _Vector(T): https://github.com/IvanoBilenchi/vector_t

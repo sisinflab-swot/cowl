@@ -4,8 +4,10 @@
 Examples
 ========
 
-Here is a list of examples that should be enough to get you started.
-They are ordered by complexity, so it's recommended to check them sequentially.
+The following examples are designed to get you started using Cowl.
+They are ordered by complexity, so it's recommended that you read them sequentially.
+
+.. contents:: :local:
 
 .. highlight:: c
    :linenothreshold: 5
