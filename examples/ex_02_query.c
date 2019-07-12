@@ -1,6 +1,7 @@
 /*
- * In this example we will be logging the direct atomic subclasses of a certain class.
- * Note that error and imports handling are omitted for the sake of simplicity.
+ * In this example we will be logging the direct atomic subclasses
+ * of a certain class. Note that error and imports handling are omitted
+ * for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -53,7 +54,8 @@ static bool for_each_cls(void *ctx, CowlClsExp *exp) {
     // We are only interested in atomic classes.
     if (cowl_cls_exp_get_type(exp) != COWL_CET_CLASS) return true;
 
-    // Pseudo-inheritance allows us to simply cast a class expression to the desired type.
+    // Pseudo-inheritance allows us to simply cast a class expression
+    // to the desired type.
     CowlClass *cls = (CowlClass *)exp;
 
     // Log the IRI remainder.

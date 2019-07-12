@@ -1,5 +1,6 @@
 /*
- * This example is the same as ex_00_base.c, except error and imports handling are included.
+ * This example is the same as ex_00_base.c,
+ * except error and imports handling are included.
  *
  * @author Ivano Bilenchi
  *
@@ -27,7 +28,8 @@ int main(void) {
     cowl_parser_release(parser);
 
     // Log the errors, if any.
-    cowl_logger_logf(logger, "Ontology parsed with %d error(s).\n", vector_count(errors));
+    cowl_uint_t error_count = vector_count(errors);
+    cowl_logger_logf(logger, "Ontology parsed with %d error(s).\n", error_count);
     cowl_logger_log_errors(logger, errors);
 
     if (onto) {
@@ -41,9 +43,10 @@ int main(void) {
 }
 
 /*
- * You should return the appropriate ontology given the specified IRI. This may involve
- * making network requests or simply retrieving the imported ontology from the local filesystem.
- * In this example we just return a generic local "import.owl" ontology, disregarding its IRI.
+ * You should return the appropriate ontology given the specified IRI.
+ * This may involve making network requests or simply retrieving
+ * the imported ontology from the local filesystem. In this example
+ * we just return a generic local "import.owl" ontology, disregarding its IRI.
  */
 static CowlOntology* load_imports(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
                                   Vector(CowlError) *errors) {
