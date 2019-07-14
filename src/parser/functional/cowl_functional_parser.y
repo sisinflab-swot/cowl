@@ -954,7 +954,7 @@ datatype_definition
 has_key
     :   HAS_KEY L_PAREN annotation_star class_expression
             L_PAREN object_property_expression_star R_PAREN
-            L_PAREN data_property_expression_star L_PAREN
+            L_PAREN data_property_expression_star R_PAREN
         R_PAREN {
         $$ = (CowlAxiom *)cowl_has_key_axiom_get($4, $6, $9, $3);
         cowl_cls_exp_release($4);
