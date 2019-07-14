@@ -18,11 +18,11 @@ static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *
     cowl_uint_t hash;
 
     if (range) {
-        hash = cowl_hash_4(COWL_HASH_INIT_OBJ_CARD, type, cardinality,
+        hash = cowl_hash_4(COWL_HASH_INIT_DATA_CARD, type, cardinality,
                            cowl_data_prop_exp_hash(prop), cowl_data_range_hash(range));
         cowl_data_range_retain(range);
     } else {
-        hash = cowl_hash_3(COWL_HASH_INIT_OBJ_CARD, type, cardinality,
+        hash = cowl_hash_3(COWL_HASH_INIT_DATA_CARD, type, cardinality,
                            cowl_data_prop_exp_hash(prop));
     }
 
@@ -47,7 +47,7 @@ static void cowl_data_card_free(CowlDataCard *restr) {
 
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
                                CowlDataRange *range, cowl_uint_t cardinality) {
-    return cowl_data_card_alloc(COWL_CET_OBJ_MIN_CARD + type, prop, range, cardinality);
+    return cowl_data_card_alloc(COWL_CET_DATA_MIN_CARD + type, prop, range, cardinality);
 }
 
 CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) {
@@ -61,7 +61,7 @@ void cowl_data_card_release(CowlDataCard *restr) {
 }
 
 CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
-    return (CowlCardType)(restr->super.type - COWL_CET_OBJ_MIN_CARD);
+    return (CowlCardType)(restr->super.type - COWL_CET_DATA_MIN_CARD);
 }
 
 CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {
