@@ -170,23 +170,26 @@
 
 // Destructors
 
-%destructor { cowl_ontology_release($$); } <CowlOntology *>
-%destructor { cowl_axiom_release($$); } <CowlAxiom *>
-%destructor { cowl_iri_release($$); } <CowlIRI *>
-%destructor { cowl_entity_release($$); } <CowlEntity>
-%destructor { cowl_class_release($$); } <CowlClass *>
-%destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
-%destructor { cowl_data_prop_release($$); } <CowlDataProp *>
-%destructor { cowl_named_ind_release($$); } <CowlNamedInd *>
-%destructor { cowl_datatype_release($$); } <CowlDatatype *>
+%destructor { cowl_annotation_release($$); } <CowlAnnotation *>
 %destructor { cowl_annot_prop_release($$); } <CowlAnnotProp *>
+%destructor { cowl_annot_value_release($$); } <CowlAnnotValue>
+%destructor { cowl_axiom_release($$); } <CowlAxiom *>
+%destructor { cowl_class_release($$); } <CowlClass *>
 %destructor { cowl_cls_exp_release($$); } <CowlClsExp *>
-%destructor { cowl_individual_release($$); } <CowlIndividual *>
-%destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
+%destructor { cowl_data_prop_release($$); } <CowlDataProp *>
 %destructor { cowl_data_prop_exp_release($$); } <CowlDataPropExp *>
 %destructor { cowl_data_range_release($$); } <CowlDataRange *>
+%destructor { cowl_datatype_release($$); } <CowlDatatype *>
+%destructor { cowl_entity_release($$); } <CowlEntity>
 %destructor { cowl_facet_restr_release($$); } <CowlFacetRestr *>
+%destructor { cowl_individual_release($$); } <CowlIndividual *>
+%destructor { cowl_iri_release($$); } <CowlIRI *>
 %destructor { cowl_literal_release($$); } <CowlLiteral *>
+%destructor { cowl_named_ind_release($$); } <CowlNamedInd *>
+%destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
+%destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
+%destructor { cowl_ontology_release($$); } <CowlOntology *>
+%destructor { cowl_ontology_id_free($$); } <CowlOntologyID *>
 %destructor { cowl_string_release($$); } <CowlString *>
 %destructor { cowl_cls_exp_set_free($$); } <UHash(CowlClsExpSet)*>
 %destructor { cowl_data_prop_exp_set_free($$); } <UHash(CowlDataPropExpSet)*>
@@ -629,19 +632,17 @@ cardinality
 ;
 
 data_some_values_from
-    : DATA_SOME_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN {
-        CowlDataPropExp *exp = uhset_get_any(CowlDataPropExpSet, $3, NULL);
-        $$ = (CowlClsExp *)cowl_data_quant_get(COWL_QT_SOME, exp, $4);
-        cowl_data_prop_exp_set_free($3);
+    : DATA_SOME_VALUES_FROM L_PAREN data_property_expression data_range R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_quant_get(COWL_QT_SOME, $3, $4);
+        cowl_data_prop_exp_release($3);
         cowl_data_range_release($4);
     }
 ;
 
 data_all_values_from
-    : DATA_ALL_VALUES_FROM L_PAREN data_property_expression_list data_range R_PAREN {
-        CowlDataPropExp *exp = uhset_get_any(CowlDataPropExpSet, $3, NULL);
-        $$ = (CowlClsExp *)cowl_data_quant_get(COWL_QT_ALL, exp, $4);
-        cowl_data_prop_exp_set_free($3);
+    : DATA_ALL_VALUES_FROM L_PAREN data_property_expression data_range R_PAREN {
+        $$ = (CowlClsExp *)cowl_data_quant_get(COWL_QT_ALL, $3, $4);
+        cowl_data_prop_exp_release($3);
         cowl_data_range_release($4);
     }
 ;
