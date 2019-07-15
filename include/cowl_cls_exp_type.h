@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlClsExp.
 typedef enum CowlClsExpType {
 
-    /// CowlClass: class.
+    /// CowlClass - class.
         COWL_CET_CLASS,
 
 /// @name Object property restrictions

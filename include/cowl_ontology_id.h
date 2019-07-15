@@ -26,7 +26,9 @@ cowl_struct_decl(CowlOntologyID);
  * An object that identifies an ontology.
  *
  * @struct CowlOntologyID
- * @see https://www.w3.org/TR/owl2-syntax/#Ontology_IRI_and_Version_IRI
+ * @see [Ontology IRI and version IRI]
+ *
+ * [Ontology IRI and version IRI]: https://www.w3.org/TR/owl2-syntax/#Ontology_IRI_and_Version_IRI
  */
 
 /**

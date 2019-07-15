@@ -39,7 +39,7 @@ cowl_struct_decl(CowlLogger);
 /**
  * Provides logging facilities.
  *
- * A logger instance can log either to stdout, to file or to a memory buffer.
+ * A logger instance can log either to stdout or to a file.
  *
  * @struct CowlLogger
  */

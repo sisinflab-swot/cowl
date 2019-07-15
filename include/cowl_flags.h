@@ -97,7 +97,7 @@ COWL_BEGIN_DECLS
 #define cowl_flags_unset(OPTIONS, OPTION) ((OPTIONS) &= ~(OPTION))
 
 /**
- * Use this directive to toggle in a bitmask.
+ * Use this directive to toggle bits in a bitmask.
  *
  * @param OPTIONS Bitmask.
  * @param OPTION Bits to toggle.

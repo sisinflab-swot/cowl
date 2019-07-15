@@ -26,7 +26,7 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
 /// @endcond
 
 /**
- * Represents [ObjectPropertyAssertion] and [NegativeObjectPropertyAssertion] axioms
+ * Represents an [ObjectPropertyAssertion] or [NegativeObjectPropertyAssertion] axiom
  * in the OWL 2 specification.
  *
  * [ObjectPropertyAssertion]:

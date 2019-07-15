@@ -22,10 +22,10 @@ typedef enum CowlNAryType {
 
 /// @name Types
 
-    /// Intersection of class expressions.
+    /// Intersection.
         COWL_NT_INTERSECT,
 
-    /// Union of class expressions.
+    /// Union.
         COWL_NT_UNION,
 
 /// @name Markers

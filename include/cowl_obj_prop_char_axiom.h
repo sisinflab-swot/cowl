@@ -26,9 +26,9 @@ cowl_struct_decl(CowlObjPropCharAxiom);
 /// @endcond
 
 /**
- * Represents [FunctionalObjectProperty], [InverseFunctionalObjectProperty],
+ * Represents a [FunctionalObjectProperty], [InverseFunctionalObjectProperty],
  * [SymmetricObjectProperty], [AsymmetricObjectProperty], [TransitiveObjectProperty],
- * [ReflexiveObjectProperty] and [IrreflexiveObjectProperty] axioms in the OWL 2 specification.
+ * [ReflexiveObjectProperty] or [IrreflexiveObjectProperty] axiom in the OWL 2 specification.
  *
  * [FunctionalObjectProperty]:
  * https://www.w3.org/TR/owl2-syntax/#Functional_Object_Properties

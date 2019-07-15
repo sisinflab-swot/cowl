@@ -136,6 +136,7 @@ COWL_PUBLIC
 cowl_uint_t cowl_literal_hash(CowlLiteral *literal);
 
 /**
+ * Iterates over the signature of the specified literal.
  *
  * @param literal The literal.
  * @param iter The entity iterator.

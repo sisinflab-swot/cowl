@@ -125,7 +125,7 @@ COWL_PUBLIC
 cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot);
 
 /**
- * Iterates over the signature of the specified Annotation.
+ * Iterates over the signature of the specified annotation.
  *
  * @param annot The annotation.
  * @param iter The entity iterator.
