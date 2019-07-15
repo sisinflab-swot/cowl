@@ -122,6 +122,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_ontology_imports_count(CowlOntology *onto);
 
 /**
+ * Gets the number of axioms of the specified type.
+ *
+ * @param onto The ontology.
+ * @param type The axiom type.
+ * @return Number of axioms.
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type);
+
+/**
  * Gets the number of axioms referencing the specified annotation property.
  *
  * @param onto The ontology.

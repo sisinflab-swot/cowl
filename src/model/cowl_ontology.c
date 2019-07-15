@@ -118,6 +118,16 @@ cowl_uint_t cowl_ontology_imports_count(CowlOntology *onto) {
     return count;
 }
 
+cowl_uint_t cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type) {
+    cowl_uint_t count = uhash_count(onto->axioms_by_type[type]);
+
+    vector_foreach(CowlOntologyPtr, onto->imports, import, {
+        count += cowl_ontology_axiom_count_for_type(import, type);
+    });
+
+    return count;
+}
+
 cowl_uint_t cowl_ontology_axiom_count_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop) {
     CowlAxiomSet *axioms = uhmap_get(CowlAnnotPropAxiomMap, onto->annot_prop_refs, prop, NULL);
     cowl_uint_t count = uhash_count(axioms);
