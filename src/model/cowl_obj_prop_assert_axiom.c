@@ -23,7 +23,7 @@ static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType ty
                                          cowl_obj_prop_exp_hash(prop));
 
     CowlObjPropAssertAxiom init = {
-        .super = COWL_AXIOM_INIT(COWL_AT_OBJ_PROP_ASSERT, hash, annot),
+        .super = COWL_AXIOM_INIT(type, hash, annot),
         .subject = cowl_individual_retain(source),
         .object = cowl_individual_retain(target),
         .prop_exp = cowl_obj_prop_exp_retain(prop)
