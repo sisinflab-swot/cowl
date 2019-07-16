@@ -16,7 +16,7 @@ project(Cowl
         HOMEPAGE_URL "http://sisinflab.poliba.it/swottools/cowl"
         LANGUAGES C)
 
-set(COWL_VENDOR "SisInf Lab")
+set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
 set(COWL_COPYRIGHT_YEAR "2019")
 set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
@@ -35,6 +35,7 @@ set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
 set(COWL_LOGGER_DIR "${COWL_SRC_DIR}/logger")
 set(COWL_FUNCTIONAL_PARSER_DIR "${COWL_PARSER_DIR}/functional")
 
+set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
 set(COWL_DOCS_DIR "${COWL_PROJECT_DIR}/docs")
 set(COWL_EXAMPLES_DIR "${COWL_PROJECT_DIR}/examples")
 set(COWL_TEST_DIR "${COWL_PROJECT_DIR}/test")
@@ -119,6 +120,17 @@ endif ()
 
 # Compiler flags
 
+if (COWL_EMBEDDED)
+    message(STATUS "Embedded build selected")
+    set(COWL_DEFINES VECTOR_TINY UHASH_TINY)
+
+    if (MSVC)
+        set(COWL_DEFAULT_RELEASE_FLAGS /Os /GL /W4)
+    else()
+        set(COWL_DEFAULT_RELEASE_FLAGS -Os -flto -Wall -Wextra)
+    endif()
+endif()
+
 if (NOT COWL_DEBUG_FLAGS)
     set(COWL_DEBUG_FLAGS ${COWL_DEFAULT_DEBUG_FLAGS})
 endif ()
@@ -126,11 +138,6 @@ endif ()
 if (NOT COWL_RELEASE_FLAGS)
     set(COWL_RELEASE_FLAGS ${COWL_DEFAULT_RELEASE_FLAGS})
 endif ()
-
-if (COWL_EMBEDDED)
-    message(STATUS "Embedded build selected")
-    set(COWL_DEFINES VECTOR_TINY UHASH_TINY)
-endif()
 
 # Static library
 
