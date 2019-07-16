@@ -132,6 +132,7 @@ void cowl_str_buf_append_facet_restr_set(CowlStrBuf *buf, CowlFacetRestrSet *set
 void cowl_str_buf_append_individual_set(CowlStrBuf *buf, CowlIndividualSet *set);
 void cowl_str_buf_append_literal_set(CowlStrBuf *buf, CowlLiteralSet *set);
 void cowl_str_buf_append_obj_prop_exp_set(CowlStrBuf *buf, CowlObjPropExpSet *set);
+void cowl_str_buf_append_annotation_vec(CowlStrBuf *buf, CowlAnnotationVec *vec);
 void cowl_str_buf_append_obj_prop_exp_vec(CowlStrBuf *buf, CowlObjPropExpVec *vec);
 
 // Output

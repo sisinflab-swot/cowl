@@ -116,6 +116,7 @@ void cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id) {
 void cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation) {
     cowl_str_buf_append_static(buf, "Annotation");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, annotation->annot);
     cowl_str_buf_append_annot_prop(buf, annotation->prop);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_annot_value(buf, annotation->value);
@@ -641,6 +642,7 @@ void cowl_str_buf_append_axiom(CowlStrBuf *buf, CowlAxiom *axiom) {
 void cowl_str_buf_append_decl_axiom(CowlStrBuf *buf, CowlDeclAxiom *axiom) {
     cowl_str_buf_append_static(buf, "Declaration");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_entity(buf, axiom->entity);
     cowl_str_buf_append_static(buf, ")");
 }
@@ -649,6 +651,7 @@ void cowl_str_buf_append_datatype_def_axiom(CowlStrBuf *buf, CowlDatatypeDefAxio
     cowl_str_buf_append_static(buf, "Datatype");
     cowl_str_buf_append_static(buf, "Definition");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_entity(buf, cowl_entity_wrap_datatype(axiom->datatype));
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_data_range(buf, axiom->range);
@@ -660,6 +663,7 @@ void cowl_str_buf_append_sub_cls_axiom(CowlStrBuf *buf, CowlSubClsAxiom *axiom) 
     cowl_str_buf_append_static(buf, "Class");
     cowl_str_buf_append_static(buf, "Of");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_cls_exp(buf, axiom->sub_class);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_cls_exp(buf, axiom->super_class);
@@ -675,6 +679,7 @@ void cowl_str_buf_append_nary_cls_axiom(CowlStrBuf *buf, CowlNAryClsAxiom *axiom
     cowl_str_buf_append_static(buf, "Class");
     cowl_str_buf_append_static(buf, "es");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_cls_exp_set(buf, axiom->classes);
     cowl_str_buf_append_static(buf, ")");
 }
@@ -683,6 +688,7 @@ void cowl_str_buf_append_disj_union_axiom(CowlStrBuf *buf, CowlDisjUnionAxiom *a
     cowl_str_buf_append_static(buf, "Disjoint");
     cowl_str_buf_append_static(buf, "Union");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_cls_exp(buf, (CowlClsExp *)axiom->cls);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_cls_exp_set(buf, axiom->disjoints);
@@ -693,6 +699,7 @@ void cowl_str_buf_append_cls_assert(CowlStrBuf *buf, CowlClsAssertAxiom *axiom) 
     cowl_str_buf_append_static(buf, "Class");
     cowl_str_buf_append_static(buf, "Assertion");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_individual(buf, axiom->ind);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_cls_exp(buf, axiom->cls_exp);
@@ -709,6 +716,7 @@ void cowl_str_buf_append_nary_ind_axiom(CowlStrBuf *buf, CowlNAryIndAxiom *axiom
         cowl_str_buf_append_static(buf, "s");
     }
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_individual_set(buf, axiom->individuals);
     cowl_str_buf_append_static(buf, ")");
 }
@@ -721,6 +729,7 @@ void cowl_str_buf_append_obj_prop_assert(CowlStrBuf *buf, CowlObjPropAssertAxiom
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Assertion");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_individual(buf, axiom->subject);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
@@ -737,6 +746,7 @@ void cowl_str_buf_append_data_prop_assert(CowlStrBuf *buf, CowlDataPropAssertAxi
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Assertion");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_individual(buf, axiom->subject);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_data_prop_exp(buf, axiom->prop);
@@ -751,6 +761,7 @@ void cowl_str_buf_append_sub_obj_prop_axiom(CowlStrBuf *buf, CowlSubObjPropAxiom
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Of");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_obj_prop_exp(buf, axiom->sub_prop);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_obj_prop_exp(buf, axiom->super_prop);
@@ -768,6 +779,7 @@ void cowl_str_buf_append_sub_obj_prop_chain_axiom(CowlStrBuf *buf,
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Chain");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_obj_prop_exp_vec(buf, axiom->sub_props);
     cowl_str_buf_append_static(buf, ") ");
     cowl_str_buf_append_obj_prop_exp(buf, axiom->super_prop);
@@ -779,6 +791,7 @@ void cowl_str_buf_append_inv_obj_prop_axiom(CowlStrBuf *buf, CowlInvObjPropAxiom
     cowl_str_buf_append_static(buf, "Object");
     cowl_str_buf_append_static(buf, "Properties");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_obj_prop_exp(buf, axiom->first);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_obj_prop_exp(buf, axiom->second);
@@ -794,6 +807,7 @@ void cowl_str_buf_append_nary_obj_prop_axiom(CowlStrBuf *buf, CowlNAryObjPropAxi
     cowl_str_buf_append_static(buf, "Object");
     cowl_str_buf_append_static(buf, "Properties");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_obj_prop_exp_set(buf, axiom->props);
     cowl_str_buf_append_static(buf, ")");
 }
@@ -834,6 +848,7 @@ void cowl_str_buf_append_obj_prop_char(CowlStrBuf *buf, CowlObjPropCharAxiom *ax
     cowl_str_buf_append_static(buf, "Object");
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
     cowl_str_buf_append_static(buf, ")");
 }
@@ -843,6 +858,7 @@ void cowl_str_buf_append_obj_prop_domain(CowlStrBuf *buf, CowlObjPropDomainAxiom
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Domain");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_cls_exp(buf, axiom->domain);
@@ -854,6 +870,7 @@ void cowl_str_buf_append_obj_prop_range(CowlStrBuf *buf, CowlObjPropRangeAxiom *
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Range");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_cls_exp(buf, axiom->range);
@@ -866,6 +883,7 @@ void cowl_str_buf_append_sub_data_prop_axiom(CowlStrBuf *buf, CowlSubDataPropAxi
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Of");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_data_prop_exp(buf, axiom->sub_prop);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_data_prop_exp(buf, axiom->super_prop);
@@ -881,6 +899,7 @@ void cowl_str_buf_append_nary_data_prop_axiom(CowlStrBuf *buf, CowlNAryDataPropA
     cowl_str_buf_append_static(buf, "Data");
     cowl_str_buf_append_static(buf, "Properties");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_data_prop_exp_set(buf, axiom->props);
     cowl_str_buf_append_static(buf, ")");
 }
@@ -890,6 +909,7 @@ void cowl_str_buf_append_func_data_prop_axiom(CowlStrBuf *buf, CowlFuncDataPropA
     cowl_str_buf_append_static(buf, "Data");
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_data_prop_exp(buf, axiom->prop);
     cowl_str_buf_append_static(buf, ")");
 }
@@ -899,6 +919,7 @@ void cowl_str_buf_append_data_prop_domain(CowlStrBuf *buf, CowlDataPropDomainAxi
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Domain");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_data_prop_exp(buf, axiom->prop_exp);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_cls_exp(buf, axiom->domain);
@@ -910,6 +931,7 @@ void cowl_str_buf_append_data_prop_range(CowlStrBuf *buf, CowlDataPropRangeAxiom
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Range");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_data_prop_exp(buf, axiom->prop_exp);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_data_range(buf, axiom->range);
@@ -920,6 +942,7 @@ void cowl_str_buf_append_has_key_axiom(CowlStrBuf *buf, CowlHasKeyAxiom *axiom) 
     cowl_str_buf_append_static(buf, "Has");
     cowl_str_buf_append_static(buf, "Key");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_cls_exp(buf, axiom->cls_exp);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_obj_prop_exp_set(buf, axiom->obj_props);
@@ -932,6 +955,7 @@ void cowl_str_buf_append_annot_assert(CowlStrBuf *buf, CowlAnnotAssertAxiom *axi
     cowl_str_buf_append_static(buf, "Annotation");
     cowl_str_buf_append_static(buf, "Assertion");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_annot_value(buf, axiom->subject);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_annot_prop(buf, axiom->prop);
@@ -946,6 +970,7 @@ void cowl_str_buf_append_sub_annot_prop_axiom(CowlStrBuf *buf, CowlSubAnnotPropA
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Of");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_annot_prop(buf, axiom->sub_prop);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_annot_prop(buf, axiom->super_prop);
@@ -958,6 +983,7 @@ void cowl_str_buf_append_annot_prop_domain_axiom(CowlStrBuf *buf,
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Domain");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_annot_prop(buf, axiom->prop);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_iri(buf, axiom->domain);
@@ -970,6 +996,7 @@ void cowl_str_buf_append_annot_prop_range_axiom(CowlStrBuf *buf,
     cowl_str_buf_append_static(buf, "Property");
     cowl_str_buf_append_static(buf, "Range");
     cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
     cowl_str_buf_append_annot_prop(buf, axiom->prop);
     cowl_str_buf_append_static(buf, " ");
     cowl_str_buf_append_iri(buf, axiom->range);
@@ -1038,6 +1065,15 @@ void cowl_str_buf_append_obj_prop_exp_set(CowlStrBuf *buf, CowlObjPropExpSet *se
     uhash_foreach_key(CowlObjPropExpSet, set, prop, {
         cowl_str_buf_append_obj_prop_exp(buf, prop);
         if (current++ < last) cowl_str_buf_append_static(buf, " ");
+    });
+}
+
+void cowl_str_buf_append_annotation_vec(CowlStrBuf *buf, CowlAnnotationVec *vec) {
+    cowl_uint_t last = vector_count(vec);
+
+    vector_iterate(CowlAnnotationPtr, vec, annot, idx, {
+        cowl_str_buf_append_annotation(buf, annot);
+        if (idx < last) cowl_str_buf_append_static(buf, " ");
     });
 }
 
