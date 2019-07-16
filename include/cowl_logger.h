@@ -94,36 +94,6 @@ void cowl_logger_release(CowlLogger *logger);
 /// @name State
 
 /**
- * Initializes the logger, ensuring its destination is correctly set up.
- * The effect depends on the logger type:
- *
- * - Console/Null: no effect.
- *
- * - File: opens the file in append mode.
- *
- * @param logger The logger.
- *
- * @public @memberof CowlLogger
- */
-COWL_PUBLIC
-void cowl_logger_open(CowlLogger *logger);
-
-/**
- * Deinitializes the logger, tearing down its destination.
- * The effect depends on the logger type:
- *
- * - Console/Null: no effect.
- *
- * - File: closes the file.
- *
- * @param logger The logger.
- *
- * @public @memberof CowlLogger
- */
-COWL_PUBLIC
-void cowl_logger_close(CowlLogger *logger);
-
-/**
  * Clears the logger, removing anything it has logged in the past.
  * The effect depends on the logger type:
  *
