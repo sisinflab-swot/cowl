@@ -21,6 +21,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_hash_decl(CowlClsExpSet);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlNAryBool);
 /// @endcond
 
@@ -88,6 +89,19 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp);
  */
 COWL_PUBLIC
 CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp);
+
+/**
+ * Returns the string representation of the specified N-ary boolean class expression.
+ *
+ * @param exp The expression.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
+CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp);
 
 /**
  * Equality function.

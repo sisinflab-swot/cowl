@@ -76,6 +76,19 @@ COWL_PUBLIC
 CowlIRI* cowl_datatype_get_iri(CowlDatatype *dt);
 
 /**
+ * Returns the string representation of the specified datatype.
+ *
+ * @param dt The datatype.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlDatatype
+ */
+COWL_PUBLIC
+CowlString* cowl_datatype_to_string(CowlDatatype *dt);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

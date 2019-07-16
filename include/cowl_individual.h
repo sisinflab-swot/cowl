@@ -62,6 +62,19 @@ COWL_PUBLIC
 bool cowl_individual_is_named(CowlIndividual *ind);
 
 /**
+ * Returns the string representation of the specified individual.
+ *
+ * @param ind The individual.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlIndividual
+ */
+COWL_PUBLIC
+CowlString* cowl_individual_to_string(CowlIndividual *ind);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

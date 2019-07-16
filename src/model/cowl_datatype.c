@@ -11,6 +11,7 @@
 #include "cowl_datatype_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
+#include "cowl_str_buf.h"
 
 UHASH_MAP_INIT(CowlDatatypeMap, CowlIRI*, CowlDatatype*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlDatatypeMap) *inst_map = NULL;
@@ -66,6 +67,12 @@ void cowl_datatype_release(CowlDatatype *dt) {
 
 CowlIRI* cowl_datatype_get_iri(CowlDatatype *dt) {
     return dt->iri;
+}
+
+CowlString* cowl_datatype_to_string(CowlDatatype *dt) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_datatype(buf, dt);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {

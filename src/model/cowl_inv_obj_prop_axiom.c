@@ -10,6 +10,7 @@
 
 #include "cowl_inv_obj_prop_axiom_private.h"
 #include "cowl_obj_prop_exp.h"
+#include "cowl_str_buf.h"
 
 static CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_alloc(CowlObjPropExp *first,
                                                           CowlObjPropExp *second,
@@ -61,6 +62,12 @@ CowlObjPropExp* cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axi
 
 CowlAnnotationVec* cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_inv_obj_prop_axiom_to_string(CowlInvObjPropAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_inv_obj_prop_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_inv_obj_prop_axiom_equals(CowlInvObjPropAxiom *lhs, CowlInvObjPropAxiom *rhs) {

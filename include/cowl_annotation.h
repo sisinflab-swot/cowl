@@ -102,6 +102,19 @@ COWL_PUBLIC
 CowlAnnotationVec* cowl_annotation_get_annot(CowlAnnotation *annot);
 
 /**
+ * Returns the string representation of the specified annotation.
+ *
+ * @param annot The annotation.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlAnnotation
+ */
+COWL_PUBLIC
+CowlString* cowl_annotation_to_string(CowlAnnotation *annot);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

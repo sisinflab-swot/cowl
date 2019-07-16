@@ -11,6 +11,7 @@
 #include "cowl_nary_bool_private.h"
 #include "cowl_cls_exp_set.h"
 #include "cowl_hash_utils.h"
+#include "cowl_str_buf.h"
 
 static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlClsExpSet *operands) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
@@ -52,6 +53,12 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
 
 CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
     return exp->operands;
+}
+
+CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_nary_bool(buf, exp);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {

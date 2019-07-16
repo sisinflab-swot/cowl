@@ -103,6 +103,19 @@ COWL_PUBLIC
 CowlAnnotationVec* cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom);
 
 /**
+ * Returns the string representation of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObjPropRangeAxiom
+ */
+COWL_PUBLIC
+CowlString* cowl_obj_prop_range_axiom_to_string(CowlObjPropRangeAxiom *axiom);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

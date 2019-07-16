@@ -9,7 +9,7 @@
  */
 
 #include "cowl_node_id.h"
-#include "cowl_string.h"
+#include "cowl_str_buf.h"
 
 CowlNodeID cowl_node_id_get_unique(void) {
     static CowlNodeID current = 0;
@@ -17,5 +17,7 @@ CowlNodeID cowl_node_id_get_unique(void) {
 }
 
 CowlString* cowl_node_id_to_string(CowlNodeID id) {
-    return cowl_string_with_format("_:id%llu", id);
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_node_id(buf, id);
+    return cowl_str_buf_to_string(buf);
 }

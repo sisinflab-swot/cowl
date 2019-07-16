@@ -76,6 +76,19 @@ COWL_PUBLIC
 CowlIndividualSet* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
 
 /**
+ * Returns the string representation of the specified individual enumeration.
+ *
+ * @param exp The individual enumeration.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObjOneOf
+ */
+COWL_PUBLIC
+CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

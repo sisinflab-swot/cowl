@@ -30,6 +30,7 @@
 #include "cowl_obj_prop_char_axiom.h"
 #include "cowl_obj_prop_domain_axiom.h"
 #include "cowl_obj_prop_range_axiom.h"
+#include "cowl_str_buf.h"
 #include "cowl_sub_annot_prop_axiom.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sub_data_prop_axiom.h"
@@ -94,6 +95,12 @@ void cowl_axiom_release(CowlAxiom *axiom) {
 
 CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
     return cowl_axiom_flags_get_type(axiom->flags);
+}
+
+CowlString* cowl_axiom_to_string(CowlAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {

@@ -10,8 +10,8 @@
 
 #include "cowl_obj_one_of_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_individual.h"
 #include "cowl_individual_set.h"
+#include "cowl_str_buf.h"
 
 static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *inds) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF,
@@ -49,6 +49,12 @@ void cowl_obj_one_of_release(CowlObjOneOf *exp) {
 
 CowlIndividualSet* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
     return exp->inds;
+}
+
+CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_one_of(buf, exp);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {

@@ -11,6 +11,7 @@
 #include "cowl_data_prop_domain_axiom_private.h"
 #include "cowl_cls_exp.h"
 #include "cowl_data_prop_exp.h"
+#include "cowl_str_buf.h"
 
 static CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_alloc(CowlDataPropExp *prop,
                                                                   CowlClsExp *domain,
@@ -62,6 +63,12 @@ CowlClsExp* cowl_data_prop_domain_axiom_get_domain(CowlDataPropDomainAxiom *axio
 
 CowlAnnotationVec* cowl_data_prop_domain_axiom_get_annot(CowlDataPropDomainAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_data_prop_domain_axiom_to_string(CowlDataPropDomainAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_data_prop_domain(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_data_prop_domain_axiom_equals(CowlDataPropDomainAxiom *lhs,

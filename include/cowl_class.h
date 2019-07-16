@@ -20,6 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlClass);
 /// @endcond
 
@@ -74,6 +75,19 @@ void cowl_class_release(CowlClass *cls);
  */
 COWL_PUBLIC
 CowlIRI* cowl_class_get_iri(CowlClass *cls);
+
+/**
+ * Returns the string representation of the specified class.
+ *
+ * @param cls The class.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlClass
+ */
+COWL_PUBLIC
+CowlString* cowl_class_to_string(CowlClass *cls);
 
 /**
  * Equality function.

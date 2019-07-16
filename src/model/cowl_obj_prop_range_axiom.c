@@ -11,6 +11,7 @@
 #include "cowl_obj_prop_range_axiom_private.h"
 #include "cowl_cls_exp.h"
 #include "cowl_obj_prop_exp.h"
+#include "cowl_str_buf.h"
 
 static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *prop,
                                                               CowlClsExp *range,
@@ -62,6 +63,12 @@ CowlClsExp* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
 
 CowlAnnotationVec* cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_obj_prop_range_axiom_to_string(CowlObjPropRangeAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_prop_range(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRangeAxiom *rhs) {

@@ -13,6 +13,7 @@
 #include "cowl_facet_restr_set.h"
 #include "cowl_datatype.h"
 #include "cowl_hash_utils.h"
+#include "cowl_str_buf.h"
 
 static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
                                                     CowlFacetRestrSet *restrictions) {
@@ -58,6 +59,12 @@ CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
 
 CowlFacetRestrSet* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
     return restr->restrictions;
+}
+
+CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_datatype_restr(buf, restr);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {

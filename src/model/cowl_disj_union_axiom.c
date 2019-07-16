@@ -11,6 +11,7 @@
 #include "cowl_disj_union_axiom_private.h"
 #include "cowl_class.h"
 #include "cowl_cls_exp_set.h"
+#include "cowl_str_buf.h"
 
 static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlClsExpSet *disjoints,
                                                        CowlAnnotationVec *annot) {
@@ -61,6 +62,12 @@ CowlClsExpSet* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
 
 CowlAnnotationVec* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_disj_union_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs) {

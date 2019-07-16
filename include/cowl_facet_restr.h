@@ -88,6 +88,19 @@ COWL_PUBLIC
 CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr);
 
 /**
+ * Returns the string representation of the specified facet restriction.
+ *
+ * @param restr The facet restriction.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlFacetRestr
+ */
+COWL_PUBLIC
+CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

@@ -25,6 +25,7 @@ cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlObjProp);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlNamedInd);
 /// @endcond
 
@@ -226,6 +227,19 @@ void cowl_entity_release(CowlEntity entity);
  */
 COWL_PUBLIC
 CowlIRI* cowl_entity_get_iri(CowlEntity entity);
+
+/**
+ * Returns the string representation of the specified entity.
+ *
+ * @param entity The entity.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlEntity
+ */
+COWL_PUBLIC
+CowlString* cowl_entity_to_string(CowlEntity entity);
 
 /**
  * Equality function.

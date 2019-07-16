@@ -13,6 +13,7 @@
 #include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_string_private.h"
+#include "cowl_str_buf.h"
 
 UHASH_SET_INIT(CowlNSSet, CowlString*, cowl_string_hash, cowl_string_equals)
 static UHash(CowlNSSet) *ns_set = NULL;
@@ -111,7 +112,9 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri) {
 }
 
 CowlString* cowl_iri_to_string(CowlIRI *iri) {
-    return cowl_string_concat(iri->ns, iri->rem);
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_iri(buf, iri);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {

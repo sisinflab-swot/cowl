@@ -58,7 +58,7 @@ static bool for_each_cls(void *ctx, CowlClsExp *exp) {
     CowlClass *cls = (CowlClass *)exp;
     CowlIRI *iri = cowl_class_get_iri(cls);
 
-    cowl_logger_log_string(logger, cowl_iri_get_rem(iri));
+    cowl_logger_log(logger, cowl_iri_get_rem(iri));
     cowl_logger_logf(logger, "\n");
 
     // Recurse.

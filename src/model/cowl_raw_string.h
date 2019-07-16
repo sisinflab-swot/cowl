@@ -40,7 +40,6 @@ CowlRawString cowl_raw_string_with_format(char const *format, ...);
 CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args);
 CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *strings);
 
-
 COWL_END_DECLS
 
 #endif // COWL_RAW_STRING_H

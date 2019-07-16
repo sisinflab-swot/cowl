@@ -137,7 +137,7 @@ CowlAnnotValue cowl_annot_value_retain(CowlAnnotValue value);
 void cowl_annot_value_release(CowlAnnotValue value);
 
 /**
- * Gets the string representation of the specified annotation value.
+ * Returns the string representation of the specified annotation value.
  *
  * @param value The annotation value.
  * @return String representation.

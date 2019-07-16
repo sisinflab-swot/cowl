@@ -10,6 +10,7 @@
 
 #include "cowl_annot_assert_axiom_private.h"
 #include "cowl_annot_prop.h"
+#include "cowl_str_buf.h"
 
 static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue subject,
                                                            CowlAnnotProp *prop,
@@ -69,6 +70,12 @@ CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
 
 CowlAnnotationVec* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_annot_assert_axiom_to_string(CowlAnnotAssertAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_annot_assert(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_annot_assert_axiom_equals(CowlAnnotAssertAxiom *lhs, CowlAnnotAssertAxiom *rhs) {

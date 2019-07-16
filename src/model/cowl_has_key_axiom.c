@@ -12,6 +12,7 @@
 #include "cowl_cls_exp.h"
 #include "cowl_data_prop_exp_set.h"
 #include "cowl_obj_prop_exp_set.h"
+#include "cowl_str_buf.h"
 
 static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObjPropExpSet *obj_props,
                                                  CowlDataPropExpSet *data_props,
@@ -71,6 +72,12 @@ CowlDataPropExpSet* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
 
 CowlAnnotationVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_has_key_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {

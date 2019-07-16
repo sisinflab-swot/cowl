@@ -11,6 +11,7 @@
 #include "cowl_annot_prop_private.h"
 #include "cowl_iri.h"
 #include "cowl_iterator_private.h"
+#include "cowl_str_buf.h"
 
 UHASH_MAP_INIT(CowlAnnotPropMap, CowlIRI*, CowlAnnotProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlAnnotPropMap) *inst_map = NULL;
@@ -59,6 +60,12 @@ void cowl_annot_prop_release(CowlAnnotProp *prop) {
 
 CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
     return prop->iri;
+}
+
+CowlString* cowl_annot_prop_to_string(CowlAnnotProp *prop) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_annot_prop(buf, prop);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs) {

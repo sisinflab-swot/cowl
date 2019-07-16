@@ -64,6 +64,19 @@ COWL_PUBLIC
 CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom);
 
 /**
+ * Returns the string representation of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlAxiom
+ */
+COWL_PUBLIC
+CowlString* cowl_axiom_to_string(CowlAxiom *axiom);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

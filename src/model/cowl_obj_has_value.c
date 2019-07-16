@@ -12,6 +12,7 @@
 #include "cowl_hash_utils.h"
 #include "cowl_individual.h"
 #include "cowl_obj_prop_exp.h"
+#include "cowl_str_buf.h"
 
 static CowlObjHasValue* cowl_obj_has_value_alloc(CowlObjPropExp *prop, CowlIndividual *ind) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_HAS_VALUE,
@@ -57,6 +58,13 @@ CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
 CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
     return exp->ind;
 }
+
+CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_has_value(buf, exp);
+    return cowl_str_buf_to_string(buf);
+}
+
 
 bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs) {
     return cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&

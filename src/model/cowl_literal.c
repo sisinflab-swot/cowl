@@ -15,6 +15,7 @@
 #include "cowl_iterator_private.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_string.h"
+#include "cowl_str_buf.h"
 
 static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_LITERAL,
@@ -72,23 +73,9 @@ CowlString* cowl_literal_get_lang(CowlLiteral *literal) {
 }
 
 CowlString* cowl_literal_to_string(CowlLiteral *literal) {
-    CowlString *ret;
-    CowlString *dt_str = cowl_iri_to_string(cowl_datatype_get_iri(literal->dt));
-
-    if (cowl_string_get_length(literal->lang)) {
-        ret = cowl_string_with_format("\"%s\"@%s^^%s",
-                                      cowl_string_get_cstring(literal->value),
-                                      cowl_string_get_cstring(literal->lang),
-                                      cowl_string_get_cstring(dt_str));
-    } else {
-        ret = cowl_string_with_format("\"%s\"^^%s",
-                                      cowl_string_get_cstring(literal->value),
-                                      cowl_string_get_cstring(dt_str));
-    }
-
-    cowl_string_release(dt_str);
-
-    return ret;
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_literal(buf, literal);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {

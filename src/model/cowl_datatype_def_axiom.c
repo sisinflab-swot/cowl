@@ -11,6 +11,7 @@
 #include "cowl_datatype_def_axiom_private.h"
 #include "cowl_data_range.h"
 #include "cowl_datatype.h"
+#include "cowl_str_buf.h"
 
 static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *dt,
                                                            CowlDataRange *range,
@@ -62,6 +63,12 @@ CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
 
 CowlAnnotationVec* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_datatype_def_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAxiom *rhs) {

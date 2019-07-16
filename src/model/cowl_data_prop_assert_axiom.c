@@ -12,6 +12,7 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_individual.h"
 #include "cowl_literal.h"
+#include "cowl_str_buf.h"
 
 static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType type,
                                                                   CowlIndividual *source,
@@ -86,6 +87,12 @@ CowlDataPropExp* cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *a
 
 CowlAnnotationVec* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_data_prop_assert_axiom_to_string(CowlDataPropAssertAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_data_prop_assert(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs,

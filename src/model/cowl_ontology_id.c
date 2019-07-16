@@ -11,6 +11,7 @@
 #include "cowl_ontology_id_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iri.h"
+#include "cowl_str_buf.h"
 
 CowlOntologyID* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri) {
     CowlOntologyID init = {
@@ -40,6 +41,12 @@ CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyID *id) {
 
 CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyID *id) {
     return id->version_iri;
+}
+
+CowlString* cowl_ontology_id_to_string(CowlOntologyID *id) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_ontology_id(buf, id);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_ontology_id_equals(CowlOntologyID *lhs, CowlOntologyID *rhs) {

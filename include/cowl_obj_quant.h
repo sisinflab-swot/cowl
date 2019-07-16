@@ -22,6 +22,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlObjPropExp);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlObjQuant);
 /// @endcond
 
@@ -101,6 +102,19 @@ CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr);
  */
 COWL_PUBLIC
 CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
+
+/**
+ * Returns the string representation of the specified object quantifier.
+ *
+ * @param restr The object quantifier.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
+CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr);
 
 /**
  * Equality function.

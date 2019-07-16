@@ -11,6 +11,7 @@
 #include "cowl_class_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
+#include "cowl_str_buf.h"
 
 UHASH_MAP_INIT(CowlClassMap, CowlIRI*, CowlClass*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlClassMap) *inst_map = NULL;
@@ -66,6 +67,12 @@ void cowl_class_release(CowlClass *cls) {
 
 CowlIRI* cowl_class_get_iri(CowlClass *cls) {
     return cls->iri;
+}
+
+CowlString* cowl_class_to_string(CowlClass *cls) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_class(buf, cls);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {

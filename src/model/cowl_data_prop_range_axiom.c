@@ -11,6 +11,7 @@
 #include "cowl_data_prop_range_axiom_private.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
+#include "cowl_str_buf.h"
 
 static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp *prop,
                                                                 CowlDataRange *range,
@@ -62,6 +63,12 @@ CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axio
 
 CowlAnnotationVec* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_data_prop_range_axiom_to_string(CowlDataPropRangeAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_data_prop_range(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataPropRangeAxiom *rhs) {

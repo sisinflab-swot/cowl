@@ -11,6 +11,7 @@
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_inv_obj_prop_private.h"
 #include "cowl_obj_prop_private.h"
+#include "cowl_str_buf.h"
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
     return cowl_object_retain(prop);
@@ -36,6 +37,12 @@ CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp) {
     } else {
         return (CowlObjProp *)exp;
     }
+}
+
+CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_prop_exp(buf, exp);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {

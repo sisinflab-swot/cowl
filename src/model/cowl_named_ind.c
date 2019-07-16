@@ -11,6 +11,7 @@
 #include "cowl_named_ind_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
+#include "cowl_str_buf.h"
 
 UHASH_MAP_INIT(CowlNamedIndMap, CowlIRI*, CowlNamedInd*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlNamedIndMap) *inst_map = NULL;
@@ -62,6 +63,12 @@ void cowl_named_ind_release(CowlNamedInd *ind) {
 
 CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind) {
     return ind->iri;
+}
+
+CowlString* cowl_named_ind_to_string(CowlNamedInd *ind) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_named_ind(buf, ind);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) {

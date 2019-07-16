@@ -86,7 +86,20 @@ CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp);
  * @public @memberof CowlObjHasValue
  */
 COWL_PUBLIC
-CowlIndividual* cowl_obj_has_value_get_individual(CowlObjHasValue *exp);
+CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp);
+
+/**
+ * Returns the string representation of the specified value restriction.
+ *
+ * @param exp The restriction.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
+CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp);
 
 /**
  * Equality function.

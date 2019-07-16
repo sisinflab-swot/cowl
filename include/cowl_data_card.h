@@ -118,6 +118,19 @@ COWL_PUBLIC
 cowl_uint_t cowl_data_card_get_cardinality(CowlDataCard *restr);
 
 /**
+ * Returns the string representation of the specified restriction.
+ *
+ * @param restr The restriction.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlDataCard
+ */
+COWL_PUBLIC
+CowlString* cowl_data_card_to_string(CowlDataCard *restr);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

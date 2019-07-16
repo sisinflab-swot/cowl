@@ -10,6 +10,7 @@
 
 #include "cowl_decl_axiom_private.h"
 #include "cowl_iterator_private.h"
+#include "cowl_str_buf.h"
 
 static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity, CowlAnnotationVec *annot) {
     cowl_uint_t hash = cowl_axiom_hash_1(COWL_HASH_INIT_DECL_AXIOM, annot,
@@ -51,6 +52,12 @@ CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
 
 CowlAnnotationVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_decl_axiom_to_string(CowlDeclAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_decl_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {

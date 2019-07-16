@@ -10,6 +10,7 @@
 
 #include "cowl_nary_data_prop_axiom_private.h"
 #include "cowl_data_prop_exp_set.h"
+#include "cowl_str_buf.h"
 
 static CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_alloc(CowlAxiomType type,
                                                               CowlDataPropExpSet *props,
@@ -61,6 +62,12 @@ CowlDataPropExpSet* cowl_nary_data_prop_axiom_get_props(CowlNAryDataPropAxiom *a
 
 CowlAnnotationVec* cowl_nary_data_prop_axiom_get_annot(CowlNAryDataPropAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_nary_data_prop_axiom_to_string(CowlNAryDataPropAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_nary_data_prop_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_nary_data_prop_axiom_equals(CowlNAryDataPropAxiom *lhs, CowlNAryDataPropAxiom *rhs) {

@@ -20,6 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlNamedInd);
 /// @endcond
 
@@ -74,6 +75,19 @@ void cowl_named_ind_release(CowlNamedInd *ind);
  */
 COWL_PUBLIC
 CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind);
+
+/**
+ * Returns the string representation of the specified named individual.
+ *
+ * @param ind The named individual.
+ * @return  String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlNamedInd
+ */
+COWL_PUBLIC
+CowlString* cowl_named_ind_to_string(CowlNamedInd *ind);
 
 /**
  * Equality function.

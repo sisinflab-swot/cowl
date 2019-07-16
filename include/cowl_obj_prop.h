@@ -20,6 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlObjProp);
 /// @endcond
 
@@ -74,6 +75,19 @@ void cowl_obj_prop_release(CowlObjProp *prop);
  */
 COWL_PUBLIC
 CowlIRI* cowl_obj_prop_get_iri(CowlObjProp *prop);
+
+/**
+ * Returns the string representation of the specified object property.
+ *
+ * @param prop The object property.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObjProp
+ */
+COWL_PUBLIC
+CowlString* cowl_obj_prop_to_string(CowlObjProp *prop);
 
 /**
  * Equality function.

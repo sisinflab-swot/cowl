@@ -65,6 +65,19 @@ COWL_PUBLIC
 CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range);
 
 /**
+ * Returns the string representation of the specified data range.
+ *
+ * @param range The data range.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlDataRange
+ */
+COWL_PUBLIC
+CowlString* cowl_data_range_to_string(CowlDataRange *range);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

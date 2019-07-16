@@ -92,11 +92,7 @@ static void test_parser(void) {
 
     cowl_logger_logf(logger, "Ontology parsed in %.2f ms with %d errors.\n",
                      stop - start, vector_count(errors));
-
-    vector_foreach(CowlError, errors, error, {
-        cowl_logger_log_error(logger, error);
-        cowl_logger_logf(logger, "\n");
-    });
+    cowl_logger_log_errors(logger, errors);
 
     cowl_ontology_release(ontology);
     cowl_parser_release(parser);

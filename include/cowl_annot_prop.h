@@ -20,6 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlAnnotProp);
 /// @endcond
 
@@ -73,6 +74,19 @@ void cowl_annot_prop_release(CowlAnnotProp *prop);
  */
 COWL_PUBLIC
 CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop);
+
+/**
+ * Returns the string representation of the specified annotation property.
+ *
+ * @param prop The annotation property.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
+CowlString* cowl_annot_prop_to_string(CowlAnnotProp *prop);
 
 /**
  * Equality function.

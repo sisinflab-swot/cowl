@@ -11,6 +11,7 @@
 #include "cowl_obj_quant_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
+#include "cowl_str_buf.h"
 
 static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                           CowlClsExp *filler) {
@@ -59,6 +60,12 @@ CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) {
 
 CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr) {
     return restr->filler;
+}
+
+CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_quant(buf, restr);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {

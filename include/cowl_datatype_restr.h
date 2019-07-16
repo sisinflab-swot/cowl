@@ -88,6 +88,19 @@ COWL_PUBLIC
 CowlFacetRestrSet* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr);
 
 /**
+ * Returns the string representation of the specified datatype restriction.
+ *
+ * @param restr The datatype restriction.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlDatatypeRestr
+ */
+COWL_PUBLIC
+CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

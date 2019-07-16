@@ -12,6 +12,7 @@
 #include "cowl_anon_ind.h"
 #include "cowl_iri.h"
 #include "cowl_literal.h"
+#include "cowl_str_buf.h"
 
 CowlAnnotValue cowl_annot_value_retain(CowlAnnotValue value) {
 
@@ -48,19 +49,9 @@ void cowl_annot_value_release(CowlAnnotValue value) {
 }
 
 CowlString* cowl_annot_value_to_string(CowlAnnotValue value) {
-
-#define GEN_CASE_TO_STRING(CET, PREFIX, FIELD) \
-    case CET: return PREFIX##_to_string(value.FIELD)
-
-    switch (value.type) {
-
-        GEN_CASE_TO_STRING(COWL_AVT_IRI, cowl_iri, iri);
-        GEN_CASE_TO_STRING(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_TO_STRING(COWL_AVT_LITERAL, cowl_literal, literal);
-
-        default:
-            return NULL;
-    }
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_annot_value(buf, value);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_annot_value_equals(CowlAnnotValue lhs, CowlAnnotValue rhs) {

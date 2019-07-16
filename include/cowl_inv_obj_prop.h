@@ -76,6 +76,19 @@ COWL_PUBLIC
 CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv);
 
 /**
+ * Returns the string representation of the specified inverse object property.
+ *
+ * @param inv The inverse object property.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlInvObjProp
+ */
+COWL_PUBLIC
+CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

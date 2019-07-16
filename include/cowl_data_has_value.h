@@ -89,6 +89,19 @@ COWL_PUBLIC
 CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr);
 
 /**
+ * Returns the string representation of the specified restriction.
+ *
+ * @param restr The restriction.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlDataHasValue
+ */
+COWL_PUBLIC
+CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

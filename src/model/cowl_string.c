@@ -12,8 +12,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
 
-#include <assert.h>
-#include <stdarg.h>
 #include <stdio.h>
 
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {

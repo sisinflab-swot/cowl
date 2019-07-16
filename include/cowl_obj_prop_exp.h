@@ -75,6 +75,19 @@ COWL_PUBLIC
 CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
 
 /**
+ * Returns the string representation of the specified object property expression.
+ *
+ * @param exp The object property expression.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObjPropExp
+ */
+COWL_PUBLIC
+CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

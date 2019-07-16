@@ -102,6 +102,19 @@ COWL_PUBLIC
 CowlAnnotationVec* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom);
 
 /**
+ * Returns the string representation of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlDatatypeDefAxiom
+ */
+COWL_PUBLIC
+CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

@@ -31,7 +31,7 @@ static CowlRawString cowl_error_code_description(CowlErrorCode code) {
 }
 
 CowlString* cowl_error_to_string(CowlError error) {
-    size_t n_comp = 4;
+    cowl_uint_t n_comp = 4;
     CowlRawString comp[n_comp];
 
     if (error.line) {

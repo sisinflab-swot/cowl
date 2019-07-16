@@ -12,6 +12,7 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
+#include "cowl_str_buf.h"
 
 static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *prop,
                                           CowlDataRange *range, cowl_uint_t cardinality) {
@@ -74,6 +75,12 @@ CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr) {
 
 cowl_uint_t cowl_data_card_get_cardinality(CowlDataCard *restr) {
     return restr->cardinality;
+}
+
+CowlString* cowl_data_card_to_string(CowlDataCard *restr) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_data_card(buf, restr);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {

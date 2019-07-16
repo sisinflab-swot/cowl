@@ -10,6 +10,7 @@
 
 #include "cowl_nary_cls_axiom_private.h"
 #include "cowl_cls_exp_set.h"
+#include "cowl_str_buf.h"
 
 static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlClsExpSet *classes,
                                                    CowlAnnotationVec *annot) {
@@ -58,6 +59,12 @@ CowlClsExpSet *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
 
 CowlAnnotationVec* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
+}
+
+CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_nary_cls_axiom(buf, axiom);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {

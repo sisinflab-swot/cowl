@@ -23,6 +23,7 @@ cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlIRI);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 cowl_struct_decl(CowlAnnotPropDomainAxiom);
+cowl_struct_decl(CowlString);
 /// @endcond
 
 /**
@@ -101,6 +102,19 @@ CowlIRI* cowl_annot_prop_domain_axiom_get_domain(CowlAnnotPropDomainAxiom *axiom
  */
 COWL_PUBLIC
 CowlAnnotationVec* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axiom);
+
+/**
+ * Returns the string representation of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlAnnotPropDomainAxiom
+ */
+COWL_PUBLIC
+CowlString* cowl_annot_prop_domain_axiom_to_string(CowlAnnotPropDomainAxiom *axiom);
 
 /**
  * Equality function.

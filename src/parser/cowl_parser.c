@@ -10,11 +10,11 @@
 
 #include "cowl_parser_private.h"
 #include "cowl_annotation_vec.h"
-#include "cowl_error.h"
+//#include "cowl_error.h"
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
 #include "cowl_iri_private.h"
-#include "cowl_node_id.h"
+//#include "cowl_node_id.h"
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
 

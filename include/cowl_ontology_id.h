@@ -19,6 +19,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlOntologyID);
 /// @endcond
 
@@ -57,6 +58,18 @@ CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyID *id);
 COWL_PUBLIC
 CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyID *id);
 
+/**
+ * Returns the string representation of the specified ontology ID.
+ *
+ * @param id The ontology ID.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlOntologyID
+ */
+COWL_PUBLIC
+CowlString* cowl_ontology_id_to_string(CowlOntologyID *id);
 
 /**
  * Equality function.

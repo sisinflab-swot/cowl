@@ -60,7 +60,7 @@ static bool for_each_cls(void *ctx, CowlClsExp *exp) {
 
     // Log the IRI remainder.
     CowlIRI *iri = cowl_class_get_iri(cls);
-    cowl_logger_log_string(ctx, cowl_iri_get_rem(iri));
+    cowl_logger_log(ctx, cowl_iri_get_rem(iri));
     cowl_logger_logf(ctx, "\n");
 
     return true;

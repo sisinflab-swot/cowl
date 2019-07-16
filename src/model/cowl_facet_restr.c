@@ -11,6 +11,7 @@
 #include "cowl_facet_restr_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
+#include "cowl_str_buf.h"
 
 static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *value) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, facet, cowl_literal_hash(value));
@@ -46,6 +47,12 @@ CowlFacet cowl_facet_restr_get_facet(CowlFacetRestr *restr) {
 
 CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr) {
     return restr->value;
+}
+
+CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_facet_restr(buf, restr);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs) {

@@ -12,6 +12,7 @@
 #include "cowl_annotation_vec.h"
 #include "cowl_annot_prop.h"
 #include "cowl_hash_utils.h"
+#include "cowl_str_buf.h"
 
 static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue value,
                                              CowlAnnotationVec *annot) {
@@ -65,6 +66,12 @@ CowlAnnotValue cowl_annotation_get_value(CowlAnnotation *annot) {
 
 CowlAnnotationVec* cowl_annotation_get_annot(CowlAnnotation *annot) {
     return annot->annot;
+}
+
+CowlString* cowl_annotation_to_string(CowlAnnotation *annot) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_annotation(buf, annot);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {

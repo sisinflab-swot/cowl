@@ -12,6 +12,7 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
+#include "cowl_str_buf.h"
 
 static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp *prop,
                                             CowlDataRange *range) {
@@ -61,6 +62,12 @@ CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
 
 CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr) {
     return restr->range;
+}
+
+CowlString* cowl_data_quant_to_string(CowlDataQuant *restr) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_data_quant(buf, restr);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {

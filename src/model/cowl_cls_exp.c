@@ -20,6 +20,7 @@
 #include "cowl_obj_has_value.h"
 #include "cowl_obj_one_of.h"
 #include "cowl_obj_quant.h"
+#include "cowl_str_buf.h"
 
 CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
     return cowl_object_retain(exp);
@@ -59,6 +60,12 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
 
 CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
     return exp->type;
+}
+
+CowlString* cowl_cls_exp_to_string(CowlClsExp *exp) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_cls_exp(buf, exp);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {

@@ -76,7 +76,7 @@ COWL_PUBLIC
 CowlNodeID cowl_anon_ind_get_id(CowlAnonInd *ind);
 
 /**
- * Gets the string representation of the specified anonymous individual.
+ * Returns the string representation of the specified anonymous individual.
  *
  * @param ind The anonymous individual.
  * @return String representation.

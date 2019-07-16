@@ -76,6 +76,19 @@ COWL_PUBLIC
 CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp);
 
 /**
+ * Returns the string representation of the specified class expression complement.
+ *
+ * @param exp The class expression complement.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObjCompl
+ */
+COWL_PUBLIC
+CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

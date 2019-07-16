@@ -12,6 +12,7 @@
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_literal_set.h"
+#include "cowl_str_buf.h"
 
 static CowlDataOneOf* cowl_data_one_of_alloc(CowlLiteralSet *values) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_literal_set_hash(values));
@@ -48,6 +49,12 @@ void cowl_data_one_of_release(CowlDataOneOf *range) {
 
 CowlLiteralSet* cowl_data_one_of_get_values(CowlDataOneOf *range) {
     return range->values;
+}
+
+CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_data_one_of(buf, range);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {

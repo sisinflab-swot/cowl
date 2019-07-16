@@ -10,6 +10,7 @@
 
 #include "cowl_anon_ind_private.h"
 #include "cowl_string.h"
+#include "cowl_str_buf.h"
 
 UHASH_MAP_INIT(CowlAnonIndMap, CowlNodeID, CowlAnonInd*,
                cowl_node_id_hash, cowl_node_id_equals)
@@ -64,7 +65,9 @@ CowlNodeID cowl_anon_ind_get_id(CowlAnonInd *ind) {
 }
 
 CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind) {
-    return cowl_node_id_to_string(ind->id);
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_anon_ind(buf, ind);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {

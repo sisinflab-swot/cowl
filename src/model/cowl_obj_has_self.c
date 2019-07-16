@@ -11,6 +11,7 @@
 #include "cowl_obj_has_self_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
+#include "cowl_str_buf.h"
 
 static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(prop));
@@ -47,6 +48,12 @@ void cowl_obj_has_self_release(CowlObjHasSelf *exp) {
 
 CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
     return exp->prop;
+}
+
+CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_has_self(buf, exp);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {

@@ -64,6 +64,19 @@ COWL_PUBLIC
 CowlDataProp* cowl_data_prop_exp_get_prop(CowlDataPropExp *exp);
 
 /**
+ * Returns the string representation of the specified data property expression.
+ *
+ * @param exp The data property expression.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlDataPropExp
+ */
+COWL_PUBLIC
+CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

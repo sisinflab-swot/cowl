@@ -9,20 +9,9 @@
  */
 
 #include "cowl_raw_string.h"
+#include "cowl_str_buf.h"
 
-#include <assert.h>
-#include <stdarg.h>
 #include <stdio.h>
-
-static cowl_uint_t cowl_cstring_length_of_formatted(char const *format, va_list argptr) {
-    va_list args;
-    va_copy(args, argptr);
-    int res = vsnprintf(NULL, 0, format, args);
-    va_end(args);
-
-    assert(res >= 0);
-    return (cowl_uint_t)res;
-}
 
 CowlRawString cowl_raw_string_init(char const *cstring, cowl_uint_t length, bool copy) {
     return (CowlRawString){
@@ -32,7 +21,7 @@ CowlRawString cowl_raw_string_init(char const *cstring, cowl_uint_t length, bool
 }
 
 CowlRawString cowl_raw_string_init_cstring(char const *cstring, bool copy) {
-    return cowl_raw_string_init(cstring, strlen(cstring), copy);
+    return cowl_raw_string_init(cstring, (cowl_uint_t)strlen(cstring), copy);
 }
 
 bool cowl_raw_string_equals(CowlRawString lhs, CowlRawString rhs) {
@@ -74,26 +63,17 @@ CowlRawString cowl_raw_string_with_format(char const *format, ...) {
 }
 
 CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args) {
-    cowl_uint_t length = cowl_cstring_length_of_formatted(format, args);
-    size_t size = (length + 1) * sizeof(char);
-    char *cstring = malloc(size);
-    vsnprintf(cstring, size, format, args);
-    return cowl_raw_string_init(cstring, length, false);
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_format_list(buf, format, args);
+    return cowl_str_buf_to_raw_string(buf);
 }
 
 CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *strings) {
-    cowl_uint_t total_length = 0;
-    for (cowl_uint_t i = 0; i < count; ++i) total_length += strings[i].length;
-
-    char *const buffer = malloc((total_length + 1) * sizeof(*buffer));
-    char *buffer_ptr = buffer;
+    CowlStrBuf *buf = cowl_str_buf_alloc();
 
     for (cowl_uint_t i = 0; i < count; ++i) {
-        CowlRawString string = strings[i];
-        memcpy(buffer_ptr, string.cstring, string.length * sizeof(*buffer));
-        buffer_ptr += string.length;
+        cowl_str_buf_append_raw_string(buf, strings[i]);
     }
 
-    buffer[total_length] = '\0';
-    return cowl_raw_string_init(buffer, total_length, false);
+    return cowl_str_buf_to_raw_string(buf);
 }

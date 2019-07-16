@@ -10,6 +10,7 @@
 
 #include "cowl_inv_obj_prop_private.h"
 #include "cowl_obj_prop.h"
+#include "cowl_str_buf.h"
 
 UHASH_MAP_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInvObjProp*,
                cowl_obj_prop_hash, cowl_obj_prop_equals)
@@ -62,6 +63,12 @@ void cowl_inv_obj_prop_release(CowlInvObjProp *inv) {
 
 CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) {
     return inv->prop;
+}
+
+CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_inv_obj_prop(buf, inv);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs) {

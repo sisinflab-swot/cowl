@@ -11,6 +11,7 @@
 #include "cowl_obj_card_private.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_hash_utils.h"
+#include "cowl_str_buf.h"
 
 static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                         CowlClsExp *filler, cowl_uint_t cardinality) {
@@ -73,6 +74,12 @@ CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) {
 
 cowl_uint_t cowl_obj_card_get_cardinality(CowlObjCard *restr) {
     return restr->cardinality;
+}
+
+CowlString* cowl_obj_card_to_string(CowlObjCard *restr) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_card(buf, restr);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {

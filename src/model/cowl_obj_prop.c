@@ -11,6 +11,7 @@
 #include "cowl_obj_prop_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
+#include "cowl_str_buf.h"
 
 UHASH_MAP_INIT(CowlObjPropMap, CowlIRI*, CowlObjProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlObjPropMap) *inst_map = NULL;
@@ -59,6 +60,12 @@ void cowl_obj_prop_release(CowlObjProp *prop) {
 
 CowlIRI* cowl_obj_prop_get_iri(CowlObjProp *prop) {
     return prop->iri;
+}
+
+CowlString* cowl_obj_prop_to_string(CowlObjProp *prop) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_obj_prop(buf, prop);
+    return cowl_str_buf_to_string(buf);
 }
 
 bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) {
