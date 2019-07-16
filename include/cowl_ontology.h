@@ -31,6 +31,7 @@ cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlOntologyID);
+cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 cowl_struct_decl(CowlOntology);
 /// @endcond
 
@@ -73,6 +74,17 @@ void cowl_ontology_release(CowlOntology *onto);
  */
 COWL_PUBLIC
 CowlOntologyID* cowl_ontology_get_id(CowlOntology *onto);
+
+/**
+ * Gets the annotations of the specified ontology.
+ *
+ * @param onto The ontology.
+ * @return The annotations.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+CowlAnnotationVec* cowl_ontology_get_annot(CowlOntology *onto);
 
 /**
  * Equality function.

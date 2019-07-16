@@ -86,6 +86,10 @@ CowlOntologyID* cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
 }
 
+CowlAnnotationVec* cowl_ontology_get_annot(CowlOntology *onto) {
+    return onto->annotations;
+}
+
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
     return lhs == rhs || cowl_ontology_id_equals(lhs->id, rhs->id);
 }
