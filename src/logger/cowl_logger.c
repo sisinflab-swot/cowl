@@ -83,6 +83,24 @@ static void cowl_logger_free(CowlLogger *logger) {
     free((void *)logger);
 }
 
+static bool imports_logger(void *ctx, CowlOntology *import) {
+    CowlIRI *iri = cowl_ontology_id_get_onto_iri(cowl_ontology_get_id(import));
+
+    cowl_logger_logf(ctx, "\n");
+    cowl_logger_logf(ctx, "Imports");
+    cowl_logger_logf(ctx, "(");
+
+    if (iri) {
+        cowl_logger_consume(ctx, cowl_iri_to_string(iri));
+    } else {
+        cowl_logger_logf(ctx, "anon(%p)", (void *)import);
+    }
+
+    cowl_logger_logf(ctx, ")");
+
+    return true;
+}
+
 static bool entity_logger(void *ctx, CowlEntity entity) {
     cowl_logger_consume(ctx, cowl_entity_to_string(entity));
     cowl_logger_logf(ctx, "\n");
@@ -100,7 +118,11 @@ static void cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntology *on
     cowl_logger_logf(logger, "(");
     cowl_logger_consume(logger, cowl_ontology_id_to_string(onto->id));
 
-    vector_foreach(CowlAnnotationPtr, onto->annotations, annot, {
+    CowlOntologyIterator iter = cowl_iterator_init(logger, imports_logger);
+    cowl_ontology_iterate_imports(onto, &iter);
+
+    CowlAnnotationVec *annotations = cowl_ontology_get_annot(onto);
+    vector_foreach(CowlAnnotationPtr, annotations, annot, {
         cowl_logger_logf(logger, "\n");
         cowl_logger_consume(logger, cowl_annotation_to_string(annot));
     });
