@@ -1,0 +1,1087 @@
+Prefix(:=<http://visualdataweb.de/ontobench/ontology/1/>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://visualdataweb.de/ontobench/ontology/1/>
+Import(<http://sisinflab.poliba.it/swottools/test_import>)
+Annotation(<http://purl.org/dc/elements/1.1/contributor> "Vincent Link"^^xsd:string)
+Annotation(<http://purl.org/dc/elements/1.1/creator> "Ontology Visualization Benchmark Generator"^^xsd:string)
+Annotation(<http://purl.org/dc/elements/1.1/date> "2019-07-14"^^xsd:string)
+Annotation(<http://purl.org/dc/elements/1.1/description> "Benchmark ontology created with the Ontology Visualization Benchmark Generator"^^xsd:string)
+Annotation(<http://purl.org/dc/elements/1.1/identifier> "http://visualdataweb.de/ontobench/ontology/1/"^^xsd:string)
+Annotation(<http://purl.org/dc/elements/1.1/publisher> "Ontology Visualization Benchmark Generator"^^xsd:string)
+Annotation(<http://purl.org/dc/elements/1.1/title> "Benchmark Ontology"^^xsd:string)
+Annotation(<http://purl.org/dc/terms/date> "2019-07-14"^^xsd:string)
+Annotation(<http://purl.org/dc/terms/description> "Benchmark ontology created with the Ontology Visualization Benchmark Generator"^^xsd:string)
+Annotation(<http://purl.org/dc/terms/identifier> "http://visualdataweb.de/ontobench/ontology/1/"^^xsd:string)
+Annotation(<http://purl.org/dc/terms/title> "Benchmark Ontology"^^xsd:string)
+Annotation(rdfs:comment "Benchmark ontology created with the Ontology Visualization Benchmark Generator"^^xsd:string)
+Annotation(rdfs:isDefinedBy <http://visualdataweb.de/ontobench/>)
+Annotation(rdfs:label "Benchmark Ontology"^^xsd:string)
+Annotation(rdfs:seeAlso <http://visualdataweb.de/ontobench/>)
+Annotation(owl:backwardCompatibleWith <http://ontovibe.visualdataweb.org/minimal/>)
+Annotation(owl:imports <http://ontovibe.visualdataweb.org/minimal/>)
+Annotation(owl:incompatibleWith <http://ontovibe.visualdataweb.org/>)
+Annotation(owl:priorVersion <http://ontovibe.visualdataweb.org/>)
+Annotation(owl:versionInfo "1.0"^^xsd:string)
+Annotation(owl:versionIri <http://visualdataweb.de/ontobench/ontology/1/>)
+
+Declaration(Class(:AllDisjointClasses_Class1))
+Declaration(Class(:AllDisjointClasses_Class2))
+Declaration(Class(:AllDisjointClasses_Class3))
+Declaration(Class(:AsymmetricObjectPropertyRange))
+Declaration(Class(:BottomObjectPropertyRange))
+Declaration(Class(:Class1))
+Declaration(Class(:Class18))
+Declaration(Class(:Class23))
+Declaration(Class(:Class40))
+Declaration(Class(:Class57))
+Declaration(Class(:Class66))
+Declaration(Class(:Class67))
+Declaration(Class(:ClassWithInfos))
+Declaration(Class(:DataAllValuesFrom))
+Declaration(Class(:DataExactCardinalityRange))
+Declaration(Class(:DataExactQualifiedCardinalityRange))
+Declaration(Class(:DataHasValue))
+Declaration(Class(:DataMaxCardinalityRange))
+Declaration(Class(:DataMaxCardinalityRange_RL))
+Declaration(Class(:DataMaxQualifiedCardinalityRange))
+Declaration(Class(:DataMaxQualifiedCardinalityRange_RL))
+Declaration(Class(:DataMinCardinalityRange))
+Declaration(Class(:DataMinQualifiedCardinalityRange))
+Declaration(Class(:DataSomeValuesFrom))
+Declaration(Class(:DataSomeValuesFrom_RL))
+Declaration(Class(:DatatypeMapsDomain))
+Declaration(Class(:DeprecatedClass))
+Declaration(Class(:DeprecatedPropertyRange))
+Declaration(Class(:DisjointObjectProperty_Range1))
+Declaration(Class(:DisjointObjectProperty_Range2))
+Declaration(Class(:DisjointObjectProperty_Range3))
+Declaration(Class(:DisjointUnion))
+Declaration(Class(:DisjointUnion_Class1))
+Declaration(Class(:DisjointUnion_Class2))
+Declaration(Class(:DisjointWith_Class1))
+Declaration(Class(:DisjointWith_Class2))
+Declaration(Class(:DisjointWith_Class3))
+Declaration(Class(:Domain))
+Declaration(Class(:EquivalentClass_1))
+Declaration(Class(:EquivalentClass_2))
+Declaration(Class(:EquivalentObjectProperty_Range1))
+Declaration(Class(:EquivalentObjectProperty_Range2))
+Declaration(Class(:EquivalentObjectProperty_Range3))
+Declaration(Class(:FunctionalObjectPropertyRange))
+Declaration(Class(:HasKeyClass))
+Declaration(Class(:HasKeyPropertyRange_2))
+Declaration(Class(:HasSelfClass))
+Declaration(Class(:InverseFunctionalObjectPropertyRange))
+Declaration(Class(:InverseOfPropertyRange))
+Declaration(Class(:IrreflexiveObjectPropertyRange))
+Declaration(Class(:NoObjectComplementOf))
+Declaration(Class(:ObjectAllValuesFrom))
+Declaration(Class(:ObjectAllValuesFromRange))
+Declaration(Class(:ObjectComplementOf))
+Declaration(Class(:ObjectExactCardinalityRange))
+Declaration(Class(:ObjectExactCardinalityRange_Lite))
+Declaration(Class(:ObjectExactQualifiedCardinalityRange))
+Declaration(Class(:ObjectExactQualifiedCardinality_Qualifier))
+Declaration(Class(:ObjectHasValue))
+Declaration(Class(:ObjectIntersectionOf))
+Declaration(Class(:ObjectIntersectionOf_Class1))
+Declaration(Class(:ObjectIntersectionOf_Class2))
+Declaration(Class(:ObjectIntersectionOf_QL))
+Declaration(Class(:ObjectIntersectionOf_QL_Class1))
+Declaration(Class(:ObjectIntersectionOf_QL_Class2))
+Declaration(Class(:ObjectMaxCardinalityRange))
+Declaration(Class(:ObjectMaxCardinalityRange_LiteRL))
+Declaration(Class(:ObjectMaxQualifiedCardinalityRange))
+Declaration(Class(:ObjectMaxQualifiedCardinalityRange_RL))
+Declaration(Class(:ObjectMaxQualifiedCardinality_Qualifier))
+Declaration(Class(:ObjectMaxQualifiedCardinality_RL_Qualifier))
+Declaration(Class(:ObjectMinCardinalityRange))
+Declaration(Class(:ObjectMinCardinalityRange_Lite))
+Declaration(Class(:ObjectMinQualifiedCardinalityRange))
+Declaration(Class(:ObjectMinQualifiedCardinality_Qualifier))
+Declaration(Class(:ObjectOneOf))
+Declaration(Class(:ObjectOneOf_EL))
+Declaration(Class(:ObjectOneOf_RL))
+Declaration(Class(:ObjectPropertyDisjointWith_Range1))
+Declaration(Class(:ObjectPropertyDisjointWith_Range2))
+Declaration(Class(:ObjectPropertyRange))
+Declaration(Class(:ObjectSomeValuesFrom))
+Declaration(Class(:ObjectSomeValuesFromRange))
+Declaration(Class(:ObjectSomeValuesFromRange_RL))
+Declaration(Class(:ObjectSomeValuesFrom_RL))
+Declaration(Class(:ObjectUnionOf))
+Declaration(Class(:ObjectUnionOf_Class1))
+Declaration(Class(:ObjectUnionOf_Class2))
+Declaration(Class(:ObjectUnionOf_Class3))
+Declaration(Class(:ObjectUnionOf_RL))
+Declaration(Class(:ObjectUnionOf_RL_Class1))
+Declaration(Class(:ObjectUnionOf_RL_Class2))
+Declaration(Class(:ObjectUnionOf_RL_Class3))
+Declaration(Class(:PropertyChainEnd))
+Declaration(Class(:PropertyChainMiddle))
+Declaration(Class(:Range))
+Declaration(Class(:ReflexiveObjectPropertyRange))
+Declaration(Class(:SubClass))
+Declaration(Class(:SuperClass))
+Declaration(Class(:SymmetricObjectPropertyRange))
+Declaration(Class(:TopObjectPropertyRange))
+Declaration(Class(:TransitiveObjectPropertyRange))
+Declaration(Class(owl:Nothing))
+Declaration(Class(owl:Thing))
+Declaration(ObjectProperty(:DeprecatedProperty))
+Declaration(ObjectProperty(:allDisjointObjectProperties_Property1))
+Declaration(ObjectProperty(:allDisjointObjectProperties_Property2))
+Declaration(ObjectProperty(:allDisjointObjectProperties_Property3))
+Declaration(ObjectProperty(:asymmetricProperty))
+Declaration(ObjectProperty(:equivalentObjectProperty_1))
+Declaration(ObjectProperty(:equivalentObjectProperty_2))
+Declaration(ObjectProperty(:equivalentObjectProperty_3))
+Declaration(ObjectProperty(:functionalObjectProperty))
+Declaration(ObjectProperty(:hasKeyProperty_2))
+Declaration(ObjectProperty(:hasSelfProperty))
+Declaration(ObjectProperty(:inverseFunctionalObjectProperty))
+Declaration(ObjectProperty(:inverseProperty))
+Declaration(ObjectProperty(:irreflexiveObjectProperty))
+Declaration(ObjectProperty(:negativeObjectPropertyAssertionProperty))
+Declaration(ObjectProperty(:noDomainAndRangeObjectProperty))
+Declaration(ObjectProperty(:noDomainObjectProperty))
+Declaration(ObjectProperty(:noRangeObjectProperty))
+Declaration(ObjectProperty(:nonInverseProperty))
+Declaration(ObjectProperty(:objectAllValuesFromProperty))
+Declaration(ObjectProperty(:objectExactCardinalityProperty))
+Declaration(ObjectProperty(:objectExactCardinalityProperty_Lite))
+Declaration(ObjectProperty(:objectExactQualifiedCardinalityProperty))
+Declaration(ObjectProperty(:objectHasValueProperty))
+Declaration(ObjectProperty(:objectMaxCardinalityProperty))
+Declaration(ObjectProperty(:objectMaxCardinalityProperty_LiteRL))
+Declaration(ObjectProperty(:objectMaxQualifiedCardinalityProperty))
+Declaration(ObjectProperty(:objectMaxQualifiedCardinalityProperty_RL))
+Declaration(ObjectProperty(:objectMinCardinalityProperty))
+Declaration(ObjectProperty(:objectMinCardinalityProperty_Lite))
+Declaration(ObjectProperty(:objectMinQualifiedCardinalityProperty))
+Declaration(ObjectProperty(:objectProperty))
+Declaration(ObjectProperty(:objectPropertyDisjointWith_Property1))
+Declaration(ObjectProperty(:objectPropertyDisjointWith_Property2))
+Declaration(ObjectProperty(:objectSomeValuesFromProperty))
+Declaration(ObjectProperty(:objectSomeValuesFromProperty_RL))
+Declaration(ObjectProperty(:propertyChainProperty_DoubleStep))
+Declaration(ObjectProperty(:propertyChainProperty_SingleStep))
+Declaration(ObjectProperty(:propertyWithInfos))
+Declaration(ObjectProperty(:reflexiveObjectProperty))
+Declaration(ObjectProperty(:subObjectProperty))
+Declaration(ObjectProperty(:superObjectProperty))
+Declaration(ObjectProperty(:symmetricObjectProperty))
+Declaration(ObjectProperty(:transitiveObjectProperty))
+Declaration(DataProperty(:DataUnionOf))
+Declaration(DataProperty(:allDisjointDataProperties_Property1))
+Declaration(DataProperty(:allDisjointDataProperties_Property2))
+Declaration(DataProperty(:allDisjointDataProperties_Property3))
+Declaration(DataProperty(:dataAllValuesFromProperty))
+Declaration(DataProperty(:dataComplementOfProperty))
+Declaration(DataProperty(:dataExactCardinality))
+Declaration(DataProperty(:dataExactQualifiedCardinality))
+Declaration(DataProperty(:dataHasValueProperty))
+Declaration(DataProperty(:dataMaxCardinality))
+Declaration(DataProperty(:dataMaxCardinality_RL))
+Declaration(DataProperty(:dataMaxQualifiedCardinality))
+Declaration(DataProperty(:dataMaxQualifiedCardinality_RL))
+Declaration(DataProperty(:dataMinCardinality))
+Declaration(DataProperty(:dataMinQualifiedCardinality))
+Declaration(DataProperty(:dataPropertyDisjointWith_Property1))
+Declaration(DataProperty(:dataPropertyDisjointWith_Property2))
+Declaration(DataProperty(:dataSomeValuesFromProperty))
+Declaration(DataProperty(:dataSomeValuesFromProperty_RL))
+Declaration(DataProperty(:datatypeIntersectionOfProperty))
+Declaration(DataProperty(:datatypeIntersectionOfProperty_OWL2))
+Declaration(DataProperty(:datatypeProperty))
+Declaration(DataProperty(:datatypeRestrictionProperty))
+Declaration(DataProperty(:equivalentDataProperty_1))
+Declaration(DataProperty(:equivalentDataProperty_2))
+Declaration(DataProperty(:equivalentDataProperty_3))
+Declaration(DataProperty(:functionalDataProperty))
+Declaration(DataProperty(:hasKeyProperty_1))
+Declaration(DataProperty(:negativeDataPropertyAssertionProperty))
+Declaration(DataProperty(:noDomainAndRangeDataProperty))
+Declaration(DataProperty(:noDomainDataProperty))
+Declaration(DataProperty(:noRangeDataProperty))
+Declaration(DataProperty(:owlRationalProperty))
+Declaration(DataProperty(:owlRealProperty))
+Declaration(DataProperty(:rdfLangStringProperty))
+Declaration(DataProperty(:rdfPlainLiteralProperty))
+Declaration(DataProperty(:rdfXMLLiteralProperty))
+Declaration(DataProperty(:rdfsLiteralProperty))
+Declaration(DataProperty(:subDataProperty))
+Declaration(DataProperty(:superDataProperty))
+Declaration(DataProperty(:xsdAnyURIProperty))
+Declaration(DataProperty(:xsdBase64BinaryProperty))
+Declaration(DataProperty(:xsdBooleanProperty))
+Declaration(DataProperty(:xsdByteProperty))
+Declaration(DataProperty(:xsdDateTimeProperty))
+Declaration(DataProperty(:xsdDateTimeStampProperty))
+Declaration(DataProperty(:xsdDecimalProperty))
+Declaration(DataProperty(:xsdDoubleProperty))
+Declaration(DataProperty(:xsdFloatProperty))
+Declaration(DataProperty(:xsdHexBinaryProperty))
+Declaration(DataProperty(:xsdIntProperty))
+Declaration(DataProperty(:xsdIntegerProperty))
+Declaration(DataProperty(:xsdLanguageProperty))
+Declaration(DataProperty(:xsdLongProperty))
+Declaration(DataProperty(:xsdNCNameProperty))
+Declaration(DataProperty(:xsdNMTOKENProperty))
+Declaration(DataProperty(:xsdNameProperty))
+Declaration(DataProperty(:xsdNegativeIntegerProperty))
+Declaration(DataProperty(:xsdNonNegativeIntegerProperty))
+Declaration(DataProperty(:xsdNonPositiveIntegerProperty))
+Declaration(DataProperty(:xsdNormalizedStringProperty))
+Declaration(DataProperty(:xsdPositiveIntegerProperty))
+Declaration(DataProperty(:xsdShortProperty))
+Declaration(DataProperty(:xsdStringProperty))
+Declaration(DataProperty(:xsdTokenProperty))
+Declaration(DataProperty(:xsdUnsignedByteProperty))
+Declaration(DataProperty(:xsdUnsignedIntProperty))
+Declaration(DataProperty(:xsdUnsignedLongProperty))
+Declaration(DataProperty(:xsdUnsignedShortProperty))
+Declaration(NamedIndividual(:AllDifferent_Individual1))
+Declaration(NamedIndividual(:AllDifferent_Individual2))
+Declaration(NamedIndividual(:AllDifferent_Individual3))
+Declaration(NamedIndividual(:AllDifferent_Individual4))
+Declaration(NamedIndividual(:NamedIndividual))
+Declaration(NamedIndividual(:NegativeDataPropertyAssertion_SourceIndividual))
+Declaration(NamedIndividual(:NegativeObjectPropertyAssertion_SourceIndividual))
+Declaration(NamedIndividual(:NegativeObjectPropertyAssertion_TargetIndividual))
+Declaration(NamedIndividual(:ObjectHasValue_Individual))
+Declaration(NamedIndividual(:ObjectOneOf_EL_Individual))
+Declaration(NamedIndividual(:ObjectOneOf_Individual1))
+Declaration(NamedIndividual(:ObjectOneOf_Individual2))
+Declaration(NamedIndividual(:ObjectOneOf_RL_Individual1))
+Declaration(NamedIndividual(:ObjectOneOf_RL_Individual2))
+Declaration(NamedIndividual(:SameAs_Individual1))
+Declaration(NamedIndividual(:SameAs_Individual2))
+Declaration(AnnotationProperty(<http://purl.org/dc/elements/1.1/contributor>))
+Declaration(AnnotationProperty(<http://purl.org/dc/elements/1.1/creator>))
+Declaration(AnnotationProperty(<http://purl.org/dc/elements/1.1/date>))
+Declaration(AnnotationProperty(<http://purl.org/dc/elements/1.1/description>))
+Declaration(AnnotationProperty(<http://purl.org/dc/elements/1.1/identifier>))
+Declaration(AnnotationProperty(<http://purl.org/dc/elements/1.1/publisher>))
+Declaration(AnnotationProperty(<http://purl.org/dc/elements/1.1/title>))
+Declaration(AnnotationProperty(<http://purl.org/dc/terms/date>))
+Declaration(AnnotationProperty(<http://purl.org/dc/terms/description>))
+Declaration(AnnotationProperty(<http://purl.org/dc/terms/identifier>))
+Declaration(AnnotationProperty(<http://purl.org/dc/terms/title>))
+Declaration(AnnotationProperty(:customAnnotationProperty))
+Declaration(AnnotationProperty(owl:imports))
+Declaration(AnnotationProperty(owl:versionIri))
+Declaration(Datatype(:DataOneOf))
+Declaration(Datatype(:DataOneOf_EL))
+Declaration(Datatype(:DataUnionOf_Datatype1))
+Declaration(Datatype(:DataUnionOf_Datatype2))
+Declaration(Datatype(:DatatypeIntersectionOf_Datatype1))
+Declaration(Datatype(:DatatypeIntersectionOf_Datatype2))
+Declaration(Datatype(:DatatypeRestrictionDatatype))
+Declaration(Datatype(:RdfsDatatype))
+Declaration(Datatype(rdf:langString))
+
+############################
+#   Object Properties
+############################
+
+# Object Property: :DeprecatedProperty (:DeprecatedProperty)
+
+AnnotationAssertion(owl:deprecated :DeprecatedProperty "true"^^xsd:boolean)
+ObjectPropertyDomain(:DeprecatedProperty :Class18)
+ObjectPropertyRange(:DeprecatedProperty :DeprecatedPropertyRange)
+
+# Object Property: :allDisjointObjectProperties_Property1 (:allDisjointObjectProperties_Property1)
+
+ObjectPropertyDomain(:allDisjointObjectProperties_Property1 :Class1)
+ObjectPropertyRange(:allDisjointObjectProperties_Property1 :DisjointObjectProperty_Range1)
+DisjointObjectProperties(:allDisjointObjectProperties_Property1 :allDisjointObjectProperties_Property2 :allDisjointObjectProperties_Property3)
+
+# Object Property: :allDisjointObjectProperties_Property2 (:allDisjointObjectProperties_Property2)
+
+ObjectPropertyDomain(:allDisjointObjectProperties_Property2 :Class1)
+ObjectPropertyRange(:allDisjointObjectProperties_Property2 :DisjointObjectProperty_Range2)
+
+# Object Property: :allDisjointObjectProperties_Property3 (:allDisjointObjectProperties_Property3)
+
+ObjectPropertyDomain(:allDisjointObjectProperties_Property3 :Class1)
+ObjectPropertyRange(:allDisjointObjectProperties_Property3 :DisjointObjectProperty_Range3)
+
+# Object Property: :asymmetricProperty (:asymmetricProperty)
+
+AsymmetricObjectProperty(:asymmetricProperty)
+ObjectPropertyDomain(:asymmetricProperty :Class1)
+ObjectPropertyRange(:asymmetricProperty :AsymmetricObjectPropertyRange)
+
+# Object Property: :equivalentObjectProperty_1 (:equivalentObjectProperty_1)
+
+EquivalentObjectProperties(:equivalentObjectProperty_1 :equivalentObjectProperty_2 :equivalentObjectProperty_3)
+ObjectPropertyDomain(:equivalentObjectProperty_1 :Class23)
+ObjectPropertyRange(:equivalentObjectProperty_1 :EquivalentObjectProperty_Range1)
+
+# Object Property: :equivalentObjectProperty_2 (:equivalentObjectProperty_2)
+
+ObjectPropertyDomain(:equivalentObjectProperty_2 :Class23)
+ObjectPropertyRange(:equivalentObjectProperty_2 :EquivalentObjectProperty_Range2)
+
+# Object Property: :equivalentObjectProperty_3 (:equivalentObjectProperty_3)
+
+ObjectPropertyDomain(:equivalentObjectProperty_3 :Class23)
+ObjectPropertyRange(:equivalentObjectProperty_3 :EquivalentObjectProperty_Range3)
+
+# Object Property: :functionalObjectProperty (:functionalObjectProperty)
+
+FunctionalObjectProperty(:functionalObjectProperty)
+ObjectPropertyDomain(:functionalObjectProperty :Class23)
+ObjectPropertyRange(:functionalObjectProperty :FunctionalObjectPropertyRange)
+
+# Object Property: :hasKeyProperty_2 (:hasKeyProperty_2)
+
+ObjectPropertyDomain(:hasKeyProperty_2 :HasKeyClass)
+ObjectPropertyRange(:hasKeyProperty_2 :HasKeyPropertyRange_2)
+
+# Object Property: :inverseFunctionalObjectProperty (:inverseFunctionalObjectProperty)
+
+InverseFunctionalObjectProperty(:inverseFunctionalObjectProperty)
+ObjectPropertyDomain(:inverseFunctionalObjectProperty :Class23)
+ObjectPropertyRange(:inverseFunctionalObjectProperty :InverseFunctionalObjectPropertyRange)
+
+# Object Property: :inverseProperty (:inverseProperty)
+
+InverseObjectProperties(:inverseProperty :nonInverseProperty)
+ObjectPropertyDomain(:inverseProperty :InverseOfPropertyRange)
+ObjectPropertyRange(:inverseProperty :Class23)
+
+# Object Property: :irreflexiveObjectProperty (:irreflexiveObjectProperty)
+
+IrreflexiveObjectProperty(:irreflexiveObjectProperty)
+ObjectPropertyDomain(:irreflexiveObjectProperty :Class23)
+ObjectPropertyRange(:irreflexiveObjectProperty :IrreflexiveObjectPropertyRange)
+
+# Object Property: :noDomainObjectProperty (:noDomainObjectProperty)
+
+ObjectPropertyRange(:noDomainObjectProperty :Range)
+
+# Object Property: :noRangeObjectProperty (:noRangeObjectProperty)
+
+ObjectPropertyDomain(:noRangeObjectProperty :Domain)
+
+# Object Property: :nonInverseProperty (:nonInverseProperty)
+
+ObjectPropertyDomain(:nonInverseProperty :Class23)
+ObjectPropertyRange(:nonInverseProperty :InverseOfPropertyRange)
+
+# Object Property: :objectExactCardinalityProperty (:objectExactCardinalityProperty)
+
+ObjectPropertyDomain(:objectExactCardinalityProperty :Class1)
+ObjectPropertyRange(:objectExactCardinalityProperty :ObjectExactCardinalityRange)
+
+# Object Property: :objectExactCardinalityProperty_Lite (:objectExactCardinalityProperty_Lite)
+
+ObjectPropertyDomain(:objectExactCardinalityProperty_Lite :Class18)
+ObjectPropertyRange(:objectExactCardinalityProperty_Lite :ObjectExactCardinalityRange_Lite)
+
+# Object Property: :objectExactQualifiedCardinalityProperty (:objectExactQualifiedCardinalityProperty)
+
+ObjectPropertyDomain(:objectExactQualifiedCardinalityProperty :Class40)
+ObjectPropertyRange(:objectExactQualifiedCardinalityProperty :ObjectExactQualifiedCardinalityRange)
+
+# Object Property: :objectMaxCardinalityProperty (:objectMaxCardinalityProperty)
+
+ObjectPropertyDomain(:objectMaxCardinalityProperty :Class23)
+ObjectPropertyRange(:objectMaxCardinalityProperty :ObjectMaxCardinalityRange)
+
+# Object Property: :objectMaxCardinalityProperty_LiteRL (:objectMaxCardinalityProperty_LiteRL)
+
+ObjectPropertyDomain(:objectMaxCardinalityProperty_LiteRL :Class23)
+ObjectPropertyRange(:objectMaxCardinalityProperty_LiteRL :ObjectMaxCardinalityRange_LiteRL)
+
+# Object Property: :objectMaxQualifiedCardinalityProperty (:objectMaxQualifiedCardinalityProperty)
+
+ObjectPropertyDomain(:objectMaxQualifiedCardinalityProperty :Class40)
+ObjectPropertyRange(:objectMaxQualifiedCardinalityProperty :ObjectMaxQualifiedCardinalityRange)
+
+# Object Property: :objectMaxQualifiedCardinalityProperty_RL (:objectMaxQualifiedCardinalityProperty_RL)
+
+ObjectPropertyDomain(:objectMaxQualifiedCardinalityProperty_RL :Class40)
+ObjectPropertyRange(:objectMaxQualifiedCardinalityProperty_RL :ObjectMaxQualifiedCardinalityRange_RL)
+
+# Object Property: :objectMinCardinalityProperty (:objectMinCardinalityProperty)
+
+ObjectPropertyDomain(:objectMinCardinalityProperty :Class40)
+ObjectPropertyRange(:objectMinCardinalityProperty :ObjectMinCardinalityRange)
+
+# Object Property: :objectMinCardinalityProperty_Lite (:objectMinCardinalityProperty_Lite)
+
+ObjectPropertyDomain(:objectMinCardinalityProperty_Lite :Class40)
+ObjectPropertyRange(:objectMinCardinalityProperty_Lite :ObjectMinCardinalityRange_Lite)
+
+# Object Property: :objectMinQualifiedCardinalityProperty (:objectMinQualifiedCardinalityProperty)
+
+ObjectPropertyDomain(:objectMinQualifiedCardinalityProperty :Class40)
+ObjectPropertyRange(:objectMinQualifiedCardinalityProperty :ObjectMinQualifiedCardinalityRange)
+
+# Object Property: :objectProperty (:objectProperty)
+
+ObjectPropertyDomain(:objectProperty :Class1)
+ObjectPropertyRange(:objectProperty :ObjectPropertyRange)
+
+# Object Property: :objectPropertyDisjointWith_Property1 (:objectPropertyDisjointWith_Property1)
+
+ObjectPropertyDomain(:objectPropertyDisjointWith_Property1 :Class40)
+ObjectPropertyRange(:objectPropertyDisjointWith_Property1 :ObjectPropertyDisjointWith_Range1)
+DisjointObjectProperties(:objectPropertyDisjointWith_Property1 :objectPropertyDisjointWith_Property2)
+
+# Object Property: :objectPropertyDisjointWith_Property2 (:objectPropertyDisjointWith_Property2)
+
+ObjectPropertyDomain(:objectPropertyDisjointWith_Property2 :Class40)
+ObjectPropertyRange(:objectPropertyDisjointWith_Property2 :ObjectPropertyDisjointWith_Range2)
+
+# Object Property: :propertyChainProperty_DoubleStep (:propertyChainProperty_DoubleStep)
+
+ObjectPropertyDomain(:propertyChainProperty_DoubleStep :PropertyChainEnd)
+ObjectPropertyRange(:propertyChainProperty_DoubleStep :Class40)
+
+# Object Property: :propertyChainProperty_SingleStep (:propertyChainProperty_SingleStep)
+
+ObjectPropertyDomain(:propertyChainProperty_SingleStep :PropertyChainEnd)
+ObjectPropertyDomain(:propertyChainProperty_SingleStep :PropertyChainMiddle)
+ObjectPropertyRange(:propertyChainProperty_SingleStep :Class40)
+ObjectPropertyRange(:propertyChainProperty_SingleStep :PropertyChainMiddle)
+
+# Object Property: :propertyWithInfos (Bezeichnung einer Property)
+
+AnnotationAssertion(rdfs:comment :propertyWithInfos "Comment of a property"@en)
+AnnotationAssertion(rdfs:comment :propertyWithInfos "Comment of a property (undefined language)"^^xsd:string)
+AnnotationAssertion(rdfs:comment :propertyWithInfos "Kommentar einer Property"@de)
+AnnotationAssertion(rdfs:comment :propertyWithInfos "プロパティのコメント"@ja)
+AnnotationAssertion(rdfs:label :propertyWithInfos "Bezeichnung einer Property"@de)
+AnnotationAssertion(rdfs:label :propertyWithInfos "Label of a property"@en)
+AnnotationAssertion(rdfs:label :propertyWithInfos "Label of a property (undefined language)"^^xsd:string)
+AnnotationAssertion(rdfs:label :propertyWithInfos "プロパティの指定"@ja)
+ObjectPropertyDomain(:propertyWithInfos :Class57)
+ObjectPropertyRange(:propertyWithInfos :ClassWithInfos)
+
+# Object Property: :reflexiveObjectProperty (:reflexiveObjectProperty)
+
+ReflexiveObjectProperty(:reflexiveObjectProperty)
+ObjectPropertyDomain(:reflexiveObjectProperty :Class57)
+ObjectPropertyRange(:reflexiveObjectProperty :ReflexiveObjectPropertyRange)
+
+# Object Property: :subObjectProperty (:subObjectProperty)
+
+SubObjectPropertyOf(:subObjectProperty :superObjectProperty)
+ObjectPropertyDomain(:subObjectProperty :Class57)
+ObjectPropertyRange(:subObjectProperty :Class66)
+
+# Object Property: :superObjectProperty (:superObjectProperty)
+
+ObjectPropertyDomain(:superObjectProperty :Class66)
+ObjectPropertyRange(:superObjectProperty :Class67)
+
+# Object Property: :symmetricObjectProperty (:symmetricObjectProperty)
+
+SymmetricObjectProperty(:symmetricObjectProperty)
+ObjectPropertyDomain(:symmetricObjectProperty :Class57)
+ObjectPropertyRange(:symmetricObjectProperty :SymmetricObjectPropertyRange)
+
+# Object Property: :transitiveObjectProperty (:transitiveObjectProperty)
+
+TransitiveObjectProperty(:transitiveObjectProperty)
+ObjectPropertyDomain(:transitiveObjectProperty :Class57)
+ObjectPropertyRange(:transitiveObjectProperty :TransitiveObjectPropertyRange)
+
+# Object Property: owl:bottomObjectProperty (owl:bottomObjectProperty)
+
+ObjectPropertyDomain(owl:bottomObjectProperty :Class1)
+ObjectPropertyRange(owl:bottomObjectProperty :BottomObjectPropertyRange)
+
+# Object Property: owl:topObjectProperty (owl:topObjectProperty)
+
+ObjectPropertyDomain(owl:topObjectProperty :Class1)
+ObjectPropertyRange(owl:topObjectProperty :TopObjectPropertyRange)
+
+
+############################
+#   Data Properties
+############################
+
+# Data Property: :DataUnionOf (:DataUnionOf)
+
+DataPropertyDomain(:DataUnionOf :Class57)
+DataPropertyRange(:DataUnionOf DataUnionOf(:DataUnionOf_Datatype1 :DataUnionOf_Datatype2))
+
+# Data Property: :allDisjointDataProperties_Property1 (:allDisjointDataProperties_Property1)
+
+DataPropertyDomain(:allDisjointDataProperties_Property1 :Class1)
+DataPropertyRange(:allDisjointDataProperties_Property1 xsd:string)
+DisjointDataProperties(:allDisjointDataProperties_Property1 :allDisjointDataProperties_Property2 :allDisjointDataProperties_Property3)
+
+# Data Property: :allDisjointDataProperties_Property2 (:allDisjointDataProperties_Property2)
+
+DataPropertyDomain(:allDisjointDataProperties_Property2 :Class1)
+DataPropertyRange(:allDisjointDataProperties_Property2 xsd:string)
+
+# Data Property: :allDisjointDataProperties_Property3 (:allDisjointDataProperties_Property3)
+
+DataPropertyDomain(:allDisjointDataProperties_Property3 :Class1)
+DataPropertyRange(:allDisjointDataProperties_Property3 xsd:string)
+
+# Data Property: :dataAllValuesFromProperty (:dataAllValuesFromProperty)
+
+DataPropertyDomain(:dataAllValuesFromProperty :Class1)
+DataPropertyRange(:dataAllValuesFromProperty xsd:integer)
+
+# Data Property: :dataComplementOfProperty (:dataComplementOfProperty)
+
+DataPropertyDomain(:dataComplementOfProperty :Class18)
+DataPropertyRange(:dataComplementOfProperty DataComplementOf(xsd:string))
+
+# Data Property: :dataExactCardinality (:dataExactCardinality)
+
+DataPropertyDomain(:dataExactCardinality :Class1)
+DataPropertyRange(:dataExactCardinality xsd:string)
+
+# Data Property: :dataExactQualifiedCardinality (:dataExactQualifiedCardinality)
+
+DataPropertyDomain(:dataExactQualifiedCardinality :Class57)
+DataPropertyRange(:dataExactQualifiedCardinality xsd:string)
+
+# Data Property: :dataHasValueProperty (:dataHasValueProperty)
+
+DataPropertyDomain(:dataHasValueProperty :Class23)
+DataPropertyRange(:dataHasValueProperty xsd:nonNegativeInteger)
+
+# Data Property: :dataMaxCardinality (:dataMaxCardinality)
+
+DataPropertyDomain(:dataMaxCardinality :Class23)
+DataPropertyRange(:dataMaxCardinality xsd:float)
+
+# Data Property: :dataMaxCardinality_RL (:dataMaxCardinality_RL)
+
+DataPropertyDomain(:dataMaxCardinality_RL :Class40)
+DataPropertyRange(:dataMaxCardinality_RL xsd:float)
+
+# Data Property: :dataMaxQualifiedCardinality (:dataMaxQualifiedCardinality)
+
+DataPropertyDomain(:dataMaxQualifiedCardinality :Class40)
+DataPropertyRange(:dataMaxQualifiedCardinality rdfs:Literal)
+
+# Data Property: :dataMaxQualifiedCardinality_RL (:dataMaxQualifiedCardinality_RL)
+
+DataPropertyDomain(:dataMaxQualifiedCardinality_RL :Class40)
+DataPropertyRange(:dataMaxQualifiedCardinality_RL rdfs:Literal)
+
+# Data Property: :dataMinCardinality (:dataMinCardinality)
+
+DataPropertyDomain(:dataMinCardinality :Class40)
+DataPropertyRange(:dataMinCardinality xsd:boolean)
+
+# Data Property: :dataMinQualifiedCardinality (:dataMinQualifiedCardinality)
+
+DataPropertyDomain(:dataMinQualifiedCardinality :Class40)
+DataPropertyRange(:dataMinQualifiedCardinality xsd:float)
+
+# Data Property: :dataPropertyDisjointWith_Property1 (:dataPropertyDisjointWith_Property1)
+
+DataPropertyDomain(:dataPropertyDisjointWith_Property1 :Class40)
+DataPropertyRange(:dataPropertyDisjointWith_Property1 xsd:integer)
+DisjointDataProperties(:dataPropertyDisjointWith_Property1 :dataPropertyDisjointWith_Property2)
+
+# Data Property: :dataPropertyDisjointWith_Property2 (:dataPropertyDisjointWith_Property2)
+
+DataPropertyDomain(:dataPropertyDisjointWith_Property2 :Class40)
+DataPropertyRange(:dataPropertyDisjointWith_Property2 xsd:decimal)
+
+# Data Property: :datatypeIntersectionOfProperty (:datatypeIntersectionOfProperty)
+
+DataPropertyDomain(:datatypeIntersectionOfProperty :Class23)
+DataPropertyRange(:datatypeIntersectionOfProperty DataIntersectionOf(:DatatypeIntersectionOf_Datatype1 :DatatypeIntersectionOf_Datatype2))
+
+# Data Property: :datatypeIntersectionOfProperty_OWL2 (:datatypeIntersectionOfProperty_OWL2)
+
+DataPropertyDomain(:datatypeIntersectionOfProperty_OWL2 :Class23)
+DataPropertyRange(:datatypeIntersectionOfProperty_OWL2 DataIntersectionOf(xsd:dateTime xsd:string))
+
+# Data Property: :datatypeProperty (:datatypeProperty)
+
+DataPropertyDomain(:datatypeProperty :Class18)
+DataPropertyRange(:datatypeProperty xsd:integer)
+
+# Data Property: :datatypeRestrictionProperty (:datatypeRestrictionProperty)
+
+DataPropertyDomain(:datatypeRestrictionProperty :Class57)
+DataPropertyRange(:datatypeRestrictionProperty DatatypeRestriction(:DatatypeRestrictionDatatype xsd:minLength "10"^^xsd:integer xsd:pattern "DatatypeRestrictionLiteral"^^xsd:string))
+
+# Data Property: :equivalentDataProperty_1 (:equivalentDataProperty_1)
+
+EquivalentDataProperties(:equivalentDataProperty_1 :equivalentDataProperty_2 :equivalentDataProperty_3)
+DataPropertyDomain(:equivalentDataProperty_1 :Class23)
+DataPropertyRange(:equivalentDataProperty_1 xsd:nonNegativeInteger)
+
+# Data Property: :equivalentDataProperty_2 (:equivalentDataProperty_2)
+
+DataPropertyDomain(:equivalentDataProperty_2 :Class23)
+DataPropertyRange(:equivalentDataProperty_2 xsd:nonNegativeInteger)
+
+# Data Property: :equivalentDataProperty_3 (:equivalentDataProperty_3)
+
+DataPropertyDomain(:equivalentDataProperty_3 :Class23)
+DataPropertyRange(:equivalentDataProperty_3 xsd:nonNegativeInteger)
+
+# Data Property: :functionalDataProperty (:functionalDataProperty)
+
+FunctionalDataProperty(:functionalDataProperty)
+DataPropertyDomain(:functionalDataProperty :Class23)
+DataPropertyRange(:functionalDataProperty xsd:nonNegativeInteger)
+
+# Data Property: :hasKeyProperty_1 (:hasKeyProperty_1)
+
+DataPropertyDomain(:hasKeyProperty_1 :HasKeyClass)
+DataPropertyRange(:hasKeyProperty_1 xsd:string)
+
+# Data Property: :noDomainDataProperty (:noDomainDataProperty)
+
+DataPropertyRange(:noDomainDataProperty rdfs:Literal)
+
+# Data Property: :noRangeDataProperty (:noRangeDataProperty)
+
+DataPropertyDomain(:noRangeDataProperty :Domain)
+
+# Data Property: :owlRationalProperty (:owlRationalProperty)
+
+DataPropertyDomain(:owlRationalProperty :DatatypeMapsDomain)
+DataPropertyRange(:owlRationalProperty owl:rational)
+
+# Data Property: :owlRealProperty (:owlRealProperty)
+
+DataPropertyDomain(:owlRealProperty :DatatypeMapsDomain)
+DataPropertyRange(:owlRealProperty owl:real)
+
+# Data Property: :rdfLangStringProperty (:rdfLangStringProperty)
+
+DataPropertyDomain(:rdfLangStringProperty :DatatypeMapsDomain)
+DataPropertyRange(:rdfLangStringProperty rdf:langString)
+
+# Data Property: :rdfPlainLiteralProperty (:rdfPlainLiteralProperty)
+
+DataPropertyDomain(:rdfPlainLiteralProperty :DatatypeMapsDomain)
+DataPropertyRange(:rdfPlainLiteralProperty rdf:PlainLiteral)
+
+# Data Property: :rdfXMLLiteralProperty (:rdfXMLLiteralProperty)
+
+DataPropertyDomain(:rdfXMLLiteralProperty :DatatypeMapsDomain)
+DataPropertyRange(:rdfXMLLiteralProperty rdf:XMLLiteral)
+
+# Data Property: :rdfsLiteralProperty (:rdfsLiteralProperty)
+
+DataPropertyDomain(:rdfsLiteralProperty :DatatypeMapsDomain)
+DataPropertyRange(:rdfsLiteralProperty rdfs:Literal)
+
+# Data Property: :subDataProperty (:subDataProperty)
+
+SubDataPropertyOf(:subDataProperty :superDataProperty)
+DataPropertyDomain(:subDataProperty :Class57)
+DataPropertyRange(:subDataProperty xsd:string)
+
+# Data Property: :superDataProperty (:superDataProperty)
+
+DataPropertyDomain(:superDataProperty :Class57)
+DataPropertyRange(:superDataProperty xsd:string)
+
+# Data Property: :xsdAnyURIProperty (:xsdAnyURIProperty)
+
+DataPropertyDomain(:xsdAnyURIProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdAnyURIProperty xsd:anyURI)
+
+# Data Property: :xsdBase64BinaryProperty (:xsdBase64BinaryProperty)
+
+DataPropertyDomain(:xsdBase64BinaryProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdBase64BinaryProperty xsd:base64Binary)
+
+# Data Property: :xsdBooleanProperty (:xsdBooleanProperty)
+
+DataPropertyDomain(:xsdBooleanProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdBooleanProperty xsd:boolean)
+
+# Data Property: :xsdByteProperty (:xsdByteProperty)
+
+DataPropertyDomain(:xsdByteProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdByteProperty xsd:byte)
+
+# Data Property: :xsdDateTimeProperty (:xsdDateTimeProperty)
+
+DataPropertyDomain(:xsdDateTimeProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdDateTimeProperty xsd:dateTime)
+
+# Data Property: :xsdDateTimeStampProperty (:xsdDateTimeStampProperty)
+
+DataPropertyDomain(:xsdDateTimeStampProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdDateTimeStampProperty xsd:dateTimeStamp)
+
+# Data Property: :xsdDecimalProperty (:xsdDecimalProperty)
+
+DataPropertyDomain(:xsdDecimalProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdDecimalProperty xsd:decimal)
+
+# Data Property: :xsdDoubleProperty (:xsdDoubleProperty)
+
+DataPropertyDomain(:xsdDoubleProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdDoubleProperty xsd:double)
+
+# Data Property: :xsdFloatProperty (:xsdFloatProperty)
+
+DataPropertyDomain(:xsdFloatProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdFloatProperty xsd:float)
+
+# Data Property: :xsdHexBinaryProperty (:xsdHexBinaryProperty)
+
+DataPropertyDomain(:xsdHexBinaryProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdHexBinaryProperty xsd:hexBinary)
+
+# Data Property: :xsdIntProperty (:xsdIntProperty)
+
+DataPropertyDomain(:xsdIntProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdIntProperty xsd:int)
+
+# Data Property: :xsdIntegerProperty (:xsdIntegerProperty)
+
+DataPropertyDomain(:xsdIntegerProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdIntegerProperty xsd:integer)
+
+# Data Property: :xsdLanguageProperty (:xsdLanguageProperty)
+
+DataPropertyDomain(:xsdLanguageProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdLanguageProperty xsd:language)
+
+# Data Property: :xsdLongProperty (:xsdLongProperty)
+
+DataPropertyDomain(:xsdLongProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdLongProperty xsd:long)
+
+# Data Property: :xsdNCNameProperty (:xsdNCNameProperty)
+
+DataPropertyDomain(:xsdNCNameProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdNCNameProperty xsd:NCName)
+
+# Data Property: :xsdNMTOKENProperty (:xsdNMTOKENProperty)
+
+DataPropertyDomain(:xsdNMTOKENProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdNMTOKENProperty xsd:NMTOKEN)
+
+# Data Property: :xsdNameProperty (:xsdNameProperty)
+
+DataPropertyDomain(:xsdNameProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdNameProperty xsd:Name)
+
+# Data Property: :xsdNegativeIntegerProperty (:xsdNegativeIntegerProperty)
+
+DataPropertyDomain(:xsdNegativeIntegerProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdNegativeIntegerProperty xsd:negativeInteger)
+
+# Data Property: :xsdNonNegativeIntegerProperty (:xsdNonNegativeIntegerProperty)
+
+DataPropertyDomain(:xsdNonNegativeIntegerProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdNonNegativeIntegerProperty xsd:nonNegativeInteger)
+
+# Data Property: :xsdNonPositiveIntegerProperty (:xsdNonPositiveIntegerProperty)
+
+DataPropertyDomain(:xsdNonPositiveIntegerProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdNonPositiveIntegerProperty xsd:nonPositiveInteger)
+
+# Data Property: :xsdNormalizedStringProperty (:xsdNormalizedStringProperty)
+
+DataPropertyDomain(:xsdNormalizedStringProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdNormalizedStringProperty xsd:normalizedString)
+
+# Data Property: :xsdPositiveIntegerProperty (:xsdPositiveIntegerProperty)
+
+DataPropertyDomain(:xsdPositiveIntegerProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdPositiveIntegerProperty xsd:positiveInteger)
+
+# Data Property: :xsdShortProperty (:xsdShortProperty)
+
+DataPropertyDomain(:xsdShortProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdShortProperty xsd:short)
+
+# Data Property: :xsdStringProperty (:xsdStringProperty)
+
+DataPropertyDomain(:xsdStringProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdStringProperty xsd:string)
+
+# Data Property: :xsdTokenProperty (:xsdTokenProperty)
+
+DataPropertyDomain(:xsdTokenProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdTokenProperty xsd:token)
+
+# Data Property: :xsdUnsignedByteProperty (:xsdUnsignedByteProperty)
+
+DataPropertyDomain(:xsdUnsignedByteProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdUnsignedByteProperty xsd:unsignedByte)
+
+# Data Property: :xsdUnsignedIntProperty (:xsdUnsignedIntProperty)
+
+DataPropertyDomain(:xsdUnsignedIntProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdUnsignedIntProperty xsd:unsignedInt)
+
+# Data Property: :xsdUnsignedLongProperty (:xsdUnsignedLongProperty)
+
+DataPropertyDomain(:xsdUnsignedLongProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdUnsignedLongProperty xsd:unsignedLong)
+
+# Data Property: :xsdUnsignedShortProperty (:xsdUnsignedShortProperty)
+
+DataPropertyDomain(:xsdUnsignedShortProperty :DatatypeMapsDomain)
+DataPropertyRange(:xsdUnsignedShortProperty xsd:unsignedShort)
+
+# Data Property: owl:bottomDataProperty (owl:bottomDataProperty)
+
+DataPropertyDomain(owl:bottomDataProperty :Class1)
+DataPropertyRange(owl:bottomDataProperty xsd:integer)
+
+# Data Property: owl:topDataProperty (owl:topDataProperty)
+
+DataPropertyDomain(owl:topDataProperty :Class57)
+DataPropertyRange(owl:topDataProperty xsd:integer)
+
+
+############################
+#   Datatypes
+############################
+
+# Datatype: :DataOneOf (:DataOneOf)
+
+DatatypeDefinition(:DataOneOf DataOneOf("DataOneOf_Literal1"^^xsd:string "DataOneOf_Literal2"^^xsd:string "DataOneOf_Literal3"^^xsd:string))
+
+# Datatype: :DataOneOf_EL (:DataOneOf_EL)
+
+DatatypeDefinition(:DataOneOf_EL DataOneOf("DataOneOf_EL_Literal1"^^xsd:string))
+
+
+############################
+#   Classes
+############################
+
+# Class: :AllDisjointClasses_Class1 (:AllDisjointClasses_Class1)
+
+
+# Class: :AllDisjointClasses_Class2 (:AllDisjointClasses_Class2)
+
+
+# Class: :AllDisjointClasses_Class3 (:AllDisjointClasses_Class3)
+
+
+# Class: :Class1 (:Class1)
+
+AnnotationAssertion(:customAnnotationProperty :Class1 "Custom Annotation Value"^^xsd:string)
+
+# Class: :Class18 (:Class18)
+
+EquivalentClasses(:Class18 :EquivalentClass_1 :EquivalentClass_2)
+
+# Class: :ClassWithInfos (Label of a class)
+
+AnnotationAssertion(rdfs:comment :ClassWithInfos "Comment of a class"@en)
+AnnotationAssertion(rdfs:comment :ClassWithInfos "Comment of a class (undefined language)"^^xsd:string)
+AnnotationAssertion(rdfs:comment :ClassWithInfos "Kommentar einer Klasse"@de)
+AnnotationAssertion(rdfs:comment :ClassWithInfos "どうもありがとうミスターロボット"@ja)
+AnnotationAssertion(rdfs:label :ClassWithInfos "Bezeichnung einer Klasse"@de)
+AnnotationAssertion(rdfs:label :ClassWithInfos "Label of a class"@en)
+AnnotationAssertion(rdfs:label :ClassWithInfos "Label of a class (undefined language)"^^xsd:string)
+AnnotationAssertion(rdfs:label :ClassWithInfos "どうもありがとうミスターロボット"@ja)
+
+# Class: :DataAllValuesFrom (:DataAllValuesFrom)
+
+SubClassOf(:DataAllValuesFrom DataAllValuesFrom(:dataAllValuesFromProperty xsd:integer))
+
+# Class: :DataExactCardinalityRange (:DataExactCardinalityRange)
+
+SubClassOf(:DataExactCardinalityRange DataExactCardinality(11 :dataExactCardinality))
+
+# Class: :DataExactQualifiedCardinalityRange (:DataExactQualifiedCardinalityRange)
+
+SubClassOf(:DataExactQualifiedCardinalityRange DataExactCardinality(12 :dataExactQualifiedCardinality xsd:dateTime))
+
+# Class: :DataHasValue (:DataHasValue)
+
+SubClassOf(:DataHasValue DataHasValue(:dataHasValueProperty "6"^^xsd:integer))
+
+# Class: :DataMaxCardinalityRange (:DataMaxCardinalityRange)
+
+SubClassOf(:DataMaxCardinalityRange DataMaxCardinality(19 :dataMaxCardinality))
+
+# Class: :DataMaxCardinalityRange_RL (:DataMaxCardinalityRange_RL)
+
+SubClassOf(:DataMaxCardinalityRange_RL DataMaxCardinality(1 :dataMaxCardinality_RL))
+
+# Class: :DataMaxQualifiedCardinalityRange (:DataMaxQualifiedCardinalityRange)
+
+SubClassOf(:DataMaxQualifiedCardinalityRange DataMaxCardinality(18 :dataMaxQualifiedCardinality xsd:byte))
+
+# Class: :DataMaxQualifiedCardinalityRange_RL (:DataMaxQualifiedCardinalityRange_RL)
+
+SubClassOf(:DataMaxQualifiedCardinalityRange_RL DataMaxCardinality(1 :dataMaxQualifiedCardinality_RL xsd:byte))
+
+# Class: :DataMinCardinalityRange (:DataMinCardinalityRange)
+
+SubClassOf(:DataMinCardinalityRange DataMinCardinality(3 :dataMinCardinality))
+
+# Class: :DataMinQualifiedCardinalityRange (:DataMinQualifiedCardinalityRange)
+
+SubClassOf(:DataMinQualifiedCardinalityRange DataMinCardinality(9 :dataMinQualifiedCardinality xsd:dateTime))
+
+# Class: :DataSomeValuesFrom (:DataSomeValuesFrom)
+
+SubClassOf(:DataSomeValuesFrom DataSomeValuesFrom(:dataSomeValuesFromProperty xsd:dateTime))
+
+# Class: :DeprecatedClass (:DeprecatedClass)
+
+AnnotationAssertion(owl:deprecated :DeprecatedClass "true"^^xsd:boolean)
+
+# Class: :DisjointUnion (:DisjointUnion)
+
+DisjointUnion(:DisjointUnion :DisjointUnion_Class1 :DisjointUnion_Class2)
+
+# Class: :DisjointWith_Class1 (:DisjointWith_Class1)
+
+DisjointClasses(:DisjointWith_Class1 :DisjointWith_Class2)
+DisjointClasses(:DisjointWith_Class1 :DisjointWith_Class3)
+
+# Class: :DisjointWith_Class2 (:DisjointWith_Class2)
+
+DisjointClasses(:DisjointWith_Class2 :DisjointWith_Class3)
+
+# Class: :HasSelfClass (:HasSelfClass)
+
+EquivalentClasses(:HasSelfClass ObjectHasSelf(:hasSelfProperty))
+
+# Class: :ObjectAllValuesFrom (:ObjectAllValuesFrom)
+
+SubClassOf(:ObjectAllValuesFrom ObjectAllValuesFrom(:objectAllValuesFromProperty :ObjectAllValuesFromRange))
+
+# Class: :ObjectComplementOf (:ObjectComplementOf)
+
+SubClassOf(:ObjectComplementOf ObjectComplementOf(:NoObjectComplementOf))
+
+# Class: :ObjectExactCardinalityRange (:ObjectExactCardinalityRange)
+
+SubClassOf(:ObjectExactCardinalityRange ObjectExactCardinality(4 :objectExactCardinalityProperty))
+
+# Class: :ObjectExactCardinalityRange_Lite (:ObjectExactCardinalityRange_Lite)
+
+SubClassOf(:ObjectExactCardinalityRange_Lite ObjectExactCardinality(1 :objectExactCardinalityProperty_Lite))
+
+# Class: :ObjectExactQualifiedCardinalityRange (:ObjectExactQualifiedCardinalityRange)
+
+SubClassOf(:ObjectExactQualifiedCardinalityRange ObjectExactCardinality(1 :objectExactQualifiedCardinalityProperty :ObjectExactQualifiedCardinality_Qualifier))
+
+# Class: :ObjectHasValue (:ObjectHasValue)
+
+SubClassOf(:ObjectHasValue ObjectHasValue(:objectHasValueProperty :ObjectHasValue_Individual))
+
+# Class: :ObjectIntersectionOf (:ObjectIntersectionOf)
+
+EquivalentClasses(:ObjectIntersectionOf ObjectIntersectionOf(:ObjectIntersectionOf_Class1 :ObjectIntersectionOf_Class2))
+
+# Class: :ObjectIntersectionOf_QL (:ObjectIntersectionOf_QL)
+
+SubClassOf(:ObjectIntersectionOf_QL ObjectIntersectionOf(:ObjectIntersectionOf_QL_Class1 :ObjectIntersectionOf_QL_Class2))
+
+# Class: :ObjectMaxCardinalityRange (:ObjectMaxCardinalityRange)
+
+SubClassOf(:ObjectMaxCardinalityRange ObjectMaxCardinality(8 :objectMaxCardinalityProperty))
+
+# Class: :ObjectMaxCardinalityRange_LiteRL (:ObjectMaxCardinalityRange_LiteRL)
+
+SubClassOf(:ObjectMaxCardinalityRange_LiteRL ObjectMaxCardinality(1 :objectMaxCardinalityProperty_LiteRL))
+
+# Class: :ObjectMaxQualifiedCardinalityRange (:ObjectMaxQualifiedCardinalityRange)
+
+SubClassOf(:ObjectMaxQualifiedCardinalityRange ObjectMaxCardinality(3 :objectMaxQualifiedCardinalityProperty :ObjectMaxQualifiedCardinality_Qualifier))
+
+# Class: :ObjectMaxQualifiedCardinalityRange_RL (:ObjectMaxQualifiedCardinalityRange_RL)
+
+SubClassOf(:ObjectMaxQualifiedCardinalityRange_RL ObjectMaxCardinality(0 :objectMaxQualifiedCardinalityProperty_RL :ObjectMaxQualifiedCardinality_RL_Qualifier))
+
+# Class: :ObjectMinCardinalityRange (:ObjectMinCardinalityRange)
+
+SubClassOf(:ObjectMinCardinalityRange ObjectMinCardinality(2 :objectMinCardinalityProperty))
+
+# Class: :ObjectMinCardinalityRange_Lite (:ObjectMinCardinalityRange_Lite)
+
+SubClassOf(:ObjectMinCardinalityRange_Lite ObjectMinCardinality(0 :objectMinCardinalityProperty_Lite))
+
+# Class: :ObjectMinQualifiedCardinalityRange (:ObjectMinQualifiedCardinalityRange)
+
+SubClassOf(:ObjectMinQualifiedCardinalityRange ObjectMinCardinality(1 :objectMinQualifiedCardinalityProperty :ObjectMinQualifiedCardinality_Qualifier))
+
+# Class: :ObjectOneOf (:ObjectOneOf)
+
+EquivalentClasses(:ObjectOneOf ObjectOneOf(:ObjectOneOf_Individual1 :ObjectOneOf_Individual2))
+
+# Class: :ObjectOneOf_EL (:ObjectOneOf_EL)
+
+SubClassOf(:ObjectOneOf_EL ObjectOneOf(:ObjectOneOf_EL_Individual))
+
+# Class: :ObjectSomeValuesFrom (:ObjectSomeValuesFrom)
+
+SubClassOf(:ObjectSomeValuesFrom ObjectSomeValuesFrom(:objectSomeValuesFromProperty :ObjectSomeValuesFromRange))
+
+# Class: :ObjectUnionOf (:ObjectUnionOf)
+
+SubClassOf(:ObjectUnionOf ObjectUnionOf(:ObjectUnionOf_Class1 :ObjectUnionOf_Class2 :ObjectUnionOf_Class3))
+
+# Class: :SubClass (:SubClass)
+
+SubClassOf(:SubClass :SuperClass)
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :AllDifferent_Individual1 (:AllDifferent_Individual1)
+
+
+# Individual: :AllDifferent_Individual2 (:AllDifferent_Individual2)
+
+
+# Individual: :AllDifferent_Individual3 (:AllDifferent_Individual3)
+
+
+# Individual: :AllDifferent_Individual4 (:AllDifferent_Individual4)
+
+
+# Individual: :NamedIndividual (:NamedIndividual)
+
+ClassAssertion(:Class40 :NamedIndividual)
+
+# Individual: :NegativeDataPropertyAssertion_SourceIndividual (:NegativeDataPropertyAssertion_SourceIndividual)
+
+NegativeDataPropertyAssertion(:negativeDataPropertyAssertionProperty :NegativeDataPropertyAssertion_SourceIndividual "NegativeDataPropertyAssertion_TargetValue"^^xsd:string)
+
+# Individual: :NegativeObjectPropertyAssertion_SourceIndividual (:NegativeObjectPropertyAssertion_SourceIndividual)
+
+NegativeObjectPropertyAssertion(:negativeObjectPropertyAssertionProperty :NegativeObjectPropertyAssertion_SourceIndividual :NegativeObjectPropertyAssertion_TargetIndividual)
+
+# Individual: :SameAs_Individual1 (:SameAs_Individual1)
+
+SameIndividual(:SameAs_Individual1 :SameAs_Individual2)
+
+
+SubClassOf(ObjectUnionOf(:ObjectUnionOf_RL_Class1 :ObjectUnionOf_RL_Class2 :ObjectUnionOf_RL_Class3) :ObjectUnionOf_RL)
+SubClassOf(ObjectOneOf(:ObjectOneOf_RL_Individual1 :ObjectOneOf_RL_Individual2) :ObjectOneOf_RL)
+SubClassOf(ObjectSomeValuesFrom(:objectSomeValuesFromProperty_RL :ObjectSomeValuesFromRange_RL) :ObjectSomeValuesFrom_RL)
+SubClassOf(DataSomeValuesFrom(:dataSomeValuesFromProperty_RL xsd:dateTime) :DataSomeValuesFrom_RL)
+DisjointClasses(:AllDisjointClasses_Class1 :AllDisjointClasses_Class2 :AllDisjointClasses_Class3)
+ClassAssertion(:Class1 _:genid2147483648)
+DifferentIndividuals(:AllDifferent_Individual1 :AllDifferent_Individual2 :AllDifferent_Individual3 :AllDifferent_Individual4)
+SubObjectPropertyOf(ObjectPropertyChain(:propertyChainProperty_SingleStep :propertyChainProperty_SingleStep) :propertyChainProperty_DoubleStep)
+HasKey(:HasKeyClass (:hasKeyProperty_2) (:hasKeyProperty_1))
+)

@@ -19,7 +19,7 @@ int main(void) {
 
     cowl_api_init();
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "pizza.owl", NULL);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, "example_pizza.owl", NULL);
     cowl_parser_release(parser);
 
     if (onto) {

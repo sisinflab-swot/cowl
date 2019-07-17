@@ -8,103 +8,34 @@
  * @file
  */
 
-#include <stdio.h>
-#include <assert.h>
-#include <time.h>
+#include "cowl_api.h"
+#include "cowl_ontology_tests.h"
+#include "cowl_parser_tests.h"
+#include "cowl_test_utils.h"
 
-#include "cowl_private.h"
-
-static inline double get_millis(void) {
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
-    return (double)ts.tv_sec * 1000.0 + (double)ts.tv_nsec / 1000000.0;
-}
-
-static void test_iri(void) {
-    const char ns_string[] = "http://test_namespace.owl#";
-    const char rem_string[] = "remainder";
-
-    CowlString *ns = cowl_string_get(ns_string, sizeof(ns_string), true);
-    CowlString *rem = cowl_string_get(rem_string, sizeof(rem_string), true);
-
-    CowlIRI *iri = cowl_iri_get(ns, rem);
-    assert(cowl_object_ref_get(iri) == 1);
-    assert(cowl_object_ref_get(ns) == 3);
-    assert(cowl_object_ref_get(rem) == 2);
-
-    cowl_iri_retain(iri);
-    assert(cowl_object_ref_get(iri) == 2);
-
-    cowl_iri_release(iri);
-    assert(cowl_object_ref_get(iri) == 1);
-
-    cowl_iri_release(iri);
-    assert(cowl_object_ref_get(ns) == 2);
-    assert(cowl_object_ref_get(rem) == 1);
-
-    cowl_string_release(ns);
-    cowl_string_release(rem);
-}
-
-static void test_anon_individual(void) {
-    CowlNodeID id = cowl_node_id_get_unique();
-    CowlAnonInd *anon_ind = cowl_anon_ind_get(id);
-    assert(cowl_object_ref_get(anon_ind) == 1);
-
-    CowlAnonInd *other_ind = cowl_anon_ind_get(id);
-    assert(other_ind == anon_ind);
-    assert(cowl_anon_ind_equals(other_ind, anon_ind));
-    assert(cowl_object_ref_get(other_ind) == 2);
-
-    cowl_anon_ind_retain(anon_ind);
-    assert(cowl_object_ref_get(anon_ind) == 3);
-
-    cowl_anon_ind_release(other_ind);
-    assert(cowl_object_ref_get(anon_ind) == 2);
-
-    cowl_anon_ind_release(anon_ind);
-    assert(cowl_object_ref_get(anon_ind) == 1);
-
-    cowl_anon_ind_release(anon_ind);
-}
-
-static CowlOntology* test_imports_loader(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
-                                         Vector(CowlError) *errors) {
-    CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "test_import.owl", errors);
-    cowl_parser_release(parser);
-    return onto;
-}
-
-static void test_parser(void) {
-    CowlLogger *logger = cowl_logger_console_get();
-    CowlParser *parser = cowl_parser_get();
-    Vector(CowlError) *errors = vector_alloc(CowlError);
-
-    CowlImportsLoader loader = cowl_imports_loader_init(NULL, test_imports_loader, NULL);
-    cowl_parser_set_imports_loader(parser, loader);
-
-    double start = get_millis();
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, "test_ontology.owl", errors);
-    double stop = get_millis();
-
-    if (ontology) cowl_logger_log_ontology(logger, ontology);
-
-    cowl_logger_logf(logger, "Ontology parsed in %.2f ms with %d errors.\n",
-                     stop - start, vector_count(errors));
-    cowl_logger_log_errors(logger, errors);
-
-    cowl_ontology_release(ontology);
-    cowl_parser_release(parser);
-    cowl_logger_release(logger);
-}
+#define cowl_run_tests(EXIT_CODE, ...) do {                                                         \
+    bool (*tests_to_run[])(void) = { __VA_ARGS__ };                                                 \
+    for (uint32_t test_i = 0; test_i < cowl_array_size(tests_to_run); ++test_i) {                   \
+        if (!tests_to_run[test_i]()) EXIT_CODE = EXIT_FAILURE;                                      \
+    }                                                                                               \
+} while(0)
 
 int main(void) {
     cowl_api_init();
 
-    test_iri();
-    test_anon_individual();
-    test_parser();
+    int exit_code = EXIT_SUCCESS;
+    printf("Starting tests...\n");
 
-    return 0;
+    cowl_run_tests(exit_code,
+        COWL_PARSER_TESTS,
+        COWL_ONTOLOGY_TESTS
+    );
+
+    if (exit_code == EXIT_SUCCESS) {
+        printf("All tests passed.\n");
+    } else {
+        printf("Some tests failed.\n");
+    }
+
+    return exit_code;
 }

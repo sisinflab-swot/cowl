@@ -24,7 +24,7 @@ int main(void) {
 
     // Deserialize an ontology. Errors will be appended to the 'errors' vector.
     Vector(CowlError) *errors = vector_alloc(CowlError);
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "pizza.owl", errors);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, "example_pizza.owl", errors);
     cowl_parser_release(parser);
 
     // Log the errors, if any.

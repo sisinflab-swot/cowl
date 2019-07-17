@@ -1,0 +1,51 @@
+Prefix(:=<http://sisinflab.poliba.it/swottools/test_import#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://sisinflab.poliba.it/swottools/test_import>
+
+Declaration(ObjectProperty(:ObjectPropertyA))
+Declaration(DataProperty(:DataPropertyA))
+Declaration(AnnotationProperty(:AnnotationPropertyA))
+Declaration(AnnotationProperty(:AnnotationPropertyB))
+Declaration(NamedIndividual(:IndividualA))
+Declaration(NamedIndividual(:IndividualB))
+
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :IndividualA (:IndividualA)
+
+ObjectPropertyAssertion(:ObjectPropertyA :IndividualA :IndividualB)
+
+# Individual: :IndividualB (:IndividualB)
+
+DataPropertyAssertion(:DataPropertyA :IndividualB "true"^^xsd:boolean)
+
+
+
+############################
+#   Annotation Properties
+############################
+
+# Annotation Property: :AnnotationPropertyA (:AnnotationPropertyA)
+
+SubAnnotationPropertyOf(
+Annotation(
+Annotation(rdfs:comment "This is a nested annotation"^^xsd:string)
+rdfs:label "Annotation Property A"^^xsd:string)
+Annotation(rdfs:comment "Test axiom annotations"^^xsd:string)
+:AnnotationPropertyA :AnnotationPropertyB)
+
+AnnotationPropertyDomain(:AnnotationPropertyA owl:Thing)
+AnnotationPropertyRange(:AnnotationPropertyA owl:Thing)
+
+
+)
