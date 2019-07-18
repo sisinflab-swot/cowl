@@ -96,3 +96,10 @@ bool cowl_annot_assert_axiom_iterate_signature(CowlAnnotAssertAxiom *axiom,
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_annot_assert_axiom_iterate_anon_inds(CowlAnnotAssertAxiom *axiom,
+                                               CowlAnonIndIterator *iter) {
+    if (!cowl_annot_value_iterate_anon_inds(axiom->subject, iter)) return false;
+    if (!cowl_annot_value_iterate_anon_inds(axiom->value, iter)) return false;
+    return true;
+}

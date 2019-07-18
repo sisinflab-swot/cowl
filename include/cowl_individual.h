@@ -109,6 +109,18 @@ cowl_uint_t cowl_individual_hash(CowlIndividual *ind);
 COWL_PUBLIC
 bool cowl_individual_iterate_signature(CowlIndividual *ind, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified individual.
+ *
+ * @param ind The individual.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlIndividual
+ */
+COWL_PUBLIC
+bool cowl_individual_iterate_anon_inds(CowlIndividual *ind, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_INDIVIDUAL_H

@@ -73,3 +73,7 @@ cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp) {
 bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, CowlEntityIterator *iter) {
     return cowl_cls_exp_set_iterate_signature(exp->operands, iter);
 }
+
+bool cowl_nary_bool_iterate_anon_inds(CowlNAryBool *exp, CowlAnonIndIterator *iter) {
+    return cowl_cls_exp_set_iterate_anon_inds(exp->operands, iter);
+}

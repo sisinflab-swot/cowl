@@ -115,3 +115,10 @@ bool cowl_data_prop_assert_axiom_iterate_signature(CowlDataPropAssertAxiom *axio
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_data_prop_assert_axiom_iterate_anon_inds(CowlDataPropAssertAxiom *axiom,
+                                                   CowlAnonIndIterator *iter) {
+    if (!cowl_individual_iterate_anon_inds(axiom->subject, iter)) return false;
+    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
+    return true;
+}

@@ -98,3 +98,9 @@ bool cowl_has_key_axiom_iterate_signature(CowlHasKeyAxiom *axiom, CowlEntityIter
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_has_key_axiom_iterate_anon_inds(CowlHasKeyAxiom *axiom, CowlAnonIndIterator *iter) {
+    if (!cowl_cls_exp_iterate_anon_inds(axiom->cls_exp, iter)) return false;
+    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
+    return true;
+}

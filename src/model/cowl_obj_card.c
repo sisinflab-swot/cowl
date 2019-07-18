@@ -99,3 +99,7 @@ bool cowl_obj_card_iterate_signature(CowlObjCard *restr, CowlEntityIterator *ite
     if (restr->filler && !cowl_cls_exp_iterate_signature(restr->filler, iter)) return false;
     return true;
 }
+
+bool cowl_obj_card_iterate_anon_inds(CowlObjCard *restr, CowlAnonIndIterator *iter) {
+    return !restr->filler || cowl_cls_exp_iterate_anon_inds(restr->filler, iter);
+}

@@ -13,6 +13,7 @@
 #ifndef COWL_ANON_IND_H
 #define COWL_ANON_IND_H
 
+#include "cowl_iterator.h"
 #include "cowl_node_id.h"
 #include "cowl_std.h"
 
@@ -110,6 +111,18 @@ bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs);
  */
 COWL_PUBLIC
 cowl_uint_t cowl_anon_ind_hash(CowlAnonInd *ind);
+
+/**
+ * Iterates over this anonymous individual.
+ *
+ * @param ind The anonymous individual.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlAnonInd
+ */
+COWL_PUBLIC
+bool cowl_anon_ind_iterate_anon_inds(CowlAnonInd *ind, CowlAnonIndIterator *iter);
 
 COWL_END_DECLS
 

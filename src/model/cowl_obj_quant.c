@@ -83,3 +83,7 @@ bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, CowlEntityIterator *i
     if (!cowl_cls_exp_iterate_signature(restr->filler, iter)) return false;
     return true;
 }
+
+bool cowl_obj_quant_iterate_anon_inds(CowlObjQuant *restr, CowlAnonIndIterator *iter) {
+    return cowl_cls_exp_iterate_anon_inds(restr->filler, iter);
+}

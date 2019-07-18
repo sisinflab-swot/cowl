@@ -86,3 +86,10 @@ bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom *axiom,
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_sub_cls_axiom_iterate_anon_inds(CowlSubClsAxiom *axiom, CowlAnonIndIterator *iter) {
+    if (!cowl_cls_exp_iterate_anon_inds(axiom->super_class, iter)) return false;
+    if (!cowl_cls_exp_iterate_anon_inds(axiom->sub_class, iter)) return false;
+    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
+    return true;
+}

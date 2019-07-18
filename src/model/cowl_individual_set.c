@@ -33,3 +33,10 @@ bool cowl_individual_set_iterate_signature(CowlIndividualSet *set, CowlEntityIte
     });
     return true;
 }
+
+bool cowl_individual_set_iterate_anon_inds(CowlIndividualSet *set, CowlAnonIndIterator *iter) {
+    uhash_foreach_key(CowlIndividualSet, set, ind, {
+        if (!cowl_individual_iterate_anon_inds(ind, iter)) return false;
+    });
+    return true;
+}

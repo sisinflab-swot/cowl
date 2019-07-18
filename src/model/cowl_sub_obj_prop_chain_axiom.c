@@ -90,3 +90,8 @@ bool cowl_sub_obj_prop_chain_axiom_iterate_signature(CowlSubObjPropChainAxiom *a
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_sub_obj_prop_chain_axiom_iterate_anon_inds(CowlSubObjPropChainAxiom *axiom,
+                                                     CowlAnonIndIterator *iter) {
+    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+}

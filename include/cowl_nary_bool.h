@@ -138,6 +138,19 @@ cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp);
 COWL_PUBLIC
 bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by
+ * the specified N-ary boolean class expression.
+ *
+ * @param exp The expression.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlNAryBool
+ */
+COWL_PUBLIC
+bool cowl_nary_bool_iterate_anon_inds(CowlNAryBool *exp, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_NARY_BOOL_H

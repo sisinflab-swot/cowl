@@ -66,3 +66,7 @@ cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *exp) {
 bool cowl_obj_compl_iterate_signature(CowlObjCompl *exp, CowlEntityIterator *iter) {
     return cowl_cls_exp_iterate_signature(exp->operand, iter);
 }
+
+bool cowl_obj_compl_iterate_anon_inds(CowlObjCompl *exp, CowlAnonIndIterator *iter) {
+    return cowl_cls_exp_iterate_anon_inds(exp->operand, iter);
+}

@@ -123,6 +123,18 @@ cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp);
 COWL_PUBLIC
 bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified individual enumeration.
+ *
+ * @param exp The individual enumeration.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjOneOf
+ */
+COWL_PUBLIC
+bool cowl_obj_one_of_iterate_anon_inds(CowlObjOneOf *exp, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_OBJ_ONE_OF_H

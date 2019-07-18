@@ -148,6 +148,18 @@ cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom);
 COWL_PUBLIC
 bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDisjUnionAxiom
+ */
+COWL_PUBLIC
+bool cowl_disj_union_axiom_iterate_anon_inds(CowlDisjUnionAxiom *axiom, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_DISJ_UNION_AXIOM_H

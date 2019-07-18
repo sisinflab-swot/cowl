@@ -38,3 +38,10 @@ bool cowl_annotation_vec_iterate_signature(CowlAnnotationVec *vec, CowlEntityIte
     });
     return true;
 }
+
+bool cowl_annotation_vec_iterate_anon_inds(CowlAnnotationVec *vec, CowlAnonIndIterator *iter) {
+    vector_foreach(CowlAnnotationPtr, vec, annot, {
+        if (!cowl_annotation_iterate_anon_inds(annot, iter)) return false;
+    });
+    return true;
+}

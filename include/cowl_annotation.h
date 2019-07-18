@@ -149,6 +149,18 @@ cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot);
 COWL_PUBLIC
 bool cowl_annotation_iterate_signature(CowlAnnotation *annot, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified annotation.
+ *
+ * @param annot The annotation.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlAnnotation
+ */
+COWL_PUBLIC
+bool cowl_annotation_iterate_anon_inds(CowlAnnotation *annot, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_ANNOTATION_H

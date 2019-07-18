@@ -73,3 +73,7 @@ bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, CowlEntityIterator 
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_decl_axiom_iterate_anon_inds(CowlDeclAxiom *axiom, CowlAnonIndIterator *iter) {
+    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+}

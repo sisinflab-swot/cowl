@@ -135,3 +135,26 @@ bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, CowlEntityIterator *iter) {
             return true;
     }
 }
+
+bool cowl_cls_exp_iterate_anon_inds(CowlClsExp *exp, CowlAnonIndIterator *iter) {
+
+#define GEN_CASE_ANON(CCET, TYPE, PREFIX) \
+    case CCET: return PREFIX##_iterate_anon_inds((TYPE *)exp, iter)
+
+    switch (exp->type) {
+
+        GEN_CASE_ANON(COWL_CET_OBJ_COMPL, CowlObjCompl, cowl_obj_compl);
+        GEN_CASE_ANON(COWL_CET_OBJ_INTERSECT, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_ANON(COWL_CET_OBJ_UNION, CowlNAryBool, cowl_nary_bool);
+        GEN_CASE_ANON(COWL_CET_OBJ_SOME, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_ANON(COWL_CET_OBJ_ALL, CowlObjQuant, cowl_obj_quant);
+        GEN_CASE_ANON(COWL_CET_OBJ_MIN_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_ANON(COWL_CET_OBJ_MAX_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_ANON(COWL_CET_OBJ_EXACT_CARD, CowlObjCard, cowl_obj_card);
+        GEN_CASE_ANON(COWL_CET_OBJ_HAS_VALUE, CowlObjHasValue, cowl_obj_has_value);
+        GEN_CASE_ANON(COWL_CET_OBJ_ONE_OF, CowlObjOneOf, cowl_obj_one_of);
+
+        default:
+            return true;
+    }
+}

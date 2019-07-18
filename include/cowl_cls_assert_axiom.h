@@ -150,6 +150,18 @@ cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
 COWL_PUBLIC
 bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom *axiom, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlClsAssertAxiom
+ */
+COWL_PUBLIC
+bool cowl_cls_assert_axiom_iterate_anon_inds(CowlClsAssertAxiom *axiom, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_CLS_ASSERT_AXIOM_H

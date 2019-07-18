@@ -82,3 +82,9 @@ bool cowl_nary_ind_axiom_iterate_signature(CowlNAryIndAxiom *axiom, CowlEntityIt
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_nary_ind_axiom_iterate_anon_inds(CowlNAryIndAxiom *axiom, CowlAnonIndIterator *iter) {
+    if (!cowl_individual_set_iterate_anon_inds(axiom->individuals, iter)) return false;
+    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
+    return true;
+}

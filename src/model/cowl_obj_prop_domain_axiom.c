@@ -88,3 +88,10 @@ bool cowl_obj_prop_domain_axiom_iterate_signature(CowlObjPropDomainAxiom *axiom,
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_obj_prop_domain_axiom_iterate_anon_inds(CowlObjPropDomainAxiom *axiom,
+                                                  CowlAnonIndIterator *iter) {
+    if (!cowl_cls_exp_iterate_anon_inds(axiom->domain, iter)) return false;
+    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
+    return true;
+}

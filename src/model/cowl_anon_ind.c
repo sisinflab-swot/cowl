@@ -81,3 +81,7 @@ bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {
 cowl_uint_t cowl_anon_ind_hash(CowlAnonInd *ind) {
     return uhash_ptr_hash(ind);
 }
+
+bool cowl_anon_ind_iterate_anon_inds(CowlAnonInd *ind, CowlAnonIndIterator *iter) {
+    return cowl_iterate(iter, ind);
+}

@@ -76,3 +76,8 @@ bool cowl_func_data_prop_axiom_iterate_signature(CowlFuncDataPropAxiom *axiom,
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_func_data_prop_axiom_iterate_anon_inds(CowlFuncDataPropAxiom *axiom,
+                                                 CowlAnonIndIterator *iter) {
+    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+}

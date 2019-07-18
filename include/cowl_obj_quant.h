@@ -151,6 +151,18 @@ cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr);
 COWL_PUBLIC
 bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified object quantifier.
+ *
+ * @param restr The axiom.
+ * @param iter The object quantifier.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjQuant
+ */
+COWL_PUBLIC
+bool cowl_obj_quant_iterate_anon_inds(CowlObjQuant *restr, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_OBJ_QUANT_H

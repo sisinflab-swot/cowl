@@ -88,3 +88,8 @@ bool cowl_data_prop_range_axiom_iterate_signature(CowlDataPropRangeAxiom *axiom,
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_data_prop_range_axiom_iterate_anon_inds(CowlDataPropRangeAxiom *axiom,
+                                                  CowlAnonIndIterator *iter) {
+    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+}

@@ -55,7 +55,7 @@ cowl_struct(CowlOntology) {
     .datatype_refs = uhmap_alloc(CowlDatatypeAxiomMap),                                             \
     .obj_prop_refs = uhmap_alloc(CowlObjPropAxiomMap),                                              \
     .named_ind_refs = uhmap_alloc(CowlNamedIndAxiomMap),                                            \
-    .anon_ind_refs = uhmap_alloc(CowlAnonIndAxiomMap),                                              \
+    .anon_ind_refs = NULL,                                                                          \
 }
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void);

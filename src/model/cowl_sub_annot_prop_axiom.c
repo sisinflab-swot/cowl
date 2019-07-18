@@ -87,3 +87,8 @@ bool cowl_sub_annot_prop_axiom_iterate_signature(CowlSubAnnotPropAxiom *axiom,
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_sub_annot_prop_axiom_iterate_anon_inds(CowlSubAnnotPropAxiom *axiom,
+                                                 CowlAnonIndIterator *iter) {
+    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+}

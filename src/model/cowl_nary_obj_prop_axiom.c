@@ -84,3 +84,8 @@ bool cowl_nary_obj_prop_axiom_iterate_signature(CowlNAryObjPropAxiom *axiom,
     if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
     return true;
 }
+
+bool cowl_nary_obj_prop_axiom_iterate_anon_inds(CowlNAryObjPropAxiom *axiom,
+                                                CowlAnonIndIterator *iter) {
+    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+}

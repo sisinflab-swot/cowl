@@ -149,6 +149,18 @@ cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
 COWL_PUBLIC
 bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom *axiom, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlSubClsAxiom
+ */
+COWL_PUBLIC
+bool cowl_sub_cls_axiom_iterate_anon_inds(CowlSubClsAxiom *axiom, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_SUB_CLS_AXIOM_H

@@ -68,3 +68,7 @@ cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp) {
 bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, CowlEntityIterator *iter) {
     return cowl_individual_set_iterate_signature(exp->inds, iter);
 }
+
+bool cowl_obj_one_of_iterate_anon_inds(CowlObjOneOf *exp, CowlAnonIndIterator *iter) {
+    return cowl_individual_set_iterate_anon_inds(exp->inds, iter);
+}

@@ -80,3 +80,7 @@ bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, CowlEntityIterat
     if (!cowl_individual_iterate_signature(exp->ind, iter)) return false;
     return true;
 }
+
+bool cowl_obj_has_value_iterate_anon_inds(CowlObjHasValue *exp, CowlAnonIndIterator *iter) {
+    return cowl_individual_iterate_anon_inds(exp->ind, iter);
+}

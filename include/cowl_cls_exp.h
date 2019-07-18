@@ -111,6 +111,18 @@ cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp);
 COWL_PUBLIC
 bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified class expression.
+ *
+ * @param exp The class expression.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlClsExp
+ */
+COWL_PUBLIC
+bool cowl_cls_exp_iterate_anon_inds(CowlClsExp *exp, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_CLS_EXP_H

@@ -165,6 +165,19 @@ cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr);
 COWL_PUBLIC
 bool cowl_obj_card_iterate_signature(CowlObjCard *restr, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by
+ * the specified object property cardinality restriction.
+ *
+ * @param restr The restriction.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjCard
+ */
+COWL_PUBLIC
+bool cowl_obj_card_iterate_anon_inds(CowlObjCard *restr, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_OBJ_CARD_H

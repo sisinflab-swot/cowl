@@ -136,6 +136,19 @@ cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp);
 COWL_PUBLIC
 bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by
+ * the specified individual value restriction.
+ *
+ * @param exp The restriction.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjHasValue
+ */
+COWL_PUBLIC
+bool cowl_obj_has_value_iterate_anon_inds(CowlObjHasValue *exp, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_OBJ_HAS_VALUE_H

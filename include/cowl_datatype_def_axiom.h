@@ -150,6 +150,19 @@ COWL_PUBLIC
 bool cowl_datatype_def_axiom_iterate_signature(CowlDatatypeDefAxiom *axiom,
                                                CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDatatypeDefAxiom
+ */
+COWL_PUBLIC
+bool cowl_datatype_def_axiom_iterate_anon_inds(CowlDatatypeDefAxiom *axiom,
+                                               CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_DEF_AXIOM_H

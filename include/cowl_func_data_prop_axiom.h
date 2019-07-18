@@ -138,6 +138,19 @@ COWL_PUBLIC
 bool cowl_func_data_prop_axiom_iterate_signature(CowlFuncDataPropAxiom *axiom,
                                                  CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlFuncDataPropAxiom
+ */
+COWL_PUBLIC
+bool cowl_func_data_prop_axiom_iterate_anon_inds(CowlFuncDataPropAxiom *axiom,
+                                                 CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_FUNC_DATA_PROP_AXIOM_H

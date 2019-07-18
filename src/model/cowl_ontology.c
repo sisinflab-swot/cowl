@@ -20,17 +20,29 @@ UHASH_IMPL(CowlObjPropAxiomMap, cowl_obj_prop_hash, cowl_obj_prop_equals)
 UHASH_IMPL(CowlNamedIndAxiomMap, cowl_named_ind_hash, cowl_named_ind_equals)
 UHASH_IMPL(CowlAnonIndAxiomMap, cowl_anon_ind_hash, cowl_anon_ind_equals)
 
-typedef cowl_struct(CowlAxiomEntityCtx) {
+typedef cowl_struct(CowlAxiomCtx) {
     CowlOntology *onto;
     CowlAxiom *axiom;
-} CowlAxiomEntityCtx;
+} CowlAxiomCtx;
+
+// Private prototypes
 
 static cowl_struct(CowlOntology)* cowl_ontology_alloc(void);
 static void cowl_ontology_free(CowlOntology *onto);
 
-static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity);
+static inline UHash(CowlAnonIndAxiomMap)* cowl_ontology_get_anon_ind_refs(CowlOntology *onto);
+void cowl_ontology_anon_ind_refs_init(CowlOntology *onto);
+
 static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,
                                                CowlEntity entity);
+static void cowl_ontology_add_axiom_for_anon_ind(CowlOntology *onto, CowlAxiom *axiom,
+                                                 CowlAnonInd *ind);
+
+static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity);
+static bool cowl_ontology_anon_ind_adder(void *ctx, CowlAnonInd *ind);
+static bool cowl_ontology_lazy_anon_ind_init(void *ctx, CowlAxiom *axiom);
+
+// Utils
 
 #define cowl_add_axiom_to_set_in_map(T, map, key, axiom) do {                                       \
     uhash_ret_t __cowl_ret;                                                                         \
@@ -53,6 +65,8 @@ static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *ax
                                                                                                     \
     uhset_insert(CowlAxiomSet, __cowl_axioms, axiom);                                               \
 } while(0)
+
+// Public API
 
 CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
     return cowl_object_retain(onto);
@@ -297,7 +311,9 @@ bool cowl_ontology_iterate_named_inds(CowlOntology *onto, CowlNamedIndIterator *
 }
 
 bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, CowlAnonIndIterator *iter) {
-    uhash_foreach_key(CowlAnonIndAxiomMap, onto->anon_ind_refs, ind, {
+    UHash(CowlAnonIndAxiomMap) *refs = cowl_ontology_get_anon_ind_refs(onto);
+
+    uhash_foreach_key(CowlAnonIndAxiomMap, refs, ind, {
         if (!cowl_iterate(iter, ind)) return false;
     });
 
@@ -500,7 +516,8 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
     if (ind->is_named) {
         axioms = uhmap_get(CowlNamedIndAxiomMap, onto->named_ind_refs, (CowlNamedInd *)ind, NULL);
     } else {
-        axioms = uhmap_get(CowlAnonIndAxiomMap, onto->anon_ind_refs, (CowlAnonInd *)ind, NULL);
+        UHash(CowlAnonIndAxiomMap) *refs = cowl_ontology_get_anon_ind_refs(onto);
+        axioms = uhmap_get(CowlAnonIndAxiomMap, refs, (CowlAnonInd *)ind, NULL);
     }
 
     uhash_foreach_key(CowlAxiomSet, axioms, axiom, {
@@ -516,6 +533,8 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
 
     return true;
 }
+
+// Private API
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void) {
     return cowl_ontology_alloc();
@@ -565,6 +584,25 @@ void cowl_ontology_free(CowlOntology *onto) {
     free((void *)onto);
 }
 
+void cowl_ontology_anon_ind_refs_init(CowlOntology *onto) {
+    if (onto->anon_ind_refs) return;
+
+    ((cowl_struct(CowlOntology)*)onto)->anon_ind_refs = uhmap_alloc(CowlAnonIndAxiomMap);
+    CowlAxiomIterator a_iter = cowl_iterator_init(onto, cowl_ontology_lazy_anon_ind_init);
+    cowl_ontology_iterate_axioms(onto, &a_iter);
+
+    if (onto->annotations) {
+        CowlAxiomCtx c = { .onto = onto };
+        CowlAnonIndIterator i_iter = cowl_iterator_init(&c, cowl_ontology_anon_ind_adder);
+        cowl_annotation_vec_iterate_anon_inds(onto->annotations, &i_iter);
+    }
+}
+
+UHash(CowlAnonIndAxiomMap)* cowl_ontology_get_anon_ind_refs(CowlOntology *onto) {
+    if (!onto->anon_ind_refs) cowl_ontology_anon_ind_refs_init(onto);
+    return onto->anon_ind_refs;
+}
+
 void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyID *id) {
     onto->id = id;
 }
@@ -573,7 +611,7 @@ void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto,
                              Vector(CowlAnnotationPtr) *annot) {
     onto->annotations = annot;
 
-    CowlAxiomEntityCtx c = { .onto = onto };
+    CowlAxiomCtx c = { .onto = onto };
     CowlEntityIterator iter = cowl_iterator_init(&c, cowl_ontology_entity_adder);
     cowl_annotation_vec_iterate_signature(annot, &iter);
 }
@@ -588,13 +626,12 @@ void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom) 
     CowlAxiomType type = cowl_axiom_flags_get_type(axiom->flags);
     cowl_add_axiom_to_set_in_array(onto->axioms_by_type, type, axiom);
 
-    CowlAxiomEntityCtx c = { .onto = onto, .axiom = axiom };
+    CowlAxiomCtx c = { .onto = onto, .axiom = axiom };
     CowlEntityIterator iter = cowl_iterator_init(&c, cowl_ontology_entity_adder);
     cowl_axiom_iterate_signature(axiom, &iter);
 }
 
-static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,
-                                               CowlEntity entity) {
+void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom, CowlEntity entity) {
     switch (entity.type) {
 
         case COWL_ET_CLASS:
@@ -632,8 +669,27 @@ static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *ax
     }
 }
 
-static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity) {
-    CowlAxiomEntityCtx *axiom_ctx = (CowlAxiomEntityCtx *)ctx;
+void cowl_ontology_add_axiom_for_anon_ind(CowlOntology *onto, CowlAxiom *axiom, CowlAnonInd *ind) {
+    cowl_add_axiom_to_set_in_map(CowlAnonIndAxiomMap, onto->anon_ind_refs, ind, axiom);
+}
+
+// Iterator functions
+
+bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity) {
+    CowlAxiomCtx *axiom_ctx = (CowlAxiomCtx *)ctx;
     cowl_ontology_add_axiom_for_entity(axiom_ctx->onto, axiom_ctx->axiom, entity);
+    return true;
+}
+
+bool cowl_ontology_anon_ind_adder(void *ctx, CowlAnonInd *ind) {
+    CowlAxiomCtx *axiom_ctx = (CowlAxiomCtx *)ctx;
+    cowl_ontology_add_axiom_for_anon_ind(axiom_ctx->onto, axiom_ctx->axiom, ind);
+    return true;
+}
+
+bool cowl_ontology_lazy_anon_ind_init(void *ctx, CowlAxiom *axiom) {
+    CowlAxiomCtx c = { .onto = ctx, .axiom = axiom };
+    CowlAnonIndIterator iter = cowl_iterator_init(&c, cowl_ontology_anon_ind_adder);
+    cowl_axiom_iterate_anon_inds(axiom, &iter);
     return true;
 }

@@ -77,6 +77,18 @@ cowl_uint_t cowl_individual_set_hash(CowlIndividualSet *set);
 COWL_PUBLIC
 bool cowl_individual_set_iterate_signature(CowlIndividualSet *set, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the anonymous individuals referenced by the specified set.
+ *
+ * @param set The set.
+ * @param iter The anonymous individual iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlIndividualSet
+ */
+COWL_PUBLIC
+bool cowl_individual_set_iterate_anon_inds(CowlIndividualSet *set, CowlAnonIndIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_INDIVIDUAL_SET_H
