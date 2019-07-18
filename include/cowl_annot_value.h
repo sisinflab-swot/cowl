@@ -14,6 +14,7 @@
 #define COWL_ANNOT_VALUE_H
 
 #include "cowl_annot_value_type.h"
+#include "cowl_iterator.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
@@ -168,6 +169,17 @@ bool cowl_annot_value_equals(CowlAnnotValue lhs, CowlAnnotValue rhs);
  * @public @memberof CowlAnnotValue
  */
 cowl_uint_t cowl_annot_value_hash(CowlAnnotValue value);
+
+/**
+ * Iterates over the signature of the specified annotation value.
+ *
+ * @param axiom The annotation value.
+ * @param iter The entity iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlAnnotValue
+ */
+bool cowl_annot_value_iterate_signature(CowlAnnotValue value, CowlEntityIterator *iter);
 
 COWL_END_DECLS
 

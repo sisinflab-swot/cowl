@@ -86,3 +86,8 @@ cowl_uint_t cowl_annot_value_hash(CowlAnnotValue value) {
             return 0;
     }
 }
+
+bool cowl_annot_value_iterate_signature(CowlAnnotValue value, CowlEntityIterator *iter) {
+    if (value.type != COWL_AVT_LITERAL) return true;
+    return cowl_literal_iterate_signature(value.literal, iter);
+}

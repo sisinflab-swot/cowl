@@ -36,16 +36,11 @@ static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *ax
     uhash_ret_t __cowl_ret;                                                                         \
     uhash_uint_t k = uhash_put(T, map, key, &__cowl_ret);                                           \
                                                                                                     \
-    CowlAxiomSet *__cowl_axioms;                                                                    \
-                                                                                                    \
     if (__cowl_ret == UHASH_INSERTED) {                                                             \
-        __cowl_axioms = uhset_alloc(CowlAxiomSet);                                                  \
-        uhash_value(map, k) = __cowl_axioms;                                                        \
-    } else {                                                                                        \
-        __cowl_axioms = uhash_value(map, k);                                                        \
+        uhash_value(map, k) = uhset_alloc(CowlAxiomSet);                                            \
     }                                                                                               \
                                                                                                     \
-    uhset_insert(CowlAxiomSet, __cowl_axioms, axiom);                                               \
+    if (axiom) uhset_insert(CowlAxiomSet, uhash_value(map, k), axiom);                              \
 } while(0)
 
 #define cowl_add_axiom_to_set_in_array(array, idx, axiom) do {                                      \
@@ -577,6 +572,10 @@ void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyID *id) {
 void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto,
                              Vector(CowlAnnotationPtr) *annot) {
     onto->annotations = annot;
+
+    CowlAxiomEntityCtx c = { .onto = onto };
+    CowlEntityIterator iter = cowl_iterator_init(&c, cowl_ontology_entity_adder);
+    cowl_annotation_vec_iterate_signature(annot, &iter);
 }
 
 void cowl_ontology_set_imports(cowl_struct(CowlOntology) *onto, Vector(CowlOntologyPtr) *imports) {
