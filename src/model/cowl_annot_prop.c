@@ -13,8 +13,11 @@
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
 
-UHASH_INIT(CowlAnnotPropMap, CowlIRI*, CowlAnnotProp*, cowl_iri_hash, cowl_iri_equals)
-static UHash(CowlAnnotPropMap) *inst_map = NULL;
+#define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
+#define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
+
+UHASH_INIT(CowlAnnotPropTable, CowlAnnotProp*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
+static UHash(CowlAnnotPropTable) *inst_tbl = NULL;
 
 static CowlAnnotProp* cowl_annot_prop_alloc(CowlIRI *iri) {
     CowlAnnotProp init = COWL_ANNOT_PROP_INIT(cowl_iri_retain(iri));
@@ -30,17 +33,19 @@ static void cowl_annot_prop_free(CowlAnnotProp *prop) {
 }
 
 CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
-    if (!inst_map) inst_map = uhmap_alloc(CowlAnnotPropMap);
+    if (!inst_tbl) inst_tbl = uhset_alloc(CowlAnnotPropTable);
+
+    uhash_ret_t ret;
+    CowlAnnotProp key = { .iri = iri };
+    uhash_uint_t idx = uhash_put(CowlAnnotPropTable, inst_tbl, &key, &ret);
 
     CowlAnnotProp *prop;
-    uhash_ret_t ret;
-    uhash_uint_t idx = uhash_put(CowlAnnotPropMap, inst_map, iri, &ret);
 
     if (ret == UHASH_INSERTED) {
         prop = cowl_annot_prop_alloc(iri);
-        uhash_value(inst_map, idx) = prop;
+        uhash_key(inst_tbl, idx) = prop;
     } else {
-        prop = uhash_value(inst_map, idx);
+        prop = uhash_key(inst_tbl, idx);
         cowl_object_retain(prop);
     }
 
@@ -53,7 +58,7 @@ CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) {
 
 void cowl_annot_prop_release(CowlAnnotProp *prop) {
     if (prop && !cowl_object_release(prop)) {
-        uhmap_remove(CowlAnnotPropMap, inst_map, prop->iri);
+        uhset_remove(CowlAnnotPropTable, inst_tbl, prop);
         cowl_annot_prop_free(prop);
     }
 }

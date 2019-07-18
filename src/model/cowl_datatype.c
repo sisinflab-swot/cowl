@@ -13,8 +13,11 @@
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
 
-UHASH_INIT(CowlDatatypeMap, CowlIRI*, CowlDatatype*, cowl_iri_hash, cowl_iri_equals)
-static UHash(CowlDatatypeMap) *inst_map = NULL;
+#define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
+#define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
+
+UHASH_INIT(CowlDatatypeTable, CowlDatatype*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
+static UHash(CowlDatatypeTable) *inst_tbl = NULL;
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     CowlDatatype init = {
@@ -37,17 +40,19 @@ static void cowl_datatype_free(CowlDatatype *dt) {
 }
 
 CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
-    if (!inst_map) inst_map = uhmap_alloc(CowlDatatypeMap);
+    if (!inst_tbl) inst_tbl = uhset_alloc(CowlDatatypeTable);
+
+    uhash_ret_t ret;
+    CowlDatatype key = { .iri = iri };
+    uhash_uint_t idx = uhash_put(CowlDatatypeTable, inst_tbl, &key, &ret);
 
     CowlDatatype *dt;
-    uhash_ret_t ret;
-    uhash_uint_t idx = uhash_put(CowlDatatypeMap, inst_map, iri, &ret);
 
     if (ret == UHASH_INSERTED) {
         dt = cowl_datatype_alloc(iri);
-        uhash_value(inst_map, idx) = dt;
+        uhash_key(inst_tbl, idx) = dt;
     } else {
-        dt = uhash_value(inst_map, idx);
+        dt = uhash_key(inst_tbl, idx);
         cowl_object_retain(dt);
     }
 
@@ -60,7 +65,7 @@ CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) {
 
 void cowl_datatype_release(CowlDatatype *dt) {
     if (dt && !cowl_object_release(dt)) {
-        uhmap_remove(CowlDatatypeMap, inst_map, dt->iri);
+        uhset_remove(CowlDatatypeTable, inst_tbl, dt);
         cowl_datatype_free(dt);
     }
 }
