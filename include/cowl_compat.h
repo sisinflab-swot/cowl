@@ -105,7 +105,7 @@
  * @param NAME Name of the hash table type.
  */
 #define cowl_hash_decl(NAME)                                                                        \
-    typedef struct UHash(NAME) UHash(NAME);                                                         \
-    typedef struct UHash(NAME) const NAME
+    typedef uhash_struct(NAME) UHash(NAME);                                                         \
+    typedef uhash_struct(NAME) const NAME
 
 #endif // COWL_COMPAT_H

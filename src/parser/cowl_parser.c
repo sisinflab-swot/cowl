@@ -16,14 +16,13 @@
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
 
-UHASH_MAP_IMPL(CowlPrefixNsMap, CowlString*, CowlString*, cowl_string_hash, cowl_string_equals)
-UHASH_MAP_IMPL(CowlNodeIdMap, CowlString*, cowl_uint_t, cowl_string_hash, cowl_string_equals)
+UHASH_IMPL(CowlNodeIdMap, cowl_string_hash, cowl_string_equals)
 
 static CowlParser* cowl_parser_alloc(void) {
     CowlParser init = {
         .super = COWL_OBJECT_INIT,
-        .prefix_ns_map = uhash_alloc(CowlPrefixNsMap),
-        .node_id_map = uhash_alloc(CowlNodeIdMap),
+        .prefix_ns_map = uhmap_alloc(CowlStringTable),
+        .node_id_map = uhmap_alloc(CowlNodeIdMap),
         .ontology = cowl_ontology_get(),
         .errors = NULL
     };
@@ -35,11 +34,11 @@ static CowlParser* cowl_parser_alloc(void) {
 static void cowl_parser_free(CowlParser *parser) {
     if (!parser) return;
 
-    uhash_foreach(CowlPrefixNsMap, parser->prefix_ns_map, prefix, ns, {
+    uhash_foreach(CowlStringTable, parser->prefix_ns_map, prefix, ns, {
         cowl_string_release(prefix);
         cowl_string_release(ns);
     });
-    uhash_free(CowlPrefixNsMap, parser->prefix_ns_map);
+    uhash_free(CowlStringTable, parser->prefix_ns_map);
 
     uhash_foreach_key(CowlNodeIdMap, parser->node_id_map, id, cowl_string_release(id));
     uhash_free(CowlNodeIdMap, parser->node_id_map);
@@ -114,7 +113,7 @@ void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom) {
 }
 
 void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns) {
-    if (uhmap_add(CowlPrefixNsMap, parser->prefix_ns_map, prefix, ns, NULL) == UHASH_INSERTED) {
+    if (uhmap_add(CowlStringTable, parser->prefix_ns_map, prefix, ns, NULL) == UHASH_INSERTED) {
         cowl_string_retain(prefix);
         cowl_string_retain(ns);
     }
@@ -130,7 +129,7 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser,
     CowlString *parts[2] = { NULL };
     cowl_string_split_two(cstring, length, ':', parts);
 
-    CowlString *ns = uhmap_get(CowlPrefixNsMap, parser->prefix_ns_map, parts[0], NULL);
+    CowlString *ns = uhmap_get(CowlStringTable, parser->prefix_ns_map, parts[0], NULL);
     CowlIRI *iri = ns ? cowl_iri_get(ns, parts[1]) : NULL;
 
     cowl_string_release(parts[0]);

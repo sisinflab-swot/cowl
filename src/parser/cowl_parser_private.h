@@ -25,13 +25,13 @@ cowl_struct_decl(CowlOntologyID);
 
 typedef vector_struct(CowlAnnotationPtr) Vector(CowlAnnotationPtr);
 typedef vector_struct(CowlOntologyPtr) Vector(CowlOntologyPtr);
+typedef uhash_struct(CowlStringTable) UHash(CowlStringTable);
 
-UHASH_MAP_DECL(CowlPrefixNsMap, CowlString*, CowlString*)
-UHASH_MAP_DECL(CowlNodeIdMap, CowlString*, CowlNodeID)
+UHASH_DECL(CowlNodeIdMap, CowlString*, CowlNodeID)
 
 cowl_struct(CowlParser) {
     CowlObject super;
-    UHash(CowlPrefixNsMap) *prefix_ns_map;
+    UHash(CowlStringTable) *prefix_ns_map;
     UHash(CowlNodeIdMap) *node_id_map;
     cowl_struct(CowlOntology) *ontology;
     Vector(CowlError) *errors;

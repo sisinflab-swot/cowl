@@ -14,6 +14,8 @@
 
 #include <stdio.h>
 
+UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
+
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length,
                                    cowl_raw_string_hash(raw_string));

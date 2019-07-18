@@ -495,7 +495,7 @@ datatype_restriction
 
 facet_restriction_list
     : facet_restriction {
-        $$ = uhash_alloc(CowlFacetRestrSet);
+        $$ = uhset_alloc(CowlFacetRestrSet);
         uhset_insert(CowlFacetRestrSet, $$, $1);
     }
     | facet_restriction_list facet_restriction {
@@ -1137,7 +1137,7 @@ annotation_star
 
 class_expression_list
     : class_expression {
-        $$ = uhash_alloc(CowlClsExpSet);
+        $$ = uhset_alloc(CowlClsExpSet);
         uhset_insert(CowlClsExpSet, $$, $1);
     }
     | class_expression_list class_expression {
@@ -1155,7 +1155,7 @@ class_expression_2_list
 
 data_property_expression_list
     : data_property_expression {
-        $$ = uhash_alloc(CowlDataPropExpSet);
+        $$ = uhset_alloc(CowlDataPropExpSet);
         uhset_insert(CowlDataPropExpSet, $$, $1);
     }
     | data_property_expression_list data_property_expression {
@@ -1173,7 +1173,7 @@ data_property_expression_2_list
 
 data_property_expression_star
     : %empty {
-        $$ = uhash_alloc(CowlDataPropExpSet);
+        $$ = uhset_alloc(CowlDataPropExpSet);
     }
     | data_property_expression_star data_property_expression {
         $$ = $1;
@@ -1183,7 +1183,7 @@ data_property_expression_star
 
 data_range_list
     : data_range {
-        $$ = uhash_alloc(CowlDataRangeSet);
+        $$ = uhset_alloc(CowlDataRangeSet);
         uhset_insert(CowlDataRangeSet, $$, $1);
     }
     | data_range_list data_range {
@@ -1215,7 +1215,7 @@ import_star
 
 individual_list
     : individual {
-        $$ = uhash_alloc(CowlIndividualSet);
+        $$ = uhset_alloc(CowlIndividualSet);
         uhset_insert(CowlIndividualSet, $$, $1);
     }
     | individual_list individual {
@@ -1233,7 +1233,7 @@ individual_2_list
 
 literal_list
     : literal {
-        $$ = uhash_alloc(CowlLiteralSet);
+        $$ = uhset_alloc(CowlLiteralSet);
         uhset_insert(CowlLiteralSet, $$, $1);
     }
     | literal_list literal {
@@ -1244,7 +1244,7 @@ literal_list
 
 object_property_expression_list
     : object_property_expression {
-        $$ = uhash_alloc(CowlObjPropExpSet);
+        $$ = uhset_alloc(CowlObjPropExpSet);
         uhset_insert(CowlObjPropExpSet, $$, $1);
     }
     | object_property_expression_list object_property_expression {
@@ -1274,7 +1274,7 @@ object_property_expression_ordered_2_list
 
 object_property_expression_star
     : %empty {
-        $$ = uhash_alloc(CowlObjPropExpSet);
+        $$ = uhset_alloc(CowlObjPropExpSet);
     }
     | object_property_expression_star object_property_expression {
         $$ = $1;

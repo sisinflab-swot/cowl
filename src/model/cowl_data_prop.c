@@ -13,7 +13,7 @@
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
 
-UHASH_MAP_INIT(CowlDataPropMap, CowlIRI*, CowlDataProp*, cowl_iri_hash, cowl_iri_equals)
+UHASH_INIT(CowlDataPropMap, CowlIRI*, CowlDataProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlDataPropMap) *inst_map = NULL;
 
 static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
@@ -30,7 +30,7 @@ static void cowl_data_prop_free(CowlDataProp *prop) {
 }
 
 CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
-    if (!inst_map) inst_map = uhash_alloc(CowlDataPropMap);
+    if (!inst_map) inst_map = uhmap_alloc(CowlDataPropMap);
 
     CowlDataProp *prop;
     uhash_ret_t ret;

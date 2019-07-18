@@ -13,7 +13,7 @@
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
 
-UHASH_MAP_INIT(CowlAnnotPropMap, CowlIRI*, CowlAnnotProp*, cowl_iri_hash, cowl_iri_equals)
+UHASH_INIT(CowlAnnotPropMap, CowlIRI*, CowlAnnotProp*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlAnnotPropMap) *inst_map = NULL;
 
 static CowlAnnotProp* cowl_annot_prop_alloc(CowlIRI *iri) {
@@ -30,7 +30,7 @@ static void cowl_annot_prop_free(CowlAnnotProp *prop) {
 }
 
 CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
-    if (!inst_map) inst_map = uhash_alloc(CowlAnnotPropMap);
+    if (!inst_map) inst_map = uhmap_alloc(CowlAnnotPropMap);
 
     CowlAnnotProp *prop;
     uhash_ret_t ret;

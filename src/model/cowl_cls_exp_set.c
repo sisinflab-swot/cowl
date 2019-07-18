@@ -11,7 +11,7 @@
 #include "cowl_cls_exp_set.h"
 #include "cowl_cls_exp.h"
 
-UHASH_SET_IMPL(CowlClsExpSet, CowlClsExp*, cowl_cls_exp_hash, cowl_cls_exp_equals)
+UHASH_IMPL(CowlClsExpSet, cowl_cls_exp_hash, cowl_cls_exp_equals)
 
 void cowl_cls_exp_set_free(CowlClsExpSet *set) {
     if (!set) return;

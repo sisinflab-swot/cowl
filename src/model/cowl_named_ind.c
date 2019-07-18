@@ -13,7 +13,7 @@
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
 
-UHASH_MAP_INIT(CowlNamedIndMap, CowlIRI*, CowlNamedInd*, cowl_iri_hash, cowl_iri_equals)
+UHASH_INIT(CowlNamedIndMap, CowlIRI*, CowlNamedInd*, cowl_iri_hash, cowl_iri_equals)
 static UHash(CowlNamedIndMap) *inst_map = NULL;
 
 static CowlNamedInd* cowl_named_ind_alloc(CowlIRI *iri) {
@@ -33,7 +33,7 @@ static void cowl_named_ind_free(CowlNamedInd *ind) {
 }
 
 CowlNamedInd* cowl_named_ind_get(CowlIRI *iri) {
-    if (!inst_map) inst_map = uhash_alloc(CowlNamedIndMap);
+    if (!inst_map) inst_map = uhmap_alloc(CowlNamedIndMap);
 
     CowlNamedInd *ind;
     uhash_ret_t ret;

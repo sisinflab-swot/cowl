@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlIndividual);
 
-UHASH_SET_DECL_SPEC(CowlIndividualSet, CowlIndividual*, COWL_PUBLIC)
+UHASH_DECL_SPEC(CowlIndividualSet, CowlIndividual*, UHASH_VAL_IGNORE, COWL_PUBLIC)
 cowl_hash_decl(CowlIndividualSet);
 /// @endcond
 

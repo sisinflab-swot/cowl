@@ -12,8 +12,8 @@
 #include "cowl_obj_prop.h"
 #include "cowl_str_buf.h"
 
-UHASH_MAP_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInvObjProp*,
-               cowl_obj_prop_hash, cowl_obj_prop_equals)
+UHASH_INIT(CowlInvObjPropMap, CowlObjProp*, CowlInvObjProp*,
+           cowl_obj_prop_hash, cowl_obj_prop_equals)
 static UHash(CowlInvObjPropMap) *inst_map = NULL;
 
 static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
@@ -33,7 +33,7 @@ static void cowl_inv_obj_prop_free(CowlInvObjProp *inv) {
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
-    if (!inst_map) inst_map = uhash_alloc(CowlInvObjPropMap);
+    if (!inst_map) inst_map = uhmap_alloc(CowlInvObjPropMap);
 
     CowlInvObjProp *inv;
     uhash_ret_t ret;

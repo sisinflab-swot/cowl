@@ -11,7 +11,7 @@
 #include "cowl_data_range_set.h"
 #include "cowl_data_range.h"
 
-UHASH_SET_IMPL(CowlDataRangeSet, CowlDataRange*, cowl_data_range_hash, cowl_data_range_equals)
+UHASH_IMPL(CowlDataRangeSet, cowl_data_range_hash, cowl_data_range_equals)
 
 void cowl_data_range_set_free(CowlDataRangeSet *set) {
     if (!set) return;

@@ -11,8 +11,7 @@
 #include "cowl_data_prop_exp_set.h"
 #include "cowl_data_prop_exp.h"
 
-UHASH_SET_IMPL(CowlDataPropExpSet, CowlDataPropExp*,
-               cowl_data_prop_exp_hash, cowl_data_prop_exp_equals)
+UHASH_IMPL(CowlDataPropExpSet, cowl_data_prop_exp_hash, cowl_data_prop_exp_equals)
 
 void cowl_data_prop_exp_set_free(CowlDataPropExpSet *set) {
     if (!set) return;

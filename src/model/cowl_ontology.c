@@ -12,26 +12,13 @@
 #include "cowl_ontology_vec.h"
 #include "cowl_private.h"
 
-UHASH_MAP_IMPL(CowlAnnotPropAxiomMap, CowlAnnotProp*, CowlAxiomSet*,
-               cowl_annot_prop_hash, cowl_annot_prop_equals)
-
-UHASH_MAP_IMPL(CowlClassAxiomMap, CowlClass*, CowlAxiomSet*,
-               cowl_class_hash, cowl_class_equals)
-
-UHASH_MAP_IMPL(CowlDataPropAxiomMap, CowlDataProp*, CowlAxiomSet*,
-               cowl_data_prop_hash, cowl_data_prop_equals)
-
-UHASH_MAP_IMPL(CowlDatatypeAxiomMap, CowlDatatype*, CowlAxiomSet*,
-               cowl_datatype_hash, cowl_datatype_equals)
-
-UHASH_MAP_IMPL(CowlObjPropAxiomMap, CowlObjProp*, CowlAxiomSet*,
-               cowl_obj_prop_hash, cowl_obj_prop_equals)
-
-UHASH_MAP_IMPL(CowlNamedIndAxiomMap, CowlNamedInd*, CowlAxiomSet*,
-               cowl_named_ind_hash, cowl_named_ind_equals)
-
-UHASH_MAP_IMPL(CowlAnonIndAxiomMap, CowlAnonInd*, CowlAxiomSet*,
-               cowl_anon_ind_hash, cowl_anon_ind_equals)
+UHASH_IMPL(CowlAnnotPropAxiomMap, cowl_annot_prop_hash, cowl_annot_prop_equals)
+UHASH_IMPL(CowlClassAxiomMap, cowl_class_hash, cowl_class_equals)
+UHASH_IMPL(CowlDataPropAxiomMap, cowl_data_prop_hash, cowl_data_prop_equals)
+UHASH_IMPL(CowlDatatypeAxiomMap, cowl_datatype_hash, cowl_datatype_equals)
+UHASH_IMPL(CowlObjPropAxiomMap, cowl_obj_prop_hash, cowl_obj_prop_equals)
+UHASH_IMPL(CowlNamedIndAxiomMap, cowl_named_ind_hash, cowl_named_ind_equals)
+UHASH_IMPL(CowlAnonIndAxiomMap, cowl_anon_ind_hash, cowl_anon_ind_equals)
 
 typedef cowl_struct(CowlAxiomEntityCtx) {
     CowlOntology *onto;
@@ -52,7 +39,7 @@ static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *ax
     CowlAxiomSet *__cowl_axioms;                                                                    \
                                                                                                     \
     if (__cowl_ret == UHASH_INSERTED) {                                                             \
-        __cowl_axioms = uhash_alloc(CowlAxiomSet);                                                  \
+        __cowl_axioms = uhset_alloc(CowlAxiomSet);                                                  \
         uhash_value(map, k) = __cowl_axioms;                                                        \
     } else {                                                                                        \
         __cowl_axioms = uhash_value(map, k);                                                        \
@@ -65,7 +52,7 @@ static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *ax
     CowlAxiomSet *__cowl_axioms = ((array))[idx];                                                   \
                                                                                                     \
     if (!__cowl_axioms) {                                                                           \
-        __cowl_axioms = uhash_alloc(CowlAxiomSet);                                                  \
+        __cowl_axioms = uhset_alloc(CowlAxiomSet);                                                  \
         ((array))[idx] = __cowl_axioms;                                                             \
     }                                                                                               \
                                                                                                     \

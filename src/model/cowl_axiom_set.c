@@ -11,7 +11,7 @@
 #include "cowl_axiom_set.h"
 #include "cowl_axiom.h"
 
-UHASH_SET_IMPL(CowlAxiomSet, CowlAxiom*, cowl_axiom_hash, cowl_axiom_equals)
+UHASH_IMPL(CowlAxiomSet, cowl_axiom_hash, cowl_axiom_equals)
 
 void cowl_axiom_set_free(CowlAxiomSet *set) {
     if (!set) return;

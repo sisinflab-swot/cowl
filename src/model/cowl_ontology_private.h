@@ -17,17 +17,17 @@
 
 COWL_BEGIN_DECLS
 
-typedef struct UHash(CowlAxiomSet) UHash(CowlAxiomSet);
+typedef uhash_struct(CowlAxiomSet) UHash(CowlAxiomSet);
 typedef vector_struct(CowlAnnotationPtr) Vector(CowlAnnotationPtr);
 typedef vector_struct(CowlOntologyPtr) Vector(CowlOntologyPtr);
 
-UHASH_MAP_DECL(CowlAnnotPropAxiomMap, CowlAnnotProp*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlClassAxiomMap, CowlClass*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlDataPropAxiomMap, CowlDataProp*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlDatatypeAxiomMap, CowlDatatype*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlObjPropAxiomMap, CowlObjProp*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlNamedIndAxiomMap, CowlNamedInd*, UHash(CowlAxiomSet)*)
-UHASH_MAP_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlAnnotPropAxiomMap, CowlAnnotProp*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlClassAxiomMap, CowlClass*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlDataPropAxiomMap, CowlDataProp*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlDatatypeAxiomMap, CowlDatatype*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlObjPropAxiomMap, CowlObjProp*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlNamedIndAxiomMap, CowlNamedInd*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, UHash(CowlAxiomSet)*)
 
 cowl_struct(CowlOntology) {
     CowlObject super;
@@ -49,13 +49,13 @@ cowl_struct(CowlOntology) {
     .id = NULL,                                                                                     \
     .imports = NULL,                                                                                \
     .annotations = NULL,                                                                            \
-    .annot_prop_refs = uhash_alloc(CowlAnnotPropAxiomMap),                                          \
-    .class_refs = uhash_alloc(CowlClassAxiomMap),                                                   \
-    .data_prop_refs = uhash_alloc(CowlDataPropAxiomMap),                                            \
-    .datatype_refs = uhash_alloc(CowlDatatypeAxiomMap),                                             \
-    .obj_prop_refs = uhash_alloc(CowlObjPropAxiomMap),                                              \
-    .named_ind_refs = uhash_alloc(CowlNamedIndAxiomMap),                                            \
-    .anon_ind_refs = uhash_alloc(CowlAnonIndAxiomMap),                                              \
+    .annot_prop_refs = uhmap_alloc(CowlAnnotPropAxiomMap),                                          \
+    .class_refs = uhmap_alloc(CowlClassAxiomMap),                                                   \
+    .data_prop_refs = uhmap_alloc(CowlDataPropAxiomMap),                                            \
+    .datatype_refs = uhmap_alloc(CowlDatatypeAxiomMap),                                             \
+    .obj_prop_refs = uhmap_alloc(CowlObjPropAxiomMap),                                              \
+    .named_ind_refs = uhmap_alloc(CowlNamedIndAxiomMap),                                            \
+    .anon_ind_refs = uhmap_alloc(CowlAnonIndAxiomMap),                                              \
 }
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void);

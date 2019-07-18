@@ -11,8 +11,7 @@
 #include "cowl_obj_prop_exp_set.h"
 #include "cowl_obj_prop_exp.h"
 
-UHASH_SET_IMPL(CowlObjPropExpSet, CowlObjPropExp*,
-               cowl_obj_prop_exp_hash, cowl_obj_prop_exp_equals)
+UHASH_IMPL(CowlObjPropExpSet, cowl_obj_prop_exp_hash, cowl_obj_prop_exp_equals)
 
 void cowl_obj_prop_exp_set_free(CowlObjPropExpSet *set) {
     if (!set) return;

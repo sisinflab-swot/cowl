@@ -11,7 +11,7 @@
 #include "cowl_facet_restr_set.h"
 #include "cowl_facet_restr.h"
 
-UHASH_SET_IMPL(CowlFacetRestrSet, CowlFacetRestr*, cowl_facet_restr_hash, cowl_facet_restr_equals)
+UHASH_IMPL(CowlFacetRestrSet, cowl_facet_restr_hash, cowl_facet_restr_equals)
 
 void cowl_facet_restr_set_free(CowlFacetRestrSet *set) {
     if (!set) return;

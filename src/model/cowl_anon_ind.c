@@ -12,8 +12,7 @@
 #include "cowl_string.h"
 #include "cowl_str_buf.h"
 
-UHASH_MAP_INIT(CowlAnonIndMap, CowlNodeID, CowlAnonInd*,
-               cowl_node_id_hash, cowl_node_id_equals)
+UHASH_INIT(CowlAnonIndMap, CowlNodeID, CowlAnonInd*, cowl_node_id_hash, cowl_node_id_equals)
 static UHash(CowlAnonIndMap) *inst_map = NULL;
 
 static CowlAnonInd* cowl_anon_ind_alloc(CowlNodeID id) {
@@ -32,7 +31,7 @@ static void cowl_anon_ind_free(CowlAnonInd *ind) {
 }
 
 CowlAnonInd* cowl_anon_ind_get(CowlNodeID id) {
-    if (!inst_map) inst_map = uhash_alloc(CowlAnonIndMap);
+    if (!inst_map) inst_map = uhmap_alloc(CowlAnonIndMap);
 
     CowlAnonInd *ind;
     uhash_ret_t ret;

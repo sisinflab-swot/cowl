@@ -15,8 +15,7 @@
 #include "cowl_string_private.h"
 #include "cowl_str_buf.h"
 
-UHASH_SET_INIT(CowlNSSet, CowlString*, cowl_string_hash, cowl_string_equals)
-static UHash(CowlNSSet) *ns_set = NULL;
+static UHash(CowlStringTable) *ns_set = NULL;
 
 static inline cowl_uint_t cowl_iri_map_hash_func(CowlIRI iri) {
     return cowl_hash_2(COWL_HASH_INIT_IRI,
@@ -28,8 +27,8 @@ static inline bool cowl_iri_map_hash_equal(CowlIRI a, CowlIRI b) {
     return a.ns == b.ns && cowl_string_equals(a.rem, b.rem);
 }
 
-UHASH_MAP_INIT(CowlIRIMap, cowl_struct(CowlIRI), CowlIRI*,
-               cowl_iri_map_hash_func, cowl_iri_map_hash_equal)
+UHASH_INIT(CowlIRIMap, cowl_struct(CowlIRI), CowlIRI*,
+           cowl_iri_map_hash_func, cowl_iri_map_hash_equal)
 static UHash(CowlIRIMap) *inst_map = NULL;
 
 static cowl_struct(CowlIRI)* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
@@ -52,11 +51,11 @@ static void cowl_iri_free(CowlIRI *iri) {
 
 CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
     if (!inst_map) {
-        inst_map = uhash_alloc(CowlIRIMap);
-        ns_set = uhash_alloc(CowlNSSet);
+        inst_map = uhmap_alloc(CowlIRIMap);
+        ns_set = uhset_alloc(CowlStringTable);
     }
 
-    uhash_ret_t ret = uhset_insert_get_existing(CowlNSSet, ns_set, ns, &ns);
+    uhash_ret_t ret = uhset_insert_get_existing(CowlStringTable, ns_set, ns, &ns);
     if (ret == UHASH_INSERTED) cowl_string_retain(ns);
 
     CowlIRI key = { .ns = ns, .rem = rem };
@@ -82,7 +81,7 @@ CowlIRI* cowl_iri_retain(CowlIRI *iri) {
 void cowl_iri_release(CowlIRI *iri) {
     if (iri && !cowl_object_release(iri)) {
         if (cowl_object_ref_get(iri->ns) == 2) {
-            uhset_remove(CowlNSSet, ns_set, iri->ns);
+            uhset_remove(CowlStringTable, ns_set, iri->ns);
             cowl_string_release(iri->ns);
         }
         uhmap_remove(CowlIRIMap, inst_map, (*iri));

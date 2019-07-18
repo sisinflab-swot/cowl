@@ -17,6 +17,8 @@
 
 COWL_BEGIN_DECLS
 
+UHASH_DECL(CowlStringTable, CowlString*, CowlString*)
+
 cowl_struct(CowlString) {
     CowlHashObject super;
     CowlRawString raw_string;

@@ -11,7 +11,7 @@
 #include "cowl_literal_set.h"
 #include "cowl_literal.h"
 
-UHASH_SET_IMPL(CowlLiteralSet, CowlLiteral*, cowl_literal_hash, cowl_literal_equals)
+UHASH_IMPL(CowlLiteralSet, cowl_literal_hash, cowl_literal_equals)
 
 void cowl_literal_set_free(CowlLiteralSet *set) {
     if (!set) return;

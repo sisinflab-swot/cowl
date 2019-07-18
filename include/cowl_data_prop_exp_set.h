@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlDataPropExp);
 
-UHASH_SET_DECL_SPEC(CowlDataPropExpSet, CowlDataPropExp*, COWL_PUBLIC)
+UHASH_DECL_SPEC(CowlDataPropExpSet, CowlDataPropExp*, UHASH_VAL_IGNORE, COWL_PUBLIC)
 cowl_hash_decl(CowlDataPropExpSet);
 /// @endcond
 
