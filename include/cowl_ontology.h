@@ -216,6 +216,95 @@ COWL_PUBLIC
 cowl_uint_t cowl_ontology_axiom_count_for_named_ind(CowlOntology *onto, CowlNamedInd *ind);
 
 /**
+ * Gets the number of axioms referencing the specified anonymous individual.
+ *
+ * @param onto The ontology.
+ * @param ind The individual.
+ * @return Number of axioms.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_axiom_count_for_anon_ind(CowlOntology *onto, CowlAnonInd *ind);
+
+/**
+ * Gets the number of classes.
+ *
+ * @param onto The ontology.
+ * @return Number of classes.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_classes_count(CowlOntology *onto);
+
+/**
+ * Gets the number of datatypes.
+ *
+ * @param onto The ontology.
+ * @return Number of datatypes.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_datatypes_count(CowlOntology *onto);
+
+/**
+ * Gets the number of object properties.
+ *
+ * @param onto The ontology.
+ * @return Number of object properties.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_obj_props_count(CowlOntology *onto);
+
+/**
+ * Gets the number of data properties.
+ *
+ * @param onto The ontology.
+ * @return Number of data properties.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_data_props_count(CowlOntology *onto);
+
+/**
+ * Gets the number of annotation properties.
+ *
+ * @param onto The ontology.
+ * @return Number of annotation properties.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_annot_props_count(CowlOntology *onto);
+
+/**
+ * Gets the number of named individuals.
+ *
+ * @param onto The ontology.
+ * @return Number of named individuals.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_named_inds_count(CowlOntology *onto);
+
+/**
+ * Gets the number of anonymous individuals.
+ *
+ * @param onto The ontology.
+ * @return Number of anonymous individuals.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_uint_t cowl_ontology_anon_inds_count(CowlOntology *onto);
+
+/**
  * Iterates over the signature of the specified ontology.
  *
  * @param onto The ontology.

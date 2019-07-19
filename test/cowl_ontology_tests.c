@@ -20,7 +20,15 @@
 
 static char const test_onto_iri[] = "http://visualdataweb.de/ontobench/ontology/1/";
 static cowl_uint_t const test_onto_imports_count = 1;
-static cowl_uint_t const test_onto_axiom_count = 565;
+static cowl_uint_t const test_onto_axiom_count = 566;
+
+static cowl_uint_t const test_onto_classes_count = 104;
+static cowl_uint_t const test_onto_datatypes_count = 43;
+static cowl_uint_t const test_onto_obj_props_count = 47;
+static cowl_uint_t const test_onto_data_props_count = 72;
+static cowl_uint_t const test_onto_annot_props_count = 25;
+static cowl_uint_t const test_onto_named_inds_count = 18;
+static cowl_uint_t const test_onto_anon_inds_count = 2;
 
 static cowl_uint_t* test_onto_axiom_counts(void) {
     static cowl_uint_t counts[COWL_AT_COUNT] = { 0 };
@@ -34,7 +42,7 @@ static cowl_uint_t* test_onto_axiom_counts(void) {
     counts[COWL_AT_CLASS_ASSERT] = 2;
     counts[COWL_AT_SAME_IND] = 1;
     counts[COWL_AT_DIFF_IND] = 1;
-    counts[COWL_AT_OBJ_PROP_ASSERT] = 1;
+    counts[COWL_AT_OBJ_PROP_ASSERT] = 2;
     counts[COWL_AT_NEG_OBJ_PROP_ASSERT] = 1;
     counts[COWL_AT_DATA_PROP_ASSERT] = 1;
     counts[COWL_AT_NEG_DATA_PROP_ASSERT] = 1;
@@ -118,5 +126,47 @@ bool cowl_test_ontology_axiom_count_for_type(void) {
         cowl_assert_equal_int(count, expected_count, "Axiom count for type %d", type);
     }
 
+    return true;
+}
+
+bool cowl_test_ontology_class_count(void) {
+    cowl_uint_t count = cowl_ontology_classes_count(cowl_test_ontology_get());
+    cowl_assert_equal_int(count, test_onto_classes_count, "Number of classes");
+    return true;
+}
+
+bool cowl_test_ontology_datatypes_count(void) {
+    cowl_uint_t count = cowl_ontology_datatypes_count(cowl_test_ontology_get());
+    cowl_assert_equal_int(count, test_onto_datatypes_count, "Number of datatypes");
+    return true;
+}
+
+bool cowl_test_ontology_obj_props_count(void) {
+    cowl_uint_t count = cowl_ontology_obj_props_count(cowl_test_ontology_get());
+    cowl_assert_equal_int(count, test_onto_obj_props_count, "Number of object properties");
+    return true;
+}
+
+bool cowl_test_ontology_data_props_count(void) {
+    cowl_uint_t count = cowl_ontology_data_props_count(cowl_test_ontology_get());
+    cowl_assert_equal_int(count, test_onto_data_props_count, "Number of data properties");
+    return true;
+}
+
+bool cowl_test_ontology_annot_props_count(void) {
+    cowl_uint_t count = cowl_ontology_annot_props_count(cowl_test_ontology_get());
+    cowl_assert_equal_int(count, test_onto_annot_props_count, "Number of annotation properties");
+    return true;
+}
+
+bool cowl_test_ontology_named_inds_count(void) {
+    cowl_uint_t count = cowl_ontology_named_inds_count(cowl_test_ontology_get());
+    cowl_assert_equal_int(count, test_onto_named_inds_count, "Number of named individuals");
+    return true;
+}
+
+bool cowl_test_ontology_anon_inds_count(void) {
+    cowl_uint_t count = cowl_ontology_anon_inds_count(cowl_test_ontology_get());
+    cowl_assert_equal_int(count, test_onto_anon_inds_count, "Number of anonymous individuals");
     return true;
 }
