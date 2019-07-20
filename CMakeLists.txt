@@ -32,7 +32,7 @@ set(COWL_UHASH_DIR "${COWL_LIB_DIR}/uhash/include")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
 set(COWL_MODEL_DIR "${COWL_SRC_DIR}/model")
 set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
-set(COWL_LOGGER_DIR "${COWL_SRC_DIR}/logger")
+set(COWL_UTIL_DIR "${COWL_SRC_DIR}/util")
 set(COWL_FUNCTIONAL_PARSER_DIR "${COWL_PARSER_DIR}/functional")
 
 set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
@@ -73,7 +73,7 @@ set(COWL_HEADERS_DIRS
     "${COWL_UHASH_DIR}"
     "${COWL_MODEL_DIR}"
     "${COWL_PARSER_DIR}"
-    "${COWL_LOGGER_DIR}"
+    "${COWL_UTIL_DIR}"
     "${COWL_PARSER_OUT_DIR}")
 
 # Header files
@@ -92,7 +92,7 @@ set(COWL_ALL_PUBLIC_HEADERS ${COWL_LIB_HEADERS} ${COWL_PUBLIC_HEADERS})
 file(GLOB COWL_SOURCES
      "${COWL_MODEL_DIR}/*.c"
      "${COWL_PARSER_DIR}/*.c"
-     "${COWL_LOGGER_DIR}/*.c")
+     "${COWL_UTIL_DIR}/*.c")
 
 ###############
 ### Targets ###

@@ -88,6 +88,7 @@
 #include "cowl_sub_obj_prop_axiom_private.h"
 #include "cowl_sub_obj_prop_chain_axiom_private.h"
 #include "cowl_vocab_utils.h"
+#include "cowl_xml_utils.h"
 #include "cowl_xsd_vocab_private.h"
 
 #endif // COWL_PRIVATE_H

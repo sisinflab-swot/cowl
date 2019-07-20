@@ -31,6 +31,19 @@ cowl_struct_decl(CowlIRI);
  */
 
 /**
+ * Returns a retained IRI whose string representation is the concatenation of
+ * the specified strings.
+ *
+ * @param prefix The prefix.
+ * @param suffix The suffix.
+ * @return Retained IRI.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
+CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix);
+
+/**
  * Returns a retained IRI given its string representation.
  *
  * @param cstring String representation of the IRI.

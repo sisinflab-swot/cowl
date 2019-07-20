@@ -14,6 +14,7 @@
 #include "cowl_hash_utils.h"
 #include "cowl_string_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_xml_utils.h"
 
 static UHash(CowlStringTable) *ns_tbl = NULL;
 
@@ -48,7 +49,7 @@ static void cowl_iri_free(CowlIRI *iri) {
     free((void *)iri);
 }
 
-CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
+CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
     if (!inst_tbl) {
         inst_tbl = uhset_alloc(CowlIRITable);
         ns_tbl = uhset_alloc(CowlStringTable);
@@ -73,6 +74,46 @@ CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem) {
     return iri;
 }
 
+CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
+
+    CowlRawString p_str = prefix->raw_string;
+    CowlRawString s_str = suffix->raw_string;
+
+    cowl_uint_t p_ns_len = cowl_xml_ns_length(p_str);
+    cowl_uint_t s_ns_len = cowl_xml_ns_length(s_str);
+
+    if (p_ns_len == p_str.length) {
+        if (s_ns_len) {
+            // Part of the suffix should go in the namespace.
+            CowlStrBuf *buf = cowl_str_buf_alloc();
+            cowl_str_buf_append_raw_string(buf, p_str);
+            cowl_str_buf_append_cstring(buf, s_str.cstring, s_ns_len);
+
+            prefix = cowl_str_buf_to_string(buf);
+            suffix = cowl_string_get(s_str.cstring, s_str.length - s_ns_len, true);
+        } else {
+            // Prefix is a namespace and suffix is a remainder, use as-is.
+            cowl_string_retain(prefix);
+            cowl_string_retain(suffix);
+        }
+    } else {
+        // Part of the prefix should go in the remainder.
+        CowlStrBuf *buf = cowl_str_buf_alloc();
+        cowl_str_buf_append_cstring(buf, p_str.cstring + p_ns_len, p_str.length - p_ns_len);
+        cowl_str_buf_append_raw_string(buf, s_str);
+
+        prefix = cowl_string_get(p_str.cstring, p_ns_len, true);
+        suffix = cowl_str_buf_to_string(buf);
+    }
+
+    CowlIRI *iri = cowl_iri_unvalidated_get(prefix, suffix);
+
+    cowl_string_release(prefix);
+    cowl_string_release(suffix);
+
+    return iri;
+}
+
 CowlIRI* cowl_iri_retain(CowlIRI *iri) {
     return cowl_object_retain(iri);
 }
@@ -89,11 +130,13 @@ void cowl_iri_release(CowlIRI *iri) {
 }
 
 CowlIRI* cowl_iri_from_cstring(char const *cstring, cowl_uint_t length) {
-    // TODO: implement according to spec: https://www.w3.org/TR/REC-xml-names/#NT-NCName
-    CowlString *parts[2] = { NULL };
-    cowl_string_split_two(cstring, length, '#', parts);
+    CowlRawString string = cowl_raw_string_init(cstring, length, false);
+    cowl_uint_t ns_length = cowl_xml_ns_length(string);
 
-    CowlIRI *iri = cowl_iri_get(parts[0], parts[1]);
+    CowlString *parts[2] = { NULL };
+    cowl_string_split_two(string, ns_length, parts);
+
+    CowlIRI *iri = cowl_iri_unvalidated_get(parts[0], parts[1]);
 
     cowl_string_release(parts[0]);
     cowl_string_release(parts[1]);

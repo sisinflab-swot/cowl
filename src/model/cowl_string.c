@@ -36,17 +36,13 @@ static void cowl_string_free(CowlString *string) {
     free((void *)string);
 }
 
-void cowl_string_split_two(char const *cstring, cowl_uint_t length,
-                           char character, CowlString **out) {
-    char const *chr = memchr(cstring, character, length);
-    cowl_uint_t ns_length = chr ? (cowl_uint_t)(chr - cstring + 1) : length;
-
-    if (ns_length == length) {
-        out[0] = cowl_string_get(cstring, length, true);
-        out[1] = cowl_string_get("", 0, true);
+void cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out) {
+    if (lhs_length < string.length) {
+        out[0] = cowl_string_get(string.cstring, lhs_length, true);
+        out[1] = cowl_string_get(string.cstring + lhs_length, string.length - lhs_length, true);
     } else {
-        out[0] = cowl_string_get(strndup(cstring, ns_length), ns_length, false);
-        out[1] = cowl_string_get(chr + 1, length - ns_length, true);
+        out[0] = cowl_string_get(string.cstring, string.length, true);
+        out[1] = cowl_string_get("", 0, true);
     }
 }
 

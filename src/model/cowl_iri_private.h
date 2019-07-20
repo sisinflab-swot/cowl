@@ -22,7 +22,7 @@ cowl_struct(CowlIRI) {
     CowlString *rem;
 };
 
-CowlIRI* cowl_iri_get(CowlString *ns, CowlString *rem);
+CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem);
 
 COWL_END_DECLS
 

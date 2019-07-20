@@ -24,6 +24,11 @@ CowlRawString cowl_raw_string_init_cstring(char const *cstring, bool copy) {
     return cowl_raw_string_init(cstring, (cowl_uint_t)strlen(cstring), copy);
 }
 
+cowl_uint_t cowl_raw_string_index_of(CowlRawString string, char needle) {
+    char const *chr = memchr(string.cstring, needle, string.length);
+    return chr ? (cowl_uint_t)(chr - string.cstring) : string.length;
+}
+
 bool cowl_raw_string_equals(CowlRawString lhs, CowlRawString rhs) {
     return lhs.length == rhs.length && memcmp(lhs.cstring, rhs.cstring, lhs.length) == 0;
 }

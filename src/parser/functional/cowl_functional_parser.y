@@ -222,7 +222,7 @@ prefix_name
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_parser_get_full_iri(parser, $1.cstring, $1.length);
+        $$ = cowl_parser_get_full_iri(parser, $1);
     }
 ;
 

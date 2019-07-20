@@ -14,6 +14,7 @@
 #include "cowl_parser.h"
 #include "cowl_node_id.h"
 #include "cowl_object.h"
+#include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 
@@ -39,7 +40,7 @@ cowl_struct(CowlParser) {
 };
 
 CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri);
-CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, char const *cstring, cowl_uint_t length);
+CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string);
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id);
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyID *id);

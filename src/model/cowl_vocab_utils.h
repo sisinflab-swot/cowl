@@ -28,7 +28,7 @@ COWL_BEGIN_DECLS
 #define cowl_string_vocab_free(STR) free((void *)(STR))
 
 #define cowl_iri_vocab_get(NS_STR, REM_CSTR) \
-    cowl_iri_get((NS_STR), cowl_string_vocab_get(REM_CSTR))
+    cowl_iri_unvalidated_get((NS_STR), cowl_string_vocab_get(REM_CSTR))
 
 #define cowl_iri_vocab_free(IRI) do {                                                               \
     cowl_string_vocab_free((IRI)->rem);                                                             \

@@ -124,10 +124,10 @@ CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri) {
     return loader.load_ontology ? loader.load_ontology(loader.ctx, iri, parser->errors) : NULL;
 }
 
-CowlIRI* cowl_parser_get_full_iri(CowlParser *parser,
-                                  char const *cstring, cowl_uint_t length) {
+CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
     CowlString *parts[2] = { NULL };
-    cowl_string_split_two(cstring, length, ':', parts);
+    cowl_uint_t ns_length = cowl_raw_string_index_of(string, ':') + 1;
+    cowl_string_split_two(string, ns_length, parts);
 
     CowlString *ns = uhmap_get(CowlStringTable, parser->prefix_ns_map, parts[0], NULL);
     CowlIRI *iri = ns ? cowl_iri_get(ns, parts[1]) : NULL;
