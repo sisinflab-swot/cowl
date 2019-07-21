@@ -24,7 +24,6 @@ Declaration(NamedIndividual(:IndividualB))
 # Individual: :IndividualA (:IndividualA)
 
 ObjectPropertyAssertion(:ObjectPropertyA :IndividualA :IndividualB)
-ObjectPropertyAssertion(:ObjectPropertyA :IndividualA _:anonymous1)
 
 # Individual: :IndividualB (:IndividualB)
 

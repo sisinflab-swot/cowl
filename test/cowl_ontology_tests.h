@@ -27,6 +27,14 @@ bool cowl_test_ontology_annot_props_count(void);
 bool cowl_test_ontology_named_inds_count(void);
 bool cowl_test_ontology_anon_inds_count(void);
 
+bool cowl_test_ontology_axiom_count_for_class(void);
+bool cowl_test_ontology_axiom_count_for_datatype(void);
+bool cowl_test_ontology_axiom_count_for_obj_prop(void);
+bool cowl_test_ontology_axiom_count_for_data_prop(void);
+bool cowl_test_ontology_axiom_count_for_annot_prop(void);
+bool cowl_test_ontology_axiom_count_for_named_ind(void);
+bool cowl_test_ontology_axiom_count_for_anon_ind(void);
+
 #define COWL_ONTOLOGY_TESTS                                                                         \
     cowl_test_ontology_get_id,                                                                      \
     cowl_test_ontology_axiom_count,                                                                 \
@@ -38,7 +46,14 @@ bool cowl_test_ontology_anon_inds_count(void);
     cowl_test_ontology_data_props_count,                                                            \
     cowl_test_ontology_annot_props_count,                                                           \
     cowl_test_ontology_named_inds_count,                                                            \
-    cowl_test_ontology_anon_inds_count
+    cowl_test_ontology_anon_inds_count,                                                             \
+    cowl_test_ontology_axiom_count_for_class,                                                       \
+    cowl_test_ontology_axiom_count_for_datatype,                                                    \
+    cowl_test_ontology_axiom_count_for_obj_prop,                                                    \
+    cowl_test_ontology_axiom_count_for_data_prop,                                                   \
+    cowl_test_ontology_axiom_count_for_annot_prop,                                                  \
+    cowl_test_ontology_axiom_count_for_named_ind,                                                   \
+    cowl_test_ontology_axiom_count_for_anon_ind
 
 COWL_END_DECLS
 
