@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 # Project
 
 project(Cowl
-        VERSION 0.1.0
+        VERSION 0.2.0
         DESCRIPTION "A lightweight C API for working with OWL ontologies."
         HOMEPAGE_URL "http://sisinflab.poliba.it/swottools/cowl"
         LANGUAGES C)
