@@ -24,6 +24,10 @@ CowlRawString cowl_raw_string_init_cstring(char const *cstring, bool copy) {
     return cowl_raw_string_init(cstring, (cowl_uint_t)strlen(cstring), copy);
 }
 
+CowlRawString cowl_raw_string_copy(CowlRawString string) {
+    return cowl_raw_string_init(string.cstring, string.length, true);
+}
+
 cowl_uint_t cowl_raw_string_index_of(CowlRawString string, char needle) {
     char const *chr = memchr(string.cstring, needle, string.length);
     return chr ? (cowl_uint_t)(chr - string.cstring) : string.length;

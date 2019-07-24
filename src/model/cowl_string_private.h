@@ -25,7 +25,9 @@ cowl_struct(CowlString) {
 };
 
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string);
+cowl_struct(CowlString) cowl_string_init(CowlRawString raw_string);
 
+CowlString* cowl_string_copy(CowlString *string);
 void cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out);
 
 COWL_END_DECLS

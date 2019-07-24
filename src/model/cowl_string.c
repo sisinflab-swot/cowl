@@ -17,6 +17,13 @@
 UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
 
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {
+    CowlString init = cowl_string_init(raw_string);
+    cowl_struct(CowlString) *string = malloc(sizeof(*string));
+    memcpy(string, &init, sizeof(*string));
+    return string;
+}
+
+cowl_struct(CowlString) cowl_string_init(CowlRawString raw_string) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length,
                                    cowl_raw_string_hash(raw_string));
 
@@ -25,15 +32,21 @@ cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {
         .raw_string = raw_string
     };
 
-    cowl_struct(CowlString) *string = malloc(sizeof(*string));
-    memcpy(string, &init, sizeof(*string));
-    return string;
+    return init;
 }
 
 static void cowl_string_free(CowlString *string) {
     if (!string) return;
     cowl_raw_string_deinit(string->raw_string);
     free((void *)string);
+}
+
+CowlString* cowl_string_copy(CowlString *string) {
+    cowl_uint_t hash = cowl_object_hash_get(string);
+    cowl_struct(CowlString) *copy = malloc(sizeof(*string));
+    copy->super = COWL_HASH_OBJECT_INIT(hash);
+    copy->raw_string = cowl_raw_string_copy(string->raw_string);
+    return copy;
 }
 
 void cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out) {
