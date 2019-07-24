@@ -24,10 +24,11 @@ typedef cowl_struct(CowlHashObject) {
     cowl_uint_t hash;
 } CowlHashObject;
 
-#define COWL_OBJECT_INIT { .ref_count = 1 }
-#define COWL_HASH_OBJECT_INIT(H) { .super = COWL_OBJECT_INIT, .hash = (H) }
+#define COWL_OBJECT_INIT ((CowlObject){ .ref_count = 1 })
+#define COWL_HASH_OBJECT_INIT(H) ((CowlHashObject){ .super = COWL_OBJECT_INIT, .hash = (H) })
 
 #define cowl_object_ref_get(o) (((CowlObject *)(o))->ref_count)
+#define cowl_object_ref_set(o, r) (cowl_object_ref_get(o) = (r))
 #define cowl_object_retain(o) (++cowl_object_ref_get(o), (o))
 #define cowl_object_release(o) (--cowl_object_ref_get(o))
 
