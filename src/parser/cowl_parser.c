@@ -125,27 +125,41 @@ CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri) {
 }
 
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
-    CowlString *parts[2] = { NULL };
     cowl_uint_t ns_length = cowl_raw_string_index_of(string, ':') + 1;
-    cowl_string_split_two(string, ns_length, parts);
 
-    CowlString *ns = uhmap_get(CowlStringTable, parser->prefix_ns_map, parts[0], NULL);
-    CowlIRI *iri = ns ? cowl_iri_get(ns, parts[1]) : NULL;
+    // We might use 'cowl_string_split_two' to obtain a prefix/suffix split, though
+    // this involves two allocations: one for the prefix, and one for the suffix.
+    // Since we only need the prefix for a hash table lookup, we can avoid its allocation
+    // on the heap and keep it on the stack instead.
+    CowlRawString raw_ns = cowl_raw_string_init(string.cstring, ns_length, false);
+    cowl_struct(CowlString) ns_str = cowl_string_init(raw_ns);
 
-    cowl_string_release(parts[0]);
-    cowl_string_release(parts[1]);
+    // If the remainder is empty, another slight optimization involves
+    // using a shared empty string instance.
+    CowlString *rem;
 
+    if (ns_length < string.length) {
+        rem = cowl_string_get(string.cstring + ns_length, string.length - ns_length, true);
+    } else {
+        rem = cowl_string_get_empty();
+    }
+
+    CowlString *ns = uhmap_get(CowlStringTable, parser->prefix_ns_map, &ns_str, NULL);
+    CowlIRI *iri = ns ? cowl_iri_get(ns, rem) : NULL;
+
+    cowl_string_release(rem);
     return iri;
 }
 
-CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id) {
+CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id) {
     uhash_ret_t ret;
-    uhash_uint_t idx = uhash_put(CowlNodeIdMap, parser->node_id_map, id, &ret);
+    cowl_struct(CowlString) id_str = cowl_string_init(id);
+    uhash_uint_t idx = uhash_put(CowlNodeIdMap, parser->node_id_map, &id_str, &ret);
     CowlNodeID node_id;
 
     if (ret == UHASH_INSERTED) {
         node_id = cowl_node_id_get_unique();
-        cowl_string_retain(id);
+        uhash_key(parser->node_id_map, idx) = cowl_string_copy(&id_str);
         uhash_value(parser->node_id_map, idx) = node_id;
     } else {
         node_id = uhash_value(parser->node_id_map, idx);

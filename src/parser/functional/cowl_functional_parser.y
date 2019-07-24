@@ -94,13 +94,14 @@
 
 // Nonterminals
 
-%type <CowlString *> prefix_name node_id
+%type <CowlString *> prefix_name
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlOntology *> import
 %type <CowlOntologyID *> ontology_id
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue> annotation_subject annotation_value
 %type <cowl_uint_t> cardinality
+%type <CowlNodeID> node_id
 
 %type <CowlEntity> entity
 %type <CowlClass *> class
@@ -357,15 +358,13 @@ named_individual
 
 anonymous_individual
     : node_id {
-        CowlNodeID id = cowl_parser_get_node_id(parser, $1);
-        $$ = (CowlIndividual *)cowl_anon_ind_get(id);
-        cowl_string_release($1);
+        $$ = (CowlIndividual *)cowl_anon_ind_get($1);
     }
 ;
 
 node_id
     : BLANK_NODE_LABEL {
-        $$ = cowl_string_get($1.cstring, $1.length, true);
+        $$ = cowl_parser_get_node_id(parser, $1);
     }
 ;
 

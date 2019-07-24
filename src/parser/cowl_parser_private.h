@@ -41,7 +41,7 @@ cowl_struct(CowlParser) {
 
 CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri);
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string);
-CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlString *id);
+CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id);
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyID *id);
 void cowl_parser_set_imports(CowlParser *parser, Vector(CowlOntologyPtr) *imports);

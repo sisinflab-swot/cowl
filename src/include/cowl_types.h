@@ -23,6 +23,7 @@
 #include "cowl_iterator_private.h"
 #include "cowl_nary_type.h"
 #include "cowl_nary_axiom_type.h"
+#include "cowl_node_id.h"
 #include "cowl_quant_type.h"
 #include "cowl_raw_string.h"
 
