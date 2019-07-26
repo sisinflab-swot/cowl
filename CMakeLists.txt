@@ -31,8 +31,8 @@ set(COWL_VECTOR_DIR "${COWL_LIB_DIR}/vector_t/include")
 set(COWL_UHASH_DIR "${COWL_LIB_DIR}/uhash/include")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
 set(COWL_MODEL_DIR "${COWL_SRC_DIR}/model")
-set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
-set(COWL_UTIL_DIR "${COWL_SRC_DIR}/util")
+set(COWL_IO_DIR "${COWL_SRC_DIR}/io")
+set(COWL_PARSER_DIR "${COWL_IO_DIR}/parser")
 set(COWL_FUNCTIONAL_PARSER_DIR "${COWL_PARSER_DIR}/functional")
 
 set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
@@ -66,8 +66,8 @@ set(COWL_HEADERS_DIRS
     "${COWL_VECTOR_DIR}"
     "${COWL_UHASH_DIR}"
     "${COWL_MODEL_DIR}"
+    "${COWL_IO_DIR}"
     "${COWL_PARSER_DIR}"
-    "${COWL_UTIL_DIR}"
     "${COWL_PARSER_OUT_DIR}")
 
 # Header files
@@ -85,8 +85,8 @@ set(COWL_ALL_PUBLIC_HEADERS ${COWL_LIB_HEADERS} ${COWL_PUBLIC_HEADERS})
 
 file(GLOB COWL_SOURCES
      "${COWL_MODEL_DIR}/*.c"
-     "${COWL_PARSER_DIR}/*.c"
-     "${COWL_UTIL_DIR}/*.c")
+     "${COWL_IO_DIR}/*.c"
+     "${COWL_PARSER_DIR}/*.c")
 
 ###############
 ### Targets ###
