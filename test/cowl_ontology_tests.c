@@ -10,7 +10,6 @@
 
 #include "cowl_ontology_tests.h"
 #include "cowl_annot_prop.h"
-#include "cowl_anon_ind.h"
 #include "cowl_class.h"
 #include "cowl_data_prop.h"
 #include "cowl_datatype.h"

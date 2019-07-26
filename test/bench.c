@@ -22,7 +22,7 @@
 static inline uint64_t get_nanos(void) {
     struct timespec ts;
     clock_gettime(COWL_CLOCK, &ts);
-    return ts.tv_sec * 1000000000 + ts.tv_nsec;
+    return (uint64_t)ts.tv_sec * 1000000000 + (uint64_t)ts.tv_nsec;
 }
 
 static inline double get_micros(void) {

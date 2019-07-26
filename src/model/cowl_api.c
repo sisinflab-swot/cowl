@@ -8,7 +8,6 @@
  * @file
  */
 
-#include "cowl_api.h"
 #include "cowl_facet_private.h"
 #include "cowl_owl_vocab_private.h"
 #include "cowl_rdf_vocab_private.h"

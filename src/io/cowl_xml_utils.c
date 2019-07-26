@@ -10,12 +10,12 @@
 
 #include "cowl_xml_utils.h"
 
-#define IS_NCNAME_START_CHAR(CH)                                                                    \
-    ((CH >= 'A' && CH <= 'Z') || CH == '_' || (CH >= 'a' && CH <= 'z') ||                           \
-     (CH >= 0xC0 && CH <= 0xD6) || (CH >= 0xD8 && CH <= 0xF6) || (CH >= 0xF8))
+#define IS_NCNAME_START_CHAR(C)                                                                     \
+    (((C) >= 'A' && (C) <= 'Z') || (C) == '_' || ((C) >= 'a' && (C) <= 'z') ||                      \
+     ((C) >= 0xC0 && (C) <= 0xD6) || ((C) >= 0xD8 && (C) <= 0xF6) || ((C) >= 0xF8))
 
-#define IS_NCNAME_NON_START_CHAR(CH) \
-    (CH == '-' || CH == '.' || (CH >= '0' && CH <= '9') || CH == 0xB7)
+#define IS_NCNAME_NON_START_CHAR(C) \
+    ((C) == '-' || (C) == '.' || ((C) >= '0' && (C) <= '9') || (C) == 0xB7)
 
 cowl_uint_t cowl_xml_ns_length(CowlRawString string) {
     // This is currently not completely compliant with the NCName specification.
@@ -23,7 +23,7 @@ cowl_uint_t cowl_xml_ns_length(CowlRawString string) {
     cowl_uint_t ns_length = string.length;
 
     for (cowl_uint_t i = string.length; i-- != 0;) {
-        unsigned char ch = string.cstring[i];
+        unsigned char ch = (unsigned char)string.cstring[i];
         if (IS_NCNAME_START_CHAR(ch)) {
             ns_length = i;
         } else if (!IS_NCNAME_NON_START_CHAR(ch)) {

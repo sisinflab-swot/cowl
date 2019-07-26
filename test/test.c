@@ -15,7 +15,7 @@
 
 #define cowl_run_tests(EXIT_CODE, ...) do {                                                         \
     bool (*tests_to_run[])(void) = { __VA_ARGS__ };                                                 \
-    for (uint32_t test_i = 0; test_i < cowl_array_size(tests_to_run); ++test_i) {                   \
+    for (size_t test_i = 0; test_i < cowl_array_size(tests_to_run); ++test_i) {                     \
         if (!tests_to_run[test_i]()) EXIT_CODE = EXIT_FAILURE;                                      \
     }                                                                                               \
 } while(0)

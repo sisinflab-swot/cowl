@@ -11,7 +11,6 @@
 #include "cowl_literal_private.h"
 #include "cowl_datatype.h"
 #include "cowl_hash_utils.h"
-#include "cowl_iri.h"
 #include "cowl_iterator_private.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_string.h"
