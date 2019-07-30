@@ -25,7 +25,7 @@ cowl_struct_decl(CowlParser);
 /// @endcond
 
 /**
- * An object which allows for the deserialization of ontology documents.
+ * Allows for the deserialization of ontology documents.
  *
  * @struct CowlParser
  */
@@ -73,7 +73,7 @@ COWL_PUBLIC
 void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader);
 
 /**
- * Parses an ontologies from the file at the specified path.
+ * Parses an ontology from the file at the specified path.
  *
  * @param parser The parser.
  * @param path The file path.

@@ -5,7 +5,7 @@ Examples
 ========
 
 The following examples are designed to get you started using Cowl.
-They are ordered by complexity, so it's recommended that you read them sequentially.
+They are ordered by complexity, so it is recommended that you read them sequentially.
 
 .. contents:: :local:
 

@@ -10,9 +10,9 @@ Building from source
 ====================
 
 Cowl can be built and run on **Windows**, **macOS** and **Linux**. We have successfully
-deployed it to a wider range of platforms, including very tiny microcontrollers,
+deployed it to a wider range of platforms, including tiny microcontrollers,
 with relatively minor build system setup. It can be compiled via any fairly recent version
-of either **GCC**, **LLVM** or **MSVC**, both as a **static** and **dynamic library**.
+of **GCC**, **LLVM** or **MSVC**, either as a **static** or **dynamic library**.
 
 Requirements
 ------------
@@ -29,13 +29,13 @@ This is enough to build the library. If you also want to build its documentation
 - Sphinx_ version 2.0 or later, Breathe_ and the `Read The Docs Theme`_.
 
 Sphinx is actually optional as well. Just having Doxygen will already generate some form of
-HTML docs, though not as fancy as the ones you're viewing.
+HTML docs, though not as fancy as the ones you are viewing.
 
 Downloading the sources
 -----------------------
 
 You can find Cowl's code on its `git repository <git_url_>`_. Please note that it contains
-submodules, so it's recommended that you clone it using the `--recursive` flag.
+submodules, so it is recommended that you clone it using the `--recursive` flag.
 
 .. code-block:: bash
 
@@ -70,9 +70,8 @@ this section is strongly recommended.
 API initialization
 ------------------
 
-Before making any API call, you **must** invoke :func:`cowl_api_init()`. Since C doesn't have
-static initializers, requiring the programmer to call an explicit initialization function
-is the only portable way to setup static members which cannot be lazily initialized.
+Before making any API call, you **must** invoke :func:`cowl_api_init()`, which is
+needed in order to initialize the library's internal state.
 Calling API members without initializing the API is undefined behavior.
 
 Ontology deserialization
@@ -80,7 +79,7 @@ Ontology deserialization
 
 In order to query an ontology you must first deserialize it. This can be done via the
 :func:`cowl_parser_parse_ontology()` function of :class:`CowlParser`. In general, ontologies may
-`import <owl imports_>`_ other ontologies, which may involve retrieving them from the internet.
+`import <owl imports_>`_ other ontologies, which may involve retrieving them from the network.
 Cowl's approach to imports reflects its :ref:`focus on portability <about>`, so ontology retrieval
 is delegated to the end user via the :class:`CowlImportsLoader` interface.
 
@@ -91,7 +90,7 @@ The core type of the API is :class:`CowlOntology`, which consists of a set of :c
 instances. The base mechanism for querying a :class:`CowlOntology` is invoking its iterator
 member functions, which generally accept :class:`CowlIterator` instances.
 
-:class:`CowlIterator` is a wrapper around a function that gets called for every element matched
+:class:`CowlIterator` is a wrapper around a function that is called for every element matched
 by the query. By providing a generic context pointer, you can plug any custom data structure
 (loggers, collections, etc.), which allows for arbitrarily complex queries.
 
@@ -117,7 +116,7 @@ Pseudo-inheritance
 Since the `OWL 2 specification`_ is highly hierarchical, the API makes extensive use
 of pseudo-inheritance for structs. This means you can, for example, cast a :class:`CowlClass`
 to :class:`CowlClsExp` and back. Of course, if the API returns a base pseudo-class
-such as :class:`CowlClsExp`, and you're unsure about its concrete subclass, you can check
+such as :class:`CowlClsExp`, and you are unsure about its concrete subclass, you can check
 its type via `get_type` functions (e.g. :func:`cowl_cls_exp_get_type()`) and cast accordingly.
 The API docs for type enumerations explicitly state the concrete struct associated with every type.
 

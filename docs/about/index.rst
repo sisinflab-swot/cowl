@@ -18,10 +18,10 @@ ontologies into RDF triples rather than OWL axioms and constructs.
 Cowl aims to bring OWL support to most remaining platforms. In fact, it abides
 to some key principles which make it very portable:
 
-- It's written in **standard C11** with no compiler-specific extensions and no platform-specific
+- It is written in **standard C11** with no compiler-specific extensions and no platform-specific
   API calls.
-- It's completely **self-contained**, with no external dependencies other than
-  `Vector(T)`_ and uHash_ (which are also self-contained and maintained by us).
+- It is completely **self-contained**, with no external dependencies other than
+  `Vector(T)`_ and uHash_ (which are also self-contained).
 - It goes to great lengths to have a **tiny memory footprint** while being **very fast**,
   meaning it can run even on the most resource-constrained devices.
 
@@ -39,9 +39,9 @@ Cowl currently only supports ontologies in **functional syntax**.
 Furthermore, it does not yet provide ontology editing and serialization capabilities.
 We plan to address these shortcomings soon.
 
-Finally, it's important to note that the library is in **early development**, as denoted by
+Finally, it is important to note that the library is in **early development**, as denoted by
 the `0.x version number <semver_>`_, so expect its API to change between minor releases.
-The public API will be considered stable once we're confident enough to bump it to 1.0.0.
+We will bump it to 1.0.0 once we are confident enough to make the public API stable.
 
 License
 =======

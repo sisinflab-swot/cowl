@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /**
  * Bitmask manipulation API.
  *
- * @note This is not a real data structure, though it's declared as such
+ * @note This is not a real data structure, though it is declared as such
  *       for better grouping in the generated documentation.
  *
  * @struct CowlFlags

@@ -1,5 +1,6 @@
 /*
- * This introductory example shows how to parse and log an ontology.
+ * This introductory example shows how to parse an ontology
+ * and log its axioms and annotations.
  * Note that error and imports handling are omitted for the sake of simplicity.
  *
  * @author Ivano Bilenchi
@@ -10,6 +11,8 @@
  */
 #include "cowl_api.h"
 
+#define ONTO_PATH "example_pizza.owl"
+
 int main(void) {
 
     // You must always initialize the API before use.
@@ -17,7 +20,7 @@ int main(void) {
 
     // Instantiate a parser and deserialize an ontology.
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "example_pizza.owl", NULL);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, ONTO_PATH, NULL);
 
     // You don't need the parser anymore.
     cowl_parser_release(parser);

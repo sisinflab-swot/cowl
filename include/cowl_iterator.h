@@ -42,7 +42,7 @@ cowl_struct_decl(CowlOntology);
  * while returning `false` causes it to stop. This is useful if, for example,
  * you want to find the first element matching certain criteria.
  *
- * @note This is not a real data structure, though it's declared as such
+ * @note This is not a real data structure, though it is declared as such
  *       for better grouping in the generated documentation.
  *
  * @struct CowlIterator

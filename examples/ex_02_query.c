@@ -11,6 +11,7 @@
  */
 #include "cowl_api.h"
 
+#define ONTO_PATH "example_pizza.owl"
 #define ONTO_NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
@@ -20,14 +21,14 @@ int main(void) {
 
     cowl_api_init();
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "example_pizza.owl", NULL);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, ONTO_PATH, NULL);
     cowl_parser_release(parser);
 
     // Query the parsed ontology
     if (onto) {
         CowlLogger *logger = cowl_logger_console_get();
 
-        // Get the class whose atomic subclasses we're interested in.
+        // Get the class whose atomic subclasses we are interested in.
         CowlIRI *iri = cowl_iri_from_static(ONTO_NS CLASS_NAME);
         CowlClass *cls = cowl_class_get(iri);
 

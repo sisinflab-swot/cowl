@@ -1,5 +1,5 @@
 /*
- * This example is the same as ex_00_base.c,
+ * This example is the same as the previous one,
  * except error and imports handling are included.
  *
  * @author Ivano Bilenchi
@@ -9,6 +9,9 @@
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
 #include "cowl_api.h"
+
+#define ONTO_PATH "example_pizza.owl"
+#define IMPORT_PATH "import.owl"
 
 static CowlOntology* load_imports(void *ctx, CowlIRI *iri, Vector(CowlError) *errors);
 
@@ -24,7 +27,7 @@ int main(void) {
 
     // Deserialize an ontology. Errors will be appended to the 'errors' vector.
     Vector(CowlError) *errors = vector_alloc(CowlError);
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "example_pizza.owl", errors);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, ONTO_PATH, errors);
     cowl_parser_release(parser);
 
     // Log the errors, if any.
@@ -51,7 +54,7 @@ int main(void) {
 static CowlOntology* load_imports(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
                                   Vector(CowlError) *errors) {
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "import.owl", errors);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, IMPORT_PATH, errors);
     cowl_parser_release(parser);
     return onto;
 }

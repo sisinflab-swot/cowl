@@ -10,6 +10,7 @@
  */
 #include "cowl_api.h"
 
+#define ONTO_PATH "example_pizza.owl"
 #define ONTO_NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
@@ -19,7 +20,7 @@ int main(void) {
 
     cowl_api_init();
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, "example_pizza.owl", NULL);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, ONTO_PATH, NULL);
     cowl_parser_release(parser);
 
     if (onto) {
@@ -30,7 +31,7 @@ int main(void) {
 
         cowl_logger_logf(logger, "Recursive atomic subclasses of " CLASS_NAME ":\n");
 
-        // Since we're going to perform a recursive query,
+        // Since we are going to perform a recursive query,
         // we need the ontology to be part of the context.
         void const *ctx[] = { onto, logger };
         CowlClsExpIterator iter = cowl_iterator_init(ctx, for_each_cls);
