@@ -132,7 +132,6 @@
 
 %type <CowlFacetRestr *> facet_restriction
 %type <CowlLiteral *> literal target_value
-%type <CowlString *> string_literal language_tag
 
 %type <CowlAxiom *> axiom declaration
 %type <CowlAxiom *> class_axiom object_property_axiom data_property_axiom annotation_axiom
@@ -371,31 +370,15 @@ node_id
 // Literals
 
 literal
-    : string_literal DOUBLE_CARET datatype {
-        $$ = cowl_literal_get($3, $1, NULL);
-        cowl_string_release($1);
+    : QUOTED_STRING DOUBLE_CARET datatype {
+        $$ = cowl_literal_get_raw($3, $1, cowl_raw_string_empty);
         cowl_datatype_release($3);
     }
-    | string_literal language_tag {
-        $$ = cowl_literal_get(NULL, $1, $2);
-        cowl_string_release($1);
-        cowl_string_release($2);
+    | QUOTED_STRING LANG_TAG {
+        $$ = cowl_literal_get_raw(NULL, $1, $2);
     }
-    | string_literal {
-        $$ = cowl_literal_get(NULL, $1, NULL);
-        cowl_string_release($1);
-    }
-;
-
-string_literal
-    : QUOTED_STRING {
-        $$ = cowl_string_get($1.cstring, $1.length, true);
-    }
-;
-
-language_tag
-    : LANG_TAG {
-        $$ = cowl_string_get($1.cstring, $1.length, true);
+    | QUOTED_STRING {
+        $$ = cowl_literal_get_raw(NULL, $1, cowl_raw_string_empty);
     }
 ;
 

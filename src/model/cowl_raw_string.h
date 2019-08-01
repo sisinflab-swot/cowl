@@ -29,6 +29,7 @@ typedef cowl_struct(CowlRawString) {
     })
 
 #define cowl_raw_string_deinit(STRING) free((void *)(STRING).cstring)
+#define cowl_raw_string_empty cowl_raw_string_init_static("", false)
 
 CowlRawString cowl_raw_string_init(char const *cstring, cowl_uint_t length, bool copy);
 CowlRawString cowl_raw_string_init_cstring(char const *cstring, bool copy);
@@ -37,6 +38,7 @@ CowlRawString cowl_raw_string_copy(CowlRawString string);
 CowlRawString cowl_raw_string_with_format(char const *format, ...);
 CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args);
 CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *strings);
+CowlRawString cowl_raw_string_sub(CowlRawString string, cowl_uint_t start, cowl_uint_t end);
 cowl_uint_t cowl_raw_string_index_of(CowlRawString string, char needle);
 
 bool cowl_raw_string_equals(CowlRawString lhs, CowlRawString rhs);

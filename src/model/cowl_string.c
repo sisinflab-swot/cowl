@@ -55,7 +55,7 @@ void cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlStr
         out[1] = cowl_string_get(string.cstring + lhs_length, string.length - lhs_length, true);
     } else {
         out[0] = cowl_string_get(string.cstring, string.length, true);
-        out[1] = cowl_string_get("", 0, true);
+        out[1] = cowl_string_get_empty();
     }
 }
 

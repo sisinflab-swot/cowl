@@ -13,6 +13,7 @@
 
 #include "cowl_literal.h"
 #include "cowl_object.h"
+#include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 
@@ -28,6 +29,8 @@ cowl_struct(CowlLiteral) {
 
 #define COWL_LITERAL_INIT(D, V, L, H) \
     { .super = COWL_HASH_OBJECT_INIT(H), .dt = (D), .value = (V), .lang = (L) }
+
+CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRawString lang);
 
 COWL_END_DECLS
 

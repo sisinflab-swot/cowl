@@ -42,11 +42,31 @@ static void cowl_literal_free(CowlLiteral *literal) {
     free((void *)literal);
 }
 
-CowlLiteral* cowl_literal_get(CowlDatatype *datatype, CowlString *literal, CowlString *lang) {
-    if (!datatype) datatype = cowl_datatype_retain(cowl_rdf_vocab_get()->dt.plain_literal);
-    if (!literal) literal = cowl_string_get_empty();
+CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {
+    if (!dt) dt = cowl_datatype_retain(cowl_rdf_vocab_get()->dt.plain_literal);
+    if (!value) value = cowl_string_get_empty();
     if (!lang) lang = cowl_string_get_empty();
-    return cowl_literal_alloc(datatype, literal, lang);
+    return cowl_literal_alloc(dt, value, lang);
+}
+
+CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRawString lang) {
+    bool copy = true;
+
+    if (!lang.length && value.length) {
+        // The literal doesn't have a separate language tag, attempt to parse it from the value.
+        cowl_uint_t lang_idx = cowl_raw_string_index_of(value, '@') + 1;
+
+        if (lang_idx < value.length) {
+            lang = cowl_raw_string_sub(value, lang_idx, value.length);
+            value = cowl_raw_string_sub(value, 0, lang_idx);
+            copy = false;
+        }
+    }
+
+    CowlString *val_s = value.length ? cowl_string_get(value.cstring, value.length, copy) : NULL;
+    CowlString *lang_s = lang.length ? cowl_string_get(lang.cstring, lang.length, copy) : NULL;
+
+    return cowl_literal_get(dt, val_s, lang_s);
 }
 
 CowlLiteral* cowl_literal_retain(CowlLiteral *literal) {
