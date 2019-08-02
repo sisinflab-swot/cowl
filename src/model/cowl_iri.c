@@ -16,8 +16,6 @@
 #include "cowl_str_buf.h"
 #include "cowl_xml_utils.h"
 
-static UHash(CowlStringTable) *ns_tbl = NULL;
-
 static inline cowl_uint_t cowl_inst_hash(CowlIRI *iri) {
     return cowl_hash_2(COWL_HASH_INIT_IRI,
                        uhash_ptr_hash(iri->ns),
@@ -44,21 +42,17 @@ static cowl_struct(CowlIRI)* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
 
 static void cowl_iri_free(CowlIRI *iri) {
     if (!iri) return;
-    cowl_string_release(iri->ns);
+    cowl_string_release_intern(iri->ns);
     cowl_string_release(iri->rem);
     free((void *)iri);
 }
 
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
-    if (!inst_tbl) {
-        inst_tbl = uhset_alloc(CowlIRITable);
-        ns_tbl = uhset_alloc(CowlStringTable);
-    }
-
-    uhash_ret_t ret = uhset_insert_get_existing(CowlStringTable, ns_tbl, ns, &ns);
-    if (ret == UHASH_INSERTED) cowl_string_retain(ns);
+    if (!inst_tbl) inst_tbl = uhset_alloc(CowlIRITable);
+    ns = cowl_string_get_intern(ns, false);
 
     CowlIRI key = { .ns = ns, .rem = rem };
+    uhash_ret_t ret;
     uhash_uint_t idx = uhash_put(CowlIRITable, inst_tbl, &key, &ret);
 
     CowlIRI *iri;
@@ -120,10 +114,6 @@ CowlIRI* cowl_iri_retain(CowlIRI *iri) {
 
 void cowl_iri_release(CowlIRI *iri) {
     if (iri && !cowl_object_release(iri)) {
-        if (cowl_object_ref_get(iri->ns) == 2) {
-            uhset_remove(CowlStringTable, ns_tbl, iri->ns);
-            cowl_string_release(iri->ns);
-        }
         uhset_remove(CowlIRITable, inst_tbl, iri);
         cowl_iri_free(iri);
     }

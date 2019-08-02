@@ -16,28 +16,6 @@
 #include "cowl_str_buf.h"
 #include "cowl_string_private.h"
 
-static UHash(CowlStringTable) *lang_tbl = NULL;
-
-static CowlString* cowl_literal_lang_tbl_get(CowlString *lang, bool copy) {
-    if (!(lang && lang->raw_string.length)) return cowl_string_get_empty();
-    if (!lang_tbl) lang_tbl = uhset_alloc(CowlStringTable);
-
-    uhash_ret_t ret;
-    uhash_uint_t idx = uhash_put(CowlStringTable, lang_tbl, lang, &ret);
-
-    if (ret == UHASH_INSERTED) {
-        if (copy) {
-            lang = cowl_string_copy(lang);
-            uhash_key(lang_tbl, idx) = lang;
-        }
-    } else {
-        lang = uhash_key(lang_tbl, idx);
-        cowl_object_retain(lang);
-    }
-
-    return lang;
-}
-
 static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     if (!dt) dt = cowl_datatype_retain(cowl_rdf_vocab_get()->dt.plain_literal);
     if (!value) value = cowl_string_get_empty();
@@ -63,12 +41,12 @@ static void cowl_literal_free(CowlLiteral *literal) {
     if (!literal) return;
     cowl_datatype_release(literal->dt);
     cowl_string_release(literal->value);
-    cowl_string_release(literal->lang);
+    cowl_string_release_intern(literal->lang);
     free((void *)literal);
 }
 
 CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    return cowl_literal_alloc(dt, value, cowl_literal_lang_tbl_get(lang, false));
+    return cowl_literal_alloc(dt, value, cowl_string_get_intern(lang, false));
 }
 
 CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRawString lang) {
@@ -86,7 +64,7 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRaw
     CowlString *val_s = value.length ? cowl_string_get(value.cstring, value.length, true) : NULL;
 
     CowlString key = cowl_string_init(lang);
-    CowlString *lang_s = cowl_literal_lang_tbl_get(&key, true);
+    CowlString *lang_s = cowl_string_get_intern(&key, true);
 
     return cowl_literal_alloc(dt, val_s, lang_s);
 }
@@ -97,10 +75,6 @@ CowlLiteral* cowl_literal_retain(CowlLiteral *literal) {
 
 void cowl_literal_release(CowlLiteral *literal) {
     if (literal && !cowl_object_release(literal)) {
-        if (cowl_object_ref_get(literal->lang) == 2) {
-            uhset_remove(CowlStringTable, lang_tbl, literal->lang);
-            cowl_string_release(literal->lang);
-        }
         cowl_literal_free(literal);
     }
 }

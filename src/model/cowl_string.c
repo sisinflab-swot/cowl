@@ -16,6 +16,8 @@
 
 UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
 
+static UHash(CowlStringTable) *str_tbl = NULL;
+
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {
     CowlString init = cowl_string_init(raw_string);
     cowl_struct(CowlString) *string = malloc(sizeof(*string));
@@ -39,6 +41,33 @@ static void cowl_string_free(CowlString *string) {
     if (!string) return;
     cowl_raw_string_deinit(string->raw_string);
     free((void *)string);
+}
+
+CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
+    if (!(string && string->raw_string.length)) return cowl_string_get_empty();
+    if (!str_tbl) str_tbl = uhset_alloc(CowlStringTable);
+
+    uhash_ret_t ret;
+    uhash_uint_t idx = uhash_put(CowlStringTable, str_tbl, string, &ret);
+
+    if (ret == UHASH_INSERTED) {
+        if (copy) {
+            string = cowl_string_copy(string);
+            uhash_key(str_tbl, idx) = string;
+        }
+    } else {
+        string = uhash_key(str_tbl, idx);
+        cowl_object_retain(string);
+    }
+
+    return string;
+}
+
+void cowl_string_release_intern(CowlString *string) {
+    if (string && !cowl_object_release(string)) {
+        uhset_remove(CowlStringTable, str_tbl, string);
+        cowl_string_free(string);
+    }
 }
 
 CowlString* cowl_string_copy(CowlString *string) {
