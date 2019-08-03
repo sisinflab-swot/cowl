@@ -165,6 +165,18 @@ CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs);
  */
 #define cowl_string_from_static(CSTR) cowl_string_get((CSTR), sizeof(CSTR) - 1, true)
 
+/**
+ * Returns the string representation of the specified string.
+ *
+ * @param STR [CowlString] The string.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @related CowlString
+ */
+#define cowl_string_to_string(STR) cowl_string_retain(STR)
+
 COWL_END_DECLS
 
 #endif // COWL_STRING_H
