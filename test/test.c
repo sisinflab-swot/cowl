@@ -11,6 +11,7 @@
 #include "cowl_api.h"
 #include "cowl_ontology_tests.h"
 #include "cowl_parser_tests.h"
+#include "cowl_string_tests.h"
 #include "cowl_test_utils.h"
 
 #define cowl_run_tests(EXIT_CODE, ...) do {                                                         \
@@ -27,6 +28,7 @@ int main(void) {
     printf("Starting tests...\n");
 
     cowl_run_tests(exit_code,
+        COWL_STRING_TESTS,
         COWL_PARSER_TESTS,
         COWL_ONTOLOGY_TESTS
     );

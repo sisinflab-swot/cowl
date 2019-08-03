@@ -19,7 +19,7 @@
 
 bool cowl_test_parser_lifecycle(void) {
     CowlParser *parser = cowl_parser_get();
-    cowl_assert(parser, "Parser must not be NULL.");
+    cowl_assert_not_null(parser, "Parser");
     cowl_parser_release(parser);
     return true;
 }
