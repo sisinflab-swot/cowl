@@ -20,8 +20,9 @@
 
 COWL_BEGIN_DECLS
 
-VECTOR_DECL(char)
-typedef vector_struct(char) CowlStrBuf;
+typedef char CowlChar;
+VECTOR_DECL(CowlChar)
+typedef vector_struct(CowlChar) CowlStrBuf;
 
 CowlStrBuf* cowl_str_buf_alloc(void);
 

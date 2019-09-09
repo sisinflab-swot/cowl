@@ -13,17 +13,17 @@
 
 #include <stdio.h>
 
-VECTOR_IMPL(char)
+VECTOR_IMPL(CowlChar)
 
-Vector(char)* cowl_str_buf_alloc(void) {
-    return vector_alloc(char);
+Vector(CowlChar)* cowl_str_buf_alloc(void) {
+    return vector_alloc(CowlChar);
 }
 
-static char* cowl_str_buf_free(Vector(char) *buf) {
+static char* cowl_str_buf_free(Vector(CowlChar) *buf) {
     char *cstring = buf->storage;
     buf->storage = NULL;
     buf->allocated = buf->count = 0;
-    vector_free(char, buf);
+    vector_free(CowlChar, buf);
     return cstring;
 }
 
@@ -37,7 +37,7 @@ static cowl_uint_t cowl_cstring_length_of_formatted(char const *format, va_list 
 
 void cowl_str_buf_append_cstring(CowlStrBuf *buf, char const *string,
                                  cowl_uint_t length) {
-    vector_append_array(char, buf, string, length);
+    vector_append_array(CowlChar, buf, string, length);
 }
 
 void cowl_str_buf_append_raw_string(CowlStrBuf *buf, CowlRawString string) {
@@ -58,7 +58,7 @@ void cowl_str_buf_append_format(CowlStrBuf *buf, char const *format, ...) {
 void cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va_list args) {
     cowl_uint_t length = cowl_cstring_length_of_formatted(format, args);
     size_t size = length + 1;
-    vector_expand(char, buf, size);
+    vector_expand(CowlChar, buf, size);
     vsnprintf(buf->storage + buf->count, size, format, args);
     buf->count += length;
 }
