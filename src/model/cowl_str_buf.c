@@ -67,11 +67,11 @@ void cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va_lis
 
 void cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri) {
     cowl_str_buf_append_static(buf, "<");
-    cowl_str_buf_append_iri_no_paren(buf, iri);
+    cowl_str_buf_append_iri_no_brackets(buf, iri);
     cowl_str_buf_append_static(buf, ">");
 }
 
-void cowl_str_buf_append_iri_no_paren(CowlStrBuf *buf, CowlIRI *iri) {
+void cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri) {
     cowl_str_buf_append_string(buf, iri->ns);
     cowl_str_buf_append_string(buf, iri->rem);
 }
@@ -98,7 +98,7 @@ void cowl_str_buf_append_literal(CowlStrBuf *buf, CowlLiteral *literal) {
     }
 
     cowl_str_buf_append_static(buf, "^^");
-    cowl_str_buf_append_iri_no_paren(buf, cowl_datatype_get_iri(literal->dt));
+    cowl_str_buf_append_iri_no_brackets(buf, cowl_datatype_get_iri(literal->dt));
 }
 
 void cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr) {

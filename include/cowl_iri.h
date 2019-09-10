@@ -112,6 +112,19 @@ COWL_PUBLIC
 CowlString* cowl_iri_to_string(CowlIRI *iri);
 
 /**
+ * Returns the string representation of the specified IRI, omitting the enclosing angular brackets.
+ *
+ * @param iri The IRI.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
+CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

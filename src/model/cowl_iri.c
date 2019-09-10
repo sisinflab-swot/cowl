@@ -148,6 +148,12 @@ CowlString* cowl_iri_to_string(CowlIRI *iri) {
     return cowl_str_buf_to_string(buf);
 }
 
+CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri) {
+    CowlStrBuf *buf = cowl_str_buf_alloc();
+    cowl_str_buf_append_iri_no_brackets(buf, iri);
+    return cowl_str_buf_to_string(buf);
+}
+
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
     return lhs == rhs;
 }

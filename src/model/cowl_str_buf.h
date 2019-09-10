@@ -40,7 +40,7 @@ void cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va_lis
 // Misc
 
 void cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri);
-void cowl_str_buf_append_iri_no_paren(CowlStrBuf *buf, CowlIRI *iri);
+void cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri);
 void cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID *id);
 void cowl_str_buf_append_literal(CowlStrBuf *buf, CowlLiteral *literal);
 void cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr);
