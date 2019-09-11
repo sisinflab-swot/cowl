@@ -38,7 +38,6 @@ CowlRawString cowl_raw_string_copy(CowlRawString string);
 CowlRawString cowl_raw_string_with_format(char const *format, ...);
 CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args);
 CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *strings);
-CowlRawString cowl_raw_string_sub(CowlRawString string, cowl_uint_t start, cowl_uint_t end);
 cowl_uint_t cowl_raw_string_index_of(CowlRawString string, char needle);
 
 bool cowl_raw_string_equals(CowlRawString lhs, CowlRawString rhs);

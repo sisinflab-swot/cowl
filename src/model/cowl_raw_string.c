@@ -86,7 +86,3 @@ CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *str
 
     return cowl_str_buf_to_raw_string(buf);
 }
-
-CowlRawString cowl_raw_string_sub(CowlRawString string, cowl_uint_t start, cowl_uint_t end) {
-    return cowl_raw_string_init(string.cstring + start, end - start, true);
-}
