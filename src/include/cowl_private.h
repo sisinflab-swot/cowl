@@ -21,6 +21,7 @@
 #include "cowl_axiom_flags.h"
 #include "cowl_axiom_private.h"
 #include "cowl_axiom_set.h"
+#include "cowl_axiom_vec.h"
 #include "cowl_class_private.h"
 #include "cowl_cls_assert_axiom_private.h"
 #include "cowl_cls_exp_private.h"

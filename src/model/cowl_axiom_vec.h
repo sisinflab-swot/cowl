@@ -8,8 +8,8 @@
  * @file
  */
 
-#ifndef COWL_AXIOM_SET_H
-#define COWL_AXIOM_SET_H
+#ifndef COWL_AXIOM_VEC_H
+#define COWL_AXIOM_VEC_H
 
 #include "cowl_std.h"
 
@@ -17,10 +17,9 @@ COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlAxiom);
 
-UHASH_DECL(CowlAxiomSet, CowlAxiom*, UHASH_VAL_IGNORE)
-
-void cowl_axiom_set_free(UHash(CowlAxiomSet) *set);
+typedef CowlAxiom* CowlAxiomPtr;
+VECTOR_DECL_EQUATABLE(CowlAxiomPtr)
 
 COWL_END_DECLS
 
-#endif // COWL_AXIOM_SET_H
+#endif // COWL_AXIOM_VEC_H

@@ -13,7 +13,7 @@
 
 UHASH_IMPL(CowlAxiomSet, cowl_axiom_hash, cowl_axiom_equals)
 
-void cowl_axiom_set_free(CowlAxiomSet *set) {
+void cowl_axiom_set_free(UHash(CowlAxiomSet) *set) {
     if (!set) return;
     uhash_foreach_key(CowlAxiomSet, set, axiom, cowl_axiom_release(axiom));
     uhash_free(CowlAxiomSet, set);

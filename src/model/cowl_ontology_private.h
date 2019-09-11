@@ -19,15 +19,16 @@ COWL_BEGIN_DECLS
 
 typedef uhash_struct(CowlAxiomSet) UHash(CowlAxiomSet);
 typedef vector_struct(CowlAnnotationPtr) Vector(CowlAnnotationPtr);
+typedef vector_struct(CowlAxiomPtr) Vector(CowlAxiomPtr);
 typedef vector_struct(CowlOntologyPtr) Vector(CowlOntologyPtr);
 
-UHASH_DECL(CowlAnnotPropAxiomMap, CowlAnnotProp*, UHash(CowlAxiomSet)*)
-UHASH_DECL(CowlClassAxiomMap, CowlClass*, UHash(CowlAxiomSet)*)
-UHASH_DECL(CowlDataPropAxiomMap, CowlDataProp*, UHash(CowlAxiomSet)*)
-UHASH_DECL(CowlDatatypeAxiomMap, CowlDatatype*, UHash(CowlAxiomSet)*)
-UHASH_DECL(CowlObjPropAxiomMap, CowlObjProp*, UHash(CowlAxiomSet)*)
-UHASH_DECL(CowlNamedIndAxiomMap, CowlNamedInd*, UHash(CowlAxiomSet)*)
-UHASH_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, UHash(CowlAxiomSet)*)
+UHASH_DECL(CowlAnnotPropAxiomMap, CowlAnnotProp*, Vector(CowlAxiomPtr)*)
+UHASH_DECL(CowlClassAxiomMap, CowlClass*, Vector(CowlAxiomPtr)*)
+UHASH_DECL(CowlDataPropAxiomMap, CowlDataProp*, Vector(CowlAxiomPtr)*)
+UHASH_DECL(CowlDatatypeAxiomMap, CowlDatatype*, Vector(CowlAxiomPtr)*)
+UHASH_DECL(CowlObjPropAxiomMap, CowlObjProp*, Vector(CowlAxiomPtr)*)
+UHASH_DECL(CowlNamedIndAxiomMap, CowlNamedInd*, Vector(CowlAxiomPtr)*)
+UHASH_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, Vector(CowlAxiomPtr)*)
 
 cowl_struct(CowlOntology) {
     CowlObject super;
