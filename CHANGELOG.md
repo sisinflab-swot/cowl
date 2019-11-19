@@ -5,6 +5,21 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2019-11-19
+### Added
+- `cowl_iri_to_string_no_brackets`.
+- `cowl_string_to_string`.
+- Tests for `CowlString`.
+
+### Changed
+- Reduced memory usage via improved `CowlString` interning and reworked `CowlOntology` internals.
+- Minor documentation updates.
+
+### Fixed
+- Handling of language tags in literals with an explicit datatype.
+- Potential clashes in user code by renaming `Vector(char)` to `Vector(CowlChar)`.
+- Const-ness of OWL vocabulary fields.
+
 ## [0.2.0] - 2019-07-23
 ### Added
 - String representation API (`to_string` functions).
@@ -25,7 +40,6 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Reduced heap memory usage.
 - Minor documentation updates.
 
-
 ### Removed
 - Most of `CowlLogger`'s logging API, in favor of `to_string` functions.
 - `cowl_logger_open` and `cowl_logger_close`.
@@ -42,5 +56,6 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.2.1]: https://github.com/sisinflab-swot/cowl/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/sisinflab-swot/cowl/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/sisinflab-swot/cowl/releases/tag/v0.1.0
