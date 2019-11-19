@@ -69,7 +69,7 @@ typedef cowl_struct(CowlOWLIRIVocab) {
     /// owl:topObjectProperty
     CowlIRI *top_obj_prop;
 
-} const CowlOWLIRIVocab;
+} CowlOWLIRIVocab;
 
 /// Vocabulary of OWL classes.
 typedef cowl_struct(CowlOWLClassVocab) {
@@ -80,7 +80,7 @@ typedef cowl_struct(CowlOWLClassVocab) {
     /// owl:Nothing
     CowlClass *nothing;
 
-} const CowlOWLClassVocab;
+} CowlOWLClassVocab;
 
 /// Vocabulary of OWL datatypes.
 typedef cowl_struct(CowlOWLDatatypeVocab) {
@@ -91,7 +91,7 @@ typedef cowl_struct(CowlOWLDatatypeVocab) {
     /// owl:real
     CowlDatatype *real;
 
-} const CowlOWLDatatypeVocab;
+} CowlOWLDatatypeVocab;
 
 /// Vocabulary of OWL object properties.
 typedef cowl_struct(CowlOWLObjPropVocab) {
@@ -102,7 +102,7 @@ typedef cowl_struct(CowlOWLObjPropVocab) {
     /// owl:bottomObjectProperty
     CowlObjProp *bottom_obj_prop;
 
-} const CowlOWLObjPropVocab;
+} CowlOWLObjPropVocab;
 
 /// Vocabulary of OWL data properties.
 typedef cowl_struct(CowlOWLDataPropVocab) {
@@ -113,7 +113,7 @@ typedef cowl_struct(CowlOWLDataPropVocab) {
     /// owl:bottomDataProperty
     CowlDataProp *bottom_data_prop;
 
-} const CowlOWLDataPropVocab;
+} CowlOWLDataPropVocab;
 
 /// Vocabulary of OWL annotation properties.
 typedef cowl_struct(CowlOWLAnnotPropVocab) {
@@ -133,7 +133,7 @@ typedef cowl_struct(CowlOWLAnnotPropVocab) {
     /// owl:version_info
     CowlAnnotProp *version_info;
 
-} const CowlOWLAnnotPropVocab;
+} CowlOWLAnnotPropVocab;
 
 /// The OWL 2 vocabulary.
 typedef cowl_struct(CowlOWLVocab) {
