@@ -1,58 +1,73 @@
 # Directories
 
-set(COWL_DOCS_IMG_DIR "${COWL_DOCS_DIR}/img")
-set(COWL_DOCS_OUT_DIR "${COWL_OUTPUT_DIR}/docs")
+set(DOCS_IMAGES_DIRECTORY "${COWL_DOCS_DIR}/img")
+set(DOCS_OUTPUT_DIRECTORY "${COWL_OUTPUT_DIR}/docs")
 
-set(COWL_DOXYGEN_SRC_DIR "${COWL_DOCS_DIR}")
-set(COWL_DOXYGEN_OUT_DIR "${COWL_DOCS_OUT_DIR}/doxygen")
-set(COWL_DOXYGEN_XML_OUT_DIR "${COWL_DOXYGEN_OUT_DIR}/xml")
-
-set(COWL_SPHINX_SRC_DIR "${COWL_DOCS_DIR}")
-set(COWL_SPHINX_OUT_DIR "${COWL_DOCS_OUT_DIR}/sphinx")
-set(COWL_SPHINX_HTML_OUT_DIR "${COWL_SPHINX_OUT_DIR}/html")
-
-# Output setup
-
-file(REMOVE_RECURSE ${COWL_DOCS_OUT_DIR})
-file(MAKE_DIRECTORY ${COWL_SPHINX_OUT_DIR})
+set(SPHINX_INPUT_DIRECTORY "${COWL_DOCS_DIR}")
+set(SPHINX_OUTPUT_DIRECTORY "${DOCS_OUTPUT_DIRECTORY}/sphinx")
+set(SPHINX_HTML_OUTPUT_DIRECTORY "${SPHINX_OUTPUT_DIRECTORY}/html")
 
 # Files
 
-set(COWL_DOXYFILE_IN "${COWL_DOXYGEN_SRC_DIR}/Doxyfile")
-set(COWL_DOXYFILE_OUT "${COWL_DOXYGEN_OUT_DIR}/Doxyfile")
-set(COWL_SPHINX_CONF_IN "${COWL_SPHINX_SRC_DIR}/conf.py")
-set(COWL_SPHINX_CONF_OUT "${COWL_SPHINX_OUT_DIR}/conf.py")
-set(COWL_ICON "${COWL_DOCS_IMG_DIR}/cowl_logo.png")
+set(SPHINX_CONF_IN "${SPHINX_INPUT_DIRECTORY}/conf.py")
+set(SPHINX_CONF_OUT "${SPHINX_OUTPUT_DIRECTORY}/conf.py")
+set(COWL_ICON "${DOCS_IMAGES_DIRECTORY}/cowl_logo.png")
+
+# Doxygen configuration
+
+set(DOXYGEN_FULL_PATH_NAMES NO)
+set(DOXYGEN_JAVADOC_AUTOBRIEF YES)
+set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
+set(DOXYGEN_TOC_INCLUDE_HEADINGS 0)
+set(DOXYGEN_DISTRIBUTE_GROUP_DOC YES)
+set(DOXYGEN_TYPEDEF_HIDES_STRUCT YES)
+set(DOXYGEN_FORCE_LOCAL_INCLUDES YES)
+set(DOXYGEN_MAX_INITIALIZER_LINES 0)
+set(DOXYGEN_WARN_NO_PARAMDOC YES)
+set(DOXYGEN_EXCLUDE_SYMBOLS "__*")
+set(DOXYGEN_EXAMPLE_PATTERNS "*.c")
+set(DOXYGEN_COLS_IN_ALPHA_INDEX 2)
+set(DOXYGEN_IGNORE_PREFIX "COWL_" "cowl_" "Cowl" "COWL")
+set(DOXYGEN_HTML_DYNAMIC_SECTIONS YES)
+set(DOXYGEN_TOC_EXPAND YES)
+set(DOXYGEN_GENERATE_TREEVIEW YES)
+set(DOXYGEN_GENERATE_XML YES)
+set(DOXYGEN_MACRO_EXPANSION YES)
+set(DOXYGEN_INCLUDE_PATH "${COWL_VECTOR_DIR}" "${COWL_UHASH_DIR}")
+set(DOXYGEN_OUTPUT_DIRECTORY "${DOCS_OUTPUT_DIRECTORY}/doxygen")
+set(DOXYGEN_XML_OUTPUT_DIRECTORY "${DOXYGEN_OUTPUT_DIRECTORY}/xml")
+
+# Output setup
+
+file(REMOVE_RECURSE ${DOCS_OUTPUT_DIRECTORY})
+file(MAKE_DIRECTORY ${SPHINX_OUTPUT_DIRECTORY})
+file(MAKE_DIRECTORY ${DOXYGEN_OUTPUT_DIRECTORY})
 
 # Documentation targets
 
 find_package(Doxygen)
 
-if (DOXYGEN_FOUND)
-    add_custom_target(cowl-doxygen
-                      COMMAND "${DOXYGEN_EXECUTABLE}" "${COWL_DOXYFILE_OUT}"
-                      WORKING_DIRECTORY "${COWL_DOXYGEN_OUT_DIR}"
-                      COMMENT "Generate documentation via Doxygen"
-                      VERBATIM)
+if(DOXYGEN_FOUND)
+    doxygen_add_docs(cowl-doxygen ${COWL_PUBLIC_HEADERS}
+                     COMMENT "Generate documentation via Doxygen"
+                     WORKING_DIRECTORY "${DOXYGEN_OUTPUT_DIRECTORY}")
 
     find_package(Sphinx)
 
-    if (SPHINX_FOUND)
+    if(SPHINX_FOUND)
         add_custom_target(cowl-sphinx
                           DEPENDS cowl-doxygen
                           COMMAND "${CMAKE_COMMAND}" -E remove_directory
-                                  "${COWL_SPHINX_HTML_OUT_DIR}"
-                          COMMAND "${SPHINX_EXECUTABLE}" -b html -c "${COWL_SPHINX_OUT_DIR}"
-                                  "${COWL_SPHINX_SRC_DIR}" "${COWL_SPHINX_HTML_OUT_DIR}"
-                          WORKING_DIRECTORY "${COWL_SPHINX_OUT_DIR}"
+                                  "${SPHINX_HTML_OUTPUT_DIRECTORY}"
+                          COMMAND "${SPHINX_EXECUTABLE}" -b html -c "${SPHINX_OUTPUT_DIRECTORY}"
+                                  "${SPHINX_INPUT_DIRECTORY}" "${SPHINX_HTML_OUTPUT_DIRECTORY}"
+                          WORKING_DIRECTORY "${SPHINX_OUTPUT_DIRECTORY}"
                           COMMENT "Generate documentation via Sphinx"
                           VERBATIM)
 
-        configure_file("${COWL_SPHINX_CONF_IN}" "${COWL_SPHINX_CONF_OUT}" @ONLY)
+        configure_file("${SPHINX_CONF_IN}" "${SPHINX_CONF_OUT}" @ONLY)
         add_custom_target(cowl-docs DEPENDS cowl-sphinx)
     else()
         add_custom_target(cowl-docs DEPENDS cowl-doxygen)
     endif()
-
-    configure_file("${COWL_DOXYFILE_IN}" "${COWL_DOXYFILE_OUT}" @ONLY)
 endif()

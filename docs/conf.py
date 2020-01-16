@@ -24,8 +24,8 @@ rst_epilog = """
 
 html_theme = 'sphinx_rtd_theme'
 html_theme_options = { 'logo_only': False }
-templates_path = ['@COWL_SPHINX_SRC_DIR@/_templates']
-html_static_path = ['@COWL_SPHINX_SRC_DIR@/_static', '@COWL_DOCS_IMG_DIR@']
+templates_path = ['@SPHINX_INPUT_DIRECTORY@/_templates']
+html_static_path = ['@SPHINX_INPUT_DIRECTORY@/_static', '@DOCS_IMAGES_DIRECTORY@']
 html_logo = logo
 html_short_title = '{} docs'.format(project)
 html_copy_source = False
@@ -34,7 +34,7 @@ html_use_index = False
 
 # Breathe
 
-breathe_projects = { project: '@COWL_DOXYGEN_XML_OUT_DIR@' }
+breathe_projects = { project: '@DOXYGEN_XML_OUTPUT_DIRECTORY@' }
 breathe_default_project = project
 breathe_default_members = ('members', 'undocmembers')
 
