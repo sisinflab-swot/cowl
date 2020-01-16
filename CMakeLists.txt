@@ -2,10 +2,9 @@
 # Configuration #
 #################
 
-# Cmake
+# CMake
 
-cmake_minimum_required(VERSION 3.0)
-cmake_policy(SET CMP0063 NEW)
+cmake_minimum_required(VERSION 3.12)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 
 # Project
@@ -60,11 +59,13 @@ find_package(FLEX 2.6 REQUIRED)
 
 # Header dirs
 
-set(COWL_HEADERS_DIRS
+set(COWL_PUBLIC_HEADERS_DIRS
     "${COWL_PUBLIC_HEADERS_DIR}"
-    "${COWL_PRIVATE_HEADERS_DIR}"
     "${COWL_VECTOR_DIR}"
-    "${COWL_UHASH_DIR}"
+    "${COWL_UHASH_DIR}")
+
+set(COWL_PRIVATE_HEADERS_DIRS
+    "${COWL_PRIVATE_HEADERS_DIR}"
     "${COWL_MODEL_DIR}"
     "${COWL_IO_DIR}"
     "${COWL_PARSER_DIR}"
@@ -72,18 +73,14 @@ set(COWL_HEADERS_DIRS
 
 # Header files
 
-set(COWL_LIB_HEADERS
-    "${COWL_VECTOR_DIR}/vector.h"
-    "${COWL_UHASH_DIR}/uhash.h")
-
-file(GLOB COWL_PUBLIC_HEADERS
-     "${COWL_PUBLIC_HEADERS_DIR}/*.h")
-
-set(COWL_ALL_PUBLIC_HEADERS ${COWL_LIB_HEADERS} ${COWL_PUBLIC_HEADERS})
+file(GLOB COWL_PUBLIC_HEADERS CONFIGURE_DEPENDS
+     "${COWL_PUBLIC_HEADERS_DIR}/*.h"
+     "${COWL_VECTOR_DIR}/*.h"
+     "${COWL_UHASH_DIR}/*.h")
 
 # Sources
 
-file(GLOB COWL_SOURCES
+file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
      "${COWL_MODEL_DIR}/*.c"
      "${COWL_IO_DIR}/*.c"
      "${COWL_PARSER_DIR}/*.c")
@@ -92,94 +89,93 @@ file(GLOB COWL_SOURCES
 ### Targets ###
 ###############
 
+# Options
+
+option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
+option(COWL_LTO "Enable link-time optimization, if available" ON)
+
 # Defaults
 
-set(CMAKE_C_STANDARD 11)
+set(COWL_COMPILE_FEATURES c_std_11)
 
-set(COWL_DEFAULT_BUILD_TYPE "Release")
-
-if (MSVC)
-    set(COWL_DEFAULT_DEBUG_FLAGS /Zi /W4)
-    set(COWL_DEFAULT_RELEASE_FLAGS /O2 /GL /W4)
-else ()
-    set(COWL_DEFAULT_DEBUG_FLAGS -g -Wall -Wextra)
-    set(COWL_DEFAULT_RELEASE_FLAGS -O3 -flto -Wall -Wextra)
-endif ()
-
-if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    message(STATUS "No build type selected, default to ${COWL_DEFAULT_BUILD_TYPE}")
-    set(CMAKE_BUILD_TYPE "${COWL_DEFAULT_BUILD_TYPE}" CACHE STRING
-        "Build type (default ${COWL_DEFAULT_BUILD_TYPE})" FORCE)
-endif ()
-
-# Compiler flags
-
-if (COWL_EMBEDDED)
-    message(STATUS "Embedded build selected")
-    set(COWL_DEFINES VECTOR_TINY UHASH_TINY)
-
-    if (MSVC)
-        set(COWL_DEFAULT_RELEASE_FLAGS /Os /GL /W4)
-    else()
-        set(COWL_DEFAULT_RELEASE_FLAGS -Os -flto -Wall -Wextra)
-    endif()
+if(MSVC)
+    set(COWL_WARNING_OPTIONS /W4)
+    list(APPEND COWL_PRIVATE_DEFINES COWL_DLL)
 else()
-    message(STATUS "Desktop build selected")
-    set(FLEX_FLAGS -Cfe)
+    set(COWL_WARNING_OPTIONS -Wall -Wextra)
 endif()
 
-if (NOT COWL_DEBUG_FLAGS)
-    set(COWL_DEBUG_FLAGS ${COWL_DEFAULT_DEBUG_FLAGS})
-endif ()
+if(COWL_LTO)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT COWL_LTO_ENABLED)
+endif()
 
-if (NOT COWL_RELEASE_FLAGS)
-    set(COWL_RELEASE_FLAGS ${COWL_DEFAULT_RELEASE_FLAGS})
-endif ()
+if(COWL_EMBEDDED)
+    message(STATUS "Embedded build selected")
+    list(APPEND COWL_PUBLIC_DEFINES VECTOR_TINY UHASH_TINY)
+else()
+    message(STATUS "Desktop build selected")
+    set(COWL_FLEX_FLAGS -Cfe)
+endif()
 
 # Flex & Bison
 
-BISON_TARGET(COWL_FUNCTIONAL_PARSER "${COWL_FUNCTIONAL_PARSER_IN}" "${COWL_FUNCTIONAL_PARSER_OUT}"
+bison_target(COWL_FUNCTIONAL_PARSER "${COWL_FUNCTIONAL_PARSER_IN}" "${COWL_FUNCTIONAL_PARSER_OUT}"
              DEFINES_FILE "${COWL_FUNCTIONAL_PARSER_HEADER}")
-FLEX_TARGET(COWL_FUNCTIONAL_LEXER "${COWL_FUNCTIONAL_LEXER_IN}" "${COWL_FUNCTIONAL_LEXER_OUT}"
-            COMPILE_FLAGS ${FLEX_FLAGS}
+flex_target(COWL_FUNCTIONAL_LEXER "${COWL_FUNCTIONAL_LEXER_IN}" "${COWL_FUNCTIONAL_LEXER_OUT}"
+            COMPILE_FLAGS ${COWL_FLEX_FLAGS}
             DEFINES_FILE "${COWL_FUNCTIONAL_LEXER_HEADER}")
-ADD_FLEX_BISON_DEPENDENCY(COWL_FUNCTIONAL_LEXER COWL_FUNCTIONAL_PARSER)
+add_flex_bison_dependency(COWL_FUNCTIONAL_LEXER COWL_FUNCTIONAL_PARSER)
 
 # Static library
 
-add_library(cowl-static STATIC
+add_library(cowl-static STATIC EXCLUDE_FROM_ALL
             ${COWL_SOURCES}
             ${FLEX_COWL_FUNCTIONAL_LEXER_OUTPUTS}
             ${BISON_COWL_FUNCTIONAL_PARSER_OUTPUT_SOURCE})
 
 set_target_properties(cowl-static PROPERTIES
                       OUTPUT_NAME "cowl"
-                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}"
+                      PUBLIC_HEADER "${COWL_PUBLIC_HEADERS}"
                       C_VISIBILITY_PRESET hidden
                       VISIBILITY_INLINES_HIDDEN ON)
-target_compile_options(cowl-static PUBLIC
-                       "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
-                       "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
-target_compile_definitions(cowl-static PUBLIC ${COWL_DEFINES})
-target_include_directories(cowl-static PUBLIC ${COWL_HEADERS_DIRS})
+target_compile_features(cowl-static PRIVATE ${COWL_COMPILE_FEATURES})
+target_compile_options(cowl-static PRIVATE ${COWL_WARNING_OPTIONS})
+target_compile_definitions(cowl-static
+                           PUBLIC ${COWL_PUBLIC_DEFINES}
+                           PRIVATE ${COWL_PRIVATE_DEFINES})
+target_include_directories(cowl-static
+                           PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
+                           PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
+
+if(COWL_LTO_ENABLED)
+    set_property(TARGET cowl-static PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+endif()
 
 # Shared library
 
-add_library(cowl-shared SHARED
+add_library(cowl-shared SHARED EXCLUDE_FROM_ALL
             ${COWL_SOURCES}
             ${FLEX_COWL_FUNCTIONAL_LEXER_OUTPUTS}
             ${BISON_COWL_FUNCTIONAL_PARSER_OUTPUT_SOURCE})
 
 set_target_properties(cowl-shared PROPERTIES
                       OUTPUT_NAME "cowl"
-                      PUBLIC_HEADER "${COWL_ALL_PUBLIC_HEADERS}"
+                      PUBLIC_HEADER "${COWL_PUBLIC_HEADERS}"
                       C_VISIBILITY_PRESET hidden
                       VISIBILITY_INLINES_HIDDEN ON)
-target_compile_options(cowl-shared PUBLIC
-                       "$<$<CONFIG:DEBUG>:${COWL_DEBUG_FLAGS}>"
-                       "$<$<CONFIG:RELEASE>:${COWL_RELEASE_FLAGS}>")
-target_compile_definitions(cowl-shared PUBLIC ${COWL_DEFINES})
-target_include_directories(cowl-shared PUBLIC ${COWL_HEADERS_DIRS})
+target_compile_features(cowl-shared PRIVATE ${COWL_COMPILE_FEATURES})
+target_compile_options(cowl-shared PRIVATE ${COWL_WARNING_OPTIONS})
+target_compile_definitions(cowl-shared
+                           PUBLIC ${COWL_PUBLIC_DEFINES}
+                           PRIVATE ${COWL_PRIVATE_DEFINES})
+target_include_directories(cowl-shared
+                           PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
+                           PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
+
+if(COWL_LTO_ENABLED)
+    set_property(TARGET cowl-shared PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+endif()
 
 # Subprojects
 
@@ -189,19 +185,11 @@ add_subdirectory("${COWL_TEST_DIR}")
 
 # Main target
 
-option(COWL_BUILD_DOCS "Generate documentation" ON)
-
-add_custom_target(cowl
+add_custom_target(cowl ALL
                   COMMAND "${CMAKE_COMMAND}" -E remove_directory "${COWL_HEADERS_OUT_DIR}"
                   COMMAND "${CMAKE_COMMAND}" -E make_directory "${COWL_HEADERS_OUT_DIR}"
                   COMMAND ${CMAKE_COMMAND} -E copy
-                          ${COWL_ALL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
+                          ${COWL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
                   COMMENT "Build Cowl")
-
-if (COWL_BUILD_DOCS)
-    add_dependencies(cowl cowl-docs)
-else()
-    message(STATUS "Skipping docs generation.")
-endif()
 
 add_dependencies(cowl cowl-static cowl-shared)
