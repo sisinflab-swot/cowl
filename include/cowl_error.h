@@ -22,11 +22,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlString);
 /// @endcond
 
-/**
- * Error codes indicating classes of errors.
- *
- * @public @memberof CowlError
- */
+/// Error codes indicating classes of errors.
 typedef enum CowlErrorCode {
 
     /// Error while loading the ontology.
@@ -40,7 +36,7 @@ typedef enum CowlErrorCode {
 /// Error data structure.
 typedef cowl_struct(CowlError) {
 
-    /// If code is 'CEC_SYNTAX', this is the line where the error occurred.
+    /// If code is COWL_ERR_SYNTAX, this is the line where the error occurred.
     cowl_uint_t line;
 
     /// Error code.
