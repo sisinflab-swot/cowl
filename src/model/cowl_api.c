@@ -8,6 +8,7 @@
  * @file
  */
 
+#include "cowl_api.h"
 #include "cowl_annot_prop_private.h"
 #include "cowl_anon_ind_private.h"
 #include "cowl_class_private.h"
