@@ -20,7 +20,7 @@ Requirements
 In order to compile it, you will need:
 
 - CMake_ version 3.12 or later.
-- Flex_ version 2.6 or later.
+- Flex_ version 2.6.4 or later.
 - Bison_ version 3.0 or later.
 
 This is enough to build the library. If you also want to build its documentation, you will need:

@@ -55,7 +55,7 @@ set(COWL_FUNCTIONAL_PARSER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_parser
 set(COWL_FUNCTIONAL_PARSER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.c")
 
 find_package(BISON 3.0 REQUIRED)
-find_package(FLEX 2.6 REQUIRED)
+find_package(FLEX 2.6.4 REQUIRED)
 
 # Header dirs
 
