@@ -29,6 +29,14 @@ static inline bool cowl_inst_eq(CowlIRI *lhs, CowlIRI *rhs) {
 UHASH_INIT(CowlIRITable, CowlIRI*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlIRITable) *inst_tbl = NULL;
 
+void cowl_iri_api_init(void) {
+    inst_tbl = uhset_alloc(CowlIRITable);
+}
+
+void cowl_iri_api_deinit(void) {
+    uhash_free(CowlIRITable, inst_tbl);
+}
+
 static cowl_struct(CowlIRI)* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     CowlIRI init = {
         .super = COWL_OBJECT_INIT,
@@ -48,7 +56,6 @@ static void cowl_iri_free(CowlIRI *iri) {
 }
 
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
-    if (!inst_tbl) inst_tbl = uhset_alloc(CowlIRITable);
     ns = cowl_string_get_intern(ns, false);
 
     CowlIRI key = { .ns = ns, .rem = rem };

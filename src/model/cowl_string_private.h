@@ -24,6 +24,9 @@ cowl_struct(CowlString) {
     CowlRawString raw_string;
 };
 
+void cowl_string_api_init(void);
+void cowl_string_api_deinit(void);
+
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string);
 cowl_struct(CowlString) cowl_string_init(CowlRawString raw_string);
 

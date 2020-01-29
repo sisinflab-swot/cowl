@@ -21,6 +21,9 @@ cowl_struct(CowlInvObjProp) {
     CowlObjProp *prop;
 };
 
+void cowl_inv_obj_prop_api_init(void);
+void cowl_inv_obj_prop_api_deinit(void);
+
 COWL_END_DECLS
 
 #endif // COWL_INV_OBJ_PROP_PRIVATE_H

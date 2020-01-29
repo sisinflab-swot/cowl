@@ -21,6 +21,9 @@ cowl_struct(CowlDatatype) {
     CowlIRI *iri;
 };
 
+void cowl_datatype_api_init(void);
+void cowl_datatype_api_deinit(void);
+
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_PRIVATE_H

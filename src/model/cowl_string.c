@@ -15,8 +15,15 @@
 #include <stdio.h>
 
 UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
-
 static UHash(CowlStringTable) *str_tbl = NULL;
+
+void cowl_string_api_init(void) {
+    str_tbl = uhset_alloc(CowlStringTable);
+}
+
+void cowl_string_api_deinit(void) {
+    uhash_free(CowlStringTable, str_tbl);
+}
 
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {
     CowlString init = cowl_string_init(raw_string);
@@ -45,7 +52,6 @@ static void cowl_string_free(CowlString *string) {
 
 CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
     if (!(string && string->raw_string.length)) return cowl_string_get_empty();
-    if (!str_tbl) str_tbl = uhset_alloc(CowlStringTable);
 
     uhash_ret_t ret;
     uhash_uint_t idx = uhash_put(CowlStringTable, str_tbl, string, &ret);

@@ -23,6 +23,9 @@ cowl_struct(CowlAnnotProp) {
 
 #define COWL_ANNOT_PROP_INIT(IRI) { .super = COWL_OBJECT_INIT, .iri = (IRI) }
 
+void cowl_annot_prop_api_init(void);
+void cowl_annot_prop_api_deinit(void);
+
 COWL_END_DECLS
 
 #endif // COWL_ANNOT_PROP_PRIVATE_H

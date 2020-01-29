@@ -21,6 +21,9 @@ cowl_struct(CowlDataProp) {
     CowlIRI *iri;
 };
 
+void cowl_data_prop_api_init(void);
+void cowl_data_prop_api_deinit(void);
+
 COWL_END_DECLS
 
 #endif // COWL_DATA_PROP_PRIVATE_H

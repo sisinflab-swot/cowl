@@ -19,6 +19,14 @@
 UHASH_INIT(CowlDatatypeTable, CowlDatatype*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlDatatypeTable) *inst_tbl = NULL;
 
+void cowl_datatype_api_init(void) {
+    inst_tbl = uhset_alloc(CowlDatatypeTable);
+}
+
+void cowl_datatype_api_deinit(void) {
+    uhash_free(CowlDatatypeTable, inst_tbl);
+}
+
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     CowlDatatype init = {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE, 0),
@@ -40,8 +48,6 @@ static void cowl_datatype_free(CowlDatatype *dt) {
 }
 
 CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
-    if (!inst_tbl) inst_tbl = uhset_alloc(CowlDatatypeTable);
-
     uhash_ret_t ret;
     CowlDatatype key = { .iri = iri };
     uhash_uint_t idx = uhash_put(CowlDatatypeTable, inst_tbl, &key, &ret);

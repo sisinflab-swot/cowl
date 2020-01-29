@@ -18,6 +18,14 @@
 UHASH_INIT(CowlInvObjPropTable, CowlInvObjProp*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlInvObjPropTable) *inst_tbl = NULL;
 
+void cowl_inv_obj_prop_api_init(void) {
+    inst_tbl = uhset_alloc(CowlInvObjPropTable);
+}
+
+void cowl_inv_obj_prop_api_deinit(void) {
+    uhash_free(CowlInvObjPropTable, inst_tbl);
+}
+
 static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
     CowlInvObjProp init = {
         .super = COWL_OBJ_PROP_EXP_INIT(true),
@@ -35,8 +43,6 @@ static void cowl_inv_obj_prop_free(CowlInvObjProp *inv) {
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
-    if (!inst_tbl) inst_tbl = uhset_alloc(CowlInvObjPropTable);
-
     uhash_ret_t ret;
     CowlInvObjProp key = { .prop = prop };
     uhash_uint_t idx = uhash_put(CowlInvObjPropTable, inst_tbl, &key, &ret);

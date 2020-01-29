@@ -18,6 +18,14 @@
 UHASH_INIT(CowlAnonIndTable, CowlAnonInd*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlAnonIndTable) *inst_tbl = NULL;
 
+void cowl_anon_ind_api_init(void) {
+    inst_tbl = uhset_alloc(CowlAnonIndTable);
+}
+
+void cowl_anon_ind_api_deinit(void) {
+    uhash_free(CowlAnonIndTable, inst_tbl);
+}
+
 static CowlAnonInd* cowl_anon_ind_alloc(CowlNodeID id) {
     CowlAnonInd init = {
         .super = COWL_INDIVIDUAL_INIT(false),
@@ -34,8 +42,6 @@ static void cowl_anon_ind_free(CowlAnonInd *ind) {
 }
 
 CowlAnonInd* cowl_anon_ind_get(CowlNodeID id) {
-    if (!inst_tbl) inst_tbl = uhset_alloc(CowlAnonIndTable);
-
     uhash_ret_t ret;
     CowlAnonInd key = { .id = id };
     uhash_uint_t idx = uhash_put(CowlAnonIndTable, inst_tbl, &key, &ret);

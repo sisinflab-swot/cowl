@@ -19,6 +19,14 @@
 UHASH_INIT(CowlNamedIndTable, CowlNamedInd*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlNamedIndTable) *inst_tbl = NULL;
 
+void cowl_named_ind_api_init(void) {
+    inst_tbl = uhset_alloc(CowlNamedIndTable);
+}
+
+void cowl_named_ind_api_deinit(void) {
+    uhash_free(CowlNamedIndTable, inst_tbl);
+}
+
 static CowlNamedInd* cowl_named_ind_alloc(CowlIRI *iri) {
     CowlNamedInd ind_init = {
         .super = COWL_INDIVIDUAL_INIT(true),
@@ -36,8 +44,6 @@ static void cowl_named_ind_free(CowlNamedInd *ind) {
 }
 
 CowlNamedInd* cowl_named_ind_get(CowlIRI *iri) {
-    if (!inst_tbl) inst_tbl = uhset_alloc(CowlNamedIndTable);
-
     uhash_ret_t ret;
     CowlNamedInd key = { .iri = iri };
     uhash_uint_t idx = uhash_put(CowlNamedIndTable, inst_tbl, &key, &ret);
