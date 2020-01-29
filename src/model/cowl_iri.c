@@ -79,11 +79,11 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
     CowlRawString p_str = prefix->raw_string;
     CowlRawString s_str = suffix->raw_string;
-
     cowl_uint_t p_ns_len = cowl_xml_ns_length(p_str);
-    cowl_uint_t s_ns_len = cowl_xml_ns_length(s_str);
 
     if (p_ns_len == p_str.length) {
+        cowl_uint_t s_ns_len = cowl_xml_ns_length(s_str);
+
         if (s_ns_len) {
             // Part of the suffix should go in the namespace.
             CowlStrBuf *buf = cowl_str_buf_alloc();

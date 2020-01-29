@@ -22,7 +22,7 @@ cowl_uint_t cowl_xml_ns_length(CowlRawString string) {
     // TODO: account for Unicode code points.
     cowl_uint_t ns_length = string.length;
 
-    for (cowl_uint_t i = string.length; i-- != 0;) {
+    for (cowl_uint_t i = ns_length; i-- != 0;) {
         unsigned char ch = (unsigned char)string.cstring[i];
         if (IS_NCNAME_START_CHAR(ch)) {
             ns_length = i;
