@@ -110,7 +110,7 @@ void cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr) {
 }
 
 void cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id) {
-    cowl_str_buf_append_format(buf, "_:id%llu", id);
+    cowl_str_buf_append_format(buf, "_:id%" COWL_UINT_FMT, id);
 }
 
 void cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation) {
@@ -323,7 +323,7 @@ void cowl_str_buf_append_obj_card(CowlStrBuf *buf, CowlObjCard *restr) {
     }
     cowl_str_buf_append_static(buf, "Cardinality");
     cowl_str_buf_append_static(buf, "(");
-    cowl_str_buf_append_format(buf, "%lu ", restr->cardinality);
+    cowl_str_buf_append_format(buf, "%" COWL_UINT_FMT " ", restr->cardinality);
     cowl_str_buf_append_obj_prop_exp(buf, restr->prop);
 
     if (restr->filler) {
@@ -383,7 +383,7 @@ void cowl_str_buf_append_data_card(CowlStrBuf *buf, CowlDataCard *restr) {
 
     cowl_str_buf_append_static(buf, "Cardinality");
     cowl_str_buf_append_static(buf, "(");
-    cowl_str_buf_append_format(buf, "%lu ", restr->cardinality);
+    cowl_str_buf_append_format(buf, "%" COWL_UINT_FMT " ", restr->cardinality);
     cowl_str_buf_append_data_prop_exp(buf, restr->prop);
 
     if (restr->range) {

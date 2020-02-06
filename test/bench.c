@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     cowl_ontology_iterate_axioms(onto, &axiom_iter);
     stop = get_micros();
 
-    printf("%u axioms iterated in %.2f us\n", count, stop - start);
+    printf("%" COWL_UINT_FMT " axioms iterated in %.2f us\n", count, stop - start);
 
     count = 0;
 
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
     cowl_ontology_iterate_signature(onto, &entity_iter);
     stop = get_micros();
 
-    printf("%u entities iterated in %.2f us\n", count, stop - start);
+    printf("%" COWL_UINT_FMT " entities iterated in %.2f us\n", count, stop - start);
 
     cowl_ontology_release(onto);
 

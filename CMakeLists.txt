@@ -112,7 +112,7 @@ endif()
 
 if(COWL_EMBEDDED)
     message(STATUS "Embedded build selected")
-    list(APPEND COWL_PUBLIC_DEFINES VECTOR_TINY UHASH_TINY)
+    list(APPEND COWL_PUBLIC_DEFINES COWL_TINY VECTOR_TINY UHASH_TINY)
 else()
     message(STATUS "Desktop build selected")
     set(COWL_FLEX_FLAGS -Cfe)
