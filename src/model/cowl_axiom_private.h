@@ -34,11 +34,11 @@ cowl_struct(CowlAxiom) {
 #define cowl_axiom_alloc(AXIOM, INIT, ANNOT) do {                                                   \
     if (ANNOT) {                                                                                    \
         (AXIOM) = malloc(sizeof(*(AXIOM)) + sizeof(ANNOT));                                         \
-        memcpy(AXIOM, &(INIT), sizeof(*axiom));                                                     \
+        memcpy(AXIOM, &(INIT), sizeof(*(AXIOM)));                                                   \
         (AXIOM)->annot[0] = ANNOT;                                                                  \
     } else {                                                                                        \
         (AXIOM) = malloc(sizeof(*(AXIOM)));                                                         \
-        memcpy(AXIOM, &(INIT), sizeof(*axiom));                                                     \
+        memcpy(AXIOM, &(INIT), sizeof(*(AXIOM)));                                                   \
     }                                                                                               \
 } while(0)
 
