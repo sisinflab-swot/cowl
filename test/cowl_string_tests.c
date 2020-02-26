@@ -93,8 +93,8 @@ bool cowl_test_string_get_intern(void) {
 
     cowl_assert(a == b, "Equal interned strings must be pointers to the same instance.");
 
-    cowl_string_release_intern(a);
-    cowl_string_release_intern(b);
+    cowl_string_release(a);
+    cowl_string_release(b);
 
     return true;
 }

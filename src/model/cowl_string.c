@@ -69,13 +69,6 @@ CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
     return string;
 }
 
-void cowl_string_release_intern(CowlString *string) {
-    if (string && !cowl_object_release(string)) {
-        uhset_remove(CowlStringTable, str_tbl, string);
-        cowl_string_free(string);
-    }
-}
-
 CowlString* cowl_string_copy(CowlString *string) {
     cowl_uint_t hash = cowl_object_hash_get(string);
     cowl_struct(CowlString) *copy = malloc(sizeof(*string));
@@ -111,6 +104,11 @@ CowlString* cowl_string_retain(CowlString *string) {
 
 void cowl_string_release(CowlString *string) {
     if (string && !cowl_object_release(string)) {
+        // If the string was interned, it must also be removed from the hash set.
+        uhash_uint_t k = uhash_get(CowlStringTable, str_tbl, string);
+        if (k != UHASH_INDEX_MISSING && uhash_key(str_tbl, k) == string) {
+            uhash_delete(CowlStringTable, str_tbl, k);
+        }
         cowl_string_free(string);
     }
 }

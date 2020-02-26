@@ -41,7 +41,7 @@ static void cowl_literal_free(CowlLiteral *literal) {
     if (!literal) return;
     cowl_datatype_release(literal->dt);
     cowl_string_release(literal->value);
-    cowl_string_release_intern(literal->lang);
+    cowl_string_release(literal->lang);
     free((void *)literal);
 }
 
