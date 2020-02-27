@@ -2,8 +2,28 @@
 
 All notable changes to Cowl will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.2.2] - 2020-02-27
+### Added
+- `from_cstring` and `from_static` constructors for all entities.
+- Control over the size of the `cowl_uint_t` type through the `COWL_TINY`
+  and `COWL_HUGE` preprocessor definitions.
+- Tests for `CowlIRI`.
+
+### Changed
+- Modernized build configuration, which now requires CMake 3.12 or later.
+- Instance tables for OWL entities are now initialized in `cowl_api_init`
+  and deinitialized in `cowl_api_deinit`.
+
+### Fixed
+- Docs for `CowlErrorCode`.
+- `cowl_api_init` and `cowl_api_deinit` symbols not exported.
+- Errors in lexer generation by bumping the minimum required Flex version to 2.6.4.
+- UaF when releasing interned strings with `cowl_string_release`.
+- `cowl_iri_get` sometimes not returning equal IRIs for prefix-suffix pairs
+  resulting in identical string representations.
 
 ## [0.2.1] - 2019-11-19
 ### Added
@@ -56,6 +76,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.2.2]: https://github.com/sisinflab-swot/cowl/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/sisinflab-swot/cowl/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/sisinflab-swot/cowl/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/sisinflab-swot/cowl/releases/tag/v0.1.0
