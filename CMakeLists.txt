@@ -16,7 +16,7 @@ project(Cowl
         LANGUAGES C)
 
 set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
-set(COWL_COPYRIGHT_YEAR "2019")
+set(COWL_COPYRIGHT_YEAR "2019-2020")
 set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
 # Directories
