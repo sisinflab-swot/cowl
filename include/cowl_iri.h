@@ -56,6 +56,16 @@ COWL_PUBLIC
 CowlIRI* cowl_iri_from_cstring(char const *cstring, cowl_uint_t length);
 
 /**
+ * Returns a retained IRI given its static string representation.
+ *
+ * @param CSTR [char const[]] Static string.
+ * @return [CowlIRI *] Retained IRI.
+ *
+ * @public @related CowlIRI
+ */
+#define cowl_iri_from_static(CSTR) (cowl_iri_from_cstring((CSTR), sizeof(CSTR) - 1))
+
+/**
  * Retains the specified IRI.
  *
  * @param iri The IRI.
@@ -146,16 +156,6 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
  */
 COWL_PUBLIC
 cowl_uint_t cowl_iri_hash(CowlIRI *iri);
-
-/**
- * Returns a retained IRI given its static string representation.
- *
- * @param CSTR [char const[]] Static string.
- * @return [CowlIRI *] Retained IRI.
- *
- * @public @related CowlIRI
- */
-#define cowl_iri_from_static(CSTR) (cowl_iri_from_cstring((CSTR), sizeof(CSTR) - 1))
 
 COWL_END_DECLS
 

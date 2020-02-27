@@ -76,6 +76,13 @@ void cowl_class_release(CowlClass *cls) {
     }
 }
 
+CowlClass* cowl_class_from_cstring(char const *cstring, cowl_uint_t length) {
+    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
+    CowlClass *cls = cowl_class_get(iri);
+    cowl_iri_release(iri);
+    return cls;
+}
+
 CowlIRI* cowl_class_get_iri(CowlClass *cls) {
     return cls->iri;
 }

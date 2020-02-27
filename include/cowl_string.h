@@ -41,6 +41,16 @@ COWL_PUBLIC
 CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool copy);
 
 /**
+ * Returns a retained string from the specified static string.
+ *
+ * @param CSTR [char const[]] The static string.
+ * @return [CowlString *] Retained string.
+ *
+ * @public @related CowlString
+ */
+#define cowl_string_from_static(CSTR) cowl_string_get((CSTR), sizeof(CSTR) - 1, true)
+
+/**
  * Returns a retained empty string.
  *
  * @return Retained string.
@@ -109,6 +119,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_string_get_length(CowlString *string);
 
 /**
+ * Returns the string representation of the specified string.
+ *
+ * @param STR [CowlString] The string.
+ * @return String representation.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @related CowlString
+ */
+#define cowl_string_to_string(STR) cowl_string_retain(STR)
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.
@@ -154,28 +176,6 @@ CowlString* cowl_string_with_format(char const *format, ...);
  */
 COWL_PUBLIC
 CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs);
-
-/**
- * Returns a retained string from the specified static string.
- *
- * @param CSTR [char const[]] The static string.
- * @return [CowlString *] Retained string.
- *
- * @public @related CowlString
- */
-#define cowl_string_from_static(CSTR) cowl_string_get((CSTR), sizeof(CSTR) - 1, true)
-
-/**
- * Returns the string representation of the specified string.
- *
- * @param STR [CowlString] The string.
- * @return String representation.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @related CowlString
- */
-#define cowl_string_to_string(STR) cowl_string_retain(STR)
 
 COWL_END_DECLS
 

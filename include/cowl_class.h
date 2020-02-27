@@ -45,6 +45,28 @@ COWL_PUBLIC
 CowlClass* cowl_class_get(CowlIRI *iri);
 
 /**
+ * Returns a retained class given the string representation of its IRI.
+ *
+ * @param cstring String representation of the IRI.
+ * @param length Length of the string.
+ * @return Retained class.
+ *
+ * @public @memberof CowlClass
+ */
+COWL_PUBLIC
+CowlClass* cowl_class_from_cstring(char const *cstring, cowl_uint_t length);
+
+/**
+ * Returns a retained class given the static string representation of its IRI.
+ *
+ * @param CSTR [char const[]] Static string.
+ * @return [CowlClass *] Retained class.
+ *
+ * @public @related CowlClass
+ */
+#define cowl_class_from_static(CSTR) (cowl_class_from_cstring((CSTR), sizeof(CSTR) - 1))
+
+/**
  * Retains the specified class.
  *
  * @param cls The class.

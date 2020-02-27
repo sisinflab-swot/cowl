@@ -69,6 +69,13 @@ void cowl_annot_prop_release(CowlAnnotProp *prop) {
     }
 }
 
+CowlAnnotProp* cowl_annot_prop_from_cstring(char const *cstring, cowl_uint_t length) {
+    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
+    CowlAnnotProp *prop = cowl_annot_prop_get(iri);
+    cowl_iri_release(iri);
+    return prop;
+}
+
 CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
     return prop->iri;
 }

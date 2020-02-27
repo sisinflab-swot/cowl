@@ -76,6 +76,13 @@ void cowl_datatype_release(CowlDatatype *dt) {
     }
 }
 
+CowlDatatype* cowl_datatype_from_cstring(char const *cstring, cowl_uint_t length) {
+    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
+    CowlDatatype *dt = cowl_datatype_get(iri);
+    cowl_iri_release(iri);
+    return dt;
+}
+
 CowlIRI* cowl_datatype_get_iri(CowlDatatype *dt) {
     return dt->iri;
 }

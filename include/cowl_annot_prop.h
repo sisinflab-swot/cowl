@@ -44,6 +44,28 @@ COWL_PUBLIC
 CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri);
 
 /**
+ * Returns a retained annotation property given the string representation of its IRI.
+ *
+ * @param cstring String representation of the IRI.
+ * @param length Length of the string.
+ * @return Retained annotation property.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
+CowlAnnotProp* cowl_annot_prop_from_cstring(char const *cstring, cowl_uint_t length);
+
+/**
+ * Returns a retained annotation property given the static string representation of its IRI.
+ *
+ * @param CSTR [char const[]] Static string.
+ * @return [CowlAnnotProp *] Retained annotation property.
+ *
+ * @public @related CowlAnnotProp
+ */
+#define cowl_annot_prop_from_static(CSTR) (cowl_annot_prop_from_cstring((CSTR), sizeof(CSTR) - 1))
+
+/**
  * Retains the specified annotation property.
  *
  * @param prop The annotation property.

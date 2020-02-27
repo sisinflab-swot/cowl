@@ -72,6 +72,13 @@ void cowl_named_ind_release(CowlNamedInd *ind) {
     }
 }
 
+CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, cowl_uint_t length) {
+    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
+    CowlNamedInd *ind = cowl_named_ind_get(iri);
+    cowl_iri_release(iri);
+    return ind;
+}
+
 CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind) {
     return ind->iri;
 }

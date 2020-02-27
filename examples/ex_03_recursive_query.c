@@ -25,10 +25,7 @@ int main(void) {
 
     if (onto) {
         CowlLogger *logger = cowl_logger_console_get();
-
-        CowlIRI *iri = cowl_iri_from_static(ONTO_NS CLASS_NAME);
-        CowlClass *cls = cowl_class_get(iri);
-
+        CowlClass *cls = cowl_class_from_static(ONTO_NS CLASS_NAME);
         cowl_logger_logf(logger, "Recursive atomic subclasses of " CLASS_NAME ":\n");
 
         // Since we are going to perform a recursive query,
@@ -38,7 +35,6 @@ int main(void) {
         cowl_ontology_iterate_sub_classes(onto, cls, &iter);
 
         cowl_class_release(cls);
-        cowl_iri_release(iri);
         cowl_logger_release(logger);
     }
 

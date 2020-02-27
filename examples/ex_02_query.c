@@ -29,9 +29,7 @@ int main(void) {
         CowlLogger *logger = cowl_logger_console_get();
 
         // Get the class whose atomic subclasses we are interested in.
-        CowlIRI *iri = cowl_iri_from_static(ONTO_NS CLASS_NAME);
-        CowlClass *cls = cowl_class_get(iri);
-
+        CowlClass *cls = cowl_class_from_static(ONTO_NS CLASS_NAME);
         cowl_logger_logf(logger, "Atomic subclasses of " CLASS_NAME ":\n");
 
         // Run the query.
@@ -40,7 +38,6 @@ int main(void) {
 
         // Cleanup.
         cowl_class_release(cls);
-        cowl_iri_release(iri);
         cowl_logger_release(logger);
     }
 

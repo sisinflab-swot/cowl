@@ -45,6 +45,28 @@ COWL_PUBLIC
 CowlNamedInd* cowl_named_ind_get(CowlIRI *iri);
 
 /**
+ * Returns a retained named individual given the string representation of its IRI.
+ *
+ * @param cstring String representation of the IRI.
+ * @param length Length of the string.
+ * @return Retained named individual.
+ *
+ * @public @memberof CowlNamedInd
+ */
+COWL_PUBLIC
+CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, cowl_uint_t length);
+
+/**
+ * Returns a retained named individual given the static string representation of its IRI.
+ *
+ * @param CSTR [char const[]] Static string.
+ * @return [CowlNamedInd *] Retained named individual.
+ *
+ * @public @related CowlNamedInd
+ */
+#define cowl_named_ind_from_static(CSTR) (cowl_named_ind_from_cstring((CSTR), sizeof(CSTR) - 1))
+
+/**
  * Retains the specified named individual.
  *
  * @param ind The named individual.

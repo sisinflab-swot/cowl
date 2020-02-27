@@ -45,6 +45,28 @@ COWL_PUBLIC
 CowlDataProp* cowl_data_prop_get(CowlIRI *iri);
 
 /**
+ * Returns a retained data property given the string representation of its IRI.
+ *
+ * @param cstring String representation of the IRI.
+ * @param length Length of the string.
+ * @return Retained data property.
+ *
+ * @public @memberof CowlDataProp
+ */
+COWL_PUBLIC
+CowlDataProp* cowl_data_prop_from_cstring(char const *cstring, cowl_uint_t length);
+
+/**
+ * Returns a retained data property given the static string representation of its IRI.
+ *
+ * @param CSTR [char const[]] Static string.
+ * @return [CowlDataProp *] Retained data property.
+ *
+ * @public @related CowlDataProp
+ */
+#define cowl_data_prop_from_static(CSTR) (cowl_data_prop_from_cstring((CSTR), sizeof(CSTR) - 1))
+
+/**
  * Retains the specified data property.
  *
  * @param prop The data property.
