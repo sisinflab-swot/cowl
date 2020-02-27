@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_api.h"
+#include "cowl_iri_tests.h"
 #include "cowl_ontology_tests.h"
 #include "cowl_parser_tests.h"
 #include "cowl_string_tests.h"
@@ -29,9 +30,12 @@ int main(void) {
 
     cowl_run_tests(exit_code,
         COWL_STRING_TESTS,
+        COWL_IRI_TESTS,
         COWL_PARSER_TESTS,
         COWL_ONTOLOGY_TESTS
     );
+
+    cowl_api_deinit();
 
     if (exit_code == EXIT_SUCCESS) {
         printf("All tests passed.\n");
