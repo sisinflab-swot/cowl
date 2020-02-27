@@ -79,32 +79,33 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
     CowlRawString p_str = prefix->raw_string;
     CowlRawString s_str = suffix->raw_string;
-    cowl_uint_t p_ns_len = cowl_xml_ns_length(p_str);
 
-    if (p_ns_len == p_str.length) {
-        cowl_uint_t s_ns_len = cowl_xml_ns_length(s_str);
+    cowl_uint_t const s_ns_len = cowl_xml_ns_length(s_str);
 
-        if (s_ns_len) {
-            // Part of the suffix should go in the namespace.
+    if (s_ns_len > 0) {
+        // Part of the suffix should go in the namespace.
+        CowlStrBuf *buf = cowl_str_buf_alloc();
+        cowl_str_buf_append_raw_string(buf, p_str);
+        cowl_str_buf_append_cstring(buf, s_str.cstring, s_ns_len);
+
+        prefix = cowl_str_buf_to_string(buf);
+        suffix = cowl_string_get(s_str.cstring + s_ns_len, s_str.length - s_ns_len, true);
+    } else {
+        cowl_uint_t p_ns_len = cowl_xml_ns_length(p_str);
+
+        if (p_ns_len < p_str.length) {
+            // Part of the prefix should go in the remainder.
             CowlStrBuf *buf = cowl_str_buf_alloc();
-            cowl_str_buf_append_raw_string(buf, p_str);
-            cowl_str_buf_append_cstring(buf, s_str.cstring, s_ns_len);
+            cowl_str_buf_append_cstring(buf, p_str.cstring + p_ns_len, p_str.length - p_ns_len);
+            cowl_str_buf_append_raw_string(buf, s_str);
 
-            prefix = cowl_str_buf_to_string(buf);
-            suffix = cowl_string_get(s_str.cstring, s_str.length - s_ns_len, true);
+            prefix = cowl_string_get(p_str.cstring, p_ns_len, true);
+            suffix = cowl_str_buf_to_string(buf);
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
             cowl_string_retain(prefix);
             cowl_string_retain(suffix);
         }
-    } else {
-        // Part of the prefix should go in the remainder.
-        CowlStrBuf *buf = cowl_str_buf_alloc();
-        cowl_str_buf_append_cstring(buf, p_str.cstring + p_ns_len, p_str.length - p_ns_len);
-        cowl_str_buf_append_raw_string(buf, s_str);
-
-        prefix = cowl_string_get(p_str.cstring, p_ns_len, true);
-        suffix = cowl_str_buf_to_string(buf);
     }
 
     CowlIRI *iri = cowl_iri_unvalidated_get(prefix, suffix);
