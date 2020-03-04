@@ -26,8 +26,6 @@ set(COWL_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 set(COWL_PUBLIC_HEADERS_DIR "${COWL_PROJECT_DIR}/include")
 set(COWL_LIB_DIR "${COWL_PROJECT_DIR}/lib")
 set(COWL_SRC_DIR "${COWL_PROJECT_DIR}/src")
-set(COWL_VECTOR_DIR "${COWL_LIB_DIR}/vector_t/include")
-set(COWL_UHASH_DIR "${COWL_LIB_DIR}/uhash/include")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
 set(COWL_MODEL_DIR "${COWL_SRC_DIR}/model")
 set(COWL_IO_DIR "${COWL_SRC_DIR}/io")
@@ -57,12 +55,23 @@ set(COWL_FUNCTIONAL_PARSER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.c"
 find_package(BISON 3.0 REQUIRED)
 find_package(FLEX 2.6.4 REQUIRED)
 
+# Vector(T) and uHash
+
+if(NOT TARGET vector)
+    add_subdirectory("${COWL_LIB_DIR}/vector_t")
+endif()
+
+if(NOT TARGET uhash)
+    add_subdirectory("${COWL_LIB_DIR}/uhash")
+endif()
+
 # Header dirs
 
-set(COWL_PUBLIC_HEADERS_DIRS
-    "${COWL_PUBLIC_HEADERS_DIR}"
-    "${COWL_VECTOR_DIR}"
-    "${COWL_UHASH_DIR}")
+get_target_property(COWL_VECTOR_HEADERS_DIRS vector INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(COWL_UHASH_HEADERS_DIRS uhash INTERFACE_INCLUDE_DIRECTORIES)
+
+set(COWL_PUBLIC_HEADERS_DIRS "${COWL_PUBLIC_HEADERS_DIR}")
+list(APPEND COWL_PUBLIC_HEADERS_DIRS ${COWL_VECTOR_HEADERS_DIRS} ${COWL_UHASH_HEADERS_DIRS})
 
 set(COWL_PRIVATE_HEADERS_DIRS
     "${COWL_PRIVATE_HEADERS_DIR}"
@@ -73,10 +82,11 @@ set(COWL_PRIVATE_HEADERS_DIRS
 
 # Header files
 
-file(GLOB COWL_PUBLIC_HEADERS CONFIGURE_DEPENDS
-     "${COWL_PUBLIC_HEADERS_DIR}/*.h"
-     "${COWL_VECTOR_DIR}/*.h"
-     "${COWL_UHASH_DIR}/*.h")
+get_target_property(COWL_VECTOR_HEADERS vector INTERFACE_SOURCES)
+get_target_property(COWL_UHASH_HEADERS uhash INTERFACE_SOURCES)
+
+file(GLOB COWL_PUBLIC_HEADERS CONFIGURE_DEPENDS "${COWL_PUBLIC_HEADERS_DIR}/*.h")
+list(APPEND COWL_PUBLIC_HEADERS ${COWL_VECTOR_HEADERS} ${COWL_UHASH_HEADERS})
 
 # Sources
 
@@ -147,6 +157,7 @@ target_compile_definitions(cowl-static
 target_include_directories(cowl-static
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
+target_link_libraries(cowl-static PUBLIC vector uhash)
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-static PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
@@ -172,6 +183,7 @@ target_compile_definitions(cowl-shared
 target_include_directories(cowl-shared
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
+target_link_libraries(cowl-shared PUBLIC vector uhash)
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-shared PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)

@@ -15,7 +15,9 @@
 VECTOR_IMPL_EQUATABLE(CowlObjPropExpPtr, cowl_obj_prop_exp_equals)
 
 void cowl_obj_prop_exp_vec_free(CowlObjPropExpVec *vec) {
-    vector_deep_free(CowlObjPropExpPtr, (Vector(CowlObjPropExpPtr)*)vec, cowl_obj_prop_exp_release);
+    if (!vec) return;
+    vector_foreach(CowlObjPropExpPtr, vec, prop, cowl_obj_prop_exp_release(prop));
+    vector_free(CowlObjPropExpPtr, (Vector(CowlObjPropExpPtr)*)vec);
 }
 
 bool cowl_obj_prop_exp_vec_equals(CowlObjPropExpVec *lhs, CowlObjPropExpVec *rhs) {

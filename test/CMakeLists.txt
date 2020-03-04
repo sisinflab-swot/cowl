@@ -10,10 +10,10 @@ set(COWL_TEST_MAIN_SOURCE "${COWL_TEST_DIR}/test.c")
 
 add_executable(cowl-test EXCLUDE_FROM_ALL ${COWL_TEST_UTIL_SOURCES} ${COWL_TEST_MAIN_SOURCE})
 target_include_directories(cowl-test PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
-target_link_libraries(cowl-test cowl-static)
+target_link_libraries(cowl-test PRIVATE cowl-static)
 
 # Benchmark target
 
 set(COWL_BENCH_MAIN_SOURCE "${COWL_TEST_DIR}/bench.c")
 add_executable(cowl-bench EXCLUDE_FROM_ALL ${COWL_BENCH_MAIN_SOURCE})
-target_link_libraries(cowl-bench cowl-static)
+target_link_libraries(cowl-bench PRIVATE cowl-static)

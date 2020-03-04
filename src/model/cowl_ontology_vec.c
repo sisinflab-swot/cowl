@@ -14,5 +14,7 @@
 VECTOR_IMPL_EQUATABLE(CowlOntologyPtr, cowl_ontology_equals)
 
 void cowl_ontology_vec_free(Vector(CowlOntologyPtr) *vec) {
-    vector_deep_free(CowlOntologyPtr, vec, cowl_ontology_release);
+    if (!vec) return;
+    vector_foreach(CowlOntologyPtr, vec, onto, cowl_ontology_release(onto));
+    vector_free(CowlOntologyPtr, vec);
 }
