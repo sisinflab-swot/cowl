@@ -13,3 +13,10 @@ Bitmasks
 ========
 
 .. doxygenstruct:: CowlFlags
+
+Return codes
+============
+
+.. doxygenenum:: cowl_ret_t
+.. doxygenfunction:: cowl_ret_t_to_cstring
+.. doxygenfunction:: cowl_ret_t_to_string

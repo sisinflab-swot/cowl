@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,5 +20,6 @@
 
 #include "cowl_compat.h"
 #include "cowl_base_types.h"
+#include "cowl_ret_t.h"
 
 #endif // COWL_STD_H

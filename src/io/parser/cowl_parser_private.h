@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -49,7 +49,7 @@ void cowl_parser_set_annotations(CowlParser *parser, Vector(CowlAnnotationPtr) *
 void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
 void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
 
-void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,
+void cowl_parser_log_error(CowlParser *parser, cowl_ret_t code,
                            char const *description, cowl_uint_t line);
 
 COWL_END_DECLS

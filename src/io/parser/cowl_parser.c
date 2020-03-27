@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -72,7 +72,7 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
     bool error;
 
     if (!yyin) {
-        cowl_parser_log_error(parser, COWL_ERR_ONTOLOGY_LOAD, strdup(strerror(errno)), 0);
+        cowl_parser_log_error(parser, COWL_ERR_IO, strdup(strerror(errno)), 0);
         error = true;
         goto end;
     }
@@ -168,7 +168,7 @@ CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id) {
     return node_id;
 }
 
-void cowl_parser_log_error(CowlParser *parser, CowlErrorCode code,
+void cowl_parser_log_error(CowlParser *parser, cowl_ret_t code,
                            char const *description, cowl_uint_t line) {
     if (!parser->errors) return;
     CowlError error = cowl_error_init_cstring(code, description, line);

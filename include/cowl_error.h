@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -22,25 +22,14 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlString);
 /// @endcond
 
-/// Error codes indicating classes of errors.
-typedef enum CowlErrorCode {
-
-    /// Error while loading the ontology.
-    COWL_ERR_ONTOLOGY_LOAD,
-
-    /// Syntax error.
-    COWL_ERR_SYNTAX
-
-} CowlErrorCode;
-
 /// Error data structure.
 typedef cowl_struct(CowlError) {
 
+    /// Error code.
+    cowl_ret_t code;
+
     /// If code is COWL_ERR_SYNTAX, this is the line where the error occurred.
     cowl_uint_t line;
-
-    /// Error code.
-    CowlErrorCode code;
 
     /// Human readable description of the error.
     CowlString *description;
@@ -61,7 +50,7 @@ VECTOR_DECL_SPEC(CowlError, COWL_PUBLIC)
 /**
  * Initializes a new error.
  *
- * @param CODE [CowlErrorCode] Error code.
+ * @param CODE [cowl_ret_t] Error code.
  * @param DESC [CowlString *] Error description.
  * @param LINE [cowl_uint_t] Line where the error occurred.
  * @return [CowlError] Error instance.
@@ -75,7 +64,7 @@ VECTOR_DECL_SPEC(CowlError, COWL_PUBLIC)
 /**
  * Convenience error initializer.
  *
- * @param CODE [CowlErrorCode] Error code.
+ * @param CODE [cowl_ret_t] Error code.
  * @param DESC [char const *] Error description.
  * @param LINE [cowl_uint_t] Line where the error occurred.
  * @return [CowlError] Error instance.

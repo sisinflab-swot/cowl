@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,26 +9,9 @@
  */
 
 #include "cowl_error.h"
-#include "cowl_macros.h"
 #include "cowl_string_private.h"
 
 VECTOR_IMPL(CowlError)
-
-// This function returns a raw string backed by a static char array, thus you must not free it.
-static CowlRawString cowl_error_code_description(CowlErrorCode code) {
-    static char const *const cowl_error_code_desc[] = {
-        "Unable to load the ontology",
-        "Parse error"
-    };
-
-    size_t const n_desc = cowl_array_size(cowl_error_code_desc);
-
-    if (code < n_desc) {
-        return cowl_raw_string_init_cstring(cowl_error_code_desc[code], false);
-    } else {
-        return cowl_raw_string_init_static("Unknown error", false);
-    }
-}
 
 CowlString* cowl_error_to_string(CowlError error) {
     cowl_uint_t n_comp = 4;
@@ -40,7 +23,8 @@ CowlString* cowl_error_to_string(CowlError error) {
         comp[0] = cowl_raw_string_with_format("Error %d - ", error.code);
     }
 
-    comp[1] = cowl_error_code_description(error.code);
+    // This must not be freed as the underlying string is not copied.
+    comp[1] = cowl_raw_string_init_cstring(cowl_ret_t_to_cstring(error.code), false);
 
     if (error.description) {
         comp[2] = cowl_raw_string_init_static(": ", false);
