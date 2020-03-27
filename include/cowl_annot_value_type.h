@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlAnnotValue.
-typedef enum CowlAnnotValueType {
+typedef cowl_enum(CowlAnnotValueType) {
 
 /// @name Types
 

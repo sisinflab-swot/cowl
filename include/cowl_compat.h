@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -83,11 +83,25 @@
 #define cowl_struct(NAME) struct NAME##_s
 
 /**
+ * Enum type.
+ *
+ * @param NAME Name of the enum type.
+ */
+#define cowl_enum(NAME) enum NAME##_e
+
+/**
  * Struct type forward declaration.
  *
  * @param NAME Name of the struct type.
  */
 #define cowl_struct_decl(NAME) typedef cowl_struct(NAME) const NAME
+
+/**
+ * Enum type forward declaration.
+ *
+ * @param NAME Name of the enum type.
+ */
+#define cowl_enum_decl(NAME) typedef cowl_enum(NAME) NAME
 
 /**
  * Vector type forward declaration.

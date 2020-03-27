@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,7 +13,7 @@
 
 #include <stdio.h>
 
-typedef enum CowlLoggerType {
+typedef cowl_enum(CowlLoggerType) {
     COWL_LT_NULL,
     COWL_LT_CONSOLE,
     COWL_LT_FILE

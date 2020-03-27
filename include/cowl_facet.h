@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -22,7 +22,7 @@ cowl_struct_decl(CowlIRI);
 /// @endcond
 
 /// Represents the facets that can be used for restricting a datatype.
-typedef enum CowlFacet {
+typedef cowl_enum(CowlFacet) {
 
 /// @name Facets
 

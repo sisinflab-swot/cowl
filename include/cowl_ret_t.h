@@ -22,7 +22,7 @@ cowl_struct_decl(CowlString);
 /// @endcond
 
 /// Return codes for API calls that can fail.
-typedef enum cowl_ret_t {
+typedef cowl_enum(cowl_ret_t) {
 
 /// @name Codes
 
