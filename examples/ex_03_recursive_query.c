@@ -26,7 +26,7 @@ int main(void) {
     if (onto) {
         CowlLogger *logger = cowl_logger_console_get();
         CowlClass *cls = cowl_class_from_static(ONTO_NS CLASS_NAME);
-        cowl_logger_logf(logger, "Recursive atomic subclasses of " CLASS_NAME ":\n");
+        cowl_logger_logs(logger, "Recursive atomic subclasses of " CLASS_NAME ":\n");
 
         // Since we are going to perform a recursive query,
         // we need the ontology to be part of the context.
@@ -56,7 +56,7 @@ static bool for_each_cls(void *ctx, CowlClsExp *exp) {
     CowlIRI *iri = cowl_class_get_iri(cls);
 
     cowl_logger_log(logger, cowl_iri_get_rem(iri));
-    cowl_logger_logf(logger, "\n");
+    cowl_logger_logs(logger, "\n");
 
     // Recurse.
     CowlClsExpIterator iter = cowl_iterator_init(ctx, for_each_cls);

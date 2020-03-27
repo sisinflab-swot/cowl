@@ -19,6 +19,13 @@ typedef enum CowlLoggerType {
     COWL_LT_FILE
 } CowlLoggerType;
 
+typedef cowl_struct(CowlLoggerCtx) {
+    cowl_ret_t ret;
+    CowlLogger *logger;
+} CowlLoggerCtx;
+
+#define cowl_logger_ctx_init(logger) ((CowlLoggerCtx){ .ret = COWL_OK, .logger = logger })
+
 cowl_struct(CowlLogger) {
     CowlObject super;
     CowlLoggerType const type;
@@ -29,38 +36,52 @@ cowl_struct(CowlLogger) {
 static CowlLogger* console_logger = NULL;
 static CowlLogger* null_logger = NULL;
 
-static bool cowl_logger_is_open(CowlLogger *logger) {
-    return logger->type == COWL_LT_FILE && logger->file;
+static cowl_ret_t cowl_logger_open(CowlLogger *logger) {
+    cowl_ret_t ret = COWL_OK;
+
+    if (logger->type == COWL_LT_FILE && !logger->file) {
+        FILE *file = fopen(logger->path, "a");
+        if (!file) {
+            ret = COWL_ERR_IO;
+            goto end;
+        }
+        ((cowl_struct(CowlLogger) *)logger)->file = file;
+    }
+
+end:
+    return ret;
 }
 
-static void cowl_logger_open(CowlLogger *logger) {
-    if (cowl_logger_is_open(logger)) return;
-    ((cowl_struct(CowlLogger) *)logger)->file = fopen(logger->path, "a");
-}
+static cowl_ret_t cowl_logger_close(CowlLogger *logger) {
+    cowl_ret_t ret = COWL_OK;
 
-static void cowl_logger_close(CowlLogger *logger) {
-    if (!cowl_logger_is_open(logger)) return;
+    if (logger->type == COWL_LT_FILE && logger->file) {
+        if (fclose(logger->file) < 0) {
+            ret = COWL_ERR_IO;
+            goto end;
+        }
+        ((cowl_struct(CowlLogger)*)logger)->file = NULL;
+    }
 
-    fclose(logger->file);
-    ((cowl_struct(CowlLogger)*)logger)->file = NULL;
+end:
+    return ret;
 }
 
 static CowlLogger* cowl_logger_alloc(CowlLoggerType type, void *context) {
     CowlLogger init = {
         .super = COWL_OBJECT_INIT,
         .type = type,
-        .path = type == COWL_LT_FILE ? context : NULL
+        .path = type == COWL_LT_FILE ? context : NULL,
+        .file = type == COWL_LT_CONSOLE ? stdout : NULL
     };
-
     cowl_struct(CowlLogger) *logger = malloc(sizeof(*logger));
     memcpy(logger, &init, sizeof(*logger));
-    cowl_logger_open(logger);
-
     return logger;
 }
 
-static void cowl_logger_free(CowlLogger *logger) {
-    if (!logger) return;
+static cowl_ret_t cowl_logger_free(CowlLogger *logger) {
+    cowl_ret_t ret = COWL_OK;
+    if (!logger) goto end;
 
     switch (logger->type) {
         case COWL_LT_NULL:
@@ -72,7 +93,7 @@ static void cowl_logger_free(CowlLogger *logger) {
             break;
 
         case COWL_LT_FILE:
-            cowl_logger_close(logger);
+            if ((ret = cowl_logger_close(logger))) goto end;
             free((void *)logger->path);
             break;
 
@@ -81,53 +102,80 @@ static void cowl_logger_free(CowlLogger *logger) {
     }
 
     free((void *)logger);
+
+end:
+    return ret;
 }
 
 static bool imports_logger(void *ctx, CowlOntology *import) {
+    CowlLoggerCtx *lctx = ctx;
+    cowl_ret_t ret = COWL_OK;
+
     CowlIRI *iri = cowl_ontology_id_get_onto_iri(cowl_ontology_get_id(import));
 
-    cowl_logger_logf(ctx, "\n");
-    cowl_logger_logf(ctx, "Imports");
-    cowl_logger_logf(ctx, "(");
+    if ((ret = cowl_logger_logs(lctx->logger, "\n"))) goto end;
+    if ((ret = cowl_logger_logs(lctx->logger, "Imports"))) goto end;
+    if ((ret = cowl_logger_logs(lctx->logger, "("))) goto end;
 
     if (iri) {
-        cowl_logger_consume(ctx, cowl_iri_to_string(iri));
+        if ((ret = cowl_logger_consume(lctx->logger, cowl_iri_to_string(iri)))) goto end;
     } else {
-        cowl_logger_logf(ctx, "anon(%p)", (void *)import);
+        if ((ret = cowl_logger_logf(lctx->logger, "anon(%p)", (void *)import))) goto end;
     }
 
-    cowl_logger_logf(ctx, ")");
+    if ((ret = cowl_logger_logs(lctx->logger, ")"))) goto end;
 
-    return true;
+end:
+    lctx->ret = ret;
+    return ret == COWL_OK;
 }
 
 static bool entity_logger(void *ctx, CowlEntity entity) {
-    cowl_logger_consume(ctx, cowl_entity_to_string(entity));
-    cowl_logger_logf(ctx, "\n");
-    return true;
+    CowlLoggerCtx *lctx = ctx;
+    cowl_ret_t ret = COWL_OK;
+
+    if ((ret = cowl_logger_consume(lctx->logger, cowl_entity_to_string(entity)))) goto end;
+    if ((ret = cowl_logger_logs(lctx->logger, "\n"))) goto end;
+
+end:
+    lctx->ret = ret;
+    return ret == COWL_OK;
 }
 
 static bool axiom_logger(void *ctx, CowlAxiom *axiom) {
-    cowl_logger_consume(ctx, cowl_axiom_to_string(axiom));
-    cowl_logger_logf(ctx, "\n");
-    return true;
+    CowlLoggerCtx *lctx = ctx;
+    cowl_ret_t ret = COWL_OK;
+
+    if ((ret = cowl_logger_consume(lctx->logger, cowl_axiom_to_string(axiom)))) goto end;
+    if ((ret = cowl_logger_logs(lctx->logger, "\n"))) goto end;
+
+end:
+    lctx->ret = ret;
+    return ret == COWL_OK;
 }
 
-static void cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntology *onto) {
-    cowl_logger_logf(logger, "Ontology");
-    cowl_logger_logf(logger, "(");
-    cowl_logger_consume(logger, cowl_ontology_id_to_string(onto->id));
+static cowl_ret_t cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntology *onto) {
+    cowl_ret_t ret = COWL_OK;
 
-    CowlOntologyIterator iter = cowl_iterator_init(logger, imports_logger);
+    if ((ret = cowl_logger_logs(logger, "Ontology"))) goto end;
+    if ((ret = cowl_logger_logs(logger, "("))) goto end;
+    if ((ret = cowl_logger_consume(logger, cowl_ontology_id_to_string(onto->id)))) goto end;
+
+    CowlLoggerCtx ctx = cowl_logger_ctx_init(logger);
+    CowlOntologyIterator iter = cowl_iterator_init(&ctx, imports_logger);
     cowl_ontology_iterate_imports(onto, &iter);
+    if ((ret = ctx.ret)) goto end;
 
     CowlAnnotationVec *annotations = cowl_ontology_get_annot(onto);
     vector_foreach(CowlAnnotationPtr, annotations, annot, {
-        cowl_logger_logf(logger, "\n");
-        cowl_logger_consume(logger, cowl_annotation_to_string(annot));
+        if ((ret = cowl_logger_logs(logger, "\n"))) goto end;
+        if ((ret = cowl_logger_consume(logger, cowl_annotation_to_string(annot)))) goto end;
     });
 
-    cowl_logger_logf(logger, ")");
+    if ((ret = cowl_logger_logs(logger, ")"))) goto end;
+
+end:
+    return ret;
 }
 
 CowlLogger* cowl_logger_console_get(void) {
@@ -156,71 +204,116 @@ CowlLogger* cowl_logger_retain(CowlLogger *logger) {
     return cowl_object_retain(logger);
 }
 
-void cowl_logger_release(CowlLogger *logger) {
-    if (logger && !cowl_object_release(logger)) {
-        cowl_logger_free(logger);
+cowl_ret_t cowl_logger_release(CowlLogger *logger) {
+    cowl_ret_t ret = COWL_OK;
+
+    if (logger && cowl_object_ref_get(logger) == 1) {
+        if ((ret = cowl_logger_free(logger))) goto end;
+        cowl_object_release(logger);
     }
+
+end:
+    return ret;
 }
 
-void cowl_logger_clear(CowlLogger *logger) {
-    if (logger->type != COWL_LT_FILE) return;
-    bool should_reopen = cowl_logger_is_open(logger);
-    if (should_reopen) cowl_logger_close(logger);
-    remove(logger->path);
-    if (should_reopen) cowl_logger_open(logger);
+cowl_ret_t cowl_logger_clear(CowlLogger *logger) {
+    cowl_ret_t ret = COWL_OK;
+
+    if (logger->type == COWL_LT_FILE) {
+        if ((ret = cowl_logger_close(logger))) {
+            goto end;
+        }
+
+        if (remove(logger->path)) {
+            ret = COWL_ERR_IO;
+            goto end;
+        }
+    }
+
+end:
+    return ret;
 }
 
-void cowl_logger_logf(CowlLogger *logger, char const *format, ...) {
+cowl_ret_t cowl_logger_logs(CowlLogger *logger, char const *cstring) {
+    cowl_ret_t ret = cowl_logger_open(logger);
+    if (ret) goto end;
+
+    if (logger->type == COWL_LT_CONSOLE || logger->type == COWL_LT_FILE) {
+        if (fputs(cstring, logger->file) < 0) {
+            ret = COWL_ERR_IO;
+            goto end;
+        }
+    }
+
+end:
+    return ret;
+}
+
+cowl_ret_t cowl_logger_logf(CowlLogger *logger, char const *format, ...) {
     va_list args;
     va_start(args, format);
 
-    switch(logger->type) {
-        case COWL_LT_CONSOLE:
-            vprintf(format, args);
-            break;
+    cowl_ret_t ret = cowl_logger_open(logger);
+    if (ret) goto end;
 
-        case COWL_LT_FILE:
-            vfprintf(logger->file, format, args);
-            break;
-
-        default:
-            break;
+    if (logger->type == COWL_LT_CONSOLE || logger->type == COWL_LT_FILE) {
+        if (vfprintf(logger->file, format, args) < 0) {
+            ret = COWL_ERR_IO;
+            goto end;
+        }
     }
 
+end:
     va_end(args);
+    return ret;
 }
 
-void cowl_logger_log(CowlLogger *logger, CowlString *string) {
-    cowl_logger_logf(logger, "%s", string->raw_string.cstring);
+cowl_ret_t cowl_logger_log(CowlLogger *logger, CowlString *string) {
+    return cowl_logger_logs(logger, string->raw_string.cstring);
 }
 
-void cowl_logger_consume(CowlLogger *logger, CowlString *string) {
-    cowl_logger_log(logger, string);
+cowl_ret_t cowl_logger_consume(CowlLogger *logger, CowlString *string) {
+    cowl_ret_t ret = cowl_logger_log(logger, string);
     cowl_string_release(string);
+    return ret;
 }
 
-void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto) {
-    CowlEntityIterator iter = cowl_iterator_init(logger, entity_logger);
+cowl_ret_t cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto) {
+    CowlLoggerCtx ctx = cowl_logger_ctx_init(logger);
+    CowlEntityIterator iter = cowl_iterator_init(&ctx, entity_logger);
     cowl_ontology_iterate_signature(onto, &iter);
+    return ctx.ret;
 }
 
-void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto) {
-    CowlAxiomIterator iter = cowl_iterator_init(logger, axiom_logger);
+cowl_ret_t cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto) {
+    CowlLoggerCtx ctx = cowl_logger_ctx_init(logger);
+    CowlAxiomIterator iter = cowl_iterator_init(&ctx, axiom_logger);
     cowl_ontology_iterate_axioms(onto, &iter);
+    return ctx.ret;
 }
 
-void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto) {
-    cowl_logger_log_ontology_header(logger, onto);
-    cowl_logger_logf(logger, "\n");
-    cowl_logger_log_entities_in_ontology(logger, onto);
-    cowl_logger_log_axioms_in_ontology(logger, onto);
+cowl_ret_t cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto) {
+    cowl_ret_t ret = COWL_OK;
+
+    if ((ret = cowl_logger_log_ontology_header(logger, onto))) goto end;
+    if ((ret = cowl_logger_logs(logger, "\n"))) goto end;
+    if ((ret = cowl_logger_log_entities_in_ontology(logger, onto))) goto end;
+    if ((ret = cowl_logger_log_axioms_in_ontology(logger, onto))) goto end;
+
+end:
+    return ret;
 }
 
-void cowl_logger_log_errors(CowlLogger *logger, Vector(CowlError) *errors) {
+cowl_ret_t cowl_logger_log_errors(CowlLogger *logger, Vector(CowlError) *errors) {
+    cowl_ret_t ret = COWL_OK;
+
     vector_foreach(CowlError, errors, error, {
-        cowl_logger_consume(logger, cowl_error_to_string(error));
-        cowl_logger_logf(logger, "\n");
+        if ((ret = cowl_logger_consume(logger, cowl_error_to_string(error)))) goto end;
+        if ((ret = cowl_logger_logs(logger, "\n"))) goto end;
     });
+
+end:
+    return ret;
 }
 
 char const* cowl_logger_get_path(CowlLogger *logger) {

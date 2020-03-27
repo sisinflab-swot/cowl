@@ -30,7 +30,7 @@ int main(void) {
 
         // Get the class whose atomic subclasses we are interested in.
         CowlClass *cls = cowl_class_from_static(ONTO_NS CLASS_NAME);
-        cowl_logger_logf(logger, "Atomic subclasses of " CLASS_NAME ":\n");
+        cowl_logger_logs(logger, "Atomic subclasses of " CLASS_NAME ":\n");
 
         // Run the query.
         CowlClsExpIterator iter = cowl_iterator_init(logger, for_each_cls);
@@ -59,7 +59,7 @@ static bool for_each_cls(void *ctx, CowlClsExp *exp) {
     // Log the IRI remainder.
     CowlIRI *iri = cowl_class_get_iri(cls);
     cowl_logger_log(ctx, cowl_iri_get_rem(iri));
-    cowl_logger_logf(ctx, "\n");
+    cowl_logger_logs(ctx, "\n");
 
     return true;
 }

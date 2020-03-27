@@ -85,11 +85,12 @@ CowlLogger* cowl_logger_retain(CowlLogger *logger);
  * Releases the specified logger.
  *
  * @param logger The logger.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_release(CowlLogger *logger);
+cowl_ret_t cowl_logger_release(CowlLogger *logger);
 
 /// @name State
 
@@ -102,11 +103,12 @@ void cowl_logger_release(CowlLogger *logger);
  * - File: deletes the file.
  *
  * @param logger The logger.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_clear(CowlLogger *logger);
+cowl_ret_t cowl_logger_clear(CowlLogger *logger);
 
 /**
  * Returns the file path of this logger.
@@ -125,27 +127,41 @@ char const* cowl_logger_get_path(CowlLogger *logger);
 /// @name Logging
 
 /**
+ * Logs the specified string.
+ *
+ * @param logger The logger.
+ * @param cstring String to log.
+ * @return Return code.
+ *
+ * @public @memberof CowlLogger
+ */
+COWL_PUBLIC
+cowl_ret_t cowl_logger_logs(CowlLogger *logger, char const *cstring);
+
+/**
  * Logs the specified formatted string.
  *
  * @param logger The logger.
  * @param format Format string.
  * @param ... Format arguments.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_logf(CowlLogger *logger, char const *format, ...);
+cowl_ret_t cowl_logger_logf(CowlLogger *logger, char const *format, ...);
 
 /**
  * Logs the specified string.
  *
  * @param logger The logger.
  * @param string String to log.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_log(CowlLogger *logger, CowlString *string);
+cowl_ret_t cowl_logger_log(CowlLogger *logger, CowlString *string);
 
 /**
  * Logs and releases the specified string.
@@ -156,51 +172,55 @@ void cowl_logger_log(CowlLogger *logger, CowlString *string);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_consume(CowlLogger *logger, CowlString *string);
+cowl_ret_t cowl_logger_consume(CowlLogger *logger, CowlString *string);
 
 /**
  * Logs the specified ontology.
  *
  * @param logger The logger.
  * @param onto Ontology to log.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
+cowl_ret_t cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the entities in the specified ontology.
  *
  * @param logger The logger.
  * @param onto Ontology to log.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto);
+cowl_ret_t cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the axioms in the specified ontology.
  *
  * @param logger The logger.
  * @param onto Ontology to log.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
+cowl_ret_t cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the specified errors.
  *
  * @param logger The logger.
  * @param errors Errors to log.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-void cowl_logger_log_errors(CowlLogger *logger, Vector(CowlError) *errors);
+cowl_ret_t cowl_logger_log_errors(CowlLogger *logger, Vector(CowlError) *errors);
 
 COWL_END_DECLS
 
