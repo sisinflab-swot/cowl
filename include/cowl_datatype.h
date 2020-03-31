@@ -53,7 +53,7 @@ CowlDatatype* cowl_datatype_get(CowlIRI *iri);
  * @public @memberof CowlDatatype
  */
 COWL_PUBLIC
-CowlDatatype* cowl_datatype_from_cstring(char const *cstring, cowl_uint_t length);
+CowlDatatype* cowl_datatype_from_cstring(char const *cstring, size_t length);
 
 /**
  * Returns a retained datatype given the static string representation of its IRI.

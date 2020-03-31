@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -12,6 +12,7 @@
 #define COWL_PRIVATE_H
 
 #include "cowl_api.h"
+#include "cowl_alloc.h"
 #include "cowl_annot_assert_axiom_private.h"
 #include "cowl_annot_prop_domain_axiom_private.h"
 #include "cowl_annot_prop_range_axiom_private.h"

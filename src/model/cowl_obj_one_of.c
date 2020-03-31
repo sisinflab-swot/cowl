@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,28 +9,28 @@
  */
 
 #include "cowl_obj_one_of_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_individual_set.h"
 #include "cowl_str_buf.h"
 
 static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *inds) {
+    CowlObjOneOf *exp = cowl_alloc(exp);
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF,
                                    uhset_hash(CowlIndividualSet, inds));
 
-    CowlObjOneOf init = {
+    *exp = (CowlObjOneOf) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_ONE_OF, hash),
         .inds = inds
     };
 
-    cowl_struct(CowlObjOneOf) *exp = malloc(sizeof(*exp));
-    memcpy(exp, &init, sizeof(*exp));
     return exp;
 }
 
 static void cowl_obj_one_of_free(CowlObjOneOf *exp) {
     if (!exp) return;
     cowl_individual_set_free(exp->inds);
-    free((void *)exp);
+    cowl_free(exp);
 }
 
 CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *inds) {

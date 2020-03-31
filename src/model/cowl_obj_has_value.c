@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,24 +9,24 @@
  */
 
 #include "cowl_obj_has_value_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_individual.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_str_buf.h"
 
 static CowlObjHasValue* cowl_obj_has_value_alloc(CowlObjPropExp *prop, CowlIndividual *ind) {
+    CowlObjHasValue *exp = cowl_alloc(exp);
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_HAS_VALUE,
                                    cowl_obj_prop_exp_hash(prop),
                                    cowl_individual_hash(ind));
 
-    CowlObjHasValue init = {
+    *exp = (CowlObjHasValue) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_VALUE, hash),
         .prop = cowl_obj_prop_exp_retain(prop),
         .ind = cowl_individual_retain(ind)
     };
 
-    cowl_struct(CowlObjHasValue) *exp = malloc(sizeof(*exp));
-    memcpy(exp, &init, sizeof(*exp));
     return exp;
 }
 
@@ -34,7 +34,7 @@ static void cowl_obj_has_value_free(CowlObjHasValue *exp) {
     if (!exp) return;
     cowl_obj_prop_exp_release(exp->prop);
     cowl_individual_release(exp->ind);
-    free((void *)exp);
+    cowl_free(exp);
 }
 
 CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *ind) {

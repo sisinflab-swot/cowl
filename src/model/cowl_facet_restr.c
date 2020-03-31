@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,22 +9,26 @@
  */
 
 #include "cowl_facet_restr_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_str_buf.h"
 
 static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *value) {
+    CowlFacetRestr *restr = cowl_alloc(restr);
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, facet, cowl_literal_hash(value));
-    CowlFacetRestr init = COWL_FACET_RESTR_INIT(facet, cowl_literal_retain(value), hash);
-    cowl_struct(CowlFacetRestr) *restr = malloc(sizeof(*restr));
-    memcpy(restr, &init, sizeof(*restr));
+    *restr = (CowlFacetRestr) {
+        .super = COWL_HASH_OBJECT_INIT(hash),
+        .facet = facet,
+        .value = cowl_literal_retain(value)
+    };
     return restr;
 }
 
 static void cowl_facet_restr_free(CowlFacetRestr *restr) {
     if (!restr) return;
     cowl_literal_release(restr->value);
-    free((void *)restr);
+    cowl_free(restr);
 }
 
 CowlFacetRestr* cowl_facet_restr_get(CowlFacet facet, CowlLiteral *value) {

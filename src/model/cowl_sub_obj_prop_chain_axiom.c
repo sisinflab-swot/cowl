@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,18 +16,17 @@
 static CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_alloc(CowlObjPropExpVec *sub,
                                                                      CowlObjPropExp *super,
                                                                      CowlAnnotationVec *annot) {
+    CowlSubObjPropChainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUB_OBJ_PROP_CHAIN_AXIOM, annot,
                                          cowl_obj_prop_exp_vec_hash(sub),
                                          cowl_obj_prop_exp_hash(super));
 
-    CowlSubObjPropChainAxiom init = {
+    cowl_axiom_init(CowlSubObjPropChainAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_SUB_OBJ_PROP_CHAIN, hash, annot),
         .sub_props = sub,
         .super_prop = cowl_obj_prop_exp_retain(super)
-    };
+    );
 
-    cowl_struct(CowlSubObjPropChainAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

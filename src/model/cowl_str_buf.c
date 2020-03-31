@@ -1092,7 +1092,7 @@ CowlRawString cowl_str_buf_to_raw_string(CowlStrBuf *buf) {
     cowl_uint_t length = vector_count(buf);
     if (!(buf && length)) return (CowlRawString) { .cstring = NULL, .length = 0 };
 
-    char *cstring = realloc(cowl_str_buf_free(buf), length + 1);
+    char *cstring = cowl_realloc(cowl_str_buf_free(buf), length + 1);
     cstring[length] = '\0';
 
     return cowl_raw_string_init(cstring, length, false);

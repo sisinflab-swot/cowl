@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_annot_prop_private.h"
+#include "cowl_alloc.h"
 #include "cowl_iri.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
@@ -28,22 +29,24 @@ void cowl_annot_prop_api_deinit(void) {
 }
 
 static CowlAnnotProp* cowl_annot_prop_alloc(CowlIRI *iri) {
-    CowlAnnotProp init = COWL_ANNOT_PROP_INIT(cowl_iri_retain(iri));
-    cowl_struct(CowlAnnotProp) *prop = malloc(sizeof(*prop));
-    memcpy(prop, &init, sizeof(*prop));
+    CowlAnnotProp *prop = cowl_alloc(prop);
+    *prop = (CowlAnnotProp) {
+        .super = COWL_OBJECT_INIT,
+        .iri = cowl_iri_retain(iri)
+    };
     return prop;
 }
 
 static void cowl_annot_prop_free(CowlAnnotProp *prop) {
     if (!prop) return;
     cowl_iri_release(prop->iri);
-    free((void *)prop);
+    cowl_free(prop);
 }
 
 CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
-    uhash_ret_t ret;
+    uhash_uint_t idx;
     CowlAnnotProp key = { .iri = iri };
-    uhash_uint_t idx = uhash_put(CowlAnnotPropTable, inst_tbl, &key, &ret);
+    uhash_ret_t ret = uhash_put(CowlAnnotPropTable, inst_tbl, &key, &idx);
 
     CowlAnnotProp *prop;
 
@@ -69,7 +72,7 @@ void cowl_annot_prop_release(CowlAnnotProp *prop) {
     }
 }
 
-CowlAnnotProp* cowl_annot_prop_from_cstring(char const *cstring, cowl_uint_t length) {
+CowlAnnotProp* cowl_annot_prop_from_cstring(char const *cstring, size_t length) {
     CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
     CowlAnnotProp *prop = cowl_annot_prop_get(iri);
     cowl_iri_release(iri);

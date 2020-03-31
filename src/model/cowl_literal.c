@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_literal_private.h"
+#include "cowl_alloc.h"
 #include "cowl_datatype.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iterator_private.h"
@@ -17,6 +18,8 @@
 #include "cowl_string_private.h"
 
 static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
+    CowlLiteral *literal = cowl_alloc(literal);
+
     if (!dt) dt = cowl_datatype_retain(cowl_rdf_vocab_get()->dt.plain_literal);
     if (!value) value = cowl_string_get_empty();
 
@@ -25,15 +28,13 @@ static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
                                    cowl_string_hash(value),
                                    uhash_ptr_hash(lang));
 
-    CowlLiteral init = COWL_LITERAL_INIT(
-        cowl_datatype_retain(dt),
-        cowl_string_retain(value),
-        cowl_string_retain(lang),
-        hash
-    );
+    *literal = (CowlLiteral) {
+        .super = COWL_HASH_OBJECT_INIT(hash),
+        .dt = cowl_datatype_retain(dt),
+        .value = cowl_string_retain(value),
+        .lang = cowl_string_retain(lang)
+    };
 
-    cowl_struct(CowlLiteral) *literal = malloc(sizeof(*literal));
-    memcpy(literal, &init, sizeof(*literal));
     return literal;
 }
 
@@ -42,7 +43,7 @@ static void cowl_literal_free(CowlLiteral *literal) {
     cowl_datatype_release(literal->dt);
     cowl_string_release(literal->value);
     cowl_string_release(literal->lang);
-    free((void *)literal);
+    cowl_free(literal);
 }
 
 CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {

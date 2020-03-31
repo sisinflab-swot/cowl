@@ -23,17 +23,16 @@ CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
 void cowl_data_range_release(CowlDataRange *range) {
     if (!range) return;
 
-#define GEN_CASE_RELEASE(CDRT, TYPE, PREFIX) \
-    case CDRT: PREFIX##_release((TYPE *)range); break
+#define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)range); break
 
     switch (range->type) {
 
-        GEN_CASE_RELEASE(COWL_DRT_DATATYPE, CowlDatatype, cowl_datatype);
-        GEN_CASE_RELEASE(COWL_DRT_DATATYPE_RESTR, CowlDatatypeRestr, cowl_datatype_restr);
-        GEN_CASE_RELEASE(COWL_DRT_DATA_INTERSECT, CowlNAryData, cowl_nary_data);
-        GEN_CASE_RELEASE(COWL_DRT_DATA_UNION, CowlNAryData, cowl_nary_data);
-        GEN_CASE_RELEASE(COWL_DRT_DATA_COMPL, CowlDataCompl, cowl_data_compl);
-        GEN_CASE_RELEASE(COWL_DRT_DATA_ONE_OF, CowlDataOneOf, cowl_data_one_of);
+        case COWL_DRT_DATATYPE: GEN_RELEASE(Datatype, datatype);
+        case COWL_DRT_DATATYPE_RESTR: GEN_RELEASE(DatatypeRestr, datatype_restr);
+        case COWL_DRT_DATA_INTERSECT:
+        case COWL_DRT_DATA_UNION: GEN_RELEASE(NAryData, nary_data);
+        case COWL_DRT_DATA_COMPL: GEN_RELEASE(DataCompl, data_compl);
+        case COWL_DRT_DATA_ONE_OF: GEN_RELEASE(DataOneOf, data_one_of);
 
         default:
             break;
@@ -54,17 +53,16 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
     if (lhs == rhs) return true;
     if (lhs->type != rhs->type || lhs->super.hash != rhs->super.hash) return false;
 
-#define GEN_CASE_EQUAL(CDRT, TYPE, PREFIX) \
-    case CDRT: return PREFIX##_equals((TYPE *)lhs, (TYPE *)rhs)
+#define GEN_EQUAL(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
 
     switch (lhs->type) {
 
-        GEN_CASE_EQUAL(COWL_DRT_DATATYPE, CowlDatatype, cowl_datatype);
-        GEN_CASE_EQUAL(COWL_DRT_DATATYPE_RESTR, CowlDatatypeRestr, cowl_datatype_restr);
-        GEN_CASE_EQUAL(COWL_DRT_DATA_INTERSECT, CowlNAryData, cowl_nary_data);
-        GEN_CASE_EQUAL(COWL_DRT_DATA_UNION, CowlNAryData, cowl_nary_data);
-        GEN_CASE_EQUAL(COWL_DRT_DATA_COMPL, CowlDataCompl, cowl_data_compl);
-        GEN_CASE_EQUAL(COWL_DRT_DATA_ONE_OF, CowlDataOneOf, cowl_data_one_of);
+        case COWL_DRT_DATATYPE: GEN_EQUAL(Datatype, datatype);
+        case COWL_DRT_DATATYPE_RESTR: GEN_EQUAL(DatatypeRestr, datatype_restr);
+        case COWL_DRT_DATA_INTERSECT:
+        case COWL_DRT_DATA_UNION: GEN_EQUAL(NAryData, nary_data);
+        case COWL_DRT_DATA_COMPL: GEN_EQUAL(DataCompl, data_compl);
+        case COWL_DRT_DATA_ONE_OF: GEN_EQUAL(DataOneOf, data_one_of);
 
         default:
             return false;
@@ -77,17 +75,16 @@ cowl_uint_t cowl_data_range_hash(CowlDataRange *range) {
 
 bool cowl_data_range_iterate_signature(CowlDataRange *range, CowlEntityIterator *iter) {
 
-#define GEN_CASE_SIG(CDRT, TYPE, PREFIX) \
-    case CDRT: return PREFIX##_iterate_signature((TYPE *)range, iter)
+#define GEN_SIG(UC, LC) return cowl_##LC##_iterate_signature((Cowl##UC *)range, iter)
 
     switch (range->type) {
 
-        GEN_CASE_SIG(COWL_DRT_DATATYPE, CowlDatatype, cowl_datatype);
-        GEN_CASE_SIG(COWL_DRT_DATATYPE_RESTR, CowlDatatypeRestr, cowl_datatype_restr);
-        GEN_CASE_SIG(COWL_DRT_DATA_INTERSECT, CowlNAryData, cowl_nary_data);
-        GEN_CASE_SIG(COWL_DRT_DATA_UNION, CowlNAryData, cowl_nary_data);
-        GEN_CASE_SIG(COWL_DRT_DATA_COMPL, CowlDataCompl, cowl_data_compl);
-        GEN_CASE_SIG(COWL_DRT_DATA_ONE_OF, CowlDataOneOf, cowl_data_one_of);
+        case COWL_DRT_DATATYPE: GEN_SIG(Datatype, datatype);
+        case COWL_DRT_DATATYPE_RESTR: GEN_SIG(DatatypeRestr, datatype_restr);
+        case COWL_DRT_DATA_INTERSECT:
+        case COWL_DRT_DATA_UNION: GEN_SIG(NAryData, nary_data);
+        case COWL_DRT_DATA_COMPL: GEN_SIG(DataCompl, data_compl);
+        case COWL_DRT_DATA_ONE_OF: GEN_SIG(DataOneOf, data_one_of);
 
         default:
             return true;

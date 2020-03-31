@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -17,7 +17,7 @@ VECTOR_IMPL_EQUATABLE(CowlAnnotationPtr, cowl_annotation_equals)
 void cowl_annotation_vec_free(CowlAnnotationVec *vec) {
     if (!vec) return;
     vector_foreach(CowlAnnotationPtr, vec, annot, cowl_annotation_release(annot));
-    vector_free(CowlAnnotationPtr, (Vector(CowlAnnotationPtr)*)vec);
+    vector_free(CowlAnnotationPtr, vec);
 }
 
 bool cowl_annotation_vec_equals(CowlAnnotationVec *lhs, CowlAnnotationVec *rhs) {

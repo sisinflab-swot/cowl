@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_named_ind_private.h"
+#include "cowl_alloc.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
@@ -28,25 +29,24 @@ void cowl_named_ind_api_deinit(void) {
 }
 
 static CowlNamedInd* cowl_named_ind_alloc(CowlIRI *iri) {
-    CowlNamedInd ind_init = {
+    CowlNamedInd *ind = cowl_alloc(ind);
+    *ind = (CowlNamedInd) {
         .super = COWL_INDIVIDUAL_INIT(true),
         .iri = cowl_iri_retain(iri)
     };
-    cowl_struct(CowlNamedInd) *ind = malloc(sizeof(*ind));
-    memcpy(ind, &ind_init, sizeof(*ind));
     return ind;
 }
 
 static void cowl_named_ind_free(CowlNamedInd *ind) {
     if (!ind) return;
     cowl_iri_release(ind->iri);
-    free((void *)ind);
+    cowl_free(ind);
 }
 
 CowlNamedInd* cowl_named_ind_get(CowlIRI *iri) {
-    uhash_ret_t ret;
+    uhash_uint_t idx;
     CowlNamedInd key = { .iri = iri };
-    uhash_uint_t idx = uhash_put(CowlNamedIndTable, inst_tbl, &key, &ret);
+    uhash_ret_t ret = uhash_put(CowlNamedIndTable, inst_tbl, &key, &idx);
 
     CowlNamedInd *ind;
 
@@ -72,7 +72,7 @@ void cowl_named_ind_release(CowlNamedInd *ind) {
     }
 }
 
-CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, cowl_uint_t length) {
+CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, size_t length) {
     CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
     CowlNamedInd *ind = cowl_named_ind_get(iri);
     cowl_iri_release(iri);

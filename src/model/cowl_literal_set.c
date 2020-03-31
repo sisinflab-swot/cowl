@@ -16,7 +16,7 @@ UHASH_IMPL(CowlLiteralSet, cowl_literal_hash, cowl_literal_equals)
 void cowl_literal_set_free(CowlLiteralSet *set) {
     if (!set) return;
     uhash_foreach_key(CowlLiteralSet, set, literal, cowl_literal_release(literal));
-    uhash_free(CowlLiteralSet, (UHash(CowlLiteralSet) *)set);
+    uhash_free(CowlLiteralSet, set);
 }
 
 bool cowl_literal_set_equals(CowlLiteralSet *lhs, CowlLiteralSet *rhs) {

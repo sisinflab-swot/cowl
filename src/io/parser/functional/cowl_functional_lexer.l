@@ -13,6 +13,7 @@
 %option warn nodefault
 %option yylineno batch
 %option noyywrap nounput noinput
+%option noyyalloc noyyrealloc noyyfree
 
 %top{
     #include "cowl_std.h"
@@ -21,6 +22,18 @@
 
 %{
     #define YY_USER_ACTION ((yylloc)->first_line = (yylloc)->last_line = yylineno);
+
+    void* yyalloc (size_t bytes, cowl_unused void *yyscanner) {
+        return cowl_malloc(bytes);
+    }
+
+    void* yyrealloc (void *ptr, size_t bytes, cowl_unused void *yyscanner) {
+        return cowl_realloc(ptr, bytes);
+    }
+
+    void yyfree (void *ptr, cowl_unused void *yyscanner) {
+        cowl_free(ptr);
+    }
 %}
 
 WHITE_SPACE                             [ \t\r\n]+

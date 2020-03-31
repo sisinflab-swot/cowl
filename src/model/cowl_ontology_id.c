@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,18 +9,17 @@
  */
 
 #include "cowl_ontology_id_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iri.h"
 #include "cowl_str_buf.h"
 
 CowlOntologyID* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri) {
-    CowlOntologyID init = {
+    CowlOntologyID *id = cowl_alloc(id);
+    *id = (CowlOntologyID) {
         .onto_iri = onto_iri ? cowl_iri_retain(onto_iri) : NULL,
         .version_iri = version_iri ? cowl_iri_retain(version_iri) : NULL
     };
-
-    cowl_struct(CowlOntologyID) *id = malloc(sizeof(*id));
-    memcpy(id, &init, sizeof(*id));
     return id;
 }
 
@@ -32,7 +31,7 @@ void cowl_ontology_id_free(CowlOntologyID *id) {
     if (!id) return;
     cowl_iri_release(id->onto_iri);
     cowl_iri_release(id->version_iri);
-    free((void *)id);
+    cowl_free(id);
 }
 
 CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyID *id) {

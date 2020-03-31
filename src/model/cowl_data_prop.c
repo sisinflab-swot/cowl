@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_data_prop_private.h"
+#include "cowl_alloc.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
@@ -28,22 +29,21 @@ void cowl_data_prop_api_deinit(void) {
 }
 
 static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
-    CowlDataProp init = { .super = COWL_DATA_PROP_EXP_INIT, .iri = cowl_iri_retain(iri) };
-    cowl_struct(CowlDataProp) *prop = malloc(sizeof(*prop));
-    memcpy(prop, &init, sizeof(*prop));
+    CowlDataProp *prop = cowl_alloc(prop);
+    *prop = (CowlDataProp) { .super = COWL_DATA_PROP_EXP_INIT, .iri = cowl_iri_retain(iri) };
     return prop;
 }
 
 static void cowl_data_prop_free(CowlDataProp *prop) {
     if (!prop) return;
     cowl_iri_release(prop->iri);
-    free((void *)prop);
+    cowl_free(prop);
 }
 
 CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
-    uhash_ret_t ret;
+    uhash_uint_t idx;
     CowlDataProp key = { .iri = iri };
-    uhash_uint_t idx = uhash_put(CowlDataPropTable, inst_tbl, &key, &ret);
+    uhash_ret_t ret = uhash_put(CowlDataPropTable, inst_tbl, &key, &idx);
 
     CowlDataProp *prop;
 
@@ -69,7 +69,7 @@ void cowl_data_prop_release(CowlDataProp *prop) {
     }
 }
 
-CowlDataProp* cowl_data_prop_from_cstring(char const *cstring, cowl_uint_t length) {
+CowlDataProp* cowl_data_prop_from_cstring(char const *cstring, size_t length) {
     CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
     CowlDataProp *prop = cowl_data_prop_get(iri);
     cowl_iri_release(iri);

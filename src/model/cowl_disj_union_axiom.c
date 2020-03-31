@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,18 +15,17 @@
 
 static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlClsExpSet *disjoints,
                                                        CowlAnnotationVec *annot) {
+    CowlDisjUnionAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
                                          cowl_class_hash(cls),
                                          cowl_cls_exp_set_hash(disjoints));
 
-    CowlDisjUnionAxiom init = {
+    cowl_axiom_init(CowlDisjUnionAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DISJ_UNION, hash, annot),
         .cls = cowl_class_retain(cls),
         .disjoints = disjoints
-    };
+    );
 
-    cowl_struct(CowlDisjUnionAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

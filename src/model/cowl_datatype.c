@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_datatype_private.h"
+#include "cowl_alloc.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
@@ -28,12 +29,11 @@ void cowl_datatype_api_deinit(void) {
 }
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
-    CowlDatatype init = {
+    CowlDatatype *dt = cowl_alloc(dt);
+    *dt = (CowlDatatype) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE, 0),
         .iri = cowl_iri_retain(iri)
     };
-    cowl_struct(CowlDatatype) *dt = malloc(sizeof(*dt));
-    memcpy(dt, &init, sizeof(*dt));
 
     cowl_uint_t hash = uhash_ptr_hash(dt);
     cowl_object_hash_set(dt, hash);
@@ -44,13 +44,13 @@ static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
 static void cowl_datatype_free(CowlDatatype *dt) {
     if (!dt) return;
     cowl_iri_release(dt->iri);
-    free((void *)dt);
+    cowl_free(dt);
 }
 
 CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
-    uhash_ret_t ret;
+    uhash_uint_t idx;
     CowlDatatype key = { .iri = iri };
-    uhash_uint_t idx = uhash_put(CowlDatatypeTable, inst_tbl, &key, &ret);
+    uhash_ret_t ret = uhash_put(CowlDatatypeTable, inst_tbl, &key, &idx);
 
     CowlDatatype *dt;
 
@@ -76,7 +76,7 @@ void cowl_datatype_release(CowlDatatype *dt) {
     }
 }
 
-CowlDatatype* cowl_datatype_from_cstring(char const *cstring, cowl_uint_t length) {
+CowlDatatype* cowl_datatype_from_cstring(char const *cstring, size_t length) {
     CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
     CowlDatatype *dt = cowl_datatype_get(iri);
     cowl_iri_release(iri);

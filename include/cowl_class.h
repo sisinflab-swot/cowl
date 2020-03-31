@@ -54,7 +54,7 @@ CowlClass* cowl_class_get(CowlIRI *iri);
  * @public @memberof CowlClass
  */
 COWL_PUBLIC
-CowlClass* cowl_class_from_cstring(char const *cstring, cowl_uint_t length);
+CowlClass* cowl_class_from_cstring(char const *cstring, size_t length);
 
 /**
  * Returns a retained class given the static string representation of its IRI.

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_string_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
 
@@ -26,9 +27,8 @@ void cowl_string_api_deinit(void) {
 }
 
 cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {
-    CowlString init = cowl_string_init(raw_string);
-    cowl_struct(CowlString) *string = malloc(sizeof(*string));
-    memcpy(string, &init, sizeof(*string));
+    CowlString *string = cowl_alloc(string);
+    *string =  cowl_string_init(raw_string);
     return string;
 }
 
@@ -47,14 +47,14 @@ cowl_struct(CowlString) cowl_string_init(CowlRawString raw_string) {
 static void cowl_string_free(CowlString *string) {
     if (!string) return;
     cowl_raw_string_deinit(string->raw_string);
-    free((void *)string);
+    cowl_free(string);
 }
 
 CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
     if (!(string && string->raw_string.length)) return cowl_string_get_empty();
 
-    uhash_ret_t ret;
-    uhash_uint_t idx = uhash_put(CowlStringTable, str_tbl, string, &ret);
+    uhash_uint_t idx;
+    uhash_ret_t ret = uhash_put(CowlStringTable, str_tbl, string, &idx);
 
     if (ret == UHASH_INSERTED) {
         if (copy) {
@@ -70,8 +70,8 @@ CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
 }
 
 CowlString* cowl_string_copy(CowlString *string) {
+    CowlString *copy = cowl_alloc(copy);
     cowl_uint_t hash = cowl_object_hash_get(string);
-    cowl_struct(CowlString) *copy = malloc(sizeof(*string));
     copy->super = COWL_HASH_OBJECT_INIT(hash);
     copy->raw_string = cowl_raw_string_copy(string->raw_string);
     return copy;
@@ -87,7 +87,7 @@ void cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlStr
     }
 }
 
-CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool copy) {
+CowlString* cowl_string_get(char const *cstring, size_t length, bool copy) {
     CowlRawString raw_string = cowl_raw_string_init(cstring, length, copy);
     return cowl_string_alloc(raw_string);
 }
@@ -121,7 +121,7 @@ char const* cowl_string_release_copying_cstring(CowlString *string) {
         cstring = strndup(string->raw_string.cstring, string->raw_string.length);
     } else {
         cstring = string->raw_string.cstring;
-        ((cowl_struct(CowlString) *)string)->raw_string.cstring = NULL;
+        string->raw_string.cstring = NULL;
         cowl_string_free(string);
     }
 

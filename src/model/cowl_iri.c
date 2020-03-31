@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "cowl_iri_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_string_private.h"
 #include "cowl_str_buf.h"
@@ -38,13 +39,12 @@ void cowl_iri_api_deinit(void) {
 }
 
 static cowl_struct(CowlIRI)* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
-    CowlIRI init = {
+    CowlIRI *iri = cowl_alloc(iri);
+    *iri = (CowlIRI) {
         .super = COWL_OBJECT_INIT,
         .ns = cowl_string_retain(ns),
         .rem = cowl_string_retain(rem)
     };
-    cowl_struct(CowlIRI) *iri = malloc(sizeof(*iri));
-    memcpy(iri, &init, sizeof(*iri));
     return iri;
 }
 
@@ -52,15 +52,15 @@ static void cowl_iri_free(CowlIRI *iri) {
     if (!iri) return;
     cowl_string_release(iri->ns);
     cowl_string_release(iri->rem);
-    free((void *)iri);
+    cowl_free(iri);
 }
 
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
     ns = cowl_string_get_intern(ns, false);
 
     CowlIRI key = { .ns = ns, .rem = rem };
-    uhash_ret_t ret;
-    uhash_uint_t idx = uhash_put(CowlIRITable, inst_tbl, &key, &ret);
+    uhash_uint_t idx;
+    uhash_ret_t ret = uhash_put(CowlIRITable, inst_tbl, &key, &idx);
 
     CowlIRI *iri;
 
@@ -127,7 +127,7 @@ void cowl_iri_release(CowlIRI *iri) {
     }
 }
 
-CowlIRI* cowl_iri_from_cstring(char const *cstring, cowl_uint_t length) {
+CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length) {
     CowlRawString string = cowl_raw_string_init(cstring, length, false);
     cowl_uint_t ns_length = cowl_xml_ns_length(string);
 

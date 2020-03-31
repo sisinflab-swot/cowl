@@ -16,7 +16,7 @@ UHASH_IMPL(CowlDataPropExpSet, cowl_data_prop_exp_hash, cowl_data_prop_exp_equal
 void cowl_data_prop_exp_set_free(CowlDataPropExpSet *set) {
     if (!set) return;
     uhash_foreach_key(CowlDataPropExpSet, set, exp, cowl_data_prop_exp_release(exp));
-    uhash_free(CowlDataPropExpSet, (UHash(CowlDataPropExpSet) *)set);
+    uhash_free(CowlDataPropExpSet, set);
 }
 
 bool cowl_data_prop_exp_set_equals(CowlDataPropExpSet *lhs, CowlDataPropExpSet *rhs) {

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,18 +16,17 @@
 static CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_alloc(CowlAnnotProp *prop,
                                                                     CowlIRI *domain,
                                                                     CowlAnnotationVec *annot) {
+    CowlAnnotPropDomainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_ANNOT_PROP_DOMAIN_AXIOM, annot,
                                          cowl_annot_prop_hash(prop),
                                          cowl_iri_hash(domain));
 
-    CowlAnnotPropDomainAxiom init = {
+    cowl_axiom_init(CowlAnnotPropDomainAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_ANNOT_PROP_DOMAIN, hash, annot),
         .prop = cowl_annot_prop_retain(prop),
         .domain = cowl_iri_retain(domain)
-    };
+    );
 
-    cowl_struct(CowlAnnotPropDomainAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

@@ -107,6 +107,13 @@ option(COWL_LTO "Enable link-time optimization, if available" ON)
 # Defaults
 
 set(COWL_COMPILE_FEATURES c_std_11)
+list(APPEND COWL_PUBLIC_DEFINES
+     VECTOR_MALLOC=cowl_malloc
+     VECTOR_REALLOC=cowl_realloc
+     VECTOR_FREE=cowl_free
+     UHASH_MALLOC=cowl_malloc
+     UHASH_REALLOC=cowl_realloc
+     UHASH_FREE=cowl_free)
 
 if(MSVC)
     set(COWL_WARNING_OPTIONS /W4)

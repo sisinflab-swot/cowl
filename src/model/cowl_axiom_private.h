@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -12,6 +12,7 @@
 #define COWL_AXIOM_PRIVATE_H
 
 #include "cowl_axiom.h"
+#include "cowl_alloc.h"
 #include "cowl_annotation_vec.h"
 #include "cowl_axiom_flags.h"
 #include "cowl_hash_utils.h"
@@ -31,17 +32,13 @@ cowl_struct(CowlAxiom) {
         CowlAnnotationVec *annot[];                                                                 \
     }
 
-#define cowl_axiom_alloc(AXIOM, INIT, ANNOT) do {                                                   \
-    if (ANNOT) {                                                                                    \
-        (AXIOM) = malloc(sizeof(*(AXIOM)) + sizeof(ANNOT));                                         \
-        memcpy(AXIOM, &(INIT), sizeof(*(AXIOM)));                                                   \
-        (AXIOM)->annot[0] = ANNOT;                                                                  \
-    } else {                                                                                        \
-        (AXIOM) = malloc(sizeof(*(AXIOM)));                                                         \
-        memcpy(AXIOM, &(INIT), sizeof(*(AXIOM)));                                                   \
-    }                                                                                               \
-} while(0)
+#define cowl_axiom_alloc(AXIOM, ANNOT) \
+    cowl_malloc(sizeof(*(AXIOM)) + ((ANNOT) ? sizeof(CowlAnnotationVec*) : 0))
 
+#define cowl_axiom_init(T, AXIOM, ANNOT, ...) do {                                                  \
+    *(AXIOM) = (T){__VA_ARGS__};                                                                    \
+    if (ANNOT) (AXIOM)->annot[0] = (ANNOT);                                                         \
+} while (0)
 
 #define COWL_AXIOM_INIT(T, H, A) {                                                                  \
     .super = COWL_HASH_OBJECT_INIT(H),                                                              \
@@ -50,7 +47,7 @@ cowl_struct(CowlAxiom) {
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \
     if (cowl_axiom_has_annot(AXIOM)) cowl_annotation_vec_free((AXIOM)->annot[0]);                   \
-    free((void *)(AXIOM));                                                                          \
+    cowl_free(AXIOM);                                                                               \
 } while(0)
 
 #define cowl_axiom_has_annot(AXIOM) cowl_axiom_flags_has_annot(((CowlAxiom *)(AXIOM))->flags)

@@ -54,7 +54,7 @@ CowlNamedInd* cowl_named_ind_get(CowlIRI *iri);
  * @public @memberof CowlNamedInd
  */
 COWL_PUBLIC
-CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, cowl_uint_t length);
+CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, size_t length);
 
 /**
  * Returns a retained named individual given the static string representation of its IRI.

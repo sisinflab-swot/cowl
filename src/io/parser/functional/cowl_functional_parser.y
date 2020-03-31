@@ -25,6 +25,9 @@
 
     #define YYSTYPE COWL_FUNCTIONAL_STYPE
     #define YYLTYPE COWL_FUNCTIONAL_LTYPE
+
+    #define YYMALLOC cowl_malloc
+    #define YYFREE cowl_free
 }
 
 %code requires {

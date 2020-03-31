@@ -54,7 +54,7 @@ CowlObjProp* cowl_obj_prop_get(CowlIRI *iri);
  * @public @memberof CowlObjProp
  */
 COWL_PUBLIC
-CowlObjProp* cowl_obj_prop_from_cstring(char const *cstring, cowl_uint_t length);
+CowlObjProp* cowl_obj_prop_from_cstring(char const *cstring, size_t length);
 
 /**
  * Returns a retained object property given the static string representation of its IRI.

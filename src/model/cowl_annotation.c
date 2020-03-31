@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_annotation_private.h"
+#include "cowl_alloc.h"
 #include "cowl_annotation_vec.h"
 #include "cowl_annot_prop.h"
 #include "cowl_hash_utils.h"
@@ -16,20 +17,19 @@
 
 static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue value,
                                              CowlAnnotationVec *annot) {
+    CowlAnnotation *annotation = cowl_alloc(annotation);
     cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
                                    cowl_annot_prop_hash(prop),
                                    cowl_annot_value_hash(value),
                                    annot ? cowl_annotation_vec_hash(annot) : 0);
 
-    CowlAnnotation init = {
+    (*annotation) = (CowlAnnotation) {
         .super = COWL_HASH_OBJECT_INIT(hash),
         .prop = cowl_annot_prop_retain(prop),
         .value = cowl_annot_value_retain(value),
         .annot = annot
     };
 
-    cowl_struct(CowlAnnotation) *annotation = malloc(sizeof(*annotation));
-    memcpy(annotation, &init, sizeof(*annotation));
     return annotation;
 }
 
@@ -38,7 +38,7 @@ static void cowl_annotation_free(CowlAnnotation *annot) {
     cowl_annot_prop_release(annot->prop);
     cowl_annot_value_release(annot->value);
     cowl_annotation_vec_free(annot->annot);
-    free((void *)annot);
+    cowl_free(annot);
 }
 
 CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue value,

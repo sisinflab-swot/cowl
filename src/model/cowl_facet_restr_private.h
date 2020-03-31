@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -21,9 +21,6 @@ cowl_struct(CowlFacetRestr) {
     CowlFacet facet;
     CowlLiteral *value;
 };
-
-#define COWL_FACET_RESTR_INIT(F, V, H) \
-    { .super = COWL_HASH_OBJECT_INIT(H), .facet = (F), .value = (V) }
 
 COWL_END_DECLS
 

@@ -13,15 +13,15 @@
 
 #include <stdio.h>
 
-CowlRawString cowl_raw_string_init(char const *cstring, cowl_uint_t length, bool copy) {
-    return (CowlRawString){
-        .length = length,
+CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy) {
+    return (CowlRawString) {
+        .length = (cowl_uint_t)length,
         .cstring = copy ? strndup(cstring, length) : cstring
     };
 }
 
 CowlRawString cowl_raw_string_init_cstring(char const *cstring, bool copy) {
-    return cowl_raw_string_init(cstring, (cowl_uint_t)strlen(cstring), copy);
+    return cowl_raw_string_init(cstring, strlen(cstring), copy);
 }
 
 CowlRawString cowl_raw_string_copy(CowlRawString string) {

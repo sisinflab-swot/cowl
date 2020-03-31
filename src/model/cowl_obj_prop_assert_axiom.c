@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -18,20 +18,19 @@ static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType ty
                                                                 CowlObjPropExp *prop,
                                                                 CowlIndividual *target,
                                                                 CowlAnnotationVec *annot) {
+    CowlObjPropAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_4(COWL_HASH_INIT_OBJ_PROP_ASSERT_AXIOM, annot, type,
                                          cowl_individual_hash(source),
                                          cowl_individual_hash(target),
                                          cowl_obj_prop_exp_hash(prop));
 
-    CowlObjPropAssertAxiom init = {
+    cowl_axiom_init(CowlObjPropAssertAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
         .subject = cowl_individual_retain(source),
         .object = cowl_individual_retain(target),
         .prop_exp = cowl_obj_prop_exp_retain(prop)
-    };
+    );
 
-    cowl_struct(CowlObjPropAssertAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

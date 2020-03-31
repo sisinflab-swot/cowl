@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -52,10 +52,10 @@ static bool cowl_ontology_lazy_anon_ind_init(void *ctx, CowlAxiom *axiom);
 // Utils
 
 #define cowl_add_axiom_to_vec_in_map(T, map, key, axiom) do {                                       \
-    uhash_ret_t __cowl_ret;                                                                         \
-    uhash_uint_t k = uhash_put(T, map, key, &__cowl_ret);                                           \
+    uhash_uint_t k;                                                                                 \
+    uhash_ret_t ret = uhash_put(T, map, key, &k);                                                   \
                                                                                                     \
-    if (__cowl_ret == UHASH_INSERTED) {                                                             \
+    if (ret == UHASH_INSERTED) {                                                                    \
         uhash_value(map, k) = vector_alloc(CowlAxiomPtr);                                           \
     }                                                                                               \
                                                                                                     \
@@ -375,9 +375,8 @@ cowl_struct(CowlOntology)* cowl_ontology_get(void) {
 }
 
 cowl_struct(CowlOntology)* cowl_ontology_alloc(void) {
-    CowlOntology init = COWL_ONTOLOGY_INIT;
-    cowl_struct(CowlOntology) *onto = malloc(sizeof(*onto));
-    memcpy(onto, &init, sizeof(*onto));
+    CowlOntology *onto = cowl_alloc(onto);
+    *onto = COWL_ONTOLOGY_INIT;
     return onto;
 }
 
@@ -415,13 +414,13 @@ void cowl_ontology_free(CowlOntology *onto) {
     uhash_free(CowlNamedIndAxiomMap, onto->named_ind_refs);
     uhash_free(CowlAnonIndAxiomMap, onto->anon_ind_refs);
 
-    free((void *)onto);
+    cowl_free(onto);
 }
 
 void cowl_ontology_anon_ind_refs_init(CowlOntology *onto) {
     if (onto->anon_ind_refs) return;
 
-    ((cowl_struct(CowlOntology)*)onto)->anon_ind_refs = uhmap_alloc(CowlAnonIndAxiomMap);
+    onto->anon_ind_refs = uhmap_alloc(CowlAnonIndAxiomMap);
     CowlAxiomIterator a_iter = cowl_iterator_init(onto, cowl_ontology_lazy_anon_ind_init);
     cowl_ontology_iterate_axioms(onto, &a_iter);
 

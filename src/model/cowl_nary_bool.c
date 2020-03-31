@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,28 +9,28 @@
  */
 
 #include "cowl_nary_bool_private.h"
+#include "cowl_alloc.h"
 #include "cowl_cls_exp_set.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
 
 static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlClsExpSet *operands) {
+    CowlNAryBool *exp = cowl_alloc(exp);
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
                                    uhset_hash(CowlClsExpSet, operands));
 
-    CowlNAryBool init = {
+    *exp = (CowlNAryBool) {
         .super = COWL_CLS_EXP_INIT(type, hash),
         .operands = operands
     };
 
-    cowl_struct(CowlNAryBool) *exp = malloc(sizeof(*exp));
-    memcpy(exp, &init, sizeof(*exp));
     return exp;
 }
 
 static void cowl_nary_bool_free(CowlNAryBool *exp) {
     if (!exp) return;
     cowl_cls_exp_set_free(exp->operands);
-    free((void *)exp);
+    cowl_free(exp);
 }
 
 CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlClsExpSet *operands) {

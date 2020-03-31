@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_inv_obj_prop_private.h"
+#include "cowl_alloc.h"
 #include "cowl_obj_prop.h"
 #include "cowl_str_buf.h"
 
@@ -27,25 +28,24 @@ void cowl_inv_obj_prop_api_deinit(void) {
 }
 
 static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
-    CowlInvObjProp init = {
+    cowl_struct(CowlInvObjProp) *inv = cowl_alloc(inv);
+    *inv = (CowlInvObjProp) {
         .super = COWL_OBJ_PROP_EXP_INIT(true),
         .prop = cowl_obj_prop_retain(prop)
     };
-    cowl_struct(CowlInvObjProp) *inv = malloc(sizeof(*inv));
-    memcpy(inv, &init, sizeof(*inv));
     return inv;
 }
 
 static void cowl_inv_obj_prop_free(CowlInvObjProp *inv) {
     if (!inv) return;
     cowl_obj_prop_release(inv->prop);
-    free((void *)inv);
+    cowl_free(inv);
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
-    uhash_ret_t ret;
+    uhash_uint_t idx;
     CowlInvObjProp key = { .prop = prop };
-    uhash_uint_t idx = uhash_put(CowlInvObjPropTable, inst_tbl, &key, &ret);
+    uhash_ret_t ret = uhash_put(CowlInvObjPropTable, inst_tbl, &key, &idx);
 
     CowlInvObjProp *inv;
 

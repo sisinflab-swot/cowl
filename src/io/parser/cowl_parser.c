@@ -9,6 +9,7 @@
  */
 
 #include "cowl_parser_private.h"
+#include "cowl_alloc.h"
 #include "cowl_annotation_vec.h"
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
@@ -19,15 +20,14 @@
 UHASH_IMPL(CowlNodeIdMap, cowl_string_hash, cowl_string_equals)
 
 static CowlParser* cowl_parser_alloc(void) {
-    CowlParser init = {
+    CowlParser *parser = cowl_alloc(parser);
+    *parser = (CowlParser) {
         .super = COWL_OBJECT_INIT,
         .prefix_ns_map = uhmap_alloc(CowlStringTable),
         .node_id_map = uhmap_alloc(CowlNodeIdMap),
         .ontology = cowl_ontology_get(),
         .errors = NULL
     };
-    cowl_struct(CowlParser) *parser = malloc(sizeof(*parser));
-    memcpy(parser, &init, sizeof(*parser));
     return parser;
 }
 
@@ -44,7 +44,7 @@ static void cowl_parser_free(CowlParser *parser) {
     uhash_free(CowlNodeIdMap, parser->node_id_map);
     if (parser->loader.free) parser->loader.free(parser->loader.ctx);
 
-    free((void *)parser);
+    cowl_free(parser);
 }
 
 CowlParser* cowl_parser_get(void) {
@@ -63,7 +63,7 @@ void cowl_parser_release(CowlParser *parser) {
 
 CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
                                          Vector(CowlError) *errors) {
-    ((cowl_struct(CowlParser)*)parser)->errors = errors;
+    parser->errors = errors;
 
     yyscan_t scanner;
     cowl_functional_lex_init(&scanner);
@@ -86,14 +86,14 @@ end:
 
     if (error) {
         cowl_ontology_release(parser->ontology);
-        ((cowl_struct(CowlParser) *)parser)->ontology = NULL;
+        parser->ontology = NULL;
     }
 
     return parser->ontology;
 }
 
 void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader) {
-    ((cowl_struct(CowlParser) *)parser)->loader = loader;
+    parser->loader = loader;
 }
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyID *id) {
@@ -152,9 +152,9 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
 }
 
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id) {
-    uhash_ret_t ret;
+    uhash_uint_t idx;
     cowl_struct(CowlString) id_str = cowl_string_init(id);
-    uhash_uint_t idx = uhash_put(CowlNodeIdMap, parser->node_id_map, &id_str, &ret);
+    uhash_ret_t ret = uhash_put(CowlNodeIdMap, parser->node_id_map, &id_str, &idx);
     CowlNodeID node_id;
 
     if (ret == UHASH_INSERTED) {

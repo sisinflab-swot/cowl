@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,7 +9,7 @@
  */
 
 #include "cowl_anon_ind_private.h"
-#include "cowl_string.h"
+#include "cowl_alloc.h"
 #include "cowl_str_buf.h"
 
 #define cowl_inst_hash(X) cowl_node_id_hash((X)->id)
@@ -27,24 +27,22 @@ void cowl_anon_ind_api_deinit(void) {
 }
 
 static CowlAnonInd* cowl_anon_ind_alloc(CowlNodeID id) {
-    CowlAnonInd init = {
+    CowlAnonInd *ind = cowl_alloc(ind);
+    (*ind) = (CowlAnonInd) {
         .super = COWL_INDIVIDUAL_INIT(false),
         .id = id
     };
-    cowl_struct(CowlAnonInd) *ind = malloc(sizeof(*ind));
-    memcpy(ind, &init, sizeof(*ind));
     return ind;
 }
 
 static void cowl_anon_ind_free(CowlAnonInd *ind) {
-    if (!ind) return;
-    free((void *)ind);
+    if (ind) cowl_free(ind);
 }
 
 CowlAnonInd* cowl_anon_ind_get(CowlNodeID id) {
-    uhash_ret_t ret;
+    uhash_uint_t idx;
     CowlAnonInd key = { .id = id };
-    uhash_uint_t idx = uhash_put(CowlAnonIndTable, inst_tbl, &key, &ret);
+    uhash_ret_t ret = uhash_put(CowlAnonIndTable, inst_tbl, &key, &idx);
 
     CowlAnonInd *ind;
 

@@ -38,7 +38,7 @@ cowl_struct_decl(CowlString);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_get(char const *cstring, cowl_uint_t length, bool copy);
+CowlString* cowl_string_get(char const *cstring, size_t length, bool copy);
 
 /**
  * Returns a retained string from the specified static string.

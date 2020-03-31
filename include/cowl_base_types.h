@@ -13,6 +13,7 @@
 #ifndef COWL_BASE_TYPES_H
 #define COWL_BASE_TYPES_H
 
+#include "cowl_alloc.h"
 #include "cowl_compat.h"
 #include "cowl_flags.h"
 #include "uhash.h"

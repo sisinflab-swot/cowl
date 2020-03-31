@@ -15,16 +15,15 @@
 static CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_alloc(CowlAxiomType type,
                                                               CowlDataPropExpSet *props,
                                                               CowlAnnotationVec *annot) {
+    CowlNAryDataPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_DATA_PROP_AXIOM, annot, type,
                                          cowl_data_prop_exp_set_hash(props));
 
-    CowlNAryDataPropAxiom init = {
+    cowl_axiom_init(CowlNAryDataPropAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
         .props = props
-    };
+    );
 
-    cowl_struct(CowlNAryDataPropAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

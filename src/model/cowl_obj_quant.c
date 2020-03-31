@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,23 +9,23 @@
  */
 
 #include "cowl_obj_quant_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_str_buf.h"
 
 static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                           CowlClsExp *filler) {
+    CowlObjQuant *restr = cowl_alloc(restr);
     cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
                                    cowl_obj_prop_exp_hash(prop), cowl_cls_exp_hash(filler));
 
-    CowlObjQuant init = {
+    *restr = (CowlObjQuant) {
         .super = COWL_CLS_EXP_INIT(type, hash),
         .prop = cowl_obj_prop_exp_retain(prop),
         .filler = cowl_cls_exp_retain(filler)
     };
 
-    cowl_struct(CowlObjQuant) *restr = malloc(sizeof(*restr));
-    memcpy(restr, &init, sizeof(*restr));
     return restr;
 }
 
@@ -33,7 +33,7 @@ static void cowl_obj_quant_free(CowlObjQuant *restr) {
     if (!restr) return;
     cowl_obj_prop_exp_release(restr->prop);
     cowl_cls_exp_release(restr->filler);
-    free((void *)restr);
+    cowl_free(restr);
 }
 
 CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler) {

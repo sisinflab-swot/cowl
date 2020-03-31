@@ -53,7 +53,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-CowlIRI* cowl_iri_from_cstring(char const *cstring, cowl_uint_t length);
+CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length);
 
 /**
  * Returns a retained IRI given its static string representation.

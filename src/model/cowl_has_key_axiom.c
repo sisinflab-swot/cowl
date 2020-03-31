@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -17,21 +17,21 @@
 static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObjPropExpSet *obj_props,
                                                  CowlDataPropExpSet *data_props,
                                                  CowlAnnotationVec *annot) {
+    CowlHasKeyAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+
     cowl_uint_t obj_props_hash = obj_props ? cowl_obj_prop_exp_set_hash(obj_props) : 0;
     cowl_uint_t data_props_hash = data_props ? cowl_data_prop_exp_set_hash(data_props) : 0;
     cowl_uint_t hash = cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM, annot,
                                          cowl_cls_exp_hash(cls_exp),
                                          obj_props_hash, data_props_hash);
 
-    CowlHasKeyAxiom init = {
+    cowl_axiom_init(CowlHasKeyAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_HAS_KEY, hash, annot),
         .cls_exp = cowl_cls_exp_retain(cls_exp),
         .obj_props = obj_props,
         .data_props = data_props
-    };
+    );
 
-    cowl_struct(CowlHasKeyAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

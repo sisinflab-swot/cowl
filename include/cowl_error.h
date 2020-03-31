@@ -73,7 +73,7 @@ VECTOR_DECL_SPEC(CowlError, COWL_PUBLIC)
  */
 #define cowl_error_init_cstring(CODE, DESC, LINE) ((CowlError) {                                    \
     .code = (CODE),                                                                                 \
-    .description = cowl_string_get((DESC), (cowl_uint_t)strlen(DESC), true),                        \
+    .description = cowl_string_get((DESC), strlen(DESC), true),                                     \
     .line = (LINE)                                                                                  \
 })
 

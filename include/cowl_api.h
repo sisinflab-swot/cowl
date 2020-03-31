@@ -13,6 +13,7 @@
 #ifndef COWL_API_H
 #define COWL_API_H
 
+#include "cowl_alloc.h"
 #include "cowl_annot_assert_axiom.h"
 #include "cowl_annot_prop.h"
 #include "cowl_annot_prop_domain_axiom.h"

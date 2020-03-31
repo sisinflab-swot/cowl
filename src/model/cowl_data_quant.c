@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_data_quant_private.h"
+#include "cowl_alloc.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
@@ -16,17 +17,16 @@
 
 static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp *prop,
                                             CowlDataRange *range) {
+    CowlDataQuant *restr = cowl_alloc(restr);
     cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_DATA_QUANT, type,
                                    cowl_data_prop_exp_hash(prop), cowl_data_range_hash(range));
 
-    CowlDataQuant init = {
+    *restr = (CowlDataQuant) {
         .super = COWL_CLS_EXP_INIT(type, hash),
         .prop = cowl_data_prop_exp_retain(prop),
         .range = cowl_data_range_retain(range)
     };
 
-    cowl_struct(CowlDataQuant) *restr = malloc(sizeof(*restr));
-    memcpy(restr, &init, sizeof(*restr));
     return restr;
 }
 
@@ -34,7 +34,7 @@ static void cowl_data_quant_free(CowlDataQuant *restr) {
     if (!restr) return;
     cowl_data_prop_exp_release(restr->prop);
     cowl_data_range_release(restr->range);
-    free((void *)restr);
+    cowl_free(restr);
 }
 
 CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,

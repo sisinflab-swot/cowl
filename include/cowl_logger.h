@@ -168,6 +168,7 @@ cowl_ret_t cowl_logger_log(CowlLogger *logger, CowlString *string);
  *
  * @param logger The logger.
  * @param string String to log.
+ * @return Return code.
  *
  * @public @memberof CowlLogger
  */

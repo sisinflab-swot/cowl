@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,24 +9,24 @@
  */
 
 #include "cowl_data_has_value_private.h"
+#include "cowl_alloc.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_str_buf.h"
 
 static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLiteral *value) {
+    CowlDataHasValue *exp = cowl_alloc(exp);
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_HAS_VALUE,
                                    cowl_data_prop_exp_hash(prop),
                                    cowl_literal_hash(value));
 
-    CowlDataHasValue init = {
+    *exp = (CowlDataHasValue) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_DATA_HAS_VALUE, hash),
         .prop = cowl_data_prop_exp_retain(prop),
         .value = cowl_literal_retain(value)
     };
 
-    cowl_struct(CowlDataHasValue) *exp = malloc(sizeof(*exp));
-    memcpy(exp, &init, sizeof(*exp));
     return exp;
 }
 
@@ -34,7 +34,7 @@ static void cowl_data_has_value_free(CowlDataHasValue *exp) {
     if (!exp) return;
     cowl_data_prop_exp_release(exp->prop);
     cowl_literal_release(exp->value);
-    free((void *)exp);
+    cowl_free(exp);
 }
 
 CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value) {

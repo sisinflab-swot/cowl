@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,18 +16,17 @@
 static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *prop,
                                                               CowlClsExp *range,
                                                               CowlAnnotationVec *annot) {
+    CowlObjPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_RANGE_AXIOM, annot,
                                          cowl_obj_prop_exp_hash(prop),
                                          cowl_cls_exp_hash(range));
 
-    CowlObjPropRangeAxiom init = {
+    cowl_axiom_init(CowlObjPropRangeAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_OBJ_PROP_RANGE, hash, annot),
         .prop_exp = cowl_obj_prop_exp_retain(prop),
         .range = cowl_cls_exp_retain(range)
-    };
+    );
 
-    cowl_struct(CowlObjPropRangeAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

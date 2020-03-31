@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_data_prop_range_axiom_private.h"
+#include "cowl_alloc.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_str_buf.h"
@@ -16,18 +17,17 @@
 static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp *prop,
                                                                 CowlDataRange *range,
                                                                 CowlAnnotationVec *annot) {
+    CowlDataPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM, annot,
                                          cowl_data_prop_exp_hash(prop),
                                          cowl_data_range_hash(range));
 
-    CowlDataPropRangeAxiom init = {
+    cowl_axiom_init(CowlDataPropRangeAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DATA_PROP_RANGE, hash, annot),
         .prop_exp = cowl_data_prop_exp_retain(prop),
         .range = cowl_data_range_retain(range)
-    };
+    );
 
-    cowl_struct(CowlDataPropRangeAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

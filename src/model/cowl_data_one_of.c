@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,28 +9,28 @@
  */
 
 #include "cowl_data_one_of_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_literal_set.h"
 #include "cowl_str_buf.h"
 
 static CowlDataOneOf* cowl_data_one_of_alloc(CowlLiteralSet *values) {
+    CowlDataOneOf *range = cowl_alloc(range);
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_literal_set_hash(values));
 
-    CowlDataOneOf init = {
+    *range = (CowlDataOneOf) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_ONE_OF, hash),
         .values = values
     };
 
-    cowl_struct(CowlDataOneOf) *range = malloc(sizeof(*range));
-    memcpy(range, &init, sizeof(*range));
     return range;
 }
 
 static void cowl_data_one_of_free(CowlDataOneOf *range) {
     if (!range) return;
     cowl_literal_set_free(range->values);
-    free((void *)range);
+    cowl_free(range);
 }
 
 CowlDataOneOf* cowl_data_one_of_get(CowlLiteralSet *values) {

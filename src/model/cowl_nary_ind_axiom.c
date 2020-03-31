@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -14,16 +14,15 @@
 
 static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlIndividualSet *individuals,
                                                    CowlAnnotationVec *annot) {
+    CowlNAryIndAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_IND_AXIOM, annot, type,
                                          cowl_individual_set_hash(individuals));
 
-    CowlNAryIndAxiom init = {
+    cowl_axiom_init(CowlNAryIndAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
         .individuals = individuals
-    };
+    );
 
-    cowl_struct(CowlNAryIndAxiom) *axiom;
-    cowl_axiom_alloc(axiom, init, annot);
     return axiom;
 }
 

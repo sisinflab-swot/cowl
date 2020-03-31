@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,7 @@
  */
 
 #include "cowl_data_card_private.h"
+#include "cowl_alloc.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
@@ -16,6 +17,7 @@
 
 static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *prop,
                                           CowlDataRange *range, cowl_uint_t cardinality) {
+    CowlDataCard *restr = cowl_alloc(restr);
     cowl_uint_t hash;
 
     if (range) {
@@ -27,15 +29,13 @@ static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *
                            cowl_data_prop_exp_hash(prop));
     }
 
-    CowlDataCard init = {
+    *restr = (CowlDataCard) {
         .super = COWL_CLS_EXP_INIT(type, hash),
         .prop = cowl_data_prop_exp_retain(prop),
         .range = range,
         .cardinality = cardinality
     };
 
-    cowl_struct(CowlDataCard) *restr = malloc(sizeof(*restr));
-    memcpy(restr, &init, sizeof(*restr));
     return restr;
 }
 
@@ -43,7 +43,7 @@ static void cowl_data_card_free(CowlDataCard *restr) {
     if (!restr) return;
     cowl_data_prop_exp_release(restr->prop);
     cowl_data_range_release(restr->range);
-    free((void *)restr);
+    cowl_free(restr);
 }
 
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,

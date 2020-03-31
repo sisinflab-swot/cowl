@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -45,7 +45,7 @@ cowl_struct(CowlOntology) {
     UHash(CowlAnonIndAxiomMap) *anon_ind_refs;
 };
 
-#define COWL_ONTOLOGY_INIT {                                                                        \
+#define COWL_ONTOLOGY_INIT ((CowlOntology) {                                                        \
     .super = COWL_OBJECT_INIT,                                                                      \
     .id = NULL,                                                                                     \
     .imports = NULL,                                                                                \
@@ -57,7 +57,7 @@ cowl_struct(CowlOntology) {
     .obj_prop_refs = uhmap_alloc(CowlObjPropAxiomMap),                                              \
     .named_ind_refs = uhmap_alloc(CowlNamedIndAxiomMap),                                            \
     .anon_ind_refs = NULL,                                                                          \
-}
+})
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void);
 

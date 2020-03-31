@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -12,6 +12,7 @@
 #define COWL_RAW_STRING_H
 
 #include "cowl_std.h"
+#include "cowl_alloc.h"
 
 #include <stdarg.h>
 
@@ -28,10 +29,10 @@ typedef cowl_struct(CowlRawString) {
         .cstring = ((COPY) ? strndup(CSTRING, sizeof(CSTRING) - 1) : (CSTRING))                     \
     })
 
-#define cowl_raw_string_deinit(STRING) free((void *)(STRING).cstring)
+#define cowl_raw_string_deinit(STRING) cowl_free((void *)(STRING).cstring)
 #define cowl_raw_string_empty cowl_raw_string_init_static("", false)
 
-CowlRawString cowl_raw_string_init(char const *cstring, cowl_uint_t length, bool copy);
+CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy);
 CowlRawString cowl_raw_string_init_cstring(char const *cstring, bool copy);
 CowlRawString cowl_raw_string_copy(CowlRawString string);
 

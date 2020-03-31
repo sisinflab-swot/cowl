@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,26 +9,26 @@
  */
 
 #include "cowl_obj_compl_private.h"
+#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
 
 static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
+    CowlObjCompl *exp = cowl_alloc(exp);
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
-    CowlObjCompl init = {
+    *exp = (CowlObjCompl) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_COMPL, hash),
         .operand = cowl_cls_exp_retain(operand)
     };
 
-    cowl_struct(CowlObjCompl) *exp = malloc(sizeof(*exp));
-    memcpy(exp, &init, sizeof(*exp));
     return exp;
 }
 
 static void cowl_obj_compl_free(CowlObjCompl *exp) {
     if (!exp) return;
     cowl_cls_exp_release(exp->operand);
-    free((void *)exp);
+    cowl_free(exp);
 }
 
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {

@@ -16,7 +16,7 @@ UHASH_IMPL(CowlClsExpSet, cowl_cls_exp_hash, cowl_cls_exp_equals)
 void cowl_cls_exp_set_free(CowlClsExpSet *set) {
     if (!set) return;
     uhash_foreach_key(CowlClsExpSet, set, exp, cowl_cls_exp_release(exp));
-    uhash_free(CowlClsExpSet, (UHash(CowlClsExpSet) *)set);
+    uhash_free(CowlClsExpSet, set);
 }
 
 bool cowl_cls_exp_set_equals(CowlClsExpSet *lhs, CowlClsExpSet *rhs) {
