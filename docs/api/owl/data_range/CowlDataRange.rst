@@ -8,7 +8,7 @@ Data Ranges
 .. toctree::
    :caption: Subclasses
 
-   ../entity/CowlDatatype
+   ../primitive/CowlDatatype
    CowlNAryData
    CowlDataCompl
    CowlDataOneOf

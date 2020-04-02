@@ -145,6 +145,18 @@ cowl_uint_t cowl_datatype_hash(CowlDatatype *dt);
 COWL_PUBLIC
 bool cowl_datatype_iterate_signature(CowlDatatype *dt, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives of the specified datatype.
+ *
+ * @param dt The datatype.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDatatype
+ */
+COWL_PUBLIC
+bool cowl_datatype_iterate_primitives(CowlDatatype *dt, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_H

@@ -40,3 +40,10 @@ bool cowl_obj_prop_exp_vec_iterate_signature(CowlObjPropExpVec *vec, CowlEntityI
     });
     return true;
 }
+
+bool cowl_obj_prop_exp_vec_iterate_primitives(CowlObjPropExpVec *vec, CowlPrimitiveIterator *iter) {
+    vector_foreach(CowlObjPropExpPtr, vec, prop, {
+        if (!cowl_obj_prop_exp_iterate_primitives(prop, iter)) return false;
+    });
+    return true;
+}

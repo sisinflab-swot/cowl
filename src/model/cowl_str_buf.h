@@ -14,6 +14,7 @@
 #include "cowl_annot_value.h"
 #include "cowl_entity.h"
 #include "cowl_node_id.h"
+#include "cowl_primitive.h"
 #include "cowl_raw_string.h"
 #include "cowl_std.h"
 #include "cowl_types.h"
@@ -48,6 +49,7 @@ cowl_ret_t cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *rest
 cowl_ret_t cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id);
 cowl_ret_t cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation);
 cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue value);
+cowl_ret_t cowl_str_buf_append_primitive(CowlStrBuf *buf, CowlPrimitive primitive);
 
 // Entities
 

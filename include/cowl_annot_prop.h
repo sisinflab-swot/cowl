@@ -145,6 +145,18 @@ cowl_uint_t cowl_annot_prop_hash(CowlAnnotProp *prop);
 COWL_PUBLIC
 bool cowl_annot_prop_iterate_signature(CowlAnnotProp *prop, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified annotation property.
+ *
+ * @param prop The annotation property.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlAnnotProp
+ */
+COWL_PUBLIC
+bool cowl_annot_prop_iterate_primitives(CowlAnnotProp *prop, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_ANNOT_PROP_H

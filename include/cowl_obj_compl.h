@@ -124,17 +124,17 @@ COWL_PUBLIC
 bool cowl_obj_compl_iterate_signature(CowlObjCompl *exp, CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by
+ * Iterates over the primitives referenced by
  * the specified class expression complement.
  *
  * @param exp The complement.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjCompl
  */
 COWL_PUBLIC
-bool cowl_obj_compl_iterate_anon_inds(CowlObjCompl *exp, CowlAnonIndIterator *iter);
+bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

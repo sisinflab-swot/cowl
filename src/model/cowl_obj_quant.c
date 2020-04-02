@@ -79,11 +79,17 @@ cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr) {
 }
 
 bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, CowlEntityIterator *iter) {
-    if (!cowl_obj_prop_exp_iterate_signature(restr->prop, iter)) return false;
-    if (!cowl_cls_exp_iterate_signature(restr->filler, iter)) return false;
-    return true;
+    if (cowl_obj_prop_exp_iterate_signature(restr->prop, iter) &&
+        cowl_cls_exp_iterate_signature(restr->filler, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_obj_quant_iterate_anon_inds(CowlObjQuant *restr, CowlAnonIndIterator *iter) {
-    return cowl_cls_exp_iterate_anon_inds(restr->filler, iter);
+bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveIterator *iter) {
+    if (cowl_obj_prop_exp_iterate_primitives(restr->prop, iter) &&
+        cowl_cls_exp_iterate_primitives(restr->filler, iter)) {
+        return true;
+    }
+    return false;
 }

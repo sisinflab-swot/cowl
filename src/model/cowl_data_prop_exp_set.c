@@ -33,3 +33,11 @@ bool cowl_data_prop_exp_set_iterate_signature(CowlDataPropExpSet *set, CowlEntit
     });
     return true;
 }
+
+bool cowl_data_prop_exp_set_iterate_primitives(CowlDataPropExpSet *set,
+                                               CowlPrimitiveIterator *iter) {
+    uhash_foreach_key(CowlDataPropExpSet, set, prop, {
+        if (!cowl_data_prop_exp_iterate_primitives(prop, iter)) return false;
+    });
+    return true;
+}

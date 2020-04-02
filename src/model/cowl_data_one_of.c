@@ -68,3 +68,7 @@ cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range) {
 bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, CowlEntityIterator *iter) {
     return cowl_literal_set_iterate_signature(range->values, iter);
 }
+
+bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlPrimitiveIterator *iter) {
+    return cowl_literal_set_iterate_primitives(range->values, iter);
+}

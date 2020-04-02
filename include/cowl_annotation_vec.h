@@ -79,16 +79,16 @@ COWL_PUBLIC
 bool cowl_annotation_vec_iterate_signature(CowlAnnotationVec *vec, CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by the specified vector.
+ * Iterates over the primitives referenced by the specified vector.
  *
  * @param vec The vector.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotationVec
  */
 COWL_PUBLIC
-bool cowl_annotation_vec_iterate_anon_inds(CowlAnnotationVec *vec, CowlAnonIndIterator *iter);
+bool cowl_annotation_vec_iterate_primitives(CowlAnnotationVec *vec, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

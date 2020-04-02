@@ -7,5 +7,5 @@ Object Property Expressions
 .. toctree::
    :caption: Subclasses
 
-   ../entity/CowlObjProp
+   ../primitive/CowlObjProp
    CowlInvObjProp

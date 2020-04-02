@@ -80,14 +80,20 @@ cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
 }
 
 bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom, CowlEntityIterator *iter) {
-    if (!cowl_class_iterate_signature(axiom->cls, iter)) return false;
-    if (!cowl_cls_exp_set_iterate_signature(axiom->disjoints, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_class_iterate_signature(axiom->cls, iter) &&
+        cowl_cls_exp_set_iterate_signature(axiom->disjoints, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_disj_union_axiom_iterate_anon_inds(CowlDisjUnionAxiom *axiom, CowlAnonIndIterator *iter) {
-    if (!cowl_cls_exp_set_iterate_anon_inds(axiom->disjoints, iter)) return false;
-    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
-    return true;
+bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom,
+                                              CowlPrimitiveIterator *iter) {
+    if (cowl_class_iterate_primitives(axiom->cls, iter) &&
+        cowl_cls_exp_set_iterate_primitives(axiom->disjoints, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

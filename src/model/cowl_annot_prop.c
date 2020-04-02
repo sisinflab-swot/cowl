@@ -82,3 +82,7 @@ cowl_uint_t cowl_annot_prop_hash(CowlAnnotProp *prop) {
 bool cowl_annot_prop_iterate_signature(CowlAnnotProp *prop, CowlEntityIterator *iter) {
     return cowl_iterate(iter, cowl_entity_wrap_annot_prop(prop));
 }
+
+bool cowl_annot_prop_iterate_primitives(CowlAnnotProp *prop, CowlPrimitiveIterator *iter) {
+    return cowl_iterate(iter, cowl_primitive_wrap_annot_prop(prop));
+}

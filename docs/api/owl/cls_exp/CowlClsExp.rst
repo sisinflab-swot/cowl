@@ -8,7 +8,7 @@ Class Expressions
 .. toctree::
    :caption: Classes
 
-   ../entity/CowlClass
+   ../primitive/CowlClass
 
 .. toctree::
    :caption: Boolean class expressions

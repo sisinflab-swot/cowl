@@ -152,16 +152,16 @@ COWL_PUBLIC
 bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by the specified object quantifier.
+ * Iterates over the primitives referenced by the specified object quantifier.
  *
  * @param restr The axiom.
- * @param iter The object quantifier.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
-bool cowl_obj_quant_iterate_anon_inds(CowlObjQuant *restr, CowlAnonIndIterator *iter);
+bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

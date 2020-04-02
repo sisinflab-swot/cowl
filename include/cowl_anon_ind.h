@@ -116,13 +116,13 @@ cowl_uint_t cowl_anon_ind_hash(CowlAnonInd *ind);
  * Iterates over this anonymous individual.
  *
  * @param ind The anonymous individual.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-bool cowl_anon_ind_iterate_anon_inds(CowlAnonInd *ind, CowlAnonIndIterator *iter);
+bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

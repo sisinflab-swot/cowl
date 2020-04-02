@@ -112,16 +112,16 @@ COWL_PUBLIC
 bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by the specified class expression.
+ * Iterates over the primitives referenced by the specified class expression.
  *
  * @param exp The class expression.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlClsExp
  */
 COWL_PUBLIC
-bool cowl_cls_exp_iterate_anon_inds(CowlClsExp *exp, CowlAnonIndIterator *iter);
+bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

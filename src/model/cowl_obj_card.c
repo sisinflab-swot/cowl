@@ -100,6 +100,8 @@ bool cowl_obj_card_iterate_signature(CowlObjCard *restr, CowlEntityIterator *ite
     return true;
 }
 
-bool cowl_obj_card_iterate_anon_inds(CowlObjCard *restr, CowlAnonIndIterator *iter) {
-    return !restr->filler || cowl_cls_exp_iterate_anon_inds(restr->filler, iter);
+bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlPrimitiveIterator *iter) {
+    if (!cowl_obj_prop_exp_iterate_primitives(restr->prop, iter)) return false;
+    if (restr->filler && !cowl_cls_exp_iterate_primitives(restr->filler, iter)) return false;
+    return true;
 }

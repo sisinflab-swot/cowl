@@ -33,3 +33,10 @@ bool cowl_data_range_set_iterate_signature(CowlDataRangeSet *set, CowlEntityIter
     });
     return true;
 }
+
+bool cowl_data_range_set_iterate_primitives(CowlDataRangeSet *set, CowlPrimitiveIterator *iter) {
+    uhash_foreach_key(CowlDataRangeSet, set, range, {
+        if (!cowl_data_range_iterate_primitives(range, iter)) return false;
+    });
+    return true;
+}

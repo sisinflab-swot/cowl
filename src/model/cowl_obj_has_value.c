@@ -76,11 +76,17 @@ cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp) {
 }
 
 bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, CowlEntityIterator *iter) {
-    if (!cowl_obj_prop_exp_iterate_signature(exp->prop, iter)) return false;
-    if (!cowl_individual_iterate_signature(exp->ind, iter)) return false;
-    return true;
+    if (cowl_obj_prop_exp_iterate_signature(exp->prop, iter) &&
+        cowl_individual_iterate_signature(exp->ind, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_obj_has_value_iterate_anon_inds(CowlObjHasValue *exp, CowlAnonIndIterator *iter) {
-    return cowl_individual_iterate_anon_inds(exp->ind, iter);
+bool cowl_obj_has_value_iterate_primitives(CowlObjHasValue *exp, CowlPrimitiveIterator *iter) {
+    if (cowl_obj_prop_exp_iterate_primitives(exp->prop, iter) &&
+        cowl_individual_iterate_primitives(exp->ind, iter)) {
+        return true;
+    }
+    return false;
 }

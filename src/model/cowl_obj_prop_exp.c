@@ -58,3 +58,11 @@ bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, CowlEntityIterator
         return cowl_obj_prop_iterate_signature((CowlObjProp *)exp, iter);
     }
 }
+
+bool cowl_obj_prop_exp_iterate_primitives(CowlObjPropExp *exp, CowlPrimitiveIterator *iter) {
+    if (exp->is_inverse) {
+        return cowl_inv_obj_prop_iterate_primitives((CowlInvObjProp *)exp, iter);
+    } else {
+        return cowl_obj_prop_iterate_primitives((CowlObjProp *)exp, iter);
+    }
+}

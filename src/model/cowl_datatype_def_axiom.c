@@ -82,13 +82,20 @@ cowl_uint_t cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom) {
 
 bool cowl_datatype_def_axiom_iterate_signature(CowlDatatypeDefAxiom *axiom,
                                                CowlEntityIterator *iter) {
-    if (!cowl_datatype_iterate_signature(axiom->datatype, iter)) return false;
-    if (!cowl_data_range_iterate_signature(axiom->range, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_datatype_iterate_signature(axiom->datatype, iter) &&
+        cowl_data_range_iterate_signature(axiom->range, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_datatype_def_axiom_iterate_anon_inds(CowlDatatypeDefAxiom *axiom,
-                                               CowlAnonIndIterator *iter) {
-    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+bool cowl_datatype_def_axiom_iterate_primitives(CowlDatatypeDefAxiom *axiom,
+                                                CowlPrimitiveIterator *iter) {
+    if (cowl_datatype_iterate_primitives(axiom->datatype, iter) &&
+        cowl_data_range_iterate_primitives(axiom->range, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

@@ -90,7 +90,14 @@ bool cowl_annot_value_iterate_signature(CowlAnnotValue value, CowlEntityIterator
     return cowl_literal_iterate_signature(value.literal, iter);
 }
 
-bool cowl_annot_value_iterate_anon_inds(CowlAnnotValue value, CowlAnonIndIterator *iter) {
-    if (value.type != COWL_AVT_ANON_IND) return true;
-    return cowl_anon_ind_iterate_anon_inds(value.anon_ind, iter);
+bool cowl_annot_value_iterate_primitives(CowlAnnotValue value, CowlPrimitiveIterator *iter) {
+
+#define GEN_CASE_PRIM(CAT, FIELD) \
+    case CAT: return cowl_##FIELD##_iterate_primitives(value.FIELD, iter)
+
+    switch (value.type) {
+        GEN_CASE_PRIM(COWL_AVT_LITERAL, literal);
+        GEN_CASE_PRIM(COWL_AVT_ANON_IND, anon_ind);
+        default: return true;
+    }
 }

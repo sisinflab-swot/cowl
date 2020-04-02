@@ -124,16 +124,16 @@ COWL_PUBLIC
 bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by the specified individual enumeration.
+ * Iterates over the primitives referenced by the specified individual enumeration.
  *
  * @param exp The individual enumeration.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjOneOf
  */
 COWL_PUBLIC
-bool cowl_obj_one_of_iterate_anon_inds(CowlObjOneOf *exp, CowlAnonIndIterator *iter);
+bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

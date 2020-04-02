@@ -33,3 +33,10 @@ bool cowl_facet_restr_set_iterate_signature(CowlFacetRestrSet *set, CowlEntityIt
     });
     return true;
 }
+
+bool cowl_facet_restr_set_iterate_primitives(CowlFacetRestrSet *set, CowlPrimitiveIterator *iter) {
+    uhash_foreach_key(CowlFacetRestrSet, set, restr, {
+        if (!cowl_facet_restr_iterate_primitives(restr, iter)) return false;
+    });
+    return true;
+}

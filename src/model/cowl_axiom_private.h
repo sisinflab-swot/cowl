@@ -77,9 +77,9 @@ cowl_struct(CowlAxiom) {
     (!cowl_axiom_has_annot(AXIOM) ||                                                                \
      cowl_annotation_vec_iterate_signature((AXIOM)->annot[0], ITER))
 
-#define cowl_axiom_annot_iterate_anon_inds(AXIOM, ITER)                                             \
+#define cowl_axiom_annot_iterate_primitives(AXIOM, ITER)                                            \
     (!cowl_axiom_has_annot(AXIOM) ||                                                                \
-     cowl_annotation_vec_iterate_anon_inds((AXIOM)->annot[0], ITER))
+     cowl_annotation_vec_iterate_primitives((AXIOM)->annot[0], ITER))
 COWL_END_DECLS
 
 #endif // COWL_AXIOM_PRIVATE_H

@@ -17,65 +17,75 @@
 #include "cowl_template.h"
 
 static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLiteral *value) {
-    CowlDataHasValue *exp = cowl_alloc(exp);
-    if (!exp) return NULL;
+    CowlDataHasValue *restr = cowl_alloc(restr);
+    if (!restr) return NULL;
 
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_HAS_VALUE,
                                    cowl_data_prop_exp_hash(prop),
                                    cowl_literal_hash(value));
 
-    *exp = (CowlDataHasValue) {
+    *restr = (CowlDataHasValue) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_DATA_HAS_VALUE, hash),
         .prop = cowl_data_prop_exp_retain(prop),
         .value = cowl_literal_retain(value)
     };
 
-    return exp;
+    return restr;
 }
 
-static void cowl_data_has_value_free(CowlDataHasValue *exp) {
-    if (!exp) return;
-    cowl_data_prop_exp_release(exp->prop);
-    cowl_literal_release(exp->value);
-    cowl_free(exp);
+static void cowl_data_has_value_free(CowlDataHasValue *restr) {
+    if (!restr) return;
+    cowl_data_prop_exp_release(restr->prop);
+    cowl_literal_release(restr->value);
+    cowl_free(restr);
 }
 
 CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value) {
     return cowl_data_has_value_alloc(prop, value);
 }
 
-CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *exp) {
-    return cowl_object_retain(exp);
+CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr) {
+    return cowl_object_retain(restr);
 }
 
-void cowl_data_has_value_release(CowlDataHasValue *exp) {
-    if (exp && !cowl_object_release(exp)) {
-        cowl_data_has_value_free(exp);
+void cowl_data_has_value_release(CowlDataHasValue *restr) {
+    if (restr && !cowl_object_release(restr)) {
+        cowl_data_has_value_free(restr);
     }
 }
 
-CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *exp) {
-    return exp->prop;
+CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
+    return restr->prop;
 }
 
-CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *exp) {
-    return exp->value;
+CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr) {
+    return restr->value;
 }
 
-CowlString* cowl_data_has_value_to_string(CowlDataHasValue *exp)
-    COWL_TO_STRING_IMPL(data_has_value, exp)
+CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr)
+    COWL_TO_STRING_IMPL(data_has_value, restr)
 
 bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
     return cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_literal_equals(lhs->value, rhs->value);
 }
 
-cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *exp) {
-    return cowl_object_hash_get(exp);
+cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *restr) {
+    return cowl_object_hash_get(restr);
 }
 
-bool cowl_data_has_value_iterate_signature(CowlDataHasValue *exp, CowlEntityIterator *iter) {
-    if (!cowl_data_prop_exp_iterate_signature(exp->prop, iter)) return false;
-    if (!cowl_literal_iterate_signature(exp->value, iter)) return false;
-    return true;
+bool cowl_data_has_value_iterate_signature(CowlDataHasValue *restr, CowlEntityIterator *iter) {
+    if (cowl_data_prop_exp_iterate_signature(restr->prop, iter) &&
+        cowl_literal_iterate_signature(restr->value, iter)) {
+        return true;
+    }
+    return false;
+}
+
+bool cowl_data_has_value_iterate_primitives(CowlDataHasValue *restr, CowlPrimitiveIterator *iter) {
+    if (cowl_data_prop_exp_iterate_primitives(restr->prop, iter) &&
+        cowl_literal_iterate_primitives(restr->value, iter)) {
+        return true;
+    }
+    return false;
 }

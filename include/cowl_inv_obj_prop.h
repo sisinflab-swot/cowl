@@ -123,6 +123,18 @@ cowl_uint_t cowl_inv_obj_prop_hash(CowlInvObjProp *inv);
 COWL_PUBLIC
 bool cowl_inv_obj_prop_iterate_signature(CowlInvObjProp *inv, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified inverse object property.
+ *
+ * @param inv The inverse object property.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlInvObjProp
+ */
+COWL_PUBLIC
+bool cowl_inv_obj_prop_iterate_primitives(CowlInvObjProp *inv, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_INV_OBJ_PROP_H

@@ -69,6 +69,6 @@ bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, CowlEntityIterator *it
     return cowl_individual_set_iterate_signature(exp->inds, iter);
 }
 
-bool cowl_obj_one_of_iterate_anon_inds(CowlObjOneOf *exp, CowlAnonIndIterator *iter) {
-    return cowl_individual_set_iterate_anon_inds(exp->inds, iter);
+bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveIterator *iter) {
+    return cowl_individual_set_iterate_primitives(exp->inds, iter);
 }

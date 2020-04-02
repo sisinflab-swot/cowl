@@ -90,15 +90,21 @@ cowl_uint_t cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom) {
 
 bool cowl_annot_assert_axiom_iterate_signature(CowlAnnotAssertAxiom *axiom,
                                                CowlEntityIterator *iter) {
-    if (!cowl_annot_prop_iterate_signature(axiom->prop, iter)) return false;
-    if (!cowl_annot_value_iterate_signature(axiom->value, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_annot_prop_iterate_signature(axiom->prop, iter) &&
+        cowl_annot_value_iterate_signature(axiom->value, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_annot_assert_axiom_iterate_anon_inds(CowlAnnotAssertAxiom *axiom,
-                                               CowlAnonIndIterator *iter) {
-    if (!cowl_annot_value_iterate_anon_inds(axiom->subject, iter)) return false;
-    if (!cowl_annot_value_iterate_anon_inds(axiom->value, iter)) return false;
-    return true;
+bool cowl_annot_assert_axiom_iterate_primitives(CowlAnnotAssertAxiom *axiom,
+                                                CowlPrimitiveIterator *iter) {
+    if (cowl_annot_prop_iterate_primitives(axiom->prop, iter) &&
+        cowl_annot_value_iterate_primitives(axiom->subject, iter) &&
+        cowl_annot_value_iterate_primitives(axiom->value, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

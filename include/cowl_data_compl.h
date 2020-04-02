@@ -123,6 +123,18 @@ cowl_uint_t cowl_data_compl_hash(CowlDataCompl *range);
 COWL_PUBLIC
 bool cowl_data_compl_iterate_signature(CowlDataCompl *range, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified data range complement.
+ *
+ * @param range The data range complement.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDataCompl
+ */
+COWL_PUBLIC
+bool cowl_data_compl_iterate_primitives(CowlDataCompl *range, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_DATA_COMPL_H

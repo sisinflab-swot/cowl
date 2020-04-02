@@ -152,17 +152,17 @@ bool cowl_data_prop_domain_axiom_iterate_signature(CowlDataPropDomainAxiom *axio
                                                    CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by the specified axiom.
+ * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
 COWL_PUBLIC
-bool cowl_data_prop_domain_axiom_iterate_anon_inds(CowlDataPropDomainAxiom *axiom,
-                                                   CowlAnonIndIterator *iter);
+bool cowl_data_prop_domain_axiom_iterate_primitives(CowlDataPropDomainAxiom *axiom,
+                                                    CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

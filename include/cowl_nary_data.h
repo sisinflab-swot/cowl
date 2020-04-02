@@ -136,6 +136,18 @@ cowl_uint_t cowl_nary_data_hash(CowlNAryData *range);
 COWL_PUBLIC
 bool cowl_nary_data_iterate_signature(CowlNAryData *range, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified N-ary data range.
+ *
+ * @param range The data range.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlNAryData
+ */
+COWL_PUBLIC
+bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_NARY_DATA_H

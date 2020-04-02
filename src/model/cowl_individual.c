@@ -48,7 +48,10 @@ bool cowl_individual_iterate_signature(CowlIndividual *ind, CowlEntityIterator *
     return cowl_named_ind_iterate_signature((CowlNamedInd *)ind, iter);
 }
 
-bool cowl_individual_iterate_anon_inds(CowlIndividual *ind, CowlAnonIndIterator *iter) {
-    if (ind->is_named) return true;
-    return cowl_anon_ind_iterate_anon_inds((CowlAnonInd *)ind, iter);
+bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlPrimitiveIterator *iter) {
+    if (ind->is_named) {
+        return cowl_named_ind_iterate_primitives((CowlNamedInd *)ind, iter);
+    } else {
+        return cowl_anon_ind_iterate_primitives((CowlAnonInd *)ind, iter);
+    }
 }

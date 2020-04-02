@@ -100,3 +100,9 @@ bool cowl_data_card_iterate_signature(CowlDataCard *restr, CowlEntityIterator *i
     if (restr->range && !cowl_data_range_iterate_signature(restr->range, iter)) return false;
     return true;
 }
+
+bool cowl_data_card_iterate_primitives(CowlDataCard *restr, CowlPrimitiveIterator *iter) {
+    if (!cowl_data_prop_exp_iterate_primitives(restr->prop, iter)) return false;
+    if (restr->range && !cowl_data_range_iterate_primitives(restr->range, iter)) return false;
+    return true;
+}

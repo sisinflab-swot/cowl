@@ -7,5 +7,5 @@ Individuals
 .. toctree::
    :caption: Subclasses
 
-   ../entity/CowlNamedInd
+   CowlNamedInd
    CowlAnonInd

@@ -77,6 +77,18 @@ cowl_uint_t cowl_facet_restr_set_hash(CowlFacetRestrSet *set);
 COWL_PUBLIC
 bool cowl_facet_restr_set_iterate_signature(CowlFacetRestrSet *set, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified set.
+ *
+ * @param set The set.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlFacetRestrSet
+ */
+COWL_PUBLIC
+bool cowl_facet_restr_set_iterate_primitives(CowlFacetRestrSet *set, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_FACET_RESTR_SET_H

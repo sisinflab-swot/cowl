@@ -151,6 +151,18 @@ cowl_uint_t cowl_data_quant_hash(CowlDataQuant *restr);
 COWL_PUBLIC
 bool cowl_data_quant_iterate_signature(CowlDataQuant *restr, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified data quantifier.
+ *
+ * @param restr The data quantifier.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDataQuant
+ */
+COWL_PUBLIC
+bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_DATA_QUANT_H

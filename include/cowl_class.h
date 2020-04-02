@@ -146,6 +146,18 @@ cowl_uint_t cowl_class_hash(CowlClass *cls);
 COWL_PUBLIC
 bool cowl_class_iterate_signature(CowlClass *cls, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified class.
+ *
+ * @param cls The class.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlClass
+ */
+COWL_PUBLIC
+bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_CLASS_H

@@ -85,3 +85,13 @@ bool cowl_datatype_restr_iterate_signature(CowlDatatypeRestr *restr, CowlEntityI
 
     return true;
 }
+
+bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimitiveIterator *iter) {
+    if (!cowl_datatype_iterate_primitives(restr->datatype, iter)) return false;
+
+    uhash_foreach_key(CowlFacetRestrSet, restr->restrictions, facet_restr, {
+        if (!cowl_facet_restr_iterate_primitives(facet_restr, iter)) return false;
+    });
+
+    return true;
+}

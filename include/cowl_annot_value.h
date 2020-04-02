@@ -182,16 +182,16 @@ cowl_uint_t cowl_annot_value_hash(CowlAnnotValue value);
 bool cowl_annot_value_iterate_signature(CowlAnnotValue value, CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by the specified annotation value.
+ * Iterates over the primitives referenced by the specified annotation value.
  *
  * @param value The annotation value.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotValue
  */
 COWL_PUBLIC
-bool cowl_annot_value_iterate_anon_inds(CowlAnnotValue value, CowlAnonIndIterator *iter);
+bool cowl_annot_value_iterate_primitives(CowlAnnotValue value, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 

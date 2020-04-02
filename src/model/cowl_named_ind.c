@@ -82,3 +82,7 @@ cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind) {
 bool cowl_named_ind_iterate_signature(CowlNamedInd *ind, CowlEntityIterator *iter) {
     return cowl_iterate(iter, cowl_entity_wrap_named_ind(ind));
 }
+
+bool cowl_named_ind_iterate_primitives(CowlNamedInd *ind, CowlPrimitiveIterator *iter) {
+    return cowl_iterate(iter, cowl_primitive_wrap_named_ind(ind));
+}

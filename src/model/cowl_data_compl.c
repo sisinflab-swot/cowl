@@ -15,54 +15,58 @@
 #include "cowl_template.h"
 
 static CowlDataCompl* cowl_data_compl_alloc(CowlDataRange *operand) {
-    CowlDataCompl *exp = cowl_alloc(exp);
-    if (!exp) return NULL;
+    CowlDataCompl *range = cowl_alloc(range);
+    if (!range) return NULL;
 
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_COMPL, cowl_data_range_hash(operand));
 
-    *exp = (CowlDataCompl) {
+    *range = (CowlDataCompl) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_COMPL, hash),
         .operand = cowl_data_range_retain(operand)
     };
 
-    return exp;
+    return range;
 }
 
-static void cowl_data_compl_free(CowlDataCompl *exp) {
-    if (!exp) return;
-    cowl_data_range_release(exp->operand);
-    cowl_free(exp);
+static void cowl_data_compl_free(CowlDataCompl *range) {
+    if (!range) return;
+    cowl_data_range_release(range->operand);
+    cowl_free(range);
 }
 
 CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand) {
     return cowl_data_compl_alloc(operand);
 }
 
-CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *exp) {
-    return cowl_object_retain(exp);
+CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range) {
+    return cowl_object_retain(range);
 }
 
-void cowl_data_compl_release(CowlDataCompl *exp) {
-    if (exp && !cowl_object_release(exp)) {
-        cowl_data_compl_free(exp);
+void cowl_data_compl_release(CowlDataCompl *range) {
+    if (range && !cowl_object_release(range)) {
+        cowl_data_compl_free(range);
     }
 }
 
-CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *exp) {
-    return exp->operand;
+CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *range) {
+    return range->operand;
 }
 
-CowlString* cowl_data_compl_to_string(CowlDataCompl *exp)
-    COWL_TO_STRING_IMPL(data_compl, exp)
+CowlString* cowl_data_compl_to_string(CowlDataCompl *range)
+    COWL_TO_STRING_IMPL(data_compl, range)
 
 bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs) {
     return cowl_data_range_equals(lhs->operand, rhs->operand);
 }
 
-cowl_uint_t cowl_data_compl_hash(CowlDataCompl *exp) {
-    return cowl_object_hash_get(exp);
+cowl_uint_t cowl_data_compl_hash(CowlDataCompl *range) {
+    return cowl_object_hash_get(range);
 }
 
-bool cowl_data_compl_iterate_signature(CowlDataCompl *exp, CowlEntityIterator *iter) {
-    return cowl_data_range_iterate_signature(exp->operand, iter);
+bool cowl_data_compl_iterate_signature(CowlDataCompl *range, CowlEntityIterator *iter) {
+    return cowl_data_range_iterate_signature(range->operand, iter);
+}
+
+bool cowl_data_compl_iterate_primitives(CowlDataCompl *range, CowlPrimitiveIterator *iter) {
+    return cowl_data_range_iterate_primitives(range->operand, iter);
 }

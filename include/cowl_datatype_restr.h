@@ -135,6 +135,18 @@ cowl_uint_t cowl_datatype_restr_hash(CowlDatatypeRestr *restr);
 COWL_PUBLIC
 bool cowl_datatype_restr_iterate_signature(CowlDatatypeRestr *restr, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified datatype restriction.
+ *
+ * @param restr The datatype restriction.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlDatatypeRestr
+ */
+COWL_PUBLIC
+bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_RESTR_H

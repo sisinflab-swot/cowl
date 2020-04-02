@@ -85,14 +85,19 @@ cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot) {
 }
 
 bool cowl_annotation_iterate_signature(CowlAnnotation *annot, CowlEntityIterator *iter) {
-    if (!cowl_annot_value_iterate_signature(annot->value, iter)) return false;
-    if (!cowl_annot_prop_iterate_signature(annot->prop, iter)) return false;
-    if (!cowl_annotation_vec_iterate_signature(annot->annot, iter)) return false;
-    return true;
+    if (cowl_annot_value_iterate_signature(annot->value, iter) &&
+        cowl_annot_prop_iterate_signature(annot->prop, iter) &&
+        cowl_annotation_vec_iterate_signature(annot->annot, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_annotation_iterate_anon_inds(CowlAnnotation *annot, CowlAnonIndIterator *iter) {
-    if (!cowl_annot_value_iterate_anon_inds(annot->value, iter)) return false;
-    if (!cowl_annotation_vec_iterate_anon_inds(annot->annot, iter)) return false;
-    return true;
+bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveIterator *iter) {
+    if (cowl_annot_value_iterate_primitives(annot->value, iter) &&
+        cowl_annot_prop_iterate_primitives(annot->prop, iter) &&
+        cowl_annotation_vec_iterate_primitives(annot->annot, iter)) {
+        return true;
+    }
+    return false;
 }

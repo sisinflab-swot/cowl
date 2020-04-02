@@ -15,6 +15,7 @@
 
 #include "cowl_std.h"
 #include "cowl_entity.h"
+#include "cowl_primitive.h"
 
 COWL_BEGIN_DECLS
 
@@ -83,6 +84,7 @@ cowl_struct_decl(CowlOntology);
     { .ctx = (void *)(CTX), .for_each = (FOR_EACH) }
 
 COWL_ITERATOR_DEF(CowlEntity, );
+COWL_ITERATOR_DEF(CowlPrimitive, );
 COWL_ITERATOR_DEF(CowlAxiom, *);
 COWL_ITERATOR_DEF(CowlClsExp, *);
 COWL_ITERATOR_DEF(CowlDataPropExp, *);

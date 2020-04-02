@@ -168,6 +168,15 @@ cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue value
     }
 }
 
+cowl_ret_t cowl_str_buf_append_primitive(CowlStrBuf *buf, CowlPrimitive primitive) {
+    CowlEntity entity;
+    if (cowl_primitive_get_entity(primitive, &entity)) {
+        return cowl_str_buf_append_entity(buf, entity);
+    } else {
+        return cowl_str_buf_append_anon_ind(buf, primitive.anon_ind);
+    }
+}
+
 // Entities
 
 cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity entity) {

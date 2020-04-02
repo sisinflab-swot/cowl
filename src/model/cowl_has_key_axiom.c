@@ -91,15 +91,21 @@ cowl_uint_t cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
 }
 
 bool cowl_has_key_axiom_iterate_signature(CowlHasKeyAxiom *axiom, CowlEntityIterator *iter) {
-    if (!cowl_cls_exp_iterate_signature(axiom->cls_exp, iter)) return false;
-    if (!cowl_obj_prop_exp_set_iterate_signature(axiom->obj_props, iter)) return false;
-    if (!cowl_data_prop_exp_set_iterate_signature(axiom->data_props, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_cls_exp_iterate_signature(axiom->cls_exp, iter) &&
+        cowl_obj_prop_exp_set_iterate_signature(axiom->obj_props, iter) &&
+        cowl_data_prop_exp_set_iterate_signature(axiom->data_props, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_has_key_axiom_iterate_anon_inds(CowlHasKeyAxiom *axiom, CowlAnonIndIterator *iter) {
-    if (!cowl_cls_exp_iterate_anon_inds(axiom->cls_exp, iter)) return false;
-    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
-    return true;
+bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveIterator *iter) {
+    if (cowl_cls_exp_iterate_primitives(axiom->cls_exp, iter) &&
+        cowl_obj_prop_exp_set_iterate_primitives(axiom->obj_props, iter) &&
+        cowl_data_prop_exp_set_iterate_primitives(axiom->data_props, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

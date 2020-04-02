@@ -109,5 +109,9 @@ cowl_uint_t cowl_literal_hash(CowlLiteral *literal) {
 }
 
 bool cowl_literal_iterate_signature(CowlLiteral *literal, CowlEntityIterator *iter) {
-    return cowl_iterate(iter, cowl_entity_wrap_datatype(literal->dt));
+    return cowl_datatype_iterate_signature(literal->dt, iter);
+}
+
+bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveIterator *iter) {
+    return cowl_datatype_iterate_primitives(literal->dt, iter);
 }

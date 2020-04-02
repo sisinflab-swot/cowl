@@ -85,3 +85,7 @@ cowl_uint_t cowl_datatype_hash(CowlDatatype *dt) {
 bool cowl_datatype_iterate_signature(CowlDatatype *dt, CowlEntityIterator *iter) {
     return cowl_iterate(iter, cowl_entity_wrap_datatype(dt));
 }
+
+bool cowl_datatype_iterate_primitives(CowlDatatype *dt, CowlPrimitiveIterator *iter) {
+    return cowl_iterate(iter, cowl_primitive_wrap_datatype(dt));
+}

@@ -85,3 +85,7 @@ cowl_uint_t cowl_class_hash(CowlClass *cls) {
 bool cowl_class_iterate_signature(CowlClass *cls, CowlEntityIterator *iter) {
     return cowl_iterate(iter, cowl_entity_wrap_class(cls));
 }
+
+bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveIterator *iter) {
+    return cowl_iterate(iter, cowl_primitive_wrap_class(cls));
+}

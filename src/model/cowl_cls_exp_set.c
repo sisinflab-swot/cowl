@@ -34,9 +34,9 @@ bool cowl_cls_exp_set_iterate_signature(CowlClsExpSet *set, CowlEntityIterator *
     return true;
 }
 
-bool cowl_cls_exp_set_iterate_anon_inds(CowlClsExpSet *set, CowlAnonIndIterator *iter) {
+bool cowl_cls_exp_set_iterate_primitives(CowlClsExpSet *set, CowlPrimitiveIterator *iter) {
     uhash_foreach_key(CowlClsExpSet, set, exp, {
-        if (!cowl_cls_exp_iterate_anon_inds(exp, iter)) return false;
+        if (!cowl_cls_exp_iterate_primitives(exp, iter)) return false;
     });
     return true;
 }

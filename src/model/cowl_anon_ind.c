@@ -72,6 +72,6 @@ cowl_uint_t cowl_anon_ind_hash(CowlAnonInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_anon_ind_iterate_anon_inds(CowlAnonInd *ind, CowlAnonIndIterator *iter) {
-    return cowl_iterate(iter, ind);
+bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlPrimitiveIterator *iter) {
+    return cowl_iterate(iter, cowl_primitive_wrap_anon_ind(ind));
 }

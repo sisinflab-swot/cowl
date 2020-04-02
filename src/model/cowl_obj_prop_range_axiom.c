@@ -82,15 +82,20 @@ cowl_uint_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
 
 bool cowl_obj_prop_range_axiom_iterate_signature(CowlObjPropRangeAxiom *axiom,
                                                  CowlEntityIterator *iter) {
-    if (!cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, iter)) return false;
-    if (!cowl_cls_exp_iterate_signature(axiom->range, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, iter) &&
+        cowl_cls_exp_iterate_signature(axiom->range, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_obj_prop_range_axiom_iterate_anon_inds(CowlObjPropRangeAxiom *axiom,
-                                                 CowlAnonIndIterator *iter) {
-    if (!cowl_cls_exp_iterate_anon_inds(axiom->range, iter)) return false;
-    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
-    return true;
+bool cowl_obj_prop_range_axiom_iterate_primitives(CowlObjPropRangeAxiom *axiom,
+                                                  CowlPrimitiveIterator *iter) {
+    if (cowl_obj_prop_exp_iterate_primitives(axiom->prop_exp, iter) &&
+        cowl_cls_exp_iterate_primitives(axiom->range, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

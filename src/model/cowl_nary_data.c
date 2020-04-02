@@ -73,3 +73,7 @@ cowl_uint_t cowl_nary_data_hash(CowlNAryData *range) {
 bool cowl_nary_data_iterate_signature(CowlNAryData *range, CowlEntityIterator *iter) {
     return cowl_data_range_set_iterate_signature(range->operands, iter);
 }
+
+bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlPrimitiveIterator *iter) {
+    return cowl_data_range_set_iterate_primitives(range->operands, iter);
+}

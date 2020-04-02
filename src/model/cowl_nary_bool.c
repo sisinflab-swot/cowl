@@ -74,6 +74,6 @@ bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, CowlEntityIterator *ite
     return cowl_cls_exp_set_iterate_signature(exp->operands, iter);
 }
 
-bool cowl_nary_bool_iterate_anon_inds(CowlNAryBool *exp, CowlAnonIndIterator *iter) {
-    return cowl_cls_exp_set_iterate_anon_inds(exp->operands, iter);
+bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlPrimitiveIterator *iter) {
+    return cowl_cls_exp_set_iterate_primitives(exp->operands, iter);
 }

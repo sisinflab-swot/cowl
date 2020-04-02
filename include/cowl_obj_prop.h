@@ -146,6 +146,18 @@ cowl_uint_t cowl_obj_prop_hash(CowlObjProp *prop);
 COWL_PUBLIC
 bool cowl_obj_prop_iterate_signature(CowlObjProp *prop, CowlEntityIterator *iter);
 
+/**
+ * Iterates over the primitives referenced by the specified object property.
+ *
+ * @param prop The object property.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObjProp
+ */
+COWL_PUBLIC
+bool cowl_obj_prop_iterate_primitives(CowlObjProp *prop, CowlPrimitiveIterator *iter);
+
 COWL_END_DECLS
 
 #endif // COWL_OBJ_PROP_H

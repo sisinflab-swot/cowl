@@ -81,13 +81,20 @@ cowl_uint_t cowl_sub_data_prop_axiom_hash(CowlSubDataPropAxiom *axiom) {
 
 bool cowl_sub_data_prop_axiom_iterate_signature(CowlSubDataPropAxiom *axiom,
                                                CowlEntityIterator *iter) {
-    if (!cowl_data_prop_exp_iterate_signature(axiom->super_prop, iter)) return false;
-    if (!cowl_data_prop_exp_iterate_signature(axiom->sub_prop, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_data_prop_exp_iterate_signature(axiom->super_prop, iter) &&
+        cowl_data_prop_exp_iterate_signature(axiom->sub_prop, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_sub_data_prop_axiom_iterate_anon_inds(CowlSubDataPropAxiom *axiom,
-                                                CowlAnonIndIterator *iter) {
-    return cowl_axiom_annot_iterate_anon_inds(axiom, iter);
+bool cowl_sub_data_prop_axiom_iterate_primitives(CowlSubDataPropAxiom *axiom,
+                                                 CowlPrimitiveIterator *iter) {
+    if (cowl_data_prop_exp_iterate_primitives(axiom->super_prop, iter) &&
+        cowl_data_prop_exp_iterate_primitives(axiom->sub_prop, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

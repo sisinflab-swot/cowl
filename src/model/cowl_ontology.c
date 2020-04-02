@@ -38,13 +38,9 @@ static void cowl_ontology_free(CowlOntology *onto);
 #define cowl_ontology_get_named_ind_refs(ONTO) ((ONTO)->named_ind_refs)
 #define cowl_ontology_get_anon_ind_refs(ONTO) ((ONTO)->anon_ind_refs)
 
-static void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom,
-                                               CowlEntity entity);
-static void cowl_ontology_add_axiom_for_anon_ind(CowlOntology *onto, CowlAxiom *axiom,
-                                                 CowlAnonInd *ind);
-
-static bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity);
-static bool cowl_ontology_anon_ind_adder(void *ctx, CowlAnonInd *ind);
+static void cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *axiom,
+                                                  CowlPrimitive primitive);
+static bool cowl_ontology_primitive_adder(void *ctx, CowlPrimitive primitive);
 
 // Utils
 
@@ -227,6 +223,38 @@ bool cowl_ontology_iterate_signature(CowlOntology *onto, CowlEntityIterator *ite
 
     cowl_ontology_foreach(CowlNamedInd, named_ind, named_inds, {
         if (!cowl_iterate(iter, cowl_entity_wrap_named_ind(named_ind))) return false;
+    });
+
+    return true;
+}
+
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveIterator *iter) {
+    cowl_ontology_foreach(CowlClass, class, classes, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_class(class))) return false;
+    });
+
+    cowl_ontology_foreach(CowlDatatype, datatype, datatypes, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_datatype(datatype))) return false;
+    });
+
+    cowl_ontology_foreach(CowlObjProp, obj_prop, obj_props, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_obj_prop(obj_prop))) return false;
+    });
+
+    cowl_ontology_foreach(CowlDataProp, data_prop, data_props, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_data_prop(data_prop))) return false;
+    });
+
+    cowl_ontology_foreach(CowlAnnotProp, annot_prop, annot_props, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_annot_prop(annot_prop))) return false;
+    });
+
+    cowl_ontology_foreach(CowlNamedInd, named_ind, named_inds, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_named_ind(named_ind))) return false;
+    });
+
+    cowl_ontology_foreach(CowlAnonInd, anon_ind, anon_inds, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_anon_ind(anon_ind))) return false;
     });
 
     return true;
@@ -422,8 +450,8 @@ void cowl_ontology_set_annot(CowlOntology *onto, Vector(CowlAnnotationPtr) *anno
     onto->annotations = annot;
 
     CowlAxiomCtx c = { .onto = onto };
-    CowlEntityIterator iter = cowl_iterator_init(&c, cowl_ontology_entity_adder);
-    cowl_annotation_vec_iterate_signature(annot, &iter);
+    CowlPrimitiveIterator iter = cowl_iterator_init(&c, cowl_ontology_primitive_adder);
+    cowl_annotation_vec_iterate_primitives(annot, &iter);
 }
 
 void cowl_ontology_set_imports(CowlOntology *onto, Vector(CowlOntologyPtr) *imports) {
@@ -445,44 +473,47 @@ void cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     cowl_axiom_retain(axiom);
     CowlAxiomCtx c = { .onto = onto, .axiom = axiom };
 
-    CowlEntityIterator iter = cowl_iterator_init(&c, cowl_ontology_entity_adder);
-    cowl_axiom_iterate_signature(axiom, &iter);
-
-    CowlAnonIndIterator ind_iter = cowl_iterator_init(&c, cowl_ontology_anon_ind_adder);
-    cowl_axiom_iterate_anon_inds(axiom, &ind_iter);
+    CowlPrimitiveIterator iter = cowl_iterator_init(&c, cowl_ontology_primitive_adder);
+    cowl_axiom_iterate_primitives(axiom, &iter);
 }
 
-void cowl_ontology_add_axiom_for_entity(CowlOntology *onto, CowlAxiom *axiom, CowlEntity entity) {
-    switch (entity.type) {
+void cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *axiom,
+                                           CowlPrimitive primitive) {
+    switch (primitive.type) {
 
-        case COWL_ET_CLASS:
+        case COWL_PT_CLASS:
             cowl_add_axiom_to_vec_in_map(CowlClassAxiomMap, onto->class_refs,
-                                         entity.owl_class, axiom);
+                                         primitive.owl_class, axiom);
             break;
 
-        case COWL_ET_DATA_PROP:
+        case COWL_PT_DATA_PROP:
             cowl_add_axiom_to_vec_in_map(CowlDataPropAxiomMap, onto->data_prop_refs,
-                                         entity.data_prop, axiom);
+                                         primitive.data_prop, axiom);
             break;
 
-        case COWL_ET_DATATYPE:
+        case COWL_PT_DATATYPE:
             cowl_add_axiom_to_vec_in_map(CowlDatatypeAxiomMap, onto->datatype_refs,
-                                         entity.datatype, axiom);
+                                         primitive.datatype, axiom);
             break;
 
-        case COWL_ET_OBJ_PROP:
+        case COWL_PT_OBJ_PROP:
             cowl_add_axiom_to_vec_in_map(CowlObjPropAxiomMap, onto->obj_prop_refs,
-                                         entity.obj_prop, axiom);
+                                         primitive.obj_prop, axiom);
             break;
 
-        case COWL_ET_ANNOT_PROP:
+        case COWL_PT_ANNOT_PROP:
             cowl_add_axiom_to_vec_in_map(CowlAnnotPropAxiomMap, onto->annot_prop_refs,
-                                         entity.annot_prop, axiom);
+                                         primitive.annot_prop, axiom);
             break;
 
-        case COWL_ET_NAMED_IND:
+        case COWL_PT_NAMED_IND:
             cowl_add_axiom_to_vec_in_map(CowlNamedIndAxiomMap, onto->named_ind_refs,
-                                         entity.named_ind, axiom);
+                                         primitive.named_ind, axiom);
+            break;
+
+        case COWL_PT_ANON_IND:
+            cowl_add_axiom_to_vec_in_map(CowlAnonIndAxiomMap, onto->anon_ind_refs,
+                                         primitive.anon_ind, axiom);
             break;
 
         default:
@@ -496,14 +527,8 @@ void cowl_ontology_add_axiom_for_anon_ind(CowlOntology *onto, CowlAxiom *axiom, 
 
 // Iterator functions
 
-bool cowl_ontology_entity_adder(void *ctx, CowlEntity entity) {
+bool cowl_ontology_primitive_adder(void *ctx, CowlPrimitive primitive) {
     CowlAxiomCtx *axiom_ctx = (CowlAxiomCtx *)ctx;
-    cowl_ontology_add_axiom_for_entity(axiom_ctx->onto, axiom_ctx->axiom, entity);
-    return true;
-}
-
-bool cowl_ontology_anon_ind_adder(void *ctx, CowlAnonInd *ind) {
-    CowlAxiomCtx *axiom_ctx = (CowlAxiomCtx *)ctx;
-    cowl_ontology_add_axiom_for_anon_ind(axiom_ctx->onto, axiom_ctx->axiom, ind);
+    cowl_ontology_add_axiom_for_primitive(axiom_ctx->onto, axiom_ctx->axiom, primitive);
     return true;
 }

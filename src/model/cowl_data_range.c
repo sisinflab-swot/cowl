@@ -34,9 +34,7 @@ void cowl_data_range_release(CowlDataRange *range) {
         case COWL_DRT_DATA_UNION: GEN_RELEASE(NAryData, nary_data);
         case COWL_DRT_DATA_COMPL: GEN_RELEASE(DataCompl, data_compl);
         case COWL_DRT_DATA_ONE_OF: GEN_RELEASE(DataOneOf, data_one_of);
-
-        default:
-            break;
+        default: break;
     }
 }
 
@@ -54,16 +52,13 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
 #define GEN_EQUAL(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
 
     switch (lhs->type) {
-
         case COWL_DRT_DATATYPE: GEN_EQUAL(Datatype, datatype);
         case COWL_DRT_DATATYPE_RESTR: GEN_EQUAL(DatatypeRestr, datatype_restr);
         case COWL_DRT_DATA_INTERSECT:
         case COWL_DRT_DATA_UNION: GEN_EQUAL(NAryData, nary_data);
         case COWL_DRT_DATA_COMPL: GEN_EQUAL(DataCompl, data_compl);
         case COWL_DRT_DATA_ONE_OF: GEN_EQUAL(DataOneOf, data_one_of);
-
-        default:
-            return false;
+        default: return false;
     }
 }
 
@@ -76,15 +71,27 @@ bool cowl_data_range_iterate_signature(CowlDataRange *range, CowlEntityIterator 
 #define GEN_SIG(UC, LC) return cowl_##LC##_iterate_signature((Cowl##UC *)range, iter)
 
     switch (range->type) {
-
         case COWL_DRT_DATATYPE: GEN_SIG(Datatype, datatype);
         case COWL_DRT_DATATYPE_RESTR: GEN_SIG(DatatypeRestr, datatype_restr);
         case COWL_DRT_DATA_INTERSECT:
         case COWL_DRT_DATA_UNION: GEN_SIG(NAryData, nary_data);
         case COWL_DRT_DATA_COMPL: GEN_SIG(DataCompl, data_compl);
         case COWL_DRT_DATA_ONE_OF: GEN_SIG(DataOneOf, data_one_of);
+        default: return true;
+    }
+}
 
-        default:
-            return true;
+bool cowl_data_range_iterate_primitives(CowlDataRange *range, CowlPrimitiveIterator *iter) {
+
+#define GEN_PRIM(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)range, iter)
+
+    switch (range->type) {
+        case COWL_DRT_DATATYPE: GEN_PRIM(Datatype, datatype);
+        case COWL_DRT_DATATYPE_RESTR: GEN_PRIM(DatatypeRestr, datatype_restr);
+        case COWL_DRT_DATA_INTERSECT:
+        case COWL_DRT_DATA_UNION: GEN_PRIM(NAryData, nary_data);
+        case COWL_DRT_DATA_COMPL: GEN_PRIM(DataCompl, data_compl);
+        case COWL_DRT_DATA_ONE_OF: GEN_PRIM(DataOneOf, data_one_of);
+        default: return true;
     }
 }

@@ -106,17 +106,22 @@ cowl_uint_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom) {
 
 bool cowl_obj_prop_assert_axiom_iterate_signature(CowlObjPropAssertAxiom *axiom,
                                                   CowlEntityIterator *iter) {
-    if (!cowl_individual_iterate_signature(axiom->subject, iter)) return false;
-    if (!cowl_individual_iterate_signature(axiom->object, iter)) return false;
-    if (!cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_individual_iterate_signature(axiom->subject, iter) &&
+        cowl_individual_iterate_signature(axiom->object, iter) &&
+        cowl_obj_prop_exp_iterate_signature(axiom->prop_exp, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_obj_prop_assert_axiom_iterate_anon_inds(CowlObjPropAssertAxiom *axiom,
-                                                  CowlAnonIndIterator *iter) {
-    if (!cowl_individual_iterate_anon_inds(axiom->subject, iter)) return false;
-    if (!cowl_individual_iterate_anon_inds(axiom->object, iter)) return false;
-    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
-    return true;
+bool cowl_obj_prop_assert_axiom_iterate_primitives(CowlObjPropAssertAxiom *axiom,
+                                                   CowlPrimitiveIterator *iter) {
+    if (cowl_individual_iterate_primitives(axiom->subject, iter) &&
+        cowl_individual_iterate_primitives(axiom->object, iter) &&
+        cowl_obj_prop_exp_iterate_primitives(axiom->prop_exp, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

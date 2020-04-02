@@ -7,4 +7,4 @@ Data Property Expressions
 .. toctree::
    :caption: Subclasses
 
-   ../entity/CowlDataProp
+   ../primitive/CowlDataProp

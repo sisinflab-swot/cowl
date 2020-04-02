@@ -80,15 +80,19 @@ cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
 
 bool cowl_sub_cls_axiom_iterate_signature(CowlSubClsAxiom *axiom,
                                           CowlEntityIterator *iter) {
-    if (!cowl_cls_exp_iterate_signature(axiom->super_class, iter)) return false;
-    if (!cowl_cls_exp_iterate_signature(axiom->sub_class, iter)) return false;
-    if (!cowl_axiom_annot_iterate_signature(axiom, iter)) return false;
-    return true;
+    if (cowl_cls_exp_iterate_signature(axiom->super_class, iter) &&
+        cowl_cls_exp_iterate_signature(axiom->sub_class, iter) &&
+        cowl_axiom_annot_iterate_signature(axiom, iter)) {
+        return true;
+    }
+    return false;
 }
 
-bool cowl_sub_cls_axiom_iterate_anon_inds(CowlSubClsAxiom *axiom, CowlAnonIndIterator *iter) {
-    if (!cowl_cls_exp_iterate_anon_inds(axiom->super_class, iter)) return false;
-    if (!cowl_cls_exp_iterate_anon_inds(axiom->sub_class, iter)) return false;
-    if (!cowl_axiom_annot_iterate_anon_inds(axiom, iter)) return false;
-    return true;
+bool cowl_sub_cls_axiom_iterate_primitives(CowlSubClsAxiom *axiom, CowlPrimitiveIterator *iter) {
+    if (cowl_cls_exp_iterate_primitives(axiom->super_class, iter) &&
+        cowl_cls_exp_iterate_primitives(axiom->sub_class, iter) &&
+        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+        return true;
+    }
+    return false;
 }

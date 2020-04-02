@@ -317,6 +317,18 @@ COWL_PUBLIC
 bool cowl_ontology_iterate_signature(CowlOntology *onto, CowlEntityIterator *iter);
 
 /**
+ * Iterates over the primitives referenced by the specified ontology.
+ *
+ * @param onto The ontology.
+ * @param iter The primitive iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveIterator *iter);
+
+/**
  * Iterates over the imported ontologies.
  *
  * @param onto The ontology.

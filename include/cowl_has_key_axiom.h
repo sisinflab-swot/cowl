@@ -164,16 +164,16 @@ COWL_PUBLIC
 bool cowl_has_key_axiom_iterate_signature(CowlHasKeyAxiom *axiom, CowlEntityIterator *iter);
 
 /**
- * Iterates over the anonymous individuals referenced by the specified axiom.
+ * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The anonymous individual iterator.
+ * @param iter The primitive iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-bool cowl_has_key_axiom_iterate_anon_inds(CowlHasKeyAxiom *axiom, CowlAnonIndIterator *iter);
+bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveIterator *iter);
 
 COWL_END_DECLS
 
