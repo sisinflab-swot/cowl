@@ -13,6 +13,7 @@
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 #define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
 #define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
@@ -30,6 +31,8 @@ void cowl_class_api_deinit(void) {
 
 static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     CowlClass *cls = cowl_alloc(cls);
+    if (!cls) return NULL;
+
     (*cls) = (CowlClass) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_CLASS, 0),
         .iri = cowl_iri_retain(iri)
@@ -47,23 +50,8 @@ static void cowl_class_free(CowlClass *cls) {
     cowl_free(cls);
 }
 
-CowlClass* cowl_class_get(CowlIRI *iri) {
-    uhash_uint_t idx;
-    CowlClass key = { .iri = iri };
-    uhash_ret_t ret = uhash_put(CowlClassTable, inst_tbl, &key, &idx);
-
-    CowlClass *cls;
-
-    if (ret == UHASH_INSERTED) {
-        cls = cowl_class_alloc(iri);
-        uhash_key(inst_tbl, idx) = cls;
-    } else {
-        cls = uhash_key(inst_tbl, idx);
-        cowl_object_retain(cls);
-    }
-
-    return cls;
-}
+CowlClass* cowl_class_get(CowlIRI *iri)
+    COWL_INST_TBL_GET_IMPL(Class, class, { .iri = iri }, cowl_class_alloc(iri))
 
 CowlClass* cowl_class_retain(CowlClass *cls) {
     return cowl_object_retain(cls);
@@ -76,22 +64,15 @@ void cowl_class_release(CowlClass *cls) {
     }
 }
 
-CowlClass* cowl_class_from_cstring(char const *cstring, size_t length) {
-    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
-    CowlClass *cls = cowl_class_get(iri);
-    cowl_iri_release(iri);
-    return cls;
-}
+CowlClass* cowl_class_from_cstring(char const *cstring, size_t length)
+    COWL_ENTITY_FROM_CSTRING_IMPL(Class, class)
 
 CowlIRI* cowl_class_get_iri(CowlClass *cls) {
     return cls->iri;
 }
 
-CowlString* cowl_class_to_string(CowlClass *cls) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_class(buf, cls);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_class_to_string(CowlClass *cls)
+    COWL_TO_STRING_IMPL(class, cls)
 
 bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
     return lhs == rhs;

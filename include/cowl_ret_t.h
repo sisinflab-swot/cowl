@@ -39,6 +39,9 @@ typedef cowl_enum(cowl_ret_t) {
      */
     COWL_ERR_IO,
 
+    /// Memory error, usually caused by failed allocations.
+    COWL_ERR_MEM,
+
     /// Syntax error.
     COWL_ERR_SYNTAX,
 

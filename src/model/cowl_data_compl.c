@@ -12,9 +12,12 @@
 #include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDataCompl* cowl_data_compl_alloc(CowlDataRange *operand) {
     CowlDataCompl *exp = cowl_alloc(exp);
+    if (!exp) return NULL;
+
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_COMPL, cowl_data_range_hash(operand));
 
     *exp = (CowlDataCompl) {
@@ -49,11 +52,8 @@ CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *exp) {
     return exp->operand;
 }
 
-CowlString* cowl_data_compl_to_string(CowlDataCompl *exp) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_compl(buf, exp);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_compl_to_string(CowlDataCompl *exp)
+    COWL_TO_STRING_IMPL(data_compl, exp)
 
 bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs) {
     return cowl_data_range_equals(lhs->operand, rhs->operand);

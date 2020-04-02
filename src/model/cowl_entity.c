@@ -16,6 +16,7 @@
 #include "cowl_named_ind_private.h"
 #include "cowl_obj_prop_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 CowlEntity cowl_entity_retain(CowlEntity entity) {
 
@@ -76,11 +77,8 @@ CowlIRI* cowl_entity_get_iri(CowlEntity entity) {
     }
 }
 
-CowlString* cowl_entity_to_string(CowlEntity entity) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_entity(buf, entity);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_entity_to_string(CowlEntity entity)
+    COWL_TO_STRING_IMPL(entity, entity)
 
 bool cowl_entity_equals(CowlEntity lhs, CowlEntity rhs) {
     if (lhs.type != rhs.type) return false;

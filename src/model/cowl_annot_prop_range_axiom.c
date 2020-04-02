@@ -12,11 +12,14 @@
 #include "cowl_annot_prop.h"
 #include "cowl_iri.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_alloc(CowlAnnotProp *prop,
                                                                   CowlIRI *range,
                                                                   CowlAnnotationVec *annot) {
     CowlAnnotPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_ANNOT_PROP_RANGE_AXIOM, annot,
                                          cowl_annot_prop_hash(prop),
                                          cowl_iri_hash(range));
@@ -64,11 +67,8 @@ CowlAnnotationVec* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_annot_prop_range_axiom_to_string(CowlAnnotPropRangeAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_annot_prop_range_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_annot_prop_range_axiom_to_string(CowlAnnotPropRangeAxiom *axiom)
+    COWL_TO_STRING_IMPL(annot_prop_range_axiom, axiom)
 
 bool cowl_annot_prop_range_axiom_equals(CowlAnnotPropRangeAxiom *lhs,
                                         CowlAnnotPropRangeAxiom *rhs) {

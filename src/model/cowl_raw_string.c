@@ -14,9 +14,14 @@
 #include <stdio.h>
 
 CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy) {
+    if (copy) {
+        cstring = strndup(cstring, length);
+        if (!cstring) length = 0;
+    }
+
     return (CowlRawString) {
         .length = (cowl_uint_t)length,
-        .cstring = copy ? strndup(cstring, length) : cstring
+        .cstring = cstring
     };
 }
 
@@ -73,15 +78,26 @@ CowlRawString cowl_raw_string_with_format(char const *format, ...) {
 
 CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args) {
     CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_format_list(buf, format, args);
+
+    if (buf && cowl_str_buf_append_format_list(buf, format, args)) {
+        cowl_str_buf_free(buf);
+        buf = NULL;
+    }
+
     return cowl_str_buf_to_raw_string(buf);
 }
 
 CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *strings) {
     CowlStrBuf *buf = cowl_str_buf_alloc();
 
-    for (cowl_uint_t i = 0; i < count; ++i) {
-        cowl_str_buf_append_raw_string(buf, strings[i]);
+    if (buf) {
+        for (cowl_uint_t i = 0; i < count; ++i) {
+            if (cowl_str_buf_append_raw_string(buf, strings[i])) {
+                cowl_str_buf_free(buf);
+                buf = NULL;
+                break;
+            }
+        }
     }
 
     return cowl_str_buf_to_raw_string(buf);

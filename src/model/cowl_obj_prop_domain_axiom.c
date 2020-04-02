@@ -12,11 +12,14 @@
 #include "cowl_cls_exp.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp *prop,
                                                                 CowlClsExp *domain,
                                                                 CowlAnnotationVec *annot) {
     CowlObjPropDomainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_DOMAIN_AXIOM, annot,
                                          cowl_obj_prop_exp_hash(prop),
                                          cowl_cls_exp_hash(domain));
@@ -64,11 +67,8 @@ CowlAnnotationVec* cowl_obj_prop_domain_axiom_get_annot(CowlObjPropDomainAxiom *
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_obj_prop_domain_axiom_to_string(CowlObjPropDomainAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_obj_prop_domain(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_obj_prop_domain_axiom_to_string(CowlObjPropDomainAxiom *axiom)
+    COWL_TO_STRING_IMPL(obj_prop_domain, axiom)
 
 bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom *lhs, CowlObjPropDomainAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

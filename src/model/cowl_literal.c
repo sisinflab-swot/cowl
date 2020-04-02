@@ -16,9 +16,11 @@
 #include "cowl_rdf_vocab.h"
 #include "cowl_str_buf.h"
 #include "cowl_string_private.h"
+#include "cowl_template.h"
 
 static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     CowlLiteral *literal = cowl_alloc(literal);
+    if (!literal) return NULL;
 
     if (!dt) dt = cowl_datatype_retain(cowl_rdf_vocab_get()->dt.plain_literal);
     if (!value) value = cowl_string_get_empty();
@@ -92,11 +94,8 @@ CowlString* cowl_literal_get_lang(CowlLiteral *literal) {
     return literal->lang;
 }
 
-CowlString* cowl_literal_to_string(CowlLiteral *literal) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_literal(buf, literal);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_literal_to_string(CowlLiteral *literal)
+    COWL_TO_STRING_IMPL(literal, literal)
 
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
     return lhs->super.hash == rhs->super.hash &&

@@ -15,10 +15,13 @@
 #include "cowl_datatype.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
                                                     CowlFacetRestrSet *restrictions) {
     CowlDatatypeRestr *restr = cowl_alloc(restr);
+    if (!restr) return NULL;
+
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_RESTR,
                                    cowl_datatype_hash(datatype),
                                    uhset_hash(CowlFacetRestrSet, restrictions));
@@ -61,11 +64,8 @@ CowlFacetRestrSet* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr
     return restr->restrictions;
 }
 
-CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_datatype_restr(buf, restr);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr)
+    COWL_TO_STRING_IMPL(datatype_restr, restr)
 
 bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {
     return cowl_datatype_equals(lhs->datatype, rhs->datatype) &&

@@ -13,15 +13,19 @@
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *value) {
     CowlFacetRestr *restr = cowl_alloc(restr);
+    if (!restr) return NULL;
+
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, facet, cowl_literal_hash(value));
     *restr = (CowlFacetRestr) {
         .super = COWL_HASH_OBJECT_INIT(hash),
         .facet = facet,
         .value = cowl_literal_retain(value)
     };
+
     return restr;
 }
 
@@ -53,11 +57,8 @@ CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr) {
     return restr->value;
 }
 
-CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_facet_restr(buf, restr);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr)
+    COWL_TO_STRING_IMPL(facet_restr, restr)
 
 bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs) {
     return lhs->facet == rhs->facet && cowl_literal_equals(lhs->value, rhs->value);

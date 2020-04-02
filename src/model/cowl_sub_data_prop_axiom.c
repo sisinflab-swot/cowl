@@ -11,11 +11,14 @@
 #include "cowl_sub_data_prop_axiom_private.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlSubDataPropAxiom* cowl_sub_data_prop_axiom_alloc(CowlDataPropExp *sub,
                                                             CowlDataPropExp *super,
                                                             CowlAnnotationVec *annot) {
     CowlSubDataPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUB_DATA_PROP_AXIOM, annot,
                                          cowl_data_prop_exp_hash(sub),
                                          cowl_data_prop_exp_hash(super));
@@ -63,11 +66,8 @@ CowlAnnotationVec* cowl_sub_data_prop_axiom_get_annot(CowlSubDataPropAxiom *axio
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_sub_data_prop_axiom_to_string(CowlSubDataPropAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_sub_data_prop_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_sub_data_prop_axiom_to_string(CowlSubDataPropAxiom *axiom)
+    COWL_TO_STRING_IMPL(sub_data_prop_axiom, axiom)
 
 bool cowl_sub_data_prop_axiom_equals(CowlSubDataPropAxiom *lhs, CowlSubDataPropAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

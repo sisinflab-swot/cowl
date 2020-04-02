@@ -12,6 +12,7 @@
 #include "cowl_anon_ind.h"
 #include "cowl_named_ind.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
     return cowl_object_retain(ind);
@@ -31,11 +32,8 @@ bool cowl_individual_is_named(CowlIndividual *ind) {
     return ind->is_named;
 }
 
-CowlString* cowl_individual_to_string(CowlIndividual *ind) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_individual(buf, ind);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_individual_to_string(CowlIndividual *ind)
+    COWL_TO_STRING_IMPL(individual, ind);
 
 bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
     return lhs == rhs;

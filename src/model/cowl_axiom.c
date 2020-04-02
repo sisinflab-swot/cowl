@@ -36,6 +36,7 @@
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sub_obj_prop_chain_axiom.h"
+#include "cowl_template.h"
 
 CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
     return cowl_object_retain(axiom);
@@ -93,11 +94,8 @@ CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
     return cowl_axiom_flags_get_type(axiom->flags);
 }
 
-CowlString* cowl_axiom_to_string(CowlAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_axiom_to_string(CowlAxiom *axiom)
+    COWL_TO_STRING_IMPL(axiom, axiom)
 
 bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
     if (lhs == rhs) return true;

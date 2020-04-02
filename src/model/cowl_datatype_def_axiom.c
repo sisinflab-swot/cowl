@@ -12,11 +12,14 @@
 #include "cowl_data_range.h"
 #include "cowl_datatype.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *dt,
                                                            CowlDataRange *range,
                                                            CowlAnnotationVec *annot) {
     CowlDatatypeDefAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATATYPE_DEF_AXIOM, annot,
                                          cowl_datatype_hash(dt),
                                          cowl_data_range_hash(range));
@@ -64,11 +67,8 @@ CowlAnnotationVec* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_datatype_def_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom)
+    COWL_TO_STRING_IMPL(datatype_def_axiom, axiom)
 
 bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

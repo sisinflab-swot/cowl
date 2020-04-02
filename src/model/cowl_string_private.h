@@ -27,13 +27,13 @@ cowl_struct(CowlString) {
 void cowl_string_api_init(void);
 void cowl_string_api_deinit(void);
 
-cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string);
-cowl_struct(CowlString) cowl_string_init(CowlRawString raw_string);
+CowlString* cowl_string_alloc(CowlRawString raw_string);
+CowlString cowl_string_init(CowlRawString raw_string);
 
 CowlString* cowl_string_get_intern(CowlString *string, bool copy);
 
 CowlString* cowl_string_copy(CowlString *string);
-void cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out);
+cowl_ret_t cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out);
 
 COWL_END_DECLS
 

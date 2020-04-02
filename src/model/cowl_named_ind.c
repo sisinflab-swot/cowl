@@ -13,6 +13,7 @@
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 #define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
 #define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
@@ -30,10 +31,13 @@ void cowl_named_ind_api_deinit(void) {
 
 static CowlNamedInd* cowl_named_ind_alloc(CowlIRI *iri) {
     CowlNamedInd *ind = cowl_alloc(ind);
+    if (!ind) return NULL;
+
     *ind = (CowlNamedInd) {
         .super = COWL_INDIVIDUAL_INIT(true),
         .iri = cowl_iri_retain(iri)
     };
+
     return ind;
 }
 
@@ -43,23 +47,8 @@ static void cowl_named_ind_free(CowlNamedInd *ind) {
     cowl_free(ind);
 }
 
-CowlNamedInd* cowl_named_ind_get(CowlIRI *iri) {
-    uhash_uint_t idx;
-    CowlNamedInd key = { .iri = iri };
-    uhash_ret_t ret = uhash_put(CowlNamedIndTable, inst_tbl, &key, &idx);
-
-    CowlNamedInd *ind;
-
-    if (ret == UHASH_INSERTED) {
-        ind = cowl_named_ind_alloc(iri);
-        uhash_key(inst_tbl, idx) = ind;
-    } else {
-        ind = uhash_key(inst_tbl, idx);
-        cowl_object_retain(ind);
-    }
-
-    return ind;
-}
+CowlNamedInd* cowl_named_ind_get(CowlIRI *iri)
+    COWL_INST_TBL_GET_IMPL(NamedInd, named_ind, { .iri = iri }, cowl_named_ind_alloc(iri))
 
 CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind) {
     return cowl_object_retain(ind);
@@ -72,22 +61,15 @@ void cowl_named_ind_release(CowlNamedInd *ind) {
     }
 }
 
-CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, size_t length) {
-    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
-    CowlNamedInd *ind = cowl_named_ind_get(iri);
-    cowl_iri_release(iri);
-    return ind;
-}
+CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, size_t length)
+    COWL_ENTITY_FROM_CSTRING_IMPL(NamedInd, named_ind)
 
 CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind) {
     return ind->iri;
 }
 
-CowlString* cowl_named_ind_to_string(CowlNamedInd *ind) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_named_ind(buf, ind);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_named_ind_to_string(CowlNamedInd *ind)
+    COWL_TO_STRING_IMPL(named_ind, ind)
 
 bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) {
     return lhs == rhs;

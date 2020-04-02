@@ -13,11 +13,13 @@
 #include "cowl_data_prop_exp_set.h"
 #include "cowl_obj_prop_exp_set.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObjPropExpSet *obj_props,
                                                  CowlDataPropExpSet *data_props,
                                                  CowlAnnotationVec *annot) {
     CowlHasKeyAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
 
     cowl_uint_t obj_props_hash = obj_props ? cowl_obj_prop_exp_set_hash(obj_props) : 0;
     cowl_uint_t data_props_hash = data_props ? cowl_data_prop_exp_set_hash(data_props) : 0;
@@ -74,11 +76,8 @@ CowlAnnotationVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_has_key_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom)
+    COWL_TO_STRING_IMPL(has_key_axiom, axiom)
 
 bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

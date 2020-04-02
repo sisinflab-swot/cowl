@@ -27,7 +27,7 @@ typedef cowl_struct(CowlAxiomCtx) {
 
 // Private prototypes
 
-static cowl_struct(CowlOntology)* cowl_ontology_alloc(void);
+static CowlOntology* cowl_ontology_alloc(void);
 static void cowl_ontology_free(CowlOntology *onto);
 
 static inline UHash(CowlAnonIndAxiomMap)* cowl_ontology_get_anon_ind_refs(CowlOntology *onto);
@@ -370,13 +370,13 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
 
 // Private API
 
-cowl_struct(CowlOntology)* cowl_ontology_get(void) {
+CowlOntology* cowl_ontology_get(void) {
     return cowl_ontology_alloc();
 }
 
-cowl_struct(CowlOntology)* cowl_ontology_alloc(void) {
+CowlOntology* cowl_ontology_alloc(void) {
     CowlOntology *onto = cowl_alloc(onto);
-    *onto = COWL_ONTOLOGY_INIT;
+    if (onto) *onto = COWL_ONTOLOGY_INIT;
     return onto;
 }
 
@@ -436,12 +436,11 @@ UHash(CowlAnonIndAxiomMap)* cowl_ontology_get_anon_ind_refs(CowlOntology *onto) 
     return onto->anon_ind_refs;
 }
 
-void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyID *id) {
+void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID *id) {
     onto->id = id;
 }
 
-void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto,
-                             Vector(CowlAnnotationPtr) *annot) {
+void cowl_ontology_set_annot(CowlOntology *onto, Vector(CowlAnnotationPtr) *annot) {
     onto->annotations = annot;
 
     CowlAxiomCtx c = { .onto = onto };
@@ -449,11 +448,11 @@ void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto,
     cowl_annotation_vec_iterate_signature(annot, &iter);
 }
 
-void cowl_ontology_set_imports(cowl_struct(CowlOntology) *onto, Vector(CowlOntologyPtr) *imports) {
+void cowl_ontology_set_imports(CowlOntology *onto, Vector(CowlOntologyPtr) *imports) {
     onto->imports = imports;
 }
 
-void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom) {
+void cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     CowlAxiomType type = cowl_axiom_flags_get_type(axiom->flags);
     UHash(CowlAxiomSet) *axioms = onto->axioms_by_type[type];
 

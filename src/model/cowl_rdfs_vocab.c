@@ -24,7 +24,7 @@ void cowl_rdfs_vocab_init(void) {
         .see_also = cowl_iri_vocab_get(ns, "seeAlso")
     };
 
-    vocab = (cowl_struct(CowlRDFSVocab)) {
+    vocab = (CowlRDFSVocab) {
         .ns = ns,
         .iri = v,
 

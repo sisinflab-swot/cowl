@@ -12,11 +12,14 @@
 #include "cowl_annot_prop.h"
 #include "cowl_iri.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_alloc(CowlAnnotProp *prop,
                                                                     CowlIRI *domain,
                                                                     CowlAnnotationVec *annot) {
     CowlAnnotPropDomainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_ANNOT_PROP_DOMAIN_AXIOM, annot,
                                          cowl_annot_prop_hash(prop),
                                          cowl_iri_hash(domain));
@@ -64,11 +67,8 @@ CowlAnnotationVec* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxi
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_annot_prop_domain_axiom_to_string(CowlAnnotPropDomainAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_annot_prop_domain_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_annot_prop_domain_axiom_to_string(CowlAnnotPropDomainAxiom *axiom)
+    COWL_TO_STRING_IMPL(annot_prop_domain_axiom, axiom)
 
 bool cowl_annot_prop_domain_axiom_equals(CowlAnnotPropDomainAxiom *lhs,
                                          CowlAnnotPropDomainAxiom *rhs) {

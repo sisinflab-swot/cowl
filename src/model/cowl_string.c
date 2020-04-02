@@ -26,13 +26,14 @@ void cowl_string_api_deinit(void) {
     uhash_free(CowlStringTable, str_tbl);
 }
 
-cowl_struct(CowlString)* cowl_string_alloc(CowlRawString raw_string) {
+CowlString* cowl_string_alloc(CowlRawString raw_string) {
+    if (cowl_raw_string_is_null(raw_string)) return NULL;
     CowlString *string = cowl_alloc(string);
-    *string =  cowl_string_init(raw_string);
+    if (string) *string = cowl_string_init(raw_string);
     return string;
 }
 
-cowl_struct(CowlString) cowl_string_init(CowlRawString raw_string) {
+CowlString cowl_string_init(CowlRawString raw_string) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length,
                                    cowl_raw_string_hash(raw_string));
 
@@ -59,11 +60,17 @@ CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
     if (ret == UHASH_INSERTED) {
         if (copy) {
             string = cowl_string_copy(string);
-            uhash_key(str_tbl, idx) = string;
+            if (string) {
+                uhash_key(str_tbl, idx) = string;
+            } else {
+                uhash_delete(CowlStringTable, str_tbl, idx);
+            }
         }
-    } else {
+    } else if (ret == UHASH_PRESENT) {
         string = uhash_key(str_tbl, idx);
         cowl_object_retain(string);
+    } else {
+        string = NULL;
     }
 
     return string;
@@ -71,20 +78,41 @@ CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
 
 CowlString* cowl_string_copy(CowlString *string) {
     CowlString *copy = cowl_alloc(copy);
+    if (!copy) return NULL;
+
     cowl_uint_t hash = cowl_object_hash_get(string);
     copy->super = COWL_HASH_OBJECT_INIT(hash);
     copy->raw_string = cowl_raw_string_copy(string->raw_string);
+
     return copy;
 }
 
-void cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out) {
+cowl_ret_t cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out) {
+    CowlString *lhs, *rhs;
+
     if (lhs_length < string.length) {
-        out[0] = cowl_string_get(string.cstring, lhs_length, true);
-        out[1] = cowl_string_get(string.cstring + lhs_length, string.length - lhs_length, true);
+        lhs = cowl_string_get(string.cstring, lhs_length, true);
+        rhs = cowl_string_get(string.cstring + lhs_length, string.length - lhs_length, true);
     } else {
-        out[0] = cowl_string_get(string.cstring, string.length, true);
-        out[1] = cowl_string_get_empty();
+        lhs = cowl_string_get(string.cstring, string.length, true);
+        rhs = cowl_string_get_empty();
     }
+
+    cowl_ret_t ret;
+
+    if (lhs && rhs) {
+        ret = COWL_OK;
+    } else {
+        cowl_string_release(lhs);
+        cowl_string_release(rhs);
+        lhs = NULL;
+        rhs = NULL;
+        ret = COWL_ERR_MEM;
+    }
+
+    out[0] = lhs;
+    out[1] = rhs;
+    return ret;
 }
 
 CowlString* cowl_string_get(char const *cstring, size_t length, bool copy) {

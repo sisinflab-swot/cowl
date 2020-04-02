@@ -13,10 +13,13 @@
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                           CowlClsExp *filler) {
     CowlObjQuant *restr = cowl_alloc(restr);
+    if (!restr) return NULL;
+
     cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
                                    cowl_obj_prop_exp_hash(prop), cowl_cls_exp_hash(filler));
 
@@ -62,11 +65,8 @@ CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr) {
     return restr->filler;
 }
 
-CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_obj_quant(buf, restr);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr)
+    COWL_TO_STRING_IMPL(obj_quant, restr)
 
 bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
     return lhs->super.type == rhs->super.type &&

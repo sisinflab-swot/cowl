@@ -12,10 +12,13 @@
 #include "cowl_class.h"
 #include "cowl_cls_exp_set.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlClsExpSet *disjoints,
                                                        CowlAnnotationVec *annot) {
     CowlDisjUnionAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
                                          cowl_class_hash(cls),
                                          cowl_cls_exp_set_hash(disjoints));
@@ -63,11 +66,8 @@ CowlAnnotationVec* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_disj_union_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom)
+    COWL_TO_STRING_IMPL(disj_union_axiom, axiom)
 
 bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

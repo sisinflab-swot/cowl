@@ -12,11 +12,14 @@
 #include "cowl_obj_prop_exp.h"
 #include "cowl_obj_prop_exp_vec.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_alloc(CowlObjPropExpVec *sub,
                                                                      CowlObjPropExp *super,
                                                                      CowlAnnotationVec *annot) {
     CowlSubObjPropChainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUB_OBJ_PROP_CHAIN_AXIOM, annot,
                                          cowl_obj_prop_exp_vec_hash(sub),
                                          cowl_obj_prop_exp_hash(super));
@@ -65,11 +68,8 @@ CowlAnnotationVec* cowl_sub_obj_prop_chain_axiom_get_annot(CowlSubObjPropChainAx
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_sub_obj_prop_chain_axiom_to_string(CowlSubObjPropChainAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_sub_obj_prop_chain_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_sub_obj_prop_chain_axiom_to_string(CowlSubObjPropChainAxiom *axiom)
+    COWL_TO_STRING_IMPL(sub_obj_prop_chain_axiom, axiom)
 
 bool cowl_sub_obj_prop_chain_axiom_equals(CowlSubObjPropChainAxiom *lhs,
                                           CowlSubObjPropChainAxiom *rhs) {

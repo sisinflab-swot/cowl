@@ -68,7 +68,9 @@ end:
 }
 
 static CowlLogger* cowl_logger_alloc(CowlLoggerType type, void *context) {
-    cowl_struct(CowlLogger) *logger = cowl_alloc(logger);
+    CowlLogger *logger = cowl_alloc(logger);
+    if (!logger) return NULL;
+
     *logger = (CowlLogger) {
         .super = COWL_OBJECT_INIT,
         .type = type,

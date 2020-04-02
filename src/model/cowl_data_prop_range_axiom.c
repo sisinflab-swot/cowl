@@ -13,11 +13,14 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp *prop,
                                                                 CowlDataRange *range,
                                                                 CowlAnnotationVec *annot) {
     CowlDataPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM, annot,
                                          cowl_data_prop_exp_hash(prop),
                                          cowl_data_range_hash(range));
@@ -65,11 +68,8 @@ CowlAnnotationVec* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_data_prop_range_axiom_to_string(CowlDataPropRangeAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_prop_range(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_prop_range_axiom_to_string(CowlDataPropRangeAxiom *axiom)
+    COWL_TO_STRING_IMPL(data_prop_range, axiom)
 
 bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataPropRangeAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

@@ -11,12 +11,15 @@
 #include "cowl_annot_assert_axiom_private.h"
 #include "cowl_annot_prop.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue subject,
                                                            CowlAnnotProp *prop,
                                                            CowlAnnotValue value,
                                                            CowlAnnotationVec *annot) {
     CowlAnnotAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_3(COWL_HASH_INIT_ANNOT_ASSERT_AXIOM, annot,
                                          cowl_annot_prop_hash(prop),
                                          cowl_annot_value_hash(subject),
@@ -71,11 +74,8 @@ CowlAnnotationVec* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_annot_assert_axiom_to_string(CowlAnnotAssertAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_annot_assert(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_annot_assert_axiom_to_string(CowlAnnotAssertAxiom *axiom)
+    COWL_TO_STRING_IMPL(annot_assert, axiom)
 
 bool cowl_annot_assert_axiom_equals(CowlAnnotAssertAxiom *lhs, CowlAnnotAssertAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

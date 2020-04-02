@@ -13,6 +13,7 @@
 #include "cowl_iri.h"
 #include "cowl_literal.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 CowlAnnotValue cowl_annot_value_retain(CowlAnnotValue value) {
 
@@ -48,11 +49,8 @@ void cowl_annot_value_release(CowlAnnotValue value) {
     }
 }
 
-CowlString* cowl_annot_value_to_string(CowlAnnotValue value) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_annot_value(buf, value);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_annot_value_to_string(CowlAnnotValue value)
+    COWL_TO_STRING_IMPL(annot_value, value)
 
 bool cowl_annot_value_equals(CowlAnnotValue lhs, CowlAnnotValue rhs) {
     if (rhs.type != lhs.type) return false;

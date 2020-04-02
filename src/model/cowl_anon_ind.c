@@ -11,6 +11,7 @@
 #include "cowl_anon_ind_private.h"
 #include "cowl_alloc.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 #define cowl_inst_hash(X) cowl_node_id_hash((X)->id)
 #define cowl_inst_eq(A, B) cowl_node_id_equals((A)->id, (B)->id)
@@ -28,10 +29,13 @@ void cowl_anon_ind_api_deinit(void) {
 
 static CowlAnonInd* cowl_anon_ind_alloc(CowlNodeID id) {
     CowlAnonInd *ind = cowl_alloc(ind);
+    if (!ind) return NULL;
+
     (*ind) = (CowlAnonInd) {
         .super = COWL_INDIVIDUAL_INIT(false),
         .id = id
     };
+
     return ind;
 }
 
@@ -39,23 +43,8 @@ static void cowl_anon_ind_free(CowlAnonInd *ind) {
     if (ind) cowl_free(ind);
 }
 
-CowlAnonInd* cowl_anon_ind_get(CowlNodeID id) {
-    uhash_uint_t idx;
-    CowlAnonInd key = { .id = id };
-    uhash_ret_t ret = uhash_put(CowlAnonIndTable, inst_tbl, &key, &idx);
-
-    CowlAnonInd *ind;
-
-    if (ret == UHASH_INSERTED) {
-        ind = cowl_anon_ind_alloc(id);
-        uhash_key(inst_tbl, idx) = ind;
-    } else {
-        ind = uhash_key(inst_tbl, idx);
-        cowl_object_retain(ind);
-    }
-
-    return ind;
-}
+CowlAnonInd* cowl_anon_ind_get(CowlNodeID id)
+    COWL_INST_TBL_GET_IMPL(AnonInd, anon_ind, { .id = id }, cowl_anon_ind_alloc(id))
 
 CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind) {
     return cowl_object_retain(ind);
@@ -72,11 +61,8 @@ CowlNodeID cowl_anon_ind_get_id(CowlAnonInd *ind) {
     return ind->id;
 }
 
-CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_anon_ind(buf, ind);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind)
+    COWL_TO_STRING_IMPL(anon_ind, ind)
 
 bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {
     return lhs == rhs;

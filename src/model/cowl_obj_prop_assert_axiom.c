@@ -12,6 +12,7 @@
 #include "cowl_individual.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType type,
                                                                 CowlIndividual *source,
@@ -19,6 +20,8 @@ static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType ty
                                                                 CowlIndividual *target,
                                                                 CowlAnnotationVec *annot) {
     CowlObjPropAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_4(COWL_HASH_INIT_OBJ_PROP_ASSERT_AXIOM, annot, type,
                                          cowl_individual_hash(source),
                                          cowl_individual_hash(target),
@@ -87,11 +90,8 @@ CowlAnnotationVec* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_obj_prop_assert(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom)
+    COWL_TO_STRING_IMPL(obj_prop_assert, axiom)
 
 bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

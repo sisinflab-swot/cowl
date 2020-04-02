@@ -14,9 +14,12 @@
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLiteral *value) {
     CowlDataHasValue *exp = cowl_alloc(exp);
+    if (!exp) return NULL;
+
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_HAS_VALUE,
                                    cowl_data_prop_exp_hash(prop),
                                    cowl_literal_hash(value));
@@ -59,11 +62,8 @@ CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *exp) {
     return exp->value;
 }
 
-CowlString* cowl_data_has_value_to_string(CowlDataHasValue *exp) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_has_value(buf, exp);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_has_value_to_string(CowlDataHasValue *exp)
+    COWL_TO_STRING_IMPL(data_has_value, exp)
 
 bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
     return cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&

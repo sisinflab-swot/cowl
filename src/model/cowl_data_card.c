@@ -14,10 +14,13 @@
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *prop,
                                           CowlDataRange *range, cowl_uint_t cardinality) {
     CowlDataCard *restr = cowl_alloc(restr);
+    if (!restr) return NULL;
+
     cowl_uint_t hash;
 
     if (range) {
@@ -77,11 +80,8 @@ cowl_uint_t cowl_data_card_get_cardinality(CowlDataCard *restr) {
     return restr->cardinality;
 }
 
-CowlString* cowl_data_card_to_string(CowlDataCard *restr) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_card(buf, restr);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_card_to_string(CowlDataCard *restr)
+    COWL_TO_STRING_IMPL(data_card, restr)
 
 bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {
     if (lhs->cardinality != rhs->cardinality || lhs->super.type != rhs->super.type) return false;

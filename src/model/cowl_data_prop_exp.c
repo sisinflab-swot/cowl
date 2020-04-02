@@ -11,6 +11,7 @@
 #include "cowl_data_prop_exp_private.h"
 #include "cowl_data_prop_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp) {
     return cowl_object_retain(exp);
@@ -24,11 +25,8 @@ CowlDataProp* cowl_data_prop_exp_get_prop(CowlDataPropExp *exp) {
     return (CowlDataProp *)exp;
 }
 
-CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_prop_exp(buf, exp);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp)
+    COWL_TO_STRING_IMPL(data_prop_exp, exp)
 
 bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) {
     return cowl_data_prop_equals((CowlDataProp *)lhs, (CowlDataProp *)rhs);

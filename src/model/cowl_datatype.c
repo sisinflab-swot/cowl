@@ -13,6 +13,7 @@
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 #define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
 #define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
@@ -30,6 +31,8 @@ void cowl_datatype_api_deinit(void) {
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     CowlDatatype *dt = cowl_alloc(dt);
+    if (!dt) return NULL;
+
     *dt = (CowlDatatype) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE, 0),
         .iri = cowl_iri_retain(iri)
@@ -47,23 +50,8 @@ static void cowl_datatype_free(CowlDatatype *dt) {
     cowl_free(dt);
 }
 
-CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
-    uhash_uint_t idx;
-    CowlDatatype key = { .iri = iri };
-    uhash_ret_t ret = uhash_put(CowlDatatypeTable, inst_tbl, &key, &idx);
-
-    CowlDatatype *dt;
-
-    if (ret == UHASH_INSERTED) {
-        dt = cowl_datatype_alloc(iri);
-        uhash_key(inst_tbl, idx) = dt;
-    } else {
-        dt = uhash_key(inst_tbl, idx);
-        cowl_object_retain(dt);
-    }
-
-    return dt;
-}
+CowlDatatype* cowl_datatype_get(CowlIRI *iri)
+    COWL_INST_TBL_GET_IMPL(Datatype, datatype, { .iri = iri }, cowl_datatype_alloc(iri))
 
 CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) {
     return cowl_object_retain(dt);
@@ -76,22 +64,15 @@ void cowl_datatype_release(CowlDatatype *dt) {
     }
 }
 
-CowlDatatype* cowl_datatype_from_cstring(char const *cstring, size_t length) {
-    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
-    CowlDatatype *dt = cowl_datatype_get(iri);
-    cowl_iri_release(iri);
-    return dt;
-}
+CowlDatatype* cowl_datatype_from_cstring(char const *cstring, size_t length)
+    COWL_ENTITY_FROM_CSTRING_IMPL(Datatype, datatype)
 
 CowlIRI* cowl_datatype_get_iri(CowlDatatype *dt) {
     return dt->iri;
 }
 
-CowlString* cowl_datatype_to_string(CowlDatatype *dt) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_datatype(buf, dt);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_datatype_to_string(CowlDatatype *dt)
+    COWL_TO_STRING_IMPL(datatype, dt)
 
 bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
     return lhs == rhs;

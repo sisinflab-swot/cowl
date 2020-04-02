@@ -13,9 +13,12 @@
 #include "cowl_data_range_set.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlDataRangeSet *operands) {
     CowlNAryData *range = cowl_alloc(range);
+    if (!range) return NULL;
+
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_NARY, type,
                                    uhset_hash(CowlDataRangeSet, operands));
 
@@ -55,11 +58,8 @@ CowlDataRangeSet* cowl_nary_data_get_operands(CowlNAryData *range) {
     return range->operands;
 }
 
-CowlString* cowl_nary_data_to_string(CowlNAryData *range) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_nary_data(buf, range);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_nary_data_to_string(CowlNAryData *range)
+    COWL_TO_STRING_IMPL(nary_data, range)
 
 bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
     return (lhs->super.type == rhs->super.type &&

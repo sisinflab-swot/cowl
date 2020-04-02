@@ -12,9 +12,12 @@
 #include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
     CowlObjCompl *exp = cowl_alloc(exp);
+    if (!exp) return NULL;
+
     cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
     *exp = (CowlObjCompl) {
@@ -49,11 +52,8 @@ CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp) {
     return exp->operand;
 }
 
-CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_obj_compl(buf, exp);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp)
+    COWL_TO_STRING_IMPL(obj_compl, exp)
 
 bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
     return cowl_cls_exp_equals(lhs->operand, rhs->operand);

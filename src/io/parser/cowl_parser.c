@@ -21,6 +21,8 @@ UHASH_IMPL(CowlNodeIdMap, cowl_string_hash, cowl_string_equals)
 
 static CowlParser* cowl_parser_alloc(void) {
     CowlParser *parser = cowl_alloc(parser);
+    if (!parser) return NULL;
+
     *parser = (CowlParser) {
         .super = COWL_OBJECT_INIT,
         .prefix_ns_map = uhmap_alloc(CowlStringTable),
@@ -28,6 +30,7 @@ static CowlParser* cowl_parser_alloc(void) {
         .ontology = cowl_ontology_get(),
         .errors = NULL
     };
+
     return parser;
 }
 
@@ -132,7 +135,7 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
     // Since we only need the prefix for a hash table lookup, we can avoid its allocation
     // on the heap and keep it on the stack instead.
     CowlRawString raw_ns = cowl_raw_string_init(string.cstring, ns_length, false);
-    cowl_struct(CowlString) ns_str = cowl_string_init(raw_ns);
+    CowlString ns_str = cowl_string_init(raw_ns);
 
     // If the remainder is empty, another slight optimization involves
     // using a shared empty string instance.

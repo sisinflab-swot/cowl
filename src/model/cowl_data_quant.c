@@ -14,10 +14,13 @@
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp *prop,
                                             CowlDataRange *range) {
     CowlDataQuant *restr = cowl_alloc(restr);
+    if (!restr) return NULL;
+
     cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_DATA_QUANT, type,
                                    cowl_data_prop_exp_hash(prop), cowl_data_range_hash(range));
 
@@ -64,11 +67,8 @@ CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr) {
     return restr->range;
 }
 
-CowlString* cowl_data_quant_to_string(CowlDataQuant *restr) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_quant(buf, restr);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_quant_to_string(CowlDataQuant *restr)
+    COWL_TO_STRING_IMPL(data_quant, restr)
 
 bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
     return lhs->super.type == rhs->super.type &&

@@ -11,10 +11,13 @@
 #include "cowl_nary_ind_axiom_private.h"
 #include "cowl_individual_set.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlIndividualSet *individuals,
                                                    CowlAnnotationVec *annot) {
     CowlNAryIndAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_IND_AXIOM, annot, type,
                                          cowl_individual_set_hash(individuals));
 
@@ -61,11 +64,8 @@ CowlAnnotationVec* cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_nary_ind_axiom_to_string(CowlNAryIndAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_nary_ind_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_nary_ind_axiom_to_string(CowlNAryIndAxiom *axiom)
+    COWL_TO_STRING_IMPL(nary_ind_axiom, axiom)
 
 bool cowl_nary_ind_axiom_equals(CowlNAryIndAxiom *lhs, CowlNAryIndAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

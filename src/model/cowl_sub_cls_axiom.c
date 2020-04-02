@@ -11,10 +11,13 @@
 #include "cowl_sub_cls_axiom_private.h"
 #include "cowl_cls_exp.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *super,
                                                  CowlAnnotationVec *annot) {
     CowlSubClsAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM, annot,
                                          cowl_cls_exp_hash(super),
                                          cowl_cls_exp_hash(sub));
@@ -62,11 +65,8 @@ CowlAnnotationVec* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_sub_cls_axiom(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom)
+    COWL_TO_STRING_IMPL(sub_cls_axiom, axiom)
 
 bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

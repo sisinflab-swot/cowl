@@ -11,11 +11,14 @@
 #include "cowl_obj_prop_char_axiom_private.h"
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_alloc(CowlAxiomType type,
                                                             CowlObjPropExp *prop,
                                                             CowlAnnotationVec *annot) {
     CowlObjPropCharAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_CHAR_AXIOM, annot, type,
                                          cowl_obj_prop_exp_hash(prop));
 
@@ -63,11 +66,8 @@ CowlAnnotationVec* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axio
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_obj_prop_char(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom)
+    COWL_TO_STRING_IMPL(obj_prop_char, axiom)
 
 bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs, cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp));

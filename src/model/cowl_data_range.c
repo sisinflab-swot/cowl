@@ -15,6 +15,7 @@
 #include "cowl_data_one_of.h"
 #include "cowl_nary_data.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
     return cowl_object_retain(range);
@@ -43,11 +44,8 @@ CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
     return range->type;
 }
 
-CowlString* cowl_data_range_to_string(CowlDataRange *range) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_range(buf, range);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_range_to_string(CowlDataRange *range)
+    COWL_TO_STRING_IMPL(data_range, range)
 
 bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
     if (lhs == rhs) return true;

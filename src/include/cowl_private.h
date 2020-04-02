@@ -12,7 +12,6 @@
 #define COWL_PRIVATE_H
 
 #include "cowl_api.h"
-#include "cowl_alloc.h"
 #include "cowl_annot_assert_axiom_private.h"
 #include "cowl_annot_prop_domain_axiom_private.h"
 #include "cowl_annot_prop_range_axiom_private.h"
@@ -89,6 +88,7 @@
 #include "cowl_sub_data_prop_axiom_private.h"
 #include "cowl_sub_obj_prop_axiom_private.h"
 #include "cowl_sub_obj_prop_chain_axiom_private.h"
+#include "cowl_template.h"
 #include "cowl_vocab_utils.h"
 #include "cowl_xml_utils.h"
 #include "cowl_xsd_vocab_private.h"

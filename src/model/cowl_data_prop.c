@@ -13,6 +13,7 @@
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 #define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
 #define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
@@ -30,7 +31,13 @@ void cowl_data_prop_api_deinit(void) {
 
 static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
     CowlDataProp *prop = cowl_alloc(prop);
-    *prop = (CowlDataProp) { .super = COWL_DATA_PROP_EXP_INIT, .iri = cowl_iri_retain(iri) };
+    if (!prop) return NULL;
+
+    *prop = (CowlDataProp) {
+        .super = COWL_DATA_PROP_EXP_INIT,
+        .iri = cowl_iri_retain(iri)
+    };
+
     return prop;
 }
 
@@ -40,23 +47,8 @@ static void cowl_data_prop_free(CowlDataProp *prop) {
     cowl_free(prop);
 }
 
-CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
-    uhash_uint_t idx;
-    CowlDataProp key = { .iri = iri };
-    uhash_ret_t ret = uhash_put(CowlDataPropTable, inst_tbl, &key, &idx);
-
-    CowlDataProp *prop;
-
-    if (ret == UHASH_INSERTED) {
-        prop = cowl_data_prop_alloc(iri);
-        uhash_key(inst_tbl, idx) = prop;
-    } else {
-        prop = uhash_key(inst_tbl, idx);
-        cowl_object_retain(prop);
-    }
-
-    return prop;
-}
+CowlDataProp* cowl_data_prop_get(CowlIRI *iri)
+    COWL_INST_TBL_GET_IMPL(DataProp, data_prop, { .iri = iri }, cowl_data_prop_alloc(iri))
 
 CowlDataProp* cowl_data_prop_retain(CowlDataProp *prop) {
     return cowl_object_retain(prop);
@@ -69,22 +61,15 @@ void cowl_data_prop_release(CowlDataProp *prop) {
     }
 }
 
-CowlDataProp* cowl_data_prop_from_cstring(char const *cstring, size_t length) {
-    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);
-    CowlDataProp *prop = cowl_data_prop_get(iri);
-    cowl_iri_release(iri);
-    return prop;
-}
+CowlDataProp* cowl_data_prop_from_cstring(char const *cstring, size_t length)
+    COWL_ENTITY_FROM_CSTRING_IMPL(DataProp, data_prop)
 
 CowlIRI* cowl_data_prop_get_iri(CowlDataProp *prop) {
     return prop->iri;
 }
 
-CowlString* cowl_data_prop_to_string(CowlDataProp *prop) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_data_prop(buf, prop);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_data_prop_to_string(CowlDataProp *prop)
+    COWL_TO_STRING_IMPL(data_prop, prop)
 
 bool cowl_data_prop_equals(CowlDataProp *lhs, CowlDataProp *rhs) {
     return lhs == rhs;

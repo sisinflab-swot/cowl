@@ -32,6 +32,9 @@ typedef cowl_struct(CowlRawString) {
 #define cowl_raw_string_deinit(STRING) cowl_free((void *)(STRING).cstring)
 #define cowl_raw_string_empty cowl_raw_string_init_static("", false)
 
+#define cowl_raw_string_is_null(STRING) (!(STRING).cstring)
+#define COWL_RAW_STRING_NULL ((CowlRawString){ .length = 0, .cstring = NULL })
+
 CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy);
 CowlRawString cowl_raw_string_init_cstring(char const *cstring, bool copy);
 CowlRawString cowl_raw_string_copy(CowlRawString string);

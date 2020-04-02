@@ -12,6 +12,7 @@
 #include "cowl_alloc.h"
 #include "cowl_obj_prop.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 #define cowl_inst_hash(X) cowl_obj_prop_hash((X)->prop)
 #define cowl_inst_eq(A, B) cowl_obj_prop_equals((A)->prop, (B)->prop)
@@ -28,11 +29,14 @@ void cowl_inv_obj_prop_api_deinit(void) {
 }
 
 static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
-    cowl_struct(CowlInvObjProp) *inv = cowl_alloc(inv);
+    CowlInvObjProp *inv = cowl_alloc(inv);
+    if (!inv) return NULL;
+
     *inv = (CowlInvObjProp) {
         .super = COWL_OBJ_PROP_EXP_INIT(true),
         .prop = cowl_obj_prop_retain(prop)
     };
+
     return inv;
 }
 
@@ -42,23 +46,9 @@ static void cowl_inv_obj_prop_free(CowlInvObjProp *inv) {
     cowl_free(inv);
 }
 
-CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
-    uhash_uint_t idx;
-    CowlInvObjProp key = { .prop = prop };
-    uhash_ret_t ret = uhash_put(CowlInvObjPropTable, inst_tbl, &key, &idx);
-
-    CowlInvObjProp *inv;
-
-    if (ret == UHASH_INSERTED) {
-        inv = cowl_inv_obj_prop_alloc(prop);
-        uhash_key(inst_tbl, idx) = inv;
-    } else {
-        inv = uhash_key(inst_tbl, idx);
-        cowl_object_retain(inv);
-    }
-
-    return inv;
-}
+CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop)
+    COWL_INST_TBL_GET_IMPL(InvObjProp, inv_obj_prop, { .prop = prop },
+                           cowl_inv_obj_prop_alloc(prop))
 
 CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) {
     return cowl_object_retain(inv);
@@ -75,11 +65,8 @@ CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) {
     return inv->prop;
 }
 
-CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_inv_obj_prop(buf, inv);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv)
+    COWL_TO_STRING_IMPL(inv_obj_prop, inv)
 
 bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs) {
     return lhs == rhs;

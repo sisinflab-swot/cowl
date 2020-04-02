@@ -12,10 +12,13 @@
 #include "cowl_cls_exp_private.h"
 #include "cowl_individual_private.h"
 #include "cowl_str_buf.h"
+#include "cowl_template.h"
 
 static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, CowlClsExp *exp,
                                                        CowlAnnotationVec *annot) {
     CowlClsAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
+    if (!axiom) return NULL;
+    
     cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM, annot,
                                          cowl_individual_hash(ind),
                                          cowl_cls_exp_hash(exp));
@@ -63,11 +66,8 @@ CowlAnnotationVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
-CowlString* cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_cls_assert(buf, axiom);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom)
+    COWL_TO_STRING_IMPL(cls_assert, axiom)
 
 bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,

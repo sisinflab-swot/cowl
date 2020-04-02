@@ -16,6 +16,7 @@
 #include "cowl_string_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_xml_utils.h"
+#include "cowl_template.h"
 
 static inline cowl_uint_t cowl_inst_hash(CowlIRI *iri) {
     return cowl_hash_2(COWL_HASH_INIT_IRI,
@@ -38,13 +39,16 @@ void cowl_iri_api_deinit(void) {
     uhash_free(CowlIRITable, inst_tbl);
 }
 
-static cowl_struct(CowlIRI)* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
+static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     CowlIRI *iri = cowl_alloc(iri);
+    if (!iri) return NULL;
+
     *iri = (CowlIRI) {
         .super = COWL_OBJECT_INIT,
         .ns = cowl_string_retain(ns),
         .rem = cowl_string_retain(rem)
     };
+
     return iri;
 }
 
@@ -55,24 +59,12 @@ static void cowl_iri_free(CowlIRI *iri) {
     cowl_free(iri);
 }
 
+static inline CowlIRI* cowl_iri_unvalidated_get_private(CowlString *ns, CowlString *rem)
+    COWL_INST_TBL_GET_IMPL(IRI, iri, ((CowlIRI){ .ns = ns, .rem = rem }), cowl_iri_alloc(ns, rem))
+
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
     ns = cowl_string_get_intern(ns, false);
-
-    CowlIRI key = { .ns = ns, .rem = rem };
-    uhash_uint_t idx;
-    uhash_ret_t ret = uhash_put(CowlIRITable, inst_tbl, &key, &idx);
-
-    CowlIRI *iri;
-
-    if (ret == UHASH_INSERTED) {
-        iri = cowl_iri_alloc(ns, rem);
-        uhash_key(inst_tbl, idx) = iri;
-    } else {
-        iri = uhash_key(inst_tbl, idx);
-        cowl_object_retain(iri);
-    }
-
-    return iri;
+    return ns ? cowl_iri_unvalidated_get_private(ns, rem) : NULL;
 }
 
 CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
@@ -85,8 +77,13 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
     if (s_ns_len > 0) {
         // Part of the suffix should go in the namespace.
         CowlStrBuf *buf = cowl_str_buf_alloc();
-        cowl_str_buf_append_raw_string(buf, p_str);
-        cowl_str_buf_append_cstring(buf, s_str.cstring, s_ns_len);
+        if (!buf) return NULL;
+
+        if (cowl_str_buf_append_raw_string(buf, p_str) ||
+            cowl_str_buf_append_cstring(buf, s_str.cstring, s_ns_len)) {
+            cowl_str_buf_free(buf);
+            return NULL;
+        }
 
         prefix = cowl_str_buf_to_string(buf);
         suffix = cowl_string_get(s_str.cstring + s_ns_len, s_str.length - s_ns_len, true);
@@ -96,8 +93,14 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
         if (p_ns_len < p_str.length) {
             // Part of the prefix should go in the remainder.
             CowlStrBuf *buf = cowl_str_buf_alloc();
-            cowl_str_buf_append_cstring(buf, p_str.cstring + p_ns_len, p_str.length - p_ns_len);
-            cowl_str_buf_append_raw_string(buf, s_str);
+            if (!buf) return NULL;
+
+            if (cowl_str_buf_append_cstring(buf, p_str.cstring + p_ns_len,
+                                            p_str.length - p_ns_len) ||
+                cowl_str_buf_append_raw_string(buf, s_str)) {
+                cowl_str_buf_free(buf);
+                return NULL;
+            }
 
             prefix = cowl_string_get(p_str.cstring, p_ns_len, true);
             suffix = cowl_str_buf_to_string(buf);
@@ -108,7 +111,11 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
         }
     }
 
-    CowlIRI *iri = cowl_iri_unvalidated_get(prefix, suffix);
+    CowlIRI *iri = NULL;
+
+    if (prefix && suffix) {
+        iri = cowl_iri_unvalidated_get(prefix, suffix);
+    }
 
     cowl_string_release(prefix);
     cowl_string_release(suffix);
@@ -132,7 +139,7 @@ CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length) {
     cowl_uint_t ns_length = cowl_xml_ns_length(string);
 
     CowlString *parts[2] = { NULL };
-    cowl_string_split_two(string, ns_length, parts);
+    if (cowl_string_split_two(string, ns_length, parts)) return NULL;
 
     CowlIRI *iri = cowl_iri_unvalidated_get(parts[0], parts[1]);
 
@@ -150,11 +157,8 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri) {
     return iri->rem;
 }
 
-CowlString* cowl_iri_to_string(CowlIRI *iri) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_iri(buf, iri);
-    return cowl_str_buf_to_string(buf);
-}
+CowlString* cowl_iri_to_string(CowlIRI *iri)
+    COWL_TO_STRING_IMPL(iri, iri)
 
 CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri) {
     CowlStrBuf *buf = cowl_str_buf_alloc();
