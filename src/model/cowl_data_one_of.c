@@ -37,6 +37,7 @@ static void cowl_data_one_of_free(CowlDataOneOf *range) {
 }
 
 CowlDataOneOf* cowl_data_one_of_get(CowlLiteralSet *values) {
+    if (!values) return NULL;
     return cowl_data_one_of_alloc(values);
 }
 

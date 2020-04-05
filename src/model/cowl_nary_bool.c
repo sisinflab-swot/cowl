@@ -12,6 +12,7 @@
 #include "cowl_alloc.h"
 #include "cowl_cls_exp_set.h"
 #include "cowl_hash_utils.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -37,6 +38,7 @@ static void cowl_nary_bool_free(CowlNAryBool *exp) {
 }
 
 CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlClsExpSet *operands) {
+    if (!(operands && cowl_enum_value_is_valid(NT, type))) return NULL;
     return cowl_nary_bool_alloc((CowlClsExpType)type + COWL_CET_OBJ_INTERSECT, operands);
 }
 

@@ -38,7 +38,7 @@ cowl_struct_decl(CowlDataHasValue);
  *
  * @param prop The data property expression.
  * @param value The restriction value.
- * @return Retained restriction.
+ * @return Retained restriction, or NULL on error.
  *
  * @public @memberof CowlDataHasValue
  */
@@ -92,7 +92,7 @@ CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr);
  * Returns the string representation of the specified restriction.
  *
  * @param restr The restriction.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

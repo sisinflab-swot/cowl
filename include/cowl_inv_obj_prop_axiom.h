@@ -38,8 +38,8 @@ cowl_struct_decl(CowlInvObjPropAxiom);
  *
  * @param first The first object property expression.
  * @param second The second object property expression.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlInvObjPropAxiom
  */
@@ -105,7 +105,7 @@ CowlAnnotationVec* cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom)
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

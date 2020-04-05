@@ -46,6 +46,7 @@ static void cowl_annotation_free(CowlAnnotation *annot) {
 
 CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue value,
                                     CowlAnnotationVec *annot) {
+    if (!prop || cowl_annot_value_is_null(value)) return NULL;
     return cowl_annotation_alloc(prop, value, annot);
 }
 
@@ -72,7 +73,7 @@ CowlAnnotationVec* cowl_annotation_get_annot(CowlAnnotation *annot) {
 }
 
 CowlString* cowl_annotation_to_string(CowlAnnotation *annot)
-    COWL_TO_STRING_IMPL(annotation, annot);
+    COWL_TO_STRING_IMPL(annotation, annot)
 
 bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
     return cowl_annot_prop_equals(lhs->prop, rhs->prop) &&

@@ -36,7 +36,7 @@ cowl_struct_decl(CowlObjCompl);
  * Returns a retained class expression complement.
  *
  * @param operand The operand.
- * @return Retained class expression complement.
+ * @return Retained class expression complement, or NULL on error.
  *
  * @public @memberof CowlObjCompl
  */
@@ -79,7 +79,7 @@ CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp);
  * Returns the string representation of the specified class expression complement.
  *
  * @param exp The class expression complement.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

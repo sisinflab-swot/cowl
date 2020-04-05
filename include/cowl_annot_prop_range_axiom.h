@@ -39,8 +39,8 @@ cowl_struct_decl(CowlAnnotPropRangeAxiom);
  *
  * @param prop The annotation property.
  * @param range Range of the annotation property.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
@@ -106,7 +106,7 @@ CowlAnnotationVec* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

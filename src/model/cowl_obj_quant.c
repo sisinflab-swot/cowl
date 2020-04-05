@@ -11,6 +11,7 @@
 #include "cowl_obj_quant_private.h"
 #include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
+#include "cowl_macros.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
@@ -40,6 +41,7 @@ static void cowl_obj_quant_free(CowlObjQuant *restr) {
 }
 
 CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler) {
+    if (!(prop && filler && cowl_enum_value_is_valid(QT, type))) return NULL;
     return cowl_obj_quant_alloc(COWL_CET_OBJ_SOME + type, prop, filler);
 }
 

@@ -13,7 +13,32 @@
 
 static cowl_struct(CowlXSDVocab) vocab;
 
-void cowl_xsd_vocab_init(void) {
+static inline cowl_ret_t cowl_xsd_vocab_validate(void) {
+    if (vocab.ns && vocab.iri.any_uri && vocab.iri.base64_binary && vocab.iri.boolean &&
+        vocab.iri.byte && vocab.iri.date_time && vocab.iri.date_timestamp && vocab.iri.decimal &&
+        vocab.iri.xsd_double && vocab.iri.xsd_float && vocab.iri.hex_binary && vocab.iri.xsd_int &&
+        vocab.iri.integer && vocab.iri.language && vocab.iri.xsd_long && vocab.iri.name &&
+        vocab.iri.ncname && vocab.iri.negative_int && vocab.iri.nmtoken &&
+        vocab.iri.non_negative_int && vocab.iri.non_positive_int && vocab.iri.norm_string &&
+        vocab.iri.xsd_short && vocab.iri.string && vocab.iri.token && vocab.iri.unsigned_byte &&
+        vocab.iri.unsigned_int && vocab.iri.unsigned_long && vocab.iri.unsigned_short &&
+        vocab.iri.length && vocab.iri.min_length && vocab.iri.max_length && vocab.iri.pattern &&
+        vocab.iri.min_inclusive && vocab.iri.min_exclusive && vocab.iri.max_inclusive &&
+        vocab.iri.max_exclusive && vocab.iri.total_digits && vocab.iri.fraction_digits &&
+        vocab.dt.any_uri && vocab.dt.base64_binary && vocab.dt.boolean && vocab.dt.byte &&
+        vocab.dt.date_time && vocab.dt.date_timestamp && vocab.dt.decimal && vocab.dt.xsd_double &&
+        vocab.dt.xsd_float && vocab.dt.hex_binary && vocab.dt.xsd_int && vocab.dt.integer &&
+        vocab.dt.language && vocab.dt.xsd_long && vocab.dt.name && vocab.dt.ncname &&
+        vocab.dt.negative_int && vocab.dt.nmtoken && vocab.dt.non_negative_int &&
+        vocab.dt.non_positive_int && vocab.dt.norm_string && vocab.dt.xsd_short &&
+        vocab.dt.string && vocab.dt.token && vocab.dt.unsigned_byte && vocab.dt.unsigned_int &&
+        vocab.dt.unsigned_long && vocab.dt.unsigned_short) {
+        return COWL_OK;
+    }
+    return COWL_ERR_MEM;
+}
+
+cowl_ret_t cowl_xsd_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2001/XMLSchema#");
 
     CowlXSDIRIVocab v = {
@@ -91,6 +116,8 @@ void cowl_xsd_vocab_init(void) {
             .unsigned_short = cowl_datatype_vocab_get(v.unsigned_short)
         }
     };
+
+    return cowl_xsd_vocab_validate();
 }
 
 void cowl_xsd_vocab_deinit(void) {

@@ -35,6 +35,7 @@ static void cowl_data_compl_free(CowlDataCompl *range) {
 }
 
 CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand) {
+    if (!operand) return NULL;
     return cowl_data_compl_alloc(operand);
 }
 

@@ -13,6 +13,7 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -50,7 +51,8 @@ static void cowl_data_card_free(CowlDataCard *restr) {
 }
 
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
-                               CowlDataRange *range, cowl_uint_t cardinality) {
+                                 CowlDataRange *range, cowl_uint_t cardinality) {
+    if (!(prop && cowl_enum_value_is_valid(CT, type))) return NULL;
     return cowl_data_card_alloc(COWL_CET_DATA_MIN_CARD + type, prop, range, cardinality);
 }
 

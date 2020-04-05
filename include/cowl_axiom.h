@@ -67,7 +67,7 @@ CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom);
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

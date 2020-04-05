@@ -20,56 +20,37 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
-cowl_struct_decl(CowlOntologyID);
 /// @endcond
 
 /**
  * An object that identifies an ontology.
  *
- * @struct CowlOntologyID
  * @see [Ontology IRI and version IRI]
  *
  * [Ontology IRI and version IRI]: https://www.w3.org/TR/owl2-syntax/#Ontology_IRI_and_Version_IRI
  */
+typedef cowl_struct(CowlOntologyID) {
 
-/**
- * Gets the ontology IRI.
- *
- * @param id The ontology ID.
- * @return The ontology IRI.
- *
- * @note Can be NULL.
- *
- * @public @memberof CowlOntologyID
- */
-COWL_PUBLIC
-CowlIRI* cowl_ontology_id_get_onto_iri(CowlOntologyID *id);
+    /// The ontology IRI.
+    CowlIRI *ontology_iri;
 
-/**
- * Gets the version IRI.
- *
- * @param id The ontology ID.
- * @return The version IRI.
- *
- * @note Can be NULL.
- *
- * @public @memberof CowlOntologyID
- */
-COWL_PUBLIC
-CowlIRI* cowl_ontology_id_get_version_iri(CowlOntologyID *id);
+    /// The version IRI.
+    CowlIRI *version_iri;
+
+} CowlOntologyID;
 
 /**
  * Returns the string representation of the specified ontology ID.
  *
  * @param id The ontology ID.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *
  * @public @memberof CowlOntologyID
  */
 COWL_PUBLIC
-CowlString* cowl_ontology_id_to_string(CowlOntologyID *id);
+CowlString* cowl_ontology_id_to_string(CowlOntologyID id);
 
 /**
  * Equality function.
@@ -85,7 +66,7 @@ CowlString* cowl_ontology_id_to_string(CowlOntologyID *id);
  * @public @memberof CowlOntologyID
  */
 COWL_PUBLIC
-bool cowl_ontology_id_equals(CowlOntologyID *lhs, CowlOntologyID *rhs);
+bool cowl_ontology_id_equals(CowlOntologyID lhs, CowlOntologyID rhs);
 
 /**
  * Hash function.
@@ -96,7 +77,7 @@ bool cowl_ontology_id_equals(CowlOntologyID *lhs, CowlOntologyID *rhs);
  * @public @memberof CowlOntologyID
  */
 COWL_PUBLIC
-cowl_uint_t cowl_ontology_id_hash(CowlOntologyID *id);
+cowl_uint_t cowl_ontology_id_hash(CowlOntologyID id);
 
 COWL_END_DECLS
 

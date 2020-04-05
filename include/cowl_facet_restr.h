@@ -37,7 +37,7 @@ cowl_struct_decl(CowlFacetRestr);
  *
  * @param facet The facet.
  * @param value The restriction value.
- * @return Retained facet restriction.
+ * @return Retained facet restriction, or NULL on error.
  *
  * @public @memberof CowlFacetRestr
  */
@@ -91,7 +91,7 @@ CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr);
  * Returns the string representation of the specified facet restriction.
  *
  * @param restr The facet restriction.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

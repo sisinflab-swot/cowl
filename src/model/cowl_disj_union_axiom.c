@@ -41,6 +41,7 @@ static void cowl_disj_union_axiom_free(CowlDisjUnionAxiom *axiom) {
 
 CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlClsExpSet *disjoints,
                                               CowlAnnotationVec *annot) {
+    if (!(cls && disjoints)) return NULL;
     return cowl_disj_union_axiom_alloc(cls, disjoints, annot);
 }
 

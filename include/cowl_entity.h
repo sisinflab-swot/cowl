@@ -232,7 +232,7 @@ CowlIRI* cowl_entity_get_iri(CowlEntity entity);
  * Returns the string representation of the specified entity.
  *
  * @param entity The entity.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

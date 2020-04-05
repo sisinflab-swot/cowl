@@ -41,6 +41,7 @@ static void cowl_data_has_value_free(CowlDataHasValue *restr) {
 }
 
 CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value) {
+    if (!(prop && value)) return NULL;
     return cowl_data_has_value_alloc(prop, value);
 }
 

@@ -33,7 +33,7 @@ cowl_struct_decl(CowlString);
  * @param cstring The base string.
  * @param length Length of the base string (excluding the NULL terminator).
  * @param copy If true, the buffer is copied, otherwise it is not.
- * @return Retained string.
+ * @return Retained string, or NULL on error.
  *
  * @public @memberof CowlString
  */
@@ -44,7 +44,7 @@ CowlString* cowl_string_get(char const *cstring, size_t length, bool copy);
  * Returns a retained string from the specified static string.
  *
  * @param CSTR [char const[]] The static string.
- * @return [CowlString *] Retained string.
+ * @return [CowlString *] Retained string, or NULL on error.
  *
  * @public @related CowlString
  */
@@ -53,7 +53,7 @@ CowlString* cowl_string_get(char const *cstring, size_t length, bool copy);
 /**
  * Returns a retained empty string.
  *
- * @return Retained string.
+ * @return Retained string, or NULL on error.
  *
  * @public @memberof CowlString
  */
@@ -122,7 +122,7 @@ cowl_uint_t cowl_string_get_length(CowlString *string);
  * Returns the string representation of the specified string.
  *
  * @param STR [CowlString] The string.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *
@@ -158,7 +158,7 @@ cowl_uint_t cowl_string_hash(CowlString *string);
  *
  * @param format Format string.
  * @param ... Format arguments.
- * @return Retained string.
+ * @return Retained string, or NULL on error.
  *
  * @public @memberof CowlString
  */
@@ -170,7 +170,7 @@ CowlString* cowl_string_with_format(char const *format, ...);
  *
  * @param lhs LHS of the concatenation.
  * @param rhs RHS of the concatenation.
- * @return Retained string.
+ * @return Retained string, or NULL on error.
  *
  * @public @memberof CowlString
  */

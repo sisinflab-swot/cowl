@@ -93,12 +93,12 @@ cowl_ret_t cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri) {
     return COWL_OK;
 }
 
-cowl_ret_t cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID *id) {
-    if (id->onto_iri && cowl_str_buf_append_iri(buf, id->onto_iri)) return COWL_ERR_MEM;
+cowl_ret_t cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID id) {
+    if (id.ontology_iri && cowl_str_buf_append_iri(buf, id.ontology_iri)) return COWL_ERR_MEM;
 
-    if (id->version_iri) {
-        if (id->onto_iri && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
-        if (cowl_str_buf_append_iri(buf, id->version_iri)) return COWL_ERR_MEM;
+    if (id.version_iri) {
+        if (id.ontology_iri && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        if (cowl_str_buf_append_iri(buf, id.version_iri)) return COWL_ERR_MEM;
     }
 
     return COWL_OK;

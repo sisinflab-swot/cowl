@@ -21,8 +21,9 @@
 UHASH_INIT(CowlDataPropTable, CowlDataProp*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlDataPropTable) *inst_tbl = NULL;
 
-void cowl_data_prop_api_init(void) {
+cowl_ret_t cowl_data_prop_api_init(void) {
     inst_tbl = uhset_alloc(CowlDataPropTable);
+    return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_data_prop_api_deinit(void) {
@@ -47,8 +48,10 @@ static void cowl_data_prop_free(CowlDataProp *prop) {
     cowl_free(prop);
 }
 
-CowlDataProp* cowl_data_prop_get(CowlIRI *iri)
+CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
+    if (!iri) return NULL;
     COWL_INST_TBL_GET_IMPL(DataProp, data_prop, { .iri = iri }, cowl_data_prop_alloc(iri))
+}
 
 CowlDataProp* cowl_data_prop_retain(CowlDataProp *prop) {
     return cowl_object_retain(prop);

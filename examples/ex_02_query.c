@@ -18,14 +18,14 @@
 static bool for_each_cls(void *ctx, CowlClsExp *exp);
 
 int main(void) {
-
     cowl_api_init();
+
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, ONTO_PATH, NULL);
+    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH, NULL);
     cowl_parser_release(parser);
 
     // Query the parsed ontology
-    if (onto) {
+    if (ontology) {
         CowlLogger *logger = cowl_logger_console_get();
 
         // Get the class whose atomic subclasses we are interested in.
@@ -34,16 +34,16 @@ int main(void) {
 
         // Run the query.
         CowlClsExpIterator iter = cowl_iterator_init(logger, for_each_cls);
-        cowl_ontology_iterate_sub_classes(onto, cls, &iter);
+        cowl_ontology_iterate_sub_classes(ontology, cls, &iter);
 
         // Cleanup.
         cowl_class_release(cls);
         cowl_logger_release(logger);
     }
 
-    cowl_ontology_release(onto);
+    cowl_ontology_release(ontology);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 // Iterator body, invoked for each class expression matching the query.

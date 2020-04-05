@@ -21,7 +21,11 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlString);
 /// @endcond
 
-/// Return codes for API calls that can fail.
+/**
+ * Return codes for API calls that can fail.
+ *
+ * @note Error codes are guaranteed to evaluate to true in boolean expressions.
+ */
 typedef cowl_enum(cowl_ret_t) {
 
 /// @name Codes
@@ -59,7 +63,7 @@ typedef cowl_enum(cowl_ret_t) {
  * Returns a human-readable string representation of the specified return value.
  *
  * @param ret Return value.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note You must not modify or free the returned string.
  */
@@ -69,7 +73,7 @@ char const* cowl_ret_t_to_cstring(cowl_ret_t ret);
  * Returns a human-readable string representation of the specified return value.
  *
  * @param ret Return value.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  */

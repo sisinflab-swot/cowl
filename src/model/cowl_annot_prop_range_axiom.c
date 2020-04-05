@@ -42,6 +42,7 @@ static void cowl_annot_prop_range_axiom_free(CowlAnnotPropRangeAxiom *axiom) {
 
 CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_get(CowlAnnotProp *prop, CowlIRI *range,
                                                          CowlAnnotationVec *annot) {
+    if (!(prop && range)) return NULL;
     return cowl_annot_prop_range_axiom_alloc(prop, range, annot);
 }
 

@@ -42,6 +42,7 @@ static void cowl_obj_prop_range_axiom_free(CowlObjPropRangeAxiom *axiom) {
 
 CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_get(CowlObjPropExp *prop, CowlClsExp *range,
                                                      CowlAnnotationVec *annot) {
+    if (!(prop && range)) return NULL;
     return cowl_obj_prop_range_axiom_alloc(prop, range, annot);
 }
 

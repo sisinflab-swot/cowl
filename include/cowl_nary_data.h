@@ -39,7 +39,7 @@ cowl_struct_decl(CowlNAryData);
  *
  * @param type N-ary data range type.
  * @param operands The operands.
- * @return Retained N-ary data range.
+ * @return Retained N-ary data range, or NULL on error.
  *
  * @public @memberof CowlNAryData
  */
@@ -92,7 +92,7 @@ CowlDataRangeSet* cowl_nary_data_get_operands(CowlNAryData *range);
  * Returns the string representation of the specified N-ary data range.
  *
  * @param range The data range.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

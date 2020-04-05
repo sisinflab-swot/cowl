@@ -36,7 +36,7 @@ cowl_struct_decl(CowlAnnotProp);
  * Returns a retained annotation property.
  *
  * @param iri IRI of the property.
- * @return Retained annotation property.
+ * @return Retained annotation property, or NULL on error.
  *
  * @public @memberof CowlAnnotProp
  */
@@ -48,7 +48,7 @@ CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri);
  *
  * @param cstring String representation of the IRI.
  * @param length Length of the string.
- * @return Retained annotation property.
+ * @return Retained annotation property, or NULL on error.
  *
  * @public @memberof CowlAnnotProp
  */
@@ -59,7 +59,7 @@ CowlAnnotProp* cowl_annot_prop_from_cstring(char const *cstring, size_t length);
  * Returns a retained annotation property given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlAnnotProp *] Retained annotation property.
+ * @return [CowlAnnotProp *] Retained annotation property, or NULL on error.
  *
  * @public @related CowlAnnotProp
  */
@@ -101,7 +101,7 @@ CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop);
  * Returns the string representation of the specified annotation property.
  *
  * @param prop The annotation property.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

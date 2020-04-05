@@ -42,6 +42,7 @@ static void cowl_obj_prop_domain_axiom_free(CowlObjPropDomainAxiom *axiom) {
 
 CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, CowlClsExp *domain,
                                                        CowlAnnotationVec *annot) {
+    if (!(prop && domain)) return NULL;
     return cowl_obj_prop_domain_axiom_alloc(prop, domain, annot);
 }
 

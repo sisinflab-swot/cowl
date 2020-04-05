@@ -16,6 +16,7 @@
 COWL_BEGIN_DECLS
 
 #define cowl_array_size(ARRAY) (sizeof(ARRAY) / sizeof(*(ARRAY)))
+#define cowl_enum_value_is_valid(T, VAL) ((VAL) >= COWL_##T##_FIRST && (VAL) < COWL_##T##_COUNT)
 
 COWL_END_DECLS
 

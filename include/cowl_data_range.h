@@ -68,7 +68,7 @@ CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range);
  * Returns the string representation of the specified data range.
  *
  * @param range The data range.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

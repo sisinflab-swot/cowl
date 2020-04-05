@@ -16,7 +16,7 @@ UHASH_IMPL(CowlFacetRestrSet, cowl_facet_restr_hash, cowl_facet_restr_equals)
 void cowl_facet_restr_set_free(CowlFacetRestrSet *set) {
     if (!set) return;
     uhash_foreach_key(CowlFacetRestrSet, set, restr, cowl_facet_restr_release(restr));
-    uhash_free(CowlFacetRestrSet, set);
+    uhash_free(CowlFacetRestrSet, (UHash(CowlFacetRestrSet)*)set);
 }
 
 bool cowl_facet_restr_set_equals(CowlFacetRestrSet *lhs, CowlFacetRestrSet *rhs) {

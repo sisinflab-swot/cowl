@@ -16,7 +16,7 @@ UHASH_IMPL(CowlDataRangeSet, cowl_data_range_hash, cowl_data_range_equals)
 void cowl_data_range_set_free(CowlDataRangeSet *set) {
     if (!set) return;
     uhash_foreach_key(CowlDataRangeSet, set, range, cowl_data_range_release(range));
-    uhash_free(CowlDataRangeSet, set);
+    uhash_free(CowlDataRangeSet, (UHash(CowlDataRangeSet)*)set);
 }
 
 bool cowl_data_range_set_equals(CowlDataRangeSet *lhs, CowlDataRangeSet *rhs) {

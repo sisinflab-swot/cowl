@@ -37,7 +37,7 @@ cowl_struct_decl(CowlClass);
  * Returns a retained class.
  *
  * @param iri IRI of the class.
- * @return Retained class.
+ * @return Retained class, or NULL on error.
  *
  * @public @memberof CowlClass
  */
@@ -49,7 +49,7 @@ CowlClass* cowl_class_get(CowlIRI *iri);
  *
  * @param cstring String representation of the IRI.
  * @param length Length of the string.
- * @return Retained class.
+ * @return Retained class, or NULL on error.
  *
  * @public @memberof CowlClass
  */
@@ -60,7 +60,7 @@ CowlClass* cowl_class_from_cstring(char const *cstring, size_t length);
  * Returns a retained class given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlClass *] Retained class.
+ * @return [CowlClass *] Retained class, or NULL on error.
  *
  * @public @related CowlClass
  */
@@ -70,7 +70,7 @@ CowlClass* cowl_class_from_cstring(char const *cstring, size_t length);
  * Retains the specified class.
  *
  * @param cls The class.
- * @return Retained Class.
+ * @return Retained class.
  *
  * @public @memberof CowlClass
  */
@@ -102,7 +102,7 @@ CowlIRI* cowl_class_get_iri(CowlClass *cls);
  * Returns the string representation of the specified class.
  *
  * @param cls The class.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

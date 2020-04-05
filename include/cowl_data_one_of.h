@@ -36,7 +36,7 @@ cowl_struct_decl(CowlDataOneOf);
  * Returns a retained literal enumeration.
  *
  * @param values The enumeration values.
- * @return Retained literal enumeration.
+ * @return Retained literal enumeration, or NULL on error.
  *
  * @public @memberof CowlDataOneOf
  */
@@ -79,7 +79,7 @@ CowlLiteralSet* cowl_data_one_of_get_values(CowlDataOneOf *range);
  * Returns the string representation of the specified literal enumeration.
  *
  * @param range The literal enumeration.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

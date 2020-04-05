@@ -39,8 +39,8 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
  *
  * @param dt The defined datatype.
  * @param range Range of the defined datatype.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
@@ -105,7 +105,7 @@ CowlAnnotationVec* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

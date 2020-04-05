@@ -43,7 +43,7 @@ cowl_ret_t cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, 
 
 cowl_ret_t cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri);
 cowl_ret_t cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri);
-cowl_ret_t cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID *id);
+cowl_ret_t cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID id);
 cowl_ret_t cowl_str_buf_append_literal(CowlStrBuf *buf, CowlLiteral *literal);
 cowl_ret_t cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr);
 cowl_ret_t cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id);

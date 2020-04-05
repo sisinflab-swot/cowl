@@ -42,6 +42,7 @@ static void cowl_datatype_def_axiom_free(CowlDatatypeDefAxiom *axiom) {
 
 CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRange *range,
                                                   CowlAnnotationVec *annot) {
+    if (!(dt && range)) return NULL;
     return cowl_datatype_def_axiom_alloc(dt, range, annot);
 }
 

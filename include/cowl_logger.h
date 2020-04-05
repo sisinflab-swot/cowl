@@ -39,7 +39,7 @@ cowl_struct_decl(CowlLogger);
 /**
  * Returns a retained logger that logs to stdout.
  *
- * @return Retained logger.
+ * @return Retained logger, or NULL on error.
  *
  * @public @memberof CowlLogger
  */
@@ -50,7 +50,7 @@ CowlLogger* cowl_logger_console_get(void);
  * Returns a retained logger that logs to the specified file.
  *
  * @param path Path of the log file.
- * @return Retained logger.
+ * @return Retained logger, or NULL on error.
  *
  * @note The path is copied by the logger, so you are still responsible for
  *       deallocating the string passed to this allocator.
@@ -63,7 +63,7 @@ CowlLogger* cowl_logger_file_get(char const *path);
 /**
  * Returns a retained logger that logs nowhere.
  *
- * @return Retained logger.
+ * @return Retained logger, or NULL on error.
  *
  * @public @memberof CowlLogger
  */

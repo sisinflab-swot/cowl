@@ -39,8 +39,8 @@ cowl_struct_decl(CowlClsAssertAxiom);
  *
  * @param ind The assertion individual.
  * @param exp The asserted class expression.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlClsAssertAxiom
  */
@@ -106,7 +106,7 @@ CowlAnnotationVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom);
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

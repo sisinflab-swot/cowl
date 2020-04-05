@@ -40,8 +40,8 @@ cowl_struct_decl(CowlString);
  *
  * @param prop The annotation property.
  * @param domain Domain of the annotation property.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
@@ -107,7 +107,7 @@ CowlAnnotationVec* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxi
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

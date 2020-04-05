@@ -13,7 +13,15 @@
 
 static cowl_struct(CowlRDFVocab) vocab;
 
-void cowl_rdf_vocab_init(void) {
+static inline cowl_ret_t cowl_rdf_vocab_validate(void) {
+    if (vocab.ns && vocab.iri.plain_literal && vocab.iri.xml_literal &&
+        vocab.iri.lang_range && vocab.dt.plain_literal && vocab.dt.xml_literal) {
+        return COWL_OK;
+    }
+    return COWL_ERR_MEM;
+}
+
+cowl_ret_t cowl_rdf_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 
     CowlRDFIRIVocab v = {
@@ -30,6 +38,8 @@ void cowl_rdf_vocab_init(void) {
             .xml_literal = cowl_datatype_vocab_get(v.xml_literal)
         }
     };
+
+    return cowl_rdf_vocab_validate();
 }
 
 void cowl_rdf_vocab_deinit(void) {

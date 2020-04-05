@@ -41,6 +41,7 @@ static void cowl_obj_has_value_free(CowlObjHasValue *exp) {
 }
 
 CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *ind) {
+    if (!(prop && ind)) return NULL;
     return cowl_obj_has_value_alloc(prop, ind);
 }
 

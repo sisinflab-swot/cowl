@@ -37,7 +37,7 @@ cowl_struct_decl(CowlObjProp);
  * Returns a retained object property.
  *
  * @param iri IRI of the object property.
- * @return Retained object property.
+ * @return Retained object property, or NULL on error.
  *
  * @public @memberof CowlObjProp
  */
@@ -49,7 +49,7 @@ CowlObjProp* cowl_obj_prop_get(CowlIRI *iri);
  *
  * @param cstring String representation of the IRI.
  * @param length Length of the string.
- * @return Retained object property.
+ * @return Retained object property, or NULL on error.
  *
  * @public @memberof CowlObjProp
  */
@@ -60,7 +60,7 @@ CowlObjProp* cowl_obj_prop_from_cstring(char const *cstring, size_t length);
  * Returns a retained object property given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlObjProp *] Retained object property.
+ * @return [CowlObjProp *] Retained object property, or NULL on error.
  *
  * @public @related CowlObjProp
  */
@@ -102,7 +102,7 @@ CowlIRI* cowl_obj_prop_get_iri(CowlObjProp *prop);
  * Returns the string representation of the specified object property.
  *
  * @param prop The object property.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

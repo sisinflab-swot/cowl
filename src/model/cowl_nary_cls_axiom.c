@@ -10,6 +10,7 @@
 
 #include "cowl_nary_cls_axiom_private.h"
 #include "cowl_cls_exp_set.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -37,6 +38,7 @@ static void cowl_nary_cls_axiom_free(CowlNAryClsAxiom *axiom) {
 
 CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlClsExpSet *classes,
                                           CowlAnnotationVec *annot) {
+    if (!(classes && cowl_enum_value_is_valid(NAT, type))) return NULL;
     return cowl_nary_cls_axiom_alloc((CowlAxiomType)type + COWL_AT_EQUIV_CLASSES, classes, annot);
 }
 

@@ -15,7 +15,7 @@
 
 COWL_BEGIN_DECLS
 
-void cowl_facet_init(void);
+cowl_ret_t cowl_facet_init(void);
 void cowl_facet_deinit(void);
 
 #define cowl_facet_foreach(var_name) \

@@ -16,23 +16,23 @@
 #include "cowl_template.h"
 
 static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType type,
-                                                                  CowlIndividual *source,
+                                                                  CowlIndividual *subj,
                                                                   CowlDataPropExp *prop,
-                                                                  CowlLiteral *target,
+                                                                  CowlLiteral *obj,
                                                                   CowlAnnotationVec *annot) {
     CowlDataPropAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
     cowl_uint_t hash = cowl_axiom_hash_4(COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM, annot, type,
-                                         cowl_individual_hash(source),
+                                         cowl_individual_hash(subj),
                                          cowl_data_prop_exp_hash(prop),
-                                         cowl_literal_hash(target));
+                                         cowl_literal_hash(obj));
 
     cowl_axiom_init(CowlDataPropAssertAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
-        .subject = cowl_individual_retain(source),
+        .subject = cowl_individual_retain(subj),
         .prop = cowl_data_prop_exp_retain(prop),
-        .object = cowl_literal_retain(target)
+        .object = cowl_literal_retain(obj)
     );
 
     return axiom;
@@ -50,6 +50,7 @@ CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                          CowlDataPropExp *prop,
                                                          CowlLiteral *obj,
                                                          CowlAnnotationVec *annot) {
+    if (!(subj && prop && obj)) return NULL;
     return cowl_data_prop_assert_axiom_alloc(COWL_AT_DATA_PROP_ASSERT, subj, prop, obj, annot);
 }
 

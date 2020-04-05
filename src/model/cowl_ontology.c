@@ -9,6 +9,7 @@
  */
 
 #include "cowl_ontology_private.h"
+#include "cowl_ontology_id_private.h"
 #include "cowl_ontology_vec.h"
 #include "cowl_private.h"
 
@@ -21,6 +22,7 @@ UHASH_IMPL(CowlNamedIndAxiomMap, cowl_named_ind_hash, cowl_named_ind_equals)
 UHASH_IMPL(CowlAnonIndAxiomMap, cowl_anon_ind_hash, cowl_anon_ind_equals)
 
 typedef cowl_struct(CowlAxiomCtx) {
+    cowl_ret_t ret;
     CowlOntology *onto;
     CowlAxiom *axiom;
 } CowlAxiomCtx;
@@ -29,31 +31,11 @@ typedef cowl_struct(CowlAxiomCtx) {
 
 static CowlOntology* cowl_ontology_alloc(void);
 static void cowl_ontology_free(CowlOntology *onto);
-
-#define cowl_ontology_get_class_refs(ONTO) ((ONTO)->class_refs)
-#define cowl_ontology_get_datatype_refs(ONTO) ((ONTO)->datatype_refs)
-#define cowl_ontology_get_obj_prop_refs(ONTO) ((ONTO)->obj_prop_refs)
-#define cowl_ontology_get_data_prop_refs(ONTO) ((ONTO)->data_prop_refs)
-#define cowl_ontology_get_annot_prop_refs(ONTO) ((ONTO)->annot_prop_refs)
-#define cowl_ontology_get_named_ind_refs(ONTO) ((ONTO)->named_ind_refs)
-#define cowl_ontology_get_anon_ind_refs(ONTO) ((ONTO)->anon_ind_refs)
-
-static void cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *axiom,
-                                                  CowlPrimitive primitive);
+static cowl_ret_t cowl_ontology_add_primitive(CowlOntology *onto, CowlPrimitive primitive);
+static cowl_ret_t cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *axiom,
+                                                        CowlPrimitive primitive);
+static bool cowl_ontology_primitive_axiom_adder(void *ctx, CowlPrimitive primitive);
 static bool cowl_ontology_primitive_adder(void *ctx, CowlPrimitive primitive);
-
-// Utils
-
-#define cowl_add_axiom_to_vec_in_map(T, map, key, axiom) do {                                       \
-    uhash_uint_t k;                                                                                 \
-    uhash_ret_t ret = uhash_put(T, map, key, &k);                                                   \
-                                                                                                    \
-    if (ret == UHASH_INSERTED) {                                                                    \
-        uhash_value(map, k) = vector_alloc(CowlAxiomPtr);                                           \
-    }                                                                                               \
-                                                                                                    \
-    if (axiom) vector_push(CowlAxiomPtr, uhash_value(map, k), axiom);                               \
-} while(0)
 
 // Public API
 
@@ -67,7 +49,7 @@ void cowl_ontology_release(CowlOntology *onto) {
     }
 }
 
-CowlOntologyID* cowl_ontology_get_id(CowlOntology *onto) {
+CowlOntologyID cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
 }
 
@@ -76,7 +58,13 @@ CowlAnnotationVec* cowl_ontology_get_annot(CowlOntology *onto) {
 }
 
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
-    return lhs == rhs || cowl_ontology_id_equals(lhs->id, rhs->id);
+    if (lhs == rhs) return true;
+
+    // If the ontology IRIs are both NULL, then both ontologies are anonymous.
+    // If they were equal, they would have passed the pointer equality check.
+    if (!(lhs->id.ontology_iri || rhs->id.ontology_iri)) return false;
+
+    return cowl_ontology_id_equals(lhs->id, rhs->id);
 }
 
 cowl_uint_t cowl_ontology_hash(CowlOntology *onto) {
@@ -119,44 +107,51 @@ cowl_uint_t cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType
 
 #define COWL_ONTOLOGY_ENTITY_QUERY_IMPL(T, SINGULAR, PLURAL)                                        \
                                                                                                     \
-static void cowl_ontology_get_imported_##PLURAL(CowlOntology *onto, UHash(T##AxiomMap) *set) {      \
-    vector_foreach(CowlOntologyPtr, onto->imports, import, {                                        \
-        uhset_union(T##AxiomMap, set, cowl_ontology_get_##SINGULAR##_refs(import));                 \
-        cowl_ontology_get_imported_##PLURAL(import, set);                                           \
-    });                                                                                             \
-}                                                                                                   \
+static cowl_ret_t cowl_ontology_add_axiom_for_##SINGULAR(CowlOntology *onto,                        \
+                                                         T *entity, CowlAxiom *axiom) {             \
+    uhash_uint_t idx;                                                                               \
+    uhash_ret_t ret = uhash_put(T##AxiomMap, onto->SINGULAR##_refs, entity, &idx);                  \
+    if (ret == UHASH_ERR) return COWL_ERR_MEM;                                                      \
                                                                                                     \
-static UHash(T##AxiomMap)* cowl_ontology_get_all_##PLURAL(CowlOntology *onto, bool *should_free) {  \
-    UHash(T##AxiomMap) *set = cowl_ontology_get_##SINGULAR##_refs(onto);                            \
+    Vector(CowlAxiomPtr) *vec = uhash_value(onto->SINGULAR##_refs, idx);                            \
                                                                                                     \
-    if (vector_count(onto->imports)) {                                                              \
-        set = uhash_copy_as_set(T##AxiomMap, set);                                                  \
-        cowl_ontology_get_imported_##PLURAL(onto, set);                                             \
-        *should_free = true;                                                                        \
-    } else {                                                                                        \
-        *should_free = false;                                                                       \
+    if (ret == UHASH_INSERTED || !vec) {                                                            \
+        vec = vector_alloc(CowlAxiomPtr);                                                           \
+        uhash_value(onto->SINGULAR##_refs, idx) = vec;                                              \
     }                                                                                               \
                                                                                                     \
-    return set;                                                                                     \
+    if (vector_push(CowlAxiomPtr, vec, axiom)) {                                                    \
+        return COWL_ERR_MEM;                                                                        \
+    }                                                                                               \
+                                                                                                    \
+    return COWL_OK;                                                                                 \
+}                                                                                                   \
+                                                                                                    \
+static cowl_ret_t cowl_ontology_add_##SINGULAR(CowlOntology *onto, T *entity) {                     \
+    uhash_uint_t idx;                                                                               \
+    uhash_ret_t ret = uhash_put(T##AxiomMap, onto->SINGULAR##_refs, entity, &idx);                  \
+    if (ret == UHASH_ERR) return COWL_ERR_MEM;                                                      \
+                                                                                                    \
+    if (ret == UHASH_INSERTED) {                                                                    \
+        uhash_value(onto->SINGULAR##_refs, idx) = NULL;                                             \
+    }                                                                                               \
+                                                                                                    \
+    return COWL_OK;                                                                                 \
 }                                                                                                   \
                                                                                                     \
 cowl_uint_t cowl_ontology_##PLURAL##_count(CowlOntology *onto) {                                    \
-    bool should_free;                                                                               \
-    UHash(T##AxiomMap) *set = cowl_ontology_get_all_##PLURAL(onto, &should_free);                   \
-    cowl_uint_t count = uhash_count(set);                                                           \
-    if (should_free) uhash_free(T##AxiomMap, set);                                                  \
-    return count;                                                                                   \
+    return (cowl_uint_t)uhash_count(onto->SINGULAR##_refs);                                         \
 }                                                                                                   \
                                                                                                     \
 bool cowl_ontology_iterate_##PLURAL(CowlOntology *onto, T##Iterator *iter) {                        \
-    cowl_ontology_foreach(T, SINGULAR, PLURAL, {                                                    \
+    uhash_foreach_key(T##AxiomMap, onto->SINGULAR##_refs, SINGULAR, {                               \
         if (!cowl_iterate(iter, SINGULAR)) return false;                                            \
     });                                                                                             \
     return true;                                                                                    \
 }                                                                                                   \
                                                                                                     \
 cowl_uint_t cowl_ontology_axiom_count_for_##SINGULAR(CowlOntology *onto, T *entity) {               \
-    UHash(T##AxiomMap) *map = cowl_ontology_get_##SINGULAR##_refs(onto);                            \
+    UHash(T##AxiomMap) *map = onto->SINGULAR##_refs;                                                \
     Vector(CowlAxiomPtr) *axioms = uhmap_get(T##AxiomMap, map, entity, NULL);                       \
     cowl_uint_t count = vector_count(axioms);                                                       \
                                                                                                     \
@@ -169,7 +164,7 @@ cowl_uint_t cowl_ontology_axiom_count_for_##SINGULAR(CowlOntology *onto, T *enti
                                                                                                     \
 bool cowl_ontology_iterate_axioms_for_##SINGULAR(CowlOntology *onto, T *entity,                     \
                                                  CowlAxiomIterator *iter) {                         \
-    UHash(T##AxiomMap) *map = cowl_ontology_get_##SINGULAR##_refs(onto);                            \
+    UHash(T##AxiomMap) *map = onto->SINGULAR##_refs;                                                \
     Vector(CowlAxiomPtr) *axioms = uhmap_get(T##AxiomMap, map, entity, NULL);                       \
                                                                                                     \
     vector_foreach(CowlAxiomPtr, axioms, axiom, {                                                   \
@@ -183,14 +178,6 @@ bool cowl_ontology_iterate_axioms_for_##SINGULAR(CowlOntology *onto, T *entity, 
     return true;                                                                                    \
 }
 
-#define cowl_ontology_foreach(T, SINGULAR, PLURAL, CODE) do {                                       \
-    bool should_free = false;                                                                       \
-    UHash(T##AxiomMap) *SINGULAR##_set;                                                             \
-    SINGULAR##_set = cowl_ontology_get_all_##PLURAL(onto, &should_free);                            \
-    uhash_foreach_key(T##AxiomMap, SINGULAR##_set, SINGULAR, CODE);                                 \
-    if (should_free) uhash_free(T##AxiomMap, SINGULAR##_set);                                       \
-} while(0)
-
 COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlClass, class, classes)
 COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlDatatype, datatype, datatypes)
 COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlObjProp, obj_prop, obj_props)
@@ -201,60 +188,61 @@ COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlAnonInd, anon_ind, anon_inds)
 
 bool cowl_ontology_iterate_signature(CowlOntology *onto, CowlEntityIterator *iter) {
 
-    cowl_ontology_foreach(CowlClass, class, classes, {
-        if (!cowl_iterate(iter, cowl_entity_wrap_class(class))) return false;
+    uhash_foreach_key(CowlClassAxiomMap, onto->class_refs, cls, {
+        if (!cowl_iterate(iter, cowl_entity_wrap_class(cls))) return false;
     });
 
-    cowl_ontology_foreach(CowlDatatype, datatype, datatypes, {
-        if (!cowl_iterate(iter, cowl_entity_wrap_datatype(datatype))) return false;
+    uhash_foreach_key(CowlDatatypeAxiomMap, onto->datatype_refs, dt, {
+        if (!cowl_iterate(iter, cowl_entity_wrap_datatype(dt))) return false;
     });
 
-    cowl_ontology_foreach(CowlObjProp, obj_prop, obj_props, {
-        if (!cowl_iterate(iter, cowl_entity_wrap_obj_prop(obj_prop))) return false;
+    uhash_foreach_key(CowlObjPropAxiomMap, onto->obj_prop_refs, prop, {
+        if (!cowl_iterate(iter, cowl_entity_wrap_obj_prop(prop))) return false;
     });
 
-    cowl_ontology_foreach(CowlDataProp, data_prop, data_props, {
-        if (!cowl_iterate(iter, cowl_entity_wrap_data_prop(data_prop))) return false;
+    uhash_foreach_key(CowlDataPropAxiomMap, onto->data_prop_refs, prop, {
+        if (!cowl_iterate(iter, cowl_entity_wrap_data_prop(prop))) return false;
     });
 
-    cowl_ontology_foreach(CowlAnnotProp, annot_prop, annot_props, {
-        if (!cowl_iterate(iter, cowl_entity_wrap_annot_prop(annot_prop))) return false;
+    uhash_foreach_key(CowlAnnotPropAxiomMap, onto->annot_prop_refs, prop, {
+        if (!cowl_iterate(iter, cowl_entity_wrap_annot_prop(prop))) return false;
     });
 
-    cowl_ontology_foreach(CowlNamedInd, named_ind, named_inds, {
-        if (!cowl_iterate(iter, cowl_entity_wrap_named_ind(named_ind))) return false;
+    uhash_foreach_key(CowlNamedIndAxiomMap, onto->named_ind_refs, ind, {
+        if (!cowl_iterate(iter, cowl_entity_wrap_named_ind(ind))) return false;
     });
 
     return true;
 }
 
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveIterator *iter) {
-    cowl_ontology_foreach(CowlClass, class, classes, {
-        if (!cowl_iterate(iter, cowl_primitive_wrap_class(class))) return false;
+
+    uhash_foreach_key(CowlClassAxiomMap, onto->class_refs, cls, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_class(cls))) return false;
     });
 
-    cowl_ontology_foreach(CowlDatatype, datatype, datatypes, {
-        if (!cowl_iterate(iter, cowl_primitive_wrap_datatype(datatype))) return false;
+    uhash_foreach_key(CowlDatatypeAxiomMap, onto->datatype_refs, dt, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_datatype(dt))) return false;
     });
 
-    cowl_ontology_foreach(CowlObjProp, obj_prop, obj_props, {
-        if (!cowl_iterate(iter, cowl_primitive_wrap_obj_prop(obj_prop))) return false;
+    uhash_foreach_key(CowlObjPropAxiomMap, onto->obj_prop_refs, prop, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_obj_prop(prop))) return false;
     });
 
-    cowl_ontology_foreach(CowlDataProp, data_prop, data_props, {
-        if (!cowl_iterate(iter, cowl_primitive_wrap_data_prop(data_prop))) return false;
+    uhash_foreach_key(CowlDataPropAxiomMap, onto->data_prop_refs, prop, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_data_prop(prop))) return false;
     });
 
-    cowl_ontology_foreach(CowlAnnotProp, annot_prop, annot_props, {
-        if (!cowl_iterate(iter, cowl_primitive_wrap_annot_prop(annot_prop))) return false;
+    uhash_foreach_key(CowlAnnotPropAxiomMap, onto->annot_prop_refs, prop, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_annot_prop(prop))) return false;
     });
 
-    cowl_ontology_foreach(CowlNamedInd, named_ind, named_inds, {
-        if (!cowl_iterate(iter, cowl_primitive_wrap_named_ind(named_ind))) return false;
+    uhash_foreach_key(CowlNamedIndAxiomMap, onto->named_ind_refs, ind, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_named_ind(ind))) return false;
     });
 
-    cowl_ontology_foreach(CowlAnonInd, anon_ind, anon_inds, {
-        if (!cowl_iterate(iter, cowl_primitive_wrap_anon_ind(anon_ind))) return false;
+    uhash_foreach_key(CowlAnonIndAxiomMap, onto->anon_ind_refs, ind, {
+        if (!cowl_iterate(iter, cowl_primitive_wrap_anon_ind(ind))) return false;
     });
 
     return true;
@@ -304,7 +292,7 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
 
 bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
                                        CowlClsExpIterator *iter) {
-    UHash(CowlClassAxiomMap) *map = cowl_ontology_get_class_refs(onto);
+    UHash(CowlClassAxiomMap) *map = onto->class_refs;
     Vector(CowlAxiomPtr) *axioms = uhmap_get(CowlClassAxiomMap, map, owl_class, NULL);
 
     vector_foreach(CowlAxiomPtr, axioms, axiom, {
@@ -325,7 +313,7 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
 
 bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
                                          CowlClsExpIterator *iter) {
-    UHash(CowlClassAxiomMap) *map = cowl_ontology_get_class_refs(onto);
+    UHash(CowlClassAxiomMap) *map = onto->class_refs;
     Vector(CowlAxiomPtr) *axioms = uhmap_get(CowlClassAxiomMap, map, owl_class, NULL);
 
     vector_foreach(CowlAxiomPtr, axioms, axiom, {
@@ -346,7 +334,7 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
 
 bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
                                       CowlClsExpIterator *iter) {
-    UHash(CowlClassAxiomMap) *map = cowl_ontology_get_class_refs(onto);
+    UHash(CowlClassAxiomMap) *map = onto->class_refs;
     Vector(CowlAxiomPtr) *axioms = uhmap_get(CowlClassAxiomMap, map, owl_class, NULL);
 
     vector_foreach(CowlAxiomPtr, axioms, axiom, {
@@ -373,10 +361,10 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
     Vector(CowlAxiomPtr) *axioms;
 
     if (ind->is_named) {
-        UHash(CowlNamedIndAxiomMap) *map = cowl_ontology_get_named_ind_refs(onto);
+        UHash(CowlNamedIndAxiomMap) *map = onto->named_ind_refs;
         axioms = uhmap_get(CowlNamedIndAxiomMap, map, (CowlNamedInd *)ind, NULL);
     } else {
-        UHash(CowlAnonIndAxiomMap) *map = cowl_ontology_get_anon_ind_refs(onto);
+        UHash(CowlAnonIndAxiomMap) *map = onto->anon_ind_refs;
         axioms = uhmap_get(CowlAnonIndAxiomMap, map, (CowlAnonInd *)ind, NULL);
     }
 
@@ -408,7 +396,7 @@ CowlOntology* cowl_ontology_alloc(void) {
 void cowl_ontology_free(CowlOntology *onto) {
     if (!onto) return;
 
-    cowl_ontology_id_free(onto->id);
+    cowl_ontology_id_deinit(onto->id);
     cowl_ontology_vec_free(onto->imports);
     cowl_annotation_vec_free(onto->annotations);
 
@@ -442,93 +430,111 @@ void cowl_ontology_free(CowlOntology *onto) {
     cowl_free(onto);
 }
 
-void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID *id) {
+void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID id) {
     onto->id = id;
 }
 
-void cowl_ontology_set_annot(CowlOntology *onto, Vector(CowlAnnotationPtr) *annot) {
+cowl_ret_t cowl_ontology_set_annot(CowlOntology *onto, Vector(CowlAnnotationPtr) *annot) {
     onto->annotations = annot;
 
-    CowlAxiomCtx c = { .onto = onto };
-    CowlPrimitiveIterator iter = cowl_iterator_init(&c, cowl_ontology_primitive_adder);
-    cowl_annotation_vec_iterate_primitives(annot, &iter);
+    CowlAxiomCtx ctx = { .onto = onto };
+    CowlPrimitiveIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_axiom_adder);
+    if (!cowl_annotation_vec_iterate_primitives(annot, &iter) && ctx.ret) return COWL_ERR_MEM;
+    return COWL_OK;
 }
 
-void cowl_ontology_set_imports(CowlOntology *onto, Vector(CowlOntologyPtr) *imports) {
+cowl_ret_t cowl_ontology_set_imports(CowlOntology *onto, Vector(CowlOntologyPtr) *imports) {
     onto->imports = imports;
+
+    CowlAxiomCtx ctx = { .onto = onto };
+    CowlPrimitiveIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_adder);
+
+    vector_foreach(CowlOntologyPtr, imports, import, {
+        if (!cowl_ontology_iterate_primitives(import, &iter) && ctx.ret) return COWL_ERR_MEM;
+    });
+
+    return COWL_OK;
 }
 
-void cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
+cowl_ret_t cowl_ontology_add_primitive(CowlOntology *onto, CowlPrimitive primitive) {
+    switch (primitive.type) {
+        case COWL_PT_CLASS: return cowl_ontology_add_class(onto, primitive.owl_class);
+        case COWL_PT_DATA_PROP: return cowl_ontology_add_data_prop(onto, primitive.data_prop);
+        case COWL_PT_DATATYPE: return cowl_ontology_add_datatype(onto, primitive.datatype);
+        case COWL_PT_OBJ_PROP: return cowl_ontology_add_obj_prop(onto, primitive.obj_prop);
+        case COWL_PT_ANNOT_PROP: return cowl_ontology_add_annot_prop(onto, primitive.annot_prop);
+        case COWL_PT_NAMED_IND: return cowl_ontology_add_named_ind(onto, primitive.named_ind);
+        case COWL_PT_ANON_IND: return cowl_ontology_add_anon_ind(onto, primitive.anon_ind);
+        default: return COWL_ERR;
+    }
+}
+
+cowl_ret_t cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     CowlAxiomType type = cowl_axiom_flags_get_type(axiom->flags);
     UHash(CowlAxiomSet) *axioms = onto->axioms_by_type[type];
 
     if (!axioms) {
         axioms = uhset_alloc(CowlAxiomSet);
+        if (!axioms) return COWL_ERR_MEM;
+
         onto->axioms_by_type[type] = axioms;
     }
 
     uhash_ret_t ret = uhset_insert(CowlAxiomSet, axioms, axiom);
-    if (ret != UHASH_INSERTED) return;
+    if (ret == UHASH_ERR) return COWL_ERR_MEM;
+    if (ret == UHASH_PRESENT) return COWL_OK;
 
     cowl_axiom_retain(axiom);
-    CowlAxiomCtx c = { .onto = onto, .axiom = axiom };
+    CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
+    CowlPrimitiveIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_axiom_adder);
+    if (!cowl_axiom_iterate_primitives(axiom, &iter) && ctx.ret) return COWL_ERR_MEM;
 
-    CowlPrimitiveIterator iter = cowl_iterator_init(&c, cowl_ontology_primitive_adder);
-    cowl_axiom_iterate_primitives(axiom, &iter);
+    return COWL_OK;
 }
 
-void cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *axiom,
-                                           CowlPrimitive primitive) {
+cowl_ret_t cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *axiom,
+                                                 CowlPrimitive primitive) {
     switch (primitive.type) {
 
         case COWL_PT_CLASS:
-            cowl_add_axiom_to_vec_in_map(CowlClassAxiomMap, onto->class_refs,
-                                         primitive.owl_class, axiom);
-            break;
+            return cowl_ontology_add_axiom_for_class(onto, primitive.owl_class, axiom);
 
         case COWL_PT_DATA_PROP:
-            cowl_add_axiom_to_vec_in_map(CowlDataPropAxiomMap, onto->data_prop_refs,
-                                         primitive.data_prop, axiom);
-            break;
+            return cowl_ontology_add_axiom_for_data_prop(onto, primitive.data_prop, axiom);
 
         case COWL_PT_DATATYPE:
-            cowl_add_axiom_to_vec_in_map(CowlDatatypeAxiomMap, onto->datatype_refs,
-                                         primitive.datatype, axiom);
-            break;
+            return cowl_ontology_add_axiom_for_datatype(onto, primitive.datatype, axiom);
 
         case COWL_PT_OBJ_PROP:
-            cowl_add_axiom_to_vec_in_map(CowlObjPropAxiomMap, onto->obj_prop_refs,
-                                         primitive.obj_prop, axiom);
-            break;
+            return cowl_ontology_add_axiom_for_obj_prop(onto, primitive.obj_prop, axiom);
 
         case COWL_PT_ANNOT_PROP:
-            cowl_add_axiom_to_vec_in_map(CowlAnnotPropAxiomMap, onto->annot_prop_refs,
-                                         primitive.annot_prop, axiom);
-            break;
+            return cowl_ontology_add_axiom_for_annot_prop(onto, primitive.annot_prop, axiom);
 
         case COWL_PT_NAMED_IND:
-            cowl_add_axiom_to_vec_in_map(CowlNamedIndAxiomMap, onto->named_ind_refs,
-                                         primitive.named_ind, axiom);
-            break;
+            return cowl_ontology_add_axiom_for_named_ind(onto, primitive.named_ind, axiom);
 
         case COWL_PT_ANON_IND:
-            cowl_add_axiom_to_vec_in_map(CowlAnonIndAxiomMap, onto->anon_ind_refs,
-                                         primitive.anon_ind, axiom);
-            break;
+            return cowl_ontology_add_axiom_for_anon_ind(onto, primitive.anon_ind, axiom);
 
         default:
-            break;
+            return COWL_ERR;
     }
-}
-
-void cowl_ontology_add_axiom_for_anon_ind(CowlOntology *onto, CowlAxiom *axiom, CowlAnonInd *ind) {
-    cowl_add_axiom_to_vec_in_map(CowlAnonIndAxiomMap, onto->anon_ind_refs, ind, axiom);
 }
 
 // Iterator functions
 
+bool cowl_ontology_primitive_axiom_adder(void *ctx, CowlPrimitive primitive) {
+    CowlAxiomCtx *axiom_ctx = ctx;
+    cowl_ret_t ret = cowl_ontology_add_axiom_for_primitive(axiom_ctx->onto,
+                                                           axiom_ctx->axiom, primitive);
+    axiom_ctx->ret = ret;
+    return ret == COWL_OK;
+}
+
 bool cowl_ontology_primitive_adder(void *ctx, CowlPrimitive primitive) {
-    CowlAxiomCtx *axiom_ctx = (CowlAxiomCtx *)ctx;
-    cowl_ontology_add_axiom_for_primitive(axiom_ctx->onto, axiom_ctx->axiom, primitive);
-    return true;
+    CowlAxiomCtx *axiom_ctx = ctx;
+    cowl_ret_t ret = cowl_ontology_add_primitive(axiom_ctx->onto, primitive);
+    axiom_ctx->ret = ret;
+    return ret == COWL_OK;
 }

@@ -15,14 +15,17 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlOntologyID) {
-    CowlIRI *onto_iri;
-    CowlIRI *version_iri;
-};
+#define COWL_ONTOLOGY_ID_ANONYMOUS ((CowlOntologyID){ .ontology_iri = NULL, .version_iri = NULL })
 
-CowlOntologyID* cowl_ontology_id_alloc(CowlIRI *onto_iri, CowlIRI *version_iri);
-CowlOntologyID* cowl_ontology_id_alloc_anonymous(void);
-void cowl_ontology_id_free(CowlOntologyID *id);
+#define cowl_ontology_id_init(ONTO_IRI, VER_IRI) ((CowlOntologyID) {                                \
+    .ontology_iri = (ONTO_IRI) ? cowl_iri_retain(ONTO_IRI) : NULL,                                  \
+    .version_iri = (VER_IRI) ? cowl_iri_retain(VER_IRI) : NULL                                      \
+})
+
+#define cowl_ontology_id_deinit(ID) do {                                                            \
+    cowl_iri_release((ID).ontology_iri);                                                            \
+    cowl_iri_release((ID).version_iri);                                                             \
+} while(0)
 
 COWL_END_DECLS
 

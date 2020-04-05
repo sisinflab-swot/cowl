@@ -45,6 +45,7 @@ static void cowl_annot_assert_axiom_free(CowlAnnotAssertAxiom *axiom) {
 
 CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue subject, CowlAnnotProp *prop,
                                                   CowlAnnotValue value, CowlAnnotationVec *annot) {
+    if (!prop || cowl_annot_value_is_null(subject) || cowl_annot_value_is_null(value)) return NULL;
     return cowl_annot_assert_axiom_alloc(subject, prop, value, annot);
 }
 

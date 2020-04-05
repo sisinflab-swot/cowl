@@ -36,7 +36,7 @@ cowl_struct_decl(CowlIRI);
  *
  * @param prefix The prefix.
  * @param suffix The suffix.
- * @return Retained IRI.
+ * @return Retained IRI, or NULL on error
  *
  * @public @memberof CowlIRI
  */
@@ -48,7 +48,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix);
  *
  * @param cstring String representation of the IRI.
  * @param length Length of the string.
- * @return Retained IRI.
+ * @return Retained IRI, or NULL on error
  *
  * @public @memberof CowlIRI
  */
@@ -59,7 +59,7 @@ CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length);
  * Returns a retained IRI given its static string representation.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlIRI *] Retained IRI.
+ * @return [CowlIRI *] Retained IRI, or NULL on error
  *
  * @public @related CowlIRI
  */
@@ -112,7 +112,7 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri);
  * Returns the string representation of the specified IRI.
  *
  * @param iri The IRI.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *
@@ -125,7 +125,7 @@ CowlString* cowl_iri_to_string(CowlIRI *iri);
  * Returns the string representation of the specified IRI, omitting the enclosing angular brackets.
  *
  * @param iri The IRI.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

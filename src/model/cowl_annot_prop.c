@@ -21,8 +21,9 @@
 UHASH_INIT(CowlAnnotPropTable, CowlAnnotProp*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlAnnotPropTable) *inst_tbl = NULL;
 
-void cowl_annot_prop_api_init(void) {
+cowl_ret_t cowl_annot_prop_api_init(void) {
     inst_tbl = uhset_alloc(CowlAnnotPropTable);
+    return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_annot_prop_api_deinit(void) {
@@ -47,8 +48,10 @@ static void cowl_annot_prop_free(CowlAnnotProp *prop) {
     cowl_free(prop);
 }
 
-CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri)
+CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
+    if (!iri) return NULL;
     COWL_INST_TBL_GET_IMPL(AnnotProp, annot_prop, { .iri = iri }, cowl_annot_prop_alloc(iri))
+}
 
 CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) {
     return cowl_object_retain(prop);

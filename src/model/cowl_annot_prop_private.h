@@ -21,7 +21,7 @@ cowl_struct(CowlAnnotProp) {
     CowlIRI *iri;
 };
 
-void cowl_annot_prop_api_init(void);
+cowl_ret_t cowl_annot_prop_api_init(void);
 void cowl_annot_prop_api_deinit(void);
 
 COWL_END_DECLS

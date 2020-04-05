@@ -17,13 +17,17 @@
 
 UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
 static UHash(CowlStringTable) *str_tbl = NULL;
+static CowlString *empty = NULL;
 
-void cowl_string_api_init(void) {
+cowl_ret_t cowl_string_api_init(void) {
     str_tbl = uhset_alloc(CowlStringTable);
+    empty = cowl_string_from_static("");
+    return (str_tbl && empty) ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_string_api_deinit(void) {
     uhash_free(CowlStringTable, str_tbl);
+    cowl_string_release(empty);
 }
 
 CowlString* cowl_string_alloc(CowlRawString raw_string) {
@@ -34,8 +38,8 @@ CowlString* cowl_string_alloc(CowlRawString raw_string) {
 }
 
 CowlString cowl_string_init(CowlRawString raw_string) {
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length,
-                                   cowl_raw_string_hash(raw_string));
+    cowl_uint_t shash = cowl_raw_string_is_null(raw_string) ? 0 : cowl_raw_string_hash(raw_string);
+    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length, shash);
 
     CowlString init = {
         .super = COWL_HASH_OBJECT_INIT(hash),
@@ -121,8 +125,6 @@ CowlString* cowl_string_get(char const *cstring, size_t length, bool copy) {
 }
 
 CowlString* cowl_string_get_empty(void) {
-    static CowlString *empty = NULL;
-    if (!empty) empty = cowl_string_from_static("");
     return cowl_string_retain(empty);
 }
 

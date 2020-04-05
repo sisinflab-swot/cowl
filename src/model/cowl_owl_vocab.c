@@ -13,7 +13,23 @@
 
 static cowl_struct(CowlOWLVocab) vocab;
 
-void cowl_owl_vocab_init(void) {
+static inline cowl_ret_t cowl_owl_vocab_validate(void) {
+    if (vocab.ns && vocab.iri.thing && vocab.iri.nothing && vocab.iri.top_obj_prop &&
+        vocab.iri.bottom_obj_prop && vocab.iri.top_data_prop && vocab.iri.bottom_data_prop &&
+        vocab.iri.backward_comp && vocab.iri.deprecated && vocab.iri.incompatible &&
+        vocab.iri.prior_version && vocab.iri.rational && vocab.iri.real &&
+        vocab.iri.version_info && vocab.cls.thing && vocab.cls.nothing &&
+        vocab.dt.rational && vocab.dt.real && vocab.obj_prop.top_obj_prop &&
+        vocab.obj_prop.bottom_obj_prop && vocab.data_prop.top_data_prop &&
+        vocab.data_prop.bottom_data_prop && vocab.annot_prop.backward_comp &&
+        vocab.annot_prop.deprecated && vocab.annot_prop.incompatible &&
+        vocab.annot_prop.prior_version && vocab.annot_prop.version_info) {
+        return COWL_OK;
+    }
+    return COWL_ERR_MEM;
+}
+
+cowl_ret_t cowl_owl_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2002/07/owl#");
 
     CowlOWLIRIVocab v = {
@@ -64,6 +80,8 @@ void cowl_owl_vocab_init(void) {
             .version_info = cowl_annot_prop_vocab_get(v.version_info)
         }
     };
+
+    return cowl_owl_vocab_validate();
 }
 
 void cowl_owl_vocab_deinit(void) {

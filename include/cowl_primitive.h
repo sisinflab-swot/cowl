@@ -283,7 +283,7 @@ CowlIRI* cowl_primitive_get_iri(CowlPrimitive primitive);
  * Returns the string representation of the specified primitive.
  *
  * @param primitive The primitive.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

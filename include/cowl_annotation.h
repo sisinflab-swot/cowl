@@ -37,8 +37,8 @@ cowl_struct_decl(CowlAnnotation);
  *
  * @param prop The annotation property.
  * @param value The annotation value.
- * @param annot The annotations.
- * @return Retained annotation.
+ * @param annot [optional] The annotations.
+ * @return Retained annotation, or NULL on error.
  *
  * @public @memberof CowlAnnotation
  */
@@ -105,7 +105,7 @@ CowlAnnotationVec* cowl_annotation_get_annot(CowlAnnotation *annot);
  * Returns the string representation of the specified annotation.
  *
  * @param annot The annotation.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

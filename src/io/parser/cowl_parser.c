@@ -27,8 +27,7 @@ static CowlParser* cowl_parser_alloc(void) {
         .super = COWL_OBJECT_INIT,
         .prefix_ns_map = uhmap_alloc(CowlStringTable),
         .node_id_map = uhmap_alloc(CowlNodeIdMap),
-        .ontology = cowl_ontology_get(),
-        .errors = NULL
+        .ontology = cowl_ontology_get()
     };
 
     return parser;
@@ -68,24 +67,21 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
                                          Vector(CowlError) *errors) {
     parser->errors = errors;
 
-    yyscan_t scanner;
-    cowl_functional_lex_init(&scanner);
+    if (cowl_functional_lex_init(&parser->scanner)) return NULL;
 
     FILE *yyin = fopen(path, "r");
     bool error;
 
-    if (!yyin) {
-        cowl_parser_log_error(parser, COWL_ERR_IO, strdup(strerror(errno)), 0);
+    if (yyin) {
+        cowl_functional_set_in(yyin, parser->scanner);
+        error = cowl_functional_parse(parser->scanner, parser) != 0;
+    } else {
+        cowl_parser_log_error(parser, COWL_ERR_IO, strdup(strerror(errno)));
         error = true;
-        goto end;
     }
 
-    cowl_functional_set_in(yyin, scanner);
-    error = cowl_functional_parse(scanner, parser) != 0;
-
-end:
     fclose(yyin);
-    cowl_functional_lex_destroy(scanner);
+    cowl_functional_lex_destroy(parser->scanner);
 
     if (error) {
         cowl_ontology_release(parser->ontology);
@@ -99,32 +95,76 @@ void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader
     parser->loader = loader;
 }
 
-void cowl_parser_set_id(CowlParser *parser, CowlOntologyID *id) {
+void cowl_parser_set_id(CowlParser *parser, CowlOntologyID id) {
     cowl_ontology_set_id(parser->ontology, id);
 }
 
-void cowl_parser_set_imports(CowlParser *parser, Vector(CowlOntologyPtr) *imports) {
-    cowl_ontology_set_imports(parser->ontology, imports);
+cowl_ret_t cowl_parser_set_imports(CowlParser *parser, Vector(CowlOntologyPtr) *imports) {
+    cowl_ret_t ret = cowl_ontology_set_imports(parser->ontology, imports);
+    if (ret) cowl_parser_log_error_type(parser, ret);
+    return ret;
 }
 
-void cowl_parser_set_annotations(CowlParser *parser, Vector(CowlAnnotationPtr) *annot) {
-    cowl_ontology_set_annot(parser->ontology, annot);
+cowl_ret_t cowl_parser_set_annotations(CowlParser *parser, Vector(CowlAnnotationPtr) *annot) {
+    cowl_ret_t ret = cowl_ontology_set_annot(parser->ontology, annot);
+    if (ret) cowl_parser_log_error_type(parser, ret);
+    return ret;
 }
 
-void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom) {
-    if (axiom) cowl_ontology_add_axiom(parser->ontology, axiom);
+cowl_ret_t cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom) {
+    if (!axiom) {
+        cowl_parser_log_error_type(parser, COWL_ERR_MEM);
+        return COWL_ERR_MEM;
+    }
+
+    cowl_ret_t ret = cowl_ontology_add_axiom(parser->ontology, axiom);
+
+    if (ret) {
+        cowl_parser_log_error_type(parser, ret);
+        return ret;
+    }
+
+    return COWL_OK;
 }
 
-void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns) {
-    if (uhmap_add(CowlStringTable, parser->prefix_ns_map, prefix, ns, NULL) == UHASH_INSERTED) {
+cowl_ret_t cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns) {
+    uhash_ret_t ret = uhmap_add(CowlStringTable, parser->prefix_ns_map, prefix, ns, NULL);
+
+    if (ret == UHASH_ERR) {
+        cowl_parser_log_error_type(parser, COWL_ERR_MEM);
+        return COWL_ERR_MEM;
+    }
+
+    if (ret == UHASH_INSERTED) {
         cowl_string_retain(prefix);
         cowl_string_retain(ns);
     }
+
+    return COWL_OK;
 }
 
-CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri) {
+cowl_ret_t cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import) {
+    *import = NULL;
+
+    if (!iri) {
+        cowl_parser_log_error_type(parser, COWL_ERR_MEM);
+        return COWL_ERR_MEM;
+    }
+
     CowlImportsLoader loader = parser->loader;
-    return loader.load_ontology ? loader.load_ontology(loader.ctx, iri, parser->errors) : NULL;
+    if (!loader.load_ontology) return COWL_OK;
+
+    cowl_uint_t n_errors = vector_count(parser->errors);
+    *import = loader.load_ontology(loader.ctx, iri, parser->errors);
+
+    if (parser->errors && vector_count(parser->errors) > n_errors) {
+        // Errors occurred while parsing the imported ontology.
+        cowl_ret_t ret = vector_last(parser->errors).code;
+        cowl_parser_log_error_type(parser, ret);
+        return ret;
+    }
+
+    return COWL_OK;
 }
 
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
@@ -147,8 +187,24 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
         rem = cowl_string_get_empty();
     }
 
+    if (!rem) return NULL;
+
     CowlString *ns = uhmap_get(CowlStringTable, parser->prefix_ns_map, &ns_str, NULL);
-    CowlIRI *iri = ns ? cowl_iri_get(ns, rem) : NULL;
+    CowlIRI *iri = NULL;
+
+    if (ns) {
+        iri = cowl_iri_get(ns, rem);
+    } else {
+        // We couldn't find a namespace mapping for the specified short namespace.
+        iri = NULL;
+        CowlRawString comp[] = {
+            cowl_raw_string_init_static("no namespace mapping for ", false),
+            raw_ns
+        };
+        CowlRawString err_str = cowl_raw_string_concat(2, comp);
+        cowl_parser_log_error(parser, COWL_ERR_SYNTAX, err_str.cstring);
+        cowl_raw_string_deinit(err_str);
+    }
 
     cowl_string_release(rem);
     return iri;
@@ -156,24 +212,39 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
 
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id) {
     uhash_uint_t idx;
-    cowl_struct(CowlString) id_str = cowl_string_init(id);
+    CowlString id_str = cowl_string_init(id);
     uhash_ret_t ret = uhash_put(CowlNodeIdMap, parser->node_id_map, &id_str, &idx);
-    CowlNodeID node_id;
+
+    CowlNodeID node_id = COWL_NODE_ID_NULL;
 
     if (ret == UHASH_INSERTED) {
-        node_id = cowl_node_id_get_unique();
-        uhash_key(parser->node_id_map, idx) = cowl_string_copy(&id_str);
-        uhash_value(parser->node_id_map, idx) = node_id;
-    } else {
+        CowlString *string = cowl_string_copy(&id_str);
+
+        if (string) {
+            node_id = cowl_node_id_get_unique();
+            uhash_key(parser->node_id_map, idx) = string;
+            uhash_value(parser->node_id_map, idx) = node_id;
+        } else {
+            uhash_delete(CowlNodeIdMap, parser->node_id_map, idx);
+        }
+    } else if (ret == UHASH_PRESENT) {
         node_id = uhash_value(parser->node_id_map, idx);
     }
 
     return node_id;
 }
 
-void cowl_parser_log_error(CowlParser *parser, cowl_ret_t code,
-                           char const *description, cowl_uint_t line) {
+static inline cowl_uint_t cowl_parser_get_line(CowlParser *parser) {
+    if (!(parser->scanner && cowl_functional_get_lloc(parser->scanner))) return 0;
+    return (cowl_uint_t)cowl_functional_get_lloc(parser->scanner)->last_line;
+}
+
+void cowl_parser_log_error(CowlParser *parser, cowl_ret_t code, char const *description) {
     if (!parser->errors) return;
-    CowlError error = cowl_error_init_cstring(code, description, line);
+    CowlError error = cowl_error_init_cstring(code, description, cowl_parser_get_line(parser));
     vector_push(CowlError, parser->errors, error);
+}
+
+void cowl_parser_log_error_type(CowlParser *parser, cowl_ret_t code) {
+    cowl_parser_log_error(parser, code, cowl_ret_t_to_cstring(code));
 }

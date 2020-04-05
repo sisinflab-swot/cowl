@@ -68,7 +68,7 @@ typedef cowl_enum(CowlFacet) {
         COWL_FACET_COUNT,
 
     /// First enum value.
-        COWL_FACET_FIRST = 0
+        COWL_FACET_FIRST = 1
 
 } CowlFacet;
 

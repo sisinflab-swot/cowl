@@ -14,9 +14,11 @@
 #include <stdio.h>
 
 CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy) {
+    if (!cstring) return COWL_RAW_STRING_NULL;
+
     if (copy) {
         cstring = strndup(cstring, length);
-        if (!cstring) length = 0;
+        if (!cstring) return COWL_RAW_STRING_NULL;
     }
 
     return (CowlRawString) {

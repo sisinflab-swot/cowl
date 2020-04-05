@@ -10,6 +10,7 @@
 
 #include "cowl_nary_ind_axiom_private.h"
 #include "cowl_individual_set.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -37,6 +38,7 @@ static void cowl_nary_ind_axiom_free(CowlNAryIndAxiom *axiom) {
 
 CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlIndividualSet *operands,
                                           CowlAnnotationVec *annot) {
+    if (!(operands && cowl_enum_value_is_valid(NAT, type))) return NULL;
     CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_SAME_IND;
     return cowl_nary_ind_axiom_alloc(axiom_type, operands, annot);
 }

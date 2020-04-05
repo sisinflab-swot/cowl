@@ -78,7 +78,7 @@ CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
  * Returns the string representation of the specified object property expression.
  *
  * @param exp The object property expression.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

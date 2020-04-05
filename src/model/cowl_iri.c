@@ -31,8 +31,9 @@ static inline bool cowl_inst_eq(CowlIRI *lhs, CowlIRI *rhs) {
 UHASH_INIT(CowlIRITable, CowlIRI*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlIRITable) *inst_tbl = NULL;
 
-void cowl_iri_api_init(void) {
+cowl_ret_t cowl_iri_api_init(void) {
     inst_tbl = uhset_alloc(CowlIRITable);
+    return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_iri_api_deinit(void) {
@@ -59,15 +60,13 @@ static void cowl_iri_free(CowlIRI *iri) {
     cowl_free(iri);
 }
 
-static inline CowlIRI* cowl_iri_unvalidated_get_private(CowlString *ns, CowlString *rem)
-    COWL_INST_TBL_GET_IMPL(IRI, iri, ((CowlIRI){ .ns = ns, .rem = rem }), cowl_iri_alloc(ns, rem))
-
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
-    ns = cowl_string_get_intern(ns, false);
-    return ns ? cowl_iri_unvalidated_get_private(ns, rem) : NULL;
+    if (!(ns && (ns = cowl_string_get_intern(ns, false)))) return NULL;
+    COWL_INST_TBL_GET_IMPL(IRI, iri, ((CowlIRI){ .ns = ns, .rem = rem }), cowl_iri_alloc(ns, rem))
 }
 
 CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
+    if (!(prefix && suffix)) return NULL;
 
     CowlRawString p_str = prefix->raw_string;
     CowlRawString s_str = suffix->raw_string;
@@ -135,6 +134,8 @@ void cowl_iri_release(CowlIRI *iri) {
 }
 
 CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length) {
+    if (!(cstring && length)) return NULL;
+
     CowlRawString string = cowl_raw_string_init(cstring, length, false);
     cowl_uint_t ns_length = cowl_xml_ns_length(string);
 

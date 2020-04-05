@@ -33,7 +33,7 @@ cowl_struct_decl(CowlParser);
 /**
  * Returns a retained parser.
  *
- * @return Retained parser.
+ * @return Retained parser, or NULL on error.
  *
  * @public @memberof CowlParser
  */

@@ -9,6 +9,7 @@
  */
 
 #include "cowl_obj_prop_char_axiom_private.h"
+#include "cowl_macros.h"
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
@@ -39,6 +40,7 @@ static void cowl_obj_prop_char_axiom_free(CowlObjPropCharAxiom *axiom) {
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
                                                    CowlAnnotationVec *annot) {
+    if (!(prop && cowl_enum_value_is_valid(CAT, type))) return NULL;
     CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_FUNC_OBJ_PROP;
     return cowl_obj_prop_char_axiom_alloc(axiom_type, prop, annot);
 }

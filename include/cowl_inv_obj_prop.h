@@ -36,7 +36,7 @@ cowl_struct_decl(CowlInvObjProp);
  * Returns a retained inverse object property.
  *
  * @param prop The object property of which the expression is the inverse of.
- * @return Retained inverse object property.
+ * @return Retained inverse object property, or NULL on error.
  *
  * @public @memberof CowlInvObjProp
  */
@@ -79,7 +79,7 @@ CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv);
  * Returns the string representation of the specified inverse object property.
  *
  * @param inv The inverse object property.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

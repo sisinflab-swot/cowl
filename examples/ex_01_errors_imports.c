@@ -17,32 +17,43 @@ static CowlOntology* load_imports(void *ctx, CowlIRI *iri, Vector(CowlError) *er
 
 int main(void) {
 
-    cowl_api_init();
+    // API initialization can fail due to low memory.
+    if (cowl_api_init()) {
+        return EXIT_FAILURE;
+    }
+
     CowlParser *parser = cowl_parser_get();
     CowlLogger *logger = cowl_logger_console_get();
+
+    if (!(parser && logger)) {
+        return EXIT_FAILURE;
+    }
 
     // Setup an imports loader.
     CowlImportsLoader loader = cowl_imports_loader_init(NULL, load_imports, NULL);
     cowl_parser_set_imports_loader(parser, loader);
 
     // Deserialize an ontology. Errors will be appended to the 'errors' vector.
-    Vector(CowlError) *errors = vector_alloc(CowlError);
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, ONTO_PATH, errors);
+    Vector(CowlError) errors = vector_init(CowlError);
+
+    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH, &errors);
     cowl_parser_release(parser);
 
     // Log the errors, if any.
-    cowl_uint_t error_count = vector_count(errors);
+    cowl_uint_t error_count = vector_count(&errors);
     cowl_logger_logf(logger, "Ontology parsed with %d error(s).\n", error_count);
-    cowl_logger_log_errors(logger, errors);
+    cowl_logger_log_errors(logger, &errors);
 
-    if (onto) {
-        cowl_logger_log_ontology(logger, onto);
+    if (ontology) {
+        cowl_logger_log_ontology(logger, ontology);
     }
 
-    cowl_ontology_release(onto);
+end:
+    vector_deinit(errors);
+    cowl_ontology_release(ontology);
     cowl_logger_release(logger);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 /*
@@ -53,8 +64,13 @@ int main(void) {
  */
 static CowlOntology* load_imports(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
                                   Vector(CowlError) *errors) {
+    CowlOntology *import = NULL;
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, IMPORT_PATH, errors);
-    cowl_parser_release(parser);
-    return onto;
+
+    if (parser) {
+        import = cowl_parser_parse_ontology(parser, IMPORT_PATH, errors);
+        cowl_parser_release(parser);
+    }
+
+    return import;
 }

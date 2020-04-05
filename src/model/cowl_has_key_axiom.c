@@ -47,6 +47,7 @@ static void cowl_has_key_axiom_free(CowlHasKeyAxiom *axiom) {
 
 CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlObjPropExpSet *obj_props,
                                         CowlDataPropExpSet *data_props, CowlAnnotationVec *annot) {
+    if (!cls_exp) return NULL;
     return cowl_has_key_axiom_alloc(cls_exp, obj_props, data_props, annot);
 }
 

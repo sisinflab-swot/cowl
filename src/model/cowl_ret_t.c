@@ -12,15 +12,13 @@
 #include "cowl_string.h"
 
 char const* cowl_ret_t_to_cstring(cowl_ret_t ret) {
-    static char const* const ret_desc[COWL_RET_COUNT] = {
-        "Success",
-        "Failure",
-        "Input/output error",
-        "Syntax error"
-    };
-
-    if (ret < COWL_RET_FIRST || ret >= COWL_RET_COUNT) return "Unknown error";
-    return ret_desc[ret];
+    switch (ret) {
+        case COWL_OK: return "success";
+        case COWL_ERR_IO: return "input/output error";
+        case COWL_ERR_MEM: return "memory exhausted";
+        case COWL_ERR_SYNTAX: return "syntax error";
+        default: return "unknown error";
+    }
 }
 
 CowlString* cowl_ret_t_to_string(cowl_ret_t ret) {

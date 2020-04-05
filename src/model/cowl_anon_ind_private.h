@@ -21,7 +21,7 @@ cowl_struct(CowlAnonInd) {
     CowlNodeID id;
 };
 
-void cowl_anon_ind_api_init(void);
+cowl_ret_t cowl_anon_ind_api_init(void);
 void cowl_anon_ind_api_deinit(void);
 
 COWL_END_DECLS

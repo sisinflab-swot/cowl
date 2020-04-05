@@ -38,8 +38,8 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  *
  * @param cls The class which is equivalent to the disjoint union.
  * @param disjoints The class expressions which are operands of the disjoint union.
- * @param annot The annotations.
- * @return Retained disjoint union axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained disjoint union axiom, or NULL on error.
  *
  * @public @memberof CowlDisjUnionAxiom
  */
@@ -104,7 +104,7 @@ CowlAnnotationVec* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom);
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

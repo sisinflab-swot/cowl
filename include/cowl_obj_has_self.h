@@ -36,7 +36,7 @@ cowl_struct_decl(CowlObjHasSelf);
  * Returns a retained self-restriction.
  *
  * @param prop The property expression.
- * @return Retained restriction.
+ * @return Retained restriction, or NULL on error.
  *
  * @public @memberof CowlObjHasSelf
  */
@@ -79,7 +79,7 @@ CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp);
  * Returns the string representation of the specified self-restriction.
  *
  * @param exp The restriction.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

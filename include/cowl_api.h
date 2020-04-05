@@ -117,10 +117,12 @@ COWL_BEGIN_DECLS
 /**
  * Initializes the API.
  *
+ * @return Return code.
+ *
  * @note It's mandatory to call this function before making any other Cowl API call.
  */
 COWL_PUBLIC
-void cowl_api_init(void);
+cowl_ret_t cowl_api_init(void);
 
 /**
  * Deinitializes the API.

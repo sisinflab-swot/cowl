@@ -12,6 +12,7 @@
 #include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -36,6 +37,7 @@ static void cowl_facet_restr_free(CowlFacetRestr *restr) {
 }
 
 CowlFacetRestr* cowl_facet_restr_get(CowlFacet facet, CowlLiteral *value) {
+    if (!(value && cowl_enum_value_is_valid(FACET, facet))) return NULL;
     return cowl_facet_restr_alloc(facet, value);
 }
 

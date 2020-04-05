@@ -37,7 +37,7 @@ cowl_struct_decl(CowlDataProp);
  * Returns a retained data property.
  *
  * @param iri IRI of the data property.
- * @return Retained data property.
+ * @return Retained data property, or NULL on error.
  *
  * @public @memberof CowlDataProp
  */
@@ -49,7 +49,7 @@ CowlDataProp* cowl_data_prop_get(CowlIRI *iri);
  *
  * @param cstring String representation of the IRI.
  * @param length Length of the string.
- * @return Retained data property.
+ * @return Retained data property, or NULL on error.
  *
  * @public @memberof CowlDataProp
  */
@@ -60,7 +60,7 @@ CowlDataProp* cowl_data_prop_from_cstring(char const *cstring, size_t length);
  * Returns a retained data property given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlDataProp *] Retained data property.
+ * @return [CowlDataProp *] Retained data property, or NULL on error.
  *
  * @public @related CowlDataProp
  */
@@ -102,7 +102,7 @@ CowlIRI* cowl_data_prop_get_iri(CowlDataProp *prop);
  * Returns the string representation of the specified data property.
  *
  * @param prop The data property.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

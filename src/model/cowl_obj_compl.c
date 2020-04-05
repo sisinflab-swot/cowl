@@ -35,6 +35,7 @@ static void cowl_obj_compl_free(CowlObjCompl *exp) {
 }
 
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
+    if (!operand) return NULL;
     return cowl_obj_compl_alloc(operand);
 }
 

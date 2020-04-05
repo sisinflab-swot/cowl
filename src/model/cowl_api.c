@@ -27,24 +27,29 @@
 
 static bool cowl_api_initialized = false;
 
-void cowl_api_init(void) {
-    if (cowl_api_initialized) return;
+cowl_ret_t cowl_api_init(void) {
+    if (cowl_api_initialized) return COWL_OK;
     cowl_api_initialized = true;
-    cowl_annot_prop_api_init();
-    cowl_anon_ind_api_init();
-    cowl_class_api_init();
-    cowl_data_prop_api_init();
-    cowl_datatype_api_init();
-    cowl_inv_obj_prop_api_init();
-    cowl_iri_api_init();
-    cowl_named_ind_api_init();
-    cowl_obj_prop_api_init();
-    cowl_string_api_init();
-    cowl_owl_vocab_init();
-    cowl_rdf_vocab_init();
-    cowl_rdfs_vocab_init();
-    cowl_xsd_vocab_init();
-    cowl_facet_init();
+
+    if (cowl_annot_prop_api_init() ||
+        cowl_anon_ind_api_init() ||
+        cowl_class_api_init() ||
+        cowl_data_prop_api_init() ||
+        cowl_datatype_api_init() ||
+        cowl_inv_obj_prop_api_init() ||
+        cowl_iri_api_init() ||
+        cowl_named_ind_api_init() ||
+        cowl_obj_prop_api_init() ||
+        cowl_string_api_init() ||
+        cowl_owl_vocab_init() ||
+        cowl_rdf_vocab_init() ||
+        cowl_rdfs_vocab_init() ||
+        cowl_xsd_vocab_init() ||
+        cowl_facet_init()) {
+        return COWL_ERR_MEM;
+    }
+
+    return COWL_OK;
 }
 
 void cowl_api_deinit(void) {

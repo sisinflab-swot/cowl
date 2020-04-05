@@ -29,6 +29,13 @@ cowl_struct_decl(CowlString);
 typedef cowl_uint_t CowlNodeID;
 
 /**
+ * Null node ID.
+ *
+ * @public @related CowlAnonInd
+ */
+#define COWL_NODE_ID_NULL 0U
+
+/**
  * Returns an unique node ID.
  *
  * @return Unique node ID.
@@ -42,7 +49,7 @@ CowlNodeID cowl_node_id_get_unique(void);
  * Returns the string representation of the specified node ID.
  *
  * @param id The node ID.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

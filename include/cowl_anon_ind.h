@@ -37,7 +37,7 @@ cowl_struct_decl(CowlAnonInd);
  * Returns a retained anonymous individual.
  *
  * @param id The node ID.
- * @return Retained anonymous individual.
+ * @return Retained anonymous individual, or NULL on error.
  *
  * @public @memberof CowlAnonInd
  */
@@ -80,7 +80,7 @@ CowlNodeID cowl_anon_ind_get_id(CowlAnonInd *ind);
  * Returns the string representation of the specified anonymous individual.
  *
  * @param ind The anonymous individual.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

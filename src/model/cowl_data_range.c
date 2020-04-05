@@ -27,7 +27,6 @@ void cowl_data_range_release(CowlDataRange *range) {
 #define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)range); break
 
     switch (range->type) {
-
         case COWL_DRT_DATATYPE: GEN_RELEASE(Datatype, datatype);
         case COWL_DRT_DATATYPE_RESTR: GEN_RELEASE(DatatypeRestr, datatype_restr);
         case COWL_DRT_DATA_INTERSECT:

@@ -40,7 +40,7 @@ cowl_struct_decl(CowlNAryBool);
  *
  * @param type N-ary class expression type.
  * @param operands The operands.
- * @return Retained expression.
+ * @return Retained expression, or NULL on error.
  *
  * @public @memberof CowlNAryBool
  */
@@ -94,7 +94,7 @@ CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp);
  * Returns the string representation of the specified N-ary boolean class expression.
  *
  * @param exp The expression.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

@@ -12,6 +12,7 @@
 #include "cowl_alloc.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_hash_utils.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -50,6 +51,7 @@ static void cowl_obj_card_free(CowlObjCard *restr) {
 
 CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
                                CowlClsExp *filler, cowl_uint_t cardinality) {
+    if (!(prop && cowl_enum_value_is_valid(CT, type))) return NULL;
     return cowl_obj_card_alloc(COWL_CET_OBJ_MIN_CARD + type, prop, filler, cardinality);
 }
 

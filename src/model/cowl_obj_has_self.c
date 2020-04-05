@@ -36,6 +36,7 @@ static void cowl_obj_has_self_free(CowlObjHasSelf *exp) {
 }
 
 CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop) {
+    if (!prop) return NULL;
     return cowl_obj_has_self_alloc(prop);
 }
 

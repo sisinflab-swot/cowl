@@ -37,7 +37,7 @@ cowl_struct_decl(CowlNamedInd);
  * Returns a retained named individual.
  *
  * @param iri IRI of the individual.
- * @return Retained named individual.
+ * @return Retained named individual, or NULL on error.
  *
  * @public @memberof CowlNamedInd
  */
@@ -49,7 +49,7 @@ CowlNamedInd* cowl_named_ind_get(CowlIRI *iri);
  *
  * @param cstring String representation of the IRI.
  * @param length Length of the string.
- * @return Retained named individual.
+ * @return Retained named individual, or NULL on error.
  *
  * @public @memberof CowlNamedInd
  */
@@ -60,7 +60,7 @@ CowlNamedInd* cowl_named_ind_from_cstring(char const *cstring, size_t length);
  * Returns a retained named individual given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlNamedInd *] Retained named individual.
+ * @return [CowlNamedInd *] Retained named individual, or NULL on error.
  *
  * @public @related CowlNamedInd
  */
@@ -102,7 +102,7 @@ CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind);
  * Returns the string representation of the specified named individual.
  *
  * @param ind The named individual.
- * @return  String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

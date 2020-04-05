@@ -111,7 +111,7 @@
  */
 #define cowl_vector_decl(T, NAME)                                                                   \
     typedef vector_struct(T) Vector(T);                                                             \
-    typedef vector_struct(T) NAME
+    typedef vector_struct(T) const NAME
 
 /**
  * Hash table type forward declaration.
@@ -120,6 +120,6 @@
  */
 #define cowl_hash_decl(NAME)                                                                        \
     typedef uhash_struct(NAME) UHash(NAME);                                                         \
-    typedef uhash_struct(NAME) NAME
+    typedef uhash_struct(NAME) const NAME
 
 #endif // COWL_COMPAT_H

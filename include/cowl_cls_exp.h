@@ -67,7 +67,7 @@ CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp);
  * Returns the string representation of the specified class expression.
  *
  * @param exp The class expression.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

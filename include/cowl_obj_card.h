@@ -42,9 +42,9 @@ cowl_struct_decl(CowlObjCard);
  *
  * @param type The type.
  * @param prop The object property.
- * @param filler Filler of the restriction.
+ * @param filler [optional] Filler of the restriction.
  * @param cardinality Cardinality of the restriction.
- * @return Retained restriction.
+ * @return Retained restriction, or NULL on error.
  *
  * @public @memberof CowlObjCard
  */
@@ -121,7 +121,7 @@ cowl_uint_t cowl_obj_card_get_cardinality(CowlObjCard *restr);
  * Returns the string representation of the specified restriction.
  *
  * @param restr The restriction.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

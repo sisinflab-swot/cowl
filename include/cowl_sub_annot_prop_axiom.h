@@ -38,8 +38,8 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
  *
  * @param sub The subproperty.
  * @param super The superproperty.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
@@ -105,7 +105,7 @@ CowlAnnotationVec* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *ax
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

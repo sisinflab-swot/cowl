@@ -41,6 +41,7 @@ static void cowl_sub_data_prop_axiom_free(CowlSubDataPropAxiom *axiom) {
 
 CowlSubDataPropAxiom* cowl_sub_data_prop_axiom_get(CowlDataPropExp *sub, CowlDataPropExp *super,
                                                    CowlAnnotationVec *annot) {
+    if (!(sub && super)) return NULL;
     return cowl_sub_data_prop_axiom_alloc(sub, super, annot);
 }
 

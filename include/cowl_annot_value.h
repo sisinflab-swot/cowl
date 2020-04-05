@@ -53,6 +53,16 @@ typedef cowl_struct(CowlAnnotValue) {
 } CowlAnnotValue;
 
 /**
+ * Checks whether the specified annotation value is NULL.
+ *
+ * @param VALUE [CowlAnnotValue] Annotation value.
+ * @return True if the annotation value is NULL, false otherwise.
+ *
+ * @public @related CowlAnnotValue
+ */
+#define cowl_annot_value_is_null(VALUE) (!(VALUE).iri)
+
+/**
  * Initializes an annotation value by wrapping the specified IRI.
  *
  * @param IRI [CowlIRI *] IRI to wrap.
@@ -141,7 +151,7 @@ void cowl_annot_value_release(CowlAnnotValue value);
  * Returns the string representation of the specified annotation value.
  *
  * @param value The annotation value.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

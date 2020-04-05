@@ -14,6 +14,7 @@
 #include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
 #include "cowl_object.h"
+#include "cowl_ontology_id_private.h"
 
 COWL_BEGIN_DECLS
 
@@ -32,7 +33,6 @@ UHASH_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, Vector(CowlAxiomPtr)*)
 
 cowl_struct(CowlOntology) {
     CowlObject super;
-    CowlOntologyID *id;
     Vector(CowlOntologyPtr) *imports;
     Vector(CowlAnnotationPtr) *annotations;
     UHash(CowlAxiomSet) *axioms_by_type[COWL_AT_COUNT];
@@ -43,11 +43,12 @@ cowl_struct(CowlOntology) {
     UHash(CowlObjPropAxiomMap) *obj_prop_refs;
     UHash(CowlNamedIndAxiomMap) *named_ind_refs;
     UHash(CowlAnonIndAxiomMap) *anon_ind_refs;
+    CowlOntologyID id;
 };
 
 #define COWL_ONTOLOGY_INIT ((CowlOntology) {                                                        \
     .super = COWL_OBJECT_INIT,                                                                      \
-    .id = NULL,                                                                                     \
+    .id = COWL_ONTOLOGY_ID_ANONYMOUS,                                                               \
     .imports = NULL,                                                                                \
     .annotations = NULL,                                                                            \
     .annot_prop_refs = uhmap_alloc(CowlAnnotPropAxiomMap),                                          \
@@ -61,10 +62,10 @@ cowl_struct(CowlOntology) {
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void);
 
-void cowl_ontology_set_id(cowl_struct(CowlOntology) *onto, CowlOntologyID *id);
-void cowl_ontology_set_imports(cowl_struct(CowlOntology) *onto, Vector(CowlOntologyPtr) *imports);
-void cowl_ontology_set_annot(cowl_struct(CowlOntology) *onto, Vector(CowlAnnotationPtr) *annot);
-void cowl_ontology_add_axiom(cowl_struct(CowlOntology) *onto, CowlAxiom *axiom);
+void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID id);
+cowl_ret_t cowl_ontology_set_imports(CowlOntology *onto, Vector(CowlOntologyPtr) *imports);
+cowl_ret_t cowl_ontology_set_annot(CowlOntology *onto, Vector(CowlAnnotationPtr) *annot);
+cowl_ret_t cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
 
 COWL_END_DECLS
 

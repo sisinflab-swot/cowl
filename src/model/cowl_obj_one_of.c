@@ -37,6 +37,7 @@ static void cowl_obj_one_of_free(CowlObjOneOf *exp) {
 }
 
 CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *inds) {
+    if (!inds) return NULL;
     return cowl_obj_one_of_alloc(inds);
 }
 

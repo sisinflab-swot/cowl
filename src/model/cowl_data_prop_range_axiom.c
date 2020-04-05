@@ -43,6 +43,7 @@ static void cowl_data_prop_range_axiom_free(CowlDataPropRangeAxiom *axiom) {
 
 CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range,
                                                        CowlAnnotationVec *annot) {
+    if (!(prop && range)) return NULL;
     return cowl_data_prop_range_axiom_alloc(prop, range, annot);
 }
 

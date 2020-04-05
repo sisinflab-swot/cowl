@@ -36,21 +36,22 @@ cowl_struct(CowlParser) {
     UHash(CowlNodeIdMap) *node_id_map;
     cowl_struct(CowlOntology) *ontology;
     Vector(CowlError) *errors;
+    void *scanner;
     CowlImportsLoader loader;
 };
 
-CowlOntology* cowl_parser_load_import(CowlParser *parser, CowlIRI *iri);
+cowl_ret_t cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import);
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string);
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id);
 
-void cowl_parser_set_id(CowlParser *parser, CowlOntologyID *id);
-void cowl_parser_set_imports(CowlParser *parser, Vector(CowlOntologyPtr) *imports);
-void cowl_parser_set_annotations(CowlParser *parser, Vector(CowlAnnotationPtr) *annot);
-void cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
-void cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
+void cowl_parser_set_id(CowlParser *parser, CowlOntologyID id);
+cowl_ret_t cowl_parser_set_imports(CowlParser *parser, Vector(CowlOntologyPtr) *imports);
+cowl_ret_t cowl_parser_set_annotations(CowlParser *parser, Vector(CowlAnnotationPtr) *annot);
+cowl_ret_t cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
+cowl_ret_t cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
 
-void cowl_parser_log_error(CowlParser *parser, cowl_ret_t code,
-                           char const *description, cowl_uint_t line);
+void cowl_parser_log_error(CowlParser *parser, cowl_ret_t code, char const *description);
+void cowl_parser_log_error_type(CowlParser *parser, cowl_ret_t code);
 
 COWL_END_DECLS
 

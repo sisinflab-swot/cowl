@@ -40,6 +40,7 @@ static void cowl_sub_cls_axiom_free(CowlSubClsAxiom *axiom) {
 
 CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super,
                                         CowlAnnotationVec *annot) {
+    if (!(sub && super)) return NULL;
     return cowl_sub_cls_axiom_alloc(sub, super, annot);
 }
 

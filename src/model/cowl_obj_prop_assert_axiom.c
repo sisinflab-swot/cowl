@@ -49,6 +49,7 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                        CowlObjPropExp *prop,
                                                        CowlIndividual *object,
                                                        CowlAnnotationVec *annot) {
+    if (!(subject && prop && object)) return NULL;
     return cowl_obj_prop_assert_axiom_alloc(COWL_AT_OBJ_PROP_ASSERT, subject, prop, object, annot);
 }
 

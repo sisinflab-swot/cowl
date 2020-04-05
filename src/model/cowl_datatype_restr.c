@@ -43,6 +43,7 @@ static void cowl_datatype_restr_free(CowlDatatypeRestr *restr) {
 }
 
 CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlFacetRestrSet *restr) {
+    if (!(datatype && restr)) return NULL;
     return cowl_datatype_restr_alloc(datatype, restr);
 }
 

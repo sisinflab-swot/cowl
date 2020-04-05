@@ -10,6 +10,7 @@
 
 #include "cowl_nary_data_prop_axiom_private.h"
 #include "cowl_data_prop_exp_set.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -39,6 +40,7 @@ static void cowl_nary_data_prop_axiom_free(CowlNAryDataPropAxiom *axiom) {
 CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_get(CowlNAryAxiomType type,
                                                      CowlDataPropExpSet *props,
                                                      CowlAnnotationVec *annot) {
+    if (!(props && cowl_enum_value_is_valid(NAT, type))) return NULL;
     CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_EQUIV_DATA_PROP;
     return cowl_nary_data_prop_axiom_alloc(axiom_type, props, annot);
 }

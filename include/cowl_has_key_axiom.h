@@ -41,8 +41,8 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * @param cls_exp The class expression, instances of which this axiom acts as the key for.
  * @param obj_props Object property expressions that make up the key.
  * @param data_props Data property expressions that make up the key.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlHasKeyAxiom
  */
@@ -119,7 +119,7 @@ CowlAnnotationVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

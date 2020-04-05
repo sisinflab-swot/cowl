@@ -10,6 +10,7 @@
 
 #include "cowl_decl_axiom_private.h"
 #include "cowl_iterator_private.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -35,6 +36,7 @@ static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
 }
 
 CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity, CowlAnnotationVec *annot) {
+    if (!(cowl_enum_value_is_valid(ET, entity.type) && entity.owl_class)) return NULL;
     return cowl_decl_axiom_alloc(entity, annot);
 }
 

@@ -45,8 +45,8 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
  * @param subject The assertion subject.
  * @param prop The object property.
  * @param object The assertion object.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
@@ -62,8 +62,8 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
  * @param subject The assertion subject.
  * @param prop The object property.
  * @param object The assertion object.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
@@ -153,7 +153,7 @@ CowlAnnotationVec* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

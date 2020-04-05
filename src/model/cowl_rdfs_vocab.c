@@ -13,7 +13,16 @@
 
 static cowl_struct(CowlRDFSVocab) vocab;
 
-void cowl_rdfs_vocab_init(void) {
+static inline cowl_ret_t cowl_rdfs_vocab_validate(void) {
+    if (vocab.ns && vocab.iri.comment && vocab.iri.defined_by && vocab.iri.label &&
+        vocab.iri.literal && vocab.iri.see_also && vocab.dt.literal && vocab.annot_prop.comment &&
+        vocab.annot_prop.defined_by && vocab.annot_prop.label && vocab.annot_prop.see_also) {
+        return COWL_OK;
+    }
+    return COWL_ERR_MEM;
+}
+
+cowl_ret_t cowl_rdfs_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2000/01/rdf-schema#");
 
     CowlRDFSIRIVocab v = {
@@ -39,6 +48,8 @@ void cowl_rdfs_vocab_init(void) {
             .see_also = cowl_annot_prop_vocab_get(v.see_also)
         }
     };
+
+    return cowl_rdfs_vocab_validate();
 }
 
 void cowl_rdfs_vocab_deinit(void) {

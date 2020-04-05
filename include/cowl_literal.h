@@ -35,10 +35,10 @@ cowl_struct_decl(CowlLiteral);
 /**
  * Returns a retained literal.
  *
- * @param dt The datatype.
+ * @param dt [optional] The datatype.
  * @param value The value.
- * @param lang The language tag.
- * @return Retained literal.
+ * @param lang [optional] The language tag.
+ * @return Retained literal, or NULL on error.
  *
  * @public @memberof CowlLiteral
  */
@@ -103,7 +103,7 @@ CowlString* cowl_literal_get_lang(CowlLiteral *literal);
  * Returns the string representation of the specified literal.
  *
  * @param literal The literal.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

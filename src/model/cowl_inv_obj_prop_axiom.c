@@ -41,6 +41,7 @@ static void cowl_inv_obj_prop_axiom_free(CowlInvObjPropAxiom *axiom) {
 
 CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_get(CowlObjPropExp *first, CowlObjPropExp *second,
                                                  CowlAnnotationVec *annot) {
+    if (!(first && second)) return NULL;
     return cowl_inv_obj_prop_axiom_alloc(first, second, annot);
 }
 

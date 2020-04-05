@@ -16,7 +16,7 @@ UHASH_IMPL(CowlIndividualSet, cowl_individual_hash, cowl_individual_equals)
 void cowl_individual_set_free(CowlIndividualSet *set) {
     if (!set) return;
     uhash_foreach_key(CowlIndividualSet, set, exp, cowl_individual_release(exp));
-    uhash_free(CowlIndividualSet, set);
+    uhash_free(CowlIndividualSet, (UHash(CowlIndividualSet)*)set);
 }
 
 bool cowl_individual_set_equals(CowlIndividualSet *lhs, CowlIndividualSet *rhs) {

@@ -41,6 +41,7 @@ static void cowl_cls_assert_axiom_free(CowlClsAssertAxiom *axiom) {
 
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp,
                                               CowlAnnotationVec *annot) {
+    if (!(ind && exp)) return NULL;
     return cowl_cls_assert_axiom_alloc(ind, exp, annot);
 }
 

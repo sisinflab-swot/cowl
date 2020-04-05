@@ -12,6 +12,7 @@
 #include "cowl_alloc.h"
 #include "cowl_data_range_set.h"
 #include "cowl_hash_utils.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -37,6 +38,7 @@ static void cowl_nary_data_free(CowlNAryData *range) {
 }
 
 CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlDataRangeSet *operands) {
+    if (!(operands && cowl_enum_value_is_valid(NT, type))) return NULL;
     return cowl_nary_data_alloc((CowlDataRangeType)type + COWL_DRT_DATA_INTERSECT, operands);
 }
 

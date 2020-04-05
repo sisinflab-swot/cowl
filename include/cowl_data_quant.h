@@ -41,7 +41,7 @@ cowl_struct_decl(CowlDataQuant);
  * @param type Data quantifier type.
  * @param prop The data property.
  * @param range Range of the quantifier.
- * @return Retained data quantifier.
+ * @return Retained data quantifier, or NULL on error.
  *
  * @public @memberof CowlDataQuant
  */
@@ -107,7 +107,7 @@ CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr);
  * Returns the string representation of the specified data quantifier.
  *
  * @param restr The data quantifier.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

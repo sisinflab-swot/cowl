@@ -13,8 +13,8 @@
 #include "cowl_template.h"
 
 CowlNodeID cowl_node_id_get_unique(void) {
-    static CowlNodeID current = 0;
-    return current++;
+    static CowlNodeID current = COWL_NODE_ID_NULL;
+    return ++current;
 }
 
 CowlString* cowl_node_id_to_string(CowlNodeID id)

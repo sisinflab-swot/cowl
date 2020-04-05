@@ -13,6 +13,7 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
+#include "cowl_macros.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -42,6 +43,7 @@ static void cowl_data_quant_free(CowlDataQuant *restr) {
 
 CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,
                                    CowlDataRange *range) {
+    if (!(prop && range && cowl_enum_value_is_valid(QT, type))) return NULL;
     return cowl_data_quant_alloc(COWL_CET_DATA_SOME + type, prop, range);
 }
 

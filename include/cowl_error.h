@@ -100,7 +100,7 @@ VECTOR_DECL_SPEC(CowlError, COWL_PUBLIC)
  * Returns a human-readable string representation of the specified error.
  *
  * @param error The error.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

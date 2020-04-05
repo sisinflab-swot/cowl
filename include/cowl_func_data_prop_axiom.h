@@ -37,8 +37,8 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
  * Returns a retained functional data property axiom.
  *
  * @param prop The data property.
- * @param annot The annotations.
- * @return Retained axiom.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
@@ -93,7 +93,7 @@ CowlAnnotationVec* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *ax
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

@@ -37,6 +37,7 @@ static void cowl_func_data_prop_axiom_free(CowlFuncDataPropAxiom *axiom) {
 
 CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop,
                                                      CowlAnnotationVec *annot) {
+    if (!prop) return NULL;
     return cowl_func_data_prop_axiom_alloc(prop, annot);
 }
 

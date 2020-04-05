@@ -15,7 +15,7 @@
 
 static CowlIRI *cowl_facet_iris[COWL_FACET_COUNT] = { NULL };
 
-void cowl_facet_init(void) {
+cowl_ret_t cowl_facet_init(void) {
     CowlXSDVocab *xsd = cowl_xsd_vocab_get();
     CowlRDFVocab *rdf = cowl_rdf_vocab_get();
     cowl_facet_iris[COWL_FACET_NONE] = NULL;
@@ -30,6 +30,7 @@ void cowl_facet_init(void) {
     cowl_facet_iris[COWL_FACET_TOTAL_DIGITS] = xsd->iri.total_digits;
     cowl_facet_iris[COWL_FACET_FRAC_DIGITS] = xsd->iri.fraction_digits;
     cowl_facet_iris[COWL_FACET_LANG_RANGE] = rdf->iri.lang_range;
+    return COWL_OK;
 }
 
 void cowl_facet_deinit(void) { /* No-op */ }

@@ -36,7 +36,7 @@ cowl_struct_decl(CowlObjOneOf);
  * Returns a retained individual enumeration.
  *
  * @param inds The individuals.
- * @return Retained individual enumeration.
+ * @return Retained individual enumeration, or NULL on error.
  *
  * @public @memberof CowlObjOneOf
  */
@@ -79,7 +79,7 @@ CowlIndividualSet* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
  * Returns the string representation of the specified individual enumeration.
  *
  * @param exp The individual enumeration.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

@@ -43,6 +43,7 @@ static void cowl_sub_obj_prop_chain_axiom_free(CowlSubObjPropChainAxiom *axiom) 
 CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlObjPropExpVec *sub,
                                                             CowlObjPropExp *super,
                                                             CowlAnnotationVec *annot) {
+    if ((!sub && super)) return NULL;
     return cowl_sub_obj_prop_chain_axiom_alloc(sub, super, annot);
 }
 

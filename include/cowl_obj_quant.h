@@ -42,7 +42,7 @@ cowl_struct_decl(CowlObjQuant);
  * @param type Object quantifier type.
  * @param prop The object property.
  * @param filler Filler of the quantifier.
- * @return Retained object quantifier.
+ * @return Retained object quantifier, or NULL on error.
  *
  * @public @memberof CowlObjQuant
  */
@@ -107,7 +107,7 @@ CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
  * Returns the string representation of the specified object quantifier.
  *
  * @param restr The object quantifier.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

@@ -36,7 +36,7 @@ cowl_struct_decl(CowlDeclAxiom);
  * Returns a retained declaration axiom.
  *
  * @param entity The declared entity.
- * @param annot The annotations.
+ * @param annot [optional] The annotations.
  * @return Retained declaration.
  *
  * @public @memberof CowlDeclAxiom
@@ -91,7 +91,7 @@ CowlAnnotationVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom);
  * Returns the string representation of the specified axiom.
  *
  * @param axiom The axiom.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *

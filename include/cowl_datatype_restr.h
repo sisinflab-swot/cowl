@@ -37,7 +37,7 @@ cowl_struct_decl(CowlDatatypeRestr);
  *
  * @param datatype The datatype that this data range restricts.
  * @param restrictions Set of facet restrictions.
- * @return Retained datatype restriction.
+ * @return Retained datatype restriction, or NULL on error.
  *
  * @public @memberof CowlDatatypeRestr
  */
@@ -91,7 +91,7 @@ CowlFacetRestrSet* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr
  * Returns the string representation of the specified datatype restriction.
  *
  * @param restr The datatype restriction.
- * @return String representation.
+ * @return String representation, or NULL on error.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *
