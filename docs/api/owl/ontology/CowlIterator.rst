@@ -36,6 +36,7 @@ Class expression iterator
 
 Data property expression iterator
 =================================
+
 .. doxygenstruct:: CowlDataPropExpIterator
 
 Data property iterator
@@ -52,6 +53,12 @@ Entity iterator
 ===============
 
 .. doxygenstruct:: CowlEntityIterator
+
+
+Primitive iterator
+==================
+
+.. doxygenstruct:: CowlPrimitiveIterator
 
 Individual iterator
 ===================

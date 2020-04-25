@@ -30,9 +30,7 @@ cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlNamedInd);
 /// @endcond
 
-/**
- * Represents primitives, e.g. entities and anonymous individuals.
- */
+/// Represents primitives, a collective term for entities and anonymous individuals.
 typedef cowl_struct(CowlPrimitive) {
 
     /// Type of the primitive.
