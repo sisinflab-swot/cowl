@@ -1,0 +1,2 @@
+*.h linguist-language=C
+*.y linguist-language=Bison
