@@ -58,11 +58,11 @@ find_package(FLEX 2.6.4 REQUIRED)
 # Vector(T) and uHash
 
 if(NOT TARGET vector)
-    add_subdirectory("${COWL_LIB_DIR}/vector_t")
+    add_subdirectory("${COWL_LIB_DIR}/vector_t" EXCLUDE_FROM_ALL)
 endif()
 
 if(NOT TARGET uhash)
-    add_subdirectory("${COWL_LIB_DIR}/uhash")
+    add_subdirectory("${COWL_LIB_DIR}/uhash" EXCLUDE_FROM_ALL)
 endif()
 
 # Header dirs
@@ -144,6 +144,15 @@ flex_target(COWL_FUNCTIONAL_LEXER "${COWL_FUNCTIONAL_LEXER_IN}" "${COWL_FUNCTION
             DEFINES_FILE "${COWL_FUNCTIONAL_LEXER_HEADER}")
 add_flex_bison_dependency(COWL_FUNCTIONAL_LEXER COWL_FUNCTIONAL_PARSER)
 
+# Copy headers
+
+add_custom_target(cowl-headers
+                  COMMAND "${CMAKE_COMMAND}" -E remove_directory "${COWL_HEADERS_OUT_DIR}"
+                  COMMAND "${CMAKE_COMMAND}" -E make_directory "${COWL_HEADERS_OUT_DIR}"
+                  COMMAND ${CMAKE_COMMAND} -E copy
+                          ${COWL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
+                  COMMENT "Copy headers to the build directory.")
+
 # Static library
 
 add_library(cowl-static STATIC EXCLUDE_FROM_ALL
@@ -165,6 +174,7 @@ target_include_directories(cowl-static
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_link_libraries(cowl-static PUBLIC vector uhash)
+add_dependencies(cowl-static cowl-headers)
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-static PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
@@ -191,6 +201,7 @@ target_include_directories(cowl-shared
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_link_libraries(cowl-shared PUBLIC vector uhash)
+add_dependencies(cowl-shared cowl-headers)
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-shared PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
@@ -204,11 +215,5 @@ add_subdirectory("${COWL_TEST_DIR}")
 
 # Main target
 
-add_custom_target(cowl ALL
-                  COMMAND "${CMAKE_COMMAND}" -E remove_directory "${COWL_HEADERS_OUT_DIR}"
-                  COMMAND "${CMAKE_COMMAND}" -E make_directory "${COWL_HEADERS_OUT_DIR}"
-                  COMMAND ${CMAKE_COMMAND} -E copy
-                          ${COWL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
-                  COMMENT "Build Cowl")
-
+add_custom_target(cowl ALL COMMENT "Build Cowl")
 add_dependencies(cowl cowl-static cowl-shared)
