@@ -26,8 +26,8 @@ cowl_ret_t cowl_string_api_init(void) {
 }
 
 void cowl_string_api_deinit(void) {
-    uhash_free(CowlStringTable, str_tbl);
     cowl_string_release(empty);
+    uhash_free(CowlStringTable, str_tbl);
 }
 
 CowlString* cowl_string_alloc(CowlRawString raw_string) {
