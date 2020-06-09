@@ -5,6 +5,23 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2020-06-09
+### Added
+- Error handling via `cowl_ret_t` return values.
+- Support for custom allocators via `cowl_malloc`, `cowl_realloc` and `cowl_free`.
+- `CowlPrimitive` and related iteration API.
+- `cowl_logger_logs`.
+
+### Changed
+- Memory exhaustion errors are explicitly handled.
+- Headers are copied when building each library target.
+
+### Fixed
+- UaF in `cowl_string_api_deinit`.
+- Incorrect hash computation for `CowlOntologyID`.
+- Compilation via MSVC.
+
+
 ## [0.2.2] - 2020-02-27
 ### Added
 - `from_cstring` and `from_static` constructors for all entities.
@@ -76,6 +93,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.3.0]: https://github.com/sisinflab-swot/cowl/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/sisinflab-swot/cowl/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/sisinflab-swot/cowl/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/sisinflab-swot/cowl/compare/v0.1.0...v0.2.0
