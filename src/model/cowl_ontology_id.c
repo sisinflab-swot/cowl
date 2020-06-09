@@ -34,8 +34,8 @@ bool cowl_ontology_id_equals(CowlOntologyID lhs, CowlOntologyID rhs) {
 cowl_uint_t cowl_ontology_id_hash(CowlOntologyID id) {
     cowl_uint_t hash = COWL_HASH_INIT_ONTO_ID;
 
-    if (id.ontology_iri) cowl_hash_iter(hash, cowl_iri_hash(id.ontology_iri));
-    if (id.version_iri) cowl_hash_iter(hash, cowl_iri_hash(id.version_iri));
+    if (id.ontology_iri) hash = cowl_hash_iter(hash, cowl_iri_hash(id.ontology_iri));
+    if (id.version_iri) hash = cowl_hash_iter(hash, cowl_iri_hash(id.version_iri));
 
     return hash;
 }
