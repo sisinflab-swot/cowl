@@ -21,7 +21,7 @@ static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
     CowlLiteral *literal = cowl_alloc(literal);
     if (!literal) return NULL;
 
-    dt = cowl_datatype_retain(dt ?: cowl_rdf_vocab_get()->dt.plain_literal);
+    dt = cowl_datatype_retain(dt ? dt : cowl_rdf_vocab_get()->dt.plain_literal);
     value = value ? cowl_string_retain(value) : cowl_string_get_empty();
     lang = lang ? cowl_string_retain(lang) : cowl_string_get_empty();
 

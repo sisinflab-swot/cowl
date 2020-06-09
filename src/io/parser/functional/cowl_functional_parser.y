@@ -1136,7 +1136,7 @@ annotation_star
         $$ = NULL;
     }
     | annotation_star annotation {
-        $$ = $1 ?: vector_alloc(CowlAnnotationPtr);
+        $$ = $1 ? $1 : vector_alloc(CowlAnnotationPtr);
         if (!$$ || vector_push(CowlAnnotationPtr, $$, $2) == VECTOR_ERR) COWL_ERROR_MEM;
     }
 ;
@@ -1182,7 +1182,7 @@ data_property_expression_star
         $$ = NULL;
     }
     | data_property_expression_star data_property_expression {
-        $$ = $1 ?: uhset_alloc(CowlDataPropExpSet);
+        $$ = $1 ? $1 : uhset_alloc(CowlDataPropExpSet);
         if (!$$ || uhset_insert(CowlDataPropExpSet, $$, $2) == UHASH_ERR) COWL_ERROR_MEM;
     }
 ;
@@ -1211,7 +1211,7 @@ import_star
     }
     | import_star import {
         if ($2) {
-            $$ = $1 ?: vector_alloc(CowlOntologyPtr);
+            $$ = $1 ? $1 : vector_alloc(CowlOntologyPtr);
             if (!$$ || vector_push(CowlOntologyPtr, $$, $2) == VECTOR_ERR) COWL_ERROR_MEM;
         }
     }
@@ -1284,7 +1284,7 @@ object_property_expression_star
         $$ = NULL;
     }
     | object_property_expression_star object_property_expression {
-        $$ = $1 ?: uhset_alloc(CowlObjPropExpSet);
+        $$ = $1 ? $1 : uhset_alloc(CowlObjPropExpSet);
         if (!$$ || uhset_insert(CowlObjPropExpSet, $$, $2) == UHASH_ERR) COWL_ERROR_MEM;
     }
 ;

@@ -63,7 +63,7 @@ cowl_ret_t cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, 
     size_t size = length + 1;
     cowl_ret_t ret;
 
-    if (vector_expand(CowlChar, buf, size) != VECTOR_OK) {
+    if (vector_expand(CowlChar, buf, (vector_uint_t)size) != VECTOR_OK) {
         ret = COWL_ERR_MEM;
     } else {
         ret = COWL_OK;

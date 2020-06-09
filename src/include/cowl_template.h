@@ -17,7 +17,7 @@ COWL_BEGIN_DECLS
 
 #define COWL_INST_TBL_GET_IMPL(UC, LC, KEY_INIT, VALUE_ALLOC) {                                     \
     uhash_uint_t idx;                                                                               \
-    Cowl##UC key = (Cowl##UC)KEY_INIT;                                                              \
+    Cowl##UC key = KEY_INIT;                                                                        \
     uhash_ret_t ret = uhash_put(Cowl##UC##Table, inst_tbl, &key, &idx);                             \
                                                                                                     \
     Cowl##UC *var = NULL;                                                                           \
@@ -31,7 +31,7 @@ COWL_BEGIN_DECLS
         }                                                                                           \
     } else if (ret == UHASH_PRESENT) {                                                              \
         var = uhash_key(inst_tbl, idx);                                                             \
-        cowl_object_retain(var);                                                                    \
+        (void)cowl_object_retain(var);                                                              \
     }                                                                                               \
                                                                                                     \
     return var;                                                                                     \

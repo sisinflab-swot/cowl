@@ -13,8 +13,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
 
-#include <stdio.h>
-
 UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
 static UHash(CowlStringTable) *str_tbl = NULL;
 static CowlString *empty = NULL;
@@ -72,7 +70,7 @@ CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
         }
     } else if (ret == UHASH_PRESENT) {
         string = uhash_key(str_tbl, idx);
-        cowl_object_retain(string);
+        (void)cowl_object_retain(string);
     } else {
         string = NULL;
     }
@@ -148,7 +146,7 @@ char const* cowl_string_release_copying_cstring(CowlString *string) {
     char const *cstring;
 
     if (cowl_object_release(string)) {
-        cstring = strndup(string->raw_string.cstring, string->raw_string.length);
+        cstring = cowl_strdup(string->raw_string.cstring, string->raw_string.length);
     } else {
         cstring = string->raw_string.cstring;
         string->raw_string.cstring = NULL;

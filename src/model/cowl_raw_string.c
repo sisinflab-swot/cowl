@@ -11,13 +11,11 @@
 #include "cowl_raw_string.h"
 #include "cowl_str_buf.h"
 
-#include <stdio.h>
-
 CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy) {
     if (!cstring) return COWL_RAW_STRING_NULL;
 
     if (copy) {
-        cstring = strndup(cstring, length);
+        cstring = cowl_strdup(cstring, length);
         if (!cstring) return COWL_RAW_STRING_NULL;
     }
 

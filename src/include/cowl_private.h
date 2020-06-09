@@ -25,6 +25,7 @@
 #include "cowl_class_private.h"
 #include "cowl_cls_assert_axiom_private.h"
 #include "cowl_cls_exp_private.h"
+#include "cowl_cstring.h"
 #include "cowl_data_card_private.h"
 #include "cowl_data_compl_private.h"
 #include "cowl_data_has_value_private.h"

@@ -13,6 +13,7 @@
 
 #include "cowl_std.h"
 #include "cowl_alloc.h"
+#include "cowl_cstring.h"
 
 #include <stdarg.h>
 
@@ -26,7 +27,7 @@ typedef cowl_struct(CowlRawString) {
 #define cowl_raw_string_init_static(CSTRING, COPY)                                                  \
     ((CowlRawString) {                                                                              \
         .length = (sizeof(CSTRING) - 1),                                                            \
-        .cstring = ((COPY) ? strndup(CSTRING, sizeof(CSTRING) - 1) : (CSTRING))                     \
+        .cstring = ((COPY) ? cowl_strdup(CSTRING, sizeof(CSTRING) - 1) : (CSTRING))                 \
     })
 
 #define cowl_raw_string_deinit(STRING) cowl_free((void *)(STRING).cstring)
