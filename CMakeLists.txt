@@ -103,17 +103,23 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
+set(COWL_MALLOC malloc CACHE STRING "malloc function override")
+set(COWL_REALLOC realloc CACHE STRING "realloc function override")
+set(COWL_FREE free CACHE STRING "free function override")
 
 # Defaults
 
 set(COWL_COMPILE_FEATURES c_std_11)
 list(APPEND COWL_PUBLIC_DEFINES
-     VECTOR_MALLOC=cowl_malloc
-     VECTOR_REALLOC=cowl_realloc
-     VECTOR_FREE=cowl_free
-     UHASH_MALLOC=cowl_malloc
-     UHASH_REALLOC=cowl_realloc
-     UHASH_FREE=cowl_free)
+     cowl_malloc=${COWL_MALLOC}
+     cowl_realloc=${COWL_REALLOC}
+     cowl_free=${COWL_FREE}
+     VECTOR_MALLOC=${COWL_MALLOC}
+     VECTOR_REALLOC=${COWL_REALLOC}
+     VECTOR_FREE=${COWL_FREE}
+     UHASH_MALLOC=${COWL_MALLOC}
+     UHASH_REALLOC=${COWL_REALLOC}
+     UHASH_FREE=${COWL_FREE})
 
 if(MSVC)
     set(COWL_WARNING_OPTIONS /W3 /wd4996)

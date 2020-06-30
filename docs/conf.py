@@ -41,4 +41,4 @@ breathe_default_members = ('members', 'undocmembers')
 # Setup
 
 def setup(app):
-    app.add_stylesheet('style.css')
+    app.add_css_file('style.css')

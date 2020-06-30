@@ -16,7 +16,7 @@ Welcome to Cowl's documentation!
 .. toctree::
    :caption: API docs
 
-   api/index
+   api/config/index
    api/base/index
    api/collections/index
    api/owl/index
