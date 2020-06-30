@@ -11,7 +11,7 @@
 #include "cowl_cstring.h"
 
 char* cowl_strdup(char const *string, size_t length) {
-    char *buf = malloc(length + 1);
+    char *buf = cowl_malloc(length + 1);
 
     if (buf) {
         memcpy(buf, string, length);
