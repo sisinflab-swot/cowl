@@ -258,7 +258,7 @@ cowl_ret_t cowl_str_buf_append_named_ind(CowlStrBuf *buf, CowlNamedInd *ind) {
 // Individuals
 
 cowl_ret_t cowl_str_buf_append_individual(CowlStrBuf *buf, CowlIndividual *ind) {
-    if (ind->is_named) {
+    if (cowl_individual_is_named(ind)) {
         return cowl_str_buf_append_named_ind(buf, (CowlNamedInd *)ind);
     } else {
         return cowl_str_buf_append_anon_ind(buf, (CowlAnonInd *)ind);
@@ -279,7 +279,7 @@ cowl_ret_t cowl_str_buf_append_anon_ind(CowlStrBuf *buf, CowlAnonInd *ind) {
 // Object property expressions
 
 cowl_ret_t cowl_str_buf_append_obj_prop_exp(CowlStrBuf *buf, CowlObjPropExp *exp) {
-    if (exp->is_inverse) {
+    if (cowl_obj_prop_exp_is_inverse(exp)) {
         return cowl_str_buf_append_inv_obj_prop(buf, (CowlInvObjProp *)exp);
     } else {
         return cowl_str_buf_append_obj_prop(buf, (CowlObjProp *)exp);
@@ -307,7 +307,7 @@ cowl_ret_t cowl_str_buf_append_data_prop_exp(CowlStrBuf *buf, CowlDataPropExp *e
 // Class expressions
 
 cowl_ret_t cowl_str_buf_append_cls_exp(CowlStrBuf *buf, CowlClsExp *exp) {
-    switch (exp->type) {
+    switch (cowl_cls_exp_get_type(exp)) {
 
         case COWL_CET_CLASS:
             return cowl_str_buf_append_class(buf, (CowlClass *)exp);
@@ -359,7 +359,7 @@ cowl_ret_t cowl_str_buf_append_obj_quant(CowlStrBuf *buf, CowlObjQuant *restr) {
 
     cowl_ret_t ret;
 
-    if (restr->super.type == COWL_CET_OBJ_SOME) {
+    if (cowl_obj_quant_get_type(restr) == COWL_QT_SOME) {
         ret = cowl_str_buf_append_static(buf, "Some");
     } else {
         ret = cowl_str_buf_append_static(buf, "All");
@@ -384,10 +384,10 @@ cowl_ret_t cowl_str_buf_append_obj_card(CowlStrBuf *buf, CowlObjCard *restr) {
 
     cowl_ret_t ret;
 
-    switch (restr->super.type) {
-        case COWL_CET_OBJ_MIN_CARD:
+    switch (cowl_obj_card_get_type(restr)) {
+        case COWL_CT_MIN:
             ret = cowl_str_buf_append_static(buf, "Min"); break;
-        case COWL_CET_OBJ_MAX_CARD:
+        case COWL_CT_MAX:
             ret = cowl_str_buf_append_static(buf, "Max"); break;
         default:
             ret = cowl_str_buf_append_static(buf, "Exact"); break;
@@ -443,7 +443,7 @@ cowl_ret_t cowl_str_buf_append_data_quant(CowlStrBuf *buf, CowlDataQuant *restr)
 
     cowl_ret_t ret;
 
-    if (restr->super.type == COWL_CET_DATA_SOME) {
+    if (cowl_data_quant_get_type(restr) == COWL_QT_SOME) {
         ret = cowl_str_buf_append_static(buf, "Some");
     } else {
         ret = cowl_str_buf_append_static(buf, "All");
@@ -468,10 +468,10 @@ cowl_ret_t cowl_str_buf_append_data_card(CowlStrBuf *buf, CowlDataCard *restr) {
 
     cowl_ret_t ret;
 
-    switch (restr->super.type) {
-        case COWL_CET_DATA_MIN_CARD:
+    switch (cowl_data_card_get_type(restr)) {
+        case COWL_CT_MIN:
             ret = cowl_str_buf_append_static(buf, "Min"); break;
-        case COWL_CET_DATA_MAX_CARD:
+        case COWL_CT_MAX:
             ret = cowl_str_buf_append_static(buf, "Max"); break;
         default:
             ret = cowl_str_buf_append_static(buf, "Exact"); break;
@@ -515,7 +515,7 @@ cowl_ret_t cowl_str_buf_append_nary_bool(CowlStrBuf *buf, CowlNAryBool *exp) {
 
     cowl_ret_t ret;
 
-    if (exp->super.type == COWL_CET_OBJ_INTERSECT) {
+    if (cowl_nary_bool_get_type(exp) == COWL_NT_INTERSECT) {
         ret = cowl_str_buf_append_static(buf, "Intersection");
     } else {
         ret = cowl_str_buf_append_static(buf, "Union");
@@ -560,7 +560,7 @@ cowl_ret_t cowl_str_buf_append_obj_one_of(CowlStrBuf *buf, CowlObjOneOf *restr) 
 // Data ranges
 
 cowl_ret_t cowl_str_buf_append_data_range(CowlStrBuf *buf, CowlDataRange *range) {
-    switch (range->type) {
+    switch (cowl_data_range_get_type(range)) {
 
         case COWL_DRT_DATATYPE:
             return cowl_str_buf_append_datatype(buf, (CowlDatatype *)range);
@@ -601,7 +601,7 @@ cowl_ret_t cowl_str_buf_append_nary_data(CowlStrBuf *buf, CowlNAryData *range) {
 
     cowl_ret_t ret;
 
-    if (range->super.type == COWL_DRT_DATA_INTERSECT) {
+    if (cowl_nary_data_get_type(range) == COWL_NT_INTERSECT) {
         ret = cowl_str_buf_append_static(buf, "Intersection");
     } else {
         ret = cowl_str_buf_append_static(buf, "Union");
@@ -789,7 +789,7 @@ cowl_ret_t cowl_str_buf_append_sub_cls_axiom(CowlStrBuf *buf, CowlSubClsAxiom *a
 cowl_ret_t cowl_str_buf_append_nary_cls_axiom(CowlStrBuf *buf, CowlNAryClsAxiom *axiom) {
     cowl_ret_t ret;
 
-    if (cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_EQUIV_CLASSES) {
+    if (cowl_nary_cls_axiom_get_type(axiom) == COWL_NAT_EQUIV) {
         ret = cowl_str_buf_append_static(buf, "Equivalent");
     } else {
         ret = cowl_str_buf_append_static(buf, "Disjoint");
@@ -837,8 +837,8 @@ cowl_ret_t cowl_str_buf_append_cls_assert(CowlStrBuf *buf, CowlClsAssertAxiom *a
     return COWL_OK;
 }
 
-cowl_uint_t cowl_str_buf_append_nary_ind_axiom(CowlStrBuf *buf, CowlNAryIndAxiom *axiom) {
-    if (cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_SAME_IND) {
+cowl_ret_t cowl_str_buf_append_nary_ind_axiom(CowlStrBuf *buf, CowlNAryIndAxiom *axiom) {
+    if (cowl_nary_ind_axiom_get_type(axiom) == COWL_NAT_SAME) {
         if (cowl_str_buf_append_static(buf, "Same") ||
             cowl_str_buf_append_static(buf, "Individual")) {
             return COWL_ERR_MEM;
@@ -861,7 +861,7 @@ cowl_uint_t cowl_str_buf_append_nary_ind_axiom(CowlStrBuf *buf, CowlNAryIndAxiom
 }
 
 cowl_ret_t cowl_str_buf_append_obj_prop_assert(CowlStrBuf *buf, CowlObjPropAssertAxiom *axiom) {
-    if (cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_NEG_OBJ_PROP_ASSERT) {
+    if (cowl_obj_prop_assert_axiom_is_negative(axiom)) {
         if (cowl_str_buf_append_static(buf, "Negative")) return COWL_ERR_MEM;
     }
 
@@ -883,7 +883,7 @@ cowl_ret_t cowl_str_buf_append_obj_prop_assert(CowlStrBuf *buf, CowlObjPropAsser
 }
 
 cowl_ret_t cowl_str_buf_append_data_prop_assert(CowlStrBuf *buf, CowlDataPropAssertAxiom *axiom) {
-    if (cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_NEG_DATA_PROP_ASSERT) {
+    if (cowl_data_prop_assert_axiom_is_negative(axiom)) {
         if (cowl_str_buf_append_static(buf, "Negative")) return COWL_ERR_MEM;
     }
 
@@ -959,7 +959,7 @@ cowl_ret_t cowl_str_buf_append_inv_obj_prop_axiom(CowlStrBuf *buf, CowlInvObjPro
 cowl_ret_t cowl_str_buf_append_nary_obj_prop_axiom(CowlStrBuf *buf, CowlNAryObjPropAxiom *axiom) {
     cowl_ret_t ret;
 
-    if (cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_EQUIV_CLASSES) {
+    if (cowl_nary_obj_prop_axiom_get_type(axiom) == COWL_NAT_EQUIV) {
         ret = cowl_str_buf_append_static(buf, "Equivalent");
     } else {
         ret = cowl_str_buf_append_static(buf, "Disjoint");
@@ -980,32 +980,32 @@ cowl_ret_t cowl_str_buf_append_nary_obj_prop_axiom(CowlStrBuf *buf, CowlNAryObjP
 }
 
 cowl_ret_t cowl_str_buf_append_obj_prop_char(CowlStrBuf *buf, CowlObjPropCharAxiom *axiom) {
-    CowlAxiomType const type = cowl_axiom_flags_get_type(axiom->super.flags);
+    CowlCharAxiomType const type = cowl_obj_prop_char_axiom_get_type(axiom);
     cowl_ret_t ret;
 
     switch (type) {
-        case COWL_AT_FUNC_OBJ_PROP:
+        case COWL_CAT_FUNC:
             ret = cowl_str_buf_append_static(buf, "Functional");
             break;
 
-        case COWL_AT_INV_FUNC_OBJ_PROP:
+        case COWL_CAT_INV_FUNC:
             ret = ((cowl_str_buf_append_static(buf, "Inverse") ||
                     cowl_str_buf_append_static(buf, "Functional")) ? COWL_ERR_MEM : COWL_OK);
             break;
 
-        case COWL_AT_SYMM_OBJ_PROP:
+        case COWL_CAT_SYMM:
             ret = cowl_str_buf_append_static(buf, "Symmetric");
             break;
 
-        case COWL_AT_ASYMM_OBJ_PROP:
+        case COWL_CAT_ASYMM:
             ret = cowl_str_buf_append_static(buf, "Asymmetric");
             break;
 
-        case COWL_AT_REFL_OBJ_PROP:
+        case COWL_CAT_REFL:
             ret = cowl_str_buf_append_static(buf, "Reflexive");
             break;
 
-        case COWL_AT_IRREFL_OBJ_PROP:
+        case COWL_CAT_IRREFL:
             ret = cowl_str_buf_append_static(buf, "Irreflexive");
             break;
 
@@ -1076,7 +1076,7 @@ cowl_ret_t cowl_str_buf_append_sub_data_prop_axiom(CowlStrBuf *buf, CowlSubDataP
 cowl_ret_t cowl_str_buf_append_nary_data_prop_axiom(CowlStrBuf *buf, CowlNAryDataPropAxiom *axiom) {
     cowl_ret_t ret;
 
-    if (cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_EQUIV_DATA_PROP) {
+    if (cowl_nary_data_prop_axiom_get_type(axiom) == COWL_NAT_EQUIV) {
         ret = cowl_str_buf_append_static(buf, "Equivalent");
     } else {
         ret = cowl_str_buf_append_static(buf, "Disjoint");

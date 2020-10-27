@@ -23,36 +23,36 @@ typedef cowl_enum(CowlPrimitiveType) {
 /// @name Types
 
     /// CowlClass - class.
-        COWL_PT_CLASS,
+    COWL_PT_CLASS,
 
     /// CowlObjProp - object property.
-        COWL_PT_OBJ_PROP,
+    COWL_PT_OBJ_PROP,
 
     /// CowlDataProp - data property.
-        COWL_PT_DATA_PROP,
+    COWL_PT_DATA_PROP,
 
     /// CowlAnnotProp - annotation property.
-        COWL_PT_ANNOT_PROP,
+    COWL_PT_ANNOT_PROP,
 
     /// CowlNamedInd - named individual.
-        COWL_PT_NAMED_IND,
+    COWL_PT_NAMED_IND,
 
     /// CowlDatatype - datatype.
-        COWL_PT_DATATYPE,
+    COWL_PT_DATATYPE,
 
     /// CowlAnonInd - anonymous individual.
-        COWL_PT_ANON_IND,
+    COWL_PT_ANON_IND,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_PT_COUNT,
+    COWL_PT_COUNT,
 
     /// Limit for entities.
-        COWL_PT_MAX_ENTITY = COWL_PT_DATATYPE,
+    COWL_PT_MAX_ENTITY = COWL_PT_DATATYPE,
 
     /// First enum value.
-        COWL_PT_FIRST = 0
+    COWL_PT_FIRST = 0
 
 } CowlPrimitiveType;
 

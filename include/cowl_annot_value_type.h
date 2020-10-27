@@ -23,21 +23,21 @@ typedef cowl_enum(CowlAnnotValueType) {
 /// @name Types
 
     /// IRI.
-        COWL_AVT_IRI,
+    COWL_AVT_IRI,
 
     /// Literal.
-        COWL_AVT_LITERAL,
+    COWL_AVT_LITERAL,
 
     /// Anonymous individual.
-        COWL_AVT_ANON_IND,
+    COWL_AVT_ANON_IND,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_AVT_COUNT,
+    COWL_AVT_COUNT,
 
     /// First enum value.
-        COWL_AVT_FIRST = 0
+    COWL_AVT_FIRST = 0
 
 } CowlAnnotValueType;
 

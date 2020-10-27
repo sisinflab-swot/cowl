@@ -23,21 +23,21 @@ typedef cowl_enum(CowlCardType) {
 /// @name Types
 
     /// Minimum cardinality.
-        COWL_CT_MIN,
+    COWL_CT_MIN,
 
     /// Maximum cardinality.
-        COWL_CT_MAX,
+    COWL_CT_MAX,
 
     /// Exact cardinality.
-        COWL_CT_EXACT,
+    COWL_CT_EXACT,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_CT_COUNT,
+    COWL_CT_COUNT,
 
     /// First enum value.
-        COWL_CT_FIRST = 0
+    COWL_CT_FIRST = 0
 
 } CowlCardType;
 

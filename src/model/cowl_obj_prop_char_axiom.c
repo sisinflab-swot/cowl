@@ -56,8 +56,7 @@ void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom) {
 }
 
 CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom) {
-    CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlCharAxiomType)(cowl_axiom_flags_get_type(flags) - COWL_AT_FUNC_OBJ_PROP);
+    return (CowlCharAxiomType)(cowl_get_type(axiom) - COWL_OT_A_FUNC_OBJ_PROP);
 }
 
 CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {

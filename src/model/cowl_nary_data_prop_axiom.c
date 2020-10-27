@@ -56,8 +56,7 @@ void cowl_nary_data_prop_axiom_release(CowlNAryDataPropAxiom *axiom) {
 }
 
 CowlNAryAxiomType cowl_nary_data_prop_axiom_get_type(CowlNAryDataPropAxiom *axiom) {
-    CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - COWL_AT_EQUIV_DATA_PROP);
+    return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_EQUIV_DATA_PROP);
 }
 
 CowlDataPropExpSet* cowl_nary_data_prop_axiom_get_props(CowlNAryDataPropAxiom *axiom) {

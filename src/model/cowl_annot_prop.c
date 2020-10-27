@@ -35,7 +35,7 @@ static CowlAnnotProp* cowl_annot_prop_alloc(CowlIRI *iri) {
     if (!prop) return NULL;
 
     *prop = (CowlAnnotProp) {
-        .super = COWL_OBJECT_INIT,
+        .super = COWL_OBJECT_INIT(COWL_OT_ANNOT_PROP),
         .iri = cowl_iri_retain(iri)
     };
 

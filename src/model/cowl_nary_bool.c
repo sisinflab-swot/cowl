@@ -53,7 +53,7 @@ void cowl_nary_bool_release(CowlNAryBool *exp) {
 }
 
 CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
-    return (CowlNAryType)(exp->super.type - COWL_CET_OBJ_INTERSECT);
+    return (CowlNAryType)(cowl_get_type(exp) - COWL_OT_CE_OBJ_INTERSECT);
 }
 
 CowlClsExpSet* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
@@ -64,7 +64,7 @@ CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp)
     COWL_TO_STRING_IMPL(nary_bool, exp)
 
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
-    return (lhs->super.type == rhs->super.type &&
+    return (cowl_hash_object_equals_impl(lhs, rhs) &&
             uhset_equals(CowlClsExpSet, lhs->operands, rhs->operands));
 }
 

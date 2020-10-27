@@ -53,8 +53,7 @@ void cowl_nary_cls_axiom_release(CowlNAryClsAxiom *axiom) {
 }
 
 CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom) {
-    CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlNAryAxiomType)(flags - COWL_AT_EQUIV_CLASSES);
+    return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_EQUIV_CLASSES);
 }
 
 CowlClsExpSet *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {

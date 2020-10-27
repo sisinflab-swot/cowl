@@ -12,7 +12,7 @@
 #define COWL_ANNOT_PROP_PRIVATE_H
 
 #include "cowl_annot_prop.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 

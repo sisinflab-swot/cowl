@@ -296,7 +296,7 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
     Vector(CowlAxiomPtr) *axioms = uhmap_get(CowlClassAxiomMap, map, owl_class, NULL);
 
     vector_foreach(CowlAxiomPtr, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) != COWL_AT_SUB_CLASS) continue;
+        if (cowl_axiom_get_type(axiom) != COWL_AT_SUB_CLASS) continue;
         CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
         if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->super_class)) {
@@ -317,7 +317,7 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
     Vector(CowlAxiomPtr) *axioms = uhmap_get(CowlClassAxiomMap, map, owl_class, NULL);
 
     vector_foreach(CowlAxiomPtr, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) != COWL_AT_SUB_CLASS) continue;
+        if (cowl_axiom_get_type(axiom) != COWL_AT_SUB_CLASS) continue;
         CowlSubClsAxiom *sub_axiom = (CowlSubClsAxiom *)axiom;
 
         if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->sub_class)) {
@@ -338,7 +338,7 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
     Vector(CowlAxiomPtr) *axioms = uhmap_get(CowlClassAxiomMap, map, owl_class, NULL);
 
     vector_foreach(CowlAxiomPtr, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) != COWL_AT_EQUIV_CLASSES) continue;
+        if (cowl_axiom_get_type(axiom) != COWL_AT_EQUIV_CLASSES) continue;
         CowlClsExpSet *eq_classes = ((CowlNAryClsAxiom *)axiom)->classes;
 
         uhash_uint_t cls_idx = uhash_get(CowlClsExpSet, eq_classes, (CowlClsExp *)owl_class);
@@ -360,7 +360,7 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
                                  CowlClsExpIterator *iter) {
     Vector(CowlAxiomPtr) *axioms;
 
-    if (ind->is_named) {
+    if (cowl_individual_is_named(ind)) {
         UHash(CowlNamedIndAxiomMap) *map = onto->named_ind_refs;
         axioms = uhmap_get(CowlNamedIndAxiomMap, map, (CowlNamedInd *)ind, NULL);
     } else {
@@ -369,7 +369,7 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind,
     }
 
     vector_foreach(CowlAxiomPtr, axioms, axiom, {
-        if (cowl_axiom_flags_get_type(axiom->flags) != COWL_AT_CLASS_ASSERT) continue;
+        if (cowl_axiom_get_type(axiom) != COWL_AT_CLASS_ASSERT) continue;
         CowlClsAssertAxiom *assert_axiom = (CowlClsAssertAxiom *)axiom;
         if (!cowl_iterate(iter, assert_axiom->cls_exp)) return false;
     });
@@ -470,7 +470,7 @@ cowl_ret_t cowl_ontology_add_primitive(CowlOntology *onto, CowlPrimitive primiti
 }
 
 cowl_ret_t cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
-    CowlAxiomType type = cowl_axiom_flags_get_type(axiom->flags);
+    CowlAxiomType type = cowl_axiom_get_type(axiom);
     UHash(CowlAxiomSet) *axioms = onto->axioms_by_type[type];
 
     if (!axioms) {

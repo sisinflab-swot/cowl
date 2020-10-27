@@ -72,7 +72,7 @@ void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom) {
 }
 
 bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom) {
-    return cowl_axiom_flags_get_type(axiom->super.flags) == COWL_AT_NEG_OBJ_PROP_ASSERT;
+    return cowl_get_type(axiom) == COWL_OT_A_NEG_OBJ_PROP_ASSERT;
 }
 
 CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom) {

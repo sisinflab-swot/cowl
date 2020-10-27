@@ -21,74 +21,74 @@ COWL_BEGIN_DECLS
 typedef cowl_enum(CowlClsExpType) {
 
     /// CowlClass - class.
-        COWL_CET_CLASS,
+    COWL_CET_CLASS,
 
 /// @name Object property restrictions
 
     /// CowlObjQuant - "some values from" object property restriction.
-        COWL_CET_OBJ_SOME,
+    COWL_CET_OBJ_SOME,
 
     /// CowlObjQuant - "all values from" object property restriction.
-        COWL_CET_OBJ_ALL,
+    COWL_CET_OBJ_ALL,
 
     /// CowlObjCard - "minimum cardinality" object property restriction.
-        COWL_CET_OBJ_MIN_CARD,
+    COWL_CET_OBJ_MIN_CARD,
 
     /// CowlObjCard - "maximum cardinality" object property restriction.
-        COWL_CET_OBJ_MAX_CARD,
+    COWL_CET_OBJ_MAX_CARD,
 
     /// CowlObjCard - "exact cardinality" object property restriction.
-        COWL_CET_OBJ_EXACT_CARD,
+    COWL_CET_OBJ_EXACT_CARD,
 
     /// CowlObjHasValue - "has value" object property restriction.
-        COWL_CET_OBJ_HAS_VALUE,
+    COWL_CET_OBJ_HAS_VALUE,
 
     /// CowlObjHasSelf - "has self" object property restriction.
-        COWL_CET_OBJ_HAS_SELF,
+    COWL_CET_OBJ_HAS_SELF,
 
 /// @name Data property restrictions
 
     /// CowlDataQuant - "some values from" data property restriction.
-        COWL_CET_DATA_SOME,
+    COWL_CET_DATA_SOME,
 
     /// CowlDataQuant - "all values from" data property restriction.
-        COWL_CET_DATA_ALL,
+    COWL_CET_DATA_ALL,
 
     /// CowlDataCard - "min cardinality" data property restriction.
-        COWL_CET_DATA_MIN_CARD,
+    COWL_CET_DATA_MIN_CARD,
 
     /// CowlDataCard - "max cardinality" data property restriction.
-        COWL_CET_DATA_MAX_CARD,
+    COWL_CET_DATA_MAX_CARD,
 
     /// CowlDataCard - "exact cardinality" data property restriction.
-        COWL_CET_DATA_EXACT_CARD,
+    COWL_CET_DATA_EXACT_CARD,
 
     /// CowlDataHasValue - "has value" data property restriction.
-        COWL_CET_DATA_HAS_VALUE,
+    COWL_CET_DATA_HAS_VALUE,
 
 /// @name Boolean expressions
 
     /// CowlNAryBool - Intersection of class expressions.
-        COWL_CET_OBJ_INTERSECT,
+    COWL_CET_OBJ_INTERSECT,
 
     /// CowlNAryBool - Union of class expressions.
-        COWL_CET_OBJ_UNION,
+    COWL_CET_OBJ_UNION,
 
     /// CowlObjCompl - Complement of a class expression.
-        COWL_CET_OBJ_COMPL,
+    COWL_CET_OBJ_COMPL,
 
 /// @name Enumeration
 
     /// CowlObjOneOf - Enumeration of individuals.
-        COWL_CET_OBJ_ONE_OF,
+    COWL_CET_OBJ_ONE_OF,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_CET_COUNT,
+    COWL_CET_COUNT,
 
     /// First enum value.
-        COWL_CET_FIRST = 0
+    COWL_CET_FIRST = 0
 
 } CowlClsExpType;
 

@@ -31,7 +31,7 @@ static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
                                    uhash_ptr_hash(lang));
 
     *literal = (CowlLiteral) {
-        .super = COWL_HASH_OBJECT_INIT(hash),
+        .super = COWL_HASH_OBJECT_INIT(COWL_OT_LITERAL, hash),
         .dt = dt,
         .value = value,
         .lang = lang

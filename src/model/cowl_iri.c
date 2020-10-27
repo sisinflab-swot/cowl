@@ -43,7 +43,7 @@ static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     if (!iri) return NULL;
 
     *iri = (CowlIRI) {
-        .super = COWL_OBJECT_INIT,
+        .super = COWL_OBJECT_INIT(COWL_OT_IRI),
         .ns = cowl_string_retain(ns),
         .rem = cowl_string_retain(rem)
     };

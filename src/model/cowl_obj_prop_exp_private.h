@@ -12,16 +12,17 @@
 #define COWL_OBJ_PROP_EXP_PRIVATE_H
 
 #include "cowl_obj_prop_exp.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlObjPropExp) {
     CowlObject super;
-    bool is_inverse;
 };
 
-#define COWL_OBJ_PROP_EXP_INIT(I) { .super = COWL_OBJECT_INIT, .is_inverse = (I) }
+#define COWL_OBJ_PROP_EXP_INIT(I) {                                                                 \
+    .super = COWL_OBJECT_INIT((I) ? COWL_OT_OPE_INV_OBJ_PROP : COWL_OT_OPE_OBJ_PROP)                \
+}
 
 COWL_END_DECLS
 

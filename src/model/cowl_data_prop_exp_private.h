@@ -12,7 +12,7 @@
 #define COWL_DATA_PROP_EXP_PRIVATE_H
 
 #include "cowl_data_prop_exp.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
@@ -20,7 +20,7 @@ cowl_struct(CowlDataPropExp) {
     CowlObject super;
 };
 
-#define COWL_DATA_PROP_EXP_INIT { .super = COWL_OBJECT_INIT }
+#define COWL_DATA_PROP_EXP_INIT { .super = COWL_OBJECT_INIT(COWL_OT_DPE_DATA_PROP) }
 
 COWL_END_DECLS
 

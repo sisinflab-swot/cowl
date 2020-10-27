@@ -26,6 +26,10 @@ COWL_BEGIN_DECLS
  * @struct CowlFlags
  */
 
+/// Concatenates the 'a' and 'b' tokens, allowing 'a' and 'b' to be macro-expanded.
+#define __COWL_MACRO_CONCAT(a, b) __COWL_MACRO_CONCAT_INNER(a, b)
+#define __COWL_MACRO_CONCAT_INNER(a, b) a##b
+
 /**
  * Bitmask type.
  *
@@ -33,7 +37,7 @@ COWL_BEGIN_DECLS
  *
  * @public @related CowlFlags
  */
-#define CowlFlags(N) uint##N##_t
+#define CowlFlags(N) __COWL_MACRO_CONCAT(__COWL_MACRO_CONCAT(uint, N), _t)
 
 /**
  * Empty bitmask.
@@ -50,7 +54,7 @@ COWL_BEGIN_DECLS
  *
  * @public @related CowlFlags
  */
-#define cowl_flags_bit(N) (1u << N##u)
+#define cowl_flags_bit(N) (1u << __COWL_MACRO_CONCAT(N, u))
 
 /**
  * Use this directive to check whether a bitmask has specific bits set.

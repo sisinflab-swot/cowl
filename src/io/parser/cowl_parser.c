@@ -24,7 +24,7 @@ static CowlParser* cowl_parser_alloc(void) {
     if (!parser) return NULL;
 
     *parser = (CowlParser) {
-        .super = COWL_OBJECT_INIT,
+        .super = COWL_OBJECT_INIT(COWL_OT_PARSER),
         .prefix_ns_map = uhmap_alloc(CowlStringTable),
         .node_id_map = uhmap_alloc(CowlNodeIdMap),
         .ontology = cowl_ontology_get()

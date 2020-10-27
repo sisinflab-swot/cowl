@@ -27,7 +27,7 @@ static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue
                                    annot ? cowl_annotation_vec_hash(annot) : 0);
 
     (*annotation) = (CowlAnnotation) {
-        .super = COWL_HASH_OBJECT_INIT(hash),
+        .super = COWL_HASH_OBJECT_INIT(COWL_OT_ANNOTATION, hash),
         .prop = cowl_annot_prop_retain(prop),
         .value = cowl_annot_value_retain(value),
         .annot = annot

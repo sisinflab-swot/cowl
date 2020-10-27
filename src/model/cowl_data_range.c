@@ -26,7 +26,7 @@ void cowl_data_range_release(CowlDataRange *range) {
 
 #define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)range); break
 
-    switch (range->type) {
+    switch (cowl_data_range_get_type(range)) {
         case COWL_DRT_DATATYPE: GEN_RELEASE(Datatype, datatype);
         case COWL_DRT_DATATYPE_RESTR: GEN_RELEASE(DatatypeRestr, datatype_restr);
         case COWL_DRT_DATA_INTERSECT:
@@ -38,7 +38,7 @@ void cowl_data_range_release(CowlDataRange *range) {
 }
 
 CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
-    return range->type;
+    return (CowlDataRangeType)(cowl_get_type(range) - COWL_OT_DR_DATATYPE);
 }
 
 CowlString* cowl_data_range_to_string(CowlDataRange *range)
@@ -46,11 +46,11 @@ CowlString* cowl_data_range_to_string(CowlDataRange *range)
 
 bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
     if (lhs == rhs) return true;
-    if (lhs->type != rhs->type || lhs->super.hash != rhs->super.hash) return false;
+    if (!cowl_hash_object_equals_impl(lhs, rhs)) return false;
 
 #define GEN_EQUAL(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
 
-    switch (lhs->type) {
+    switch (cowl_data_range_get_type(lhs)) {
         case COWL_DRT_DATATYPE: GEN_EQUAL(Datatype, datatype);
         case COWL_DRT_DATATYPE_RESTR: GEN_EQUAL(DatatypeRestr, datatype_restr);
         case COWL_DRT_DATA_INTERSECT:
@@ -69,7 +69,7 @@ bool cowl_data_range_iterate_signature(CowlDataRange *range, CowlEntityIterator 
 
 #define GEN_SIG(UC, LC) return cowl_##LC##_iterate_signature((Cowl##UC *)range, iter)
 
-    switch (range->type) {
+    switch (cowl_data_range_get_type(range)) {
         case COWL_DRT_DATATYPE: GEN_SIG(Datatype, datatype);
         case COWL_DRT_DATATYPE_RESTR: GEN_SIG(DatatypeRestr, datatype_restr);
         case COWL_DRT_DATA_INTERSECT:
@@ -84,7 +84,7 @@ bool cowl_data_range_iterate_primitives(CowlDataRange *range, CowlPrimitiveItera
 
 #define GEN_PRIM(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)range, iter)
 
-    switch (range->type) {
+    switch (cowl_data_range_get_type(range)) {
         case COWL_DRT_DATATYPE: GEN_PRIM(Datatype, datatype);
         case COWL_DRT_DATATYPE_RESTR: GEN_PRIM(DatatypeRestr, datatype_restr);
         case COWL_DRT_DATA_INTERSECT:

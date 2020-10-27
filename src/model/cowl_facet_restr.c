@@ -22,7 +22,7 @@ static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *valu
 
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, facet, cowl_literal_hash(value));
     *restr = (CowlFacetRestr) {
-        .super = COWL_HASH_OBJECT_INIT(hash),
+        .super = COWL_HASH_OBJECT_INIT(COWL_OT_FACET_RESTR, hash),
         .facet = facet,
         .value = cowl_literal_retain(value)
     };

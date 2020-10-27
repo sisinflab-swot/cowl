@@ -32,7 +32,7 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
 
 #define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)exp); break
 
-    switch (exp->type) {
+    switch (cowl_cls_exp_get_type(exp)) {
         case COWL_CET_CLASS: GEN_RELEASE(Class, class);
         case COWL_CET_OBJ_COMPL: GEN_RELEASE(ObjCompl, obj_compl);
         case COWL_CET_OBJ_INTERSECT:
@@ -56,7 +56,7 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
 }
 
 CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
-    return exp->type;
+    return (CowlClsExpType)(cowl_get_type(exp) - COWL_OT_CE_CLASS);
 }
 
 CowlString* cowl_cls_exp_to_string(CowlClsExp *exp)
@@ -64,11 +64,11 @@ CowlString* cowl_cls_exp_to_string(CowlClsExp *exp)
 
 bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
     if (lhs == rhs) return true;
-    if (lhs->type != rhs->type || lhs->super.hash != rhs->super.hash) return false;
+    if (!cowl_hash_object_equals_impl(lhs, rhs)) return false;
 
 #define GEN_EQUAL(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
 
-    switch (lhs->type) {
+    switch (cowl_cls_exp_get_type(lhs)) {
         case COWL_CET_CLASS: GEN_EQUAL(Class, class);
         case COWL_CET_OBJ_COMPL: GEN_EQUAL(ObjCompl, obj_compl);
         case COWL_CET_OBJ_INTERSECT:
@@ -99,7 +99,7 @@ bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, CowlEntityIterator *iter) {
 
 #define GEN_SIG(UC, LC) return cowl_##LC##_iterate_signature((Cowl##UC *)exp, iter)
 
-    switch (exp->type) {
+    switch (cowl_cls_exp_get_type(exp)) {
         case COWL_CET_CLASS: GEN_SIG(Class, class);
         case COWL_CET_OBJ_COMPL: GEN_SIG(ObjCompl, obj_compl);
         case COWL_CET_OBJ_INTERSECT:
@@ -126,7 +126,7 @@ bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlPrimitiveIterator *ite
 
 #define GEN_PRIM(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)exp, iter)
 
-    switch (exp->type) {
+    switch (cowl_cls_exp_get_type(exp)) {
         case COWL_CET_CLASS: GEN_PRIM(Class, class);
         case COWL_CET_OBJ_COMPL: GEN_PRIM(ObjCompl, obj_compl);
         case COWL_CET_OBJ_INTERSECT:

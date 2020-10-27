@@ -47,7 +47,7 @@ void cowl_axiom_release(CowlAxiom *axiom) {
 
 #define GEN_RELEASE(UC, LC) cowl_##LC##_axiom_release((Cowl##UC##Axiom *)axiom); break
 
-    switch (cowl_axiom_flags_get_type(axiom->flags)) {
+    switch (cowl_axiom_get_type(axiom)) {
         case COWL_AT_DECL: GEN_RELEASE(Decl, decl);
         case COWL_AT_DATATYPE_DEF: GEN_RELEASE(DatatypeDef, datatype_def);
         case COWL_AT_SUB_CLASS: GEN_RELEASE(SubCls, sub_cls);
@@ -91,7 +91,7 @@ void cowl_axiom_release(CowlAxiom *axiom) {
 }
 
 CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
-    return cowl_axiom_flags_get_type(axiom->flags);
+    return (CowlAxiomType)(cowl_get_type(axiom) - COWL_OT_A_DECL);
 }
 
 CowlString* cowl_axiom_to_string(CowlAxiom *axiom)
@@ -99,12 +99,12 @@ CowlString* cowl_axiom_to_string(CowlAxiom *axiom)
 
 bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
     if (lhs == rhs) return true;
-    if (lhs->flags != rhs->flags || lhs->super.hash != rhs->super.hash) return false;
+    if (!cowl_hash_object_equals_impl(lhs, rhs)) return false;
 
 #define GEN_EQUAL(UC, LC) \
     return cowl_##LC##_axiom_equals((Cowl##UC##Axiom *)lhs, (Cowl##UC##Axiom *)rhs)
 
-    switch (cowl_axiom_flags_get_type(lhs->flags)) {
+    switch (cowl_axiom_get_type(lhs)) {
         case COWL_AT_DECL: GEN_EQUAL(Decl, decl);
         case COWL_AT_DATATYPE_DEF: GEN_EQUAL(DatatypeDef, datatype_def);
         case COWL_AT_SUB_CLASS: GEN_EQUAL(SubCls, sub_cls);
@@ -155,7 +155,7 @@ bool cowl_axiom_iterate_signature(CowlAxiom *axiom, CowlEntityIterator *iter) {
 
 #define GEN_SIG(UC, LC) return cowl_##LC##_axiom_iterate_signature((Cowl##UC##Axiom *)axiom, iter)
 
-    switch (cowl_axiom_flags_get_type(axiom->flags)) {
+    switch (cowl_axiom_get_type(axiom)) {
         case COWL_AT_DECL: GEN_SIG(Decl, decl);
         case COWL_AT_DATATYPE_DEF: GEN_SIG(DatatypeDef, datatype_def);
         case COWL_AT_SUB_CLASS: GEN_SIG(SubCls, sub_cls);
@@ -202,7 +202,7 @@ bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlPrimitiveIterator *iter
 
 #define GEN_PRIM(UC, LC) return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)axiom, iter)
 
-    switch (cowl_axiom_flags_get_type(axiom->flags)) {
+    switch (cowl_axiom_get_type(axiom)) {
         case COWL_AT_DECL: GEN_PRIM(Decl, decl);
         case COWL_AT_DATATYPE_DEF: GEN_PRIM(DatatypeDef, datatype_def);
         case COWL_AT_SUB_CLASS: GEN_PRIM(SubCls, sub_cls);

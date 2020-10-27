@@ -23,30 +23,30 @@ typedef cowl_enum(CowlEntityType) {
 /// @name Types
 
     /// CowlClass - class.
-        COWL_ET_CLASS,
+    COWL_ET_CLASS,
 
     /// CowlObjProp - object property.
-        COWL_ET_OBJ_PROP,
+    COWL_ET_OBJ_PROP,
 
     /// CowlDataProp - data property.
-        COWL_ET_DATA_PROP,
+    COWL_ET_DATA_PROP,
 
     /// CowlAnnotProp - annotation property.
-        COWL_ET_ANNOT_PROP,
+    COWL_ET_ANNOT_PROP,
 
     /// CowlNamedInd - named individual.
-        COWL_ET_NAMED_IND,
+    COWL_ET_NAMED_IND,
 
     /// CowlDatatype - datatype.
-        COWL_ET_DATATYPE,
+    COWL_ET_DATATYPE,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_ET_COUNT,
+    COWL_ET_COUNT,
 
     /// First enum value.
-        COWL_ET_FIRST = 0
+    COWL_ET_FIRST = 0
 
 } CowlEntityType;
 

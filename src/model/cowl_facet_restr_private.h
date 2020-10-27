@@ -12,7 +12,7 @@
 #define COWL_FACET_RESTR_PRIVATE_H
 
 #include "cowl_facet_restr.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 

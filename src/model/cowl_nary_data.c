@@ -53,7 +53,7 @@ void cowl_nary_data_release(CowlNAryData *range) {
 }
 
 CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
-    return (CowlNAryType)(range->super.type - COWL_DRT_DATA_INTERSECT);
+    return (CowlNAryType)(cowl_get_type(range) - COWL_OT_DR_DATA_INTERSECT);
 }
 
 CowlDataRangeSet* cowl_nary_data_get_operands(CowlNAryData *range) {
@@ -64,7 +64,7 @@ CowlString* cowl_nary_data_to_string(CowlNAryData *range)
     COWL_TO_STRING_IMPL(nary_data, range)
 
 bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
-    return (lhs->super.type == rhs->super.type &&
+    return (cowl_hash_object_equals_impl(lhs, rhs) &&
             uhset_equals(CowlDataRangeSet, lhs->operands, rhs->operands));
 }
 

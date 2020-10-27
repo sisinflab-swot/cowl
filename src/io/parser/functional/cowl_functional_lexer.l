@@ -39,7 +39,6 @@
 WHITE_SPACE                             [ \t\r\n]+
 COMMENT                                 "#"[^\n]*
 DIGIT                                   [0-9]
-DIGITS                                  {DIGIT}+
 PN_CHARS_BASE                           [A-Za-z]
 PN_CHARS_U                              ({PN_CHARS_BASE}|_)
 PN_CHARS                                ({PN_CHARS_U}|-|{DIGIT})
@@ -51,7 +50,7 @@ IRI_REF                                 <[^<>"{}|\^`\\ ]{-}[\x00-\x20]*>
 BLANK_NODE_LABEL                        _:{PN_LOCAL}
 LANG_TAG                                @[A-Za-z]+(-[A-Za-z0-9]+)*
 QUOTED_STRING                           \"([^\"\\]|\\\"|\\\\)*\"
-NON_NEGATIVE_INTEGER                    {DIGITS}
+NON_NEGATIVE_INTEGER                    {DIGIT}+
 
 %%
 

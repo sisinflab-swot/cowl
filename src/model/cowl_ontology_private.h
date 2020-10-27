@@ -13,7 +13,7 @@
 
 #include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 #include "cowl_ontology_id_private.h"
 
 COWL_BEGIN_DECLS
@@ -47,7 +47,7 @@ cowl_struct(CowlOntology) {
 };
 
 #define COWL_ONTOLOGY_INIT ((CowlOntology) {                                                        \
-    .super = COWL_OBJECT_INIT,                                                                      \
+    .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY),                                                    \
     .id = COWL_ONTOLOGY_ID_ANONYMOUS,                                                               \
     .imports = NULL,                                                                                \
     .annotations = NULL,                                                                            \

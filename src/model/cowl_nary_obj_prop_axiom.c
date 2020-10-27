@@ -56,8 +56,7 @@ void cowl_nary_obj_prop_axiom_release(CowlNAryObjPropAxiom *axiom) {
 }
 
 CowlNAryAxiomType cowl_nary_obj_prop_axiom_get_type(CowlNAryObjPropAxiom *axiom) {
-    CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - COWL_AT_EQUIV_OBJ_PROP);
+    return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_EQUIV_OBJ_PROP);
 }
 
 CowlObjPropExpSet* cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom) {

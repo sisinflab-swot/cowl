@@ -21,7 +21,7 @@ CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
 void cowl_individual_release(CowlIndividual *ind) {
     if (!ind) return;
 
-    if (ind->is_named) {
+    if (cowl_individual_is_named(ind)) {
         cowl_named_ind_release((CowlNamedInd *)ind);
     } else {
         cowl_anon_ind_release((CowlAnonInd *)ind);
@@ -29,11 +29,11 @@ void cowl_individual_release(CowlIndividual *ind) {
 }
 
 bool cowl_individual_is_named(CowlIndividual *ind) {
-    return ind->is_named;
+    return cowl_get_type(ind) == COWL_OT_I_NAMED;
 }
 
 CowlString* cowl_individual_to_string(CowlIndividual *ind)
-    COWL_TO_STRING_IMPL(individual, ind);
+    COWL_TO_STRING_IMPL(individual, ind)
 
 bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
     return lhs == rhs;
@@ -44,12 +44,12 @@ cowl_uint_t cowl_individual_hash(CowlIndividual *ind) {
 }
 
 bool cowl_individual_iterate_signature(CowlIndividual *ind, CowlEntityIterator *iter) {
-    if (!ind->is_named) return true;
+    if (!cowl_individual_is_named(ind)) return true;
     return cowl_named_ind_iterate_signature((CowlNamedInd *)ind, iter);
 }
 
 bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlPrimitiveIterator *iter) {
-    if (ind->is_named) {
+    if (cowl_individual_is_named(ind)) {
         return cowl_named_ind_iterate_primitives((CowlNamedInd *)ind, iter);
     } else {
         return cowl_anon_ind_iterate_primitives((CowlAnonInd *)ind, iter);

@@ -58,7 +58,7 @@ void cowl_data_quant_release(CowlDataQuant *restr) {
 }
 
 CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr) {
-    return (CowlQuantType)(restr->super.type - COWL_CET_DATA_SOME);
+    return (CowlQuantType)(cowl_get_type(restr) - COWL_OT_CE_DATA_SOME);
 }
 
 CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
@@ -73,7 +73,7 @@ CowlString* cowl_data_quant_to_string(CowlDataQuant *restr)
     COWL_TO_STRING_IMPL(data_quant, restr)
 
 bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
-    return lhs->super.type == rhs->super.type &&
+    return cowl_hash_object_equals_impl(lhs, rhs) &&
            cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_data_range_equals(lhs->range, rhs->range);
 }

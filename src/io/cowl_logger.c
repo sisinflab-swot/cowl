@@ -64,7 +64,7 @@ static CowlLogger* cowl_logger_alloc(CowlLoggerType type, void *context) {
     if (!logger) return NULL;
 
     *logger = (CowlLogger) {
-        .super = COWL_OBJECT_INIT,
+        .super = COWL_OBJECT_INIT(COWL_OT_LOGGER),
         .type = type,
         .path = type == COWL_LT_FILE ? context : NULL,
         .file = type == COWL_LT_CONSOLE ? stdout : NULL
@@ -198,7 +198,7 @@ CowlLogger* cowl_logger_retain(CowlLogger *logger) {
 cowl_ret_t cowl_logger_release(CowlLogger *logger) {
     cowl_ret_t ret = COWL_OK;
 
-    if (logger && cowl_object_ref_get(logger) == 1) {
+    if (logger && cowl_object_get_ref_count(logger) == 1) {
         if ((ret = cowl_logger_free(logger))) return ret;
         cowl_object_release(logger);
     }

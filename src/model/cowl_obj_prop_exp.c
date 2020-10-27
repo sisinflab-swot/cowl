@@ -18,22 +18,22 @@ CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
     return cowl_object_retain(prop);
 }
 
-void cowl_obj_prop_exp_release(CowlObjPropExp *prop) {
-    if (!prop) return;
+void cowl_obj_prop_exp_release(CowlObjPropExp *exp) {
+    if (!exp) return;
 
-    if (prop->is_inverse) {
-        cowl_inv_obj_prop_release((CowlInvObjProp *)prop);
+    if (cowl_obj_prop_exp_is_inverse(exp)) {
+        cowl_inv_obj_prop_release((CowlInvObjProp *)exp);
     } else {
-        cowl_obj_prop_release((CowlObjProp *)prop);
+        cowl_obj_prop_release((CowlObjProp *)exp);
     }
 }
 
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
-    return exp->is_inverse;
+    return cowl_get_type(exp) == COWL_OT_OPE_INV_OBJ_PROP;
 }
 
 CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp) {
-    if (exp->is_inverse) {
+    if (cowl_obj_prop_exp_is_inverse(exp)) {
         return ((CowlInvObjProp *)exp)->prop;
     } else {
         return (CowlObjProp *)exp;
@@ -52,7 +52,7 @@ cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
 }
 
 bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, CowlEntityIterator *iter) {
-    if (exp->is_inverse) {
+    if (cowl_obj_prop_exp_is_inverse(exp)) {
         return cowl_inv_obj_prop_iterate_signature((CowlInvObjProp *)exp, iter);
     } else {
         return cowl_obj_prop_iterate_signature((CowlObjProp *)exp, iter);
@@ -60,7 +60,7 @@ bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, CowlEntityIterator
 }
 
 bool cowl_obj_prop_exp_iterate_primitives(CowlObjPropExp *exp, CowlPrimitiveIterator *iter) {
-    if (exp->is_inverse) {
+    if (cowl_obj_prop_exp_is_inverse(exp)) {
         return cowl_inv_obj_prop_iterate_primitives((CowlInvObjProp *)exp, iter);
     } else {
         return cowl_obj_prop_iterate_primitives((CowlObjProp *)exp, iter);

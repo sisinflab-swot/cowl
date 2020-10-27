@@ -12,7 +12,7 @@
 #define COWL_LITERAL_PRIVATE_H
 
 #include "cowl_literal.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 #include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS

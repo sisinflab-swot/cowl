@@ -13,7 +13,7 @@
 
 #include "cowl_parser.h"
 #include "cowl_node_id.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 #include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS

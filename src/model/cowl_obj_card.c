@@ -66,7 +66,7 @@ void cowl_obj_card_release(CowlObjCard *restr) {
 }
 
 CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
-    return (CowlCardType)(restr->super.type - COWL_CET_OBJ_MIN_CARD);
+    return (CowlCardType)(cowl_get_type(restr) - COWL_OT_CE_OBJ_MIN_CARD);
 }
 
 CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) {
@@ -85,7 +85,8 @@ CowlString* cowl_obj_card_to_string(CowlObjCard *restr)
     COWL_TO_STRING_IMPL(obj_card, restr)
 
 bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {
-    if (lhs->cardinality != rhs->cardinality || lhs->super.type != rhs->super.type) return false;
+    if (lhs->cardinality != rhs->cardinality) return false;
+    if (!cowl_hash_object_equals_impl(lhs, rhs)) return false;
     if (!cowl_obj_prop_exp_equals(lhs->prop, rhs->prop)) return false;
     if (lhs->filler == rhs->filler) return true;
     if (lhs->filler && rhs->filler) return cowl_cls_exp_equals(lhs->filler, rhs->filler);

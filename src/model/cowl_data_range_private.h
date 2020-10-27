@@ -12,16 +12,17 @@
 #define COWL_DATA_RANGE_PRIVATE_H
 
 #include "cowl_data_range.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlDataRange) {
     CowlHashObject super;
-    CowlDataRangeType type;
 };
 
-#define COWL_DATA_RANGE_INIT(T, H) { .super = COWL_HASH_OBJECT_INIT(H), .type = (T) }
+#define COWL_DATA_RANGE_INIT(T, H) {                                                                \
+    .super = COWL_HASH_OBJECT_INIT((CowlObjectType)(T) + COWL_OT_DR_DATATYPE, H)                    \
+}
 
 COWL_END_DECLS
 

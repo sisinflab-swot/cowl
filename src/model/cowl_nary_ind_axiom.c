@@ -54,8 +54,7 @@ void cowl_nary_ind_axiom_release(CowlNAryIndAxiom *axiom) {
 }
 
 CowlNAryAxiomType cowl_nary_ind_axiom_get_type(CowlNAryIndAxiom *axiom) {
-    CowlAxiomFlags flags = axiom->super.flags;
-    return (CowlNAryAxiomType)(cowl_axiom_flags_get_type(flags) - COWL_AT_SAME_IND);
+    return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_SAME_IND);
 }
 
 CowlIndividualSet* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom) {

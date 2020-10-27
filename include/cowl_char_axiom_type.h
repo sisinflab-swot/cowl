@@ -23,33 +23,33 @@ typedef cowl_enum(CowlCharAxiomType) {
 /// @name Types
 
     /// Functional object property.
-        COWL_CAT_FUNC,
+    COWL_CAT_FUNC,
 
     /// Inverse functional object property.
-        COWL_CAT_INV_FUNC,
+    COWL_CAT_INV_FUNC,
 
     /// Symmetric object property.
-        COWL_CAT_SYMM,
+    COWL_CAT_SYMM,
 
     /// Asymmetric object property.
-        COWL_CAT_ASYMM,
+    COWL_CAT_ASYMM,
 
     /// Transitive object property.
-        COWL_CAT_TRANS,
+    COWL_CAT_TRANS,
 
     /// Reflexive object property.
-        COWL_CAT_REFL,
+    COWL_CAT_REFL,
 
     /// Irreflexive object property.
-        COWL_CAT_IRREFL,
+    COWL_CAT_IRREFL,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_CAT_COUNT,
+    COWL_CAT_COUNT,
 
     /// First enum value.
-        COWL_CAT_FIRST = 0
+    COWL_CAT_FIRST = 0
 
 } CowlCharAxiomType;
 

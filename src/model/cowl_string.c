@@ -40,7 +40,7 @@ CowlString cowl_string_init(CowlRawString raw_string) {
     cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length, shash);
 
     CowlString init = {
-        .super = COWL_HASH_OBJECT_INIT(hash),
+        .super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash),
         .raw_string = raw_string
     };
 
@@ -83,7 +83,7 @@ CowlString* cowl_string_copy(CowlString *string) {
     if (!copy) return NULL;
 
     cowl_uint_t hash = cowl_object_hash_get(string);
-    copy->super = COWL_HASH_OBJECT_INIT(hash);
+    copy->super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash);
     copy->raw_string = cowl_raw_string_copy(string->raw_string);
 
     return copy;

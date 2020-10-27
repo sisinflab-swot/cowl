@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
- * @copyright SPDX-License-Identifier: EPL-2.0
+ * @copyright SPDX-License-Identifier - EPL-2.0
  *
  * @file
  */
@@ -23,31 +23,31 @@ typedef cowl_enum(CowlDataRangeType) {
 
 /// @name Types
 
-    /// CowlDatatype: datatype.
-        COWL_DRT_DATATYPE,
+    /// CowlDatatype - Datatype.
+    COWL_DRT_DATATYPE,
 
-    /// CowlDatatypeRestr: datatype restriction.
-        COWL_DRT_DATATYPE_RESTR,
+    /// CowlDatatypeRestr - Datatype restriction.
+    COWL_DRT_DATATYPE_RESTR,
 
-    /// CowlNAryData: intersection of data ranges.
-        COWL_DRT_DATA_INTERSECT,
+    /// CowlNAryData - Intersection of data ranges.
+    COWL_DRT_DATA_INTERSECT,
 
-    /// CowlNAryData: union of data ranges.
-        COWL_DRT_DATA_UNION,
+    /// CowlNAryData - Union of data ranges.
+    COWL_DRT_DATA_UNION,
 
-    /// CowlDataCompl: complement of data ranges.
-        COWL_DRT_DATA_COMPL,
+    /// CowlDataCompl - Complement of data ranges.
+    COWL_DRT_DATA_COMPL,
 
-    /// CowlDataOneOf: enumeration of literals.
-        COWL_DRT_DATA_ONE_OF,
+    /// CowlDataOneOf - Enumeration of literals.
+    COWL_DRT_DATA_ONE_OF,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_DRT_COUNT,
+    COWL_DRT_COUNT,
 
     /// First enum value.
-        COWL_DRT_FIRST = 0
+    COWL_DRT_FIRST = 0
 
 } CowlDataRangeType;
 

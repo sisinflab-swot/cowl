@@ -12,16 +12,17 @@
 #define COWL_INDIVIDUAL_PRIVATE_H
 
 #include "cowl_individual.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlIndividual) {
     CowlObject super;
-    bool is_named;
 };
 
-#define COWL_INDIVIDUAL_INIT(N) { .super = COWL_OBJECT_INIT, .is_named = (N) }
+#define COWL_INDIVIDUAL_INIT(N) {                                                                   \
+    .super = COWL_OBJECT_INIT((N) ? COWL_OT_I_NAMED : COWL_OT_I_ANONYMOUS)                          \
+}
 
 COWL_END_DECLS
 

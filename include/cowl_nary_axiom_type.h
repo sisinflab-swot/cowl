@@ -26,26 +26,26 @@ typedef cowl_enum(CowlNAryAxiomType) {
 /// @name Classes and Properties
 
     /// Equivalence.
-        COWL_NAT_EQUIV,
+    COWL_NAT_EQUIV,
 
     /// Disjointness.
-        COWL_NAT_DISJ,
+    COWL_NAT_DISJ,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_NAT_COUNT,
+    COWL_NAT_COUNT,
 
     /// First enum value.
-        COWL_NAT_FIRST = 0,
+    COWL_NAT_FIRST = 0,
 
 /// @name Individuals
 
     /// Same individuals.
-        COWL_NAT_SAME = COWL_NAT_EQUIV,
+    COWL_NAT_SAME = COWL_NAT_EQUIV,
 
     /// Different individuals.
-        COWL_NAT_DIFF = COWL_NAT_DISJ
+    COWL_NAT_DIFF = COWL_NAT_DISJ
 
 } CowlNAryAxiomType;
 

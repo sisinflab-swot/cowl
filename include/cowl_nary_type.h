@@ -23,18 +23,18 @@ typedef cowl_enum(CowlNAryType) {
 /// @name Types
 
     /// Intersection.
-        COWL_NT_INTERSECT,
+    COWL_NT_INTERSECT,
 
     /// Union.
-        COWL_NT_UNION,
+    COWL_NT_UNION,
 
 /// @name Markers
 
     /// Number of enum values.
-        COWL_NT_COUNT,
+    COWL_NT_COUNT,
 
     /// First enum value.
-        COWL_NT_FIRST = 0
+    COWL_NT_FIRST = 0
 
 } CowlNAryType;
 

@@ -14,15 +14,13 @@
 #include "cowl_axiom.h"
 #include "cowl_alloc.h"
 #include "cowl_annotation_vec.h"
-#include "cowl_axiom_flags.h"
 #include "cowl_hash_utils.h"
-#include "cowl_object.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlAxiom) {
     CowlHashObject super;
-    CowlAxiomFlags flags;
 };
 
 #define cowl_axiom_struct(T, FIELDS)                                                                \
@@ -41,8 +39,7 @@ cowl_struct(CowlAxiom) {
 } while (0)
 
 #define COWL_AXIOM_INIT(T, H, A) {                                                                  \
-    .super = COWL_HASH_OBJECT_INIT(H),                                                              \
-    .flags = cowl_axiom_flags_get(T, A)                                                             \
+    .super = COWL_HASH_OBJECT_BIT_INIT((CowlObjectType)(T) + COWL_OT_A_DECL, A, H),                \
 }
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \
@@ -50,12 +47,13 @@ cowl_struct(CowlAxiom) {
     cowl_free(AXIOM);                                                                               \
 } while(0)
 
-#define cowl_axiom_has_annot(AXIOM) cowl_axiom_flags_has_annot(((CowlAxiom *)(AXIOM))->flags)
+#define cowl_axiom_has_annot(AXIOM) cowl_object_flags_has_bit(((CowlObject *)(AXIOM))->flags)
 #define cowl_axiom_get_annot(AXIOM) (cowl_axiom_has_annot(AXIOM) ? (AXIOM)->annot[0] : NULL)
 
-#define cowl_axiom_equals_impl(LHS, RHS, EXP)                                                       \
-    ((LHS)->super.flags == (RHS)->super.flags && (EXP) &&                                           \
-     (!cowl_axiom_has_annot(LHS) || cowl_annotation_vec_equals((LHS)->annot[0], (RHS)->annot[0])))
+#define cowl_axiom_equals_impl(LHS, RHS, EXP) (                                                     \
+    cowl_hash_object_equals_impl(LHS, RHS) && (EXP) &&                                              \
+    (!cowl_axiom_has_annot(LHS) || cowl_annotation_vec_equals((LHS)->annot[0], (RHS)->annot[0]))    \
+)
 
 #define cowl_axiom_hash_1(INIT, ANNOT, A)                                                           \
     ((ANNOT) ? cowl_hash_2(INIT, A, cowl_annotation_vec_hash(ANNOT)) :                              \
