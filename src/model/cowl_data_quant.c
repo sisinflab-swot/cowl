@@ -9,7 +9,6 @@
  */
 
 #include "cowl_data_quant_private.h"
-#include "cowl_alloc.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
@@ -82,17 +81,9 @@ cowl_uint_t cowl_data_quant_hash(CowlDataQuant *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_data_quant_iterate_signature(CowlDataQuant *restr, CowlEntityIterator *iter) {
-    if (cowl_data_prop_exp_iterate_signature(restr->prop, iter) &&
-        cowl_data_range_iterate_signature(restr->range, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveIterator *iter) {
-    if (cowl_data_prop_exp_iterate_primitives(restr->prop, iter) &&
-        cowl_data_range_iterate_primitives(restr->range, iter)) {
+bool cowl_data_quant_iterate(CowlDataQuant *restr, CowlIterator *iter) {
+    if (cowl_data_prop_exp_iterate(restr->prop, iter) &&
+        cowl_data_range_iterate(restr->range, iter)) {
         return true;
     }
     return false;

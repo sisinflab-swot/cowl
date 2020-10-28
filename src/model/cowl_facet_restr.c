@@ -9,7 +9,6 @@
  */
 
 #include "cowl_facet_restr_private.h"
-#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_macros.h"
@@ -70,10 +69,6 @@ cowl_uint_t cowl_facet_restr_hash(CowlFacetRestr *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_facet_restr_iterate_signature(CowlFacetRestr *restr, CowlEntityIterator *iter) {
-    return cowl_literal_iterate_signature(restr->value, iter);
-}
-
-bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlPrimitiveIterator *iter) {
-    return cowl_literal_iterate_primitives(restr->value, iter);
+bool cowl_facet_restr_iterate(CowlFacetRestr *restr, CowlIterator *iter) {
+    return cowl_literal_iterate(restr->value, iter);
 }

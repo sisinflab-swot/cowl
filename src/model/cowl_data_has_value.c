@@ -9,7 +9,6 @@
  */
 
 #include "cowl_data_has_value_private.h"
-#include "cowl_alloc.h"
 #include "cowl_data_prop_exp.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
@@ -75,17 +74,9 @@ cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_data_has_value_iterate_signature(CowlDataHasValue *restr, CowlEntityIterator *iter) {
-    if (cowl_data_prop_exp_iterate_signature(restr->prop, iter) &&
-        cowl_literal_iterate_signature(restr->value, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_data_has_value_iterate_primitives(CowlDataHasValue *restr, CowlPrimitiveIterator *iter) {
-    if (cowl_data_prop_exp_iterate_primitives(restr->prop, iter) &&
-        cowl_literal_iterate_primitives(restr->value, iter)) {
+bool cowl_data_has_value_iterate(CowlDataHasValue *restr, CowlIterator *iter) {
+    if (cowl_data_prop_exp_iterate(restr->prop, iter) &&
+        cowl_literal_iterate(restr->value, iter)) {
         return true;
     }
     return false;

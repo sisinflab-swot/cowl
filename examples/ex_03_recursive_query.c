@@ -14,7 +14,7 @@
 #define ONTO_NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
-static bool for_each_cls(void *ctx, CowlClsExp *exp);
+static bool for_each_cls(void *ctx, void *cls);
 
 int main(void) {
     cowl_api_init();
@@ -31,7 +31,7 @@ int main(void) {
         // Since we are going to perform a recursive query,
         // we need the ontology to be part of the context.
         void const *ctx[] = { ontology, logger };
-        CowlClsExpIterator iter = cowl_iterator_init(ctx, for_each_cls);
+        CowlIterator iter = cowl_iterator_init(ctx, for_each_cls);
         cowl_ontology_iterate_sub_classes(ontology, cls, &iter);
 
         cowl_class_release(cls);
@@ -43,8 +43,8 @@ int main(void) {
     return EXIT_SUCCESS;
 }
 
-static bool for_each_cls(void *ctx, CowlClsExp *exp) {
-    if (cowl_cls_exp_get_type(exp) != COWL_CET_CLASS) return true;
+static bool for_each_cls(void *ctx, void *cls) {
+    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
 
     // Unpack the context.
     void **array = ctx;
@@ -52,13 +52,12 @@ static bool for_each_cls(void *ctx, CowlClsExp *exp) {
     CowlLogger *logger = array[1];
 
     // Log the IRI remainder.
-    CowlClass *cls = (CowlClass *)exp;
     CowlIRI *iri = cowl_class_get_iri(cls);
 
     cowl_logger_log(logger, cowl_iri_get_rem(iri));
     cowl_logger_logs(logger, "\n");
 
     // Recurse.
-    CowlClsExpIterator iter = cowl_iterator_init(ctx, for_each_cls);
+    CowlIterator iter = cowl_iterator_init(ctx, for_each_cls);
     return cowl_ontology_iterate_sub_classes(ontology, cls, &iter);
 }

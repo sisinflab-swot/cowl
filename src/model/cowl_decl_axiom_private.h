@@ -17,7 +17,7 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlDeclAxiom,
-    CowlEntity entity;
+    CowlEntity *entity;
 );
 
 COWL_END_DECLS

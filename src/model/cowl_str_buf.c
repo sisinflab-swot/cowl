@@ -159,34 +159,25 @@ cowl_ret_t cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annot
     return COWL_OK;
 }
 
-cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue value) {
-    switch (value.type) {
-        case COWL_AVT_ANON_IND: return cowl_str_buf_append_anon_ind(buf, value.anon_ind);
-        case COWL_AVT_IRI: return cowl_str_buf_append_iri(buf, value.iri);
-        case COWL_AVT_LITERAL: return cowl_str_buf_append_literal(buf, value.literal);
+cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value) {
+    switch (cowl_annot_value_get_type(value)) {
+        case COWL_AVT_ANON_IND: return cowl_str_buf_append_anon_ind(buf, (CowlAnonInd *)value);
+        case COWL_AVT_IRI: return cowl_str_buf_append_iri(buf, (CowlIRI *)value);
+        case COWL_AVT_LITERAL: return cowl_str_buf_append_literal(buf, (CowlLiteral *)value);
         default: return COWL_ERR;
-    }
-}
-
-cowl_ret_t cowl_str_buf_append_primitive(CowlStrBuf *buf, CowlPrimitive primitive) {
-    CowlEntity entity;
-    if (cowl_primitive_get_entity(primitive, &entity)) {
-        return cowl_str_buf_append_entity(buf, entity);
-    } else {
-        return cowl_str_buf_append_anon_ind(buf, primitive.anon_ind);
     }
 }
 
 // Entities
 
-cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity entity) {
-    switch (entity.type) {
-        case COWL_ET_CLASS: return cowl_str_buf_append_class(buf, entity.owl_class);
-        case COWL_ET_DATATYPE: return cowl_str_buf_append_datatype(buf, entity.datatype);
-        case COWL_ET_OBJ_PROP: return cowl_str_buf_append_obj_prop(buf, entity.obj_prop);
-        case COWL_ET_DATA_PROP: return cowl_str_buf_append_data_prop(buf, entity.data_prop);
-        case COWL_ET_ANNOT_PROP: return cowl_str_buf_append_annot_prop(buf, entity.annot_prop);
-        case COWL_ET_NAMED_IND: return cowl_str_buf_append_named_ind(buf, entity.named_ind);
+cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity *entity) {
+    switch (cowl_entity_get_type(entity)) {
+        case COWL_ET_CLASS: return cowl_str_buf_append_class(buf, (CowlClass *)entity);
+        case COWL_ET_DATATYPE: return cowl_str_buf_append_datatype(buf, (CowlDatatype *)entity);
+        case COWL_ET_OBJ_PROP: return cowl_str_buf_append_obj_prop(buf, (CowlObjProp *)entity);
+        case COWL_ET_DATA_PROP: return cowl_str_buf_append_data_prop(buf, (CowlDataProp *)entity);
+        case COWL_ET_ANNOT_PROP: return cowl_str_buf_append_annot_prop(buf, (CowlAnnotProp *)entity);
+        case COWL_ET_NAMED_IND: return cowl_str_buf_append_named_ind(buf, (CowlNamedInd *)entity);
         default: return COWL_ERR;
     }
 }
@@ -762,7 +753,7 @@ cowl_ret_t cowl_str_buf_append_datatype_def_axiom(CowlStrBuf *buf, CowlDatatypeD
         cowl_str_buf_append_static(buf, "Definition") ||
         cowl_str_buf_append_static(buf, "(") ||
         cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_entity(buf, cowl_entity_wrap_datatype(axiom->datatype)) ||
+        cowl_str_buf_append_entity(buf, (CowlEntity *)axiom->datatype) ||
         cowl_str_buf_append_static(buf, " ") ||
         cowl_str_buf_append_data_range(buf, axiom->range) ||
         cowl_str_buf_append_static(buf, ")")) {

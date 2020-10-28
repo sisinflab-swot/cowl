@@ -10,12 +10,13 @@
 
 #include "cowl_annot_assert_axiom_private.h"
 #include "cowl_annot_prop.h"
+#include "cowl_annot_value.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue subject,
+static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue *subject,
                                                            CowlAnnotProp *prop,
-                                                           CowlAnnotValue value,
+                                                           CowlAnnotValue *value,
                                                            CowlAnnotationVec *annot) {
     CowlAnnotAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
@@ -43,9 +44,9 @@ static void cowl_annot_assert_axiom_free(CowlAnnotAssertAxiom *axiom) {
     cowl_axiom_free(axiom);
 }
 
-CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue subject, CowlAnnotProp *prop,
-                                                  CowlAnnotValue value, CowlAnnotationVec *annot) {
-    if (!prop || cowl_annot_value_is_null(subject) || cowl_annot_value_is_null(value)) return NULL;
+CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
+                                                  CowlAnnotValue *value, CowlAnnotationVec *annot) {
+    if (!(prop && subject && value)) return NULL;
     return cowl_annot_assert_axiom_alloc(subject, prop, value, annot);
 }
 
@@ -59,11 +60,11 @@ void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom) {
     }
 }
 
-CowlAnnotValue cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom) {
+CowlAnnotValue* cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom) {
     return axiom->subject;
 }
 
-CowlAnnotValue cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
+CowlAnnotValue* cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
     return axiom->value;
 }
 
@@ -89,22 +90,11 @@ cowl_uint_t cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_annot_assert_axiom_iterate_signature(CowlAnnotAssertAxiom *axiom,
-                                               CowlEntityIterator *iter) {
-    if (cowl_annot_prop_iterate_signature(axiom->prop, iter) &&
-        cowl_annot_value_iterate_signature(axiom->value, iter) &&
-        cowl_axiom_annot_iterate_signature(axiom, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_annot_assert_axiom_iterate_primitives(CowlAnnotAssertAxiom *axiom,
-                                                CowlPrimitiveIterator *iter) {
-    if (cowl_annot_prop_iterate_primitives(axiom->prop, iter) &&
-        cowl_annot_value_iterate_primitives(axiom->subject, iter) &&
-        cowl_annot_value_iterate_primitives(axiom->value, iter) &&
-        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+bool cowl_annot_assert_axiom_iterate(CowlAnnotAssertAxiom *axiom, CowlIterator *iter) {
+    if (cowl_annot_prop_iterate(axiom->prop, iter) &&
+        cowl_annot_value_iterate(axiom->subject, iter) &&
+        cowl_annot_value_iterate(axiom->value, iter) &&
+        cowl_axiom_annot_iterate(axiom, iter)) {
         return true;
     }
     return false;

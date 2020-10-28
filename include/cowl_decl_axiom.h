@@ -21,6 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 cowl_struct_decl(CowlDeclAxiom);
+cowl_struct_decl(CowlEntity);
 /// @endcond
 
 /**
@@ -42,7 +43,7 @@ cowl_struct_decl(CowlDeclAxiom);
  * @public @memberof CowlDeclAxiom
  */
 COWL_PUBLIC
-CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity, CowlAnnotationVec *annot);
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlAnnotationVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -74,7 +75,7 @@ void cowl_decl_axiom_release(CowlDeclAxiom *axiom);
  * @public @memberof CowlDeclAxiom
  */
 COWL_PUBLIC
-CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
+CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.
@@ -124,28 +125,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDeclAxiom
  */
 COWL_PUBLIC
-bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDeclAxiom
- */
-COWL_PUBLIC
-bool cowl_decl_axiom_iterate_primitives(CowlDeclAxiom *axiom, CowlPrimitiveIterator *iter);
+bool cowl_decl_axiom_iterate(CowlDeclAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

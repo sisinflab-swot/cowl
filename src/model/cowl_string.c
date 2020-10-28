@@ -9,7 +9,6 @@
  */
 
 #include "cowl_string_private.h"
-#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
 

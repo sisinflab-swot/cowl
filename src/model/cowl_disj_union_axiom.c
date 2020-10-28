@@ -80,20 +80,10 @@ cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom, CowlEntityIterator *iter) {
-    if (cowl_class_iterate_signature(axiom->cls, iter) &&
-        cowl_cls_exp_set_iterate_signature(axiom->disjoints, iter) &&
-        cowl_axiom_annot_iterate_signature(axiom, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom,
-                                              CowlPrimitiveIterator *iter) {
-    if (cowl_class_iterate_primitives(axiom->cls, iter) &&
-        cowl_cls_exp_set_iterate_primitives(axiom->disjoints, iter) &&
-        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+bool cowl_disj_union_axiom_iterate(CowlDisjUnionAxiom *axiom, CowlIterator *iter) {
+    if (cowl_class_iterate(axiom->cls, iter) &&
+        cowl_cls_exp_set_iterate(axiom->disjoints, iter) &&
+        cowl_axiom_annot_iterate(axiom, iter)) {
         return true;
     }
     return false;

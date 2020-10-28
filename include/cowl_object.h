@@ -36,6 +36,7 @@ cowl_struct_decl(CowlObject);
  *
  * @public @memberof CowlObject
  */
+COWL_PUBLIC
 CowlObjectType cowl_object_get_type(CowlObject *object);
 
 COWL_END_DECLS

@@ -21,6 +21,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotation);
+cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClass);
@@ -305,316 +306,304 @@ COWL_PUBLIC
 cowl_uint_t cowl_ontology_anon_inds_count(CowlOntology *onto);
 
 /**
- * Iterates over the signature of the specified ontology.
+ * Iterates over the objects referenced by the specified ontology.
  *
  * @param onto The ontology.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_signature(CowlOntology *onto, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified ontology.
- *
- * @param onto The ontology.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveIterator *iter);
+bool cowl_ontology_iterate(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the imported ontologies.
  *
  * @param onto The ontology.
- * @param iter The ontology iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlOntologyIterator *iter);
+bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the classes in the ontology.
  *
  * @param onto The ontology.
- * @param iter The class iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_classes(CowlOntology *onto, CowlClassIterator *iter);
+bool cowl_ontology_iterate_classes(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the data properties in the ontology.
  *
  * @param onto The ontology.
- * @param iter The data property iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_data_props(CowlOntology *onto, CowlDataPropIterator *iter);
+bool cowl_ontology_iterate_data_props(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the datatypes in the ontology.
  *
  * @param onto The ontology.
- * @param iter The datatype iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_datatypes(CowlOntology *onto, CowlDatatypeIterator *iter);
+bool cowl_ontology_iterate_datatypes(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the object properties in the ontology.
  * @param onto The ontology.
- * @param iter The object property iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_obj_props(CowlOntology *onto, CowlObjPropIterator *iter);
+bool cowl_ontology_iterate_obj_props(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the annotation properties in the ontology.
  *
  * @param onto The ontology.
- * @param iter The annotation property iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_annot_props(CowlOntology *onto, CowlAnnotPropIterator *iter);
+bool cowl_ontology_iterate_annot_props(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the named individuals in the ontology.
  *
  * @param onto The ontology.
- * @param iter The named individual iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_named_inds(CowlOntology *onto, CowlNamedIndIterator *iter);
+bool cowl_ontology_iterate_named_inds(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the anonymous individuals in the ontology.
  *
  * @param onto The ontology.
- * @param iter The anonymous individual iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, CowlAnonIndIterator *iter);
+bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the axioms in the ontology.
  *
  * @param onto The ontology.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlAxiomIterator *iter);
+bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the axioms of a certain type.
  *
  * @param onto The ontology.
  * @param type The axiom type.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
-                                          CowlAxiomIterator *iter);
+                                          CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified annotation property.
  *
  * @param onto The ontology.
  * @param prop The annotation property.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop,
-                                                 CowlAxiomIterator *iter);
+                                                 CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified class.
  *
  * @param onto The ontology.
  * @param owl_class The class.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_for_class(CowlOntology *onto, CowlClass *owl_class,
-                                            CowlAxiomIterator *iter);
+                                            CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified data property.
  *
  * @param onto The ontology.
  * @param prop The data property.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_for_data_prop(CowlOntology *onto, CowlDataProp *prop,
-                                                CowlAxiomIterator *iter);
+                                                CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified datatype.
  *
  * @param onto The ontology.
  * @param datatype The datatype.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_for_datatype(CowlOntology *onto, CowlDatatype *datatype,
-                                               CowlAxiomIterator *iter);
+                                               CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified object property.
  *
  * @param onto The ontology.
  * @param prop The object property.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_for_obj_prop(CowlOntology *onto, CowlObjProp *prop,
-                                               CowlAxiomIterator *iter);
+                                               CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified named individual.
  *
  * @param onto The ontology.
  * @param ind The named individual.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_for_named_ind(CowlOntology *onto, CowlNamedInd *ind,
-                                                CowlAxiomIterator *iter);
+                                                CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified anonymous individual.
  *
  * @param onto The ontology.
  * @param ind The anonymous individual.
- * @param iter The axiom iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_axioms_for_anon_ind(CowlOntology *onto, CowlAnonInd *ind,
-                                               CowlAxiomIterator *iter);
+                                               CowlIterator *iter);
 
 /**
  * Iterates over the subclasses of the specified class.
  *
  * @param onto The ontology.
  * @param owl_class The class.
- * @param iter The class expression iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
-                                       CowlClsExpIterator *iter);
+                                       CowlIterator *iter);
 
 /**
  * Iterates over the superclasses of the specified class.
  *
  * @param onto The ontology.
  * @param owl_class The class.
- * @param iter The class expression iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
-                                         CowlClsExpIterator *iter);
+                                         CowlIterator *iter);
 
 /**
  * Iterates over the equivalent classes of the specified class.
  *
  * @param onto The ontology.
  * @param owl_class The class.
- * @param iter The class expression iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
-                                      CowlClsExpIterator *iter);
+                                      CowlIterator *iter);
 
 /**
  * Iterates over the disjoint classes of the specified class.
  *
  * @param onto The ontology.
  * @param owl_class The class.
- * @param iter The class expression iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_class,
-                                            CowlClsExpIterator *iter);
+                                            CowlIterator *iter);
 
 /**
  * Iterates over the types of the specified individual.
  *
  * @param onto The ontology.
  * @param ind The individual.
- * @param iter The class expression iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlClsExpIterator *iter);
+bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlIterator *iter);
 
 COWL_END_DECLS
 

@@ -151,96 +151,49 @@ cowl_uint_t cowl_axiom_hash(CowlAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_axiom_iterate_signature(CowlAxiom *axiom, CowlEntityIterator *iter) {
+bool cowl_axiom_iterate(CowlAxiom *axiom, CowlIterator *iter) {
 
-#define GEN_SIG(UC, LC) return cowl_##LC##_axiom_iterate_signature((Cowl##UC##Axiom *)axiom, iter)
+#define GEN_ITER(UC, LC) return cowl_##LC##_axiom_iterate((Cowl##UC##Axiom *)axiom, iter)
 
     switch (cowl_axiom_get_type(axiom)) {
-        case COWL_AT_DECL: GEN_SIG(Decl, decl);
-        case COWL_AT_DATATYPE_DEF: GEN_SIG(DatatypeDef, datatype_def);
-        case COWL_AT_SUB_CLASS: GEN_SIG(SubCls, sub_cls);
+        case COWL_AT_DECL: GEN_ITER(Decl, decl);
+        case COWL_AT_DATATYPE_DEF: GEN_ITER(DatatypeDef, datatype_def);
+        case COWL_AT_SUB_CLASS: GEN_ITER(SubCls, sub_cls);
         case COWL_AT_EQUIV_CLASSES:
-        case COWL_AT_DISJ_CLASSES: GEN_SIG(NAryCls, nary_cls);
-        case COWL_AT_DISJ_UNION: GEN_SIG(DisjUnion, disj_union);
-        case COWL_AT_CLASS_ASSERT: GEN_SIG(ClsAssert, cls_assert);
+        case COWL_AT_DISJ_CLASSES: GEN_ITER(NAryCls, nary_cls);
+        case COWL_AT_DISJ_UNION: GEN_ITER(DisjUnion, disj_union);
+        case COWL_AT_CLASS_ASSERT: GEN_ITER(ClsAssert, cls_assert);
         case COWL_AT_SAME_IND:
-        case COWL_AT_DIFF_IND: GEN_SIG(NAryInd, nary_ind);
+        case COWL_AT_DIFF_IND: GEN_ITER(NAryInd, nary_ind);
         case COWL_AT_OBJ_PROP_ASSERT:
-        case COWL_AT_NEG_OBJ_PROP_ASSERT: GEN_SIG(ObjPropAssert, obj_prop_assert);
+        case COWL_AT_NEG_OBJ_PROP_ASSERT: GEN_ITER(ObjPropAssert, obj_prop_assert);
         case COWL_AT_DATA_PROP_ASSERT:
-        case COWL_AT_NEG_DATA_PROP_ASSERT: GEN_SIG(DataPropAssert, data_prop_assert);
-        case COWL_AT_SUB_OBJ_PROP: GEN_SIG(SubObjProp, sub_obj_prop);
-        case COWL_AT_SUB_OBJ_PROP_CHAIN: GEN_SIG(SubObjPropChain, sub_obj_prop_chain);
-        case COWL_AT_INV_OBJ_PROP: GEN_SIG(InvObjProp, inv_obj_prop);
+        case COWL_AT_NEG_DATA_PROP_ASSERT: GEN_ITER(DataPropAssert, data_prop_assert);
+        case COWL_AT_SUB_OBJ_PROP: GEN_ITER(SubObjProp, sub_obj_prop);
+        case COWL_AT_SUB_OBJ_PROP_CHAIN: GEN_ITER(SubObjPropChain, sub_obj_prop_chain);
+        case COWL_AT_INV_OBJ_PROP: GEN_ITER(InvObjProp, inv_obj_prop);
         case COWL_AT_EQUIV_OBJ_PROP:
-        case COWL_AT_DISJ_OBJ_PROP: GEN_SIG(NAryObjProp, nary_obj_prop);
+        case COWL_AT_DISJ_OBJ_PROP: GEN_ITER(NAryObjProp, nary_obj_prop);
         case COWL_AT_FUNC_OBJ_PROP:
         case COWL_AT_INV_FUNC_OBJ_PROP:
         case COWL_AT_SYMM_OBJ_PROP:
         case COWL_AT_ASYMM_OBJ_PROP:
         case COWL_AT_REFL_OBJ_PROP:
         case COWL_AT_IRREFL_OBJ_PROP:
-        case COWL_AT_TRANS_OBJ_PROP: GEN_SIG(ObjPropChar, obj_prop_char);
-        case COWL_AT_OBJ_PROP_DOMAIN: GEN_SIG(ObjPropDomain, obj_prop_domain);
-        case COWL_AT_OBJ_PROP_RANGE: GEN_SIG(ObjPropRange, obj_prop_range);
-        case COWL_AT_SUB_DATA_PROP: GEN_SIG(SubDataProp, sub_data_prop);
+        case COWL_AT_TRANS_OBJ_PROP: GEN_ITER(ObjPropChar, obj_prop_char);
+        case COWL_AT_OBJ_PROP_DOMAIN: GEN_ITER(ObjPropDomain, obj_prop_domain);
+        case COWL_AT_OBJ_PROP_RANGE: GEN_ITER(ObjPropRange, obj_prop_range);
+        case COWL_AT_SUB_DATA_PROP: GEN_ITER(SubDataProp, sub_data_prop);
         case COWL_AT_EQUIV_DATA_PROP:
-        case COWL_AT_DISJ_DATA_PROP: GEN_SIG(NAryDataProp, nary_data_prop);
-        case COWL_AT_FUNC_DATA_PROP: GEN_SIG(FuncDataProp, func_data_prop);
-        case COWL_AT_DATA_PROP_DOMAIN: GEN_SIG(DataPropDomain, data_prop_domain);
-        case COWL_AT_DATA_PROP_RANGE: GEN_SIG(DataPropRange, data_prop_range);
-        case COWL_AT_HAS_KEY: GEN_SIG(HasKey, has_key);
-        case COWL_AT_ANNOT_ASSERT: GEN_SIG(AnnotAssert, annot_assert);
-        case COWL_AT_SUB_ANNOT_PROP: GEN_SIG(SubAnnotProp, sub_annot_prop);
-        case COWL_AT_ANNOT_PROP_DOMAIN: GEN_SIG(AnnotPropDomain, annot_prop_domain);
-        case COWL_AT_ANNOT_PROP_RANGE: GEN_SIG(AnnotPropRange, annot_prop_range);
-        default: return true;
-    }
-}
-
-bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlPrimitiveIterator *iter) {
-
-#define GEN_PRIM(UC, LC) return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)axiom, iter)
-
-    switch (cowl_axiom_get_type(axiom)) {
-        case COWL_AT_DECL: GEN_PRIM(Decl, decl);
-        case COWL_AT_DATATYPE_DEF: GEN_PRIM(DatatypeDef, datatype_def);
-        case COWL_AT_SUB_CLASS: GEN_PRIM(SubCls, sub_cls);
-        case COWL_AT_EQUIV_CLASSES:
-        case COWL_AT_DISJ_CLASSES: GEN_PRIM(NAryCls, nary_cls);
-        case COWL_AT_DISJ_UNION: GEN_PRIM(DisjUnion, disj_union);
-        case COWL_AT_CLASS_ASSERT: GEN_PRIM(ClsAssert, cls_assert);
-        case COWL_AT_SAME_IND:
-        case COWL_AT_DIFF_IND: GEN_PRIM(NAryInd, nary_ind);
-        case COWL_AT_OBJ_PROP_ASSERT:
-        case COWL_AT_NEG_OBJ_PROP_ASSERT: GEN_PRIM(ObjPropAssert, obj_prop_assert);
-        case COWL_AT_DATA_PROP_ASSERT:
-        case COWL_AT_NEG_DATA_PROP_ASSERT: GEN_PRIM(DataPropAssert, data_prop_assert);
-        case COWL_AT_SUB_OBJ_PROP: GEN_PRIM(SubObjProp, sub_obj_prop);
-        case COWL_AT_SUB_OBJ_PROP_CHAIN: GEN_PRIM(SubObjPropChain, sub_obj_prop_chain);
-        case COWL_AT_INV_OBJ_PROP: GEN_PRIM(InvObjProp, inv_obj_prop);
-        case COWL_AT_EQUIV_OBJ_PROP:
-        case COWL_AT_DISJ_OBJ_PROP: GEN_PRIM(NAryObjProp, nary_obj_prop);
-        case COWL_AT_FUNC_OBJ_PROP:
-        case COWL_AT_INV_FUNC_OBJ_PROP:
-        case COWL_AT_SYMM_OBJ_PROP:
-        case COWL_AT_ASYMM_OBJ_PROP:
-        case COWL_AT_REFL_OBJ_PROP:
-        case COWL_AT_IRREFL_OBJ_PROP:
-        case COWL_AT_TRANS_OBJ_PROP: GEN_PRIM(ObjPropChar, obj_prop_char);
-        case COWL_AT_OBJ_PROP_DOMAIN: GEN_PRIM(ObjPropDomain, obj_prop_domain);
-        case COWL_AT_OBJ_PROP_RANGE: GEN_PRIM(ObjPropRange, obj_prop_range);
-        case COWL_AT_SUB_DATA_PROP: GEN_PRIM(SubDataProp, sub_data_prop);
-        case COWL_AT_EQUIV_DATA_PROP:
-        case COWL_AT_DISJ_DATA_PROP: GEN_PRIM(NAryDataProp, nary_data_prop);
-        case COWL_AT_FUNC_DATA_PROP: GEN_PRIM(FuncDataProp, func_data_prop);
-        case COWL_AT_DATA_PROP_DOMAIN: GEN_PRIM(DataPropDomain, data_prop_domain);
-        case COWL_AT_DATA_PROP_RANGE: GEN_PRIM(DataPropRange, data_prop_range);
-        case COWL_AT_HAS_KEY: GEN_PRIM(HasKey, has_key);
-        case COWL_AT_ANNOT_ASSERT: GEN_PRIM(AnnotAssert, annot_assert);
-        case COWL_AT_SUB_ANNOT_PROP: GEN_PRIM(SubAnnotProp, sub_annot_prop);
-        case COWL_AT_ANNOT_PROP_DOMAIN: GEN_PRIM(AnnotPropDomain, annot_prop_domain);
-        case COWL_AT_ANNOT_PROP_RANGE: GEN_PRIM(AnnotPropRange, annot_prop_range);
+        case COWL_AT_DISJ_DATA_PROP: GEN_ITER(NAryDataProp, nary_data_prop);
+        case COWL_AT_FUNC_DATA_PROP: GEN_ITER(FuncDataProp, func_data_prop);
+        case COWL_AT_DATA_PROP_DOMAIN: GEN_ITER(DataPropDomain, data_prop_domain);
+        case COWL_AT_DATA_PROP_RANGE: GEN_ITER(DataPropRange, data_prop_range);
+        case COWL_AT_HAS_KEY: GEN_ITER(HasKey, has_key);
+        case COWL_AT_ANNOT_ASSERT: GEN_ITER(AnnotAssert, annot_assert);
+        case COWL_AT_SUB_ANNOT_PROP: GEN_ITER(SubAnnotProp, sub_annot_prop);
+        case COWL_AT_ANNOT_PROP_DOMAIN: GEN_ITER(AnnotPropDomain, annot_prop_domain);
+        case COWL_AT_ANNOT_PROP_RANGE: GEN_ITER(AnnotPropRange, annot_prop_range);
         default: return true;
     }
 }

@@ -9,7 +9,6 @@
  */
 
 #include "cowl_named_ind_private.h"
-#include "cowl_alloc.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
@@ -82,10 +81,6 @@ cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_named_ind_iterate_signature(CowlNamedInd *ind, CowlEntityIterator *iter) {
-    return cowl_iterate(iter, cowl_entity_wrap_named_ind(ind));
-}
-
-bool cowl_named_ind_iterate_primitives(CowlNamedInd *ind, CowlPrimitiveIterator *iter) {
-    return cowl_iterate(iter, cowl_primitive_wrap_named_ind(ind));
+bool cowl_named_ind_iterate(CowlNamedInd *ind, CowlIterator *iter) {
+    return cowl_flags_is_set(iter->flags, COWL_IF_NAMED_IND) ? cowl_iterate(iter, ind) : true;
 }

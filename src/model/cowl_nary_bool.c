@@ -9,7 +9,6 @@
  */
 
 #include "cowl_nary_bool_private.h"
-#include "cowl_alloc.h"
 #include "cowl_cls_exp_set.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
@@ -72,10 +71,6 @@ cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_nary_bool_iterate_signature(CowlNAryBool *exp, CowlEntityIterator *iter) {
-    return cowl_cls_exp_set_iterate_signature(exp->operands, iter);
-}
-
-bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlPrimitiveIterator *iter) {
-    return cowl_cls_exp_set_iterate_primitives(exp->operands, iter);
+bool cowl_nary_bool_iterate(CowlNAryBool *exp, CowlIterator *iter) {
+    return cowl_cls_exp_set_iterate(exp->operands, iter);
 }

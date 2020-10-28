@@ -112,28 +112,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range);
 
 /**
- * Iterates over the signature of the specified literal enumeration.
+ * Iterates over the objects referenced by the specified literal enumeration.
  *
  * @param range The literal enumeration.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataOneOf
  */
 COWL_PUBLIC
-bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified literal enumeration.
- *
- * @param range The literal enumeration.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDataOneOf
- */
-COWL_PUBLIC
-bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlPrimitiveIterator *iter);
+bool cowl_data_one_of_iterate(CowlDataOneOf *range, CowlIterator *iter);
 
 COWL_END_DECLS
 

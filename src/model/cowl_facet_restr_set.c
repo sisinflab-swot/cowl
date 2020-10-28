@@ -27,16 +27,9 @@ cowl_uint_t cowl_facet_restr_set_hash(CowlFacetRestrSet *set) {
     return uhset_hash(CowlFacetRestrSet, set);
 }
 
-bool cowl_facet_restr_set_iterate_signature(CowlFacetRestrSet *set, CowlEntityIterator *iter) {
+bool cowl_facet_restr_set_iterate(CowlFacetRestrSet *set, CowlIterator *iter) {
     uhash_foreach_key(CowlFacetRestrSet, set, restr, {
-        if (!cowl_facet_restr_iterate_signature(restr, iter)) return false;
-    });
-    return true;
-}
-
-bool cowl_facet_restr_set_iterate_primitives(CowlFacetRestrSet *set, CowlPrimitiveIterator *iter) {
-    uhash_foreach_key(CowlFacetRestrSet, set, restr, {
-        if (!cowl_facet_restr_iterate_primitives(restr, iter)) return false;
+        if (!cowl_facet_restr_iterate(restr, iter)) return false;
     });
     return true;
 }

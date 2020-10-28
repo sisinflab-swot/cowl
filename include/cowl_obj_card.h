@@ -154,29 +154,17 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr);
 
 /**
- * Iterates over the signature of the specified object property cardinality restriction.
- *
- * @param restr The restriction.
- * @param iter The entity iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjCard
- */
-COWL_PUBLIC
-bool cowl_obj_card_iterate_signature(CowlObjCard *restr, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by
+ * Iterates over the objects referenced by
  * the specified object property cardinality restriction.
  *
  * @param restr The restriction.
- * @param iter The primitive iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
-bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlPrimitiveIterator *iter);
+bool cowl_obj_card_iterate(CowlObjCard *restr, CowlIterator *iter);
 
 COWL_END_DECLS
 

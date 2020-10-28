@@ -13,8 +13,6 @@
 #ifndef COWL_LOGGER_H
 #define COWL_LOGGER_H
 
-#include "cowl_annot_value.h"
-#include "cowl_entity.h"
 #include "cowl_error.h"
 #include "cowl_std.h"
 

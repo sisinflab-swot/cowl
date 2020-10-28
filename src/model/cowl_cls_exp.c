@@ -95,56 +95,29 @@ cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_cls_exp_iterate_signature(CowlClsExp *exp, CowlEntityIterator *iter) {
+bool cowl_cls_exp_iterate(CowlClsExp *exp, CowlIterator *iter) {
 
-#define GEN_SIG(UC, LC) return cowl_##LC##_iterate_signature((Cowl##UC *)exp, iter)
-
-    switch (cowl_cls_exp_get_type(exp)) {
-        case COWL_CET_CLASS: GEN_SIG(Class, class);
-        case COWL_CET_OBJ_COMPL: GEN_SIG(ObjCompl, obj_compl);
-        case COWL_CET_OBJ_INTERSECT:
-        case COWL_CET_OBJ_UNION: GEN_SIG(NAryBool, nary_bool);
-        case COWL_CET_OBJ_SOME:
-        case COWL_CET_OBJ_ALL: GEN_SIG(ObjQuant, obj_quant);
-        case COWL_CET_OBJ_MIN_CARD:
-        case COWL_CET_OBJ_MAX_CARD:
-        case COWL_CET_OBJ_EXACT_CARD: GEN_SIG(ObjCard, obj_card);
-        case COWL_CET_OBJ_HAS_VALUE: GEN_SIG(ObjHasValue, obj_has_value);
-        case COWL_CET_OBJ_HAS_SELF: GEN_SIG(ObjHasSelf, obj_has_self);
-        case COWL_CET_DATA_SOME:
-        case COWL_CET_DATA_ALL: GEN_SIG(DataQuant, data_quant);
-        case COWL_CET_DATA_MIN_CARD:
-        case COWL_CET_DATA_MAX_CARD:
-        case COWL_CET_DATA_EXACT_CARD: GEN_SIG(DataCard, data_card);
-        case COWL_CET_DATA_HAS_VALUE: GEN_SIG(DataHasValue, data_has_value);
-        case COWL_CET_OBJ_ONE_OF: GEN_SIG(ObjOneOf, obj_one_of);
-        default: return true;
-    }
-}
-
-bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlPrimitiveIterator *iter) {
-
-#define GEN_PRIM(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)exp, iter)
+#define GEN_ITER(UC, LC) return cowl_##LC##_iterate((Cowl##UC *)exp, iter)
 
     switch (cowl_cls_exp_get_type(exp)) {
-        case COWL_CET_CLASS: GEN_PRIM(Class, class);
-        case COWL_CET_OBJ_COMPL: GEN_PRIM(ObjCompl, obj_compl);
+        case COWL_CET_CLASS: GEN_ITER(Class, class);
+        case COWL_CET_OBJ_COMPL: GEN_ITER(ObjCompl, obj_compl);
         case COWL_CET_OBJ_INTERSECT:
-        case COWL_CET_OBJ_UNION: GEN_PRIM(NAryBool, nary_bool);
+        case COWL_CET_OBJ_UNION: GEN_ITER(NAryBool, nary_bool);
         case COWL_CET_OBJ_SOME:
-        case COWL_CET_OBJ_ALL: GEN_PRIM(ObjQuant, obj_quant);
+        case COWL_CET_OBJ_ALL: GEN_ITER(ObjQuant, obj_quant);
         case COWL_CET_OBJ_MIN_CARD:
         case COWL_CET_OBJ_MAX_CARD:
-        case COWL_CET_OBJ_EXACT_CARD: GEN_PRIM(ObjCard, obj_card);
-        case COWL_CET_OBJ_HAS_VALUE: GEN_PRIM(ObjHasValue, obj_has_value);
-        case COWL_CET_OBJ_HAS_SELF: GEN_PRIM(ObjHasSelf, obj_has_self);
+        case COWL_CET_OBJ_EXACT_CARD: GEN_ITER(ObjCard, obj_card);
+        case COWL_CET_OBJ_HAS_VALUE: GEN_ITER(ObjHasValue, obj_has_value);
+        case COWL_CET_OBJ_HAS_SELF: GEN_ITER(ObjHasSelf, obj_has_self);
         case COWL_CET_DATA_SOME:
-        case COWL_CET_DATA_ALL: GEN_PRIM(DataQuant, data_quant);
+        case COWL_CET_DATA_ALL: GEN_ITER(DataQuant, data_quant);
         case COWL_CET_DATA_MIN_CARD:
         case COWL_CET_DATA_MAX_CARD:
-        case COWL_CET_DATA_EXACT_CARD: GEN_PRIM(DataCard, data_card);
-        case COWL_CET_DATA_HAS_VALUE: GEN_PRIM(DataHasValue, data_has_value);
-        case COWL_CET_OBJ_ONE_OF: GEN_PRIM(ObjOneOf, obj_one_of);
+        case COWL_CET_DATA_EXACT_CARD: GEN_ITER(DataCard, data_card);
+        case COWL_CET_DATA_HAS_VALUE: GEN_ITER(DataHasValue, data_has_value);
+        case COWL_CET_OBJ_ONE_OF: GEN_ITER(ObjOneOf, obj_one_of);
         default: return true;
     }
 }

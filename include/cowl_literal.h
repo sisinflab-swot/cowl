@@ -19,6 +19,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlLiteral);
@@ -136,28 +137,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_literal_hash(CowlLiteral *literal);
 
 /**
- * Iterates over the signature of the specified literal.
+ * Iterates over the objects referenced by the specified literal.
  *
  * @param literal The literal.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-bool cowl_literal_iterate_signature(CowlLiteral *literal, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified literal.
- *
- * @param literal The literal.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlLiteral
- */
-COWL_PUBLIC
-bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveIterator *iter);
+bool cowl_literal_iterate(CowlLiteral *literal, CowlIterator *iter);
 
 COWL_END_DECLS
 

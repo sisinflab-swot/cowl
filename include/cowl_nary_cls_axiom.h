@@ -140,28 +140,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_PUBLIC
-bool cowl_nary_cls_axiom_iterate_signature(CowlNAryClsAxiom *axiom, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlNAryClsAxiom
- */
-COWL_PUBLIC
-bool cowl_nary_cls_axiom_iterate_primitives(CowlNAryClsAxiom *axiom, CowlPrimitiveIterator *iter);
+bool cowl_nary_cls_axiom_iterate(CowlNAryClsAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

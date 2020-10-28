@@ -12,7 +12,6 @@
 #define COWL_AXIOM_PRIVATE_H
 
 #include "cowl_axiom.h"
-#include "cowl_alloc.h"
 #include "cowl_annotation_vec.h"
 #include "cowl_hash_utils.h"
 #include "cowl_object_private.h"
@@ -71,13 +70,10 @@ cowl_struct(CowlAxiom) {
     ((ANNOT) ? cowl_hash_5(INIT, A, B, C, D, cowl_annotation_vec_hash(ANNOT)) :                     \
      cowl_hash_4(INIT, A, B, C, D))
 
-#define cowl_axiom_annot_iterate_signature(AXIOM, ITER)                                             \
+#define cowl_axiom_annot_iterate(AXIOM, ITER)                                                       \
     (!cowl_axiom_has_annot(AXIOM) ||                                                                \
-     cowl_annotation_vec_iterate_signature((AXIOM)->annot[0], ITER))
+     cowl_annotation_vec_iterate((AXIOM)->annot[0], ITER))
 
-#define cowl_axiom_annot_iterate_primitives(AXIOM, ITER)                                            \
-    (!cowl_axiom_has_annot(AXIOM) ||                                                                \
-     cowl_annotation_vec_iterate_primitives((AXIOM)->annot[0], ITER))
 COWL_END_DECLS
 
 #endif // COWL_AXIOM_PRIVATE_H

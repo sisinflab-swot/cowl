@@ -9,7 +9,6 @@
  */
 
 #include "cowl_data_one_of_private.h"
-#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_literal_set.h"
@@ -66,10 +65,6 @@ cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range) {
     return cowl_object_hash_get(range);
 }
 
-bool cowl_data_one_of_iterate_signature(CowlDataOneOf *range, CowlEntityIterator *iter) {
-    return cowl_literal_set_iterate_signature(range->values, iter);
-}
-
-bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlPrimitiveIterator *iter) {
-    return cowl_literal_set_iterate_primitives(range->values, iter);
+bool cowl_data_one_of_iterate(CowlDataOneOf *range, CowlIterator *iter) {
+    return cowl_literal_set_iterate(range->values, iter);
 }

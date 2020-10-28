@@ -139,30 +139,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjPropDomainAxiom
  */
 COWL_PUBLIC
-bool cowl_obj_prop_domain_axiom_iterate_signature(CowlObjPropDomainAxiom *axiom,
-                                                  CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjPropDomainAxiom
- */
-COWL_PUBLIC
-bool cowl_obj_prop_domain_axiom_iterate_primitives(CowlObjPropDomainAxiom *axiom,
-                                                   CowlPrimitiveIterator *iter);
+bool cowl_obj_prop_domain_axiom_iterate(CowlObjPropDomainAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

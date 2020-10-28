@@ -138,30 +138,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_PUBLIC
-bool cowl_sub_annot_prop_axiom_iterate_signature(CowlSubAnnotPropAxiom *axiom,
-                                                 CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlSubAnnotPropAxiom
- */
-COWL_PUBLIC
-bool cowl_sub_annot_prop_axiom_iterate_primitives(CowlSubAnnotPropAxiom *axiom,
-                                                  CowlPrimitiveIterator *iter);
+bool cowl_sub_annot_prop_axiom_iterate(CowlSubAnnotPropAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

@@ -17,8 +17,8 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlAnnotAssertAxiom,
-    CowlAnnotValue subject;
-    CowlAnnotValue value;
+    CowlAnnotValue *subject;
+    CowlAnnotValue *value;
     CowlAnnotProp *prop;
 );
 

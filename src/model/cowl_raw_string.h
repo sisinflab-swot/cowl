@@ -12,7 +12,6 @@
 #define COWL_RAW_STRING_H
 
 #include "cowl_std.h"
-#include "cowl_alloc.h"
 #include "cowl_cstring.h"
 
 #include <stdarg.h>

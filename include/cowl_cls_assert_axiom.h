@@ -139,29 +139,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified class assertion axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_PUBLIC
-bool cowl_cls_assert_axiom_iterate_signature(CowlClsAssertAxiom *axiom, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlClsAssertAxiom
- */
-COWL_PUBLIC
-bool cowl_cls_assert_axiom_iterate_primitives(CowlClsAssertAxiom *axiom,
-                                              CowlPrimitiveIterator *iter);
+bool cowl_cls_assert_axiom_iterate(CowlClsAssertAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

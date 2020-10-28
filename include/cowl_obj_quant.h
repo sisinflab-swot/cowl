@@ -140,28 +140,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr);
 
 /**
- * Iterates over the signature of the specified object quantifier.
- *
- * @param restr The object quantifier.
- * @param iter The entity iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjQuant
- */
-COWL_PUBLIC
-bool cowl_obj_quant_iterate_signature(CowlObjQuant *restr, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified object quantifier.
+ * Iterates over the objects referenced by the specified object quantifier.
  *
  * @param restr The axiom.
- * @param iter The primitive iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
-bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveIterator *iter);
+bool cowl_obj_quant_iterate(CowlObjQuant *restr, CowlIterator *iter);
 
 COWL_END_DECLS
 

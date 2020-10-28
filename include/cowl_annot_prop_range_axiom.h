@@ -140,30 +140,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_PUBLIC
-bool cowl_annot_prop_range_axiom_iterate_signature(CowlAnnotPropRangeAxiom *axiom,
-                                                   CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlAnnotPropRangeAxiom
- */
-COWL_PUBLIC
-bool cowl_annot_prop_range_axiom_iterate_primitives(CowlAnnotPropRangeAxiom *axiom,
-                                                    CowlPrimitiveIterator *iter);
+bool cowl_annot_prop_range_axiom_iterate(CowlAnnotPropRangeAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

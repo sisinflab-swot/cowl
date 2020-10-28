@@ -47,6 +47,13 @@ COWL_BEGIN_DECLS
 #define cowl_flags_empty (0u)
 
 /**
+ * Bitmask with all bits set to one.
+ *
+ * @public @related CowlFlags
+ */
+#define cowl_flags_all(N) ((CowlFlags(N))-1)
+
+/**
  * Returns a bitmask with the specified bit set.
  *
  * @param N Bit to set.

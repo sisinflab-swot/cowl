@@ -9,7 +9,6 @@
  */
 
 #include "cowl_parser_private.h"
-#include "cowl_alloc.h"
 #include "cowl_annotation_vec.h"
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"

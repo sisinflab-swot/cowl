@@ -67,28 +67,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec);
 
 /**
- * Iterates over the signature of the specified vector.
+ * Iterates over the objects referenced by the specified vector.
  *
  * @param vec The vector.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjPropExpVec
  */
 COWL_PUBLIC
-bool cowl_obj_prop_exp_vec_iterate_signature(CowlObjPropExpVec *vec, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified vector.
- *
- * @param vec The vector.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjPropExpVec
- */
-COWL_PUBLIC
-bool cowl_obj_prop_exp_vec_iterate_primitives(CowlObjPropExpVec *vec, CowlPrimitiveIterator *iter);
+bool cowl_obj_prop_exp_vec_iterate(CowlObjPropExpVec *vec, CowlIterator *iter);
 
 COWL_END_DECLS
 

@@ -33,12 +33,12 @@ static inline double get_millis(void) {
     return ((double)get_nanos()) / 1000000.0;
 }
 
-static bool count_axiom_iterator(void *ctx, cowl_unused CowlAxiom *axiom) {
+static bool count_axiom_iterator(void *ctx, cowl_unused void *obj) {
     (*((cowl_uint_t *)ctx))++;
     return true;
 }
 
-static bool count_entity_iterator(void *ctx, cowl_unused CowlEntity entity) {
+static bool count_primitive_iterator(void *ctx, cowl_unused void *obj) {
     (*((cowl_uint_t *)ctx))++;
     return true;
 }
@@ -65,8 +65,8 @@ int main(int argc, char *argv[]) {
     cowl_uint_t count = 0;
 
     start = get_micros();
-    CowlAxiomIterator axiom_iter = cowl_iterator_init(&count, count_axiom_iterator);
-    cowl_ontology_iterate_axioms(onto, &axiom_iter);
+    CowlIterator iter = cowl_iterator_init(&count, count_axiom_iterator);
+    cowl_ontology_iterate_axioms(onto, &iter);
     stop = get_micros();
 
     printf("%" COWL_UINT_FMT " axioms iterated in %.2f us\n", count, stop - start);
@@ -74,11 +74,11 @@ int main(int argc, char *argv[]) {
     count = 0;
 
     start = get_micros();
-    CowlEntityIterator entity_iter = cowl_iterator_init(&count, count_entity_iterator);
-    cowl_ontology_iterate_signature(onto, &entity_iter);
+    iter = cowl_iterator_init(&count, count_primitive_iterator);
+    cowl_ontology_iterate(onto, &iter);
     stop = get_micros();
 
-    printf("%" COWL_UINT_FMT " entities iterated in %.2f us\n", count, stop - start);
+    printf("%" COWL_UINT_FMT " primitives iterated in %.2f us\n", count, stop - start);
 
     cowl_ontology_release(onto);
 

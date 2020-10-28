@@ -15,7 +15,7 @@
 
 COWL_BEGIN_DECLS
 
-#define cowl_iterate(iter, elem) ((iter)->for_each((iter)->ctx, elem))
+#define cowl_iterate(iter, elem) ((iter)->for_each((iter)->ctx, (CowlObject *)(elem)))
 
 COWL_END_DECLS
 

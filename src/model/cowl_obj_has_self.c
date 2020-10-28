@@ -9,7 +9,6 @@
  */
 
 #include "cowl_obj_has_self_private.h"
-#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 #include "cowl_str_buf.h"
@@ -65,10 +64,6 @@ cowl_uint_t cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_obj_has_self_iterate_signature(CowlObjHasSelf *exp, CowlEntityIterator *iter) {
-    return cowl_obj_prop_exp_iterate_signature(exp->prop, iter);
-}
-
-bool cowl_obj_has_self_iterate_primitives(CowlObjHasSelf *exp, CowlPrimitiveIterator *iter) {
-    return cowl_obj_prop_exp_iterate_primitives(exp->prop, iter);
+bool cowl_obj_has_self_iterate(CowlObjHasSelf *exp, CowlIterator *iter) {
+    return cowl_obj_prop_exp_iterate(exp->prop, iter);
 }

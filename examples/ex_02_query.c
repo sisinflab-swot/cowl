@@ -15,7 +15,7 @@
 #define ONTO_NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
-static bool for_each_cls(void *ctx, CowlClsExp *exp);
+static bool for_each_cls(void *ctx, void *exp);
 
 int main(void) {
     cowl_api_init();
@@ -33,7 +33,7 @@ int main(void) {
         cowl_logger_logs(logger, "Atomic subclasses of " CLASS_NAME ":\n");
 
         // Run the query.
-        CowlClsExpIterator iter = cowl_iterator_init(logger, for_each_cls);
+        CowlIterator iter = cowl_iterator_init(logger, for_each_cls);
         cowl_ontology_iterate_sub_classes(ontology, cls, &iter);
 
         // Cleanup.
@@ -47,14 +47,11 @@ int main(void) {
 }
 
 // Iterator body, invoked for each class expression matching the query.
-static bool for_each_cls(void *ctx, CowlClsExp *exp) {
+static bool for_each_cls(void *ctx, void *cls) {
 
-    // We are only interested in atomic classes.
-    if (cowl_cls_exp_get_type(exp) != COWL_CET_CLASS) return true;
-
-    // Pseudo-inheritance allows us to simply cast a class expression
-    // to the desired type.
-    CowlClass *cls = (CowlClass *)exp;
+    // We are only interested in atomic classes. Note that, due to pseudo-inheritance,
+    // this check ensures that the concrete type of 'exp' is CowlClass.
+    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
 
     // Log the IRI remainder.
     CowlIRI *iri = cowl_class_get_iri(cls);

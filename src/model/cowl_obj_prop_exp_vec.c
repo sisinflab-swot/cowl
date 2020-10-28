@@ -34,16 +34,9 @@ cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec) {
     return hash;
 }
 
-bool cowl_obj_prop_exp_vec_iterate_signature(CowlObjPropExpVec *vec, CowlEntityIterator *iter) {
+bool cowl_obj_prop_exp_vec_iterate(CowlObjPropExpVec *vec, CowlIterator *iter) {
     vector_foreach(CowlObjPropExpPtr, vec, prop, {
-        if (!cowl_obj_prop_exp_iterate_signature(prop, iter)) return false;
-    });
-    return true;
-}
-
-bool cowl_obj_prop_exp_vec_iterate_primitives(CowlObjPropExpVec *vec, CowlPrimitiveIterator *iter) {
-    vector_foreach(CowlObjPropExpPtr, vec, prop, {
-        if (!cowl_obj_prop_exp_iterate_primitives(prop, iter)) return false;
+        if (!cowl_obj_prop_exp_iterate(prop, iter)) return false;
     });
     return true;
 }

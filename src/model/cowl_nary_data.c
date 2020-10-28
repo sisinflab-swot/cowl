@@ -9,7 +9,6 @@
  */
 
 #include "cowl_nary_data_private.h"
-#include "cowl_alloc.h"
 #include "cowl_data_range_set.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
@@ -72,10 +71,6 @@ cowl_uint_t cowl_nary_data_hash(CowlNAryData *range) {
     return cowl_object_hash_get(range);
 }
 
-bool cowl_nary_data_iterate_signature(CowlNAryData *range, CowlEntityIterator *iter) {
-    return cowl_data_range_set_iterate_signature(range->operands, iter);
-}
-
-bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlPrimitiveIterator *iter) {
-    return cowl_data_range_set_iterate_primitives(range->operands, iter);
+bool cowl_nary_data_iterate(CowlNAryData *range, CowlIterator *iter) {
+    return cowl_data_range_set_iterate(range->operands, iter);
 }

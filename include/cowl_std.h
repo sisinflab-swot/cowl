@@ -18,6 +18,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "cowl_alloc.h"
 #include "cowl_compat.h"
 #include "cowl_base_types.h"
 #include "cowl_ret_t.h"

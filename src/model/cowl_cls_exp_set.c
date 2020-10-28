@@ -27,16 +27,9 @@ cowl_uint_t cowl_cls_exp_set_hash(CowlClsExpSet *set) {
     return uhset_hash(CowlClsExpSet, set);
 }
 
-bool cowl_cls_exp_set_iterate_signature(CowlClsExpSet *set, CowlEntityIterator *iter) {
+bool cowl_cls_exp_set_iterate(CowlClsExpSet *set, CowlIterator *iter) {
     uhash_foreach_key(CowlClsExpSet, set, exp, {
-        if (!cowl_cls_exp_iterate_signature(exp, iter)) return false;
-    });
-    return true;
-}
-
-bool cowl_cls_exp_set_iterate_primitives(CowlClsExpSet *set, CowlPrimitiveIterator *iter) {
-    uhash_foreach_key(CowlClsExpSet, set, exp, {
-        if (!cowl_cls_exp_iterate_primitives(exp, iter)) return false;
+        if (!cowl_cls_exp_iterate(exp, iter)) return false;
     });
     return true;
 }

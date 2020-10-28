@@ -125,29 +125,17 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp);
 
 /**
- * Iterates over the signature of the specified individual value restriction.
- *
- * @param exp The restriction.
- * @param iter The entity iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjHasValue
- */
-COWL_PUBLIC
-bool cowl_obj_has_value_iterate_signature(CowlObjHasValue *exp, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by
+ * Iterates over the objects referenced by
  * the specified individual value restriction.
  *
  * @param exp The restriction.
- * @param iter The primitive iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjHasValue
  */
 COWL_PUBLIC
-bool cowl_obj_has_value_iterate_primitives(CowlObjHasValue *exp, CowlPrimitiveIterator *iter);
+bool cowl_obj_has_value_iterate(CowlObjHasValue *exp, CowlIterator *iter);
 
 COWL_END_DECLS
 

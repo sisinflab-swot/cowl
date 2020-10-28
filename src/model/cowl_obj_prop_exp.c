@@ -51,18 +51,10 @@ cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
     return uhash_ptr_hash(exp);
 }
 
-bool cowl_obj_prop_exp_iterate_signature(CowlObjPropExp *exp, CowlEntityIterator *iter) {
+bool cowl_obj_prop_exp_iterate(CowlObjPropExp *exp, CowlIterator *iter) {
     if (cowl_obj_prop_exp_is_inverse(exp)) {
-        return cowl_inv_obj_prop_iterate_signature((CowlInvObjProp *)exp, iter);
+        return cowl_inv_obj_prop_iterate((CowlInvObjProp *)exp, iter);
     } else {
-        return cowl_obj_prop_iterate_signature((CowlObjProp *)exp, iter);
-    }
-}
-
-bool cowl_obj_prop_exp_iterate_primitives(CowlObjPropExp *exp, CowlPrimitiveIterator *iter) {
-    if (cowl_obj_prop_exp_is_inverse(exp)) {
-        return cowl_inv_obj_prop_iterate_primitives((CowlInvObjProp *)exp, iter);
-    } else {
-        return cowl_obj_prop_iterate_primitives((CowlObjProp *)exp, iter);
+        return cowl_obj_prop_iterate((CowlObjProp *)exp, iter);
     }
 }

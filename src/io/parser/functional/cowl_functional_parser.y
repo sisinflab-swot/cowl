@@ -109,12 +109,12 @@
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlOntology *> import
 %type <CowlAnnotation *> annotation
-%type <CowlAnnotValue> annotation_subject annotation_value
+%type <CowlAnnotValue *> annotation_subject annotation_value
 %type <CowlNodeID> node_id
 %type <CowlOntologyID> ontology_id
 %type <cowl_uint_t> cardinality
 
-%type <CowlEntity> entity
+%type <CowlEntity *> entity
 %type <CowlClass *> class
 %type <CowlObjProp *> object_property
 %type <CowlDataProp *> data_property
@@ -183,7 +183,7 @@
 
 %destructor { cowl_annotation_release($$); } <CowlAnnotation *>
 %destructor { cowl_annot_prop_release($$); } <CowlAnnotProp *>
-%destructor { cowl_annot_value_release($$); } <CowlAnnotValue>
+%destructor { cowl_annot_value_release($$); } <CowlAnnotValue *>
 %destructor { cowl_axiom_release($$); } <CowlAxiom *>
 %destructor { cowl_class_release($$); } <CowlClass *>
 %destructor { cowl_cls_exp_release($$); } <CowlClsExp *>
@@ -191,7 +191,7 @@
 %destructor { cowl_data_prop_exp_release($$); } <CowlDataPropExp *>
 %destructor { cowl_data_range_release($$); } <CowlDataRange *>
 %destructor { cowl_datatype_release($$); } <CowlDatatype *>
-%destructor { cowl_entity_release($$); } <CowlEntity>
+%destructor { cowl_entity_release($$); } <CowlEntity *>
 %destructor { cowl_facet_restr_release($$); } <CowlFacetRestr *>
 %destructor { cowl_individual_release($$); } <CowlIndividual *>
 %destructor { cowl_iri_release($$); } <CowlIRI *>
@@ -412,22 +412,22 @@ declaration
 
 entity
     : CLASS L_PAREN class R_PAREN {
-        $$ = cowl_entity_wrap_class($3);
+        $$ = (CowlEntity *)($3);
     }
     | DATATYPE L_PAREN datatype R_PAREN {
-        $$ = cowl_entity_wrap_datatype($3);
+        $$ = (CowlEntity *)($3);
     }
     | OBJECT_PROPERTY L_PAREN object_property R_PAREN {
-        $$ = cowl_entity_wrap_obj_prop($3);
+        $$ = (CowlEntity *)($3);
     }
     | DATA_PROPERTY L_PAREN data_property R_PAREN {
-        $$ = cowl_entity_wrap_data_prop($3);
+        $$ = (CowlEntity *)($3);
     }
     | ANNOTATION_PROPERTY L_PAREN annotation_property R_PAREN {
-        $$ = cowl_entity_wrap_annot_prop($3);
+        $$ = (CowlEntity *)($3);
     }
     | NAMED_INDIVIDUAL L_PAREN named_individual R_PAREN {
-        $$ = cowl_entity_wrap_named_ind($3);
+        $$ = (CowlEntity *)($3);
     }
 ;
 
@@ -1060,13 +1060,13 @@ annotation
 
 annotation_value
     : anonymous_individual {
-        $$ = cowl_annot_value_wrap_anon_ind($1);
+        $$ = (CowlAnnotValue *)($1);
     }
     | iri {
-        $$ = cowl_annot_value_wrap_iri($1);
+        $$ = (CowlAnnotValue *)($1);
     }
     | literal {
-        $$ = cowl_annot_value_wrap_literal($1);
+        $$ = (CowlAnnotValue *)($1);
     }
 ;
 
@@ -1090,10 +1090,10 @@ annotation_assertion
 
 annotation_subject
     : iri {
-        $$ = cowl_annot_value_wrap_iri($1);
+        $$ = (CowlAnnotValue *)($1);
     }
     | anonymous_individual {
-        $$ = cowl_annot_value_wrap_anon_ind($1);
+        $$ = (CowlAnnotValue *)($1);
     }
 ;
 

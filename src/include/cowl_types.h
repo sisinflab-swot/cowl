@@ -12,12 +12,11 @@
 #define COWL_TYPES_H
 
 #include "cowl_std.h"
-#include "cowl_annot_value.h"
+#include "cowl_annot_value_type.h"
 #include "cowl_axiom_type.h"
 #include "cowl_card_type.h"
 #include "cowl_cls_exp_type.h"
 #include "cowl_data_range_type.h"
-#include "cowl_entity.h"
 #include "cowl_entity_type.h"
 #include "cowl_facet.h"
 #include "cowl_iterator_private.h"
@@ -25,7 +24,6 @@
 #include "cowl_nary_axiom_type.h"
 #include "cowl_node_id.h"
 #include "cowl_ontology_id.h"
-#include "cowl_primitive.h"
 #include "cowl_quant_type.h"
 #include "cowl_raw_string.h"
 
@@ -35,6 +33,7 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotPropDomainAxiom);
 cowl_struct_decl(CowlAnnotPropRangeAxiom);
+cowl_struct_decl(CowlAnnotValue);
 cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlAxiom);
@@ -57,6 +56,7 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
 cowl_struct_decl(CowlDatatypeRestr);
 cowl_struct_decl(CowlDeclAxiom);
 cowl_struct_decl(CowlDisjUnionAxiom);
+cowl_struct_decl(CowlEntity);
 cowl_struct_decl(CowlFacetRestr);
 cowl_struct_decl(CowlFuncDataPropAxiom);
 cowl_struct_decl(CowlHasKeyAxiom);

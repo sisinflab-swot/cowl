@@ -4,83 +4,18 @@ Iterators
 
 .. doxygenstruct:: CowlIterator
 
-Annotation iterator
-===================
-
-.. doxygenstruct:: CowlAnnotationIterator
-
-Annotation property iterator
-============================
-
-.. doxygenstruct:: CowlAnnotPropIterator
-
-Anonymous individual iterator
-=============================
-
-.. doxygenstruct:: CowlAnonIndIterator
-
-Axiom iterator
+Iterator flags
 ==============
 
-.. doxygenstruct:: CowlAxiomIterator
-
-Class iterator
-==============
-
-.. doxygenstruct:: CowlClassIterator
-
-Class expression iterator
-=========================
-
-.. doxygenstruct:: CowlClsExpIterator
-
-Data property expression iterator
-=================================
-
-.. doxygenstruct:: CowlDataPropExpIterator
-
-Data property iterator
-======================
-
-.. doxygenstruct:: CowlDataPropIterator
-
-Datatype iterator
-=================
-
-.. doxygenstruct:: CowlDatatypeIterator
-
-Entity iterator
-===============
-
-.. doxygenstruct:: CowlEntityIterator
-
-
-Primitive iterator
-==================
-
-.. doxygenstruct:: CowlPrimitiveIterator
-
-Individual iterator
-===================
-
-.. doxygenstruct:: CowlIndividualIterator
-
-Named individual iterator
-=========================
-
-.. doxygenstruct:: CowlNamedIndIterator
-
-Object property expression iterator
-===================================
-
-.. doxygenstruct:: CowlObjPropExpIterator
-
-Object property iterator
-========================
-
-.. doxygenstruct:: CowlObjPropIterator
-
-Ontology iterator
-=================
-
-.. doxygenstruct:: CowlOntologyIterator
+.. doxygentypedef:: CowlIteratorFlags
+.. doxygendefine:: COWL_IF_NONE
+.. doxygendefine:: COWL_IF_ALL
+.. doxygendefine:: COWL_IF_CLASS
+.. doxygendefine:: COWL_IF_OBJ_PROP
+.. doxygendefine:: COWL_IF_DATA_PROP
+.. doxygendefine:: COWL_IF_ANNOT_PROP
+.. doxygendefine:: COWL_IF_NAMED_IND
+.. doxygendefine:: COWL_IF_ANON_IND
+.. doxygendefine:: COWL_IF_DATATYPE
+.. doxygendefine:: COWL_IF_ENTITY
+.. doxygendefine:: COWL_IF_PRIMITIVE

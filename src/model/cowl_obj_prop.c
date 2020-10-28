@@ -9,7 +9,6 @@
  */
 
 #include "cowl_obj_prop_private.h"
-#include "cowl_alloc.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
@@ -82,10 +81,6 @@ cowl_uint_t cowl_obj_prop_hash(CowlObjProp *prop) {
     return uhash_ptr_hash(prop);
 }
 
-bool cowl_obj_prop_iterate_signature(CowlObjProp *prop, CowlEntityIterator *iter) {
-    return cowl_iterate(iter, cowl_entity_wrap_obj_prop(prop));
-}
-
-bool cowl_obj_prop_iterate_primitives(CowlObjProp *prop, CowlPrimitiveIterator *iter) {
-    return cowl_iterate(iter, cowl_primitive_wrap_obj_prop(prop));
+bool cowl_obj_prop_iterate(CowlObjProp *prop, CowlIterator *iter) {
+    return cowl_flags_is_set(iter->flags, COWL_IF_OBJ_PROP) ? cowl_iterate(iter, prop) : true;
 }

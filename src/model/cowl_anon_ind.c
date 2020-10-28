@@ -9,7 +9,6 @@
  */
 
 #include "cowl_anon_ind_private.h"
-#include "cowl_alloc.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -75,6 +74,6 @@ cowl_uint_t cowl_anon_ind_hash(CowlAnonInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlPrimitiveIterator *iter) {
-    return cowl_iterate(iter, cowl_primitive_wrap_anon_ind(ind));
+bool cowl_anon_ind_iterate(CowlAnonInd *ind, CowlIterator *iter) {
+    return cowl_flags_is_set(iter->flags, COWL_IF_ANON_IND) ? cowl_iterate(iter, ind) : true;
 }

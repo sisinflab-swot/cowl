@@ -12,7 +12,6 @@
 #define COWL_VOCAB_UTILS_H
 
 #include "cowl_std.h"
-#include "cowl_alloc.h"
 #include "cowl_annot_prop.h"
 #include "cowl_class.h"
 #include "cowl_data_prop.h"

@@ -116,11 +116,14 @@ Pseudo-inheritance
 ------------------
 
 Since the `OWL 2 specification`_ is highly hierarchical, the API makes extensive use
-of pseudo-inheritance for structs. This means you can, for example, cast a :class:`CowlClass`
-to :class:`CowlClsExp` and back. Of course, if the API returns a base pseudo-class
-such as :class:`CowlClsExp`, and you are unsure about its concrete subclass, you can check
-its type via `get_type` functions (e.g. :func:`cowl_cls_exp_get_type()`) and cast accordingly.
-The API docs for type enumerations explicitly state the concrete struct associated with every type.
+of pseudo-inheritance for structs. Every data structure pseudo-inherits from :class:`CowlObject`,
+whose concrete type can be queried via :func:`cowl_object_get_type()`.
+Pseudo-inheritance allows you, as an example, to cast a :class:`CowlClass` to :class:`CowlClsExp`
+or :class:`CowlObject` and back. Of course, if the API returns a base pseudo-class
+such as :class:`CowlClsExp` or :class:`CowlObject`, and you are unsure about its concrete subclass,
+you can check its type via `get_type` functions (e.g. :func:`cowl_cls_exp_get_type()`)
+and cast accordingly. The API docs for type enumerations explicitly state the concrete struct
+associated with every type.
 
 .. _Bison: https://www.gnu.org/software/bison
 .. _Breathe: https://breathe.readthedocs.io

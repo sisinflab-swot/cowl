@@ -9,7 +9,6 @@
  */
 
 #include "cowl_literal_private.h"
-#include "cowl_alloc.h"
 #include "cowl_datatype.h"
 #include "cowl_hash_utils.h"
 #include "cowl_rdf_vocab.h"
@@ -109,10 +108,6 @@ cowl_uint_t cowl_literal_hash(CowlLiteral *literal) {
     return cowl_object_hash_get(literal);
 }
 
-bool cowl_literal_iterate_signature(CowlLiteral *literal, CowlEntityIterator *iter) {
-    return cowl_datatype_iterate_signature(literal->dt, iter);
-}
-
-bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveIterator *iter) {
-    return cowl_datatype_iterate_primitives(literal->dt, iter);
+bool cowl_literal_iterate(CowlLiteral *literal, CowlIterator *iter) {
+    return cowl_datatype_iterate(literal->dt, iter);
 }

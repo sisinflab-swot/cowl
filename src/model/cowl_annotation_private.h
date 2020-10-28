@@ -19,7 +19,7 @@ COWL_BEGIN_DECLS
 cowl_struct(CowlAnnotation) {
     CowlHashObject super;
     CowlAnnotProp *prop;
-    CowlAnnotValue value;
+    CowlAnnotValue *value;
     CowlAnnotationVec *annot;
 };
 

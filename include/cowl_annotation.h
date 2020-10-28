@@ -13,13 +13,14 @@
 #ifndef COWL_ANNOTATION_H
 #define COWL_ANNOTATION_H
 
-#include "cowl_annot_value.h"
 #include "cowl_iterator.h"
+#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
+cowl_struct_decl(CowlAnnotValue);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 cowl_struct_decl(CowlAnnotation);
 /// @endcond
@@ -43,7 +44,7 @@ cowl_struct_decl(CowlAnnotation);
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue value,
+CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value,
                                     CowlAnnotationVec *annot);
 
 /**
@@ -88,7 +89,7 @@ CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot);
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-CowlAnnotValue cowl_annotation_get_value(CowlAnnotation *annot);
+CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot);
 
 /**
  * Gets the annotations of the specified annotation.
@@ -138,28 +139,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot);
 
 /**
- * Iterates over the signature of the specified annotation.
+ * Iterates over the objects referenced by the specified annotation.
  *
  * @param annot The annotation.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-bool cowl_annotation_iterate_signature(CowlAnnotation *annot, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified annotation.
- *
- * @param annot The annotation.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlAnnotation
- */
-COWL_PUBLIC
-bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveIterator *iter);
+bool cowl_annotation_iterate(CowlAnnotation *annot, CowlIterator *iter);
 
 COWL_END_DECLS
 

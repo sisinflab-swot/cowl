@@ -124,28 +124,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_facet_restr_hash(CowlFacetRestr *restr);
 
 /**
- * Iterates over the signature of the specified facet restriction.
+ * Iterates over the objects referenced by specified facet restriction.
  *
  * @param restr The facet restriction.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlFacetRestr
  */
 COWL_PUBLIC
-bool cowl_facet_restr_iterate_signature(CowlFacetRestr *restr, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by specified facet restriction.
- *
- * @param restr The facet restriction.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlFacetRestr
- */
-COWL_PUBLIC
-bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlPrimitiveIterator *iter);
+bool cowl_facet_restr_iterate(CowlFacetRestr *restr, CowlIterator *iter);
 
 COWL_END_DECLS
 

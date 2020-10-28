@@ -14,21 +14,49 @@
 #define COWL_ITERATOR_H
 
 #include "cowl_std.h"
-#include "cowl_entity.h"
-#include "cowl_primitive.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlAnnotation);
-cowl_struct_decl(CowlAnonInd);
-cowl_struct_decl(CowlAxiom);
-cowl_struct_decl(CowlClsExp);
-cowl_struct_decl(CowlDataPropExp);
-cowl_struct_decl(CowlIndividual);
-cowl_struct_decl(CowlObjPropExp);
-cowl_struct_decl(CowlOntology);
+cowl_struct_decl(CowlObject);
 /// @endcond
+
+/// Iterator flags, used to control iteration.
+typedef CowlFlags(8) CowlIteratorFlags;
+
+/// All flags off.
+#define COWL_IF_NONE        cowl_flags_empty
+
+/// All flags on.
+#define COWL_IF_ALL         ((CowlIteratorFlags)-1)
+
+/// Iterate over classes.
+#define COWL_IF_CLASS       cowl_flags_bit(0)
+
+/// Iterate over object properties.
+#define COWL_IF_OBJ_PROP    cowl_flags_bit(1)
+
+/// Iterate over data properties.
+#define COWL_IF_DATA_PROP   cowl_flags_bit(2)
+
+/// Iterate over annotation properties.
+#define COWL_IF_ANNOT_PROP  cowl_flags_bit(3)
+
+/// Iterate over named individuals.
+#define COWL_IF_NAMED_IND   cowl_flags_bit(4)
+
+/// Iterate over anonymous individuals.
+#define COWL_IF_ANON_IND    cowl_flags_bit(5)
+
+/// Iterate over datatypes.
+#define COWL_IF_DATATYPE    cowl_flags_bit(6)
+
+/// Iterate over entities.
+#define COWL_IF_ENTITY      (COWL_IF_CLASS | COWL_IF_OBJ_PROP | COWL_IF_DATA_PROP | \
+                             COWL_IF_ANNOT_PROP | COWL_IF_NAMED_IND | COWL_IF_DATATYPE)
+
+/// Iterate over primitives, a collective term for entities and anonymous individuals.
+#define COWL_IF_PRIMITIVE   (COWL_IF_ENTITY | COWL_IF_ANON_IND)
 
 /**
  * Iterator API.
@@ -42,34 +70,32 @@ cowl_struct_decl(CowlOntology);
  * by returning `true` iteration goes on to the next element,
  * while returning `false` causes it to stop. This is useful if, for example,
  * you want to find the first element matching certain criteria.
- *
- * @note This is not a real data structure, though it is declared as such
- *       for better grouping in the generated documentation.
- *
- * @struct CowlIterator
  */
+typedef cowl_struct(CowlIterator) {
+
+    /// Iterator flags.
+    CowlIteratorFlags flags;
+
+    /// The iterator context, can be anything.
+    void *ctx;
+
+    /// Pointer to a function called by the iterator for every element.
+    bool (*for_each)(void *ctx, void *object);
+
+} CowlIterator;
 
 /**
- * Defines a new iterator type.
+ * Initializes an iterator.
  *
- * @param T Element base type.
- * @param PTR * for iterators to pointer elements, empty otherwise.
+ * @param FLAGS Iterator flags.
+ * @param CTX Iterator context, can be anything.
+ * @param FOR_EACH Pointer to a function called by the iterator for every element.
+ * @return Initialized iterator.
  *
- * @note Under normal circumstances you don't need to use this.
- *       It's used in the CowlIterator header to generate
- *       the concrete iterator types used throughout the API.
- *
- * @private @related CowlIterator
+ * @public @related CowlIterator
  */
-#define COWL_ITERATOR_DEF(T, PTR)                                                                   \
-    /** T PTR iterator. */                                                                          \
-    /** @extends CowlIterator */                                                                    \
-    typedef cowl_struct(T##Iterator) {                                                              \
-        /** The iterator context, can be anything. */                                               \
-        void *ctx;                                                                                  \
-        /** Pointer to a function called by the iterator for every element. */                      \
-        bool (*for_each)(void *ctx, T PTR elem);                                                    \
-    } const T##Iterator
+#define cowl_iterator_init_ex(FLAGS, CTX, FOR_EACH) \
+    ((CowlIterator){ .flags = (FLAGS), .ctx = (void *)(CTX), .for_each = (FOR_EACH) })
 
 /**
  * Initializes an iterator.
@@ -80,25 +106,7 @@ cowl_struct_decl(CowlOntology);
  *
  * @public @related CowlIterator
  */
-#define cowl_iterator_init(CTX, FOR_EACH) \
-    { .ctx = (void *)(CTX), .for_each = (FOR_EACH) }
-
-COWL_ITERATOR_DEF(CowlEntity, );
-COWL_ITERATOR_DEF(CowlPrimitive, );
-COWL_ITERATOR_DEF(CowlAxiom, *);
-COWL_ITERATOR_DEF(CowlClsExp, *);
-COWL_ITERATOR_DEF(CowlDataPropExp, *);
-COWL_ITERATOR_DEF(CowlObjPropExp, *);
-COWL_ITERATOR_DEF(CowlIndividual, *);
-COWL_ITERATOR_DEF(CowlOntology, *);
-COWL_ITERATOR_DEF(CowlAnnotProp, *);
-COWL_ITERATOR_DEF(CowlClass, *);
-COWL_ITERATOR_DEF(CowlDataProp, *);
-COWL_ITERATOR_DEF(CowlDatatype, *);
-COWL_ITERATOR_DEF(CowlObjProp, *);
-COWL_ITERATOR_DEF(CowlNamedInd, *);
-COWL_ITERATOR_DEF(CowlAnonInd, *);
-COWL_ITERATOR_DEF(CowlAnnotation, *);
+#define cowl_iterator_init(CTX, FOR_EACH) cowl_iterator_init_ex(COWL_IF_ALL, CTX, FOR_EACH)
 
 COWL_END_DECLS
 

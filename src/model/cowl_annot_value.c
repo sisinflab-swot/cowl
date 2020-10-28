@@ -12,92 +12,69 @@
 #include "cowl_anon_ind.h"
 #include "cowl_iri.h"
 #include "cowl_literal.h"
+#include "cowl_object_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-CowlAnnotValue cowl_annot_value_retain(CowlAnnotValue value) {
-
-#define GEN_CASE_RETAIN(CET, PREFIX, FIELD) \
-    case CET: PREFIX##_retain(value.FIELD); break
-
-    switch (value.type) {
-
-        GEN_CASE_RETAIN(COWL_AVT_IRI, cowl_iri, iri);
-        GEN_CASE_RETAIN(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_RETAIN(COWL_AVT_LITERAL, cowl_literal, literal);
-
-        default:
-            break;
-    }
-
-    return value;
+CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) {
+    return cowl_object_retain(value);
 }
 
-void cowl_annot_value_release(CowlAnnotValue value) {
+void cowl_annot_value_release(CowlAnnotValue *value) {
 
-#define GEN_CASE_RELEASE(CET, PREFIX, FIELD) \
-    case CET: PREFIX##_release(value.FIELD); break
+#define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)value); break
 
-    switch (value.type) {
-
-        GEN_CASE_RELEASE(COWL_AVT_IRI, cowl_iri, iri);
-        GEN_CASE_RELEASE(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_RELEASE(COWL_AVT_LITERAL, cowl_literal, literal);
-
-        default:
-            break;
+    switch (cowl_annot_value_get_type(value)) {
+        case COWL_AVT_IRI: GEN_RELEASE(IRI, iri);
+        case COWL_AVT_ANON_IND: GEN_RELEASE(AnonInd, anon_ind);
+        case COWL_AVT_LITERAL: GEN_RELEASE(Literal, literal);
+        default: break;
     }
 }
 
-CowlString* cowl_annot_value_to_string(CowlAnnotValue value)
+CowlAnnotValueType cowl_annot_value_get_type(CowlAnnotValue *value) {
+    switch (cowl_get_type(value)) {
+        case COWL_OT_IRI: return COWL_AVT_IRI;
+        case COWL_OT_I_ANONYMOUS: return COWL_AVT_ANON_IND;
+        default: return COWL_AVT_LITERAL;
+    }
+}
+
+CowlString* cowl_annot_value_to_string(CowlAnnotValue *value)
     COWL_TO_STRING_IMPL(annot_value, value)
 
-bool cowl_annot_value_equals(CowlAnnotValue lhs, CowlAnnotValue rhs) {
-    if (rhs.type != lhs.type) return false;
+bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs) {
+    if (!cowl_object_equals_impl(lhs, rhs)) return false;
 
-#define GEN_CASE_EQUALS(CET, PREFIX, FIELD) \
-    case CET: return PREFIX##_equals(lhs.FIELD, rhs.FIELD)
+#define GEN_EQUALS(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
 
-    switch (lhs.type) {
-
-        GEN_CASE_EQUALS(COWL_AVT_IRI, cowl_iri, iri);
-        GEN_CASE_EQUALS(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_EQUALS(COWL_AVT_LITERAL, cowl_literal, literal);
-
-        default:
-            return false;
+    switch (cowl_annot_value_get_type(lhs)) {
+        case COWL_AVT_IRI: GEN_EQUALS(IRI, iri);
+        case COWL_AVT_ANON_IND: GEN_EQUALS(AnonInd, anon_ind);
+        case COWL_AVT_LITERAL: GEN_EQUALS(Literal, literal);
+        default: return false;
     }
 }
 
-cowl_uint_t cowl_annot_value_hash(CowlAnnotValue value) {
+cowl_uint_t cowl_annot_value_hash(CowlAnnotValue *value) {
 
-#define GEN_CASE_HASH(CET, PREFIX, FIELD) \
-    case CET: return PREFIX##_hash(value.FIELD)
+#define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)value)
 
-    switch (value.type) {
-
-        GEN_CASE_HASH(COWL_AVT_IRI, cowl_iri, iri);
-        GEN_CASE_HASH(COWL_AVT_ANON_IND, cowl_anon_ind, anon_ind);
-        GEN_CASE_HASH(COWL_AVT_LITERAL, cowl_literal, literal);
-
-        default:
-            return 0;
+    switch (cowl_annot_value_get_type(value)) {
+        case COWL_AVT_IRI: GEN_HASH(IRI, iri);
+        case COWL_AVT_ANON_IND: GEN_HASH(AnonInd, anon_ind);
+        case COWL_AVT_LITERAL: GEN_HASH(Literal, literal);
+        default: return 0;
     }
 }
 
-bool cowl_annot_value_iterate_signature(CowlAnnotValue value, CowlEntityIterator *iter) {
-    if (value.type != COWL_AVT_LITERAL) return true;
-    return cowl_literal_iterate_signature(value.literal, iter);
-}
+bool cowl_annot_value_iterate(CowlAnnotValue *value, CowlIterator *iter) {
 
-bool cowl_annot_value_iterate_primitives(CowlAnnotValue value, CowlPrimitiveIterator *iter) {
+#define GEN_ITER(UC, LC) return cowl_##LC##_iterate((Cowl##UC *)value, iter)
 
-#define GEN_CASE_PRIM(CAT, FIELD) \
-    case CAT: return cowl_##FIELD##_iterate_primitives(value.FIELD, iter)
-
-    switch (value.type) {
-        GEN_CASE_PRIM(COWL_AVT_LITERAL, literal);
-        GEN_CASE_PRIM(COWL_AVT_ANON_IND, anon_ind);
+    switch (cowl_annot_value_get_type(value)) {
+        case COWL_AVT_ANON_IND: GEN_ITER(AnonInd, anon_ind);
+        case COWL_AVT_LITERAL: GEN_ITER(Literal, literal);
         default: return true;
     }
 }

@@ -82,19 +82,9 @@ cowl_uint_t cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_annot_prop_domain_axiom_iterate_signature(CowlAnnotPropDomainAxiom *axiom,
-                                                    CowlEntityIterator *iter) {
-    if (cowl_annot_prop_iterate_signature(axiom->prop, iter) &&
-        cowl_axiom_annot_iterate_signature(axiom, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_annot_prop_domain_axiom_iterate_primitives(CowlAnnotPropDomainAxiom *axiom,
-                                                     CowlPrimitiveIterator *iter) {
-    if (cowl_annot_prop_iterate_primitives(axiom->prop, iter) &&
-        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+bool cowl_annot_prop_domain_axiom_iterate(CowlAnnotPropDomainAxiom *axiom, CowlIterator *iter) {
+    if (cowl_annot_prop_iterate(axiom->prop, iter) &&
+        cowl_axiom_annot_iterate(axiom, iter)) {
         return true;
     }
     return false;

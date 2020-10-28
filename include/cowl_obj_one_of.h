@@ -112,28 +112,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp);
 
 /**
- * Iterates over the signature of the specified individual enumeration.
+ * Iterates over the objects referenced by the specified individual enumeration.
  *
  * @param exp The individual enumeration.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjOneOf
  */
 COWL_PUBLIC
-bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified individual enumeration.
- *
- * @param exp The individual enumeration.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjOneOf
- */
-COWL_PUBLIC
-bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveIterator *iter);
+bool cowl_obj_one_of_iterate(CowlObjOneOf *exp, CowlIterator *iter);
 
 COWL_END_DECLS
 

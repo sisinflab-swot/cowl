@@ -107,23 +107,11 @@ cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_data_prop_assert_axiom_iterate_signature(CowlDataPropAssertAxiom *axiom,
-                                                   CowlEntityIterator *iter) {
-    if (cowl_individual_iterate_signature(axiom->subject, iter) &&
-        cowl_data_prop_exp_iterate_signature(axiom->prop, iter) &&
-        cowl_literal_iterate_signature(axiom->object, iter) &&
-        cowl_axiom_annot_iterate_signature(axiom, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_data_prop_assert_axiom_iterate_primitives(CowlDataPropAssertAxiom *axiom,
-                                                    CowlPrimitiveIterator *iter) {
-    if (cowl_individual_iterate_primitives(axiom->subject, iter) &&
-        cowl_data_prop_exp_iterate_primitives(axiom->prop, iter) &&
-        cowl_literal_iterate_primitives(axiom->object, iter) &&
-        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+bool cowl_data_prop_assert_axiom_iterate(CowlDataPropAssertAxiom *axiom, CowlIterator *iter) {
+    if (cowl_individual_iterate(axiom->subject, iter) &&
+        cowl_data_prop_exp_iterate(axiom->prop, iter) &&
+        cowl_literal_iterate(axiom->object, iter) &&
+        cowl_axiom_annot_iterate(axiom, iter)) {
         return true;
     }
     return false;

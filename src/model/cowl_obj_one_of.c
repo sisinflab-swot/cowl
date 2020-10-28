@@ -9,7 +9,6 @@
  */
 
 #include "cowl_obj_one_of_private.h"
-#include "cowl_alloc.h"
 #include "cowl_hash_utils.h"
 #include "cowl_individual_set.h"
 #include "cowl_str_buf.h"
@@ -66,10 +65,6 @@ cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_obj_one_of_iterate_signature(CowlObjOneOf *exp, CowlEntityIterator *iter) {
-    return cowl_individual_set_iterate_signature(exp->inds, iter);
-}
-
-bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveIterator *iter) {
-    return cowl_individual_set_iterate_primitives(exp->inds, iter);
+bool cowl_obj_one_of_iterate(CowlObjOneOf *exp, CowlIterator *iter) {
+    return cowl_individual_set_iterate(exp->inds, iter);
 }

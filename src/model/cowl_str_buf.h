@@ -11,10 +11,7 @@
 #ifndef COWL_STR_BUF_H
 #define COWL_STR_BUF_H
 
-#include "cowl_annot_value.h"
-#include "cowl_entity.h"
 #include "cowl_node_id.h"
-#include "cowl_primitive.h"
 #include "cowl_raw_string.h"
 #include "cowl_std.h"
 #include "cowl_types.h"
@@ -48,12 +45,11 @@ cowl_ret_t cowl_str_buf_append_literal(CowlStrBuf *buf, CowlLiteral *literal);
 cowl_ret_t cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr);
 cowl_ret_t cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id);
 cowl_ret_t cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation);
-cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue value);
-cowl_ret_t cowl_str_buf_append_primitive(CowlStrBuf *buf, CowlPrimitive primitive);
+cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value);
 
 // Entities
 
-cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity entity);
+cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity *entity);
 cowl_ret_t cowl_str_buf_append_class(CowlStrBuf *buf, CowlClass *cls);
 cowl_ret_t cowl_str_buf_append_datatype(CowlStrBuf *buf, CowlDatatype *dt);
 cowl_ret_t cowl_str_buf_append_obj_prop(CowlStrBuf *buf, CowlObjProp *prop);

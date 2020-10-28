@@ -9,14 +9,14 @@
  */
 
 #include "cowl_annotation_private.h"
-#include "cowl_alloc.h"
 #include "cowl_annotation_vec.h"
 #include "cowl_annot_prop.h"
+#include "cowl_annot_value.h"
 #include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue value,
+static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue *value,
                                              CowlAnnotationVec *annot) {
     CowlAnnotation *annotation = cowl_alloc(annotation);
     if (!annotation) return NULL;
@@ -44,9 +44,9 @@ static void cowl_annotation_free(CowlAnnotation *annot) {
     cowl_free(annot);
 }
 
-CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue value,
+CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value,
                                     CowlAnnotationVec *annot) {
-    if (!prop || cowl_annot_value_is_null(value)) return NULL;
+    if (!(prop && value)) return NULL;
     return cowl_annotation_alloc(prop, value, annot);
 }
 
@@ -64,7 +64,7 @@ CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot) {
     return annot->prop;
 }
 
-CowlAnnotValue cowl_annotation_get_value(CowlAnnotation *annot) {
+CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot) {
     return annot->value;
 }
 
@@ -85,19 +85,10 @@ cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot) {
     return cowl_object_hash_get(annot);
 }
 
-bool cowl_annotation_iterate_signature(CowlAnnotation *annot, CowlEntityIterator *iter) {
-    if (cowl_annot_value_iterate_signature(annot->value, iter) &&
-        cowl_annot_prop_iterate_signature(annot->prop, iter) &&
-        cowl_annotation_vec_iterate_signature(annot->annot, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveIterator *iter) {
-    if (cowl_annot_value_iterate_primitives(annot->value, iter) &&
-        cowl_annot_prop_iterate_primitives(annot->prop, iter) &&
-        cowl_annotation_vec_iterate_primitives(annot->annot, iter)) {
+bool cowl_annotation_iterate(CowlAnnotation *annot, CowlIterator *iter) {
+    if (cowl_annot_value_iterate(annot->value, iter) &&
+        cowl_annot_prop_iterate(annot->prop, iter) &&
+        cowl_annotation_vec_iterate(annot->annot, iter)) {
         return true;
     }
     return false;

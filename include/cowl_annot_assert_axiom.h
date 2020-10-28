@@ -13,7 +13,6 @@
 #ifndef COWL_ANNOT_ASSERT_AXIOM_H
 #define COWL_ANNOT_ASSERT_AXIOM_H
 
-#include "cowl_annot_value.h"
 #include "cowl_iterator.h"
 #include "cowl_std.h"
 
@@ -21,6 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
+cowl_struct_decl(CowlAnnotValue);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 cowl_struct_decl(CowlAnnotAssertAxiom);
 cowl_struct_decl(CowlString);
@@ -47,8 +47,8 @@ cowl_struct_decl(CowlString);
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_PUBLIC
-CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue subject, CowlAnnotProp *prop,
-                                                  CowlAnnotValue value, CowlAnnotationVec *annot);
+CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
+                                                  CowlAnnotValue *value, CowlAnnotationVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -82,7 +82,7 @@ void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom);
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_PUBLIC
-CowlAnnotValue cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom);
+CowlAnnotValue* cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom);
 
 /**
  * Gets the annotation value.
@@ -93,7 +93,7 @@ CowlAnnotValue cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom);
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_PUBLIC
-CowlAnnotValue cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom);
+CowlAnnotValue* cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom);
 
 /**
  * Gets the annotation property.
@@ -154,30 +154,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_PUBLIC
-bool cowl_annot_assert_axiom_iterate_signature(CowlAnnotAssertAxiom *axiom,
-                                               CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlAnnotAssertAxiom
- */
-COWL_PUBLIC
-bool cowl_annot_assert_axiom_iterate_primitives(CowlAnnotAssertAxiom *axiom,
-                                                CowlPrimitiveIterator *iter);
+bool cowl_annot_assert_axiom_iterate(CowlAnnotAssertAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

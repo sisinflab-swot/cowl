@@ -253,8 +253,8 @@ bool cowl_test_ontology_axiom_count_for_named_ind(void) {
     return true;
 }
 
-static bool cowl_test_get_first_anon_ind(void *ctx, CowlAnonInd *ind) {
-    *((CowlAnonInd**)ctx) = ind;
+static bool cowl_test_get_first_anon_ind(void *ctx, void *obj) {
+    *((CowlAnonInd**)ctx) = obj;
     return false;
 }
 
@@ -262,7 +262,7 @@ bool cowl_test_ontology_axiom_count_for_anon_ind(void) {
     CowlOntology *onto = cowl_test_ontology_get();
     CowlAnonInd *ind = NULL;
 
-    CowlAnonIndIterator iter = cowl_iterator_init(&ind, cowl_test_get_first_anon_ind);
+    CowlIterator iter = cowl_iterator_init(&ind, cowl_test_get_first_anon_ind);
     cowl_ontology_iterate_anon_inds(onto, &iter);
 
     cowl_uint_t count = cowl_ontology_axiom_count_for_anon_ind(onto, ind);

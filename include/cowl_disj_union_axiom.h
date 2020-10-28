@@ -21,6 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_hash_decl(CowlClsExpSet);
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlDisjUnionAxiom);
 /// @endcond
 
@@ -137,29 +138,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom);
 
 /**
- * Iterates over the signature of the specified axiom.
+ * Iterates over the objects referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PUBLIC
-bool cowl_disj_union_axiom_iterate_signature(CowlDisjUnionAxiom *axiom, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDisjUnionAxiom
- */
-COWL_PUBLIC
-bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom,
-                                              CowlPrimitiveIterator *iter);
+bool cowl_disj_union_axiom_iterate(CowlDisjUnionAxiom *axiom, CowlIterator *iter);
 
 COWL_END_DECLS
 

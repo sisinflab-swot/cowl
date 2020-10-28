@@ -99,7 +99,7 @@ static cowl_ret_t cowl_logger_free(CowlLogger *logger) {
     return ret;
 }
 
-static bool imports_logger(void *ctx, CowlOntology *import) {
+static bool imports_logger(void *ctx, void *import) {
     CowlLoggerCtx *lctx = ctx;
     cowl_ret_t ret;
 
@@ -112,7 +112,7 @@ static bool imports_logger(void *ctx, CowlOntology *import) {
     if (iri) {
         if ((ret = cowl_logger_consume(lctx->logger, cowl_iri_to_string(iri)))) goto end;
     } else {
-        if ((ret = cowl_logger_logf(lctx->logger, "anon(%p)", (void *)import))) goto end;
+        if ((ret = cowl_logger_logf(lctx->logger, "anon(%p)", import))) goto end;
     }
 
     if ((ret = cowl_logger_logs(lctx->logger, ")"))) goto end;
@@ -122,11 +122,11 @@ end:
     return ret == COWL_OK;
 }
 
-static bool entity_logger(void *ctx, CowlEntity entity) {
+static bool entity_logger(void *ctx, void *obj) {
     CowlLoggerCtx *lctx = ctx;
     cowl_ret_t ret;
 
-    if ((ret = cowl_logger_consume(lctx->logger, cowl_entity_to_string(entity)))) goto end;
+    if ((ret = cowl_logger_consume(lctx->logger, cowl_entity_to_string(obj)))) goto end;
     if ((ret = cowl_logger_logs(lctx->logger, "\n"))) goto end;
 
 end:
@@ -134,11 +134,11 @@ end:
     return ret == COWL_OK;
 }
 
-static bool axiom_logger(void *ctx, CowlAxiom *axiom) {
+static bool axiom_logger(void *ctx, void *obj) {
     CowlLoggerCtx *lctx = ctx;
     cowl_ret_t ret;
 
-    if ((ret = cowl_logger_consume(lctx->logger, cowl_axiom_to_string(axiom)))) goto end;
+    if ((ret = cowl_logger_consume(lctx->logger, cowl_axiom_to_string(obj)))) goto end;
     if ((ret = cowl_logger_logs(lctx->logger, "\n"))) goto end;
 
 end:
@@ -154,7 +154,7 @@ static cowl_ret_t cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntolo
     if ((ret = cowl_logger_consume(logger, cowl_ontology_id_to_string(onto->id)))) return ret;
 
     CowlLoggerCtx ctx = cowl_logger_ctx_init(logger);
-    CowlOntologyIterator iter = cowl_iterator_init(&ctx, imports_logger);
+    CowlIterator iter = cowl_iterator_init(&ctx, imports_logger);
     cowl_ontology_iterate_imports(onto, &iter);
     if ((ret = ctx.ret)) return ret;
 
@@ -257,14 +257,14 @@ cowl_ret_t cowl_logger_consume(CowlLogger *logger, CowlString *string) {
 
 cowl_ret_t cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto) {
     CowlLoggerCtx ctx = cowl_logger_ctx_init(logger);
-    CowlEntityIterator iter = cowl_iterator_init(&ctx, entity_logger);
-    cowl_ontology_iterate_signature(onto, &iter);
+    CowlIterator iter = cowl_iterator_init_ex(COWL_IF_ENTITY, &ctx, entity_logger);
+    cowl_ontology_iterate(onto, &iter);
     return ctx.ret;
 }
 
 cowl_ret_t cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto) {
     CowlLoggerCtx ctx = cowl_logger_ctx_init(logger);
-    CowlAxiomIterator iter = cowl_iterator_init(&ctx, axiom_logger);
+    CowlIterator iter = cowl_iterator_init(&ctx, axiom_logger);
     cowl_ontology_iterate_axioms(onto, &iter);
     return ctx.ret;
 }

@@ -34,16 +34,9 @@ cowl_uint_t cowl_annotation_vec_hash(CowlAnnotationVec *vec) {
     return hash;
 }
 
-bool cowl_annotation_vec_iterate_signature(CowlAnnotationVec *vec, CowlEntityIterator *iter) {
+bool cowl_annotation_vec_iterate(CowlAnnotationVec *vec, CowlIterator *iter) {
     vector_foreach(CowlAnnotationPtr, vec, annot, {
-        if (!cowl_annotation_iterate_signature(annot, iter)) return false;
-    });
-    return true;
-}
-
-bool cowl_annotation_vec_iterate_primitives(CowlAnnotationVec *vec, CowlPrimitiveIterator *iter) {
-    vector_foreach(CowlAnnotationPtr, vec, annot, {
-        if (!cowl_annotation_iterate_primitives(annot, iter)) return false;
+        if (!cowl_annotation_iterate(annot, iter)) return false;
     });
     return true;
 }

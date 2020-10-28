@@ -48,7 +48,6 @@ int main(void) {
         cowl_logger_log_ontology(logger, ontology);
     }
 
-end:
     vector_deinit(errors);
     cowl_ontology_release(ontology);
     cowl_logger_release(logger);

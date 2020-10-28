@@ -9,7 +9,6 @@
  */
 
 #include "cowl_class_private.h"
-#include "cowl_alloc.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_str_buf.h"
@@ -85,10 +84,6 @@ cowl_uint_t cowl_class_hash(CowlClass *cls) {
     return cowl_object_hash_get(cls);
 }
 
-bool cowl_class_iterate_signature(CowlClass *cls, CowlEntityIterator *iter) {
-    return cowl_iterate(iter, cowl_entity_wrap_class(cls));
-}
-
-bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveIterator *iter) {
-    return cowl_iterate(iter, cowl_primitive_wrap_class(cls));
+bool cowl_class_iterate(CowlClass *cls, CowlIterator *iter) {
+    return cowl_flags_is_set(iter->flags, COWL_IF_CLASS) ? cowl_iterate(iter, cls) : true;
 }

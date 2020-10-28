@@ -135,28 +135,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind);
 
 /**
- * Iterates over the signature of the specified named individual.
+ * Iterates over the objects referenced by the specified named individual.
  *
  * @param ind The named individual.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlNamedInd
  */
 COWL_PUBLIC
-bool cowl_named_ind_iterate_signature(CowlNamedInd *ind, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified named individual.
- *
- * @param ind The named individual.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlNamedInd
- */
-COWL_PUBLIC
-bool cowl_named_ind_iterate_primitives(CowlNamedInd *ind, CowlPrimitiveIterator *iter);
+bool cowl_named_ind_iterate(CowlNamedInd *ind, CowlIterator *iter);
 
 COWL_END_DECLS
 

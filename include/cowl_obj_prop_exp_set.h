@@ -66,28 +66,16 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_exp_set_hash(CowlObjPropExpSet *set);
 
 /**
- * Iterates over the signature of the specified set.
+ * Iterates over the objects referenced by the specified set.
  *
  * @param set The set.
- * @param iter The entity iterator.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjPropExpSet
  */
 COWL_PUBLIC
-bool cowl_obj_prop_exp_set_iterate_signature(CowlObjPropExpSet *set, CowlEntityIterator *iter);
-
-/**
- * Iterates over the primitives referenced by the specified set.
- *
- * @param set The set.
- * @param iter The primitive iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjPropExpSet
- */
-COWL_PUBLIC
-bool cowl_obj_prop_exp_set_iterate_primitives(CowlObjPropExpSet *set, CowlPrimitiveIterator *iter);
+bool cowl_obj_prop_exp_set_iterate(CowlObjPropExpSet *set, CowlIterator *iter);
 
 COWL_END_DECLS
 

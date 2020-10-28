@@ -9,12 +9,11 @@
  */
 
 #include "cowl_decl_axiom_private.h"
-#include "cowl_iterator_private.h"
-#include "cowl_macros.h"
+#include "cowl_entity.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity entity, CowlAnnotationVec *annot) {
+static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlAnnotationVec *annot) {
     CowlDeclAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -35,8 +34,7 @@ static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
     cowl_axiom_free(axiom);
 }
 
-CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity entity, CowlAnnotationVec *annot) {
-    if (!(cowl_enum_value_is_valid(ET, entity.type) && entity.owl_class)) return NULL;
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlAnnotationVec *annot) {
     return cowl_decl_axiom_alloc(entity, annot);
 }
 
@@ -50,7 +48,7 @@ void cowl_decl_axiom_release(CowlDeclAxiom *axiom) {
     }
 }
 
-CowlEntity cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
+CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
     return axiom->entity;
 }
 
@@ -69,17 +67,9 @@ cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_decl_axiom_iterate_signature(CowlDeclAxiom *axiom, CowlEntityIterator *iter) {
-    if (cowl_iterate(iter, axiom->entity) &&
-        cowl_axiom_annot_iterate_signature(axiom, iter)) {
-        return true;
-    }
-    return false;
-}
-
-bool cowl_decl_axiom_iterate_primitives(CowlDeclAxiom *axiom, CowlPrimitiveIterator *iter) {
-    if (cowl_iterate(iter, cowl_primitive_from_entity(axiom->entity)) &&
-        cowl_axiom_annot_iterate_primitives(axiom, iter)) {
+bool cowl_decl_axiom_iterate(CowlDeclAxiom *axiom, CowlIterator *iter) {
+    if (cowl_entity_iterate(axiom->entity, iter) &&
+        cowl_axiom_annot_iterate(axiom, iter)) {
         return true;
     }
     return false;
