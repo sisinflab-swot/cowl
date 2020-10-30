@@ -58,7 +58,7 @@ static void cowl_iri_free(CowlIRI *iri) {
 }
 
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
-    if (!(ns && (ns = cowl_string_get_intern(ns, false)))) return NULL;
+    if (!(ns && (ns = cowl_string_intern(ns)))) return NULL;
     COWL_INST_TBL_GET_IMPL(IRI, iri, ((CowlIRI){ .ns = ns, .rem = rem }), cowl_iri_alloc(ns, rem))
 }
 

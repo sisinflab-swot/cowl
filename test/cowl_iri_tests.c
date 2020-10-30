@@ -69,6 +69,7 @@ bool cowl_test_iri_to_string_no_brackets(void) {
     cowl_assert_equal_str(cowl_string_get_cstring(str), COWL_TEST_IRI,
                           "String representation without brackets");
     cowl_string_release(str);
+    cowl_iri_release(iri);
 
     return true;
 }

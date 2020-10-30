@@ -23,6 +23,11 @@
 } while(0)
 
 int main(void) {
+
+#if COWL_DEBUG_LEAKS
+    cowl_leak_debug_init();
+#endif
+
     cowl_api_init();
 
     int exit_code = EXIT_SUCCESS;
@@ -42,6 +47,20 @@ int main(void) {
     } else {
         printf("Some tests failed.\n");
     }
+
+#if COWL_DEBUG_LEAKS
+    cowl_uint_t leaks = cowl_leak_debug_count();
+
+    if (leaks) {
+        printf("Detected %" COWL_UINT_FMT " leaked objects.\n", leaks);
+        cowl_leak_debug_print();
+        exit_code = EXIT_FAILURE;
+    } else {
+        printf("No leaks detected.\n");
+    }
+
+    cowl_leak_debug_deinit();
+#endif
 
     return exit_code;
 }

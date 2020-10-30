@@ -52,26 +52,14 @@ static void cowl_string_free(CowlString *string) {
     cowl_free(string);
 }
 
-CowlString* cowl_string_get_intern(CowlString *string, bool copy) {
-    if (!(string && string->raw_string.length)) return cowl_string_get_empty();
+CowlString* cowl_string_intern(CowlString *string) {
+    if (!(string && string->raw_string.length)) return empty;
 
     uhash_uint_t idx;
     uhash_ret_t ret = uhash_put(CowlStringTable, str_tbl, string, &idx);
 
-    if (ret == UHASH_INSERTED) {
-        if (copy) {
-            string = cowl_string_copy(string);
-            if (string) {
-                uhash_key(str_tbl, idx) = string;
-            } else {
-                uhash_delete(CowlStringTable, str_tbl, idx);
-            }
-        }
-    } else if (ret == UHASH_PRESENT) {
-        string = uhash_key(str_tbl, idx);
-        (void)cowl_object_retain(string);
-    } else {
-        string = NULL;
+    if (ret != UHASH_INSERTED) {
+        string = (ret == UHASH_PRESENT) ? uhash_key(str_tbl, idx) : NULL;
     }
 
     return string;

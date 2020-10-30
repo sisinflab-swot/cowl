@@ -51,6 +51,8 @@ bool cowl_test_string_equals(void) {
 
     b = cowl_string_from_static(COWL_TEST_STRING "_2");
     cowl_assert_not_equal(string, a, b, "String");
+
+    cowl_string_release(a);
     cowl_string_release(b);
 
     return true;
@@ -86,12 +88,12 @@ bool cowl_test_string_concat(void) {
 
 bool cowl_test_string_get_intern(void) {
     CowlString *a = cowl_string_from_static(COWL_TEST_STRING);
-    a = cowl_string_get_intern(a, false);
+    CowlString *ai = cowl_string_intern(a);
 
     CowlString *b = cowl_string_from_static(COWL_TEST_STRING);
-    b = cowl_string_get_intern(b, false);
+    CowlString *bi = cowl_string_intern(b);
 
-    cowl_assert(a == b, "Equal interned strings must be pointers to the same instance.");
+    cowl_assert(ai == bi, "Equal interned strings must be pointers to the same instance.");
 
     cowl_string_release(a);
     cowl_string_release(b);

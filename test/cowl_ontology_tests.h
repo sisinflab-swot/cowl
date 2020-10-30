@@ -15,6 +15,9 @@
 
 COWL_BEGIN_DECLS
 
+bool cowl_test_ontology_init(void);
+bool cowl_test_ontology_deinit(void);
+
 bool cowl_test_ontology_get_id(void);
 bool cowl_test_ontology_axiom_count(void);
 bool cowl_test_ontology_imports_count(void);
@@ -36,6 +39,7 @@ bool cowl_test_ontology_axiom_count_for_named_ind(void);
 bool cowl_test_ontology_axiom_count_for_anon_ind(void);
 
 #define COWL_ONTOLOGY_TESTS                                                                         \
+    cowl_test_ontology_init,                                                                        \
     cowl_test_ontology_get_id,                                                                      \
     cowl_test_ontology_axiom_count,                                                                 \
     cowl_test_ontology_imports_count,                                                               \
@@ -53,7 +57,8 @@ bool cowl_test_ontology_axiom_count_for_anon_ind(void);
     cowl_test_ontology_axiom_count_for_data_prop,                                                   \
     cowl_test_ontology_axiom_count_for_annot_prop,                                                  \
     cowl_test_ontology_axiom_count_for_named_ind,                                                   \
-    cowl_test_ontology_axiom_count_for_anon_ind
+    cowl_test_ontology_axiom_count_for_anon_ind,                                                    \
+    cowl_test_ontology_deinit
 
 COWL_END_DECLS
 

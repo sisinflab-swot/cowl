@@ -4,7 +4,7 @@
 
 # CMake
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.16)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 
 # Project
@@ -103,23 +103,34 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
+option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks. Keep off in production builds." OFF)
 set(COWL_MALLOC malloc CACHE STRING "malloc function override")
 set(COWL_REALLOC realloc CACHE STRING "realloc function override")
 set(COWL_FREE free CACHE STRING "free function override")
+
+if(COWL_DEBUG_LEAKS)
+    set(COWL_MALLOC_FN cowl_leak_debug_alloc)
+    set(COWL_REALLOC_FN cowl_leak_debug_realloc)
+    set(COWL_FREE_FN cowl_leak_debug_free)
+else()
+    set(COWL_MALLOC_FN ${COWL_MALLOC})
+    set(COWL_REALLOC_FN ${COWL_REALLOC})
+    set(COWL_FREE_FN ${COWL_FREE})
+endif()
 
 # Defaults
 
 set(COWL_COMPILE_FEATURES c_std_11)
 list(APPEND COWL_PUBLIC_DEFINES
-     cowl_malloc=${COWL_MALLOC}
-     cowl_realloc=${COWL_REALLOC}
-     cowl_free=${COWL_FREE}
-     VECTOR_MALLOC=${COWL_MALLOC}
-     VECTOR_REALLOC=${COWL_REALLOC}
-     VECTOR_FREE=${COWL_FREE}
-     UHASH_MALLOC=${COWL_MALLOC}
-     UHASH_REALLOC=${COWL_REALLOC}
-     UHASH_FREE=${COWL_FREE})
+     cowl_malloc=${COWL_MALLOC_FN}
+     cowl_realloc=${COWL_REALLOC_FN}
+     cowl_free=${COWL_FREE_FN}
+     VECTOR_MALLOC=${COWL_MALLOC_FN}
+     VECTOR_REALLOC=${COWL_REALLOC_FN}
+     VECTOR_FREE=${COWL_FREE_FN}
+     UHASH_MALLOC=${COWL_MALLOC_FN}
+     UHASH_REALLOC=${COWL_REALLOC_FN}
+     UHASH_FREE=${COWL_FREE_FN})
 
 if(MSVC)
     set(COWL_WARNING_OPTIONS /W3 /wd4996)
@@ -189,6 +200,10 @@ if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-static PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
+if(COWL_DEBUG_LEAKS)
+    target_precompile_headers(cowl-static PUBLIC "${COWL_TEST_DIR}/cowl_leak_debug.h")
+endif()
+
 # Shared library
 
 add_library(cowl-shared SHARED EXCLUDE_FROM_ALL
@@ -214,6 +229,10 @@ add_dependencies(cowl-shared cowl-headers)
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-shared PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+endif()
+
+if(COWL_DEBUG_LEAKS)
+    target_precompile_headers(cowl-shared PUBLIC "${COWL_TEST_DIR}/cowl_leak_debug.h")
 endif()
 
 # Subprojects

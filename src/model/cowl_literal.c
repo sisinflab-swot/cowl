@@ -49,7 +49,7 @@ static void cowl_literal_free(CowlLiteral *literal) {
 
 CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     if (!value) return NULL;
-    return cowl_literal_alloc(dt, value, cowl_string_get_intern(lang, false));
+    return cowl_literal_alloc(dt, value, cowl_string_intern(lang));
 }
 
 CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRawString lang) {
@@ -65,11 +65,13 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRaw
     }
 
     CowlString *val_s = value.length ? cowl_string_get(value.cstring, value.length, true) : NULL;
+    CowlString *lang_s = lang.length ? cowl_string_get(lang.cstring, lang.length, true) : NULL;
+    CowlLiteral *literal = cowl_literal_alloc(dt, val_s, cowl_string_intern(lang_s));
 
-    CowlString key = cowl_string_init(lang);
-    CowlString *lang_s = cowl_string_get_intern(&key, true);
+    cowl_string_release(lang_s);
+    cowl_string_release(val_s);
 
-    return cowl_literal_alloc(dt, val_s, lang_s);
+    return literal;
 }
 
 CowlLiteral* cowl_literal_retain(CowlLiteral *literal) {

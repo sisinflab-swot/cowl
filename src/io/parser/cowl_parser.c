@@ -26,7 +26,7 @@ static CowlParser* cowl_parser_alloc(void) {
         .super = COWL_OBJECT_INIT(COWL_OT_PARSER),
         .prefix_ns_map = uhmap_alloc(CowlStringTable),
         .node_id_map = uhmap_alloc(CowlNodeIdMap),
-        .ontology = cowl_ontology_get()
+        .ontology = NULL
     };
 
     return parser;
@@ -64,6 +64,7 @@ void cowl_parser_release(CowlParser *parser) {
 
 CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
                                          Vector(CowlError) *errors) {
+    parser->ontology = cowl_ontology_get();
     parser->errors = errors;
 
     if (cowl_functional_lex_init(&parser->scanner)) return NULL;
