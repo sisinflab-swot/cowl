@@ -76,6 +76,32 @@ cowl_ret_t cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, 
 
 // Misc
 
+cowl_ret_t cowl_str_buf_append_object(CowlStrBuf *buf, CowlObject *obj) {
+    if (cowl_object_is_entity(obj)) {
+        return cowl_str_buf_append_entity(buf, (CowlEntity *)obj);
+    } else if (cowl_object_is_axiom(obj)) {
+        return cowl_str_buf_append_axiom(buf, (CowlAxiom *)obj);
+    } else if (cowl_object_is_cls_exp(obj)) {
+        return cowl_str_buf_append_cls_exp(buf, (CowlClsExp *)obj);
+    } else if (cowl_object_is_obj_prop_exp(obj)) {
+        return cowl_str_buf_append_obj_prop_exp(buf, (CowlObjPropExp *)obj);
+    } else if (cowl_object_is_data_prop_exp(obj)) {
+        return cowl_str_buf_append_data_prop_exp(buf, (CowlDataPropExp *)obj);
+    } else if (cowl_object_is_individual(obj)) {
+        return cowl_str_buf_append_individual(buf, (CowlIndividual *)obj);
+    } else if (cowl_object_is_data_range(obj)) {
+        return cowl_str_buf_append_data_range(buf, (CowlDataRange *)obj);
+    }
+    switch (cowl_object_get_type(obj)) {
+        case COWL_OT_STRING: return cowl_str_buf_append_string(buf, (CowlString *)obj);
+        case COWL_OT_IRI: return cowl_str_buf_append_iri(buf, (CowlIRI *)obj);
+        case COWL_OT_LITERAL: return cowl_str_buf_append_literal(buf, (CowlLiteral *)obj);
+        case COWL_OT_FACET_RESTR: return cowl_str_buf_append_facet_restr(buf, (CowlFacetRestr *)obj);
+        case COWL_OT_ANNOTATION: return cowl_str_buf_append_annotation(buf, (CowlAnnotation *)obj);
+        default: return COWL_OK;
+    }
+}
+
 cowl_ret_t cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri) {
     if (cowl_str_buf_append_static(buf, "<") ||
         cowl_str_buf_append_iri_no_brackets(buf, iri) ||
@@ -676,8 +702,7 @@ cowl_ret_t cowl_str_buf_append_axiom(CowlStrBuf *buf, CowlAxiom *axiom) {
             return cowl_str_buf_append_sub_obj_prop_axiom(buf, (CowlSubObjPropAxiom *)axiom);
 
         case COWL_AT_SUB_OBJ_PROP_CHAIN:
-            return cowl_str_buf_append_sub_obj_prop_chain_axiom(buf,
-                                                                (CowlSubObjPropChainAxiom *)axiom);
+            return cowl_str_buf_append_sub_obj_prop_chain_axiom(buf, (CowlSubObjPropChainAxiom *)axiom);
 
         case COWL_AT_INV_OBJ_PROP:
             return cowl_str_buf_append_inv_obj_prop_axiom(buf, (CowlInvObjPropAxiom *)axiom);
@@ -1315,7 +1340,10 @@ cowl_ret_t cowl_str_buf_append_obj_prop_exp_vec(CowlStrBuf *buf, CowlObjPropExpV
 
 CowlRawString cowl_str_buf_to_raw_string(CowlStrBuf *buf) {
     cowl_uint_t length = vector_count(buf);
-    if (!(buf && length)) return COWL_RAW_STRING_NULL;
+    if (!(buf && length)) {
+        cowl_str_buf_free(buf);
+        return COWL_RAW_STRING_NULL;
+    }
 
     char *buffer = cowl_str_buf_free_get_storage(buf);
     char *cstring = cowl_realloc(buffer, length + 1);

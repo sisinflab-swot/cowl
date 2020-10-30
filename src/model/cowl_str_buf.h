@@ -38,6 +38,7 @@ cowl_ret_t cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, 
 
 // Misc
 
+cowl_ret_t cowl_str_buf_append_object(CowlStrBuf *buf, CowlObject *obj);
 cowl_ret_t cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri);
 cowl_ret_t cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri);
 cowl_ret_t cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID id);
