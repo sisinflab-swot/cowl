@@ -8,8 +8,6 @@
  * @file
  */
 
-#include "cowl_leak_debug.h"
-
 #undef UHASH_MALLOC
 #undef UHASH_REALLOC
 #undef UHASH_FREE
@@ -18,10 +16,8 @@
 #define UHASH_REALLOC realloc
 #define UHASH_FREE free
 
-#include "uhash.h"
 #include "cowl_api.h"
-
-#include <stdio.h>
+#include "cowl_object_private.h"
 
 typedef void* CowlAllocPtr;
 UHASH_INIT(CowlAllocTable, CowlAllocPtr, UHASH_VAL_IGNORE, uhash_ptr_hash, uhash_identical)
@@ -42,14 +38,18 @@ cowl_uint_t cowl_leak_debug_count(void) {
 }
 
 void cowl_leak_debug_print(void) {
-    cowl_uint_t i = 0;
+    unsigned i = 0;
     CowlLogger *logger = cowl_logger_console_get();
 
     uhash_foreach_key(CowlAllocTable, alloc_table, obj, {
-        if (!obj) continue;
-        CowlObjectType t = cowl_object_get_type(obj);
-        cowl_logger_logf(logger, "Leak %" COWL_UINT_FMT ": %p <possible type %d>\n", i++, obj, t);
+        if (!obj || obj == logger) continue;
+        CowlObjectType type = cowl_object_get_type(obj);
+        cowl_uint_t ref = cowl_object_get_ref_count(obj);
+        char const fmt[] = "Leak %u: %p <type: %d, ref: %" COWL_UINT_FMT ">\n";
+        cowl_logger_logf(logger, fmt, ++i, obj, type, ref);
     });
+
+    cowl_logger_release(logger);
 }
 
 void* cowl_leak_debug_alloc(size_t size) {
