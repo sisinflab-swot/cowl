@@ -21,9 +21,9 @@ void cowl_leak_debug_deinit(void);
 cowl_uint_t cowl_leak_debug_count(void);
 void cowl_leak_debug_print(void);
 
-void* cowl_leak_debug_alloc(size_t size);
-void* cowl_leak_debug_realloc(void *ptr, size_t size);
-void cowl_leak_debug_free(void *ptr);
+void* cowl_custom_malloc(size_t size);
+void* cowl_custom_realloc(void *ptr, size_t size);
+void cowl_custom_free(void *ptr);
 
 COWL_END_DECLS
 

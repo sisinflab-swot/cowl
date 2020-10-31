@@ -52,13 +52,13 @@ void cowl_leak_debug_print(void) {
     cowl_logger_release(logger);
 }
 
-void* cowl_leak_debug_alloc(size_t size) {
+void* cowl_custom_malloc(size_t size) {
     void *ptr = malloc(size);
     uhset_insert(CowlAllocTable, alloc_table, ptr);
     return ptr;
 }
 
-void* cowl_leak_debug_realloc(void *ptr, size_t size) {
+void* cowl_custom_realloc(void *ptr, size_t size) {
     void *new_ptr = realloc(ptr, size);
 
     if (ptr != new_ptr) {
@@ -69,7 +69,7 @@ void* cowl_leak_debug_realloc(void *ptr, size_t size) {
     return new_ptr;
 }
 
-void cowl_leak_debug_free(void *ptr) {
+void cowl_custom_free(void *ptr) {
     uhset_remove(CowlAllocTable, alloc_table, ptr);
     free(ptr);
 }

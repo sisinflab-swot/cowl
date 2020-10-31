@@ -24,7 +24,7 @@
 
 int main(void) {
 
-#if COWL_DEBUG_LEAKS
+#ifdef COWL_DEBUG_LEAKS
     cowl_leak_debug_init();
 #endif
 
@@ -48,7 +48,7 @@ int main(void) {
         printf("Some tests failed.\n");
     }
 
-#if COWL_DEBUG_LEAKS
+#ifdef COWL_DEBUG_LEAKS
     cowl_uint_t leaks = cowl_leak_debug_count();
 
     if (leaks) {

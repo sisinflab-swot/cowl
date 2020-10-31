@@ -104,23 +104,32 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
 option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks. Keep off in production builds." OFF)
-set(COWL_MALLOC malloc CACHE STRING "malloc function override")
-set(COWL_REALLOC realloc CACHE STRING "realloc function override")
-set(COWL_FREE free CACHE STRING "free function override")
-
-if(COWL_DEBUG_LEAKS)
-    set(COWL_MALLOC_FN cowl_leak_debug_alloc)
-    set(COWL_REALLOC_FN cowl_leak_debug_realloc)
-    set(COWL_FREE_FN cowl_leak_debug_free)
-else()
-    set(COWL_MALLOC_FN ${COWL_MALLOC})
-    set(COWL_REALLOC_FN ${COWL_REALLOC})
-    set(COWL_FREE_FN ${COWL_FREE})
-endif()
+set(COWL_ALLOC_HEADERS "" CACHE STRING "Header files that declare custom allocation primitives.")
+set(COWL_ALLOC_SOURCES "" CACHE STRING "Source files that implement custom allocation primitives.")
 
 # Defaults
 
 set(COWL_COMPILE_FEATURES c_std_11)
+
+if(COWL_DEBUG_LEAKS)
+    file(GLOB COWL_ALLOC_HEADERS CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.h")
+    file(GLOB COWL_ALLOC_SOURCES CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.c")
+endif()
+
+if(COWL_ALLOC_HEADERS)
+    set(COWL_MALLOC_FN cowl_custom_malloc)
+    set(COWL_REALLOC_FN cowl_custom_realloc)
+    set(COWL_FREE_FN cowl_custom_free)
+else()
+    set(COWL_MALLOC_FN malloc)
+    set(COWL_REALLOC_FN realloc)
+    set(COWL_FREE_FN free)
+endif()
+
+if(COWL_ALLOC_SOURCES)
+    list(APPEND COWL_SOURCES ${COWL_ALLOC_SOURCES})
+endif()
+
 list(APPEND COWL_PUBLIC_DEFINES
      cowl_malloc=${COWL_MALLOC_FN}
      cowl_realloc=${COWL_REALLOC_FN}
@@ -193,15 +202,12 @@ target_compile_definitions(cowl-static
 target_include_directories(cowl-static
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
+target_precompile_headers(cowl-static PUBLIC ${COWL_ALLOC_HEADERS})
 target_link_libraries(cowl-static PUBLIC vector uhash)
 add_dependencies(cowl-static cowl-headers)
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-static PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
-endif()
-
-if(COWL_DEBUG_LEAKS)
-    target_precompile_headers(cowl-static PUBLIC "${COWL_TEST_DIR}/cowl_leak_debug.h")
 endif()
 
 # Shared library
@@ -224,15 +230,12 @@ target_compile_definitions(cowl-shared
 target_include_directories(cowl-shared
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
+target_precompile_headers(cowl-shared PUBLIC ${COWL_ALLOC_HEADERS})
 target_link_libraries(cowl-shared PUBLIC vector uhash)
 add_dependencies(cowl-shared cowl-headers)
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl-shared PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
-endif()
-
-if(COWL_DEBUG_LEAKS)
-    target_precompile_headers(cowl-shared PUBLIC "${COWL_TEST_DIR}/cowl_leak_debug.h")
 endif()
 
 # Subprojects
