@@ -81,11 +81,9 @@ cowl_uint_t cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_datatype_def_axiom_iterate(CowlDatatypeDefAxiom *axiom, CowlIterator *iter) {
-    if (cowl_datatype_iterate(axiom->datatype, iter) &&
-        cowl_data_range_iterate(axiom->range, iter) &&
-        cowl_axiom_annot_iterate(axiom, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_datatype_def_axiom_iterate_primitives(CowlDatatypeDefAxiom *axiom, CowlIterator *iter,
+                                                CowlPrimitiveFlags flags) {
+    return (cowl_datatype_iterate_primitives(axiom->datatype, iter, flags) &&
+            cowl_data_range_iterate_primitives(axiom->range, iter, flags) &&
+            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
 }

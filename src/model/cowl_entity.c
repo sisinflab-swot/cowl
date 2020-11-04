@@ -85,9 +85,10 @@ cowl_uint_t cowl_entity_hash(CowlEntity *entity) {
     }
 }
 
-bool cowl_entity_iterate(CowlEntity *entity, CowlIterator *iter) {
+bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlIterator *iter,
+                                    CowlPrimitiveFlags flags) {
 
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate((Cowl##UC *)entity, iter)
+#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)entity, iter, flags)
 
     switch (cowl_entity_get_type(entity)) {
         case COWL_ET_CLASS: GEN_ITER(Class, class);

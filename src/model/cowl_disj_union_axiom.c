@@ -80,11 +80,9 @@ cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_disj_union_axiom_iterate(CowlDisjUnionAxiom *axiom, CowlIterator *iter) {
-    if (cowl_class_iterate(axiom->cls, iter) &&
-        cowl_cls_exp_set_iterate(axiom->disjoints, iter) &&
-        cowl_axiom_annot_iterate(axiom, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom, CowlIterator *iter,
+                                              CowlPrimitiveFlags flags) {
+    return (cowl_class_iterate_primitives(axiom->cls, iter, flags) &&
+            cowl_cls_exp_set_iterate_primitives(axiom->disjoints, iter, flags) &&
+            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
 }

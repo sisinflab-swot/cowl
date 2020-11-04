@@ -100,16 +100,17 @@ COWL_PUBLIC
 cowl_uint_t cowl_axiom_hash(CowlAxiom *axiom);
 
 /**
- * Iterates over the objects referenced by the specified axiom.
+ * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAxiom
  */
 COWL_PUBLIC
-bool cowl_axiom_iterate(CowlAxiom *axiom, CowlIterator *iter);
+bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlIterator *iter, CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

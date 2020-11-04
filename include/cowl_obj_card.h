@@ -154,17 +154,19 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr);
 
 /**
- * Iterates over the objects referenced by
+ * Iterates over the primitives referenced by
  * the specified object property cardinality restriction.
  *
  * @param restr The restriction.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
-bool cowl_obj_card_iterate(CowlObjCard *restr, CowlIterator *iter);
+bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlIterator *iter,
+                                      CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

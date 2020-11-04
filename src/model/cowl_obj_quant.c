@@ -79,10 +79,8 @@ cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_obj_quant_iterate(CowlObjQuant *restr, CowlIterator *iter) {
-    if (cowl_obj_prop_exp_iterate(restr->prop, iter) &&
-        cowl_cls_exp_iterate(restr->filler, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags) {
+    return (cowl_obj_prop_exp_iterate_primitives(restr->prop, iter, flags) &&
+            cowl_cls_exp_iterate_primitives(restr->filler, iter, flags));
 }

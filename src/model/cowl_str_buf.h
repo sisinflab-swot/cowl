@@ -48,20 +48,18 @@ cowl_ret_t cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id);
 cowl_ret_t cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation);
 cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value);
 
-// Entities
+// Entities and Primitives
 
 cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity *entity);
+cowl_ret_t cowl_str_buf_append_primitive(CowlStrBuf *buf, CowlPrimitive *primitive);
 cowl_ret_t cowl_str_buf_append_class(CowlStrBuf *buf, CowlClass *cls);
 cowl_ret_t cowl_str_buf_append_datatype(CowlStrBuf *buf, CowlDatatype *dt);
 cowl_ret_t cowl_str_buf_append_obj_prop(CowlStrBuf *buf, CowlObjProp *prop);
 cowl_ret_t cowl_str_buf_append_data_prop(CowlStrBuf *buf, CowlDataProp *prop);
 cowl_ret_t cowl_str_buf_append_annot_prop(CowlStrBuf *buf, CowlAnnotProp *prop);
 cowl_ret_t cowl_str_buf_append_named_ind(CowlStrBuf *buf, CowlNamedInd *ind);
-
-// Individuals
-
-cowl_ret_t cowl_str_buf_append_individual(CowlStrBuf *buf, CowlIndividual *ind);
 cowl_ret_t cowl_str_buf_append_anon_ind(CowlStrBuf *buf, CowlAnonInd *ind);
+cowl_ret_t cowl_str_buf_append_individual(CowlStrBuf *buf, CowlIndividual *ind);
 
 // Object property expressions
 

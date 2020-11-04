@@ -135,16 +135,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_data_prop_hash(CowlDataProp *prop);
 
 /**
- * Iterates over the objects referenced by the specified data property.
+ * Iterates over this data property.
  *
  * @param prop The data property.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataProp
  */
 COWL_PUBLIC
-bool cowl_data_prop_iterate(CowlDataProp *prop, CowlIterator *iter);
+bool cowl_data_prop_iterate_primitives(CowlDataProp *prop, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

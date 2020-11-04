@@ -36,6 +36,7 @@ cowl_uint_t cowl_data_prop_exp_hash(CowlDataPropExp *exp) {
     return cowl_data_prop_hash((CowlDataProp *)exp);
 }
 
-bool cowl_data_prop_exp_iterate(CowlDataPropExp *exp, CowlIterator *iter) {
-    return cowl_data_prop_iterate((CowlDataProp *)exp, iter);
+bool cowl_data_prop_exp_iterate_primitives(CowlDataPropExp *exp, CowlIterator *iter,
+                                           CowlPrimitiveFlags flags) {
+    return cowl_data_prop_iterate_primitives((CowlDataProp *)exp, iter, flags);
 }

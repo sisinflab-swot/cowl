@@ -27,9 +27,10 @@ cowl_uint_t cowl_data_range_set_hash(CowlDataRangeSet *set) {
     return uhset_hash(CowlDataRangeSet, set);
 }
 
-bool cowl_data_range_set_iterate(CowlDataRangeSet *set, CowlIterator *iter) {
+bool cowl_data_range_set_iterate_primitives(CowlDataRangeSet *set, CowlIterator *iter,
+                                            CowlPrimitiveFlags flags) {
     uhash_foreach_key(CowlDataRangeSet, set, range, {
-        if (!cowl_data_range_iterate(range, iter)) return false;
+        if (!cowl_data_range_iterate_primitives(range, iter, flags)) return false;
     });
     return true;
 }

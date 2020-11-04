@@ -34,9 +34,10 @@ cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec) {
     return hash;
 }
 
-bool cowl_obj_prop_exp_vec_iterate(CowlObjPropExpVec *vec, CowlIterator *iter) {
+bool cowl_obj_prop_exp_vec_iterate_primitives(CowlObjPropExpVec *vec, CowlIterator *iter,
+                                              CowlPrimitiveFlags flags) {
     vector_foreach(CowlObjPropExpPtr, vec, prop, {
-        if (!cowl_obj_prop_exp_iterate(prop, iter)) return false;
+        if (!cowl_obj_prop_exp_iterate_primitives(prop, iter, flags)) return false;
     });
     return true;
 }

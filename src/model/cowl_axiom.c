@@ -151,9 +151,10 @@ cowl_uint_t cowl_axiom_hash(CowlAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_axiom_iterate(CowlAxiom *axiom, CowlIterator *iter) {
+bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlIterator *iter, CowlPrimitiveFlags flags) {
 
-#define GEN_ITER(UC, LC) return cowl_##LC##_axiom_iterate((Cowl##UC##Axiom *)axiom, iter)
+#define GEN_ITER(UC, LC) \
+    return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)axiom, iter, flags)
 
     switch (cowl_axiom_get_type(axiom)) {
         case COWL_AT_DECL: GEN_ITER(Decl, decl);

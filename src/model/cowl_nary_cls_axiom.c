@@ -75,10 +75,8 @@ cowl_uint_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_nary_cls_axiom_iterate(CowlNAryClsAxiom *axiom, CowlIterator *iter) {
-    if (cowl_cls_exp_set_iterate(axiom->classes, iter) &&
-        cowl_axiom_annot_iterate(axiom, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_nary_cls_axiom_iterate_primitives(CowlNAryClsAxiom *axiom, CowlIterator *iter,
+                                            CowlPrimitiveFlags flags) {
+    return (cowl_cls_exp_set_iterate_primitives(axiom->classes, iter, flags) &&
+            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
 }

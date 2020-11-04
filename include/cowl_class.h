@@ -135,16 +135,17 @@ COWL_PUBLIC
 cowl_uint_t cowl_class_hash(CowlClass *cls);
 
 /**
- * Iterates over the objects referenced by the specified class.
+ * Iterates over this class.
  *
  * @param cls The class.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlClass
  */
 COWL_PUBLIC
-bool cowl_class_iterate(CowlClass *cls, CowlIterator *iter);
+bool cowl_class_iterate_primitives(CowlClass *cls, CowlIterator *iter, CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

@@ -134,16 +134,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_datatype_hash(CowlDatatype *dt);
 
 /**
- * Iterates over the objects referenced by the specified datatype.
+ * Iterates over this datatype.
  *
  * @param dt The datatype.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDatatype
  */
 COWL_PUBLIC
-bool cowl_datatype_iterate(CowlDatatype *dt, CowlIterator *iter);
+bool cowl_datatype_iterate_primitives(CowlDatatype *dt, CowlIterator *iter,
+                                      CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

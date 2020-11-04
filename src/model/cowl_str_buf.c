@@ -194,7 +194,7 @@ cowl_ret_t cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *valu
     }
 }
 
-// Entities
+// Entities and Primitives
 
 cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity *entity) {
     switch (cowl_entity_get_type(entity)) {
@@ -204,6 +204,19 @@ cowl_ret_t cowl_str_buf_append_entity(CowlStrBuf *buf, CowlEntity *entity) {
         case COWL_ET_DATA_PROP: return cowl_str_buf_append_data_prop(buf, (CowlDataProp *)entity);
         case COWL_ET_ANNOT_PROP: return cowl_str_buf_append_annot_prop(buf, (CowlAnnotProp *)entity);
         case COWL_ET_NAMED_IND: return cowl_str_buf_append_named_ind(buf, (CowlNamedInd *)entity);
+        default: return COWL_ERR;
+    }
+}
+
+cowl_ret_t cowl_str_buf_append_primitive(CowlStrBuf *buf, CowlPrimitive *primitive) {
+    switch (cowl_primitive_get_type(primitive)) {
+        case COWL_PT_CLASS: return cowl_str_buf_append_class(buf, (CowlClass *)primitive);
+        case COWL_PT_DATATYPE: return cowl_str_buf_append_datatype(buf, (CowlDatatype *)primitive);
+        case COWL_PT_OBJ_PROP: return cowl_str_buf_append_obj_prop(buf, (CowlObjProp *)primitive);
+        case COWL_PT_DATA_PROP: return cowl_str_buf_append_data_prop(buf, (CowlDataProp *)primitive);
+        case COWL_PT_ANNOT_PROP: return cowl_str_buf_append_annot_prop(buf, (CowlAnnotProp *)primitive);
+        case COWL_PT_NAMED_IND: return cowl_str_buf_append_named_ind(buf, (CowlNamedInd *)primitive);
+        case COWL_PT_ANON_IND: return cowl_str_buf_append_anon_ind(buf, (CowlAnonInd *)primitive);
         default: return COWL_ERR;
     }
 }
@@ -272,16 +285,6 @@ cowl_ret_t cowl_str_buf_append_named_ind(CowlStrBuf *buf, CowlNamedInd *ind) {
     return COWL_OK;
 }
 
-// Individuals
-
-cowl_ret_t cowl_str_buf_append_individual(CowlStrBuf *buf, CowlIndividual *ind) {
-    if (cowl_individual_is_named(ind)) {
-        return cowl_str_buf_append_named_ind(buf, (CowlNamedInd *)ind);
-    } else {
-        return cowl_str_buf_append_anon_ind(buf, (CowlAnonInd *)ind);
-    }
-}
-
 cowl_ret_t cowl_str_buf_append_anon_ind(CowlStrBuf *buf, CowlAnonInd *ind) {
     if (cowl_str_buf_append_static(buf, "Anonymous") ||
         cowl_str_buf_append_static(buf, "Individual") ||
@@ -291,6 +294,14 @@ cowl_ret_t cowl_str_buf_append_anon_ind(CowlStrBuf *buf, CowlAnonInd *ind) {
         return COWL_ERR_MEM;
     }
     return COWL_OK;
+}
+
+cowl_ret_t cowl_str_buf_append_individual(CowlStrBuf *buf, CowlIndividual *ind) {
+    if (cowl_individual_is_named(ind)) {
+        return cowl_str_buf_append_named_ind(buf, (CowlNamedInd *)ind);
+    } else {
+        return cowl_str_buf_append_anon_ind(buf, (CowlAnonInd *)ind);
+    }
 }
 
 // Object property expressions

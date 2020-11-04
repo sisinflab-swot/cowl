@@ -154,16 +154,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom);
 
 /**
- * Iterates over the objects referenced by the specified axiom.
+ * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_PUBLIC
-bool cowl_annot_assert_axiom_iterate(CowlAnnotAssertAxiom *axiom, CowlIterator *iter);
+bool cowl_annot_assert_axiom_iterate_primitives(CowlAnnotAssertAxiom *axiom, CowlIterator *iter,
+                                                CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

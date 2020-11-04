@@ -71,6 +71,7 @@ cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_nary_bool_iterate(CowlNAryBool *exp, CowlIterator *iter) {
-    return cowl_cls_exp_set_iterate(exp->operands, iter);
+bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags) {
+    return cowl_cls_exp_set_iterate_primitives(exp->operands, iter, flags);
 }

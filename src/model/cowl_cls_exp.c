@@ -95,9 +95,10 @@ cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_cls_exp_iterate(CowlClsExp *exp, CowlIterator *iter) {
+bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlIterator *iter,
+                                     CowlPrimitiveFlags flags) {
 
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate((Cowl##UC *)exp, iter)
+#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)exp, iter, flags)
 
     switch (cowl_cls_exp_get_type(exp)) {
         case COWL_CET_CLASS: GEN_ITER(Class, class);

@@ -126,16 +126,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom);
 
 /**
- * Iterates over the objects referenced by the specified axiom.
+ * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_PUBLIC
-bool cowl_func_data_prop_axiom_iterate(CowlFuncDataPropAxiom *axiom, CowlIterator *iter);
+bool cowl_func_data_prop_axiom_iterate_primitives(CowlFuncDataPropAxiom *axiom, CowlIterator *iter,
+                                                  CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

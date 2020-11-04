@@ -113,16 +113,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_anon_ind_hash(CowlAnonInd *ind);
 
 /**
- * Iterates over the objects referenced by this anonymous individual.
+ * Iterates over the primitives referenced by this anonymous individual.
  *
  * @param ind The anonymous individual.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-bool cowl_anon_ind_iterate(CowlAnonInd *ind, CowlIterator *iter);
+bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlIterator *iter,
+                                      CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

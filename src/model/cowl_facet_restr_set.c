@@ -27,9 +27,10 @@ cowl_uint_t cowl_facet_restr_set_hash(CowlFacetRestrSet *set) {
     return uhset_hash(CowlFacetRestrSet, set);
 }
 
-bool cowl_facet_restr_set_iterate(CowlFacetRestrSet *set, CowlIterator *iter) {
+bool cowl_facet_restr_set_iterate_primitives(CowlFacetRestrSet *set, CowlIterator *iter,
+                                             CowlPrimitiveFlags flags) {
     uhash_foreach_key(CowlFacetRestrSet, set, restr, {
-        if (!cowl_facet_restr_iterate(restr, iter)) return false;
+        if (!cowl_facet_restr_iterate_primitives(restr, iter, flags)) return false;
     });
     return true;
 }

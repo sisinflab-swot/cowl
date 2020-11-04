@@ -112,16 +112,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range);
 
 /**
- * Iterates over the objects referenced by the specified literal enumeration.
+ * Iterates over the primitives referenced by the specified literal enumeration.
  *
  * @param range The literal enumeration.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataOneOf
  */
 COWL_PUBLIC
-bool cowl_data_one_of_iterate(CowlDataOneOf *range, CowlIterator *iter);
+bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlIterator *iter,
+                                         CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

@@ -134,16 +134,17 @@ COWL_PUBLIC
 cowl_uint_t cowl_annot_prop_hash(CowlAnnotProp *prop);
 
 /**
- * Iterates over the objects referenced by the specified annotation property.
+ * Iterates over this annotation property.
  *
  * @param prop The annotation property.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotProp
  */
 COWL_PUBLIC
-bool cowl_annot_prop_iterate(CowlAnnotProp *prop, CowlIterator *iter);
+bool cowl_annot_prop_iterate_primitives(CowlAnnotProp *prop, CowlIterator *iter, CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

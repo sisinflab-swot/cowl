@@ -74,10 +74,8 @@ cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_data_has_value_iterate(CowlDataHasValue *restr, CowlIterator *iter) {
-    if (cowl_data_prop_exp_iterate(restr->prop, iter) &&
-        cowl_literal_iterate(restr->value, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_data_has_value_iterate_primitives(CowlDataHasValue *restr, CowlIterator *iter,
+                                            CowlPrimitiveFlags flags) {
+    return (cowl_data_prop_exp_iterate_primitives(restr->prop, iter, flags) &&
+            cowl_literal_iterate_primitives(restr->value, iter, flags));
 }

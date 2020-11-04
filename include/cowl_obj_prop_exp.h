@@ -111,16 +111,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp);
 
 /**
- * Iterates over the objects referenceed by the specified object property expression.
+ * Iterates over the primitives referenced by the specified object property expression.
  *
  * @param exp The object property expression.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjPropExp
  */
 COWL_PUBLIC
-bool cowl_obj_prop_exp_iterate(CowlObjPropExp *exp, CowlIterator *iter);
+bool cowl_obj_prop_exp_iterate_primitives(CowlObjPropExp *exp, CowlIterator *iter,
+                                          CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

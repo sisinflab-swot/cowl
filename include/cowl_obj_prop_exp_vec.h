@@ -67,16 +67,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec);
 
 /**
- * Iterates over the objects referenced by the specified vector.
+ * Iterates over the primitives referenced by the specified vector.
  *
  * @param vec The vector.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjPropExpVec
  */
 COWL_PUBLIC
-bool cowl_obj_prop_exp_vec_iterate(CowlObjPropExpVec *vec, CowlIterator *iter);
+bool cowl_obj_prop_exp_vec_iterate_primitives(CowlObjPropExpVec *vec, CowlIterator *iter,
+                                              CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

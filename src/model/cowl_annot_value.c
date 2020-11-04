@@ -68,9 +68,10 @@ cowl_uint_t cowl_annot_value_hash(CowlAnnotValue *value) {
     }
 }
 
-bool cowl_annot_value_iterate(CowlAnnotValue *value, CowlIterator *iter) {
+bool cowl_annot_value_iterate_primitives(CowlAnnotValue *value, CowlIterator *iter,
+                                         CowlPrimitiveFlags flags) {
 
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate((Cowl##UC *)value, iter)
+#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)value, iter, flags)
 
     switch (cowl_annot_value_get_type(value)) {
         case COWL_AVT_ANON_IND: GEN_ITER(AnonInd, anon_ind);

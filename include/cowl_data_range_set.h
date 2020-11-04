@@ -66,16 +66,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_data_range_set_hash(CowlDataRangeSet *set);
 
 /**
- * Iterates over the objects referenced by the specified set.
+ * Iterates over the primitives referenced by the specified set.
  *
  * @param set The set.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataRangeSet
  */
 COWL_PUBLIC
-bool cowl_data_range_set_iterate(CowlDataRangeSet *set, CowlIterator *iter);
+bool cowl_data_range_set_iterate_primitives(CowlDataRangeSet *set, CowlIterator *iter,
+                                            CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

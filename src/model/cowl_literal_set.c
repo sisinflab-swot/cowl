@@ -27,9 +27,10 @@ cowl_uint_t cowl_literal_set_hash(CowlLiteralSet *set) {
     return uhset_hash(CowlLiteralSet, set);
 }
 
-bool cowl_literal_set_iterate(CowlLiteralSet *set, CowlIterator *iter) {
+bool cowl_literal_set_iterate_primitives(CowlLiteralSet *set, CowlIterator *iter,
+                                         CowlPrimitiveFlags flags) {
     uhash_foreach_key(CowlLiteralSet, set, literal, {
-        if (!cowl_literal_iterate(literal, iter)) return false;
+        if (!cowl_literal_iterate_primitives(literal, iter, flags)) return false;
     });
     return true;
 }

@@ -112,17 +112,19 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *exp);
 
 /**
- * Iterates over the objects referenced by
+ * Iterates over the primitives referenced by
  * the specified class expression complement.
  *
  * @param exp The complement.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjCompl
  */
 COWL_PUBLIC
-bool cowl_obj_compl_iterate(CowlObjCompl *exp, CowlIterator *iter);
+bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

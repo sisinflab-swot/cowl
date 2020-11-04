@@ -27,9 +27,10 @@ cowl_uint_t cowl_individual_set_hash(CowlIndividualSet *set) {
     return uhset_hash(CowlIndividualSet, set);
 }
 
-bool cowl_individual_set_iterate(CowlIndividualSet *set, CowlIterator *iter) {
+bool cowl_individual_set_iterate_primitives(CowlIndividualSet *set, CowlIterator *iter,
+                                            CowlPrimitiveFlags flags) {
     uhash_foreach_key(CowlIndividualSet, set, ind, {
-        if (!cowl_individual_iterate(ind, iter)) return false;
+        if (!cowl_individual_iterate_primitives(ind, iter, flags)) return false;
     });
     return true;
 }

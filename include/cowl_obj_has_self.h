@@ -112,16 +112,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_obj_has_self_hash(CowlObjHasSelf *exp);
 
 /**
- * Iterates over the objects referenced by the specified self-restriction.
+ * Iterates over the primitives referenced by the specified self-restriction.
  *
  * @param exp The restriction.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjHasSelf
  */
 COWL_PUBLIC
-bool cowl_obj_has_self_iterate(CowlObjHasSelf *exp, CowlIterator *iter);
+bool cowl_obj_has_self_iterate_primitives(CowlObjHasSelf *exp, CowlIterator *iter,
+                                          CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

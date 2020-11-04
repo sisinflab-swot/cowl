@@ -81,11 +81,9 @@ cowl_uint_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_obj_prop_range_axiom_iterate(CowlObjPropRangeAxiom *axiom, CowlIterator *iter) {
-    if (cowl_obj_prop_exp_iterate(axiom->prop_exp, iter) &&
-        cowl_cls_exp_iterate(axiom->range, iter) &&
-        cowl_axiom_annot_iterate(axiom, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_obj_prop_range_axiom_iterate_primitives(CowlObjPropRangeAxiom *axiom,
+                                                  CowlIterator *iter, CowlPrimitiveFlags flags) {
+    return (cowl_obj_prop_exp_iterate_primitives(axiom->prop_exp, iter, flags) &&
+            cowl_cls_exp_iterate_primitives(axiom->range, iter, flags) &&
+            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
 }

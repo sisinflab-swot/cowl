@@ -65,9 +65,10 @@ cowl_uint_t cowl_data_range_hash(CowlDataRange *range) {
     return cowl_object_hash_get(range);
 }
 
-bool cowl_data_range_iterate(CowlDataRange *range, CowlIterator *iter) {
+bool cowl_data_range_iterate_primitives(CowlDataRange *range, CowlIterator *iter,
+                                        CowlPrimitiveFlags flags) {
 
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate((Cowl##UC *)range, iter)
+#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)range, iter, flags)
 
     switch (cowl_data_range_get_type(range)) {
         case COWL_DRT_DATATYPE: GEN_ITER(Datatype, datatype);

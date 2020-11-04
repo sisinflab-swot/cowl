@@ -43,10 +43,11 @@ cowl_uint_t cowl_individual_hash(CowlIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_individual_iterate(CowlIndividual *ind, CowlIterator *iter) {
+bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlIterator *iter,
+                                        CowlPrimitiveFlags flags) {
     if (cowl_individual_is_named(ind)) {
-        return cowl_named_ind_iterate((CowlNamedInd *)ind, iter);
+        return cowl_named_ind_iterate_primitives((CowlNamedInd *)ind, iter, flags);
     } else {
-        return cowl_anon_ind_iterate((CowlAnonInd *)ind, iter);
+        return cowl_anon_ind_iterate_primitives((CowlAnonInd *)ind, iter, flags);
     }
 }

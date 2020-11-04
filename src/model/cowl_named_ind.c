@@ -81,6 +81,7 @@ cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_named_ind_iterate(CowlNamedInd *ind, CowlIterator *iter) {
-    return cowl_flags_is_set(iter->flags, COWL_IF_NAMED_IND) ? cowl_iterate(iter, ind) : true;
+bool cowl_named_ind_iterate_primitives(CowlNamedInd *ind, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags) {
+    return cowl_flags_is_set(flags, COWL_PF_NAMED_IND) ? cowl_iterate(iter, ind) : true;
 }

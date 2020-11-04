@@ -103,6 +103,8 @@
 #include "cowl_ontology_id.h"
 #include "cowl_owl_vocab.h"
 #include "cowl_parser.h"
+#include "cowl_primitive.h"
+#include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_rdfs_vocab.h"

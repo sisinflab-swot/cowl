@@ -84,6 +84,6 @@ cowl_uint_t cowl_class_hash(CowlClass *cls) {
     return cowl_object_hash_get(cls);
 }
 
-bool cowl_class_iterate(CowlClass *cls, CowlIterator *iter) {
-    return cowl_flags_is_set(iter->flags, COWL_IF_CLASS) ? cowl_iterate(iter, cls) : true;
+bool cowl_class_iterate_primitives(CowlClass *cls, CowlIterator *iter, CowlPrimitiveFlags flags) {
+    return cowl_flags_is_set(flags, COWL_PF_CLASS) ? cowl_iterate(iter, cls) : true;
 }

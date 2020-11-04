@@ -63,6 +63,7 @@ cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_obj_compl_iterate(CowlObjCompl *exp, CowlIterator *iter) {
-    return cowl_cls_exp_iterate(exp->operand, iter);
+bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags) {
+    return cowl_cls_exp_iterate_primitives(exp->operand, iter, flags);
 }

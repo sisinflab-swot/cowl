@@ -125,16 +125,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_nary_data_hash(CowlNAryData *range);
 
 /**
- * Iterates over the objects referenced by the specified N-ary data range.
+ * Iterates over the primitives referenced by the specified N-ary data range.
  *
  * @param range The data range.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlNAryData
  */
 COWL_PUBLIC
-bool cowl_nary_data_iterate(CowlNAryData *range, CowlIterator *iter);
+bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

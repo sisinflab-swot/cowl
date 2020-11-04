@@ -80,11 +80,9 @@ cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_cls_assert_axiom_iterate(CowlClsAssertAxiom *axiom, CowlIterator *iter) {
-    if (cowl_individual_iterate(axiom->ind, iter) &&
-        cowl_cls_exp_iterate(axiom->cls_exp, iter) &&
-        cowl_axiom_annot_iterate(axiom, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_cls_assert_axiom_iterate_primitives(CowlClsAssertAxiom *axiom, CowlIterator *iter,
+                                              CowlPrimitiveFlags flags) {
+    return (cowl_individual_iterate_primitives(axiom->ind, iter, flags) &&
+            cowl_cls_exp_iterate_primitives(axiom->cls_exp, iter, flags) &&
+            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
 }

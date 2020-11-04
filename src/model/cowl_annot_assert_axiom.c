@@ -90,12 +90,10 @@ cowl_uint_t cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_annot_assert_axiom_iterate(CowlAnnotAssertAxiom *axiom, CowlIterator *iter) {
-    if (cowl_annot_prop_iterate(axiom->prop, iter) &&
-        cowl_annot_value_iterate(axiom->subject, iter) &&
-        cowl_annot_value_iterate(axiom->value, iter) &&
-        cowl_axiom_annot_iterate(axiom, iter)) {
-        return true;
-    }
-    return false;
+bool cowl_annot_assert_axiom_iterate_primitives(CowlAnnotAssertAxiom *axiom, CowlIterator *iter,
+                                                CowlPrimitiveFlags flags) {
+    return (cowl_annot_prop_iterate_primitives(axiom->prop, iter, flags) &&
+            cowl_annot_value_iterate_primitives(axiom->subject, iter, flags) &&
+            cowl_annot_value_iterate_primitives(axiom->value, iter, flags) &&
+            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
 }

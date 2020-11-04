@@ -140,16 +140,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_data_quant_hash(CowlDataQuant *restr);
 
 /**
- * Iterates over the objects referenced by the specified data quantifier.
+ * Iterates over the primitives referenced by the specified data quantifier.
  *
  * @param restr The data quantifier.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataQuant
  */
 COWL_PUBLIC
-bool cowl_data_quant_iterate(CowlDataQuant *restr, CowlIterator *iter);
+bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlIterator *iter,
+                                        CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

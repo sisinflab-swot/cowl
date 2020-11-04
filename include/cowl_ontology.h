@@ -306,16 +306,18 @@ COWL_PUBLIC
 cowl_uint_t cowl_ontology_anon_inds_count(CowlOntology *onto);
 
 /**
- * Iterates over the objects referenced by the specified ontology.
+ * Iterates over the primitives referenced by the specified ontology.
  *
  * @param onto The ontology.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate(CowlOntology *onto, CowlIterator *iter);
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlIterator *iter,
+                                      CowlPrimitiveFlags flags);
 
 /**
  * Iterates over the imported ontologies.

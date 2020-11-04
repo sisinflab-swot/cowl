@@ -185,47 +185,48 @@ COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlAnnotProp, annot_prop, annot_props)
 COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlNamedInd, named_ind, named_inds)
 COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlAnonInd, anon_ind, anon_inds)
 
-bool cowl_ontology_iterate(CowlOntology *onto, CowlIterator *iter) {
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlIterator *iter,
+                                      CowlPrimitiveFlags flags) {
 
-    if (cowl_flags_is_set(iter->flags, COWL_IF_CLASS)) {
+    if (cowl_flags_is_set(flags, COWL_PF_CLASS)) {
         uhash_foreach_key(CowlClassAxiomMap, onto->class_refs, cls, {
-            if (!cowl_class_iterate(cls, iter)) return false;
+            if (!cowl_class_iterate_primitives(cls, iter, flags)) return false;
         });
     }
 
-    if (cowl_flags_is_set(iter->flags, COWL_IF_DATATYPE)) {
+    if (cowl_flags_is_set(flags, COWL_PF_DATATYPE)) {
         uhash_foreach_key(CowlDatatypeAxiomMap, onto->datatype_refs, dt, {
-            if (!cowl_datatype_iterate(dt, iter)) return false;
+            if (!cowl_datatype_iterate_primitives(dt, iter, flags)) return false;
         });
     }
 
-    if (cowl_flags_is_set(iter->flags, COWL_IF_OBJ_PROP)) {
+    if (cowl_flags_is_set(flags, COWL_PF_OBJ_PROP)) {
         uhash_foreach_key(CowlObjPropAxiomMap, onto->obj_prop_refs, prop, {
-            if (!cowl_obj_prop_iterate(prop, iter)) return false;
+            if (!cowl_obj_prop_iterate_primitives(prop, iter, flags)) return false;
         });
     }
 
-    if (cowl_flags_is_set(iter->flags, COWL_IF_DATA_PROP)) {
+    if (cowl_flags_is_set(flags, COWL_PF_DATA_PROP)) {
         uhash_foreach_key(CowlDataPropAxiomMap, onto->data_prop_refs, prop, {
-            if (!cowl_data_prop_iterate(prop, iter)) return false;
+            if (!cowl_data_prop_iterate_primitives(prop, iter, flags)) return false;
         });
     }
 
-    if (cowl_flags_is_set(iter->flags, COWL_IF_ANNOT_PROP)) {
+    if (cowl_flags_is_set(flags, COWL_PF_ANNOT_PROP)) {
         uhash_foreach_key(CowlAnnotPropAxiomMap, onto->annot_prop_refs, prop, {
-            if (!cowl_annot_prop_iterate(prop, iter)) return false;
+            if (!cowl_annot_prop_iterate_primitives(prop, iter, flags)) return false;
         });
     }
 
-    if (cowl_flags_is_set(iter->flags, COWL_IF_NAMED_IND)) {
+    if (cowl_flags_is_set(flags, COWL_PF_NAMED_IND)) {
         uhash_foreach_key(CowlNamedIndAxiomMap, onto->named_ind_refs, ind, {
-            if (!cowl_named_ind_iterate(ind, iter)) return false;
+            if (!cowl_named_ind_iterate_primitives(ind, iter, flags)) return false;
         });
     }
 
-    if (cowl_flags_is_set(iter->flags, COWL_IF_ANON_IND)) {
+    if (cowl_flags_is_set(flags, COWL_PF_ANON_IND)) {
         uhash_foreach_key(CowlAnonIndAxiomMap, onto->anon_ind_refs, ind, {
-            if (!cowl_anon_ind_iterate(ind, iter)) return false;
+            if (!cowl_anon_ind_iterate_primitives(ind, iter, flags)) return false;
         });
     }
 
@@ -422,7 +423,9 @@ cowl_ret_t cowl_ontology_set_annot(CowlOntology *onto, Vector(CowlAnnotationPtr)
 
     CowlAxiomCtx ctx = { .onto = onto };
     CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_axiom_adder);
-    if (!cowl_annotation_vec_iterate(annot, &iter) && ctx.ret) return COWL_ERR_MEM;
+    if (!cowl_annotation_vec_iterate_primitives(annot, &iter, COWL_PF_ALL) && ctx.ret) {
+        return COWL_ERR_MEM;
+    }
     return COWL_OK;
 }
 
@@ -433,7 +436,9 @@ cowl_ret_t cowl_ontology_set_imports(CowlOntology *onto, Vector(CowlOntologyPtr)
     CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_adder);
 
     vector_foreach(CowlOntologyPtr, imports, import, {
-        if (!cowl_ontology_iterate(import, &iter) && ctx.ret) return COWL_ERR_MEM;
+        if (!cowl_ontology_iterate_primitives(import, &iter, COWL_PF_ALL) && ctx.ret) {
+            return COWL_ERR_MEM;
+        }
     });
 
     return COWL_OK;
@@ -470,7 +475,7 @@ cowl_ret_t cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     cowl_axiom_retain(axiom);
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_axiom_adder);
-    if (!cowl_axiom_iterate(axiom, &iter) && ctx.ret) return COWL_ERR_MEM;
+    if (!cowl_axiom_iterate_primitives(axiom, &iter, COWL_PF_ALL) && ctx.ret) return COWL_ERR_MEM;
 
     return COWL_OK;
 }

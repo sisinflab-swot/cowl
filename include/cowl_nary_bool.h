@@ -127,17 +127,19 @@ COWL_PUBLIC
 cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp);
 
 /**
- * Iterates over the objects referenced by
+ * Iterates over the primitives referenced by
  * the specified N-ary boolean class expression.
  *
  * @param exp The expression.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlNAryBool
  */
 COWL_PUBLIC
-bool cowl_nary_bool_iterate(CowlNAryBool *exp, CowlIterator *iter);
+bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlIterator *iter,
+                                       CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

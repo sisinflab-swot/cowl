@@ -257,8 +257,8 @@ cowl_ret_t cowl_logger_consume(CowlLogger *logger, CowlString *string) {
 
 cowl_ret_t cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto) {
     CowlLoggerCtx ctx = cowl_logger_ctx_init(logger);
-    CowlIterator iter = cowl_iterator_init_ex(COWL_IF_ENTITY, &ctx, entity_logger);
-    cowl_ontology_iterate(onto, &iter);
+    CowlIterator iter = cowl_iterator_init(&ctx, entity_logger);
+    cowl_ontology_iterate_primitives(onto, &iter, COWL_PF_ENTITY);
     return ctx.ret;
 }
 

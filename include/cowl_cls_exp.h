@@ -100,16 +100,17 @@ COWL_PUBLIC
 cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp);
 
 /**
- * Iterates over the objects referenced by the specified class expression.
+ * Iterates over the primitives referenced by the specified class expression.
  *
  * @param exp The class expression.
  * @param iter The iterator.
+ * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlClsExp
  */
 COWL_PUBLIC
-bool cowl_cls_exp_iterate(CowlClsExp *exp, CowlIterator *iter);
+bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlIterator *iter, CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 
