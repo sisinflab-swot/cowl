@@ -28,3 +28,8 @@ CMake variable as the paths to header and source files implementing your custom 
 .. doxygendefine:: cowl_realloc
 .. doxygendefine:: cowl_free
 .. doxygendefine:: cowl_alloc
+
+Library version
+===============
+
+.. doxygenstruct:: CowlVersion

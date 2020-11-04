@@ -9,10 +9,15 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 
 # Project
 
+set(COWL_VERSION_MAJOR 0)
+set(COWL_VERSION_MINOR 3)
+set(COWL_VERSION_PATCH 0)
+set(COWL_VERSION "${COWL_VERSION_MAJOR}.${COWL_VERSION_MINOR}.${COWL_VERSION_PATCH}")
+
 project(Cowl
-        VERSION 0.3.0
+        VERSION "${COWL_VERSION}"
         DESCRIPTION "A lightweight C API for working with OWL ontologies."
-        HOMEPAGE_URL "http://sisinflab.poliba.it/swottools/cowl"
+        HOMEPAGE_URL "http://swot.sisinflab.poliba.it/cowl"
         LANGUAGES C)
 
 set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
@@ -136,6 +141,11 @@ list(APPEND COWL_PUBLIC_DEFINES
      UHASH_MALLOC=${COWL_MALLOC_FN}
      UHASH_REALLOC=${COWL_REALLOC_FN}
      UHASH_FREE=${COWL_FREE_FN})
+
+list(APPEND COWL_PRIVATE_DEFINES
+     COWL_VERSION_MAJOR=${COWL_VERSION_MAJOR}
+     COWL_VERSION_MINOR=${COWL_VERSION_MINOR}
+     COWL_VERSION_PATCH=${COWL_VERSION_PATCH})
 
 if(MSVC)
     set(COWL_WARNING_OPTIONS /W3 /wd4996)

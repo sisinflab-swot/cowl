@@ -26,6 +26,7 @@
 #include "cowl_ontology_id.h"
 #include "cowl_quant_type.h"
 #include "cowl_raw_string.h"
+#include "cowl_version.h"
 
 COWL_BEGIN_DECLS
 

@@ -14,6 +14,7 @@
 #include "cowl_parser_tests.h"
 #include "cowl_string_tests.h"
 #include "cowl_test_utils.h"
+#include "cowl_version_tests.h"
 
 #define cowl_run_tests(EXIT_CODE, ...) do {                                                         \
     bool (*tests_to_run[])(void) = { __VA_ARGS__ };                                                 \
@@ -37,7 +38,8 @@ int main(void) {
         COWL_STRING_TESTS,
         COWL_IRI_TESTS,
         COWL_PARSER_TESTS,
-        COWL_ONTOLOGY_TESTS
+        COWL_ONTOLOGY_TESTS,
+        COWL_VERSION_TESTS
     );
 
     cowl_api_deinit();

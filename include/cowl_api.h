@@ -116,6 +116,7 @@
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sub_obj_prop_chain_axiom.h"
+#include "cowl_version.h"
 #include "cowl_xsd_vocab.h"
 
 #endif // COWL_INIT_H
