@@ -5,6 +5,25 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2020-11-05
+### Added
+- `CowlObject` and related API.
+- `CowlVersion` and related API.
+- Automated memory leak tests.
+
+### Changed
+- Most public Cowl types now inherit from `CowlObject`, which acts as the root type.
+- `CowlIterator` is now an actual type, and iteration APIs have been reworked.
+- `CowlEntity`, `CowlPrimitive` and `CowlAnnotValue` are not tagged unions anymore,
+  but are exposed as opaque types which inherit from `CowlObject`.
+- Custom allocators can now be specified via the `COWL_ALLOC_HEADERS`
+  and `COWL_ALLOC_SOURCES` Cmake variables.
+- Minimum Cmake version has been bumped to 3.16.
+
+### Fixed
+- `cowl_strdup` not using `cowl_malloc` for memory allocation.
+- Memory leaks caused by incorrect string interning.
+
 ## [0.3.0] - 2020-06-09
 ### Added
 - Error handling via `cowl_ret_t` return values.
@@ -20,7 +39,6 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - UaF in `cowl_string_api_deinit`.
 - Incorrect hash computation for `CowlOntologyID`.
 - Compilation via MSVC.
-
 
 ## [0.2.2] - 2020-02-27
 ### Added
@@ -93,6 +111,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.4.0]: https://github.com/sisinflab-swot/cowl/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/sisinflab-swot/cowl/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/sisinflab-swot/cowl/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/sisinflab-swot/cowl/compare/v0.2.0...v0.2.1
