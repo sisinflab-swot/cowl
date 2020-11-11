@@ -86,5 +86,5 @@ cowl_uint_t cowl_datatype_hash(CowlDatatype *dt) {
 
 bool cowl_datatype_iterate_primitives(CowlDatatype *dt, CowlIterator *iter,
                                       CowlPrimitiveFlags flags) {
-    return cowl_flags_is_set(flags, COWL_PF_DATATYPE) ? cowl_iterate(iter, dt) : true;
+    return uflags_is_set(COWL_PF, flags, COWL_PF_DATATYPE) ? cowl_iterate(iter, dt) : true;
 }

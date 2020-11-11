@@ -18,7 +18,7 @@ static char const test_import[] = "test_import.owl";
 // Imports loader
 
 CowlOntology* cowl_test_load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
-                                    Vector(CowlError) *errors) {
+                                    UVec(CowlError) *errors) {
     CowlParser *parser = cowl_parser_get();
     CowlOntology *onto = cowl_parser_parse_ontology(parser, test_import, errors);
     cowl_parser_release(parser);

@@ -18,7 +18,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlAxiom);
 
 typedef CowlAxiom* CowlAxiomPtr;
-VECTOR_DECL_EQUATABLE(CowlAxiomPtr)
+UVEC_DECL_EQUATABLE(CowlAxiomPtr)
 
 COWL_END_DECLS
 

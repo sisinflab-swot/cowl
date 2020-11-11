@@ -55,8 +55,8 @@ static void cowl_string_free(CowlString *string) {
 CowlString* cowl_string_intern(CowlString *string) {
     if (!(string && string->raw_string.length)) return empty;
 
-    uhash_uint_t idx;
-    uhash_ret_t ret = uhash_put(CowlStringTable, str_tbl, string, &idx);
+    uhash_uint idx;
+    uhash_ret ret = uhash_put(CowlStringTable, str_tbl, string, &idx);
 
     if (ret != UHASH_INSERTED) {
         string = (ret == UHASH_PRESENT) ? uhash_key(str_tbl, idx) : NULL;
@@ -120,7 +120,7 @@ CowlString* cowl_string_retain(CowlString *string) {
 void cowl_string_release(CowlString *string) {
     if (string && !cowl_object_release(string)) {
         // If the string was interned, it must also be removed from the hash set.
-        uhash_uint_t k = uhash_get(CowlStringTable, str_tbl, string);
+        uhash_uint k = uhash_get(CowlStringTable, str_tbl, string);
         if (k != UHASH_INDEX_MISSING && uhash_key(str_tbl, k) == string) {
             uhash_delete(CowlStringTable, str_tbl, k);
         }

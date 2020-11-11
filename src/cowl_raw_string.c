@@ -44,7 +44,7 @@ bool cowl_raw_string_equals(CowlRawString lhs, CowlRawString rhs) {
 
 cowl_uint_t cowl_raw_string_hash(CowlRawString string) {
     #define cowl_cstring_hash_range(HASH, STR, START, END) do {                                     \
-        for (uhash_uint_t i = (START); i < (END); ++i) {                                            \
+        for (uhash_uint i = (START); i < (END); ++i) {                                            \
             (HASH) = ((HASH) << 5u) - (HASH) + (cowl_uint_t)(STR)[i];                               \
         }                                                                                           \
     } while (0)
@@ -58,8 +58,8 @@ cowl_uint_t cowl_raw_string_hash(CowlRawString string) {
     if (length <= 3 * part_size) {
         cowl_cstring_hash_range(hash, cstr, 1, length);
     } else {
-        uhash_uint_t const half_idx = length / 2;
-        uhash_uint_t const half_part_size = part_size / 2;
+        uhash_uint const half_idx = length / 2;
+        uhash_uint const half_part_size = part_size / 2;
         cowl_cstring_hash_range(hash, cstr, 1, part_size);
         cowl_cstring_hash_range(hash, cstr, half_idx - half_part_size, half_idx + half_part_size);
         cowl_cstring_hash_range(hash, cstr, length - part_size, length);

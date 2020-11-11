@@ -12,7 +12,7 @@ Integers
 Bitmasks
 ========
 
-.. doxygenstruct:: CowlFlags
+.. doxygenstruct:: UFlags
 
 Return codes
 ============

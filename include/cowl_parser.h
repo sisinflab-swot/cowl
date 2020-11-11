@@ -84,7 +84,7 @@ void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader
  */
 COWL_PUBLIC
 CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
-                                         Vector(CowlError) *errors);
+                                         UVec(CowlError) *errors);
 
 COWL_END_DECLS
 

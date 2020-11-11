@@ -14,7 +14,6 @@
 #define COWL_ERROR_H
 
 #include "cowl_std.h"
-#include "vector.h"
 
 COWL_BEGIN_DECLS
 
@@ -37,7 +36,7 @@ typedef cowl_struct(CowlError) {
 } CowlError;
 
 /// @cond
-VECTOR_DECL_SPEC(CowlError, COWL_PUBLIC)
+UVEC_DECL_SPEC(CowlError, COWL_PUBLIC)
 /// @endcond
 
 /**

@@ -1,8 +1,8 @@
-======
-Vector
-======
+====
+UVec
+====
 
-.. doxygenstruct:: Vector
+.. doxygenstruct:: UVec
 
 Vector of annotations
 =====================

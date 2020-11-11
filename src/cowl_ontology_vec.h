@@ -18,10 +18,10 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlOntology);
 typedef CowlOntology* CowlOntologyPtr;
 
-VECTOR_DECL_EQUATABLE(CowlOntologyPtr)
+UVEC_DECL_EQUATABLE(CowlOntologyPtr)
 cowl_vector_decl(CowlOntologyPtr, CowlOntologyVec);
 
-void cowl_ontology_vec_free(Vector(CowlOntologyPtr) *vec);
+void cowl_ontology_vec_free(UVec(CowlOntologyPtr) *vec);
 
 COWL_END_DECLS
 

@@ -83,5 +83,5 @@ cowl_uint_t cowl_data_prop_hash(CowlDataProp *prop) {
 
 bool cowl_data_prop_iterate_primitives(CowlDataProp *prop, CowlIterator *iter,
                                        CowlPrimitiveFlags flags) {
-    return cowl_flags_is_set(flags, COWL_PF_DATA_PROP) ? cowl_iterate(iter, prop) : true;
+    return uflags_is_set(COWL_PF, flags, COWL_PF_DATA_PROP) ? cowl_iterate(iter, prop) : true;
 }

@@ -39,7 +39,7 @@ COWL_BEGIN_DECLS
 #define COWL_OBJECT_FLAGS_TYPE_SIZE 7
 #define COWL_OBJECT_FLAGS_REF_SIZE (COWL_OBJECT_FLAGS_SIZE - COWL_OBJECT_FLAGS_TYPE_SIZE - 1)
 
-typedef CowlFlags(COWL_OBJECT_FLAGS_SIZE) CowlObjectFlags;
+typedef UFlags(COWL_OBJECT_FLAGS_SIZE) CowlObjectFlags;
 
 #define COWL_OBJECT_FLAGS_ONE ((CowlObjectFlags)1)
 #define COWL_OBJECT_FLAGS_ZERO ((CowlObjectFlags)0)
@@ -59,7 +59,8 @@ typedef CowlFlags(COWL_OBJECT_FLAGS_SIZE) CowlObjectFlags;
      COWL_OBJECT_FLAGS_ONE                                                                          \
 )
 
-#define cowl_object_flags_has_bit(FLAGS) cowl_flags_is_set(FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
+#define cowl_object_flags_has_bit(FLAGS) \
+    uflags_is_set(COWL_OBJECT_FLAGS_SIZE, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
 
 #define cowl_object_flags_get_type(FLAGS) \
     ((CowlObjectType)(((FLAGS) & COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))

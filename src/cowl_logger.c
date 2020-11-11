@@ -159,7 +159,7 @@ static cowl_ret_t cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntolo
     if ((ret = ctx.ret)) return ret;
 
     CowlAnnotationVec *annotations = cowl_ontology_get_annot(onto);
-    vector_foreach(CowlAnnotationPtr, annotations, annot, {
+    uvec_foreach(CowlAnnotationPtr, annotations, annot, {
         if ((ret = cowl_logger_logs(logger, "\n"))) return ret;
         if ((ret = cowl_logger_consume(logger, cowl_annotation_to_string(annot)))) return ret;
     });
@@ -280,10 +280,10 @@ cowl_ret_t cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto) {
     return COWL_OK;
 }
 
-cowl_ret_t cowl_logger_log_errors(CowlLogger *logger, Vector(CowlError) *errors) {
+cowl_ret_t cowl_logger_log_errors(CowlLogger *logger, UVec(CowlError) *errors) {
     cowl_ret_t ret;
 
-    vector_foreach(CowlError, errors, error, {
+    uvec_foreach(CowlError, errors, error, {
         if ((ret = cowl_logger_consume(logger, cowl_error_to_string(error)))) return ret;
         if ((ret = cowl_logger_logs(logger, "\n"))) return ret;
     });

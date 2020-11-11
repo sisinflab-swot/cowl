@@ -219,7 +219,7 @@ cowl_ret_t cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_log_errors(CowlLogger *logger, Vector(CowlError) *errors);
+cowl_ret_t cowl_logger_log_errors(CowlLogger *logger, UVec(CowlError) *errors);
 
 COWL_END_DECLS
 

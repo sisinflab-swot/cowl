@@ -24,6 +24,14 @@ set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
 set(COWL_COPYRIGHT_YEAR "2019-2020")
 set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
+# Options
+
+option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
+option(COWL_LTO "Enable link-time optimization, if available" ON)
+option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks. Keep off in production builds." OFF)
+set(COWL_ALLOC_HEADERS "" CACHE STRING "Header files that declare custom allocation primitives.")
+set(COWL_ALLOC_SOURCES "" CACHE STRING "Source files that implement custom allocation primitives.")
+
 # Directories
 
 set(COWL_PROJECT_DIR "${CMAKE_CURRENT_LIST_DIR}")
@@ -45,70 +53,7 @@ set(COWL_PARSER_OUT_DIR "${COWL_OUTPUT_DIR}/flex_bison")
 
 file(MAKE_DIRECTORY "${COWL_PARSER_OUT_DIR}")
 
-# Flex & Bison
-
-set(COWL_FUNCTIONAL_LEXER_IN "${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_lexer.l")
-set(COWL_FUNCTIONAL_LEXER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.h")
-set(COWL_FUNCTIONAL_LEXER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.c")
-
-set(COWL_FUNCTIONAL_PARSER_IN "${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_parser.y")
-set(COWL_FUNCTIONAL_PARSER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.h")
-set(COWL_FUNCTIONAL_PARSER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.c")
-
-find_package(BISON 3.0 REQUIRED)
-find_package(FLEX 2.6.4 REQUIRED)
-
-# Vector(T) and uHash
-
-if(NOT TARGET vector)
-    add_subdirectory("${COWL_LIB_DIR}/vector_t" EXCLUDE_FROM_ALL)
-endif()
-
-if(NOT TARGET uhash)
-    add_subdirectory("${COWL_LIB_DIR}/uhash" EXCLUDE_FROM_ALL)
-endif()
-
-# Header dirs
-
-get_target_property(COWL_VECTOR_HEADERS_DIRS vector INTERFACE_INCLUDE_DIRECTORIES)
-get_target_property(COWL_UHASH_HEADERS_DIRS uhash INTERFACE_INCLUDE_DIRECTORIES)
-
-set(COWL_PUBLIC_HEADERS_DIRS "${COWL_PUBLIC_HEADERS_DIR}")
-list(APPEND COWL_PUBLIC_HEADERS_DIRS ${COWL_VECTOR_HEADERS_DIRS} ${COWL_UHASH_HEADERS_DIRS})
-
-set(COWL_PRIVATE_HEADERS_DIRS
-    "${COWL_PRIVATE_HEADERS_DIR}"
-    "${COWL_SRC_DIR}"
-    "${COWL_PARSER_DIR}"
-    "${COWL_PARSER_OUT_DIR}")
-
-# Header files
-
-get_target_property(COWL_VECTOR_HEADERS vector INTERFACE_SOURCES)
-get_target_property(COWL_UHASH_HEADERS uhash INTERFACE_SOURCES)
-
-file(GLOB COWL_PUBLIC_HEADERS CONFIGURE_DEPENDS "${COWL_PUBLIC_HEADERS_DIR}/*.h")
-list(APPEND COWL_PUBLIC_HEADERS ${COWL_VECTOR_HEADERS} ${COWL_UHASH_HEADERS})
-
-# Sources
-
-file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
-     "${COWL_SRC_DIR}/*.c"
-     "${COWL_PARSER_DIR}/*.c")
-
-###############
-### Targets ###
-###############
-
-# Options
-
-option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
-option(COWL_LTO "Enable link-time optimization, if available" ON)
-option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks. Keep off in production builds." OFF)
-set(COWL_ALLOC_HEADERS "" CACHE STRING "Header files that declare custom allocation primitives.")
-set(COWL_ALLOC_SOURCES "" CACHE STRING "Source files that implement custom allocation primitives.")
-
-# Defaults
+# Target settings
 
 set(COWL_COMPILE_FEATURES c_std_11)
 
@@ -127,20 +72,14 @@ else()
     set(COWL_FREE_FN free)
 endif()
 
-if(COWL_ALLOC_SOURCES)
-    list(APPEND COWL_SOURCES ${COWL_ALLOC_SOURCES})
-endif()
+set(ULIB_MALLOC ${COWL_MALLOC_FN})
+set(ULIB_REALLOC ${COWL_REALLOC_FN})
+set(ULIB_FREE ${COWL_FREE_FN})
 
 list(APPEND COWL_PUBLIC_DEFINES
      cowl_malloc=${COWL_MALLOC_FN}
      cowl_realloc=${COWL_REALLOC_FN}
-     cowl_free=${COWL_FREE_FN}
-     VECTOR_MALLOC=${COWL_MALLOC_FN}
-     VECTOR_REALLOC=${COWL_REALLOC_FN}
-     VECTOR_FREE=${COWL_FREE_FN}
-     UHASH_MALLOC=${COWL_MALLOC_FN}
-     UHASH_REALLOC=${COWL_REALLOC_FN}
-     UHASH_FREE=${COWL_FREE_FN})
+     cowl_free=${COWL_FREE_FN})
 
 list(APPEND COWL_PRIVATE_DEFINES
      COWL_VERSION_MAJOR=${COWL_VERSION_MAJOR}
@@ -161,14 +100,61 @@ if(COWL_LTO)
 endif()
 
 if(COWL_EMBEDDED)
-    message(STATUS "Embedded build selected")
-    list(APPEND COWL_PUBLIC_DEFINES COWL_TINY VECTOR_TINY UHASH_TINY)
+    list(APPEND COWL_PUBLIC_DEFINES COWL_TINY)
+    set(ULIB_EMBEDDED ON)
 else()
-    message(STATUS "Desktop build selected")
     list(APPEND COWL_FLEX_FLAGS -Cfe)
 endif()
 
 list(JOIN COWL_FLEX_FLAGS " " COWL_FLEX_FLAGS)
+
+# Flex & Bison
+
+set(COWL_FUNCTIONAL_LEXER_IN "${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_lexer.l")
+set(COWL_FUNCTIONAL_LEXER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.h")
+set(COWL_FUNCTIONAL_LEXER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_lexer.c")
+
+set(COWL_FUNCTIONAL_PARSER_IN "${COWL_FUNCTIONAL_PARSER_DIR}/cowl_functional_parser.y")
+set(COWL_FUNCTIONAL_PARSER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.h")
+set(COWL_FUNCTIONAL_PARSER_OUT "${COWL_PARSER_OUT_DIR}/cowl_functional_parser.c")
+
+find_package(BISON 3.0 REQUIRED)
+find_package(FLEX 2.6.4 REQUIRED)
+
+# uLib
+
+if(NOT TARGET ulib)
+    add_subdirectory("${COWL_LIB_DIR}/ulib" EXCLUDE_FROM_ALL)
+endif()
+
+# Header dirs
+
+get_target_property(COWL_ULIB_HEADERS_DIRS ulib INTERFACE_INCLUDE_DIRECTORIES)
+set(COWL_PUBLIC_HEADERS_DIRS "${COWL_PUBLIC_HEADERS_DIR}" ${COWL_ULIB_HEADERS_DIRS})
+
+set(COWL_PRIVATE_HEADERS_DIRS
+    "${COWL_PRIVATE_HEADERS_DIR}"
+    "${COWL_SRC_DIR}"
+    "${COWL_PARSER_DIR}"
+    "${COWL_PARSER_OUT_DIR}")
+
+# Header files
+
+file(GLOB COWL_PUBLIC_HEADERS CONFIGURE_DEPENDS "${COWL_PUBLIC_HEADERS_DIR}/*.h")
+get_target_property(COWL_ULIB_HEADERS ulib INTERFACE_SOURCES)
+list(APPEND COWL_PUBLIC_HEADERS ${COWL_ULIB_HEADERS})
+
+# Sources
+
+file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
+     "${COWL_SRC_DIR}/*.c"
+     "${COWL_PARSER_DIR}/*.c")
+
+list(APPEND COWL_SOURCES ${COWL_ALLOC_SOURCES})
+
+###############
+### Targets ###
+###############
 
 # Flex & Bison
 
@@ -209,7 +195,7 @@ target_include_directories(cowl-static
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_precompile_headers(cowl-static PUBLIC ${COWL_ALLOC_HEADERS})
-target_link_libraries(cowl-static PUBLIC vector uhash)
+target_link_libraries(cowl-static PUBLIC ulib)
 add_dependencies(cowl-static cowl-headers)
 
 if(COWL_LTO_ENABLED)
@@ -237,7 +223,7 @@ target_include_directories(cowl-shared
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_precompile_headers(cowl-shared PUBLIC ${COWL_ALLOC_HEADERS})
-target_link_libraries(cowl-shared PUBLIC vector uhash)
+target_link_libraries(cowl-shared PUBLIC ulib)
 add_dependencies(cowl-shared cowl-headers)
 
 if(COWL_LTO_ENABLED)

@@ -22,7 +22,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlAnnotation);
 
 typedef CowlAnnotation* CowlAnnotationPtr;
-VECTOR_DECL_EQUATABLE_SPEC(CowlAnnotationPtr, COWL_PUBLIC)
+UVEC_DECL_EQUATABLE_SPEC(CowlAnnotationPtr, COWL_PUBLIC)
 cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
 /// @endcond
 

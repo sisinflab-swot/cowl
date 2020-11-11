@@ -46,7 +46,7 @@ typedef cowl_struct(CowlImportsLoader) {
      * @param[out] errors Errors loading the imported ontology should be appended here.
      * @return The imported ontology.
      */
-    CowlOntology* (*load_ontology)(void *ctx, CowlIRI *iri, Vector(CowlError) *errors);
+    CowlOntology* (*load_ontology)(void *ctx, CowlIRI *iri, UVec(CowlError) *errors);
 
     /**
      * Pointer to a resource deallocator function for the context,

@@ -13,7 +13,7 @@
 #define ONTO_PATH "example_pizza.owl"
 #define IMPORT_PATH "import.owl"
 
-static CowlOntology* load_imports(void *ctx, CowlIRI *iri, Vector(CowlError) *errors);
+static CowlOntology* load_imports(void *ctx, CowlIRI *iri, UVec(CowlError) *errors);
 
 int main(void) {
 
@@ -34,13 +34,13 @@ int main(void) {
     cowl_parser_set_imports_loader(parser, loader);
 
     // Deserialize an ontology. Errors will be appended to the 'errors' vector.
-    Vector(CowlError) errors = vector_init(CowlError);
+    UVec(CowlError) errors = uvec_init(CowlError);
 
     CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH, &errors);
     cowl_parser_release(parser);
 
     // Log the errors, if any.
-    cowl_uint_t error_count = vector_count(&errors);
+    cowl_uint_t error_count = uvec_count(&errors);
     cowl_logger_logf(logger, "Ontology parsed with %d error(s).\n", error_count);
     cowl_logger_log_errors(logger, &errors);
 
@@ -48,7 +48,7 @@ int main(void) {
         cowl_logger_log_ontology(logger, ontology);
     }
 
-    vector_deinit(errors);
+    uvec_deinit(errors);
     cowl_ontology_release(ontology);
     cowl_logger_release(logger);
 
@@ -62,7 +62,7 @@ int main(void) {
  * we just return a generic local "import.owl" ontology, disregarding its IRI.
  */
 static CowlOntology* load_imports(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
-                                  Vector(CowlError) *errors) {
+                                  UVec(CowlError) *errors) {
     CowlOntology *import = NULL;
     CowlParser *parser = cowl_parser_get();
 

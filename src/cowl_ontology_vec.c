@@ -11,10 +11,10 @@
 #include "cowl_ontology_vec.h"
 #include "cowl_ontology.h"
 
-VECTOR_IMPL_EQUATABLE(CowlOntologyPtr, cowl_ontology_equals)
+UVEC_IMPL_EQUATABLE(CowlOntologyPtr, cowl_ontology_equals)
 
-void cowl_ontology_vec_free(Vector(CowlOntologyPtr) *vec) {
+void cowl_ontology_vec_free(UVec(CowlOntologyPtr) *vec) {
     if (!vec) return;
-    vector_foreach(CowlOntologyPtr, vec, onto, cowl_ontology_release(onto));
-    vector_free(CowlOntologyPtr, vec);
+    uvec_foreach(CowlOntologyPtr, vec, onto, cowl_ontology_release(onto));
+    uvec_free(CowlOntologyPtr, vec);
 }

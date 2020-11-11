@@ -29,7 +29,7 @@ bool cowl_test_parser_parse_ontology(void) {
 
     CowlImportsLoader loader = cowl_imports_loader_init(NULL, cowl_test_load_import, NULL);
     cowl_parser_set_imports_loader(parser, loader);
-    Vector(CowlError) *errors = vector_alloc(CowlError);
+    UVec(CowlError) *errors = uvec_alloc(CowlError);
 
     CowlOntology *onto = cowl_parser_parse_ontology(parser, COWL_TEST_ONTOLOGY, errors);
     cowl_assert_not_null(onto, "Parsed ontology");
@@ -41,10 +41,10 @@ bool cowl_test_parser_parse_ontology(void) {
     cowl_logger_log_errors(logger, errors);
     cowl_logger_log_ontology(logger, onto);
 
-    cowl_assert_equal_int(vector_count(errors), 0, "Parsing errors");
+    cowl_assert_equal_int(uvec_count(errors), 0, "Parsing errors");
 
     cowl_logger_release(logger);
-    vector_free(CowlError, errors);
+    uvec_free(CowlError, errors);
     cowl_ontology_release(onto);
     cowl_parser_release(parser);
 

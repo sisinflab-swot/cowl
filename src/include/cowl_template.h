@@ -16,9 +16,9 @@
 COWL_BEGIN_DECLS
 
 #define COWL_INST_TBL_GET_IMPL(UC, LC, KEY_INIT, VALUE_ALLOC) {                                     \
-    uhash_uint_t idx;                                                                               \
+    uhash_uint idx;                                                                                 \
     Cowl##UC key = KEY_INIT;                                                                        \
-    uhash_ret_t ret = uhash_put(Cowl##UC##Table, inst_tbl, &key, &idx);                             \
+    uhash_ret ret = uhash_put(Cowl##UC##Table, inst_tbl, &key, &idx);                               \
                                                                                                     \
     Cowl##UC *var = NULL;                                                                           \
                                                                                                     \

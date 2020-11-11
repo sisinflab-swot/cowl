@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlOntology);
-typedef vector_struct(CowlError) Vector(CowlError);
+typedef uvec_struct(CowlError) UVec(CowlError);
 
 // Test utils
 
@@ -71,7 +71,7 @@ typedef vector_struct(CowlError) Vector(CowlError);
 
 #define COWL_TEST_ONTOLOGY "test_onto.owl"
 
-CowlOntology* cowl_test_load_import(void *ctx, CowlIRI *iri, Vector(CowlError) *errors);
+CowlOntology* cowl_test_load_import(void *ctx, CowlIRI *iri, UVec(CowlError) *errors);
 
 COWL_END_DECLS
 

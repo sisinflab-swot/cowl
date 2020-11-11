@@ -11,7 +11,7 @@
 #include "cowl_error.h"
 #include "cowl_string_private.h"
 
-VECTOR_IMPL(CowlError)
+UVEC_IMPL(CowlError)
 
 CowlString* cowl_error_to_string(CowlError error) {
     CowlRawString comp[4];

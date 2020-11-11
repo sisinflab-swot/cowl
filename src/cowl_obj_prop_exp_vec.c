@@ -12,22 +12,22 @@
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
 
-VECTOR_IMPL_EQUATABLE(CowlObjPropExpPtr, cowl_obj_prop_exp_equals)
+UVEC_IMPL_EQUATABLE(CowlObjPropExpPtr, cowl_obj_prop_exp_equals)
 
 void cowl_obj_prop_exp_vec_free(CowlObjPropExpVec *vec) {
     if (!vec) return;
-    vector_foreach(CowlObjPropExpPtr, vec, prop, cowl_obj_prop_exp_release(prop));
-    vector_free(CowlObjPropExpPtr, (Vector(CowlObjPropExpPtr)*)vec);
+    uvec_foreach(CowlObjPropExpPtr, vec, prop, cowl_obj_prop_exp_release(prop));
+    uvec_free(CowlObjPropExpPtr, (UVec(CowlObjPropExpPtr)*)vec);
 }
 
 bool cowl_obj_prop_exp_vec_equals(CowlObjPropExpVec *lhs, CowlObjPropExpVec *rhs) {
-    return vector_equals(CowlObjPropExpPtr, lhs, rhs);
+    return uvec_equals(CowlObjPropExpPtr, lhs, rhs);
 }
 
 cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec) {
     cowl_uint_t hash = 0;
 
-    vector_foreach(CowlObjPropExpPtr, vec, prop, {
+    uvec_foreach(CowlObjPropExpPtr, vec, prop, {
         hash = cowl_hash_iter(hash, cowl_obj_prop_exp_hash(prop));
     });
 
@@ -36,7 +36,7 @@ cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec) {
 
 bool cowl_obj_prop_exp_vec_iterate_primitives(CowlObjPropExpVec *vec, CowlIterator *iter,
                                               CowlPrimitiveFlags flags) {
-    vector_foreach(CowlObjPropExpPtr, vec, prop, {
+    uvec_foreach(CowlObjPropExpPtr, vec, prop, {
         if (!cowl_obj_prop_exp_iterate_primitives(prop, iter, flags)) return false;
     });
     return true;

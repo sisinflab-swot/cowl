@@ -11,4 +11,4 @@
 #include "cowl_axiom_vec.h"
 #include "cowl_axiom.h"
 
-VECTOR_IMPL_EQUATABLE(CowlAxiomPtr, cowl_axiom_equals)
+UVEC_IMPL_EQUATABLE(CowlAxiomPtr, cowl_axiom_equals)

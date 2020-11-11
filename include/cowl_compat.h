@@ -110,8 +110,8 @@
  * @param NAME Name of the vector type.
  */
 #define cowl_vector_decl(T, NAME)                                                                   \
-    typedef vector_struct(T) Vector(T);                                                             \
-    typedef vector_struct(T) const NAME
+    typedef uvec_struct(T) UVec(T);                                                                 \
+    typedef uvec_struct(T) const NAME
 
 /**
  * Hash table type forward declaration.

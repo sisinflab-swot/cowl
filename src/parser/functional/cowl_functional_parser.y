@@ -171,9 +171,9 @@
 %type <UHash(CowlLiteralSet)*> literal_list
 %type <UHash(CowlObjPropExpSet)*> object_property_expression_list object_property_expression_2_list
 %type <UHash(CowlObjPropExpSet)*> object_property_expression_star
-%type <Vector(CowlObjPropExpPtr)*> object_property_expression_ordered_2_list property_expression_chain
-%type <Vector(CowlAnnotationPtr)*> annotation_star
-%type <Vector(CowlOntologyPtr)*> import_star
+%type <UVec(CowlObjPropExpPtr)*> object_property_expression_ordered_2_list property_expression_chain
+%type <UVec(CowlAnnotationPtr)*> annotation_star
+%type <UVec(CowlOntologyPtr)*> import_star
 
 // Start symbol
 
@@ -209,9 +209,9 @@
 %destructor { cowl_individual_set_free($$); } <UHash(CowlIndividualSet)*>
 %destructor { cowl_literal_set_free($$); } <UHash(CowlLiteralSet)*>
 %destructor { cowl_obj_prop_exp_set_free($$); } <UHash(CowlObjPropExpSet)*>
-%destructor { cowl_obj_prop_exp_vec_free($$); } <Vector(CowlObjPropExpPtr)*>
-%destructor { cowl_annotation_vec_free($$); } <Vector(CowlAnnotationPtr)*>
-%destructor { cowl_ontology_vec_free($$); } <Vector(CowlOntologyPtr)*>
+%destructor { cowl_obj_prop_exp_vec_free($$); } <UVec(CowlObjPropExpPtr)*>
+%destructor { cowl_annotation_vec_free($$); } <UVec(CowlAnnotationPtr)*>
+%destructor { cowl_ontology_vec_free($$); } <UVec(CowlOntologyPtr)*>
 
 %%
 
@@ -1136,8 +1136,8 @@ annotation_star
         $$ = NULL;
     }
     | annotation_star annotation {
-        $$ = $1 ? $1 : vector_alloc(CowlAnnotationPtr);
-        if (!$$ || vector_push(CowlAnnotationPtr, $$, $2) == VECTOR_ERR) COWL_ERROR_MEM;
+        $$ = $1 ? $1 : uvec_alloc(CowlAnnotationPtr);
+        if (!$$ || uvec_push(CowlAnnotationPtr, $$, $2) == UVEC_ERR) COWL_ERROR_MEM;
     }
 ;
 
@@ -1211,8 +1211,8 @@ import_star
     }
     | import_star import {
         if ($2) {
-            $$ = $1 ? $1 : vector_alloc(CowlOntologyPtr);
-            if (!$$ || vector_push(CowlOntologyPtr, $$, $2) == VECTOR_ERR) COWL_ERROR_MEM;
+            $$ = $1 ? $1 : uvec_alloc(CowlOntologyPtr);
+            if (!$$ || uvec_push(CowlOntologyPtr, $$, $2) == UVEC_ERR) COWL_ERROR_MEM;
         }
     }
 ;
@@ -1266,16 +1266,16 @@ object_property_expression_2_list
 
 object_property_expression_ordered_2_list
     : object_property_expression object_property_expression {
-        $$ = vector_alloc(CowlObjPropExpPtr);
+        $$ = uvec_alloc(CowlObjPropExpPtr);
         if (!$$ ||
-            vector_push(CowlObjPropExpPtr, $$, $1) == VECTOR_ERR ||
-            vector_push(CowlObjPropExpPtr, $$, $2) == VECTOR_ERR) {
+            uvec_push(CowlObjPropExpPtr, $$, $1) == UVEC_ERR ||
+            uvec_push(CowlObjPropExpPtr, $$, $2) == UVEC_ERR) {
             COWL_ERROR_MEM;
         }
     }
     | object_property_expression_ordered_2_list object_property_expression {
         $$ = $1;
-        if (vector_push(CowlObjPropExpPtr, $$, $2) == VECTOR_ERR) COWL_ERROR_MEM;
+        if (uvec_push(CowlObjPropExpPtr, $$, $2) == UVEC_ERR) COWL_ERROR_MEM;
     }
 ;
 

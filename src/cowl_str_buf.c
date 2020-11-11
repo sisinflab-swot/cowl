@@ -13,14 +13,14 @@
 
 #include <stdio.h>
 
-VECTOR_IMPL(CowlChar)
+UVEC_IMPL(CowlChar)
 
 CowlStrBuf* cowl_str_buf_alloc(void) {
-    return vector_alloc(CowlChar);
+    return uvec_alloc(CowlChar);
 }
 
 void cowl_str_buf_free(CowlStrBuf *buf) {
-    vector_free(CowlChar, buf);
+    uvec_free(CowlChar, buf);
 }
 
 static char* cowl_str_buf_free_get_storage(CowlStrBuf *buf) {
@@ -39,7 +39,7 @@ static cowl_uint_t cowl_cstring_length_of_formatted(char const *format, va_list 
 }
 
 cowl_ret_t cowl_str_buf_append_cstring(CowlStrBuf *buf, char const *string, cowl_uint_t length) {
-    return vector_append_array(CowlChar, buf, string, length) == VECTOR_OK ? COWL_OK : COWL_ERR_MEM;
+    return uvec_append_array(CowlChar, buf, string, length) == UVEC_OK ? COWL_OK : COWL_ERR_MEM;
 }
 
 cowl_ret_t cowl_str_buf_append_raw_string(CowlStrBuf *buf, CowlRawString string) {
@@ -63,7 +63,7 @@ cowl_ret_t cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, 
     size_t size = length + 1;
     cowl_ret_t ret;
 
-    if (vector_expand(CowlChar, buf, (vector_uint_t)size) != VECTOR_OK) {
+    if (uvec_expand(CowlChar, buf, (uvec_uint)size) != UVEC_OK) {
         ret = COWL_ERR_MEM;
     } else {
         ret = COWL_OK;
@@ -1326,9 +1326,9 @@ cowl_ret_t cowl_str_buf_append_obj_prop_exp_set(CowlStrBuf *buf, CowlObjPropExpS
 }
 
 cowl_ret_t cowl_str_buf_append_annotation_vec(CowlStrBuf *buf, CowlAnnotationVec *vec) {
-    cowl_uint_t last = vector_count(vec);
+    cowl_uint_t last = uvec_count(vec);
 
-    vector_iterate(CowlAnnotationPtr, vec, annot, idx, {
+    uvec_iterate(CowlAnnotationPtr, vec, annot, idx, {
         if (cowl_str_buf_append_annotation(buf, annot)) return COWL_ERR_MEM;
         if (idx < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
     });
@@ -1337,9 +1337,9 @@ cowl_ret_t cowl_str_buf_append_annotation_vec(CowlStrBuf *buf, CowlAnnotationVec
 }
 
 cowl_ret_t cowl_str_buf_append_obj_prop_exp_vec(CowlStrBuf *buf, CowlObjPropExpVec *vec) {
-    cowl_uint_t last = vector_count(vec);
+    cowl_uint_t last = uvec_count(vec);
 
-    vector_iterate(CowlObjPropExpPtr, vec, prop, idx, {
+    uvec_iterate(CowlObjPropExpPtr, vec, prop, idx, {
         if (cowl_str_buf_append_obj_prop_exp(buf, prop)) return COWL_ERR_MEM;
         if (idx < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
     });
@@ -1350,7 +1350,7 @@ cowl_ret_t cowl_str_buf_append_obj_prop_exp_vec(CowlStrBuf *buf, CowlObjPropExpV
 // Output
 
 CowlRawString cowl_str_buf_to_raw_string(CowlStrBuf *buf) {
-    cowl_uint_t length = vector_count(buf);
+    cowl_uint_t length = uvec_count(buf);
     if (!(buf && length)) {
         cowl_str_buf_free(buf);
         return COWL_RAW_STRING_NULL;

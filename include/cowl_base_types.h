@@ -14,9 +14,9 @@
 #define COWL_BASE_TYPES_H
 
 #include "cowl_compat.h"
-#include "cowl_flags.h"
+#include "uflags.h"
 #include "uhash.h"
-#include "vector.h"
+#include "uvec.h"
 
 #include <inttypes.h>
 

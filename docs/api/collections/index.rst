@@ -4,5 +4,5 @@ Collections
 
 .. toctree::
 
-   Vector
+   UVec
    UHash
