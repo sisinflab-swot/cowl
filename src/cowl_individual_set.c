@@ -23,7 +23,7 @@ bool cowl_individual_set_equals(CowlIndividualSet *lhs, CowlIndividualSet *rhs) 
     return uhset_equals(CowlIndividualSet, lhs, rhs);
 }
 
-cowl_uint_t cowl_individual_set_hash(CowlIndividualSet *set) {
+cowl_uint cowl_individual_set_hash(CowlIndividualSet *set) {
     return uhset_hash(CowlIndividualSet, set);
 }
 

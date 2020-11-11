@@ -63,7 +63,7 @@ bool cowl_data_prop_exp_set_equals(CowlDataPropExpSet *lhs, CowlDataPropExpSet *
  * @public @memberof CowlDataPropExpSet
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_prop_exp_set_hash(CowlDataPropExpSet *set);
+cowl_uint cowl_data_prop_exp_set_hash(CowlDataPropExpSet *set);
 
 /**
  * Iterates over the primitives referenced by the specified set.

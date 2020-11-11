@@ -139,7 +139,7 @@ bool cowl_nary_obj_prop_axiom_equals(CowlNAryObjPropAxiom *lhs, CowlNAryObjPropA
  * @public @memberof CowlNAryObjPropAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_nary_obj_prop_axiom_hash(CowlNAryObjPropAxiom *axiom);
+cowl_uint cowl_nary_obj_prop_axiom_hash(CowlNAryObjPropAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

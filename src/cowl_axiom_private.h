@@ -38,7 +38,7 @@ cowl_struct(CowlAxiom) {
 } while (0)
 
 #define COWL_AXIOM_INIT(T, H, A) {                                                                  \
-    .super = COWL_HASH_OBJECT_BIT_INIT((CowlObjectType)(T) + COWL_OT_A_DECL, A, H),                \
+    .super = COWL_HASH_OBJECT_BIT_INIT((CowlObjectType)(T) + COWL_OT_A_DECL, A, H),                 \
 }
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \

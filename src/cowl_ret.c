@@ -8,10 +8,10 @@
  * @file
  */
 
-#include "cowl_ret_t.h"
+#include "cowl_ret.h"
 #include "cowl_string.h"
 
-char const* cowl_ret_t_to_cstring(cowl_ret_t ret) {
+char const* cowl_ret_to_cstring(cowl_ret ret) {
     switch (ret) {
         case COWL_OK: return "success";
         case COWL_ERR_IO: return "input/output error";
@@ -21,7 +21,7 @@ char const* cowl_ret_t_to_cstring(cowl_ret_t ret) {
     }
 }
 
-CowlString* cowl_ret_t_to_string(cowl_ret_t ret) {
-    char const *cstring = cowl_ret_t_to_cstring(ret);
+CowlString* cowl_ret_to_string(cowl_ret ret) {
+    char const *cstring = cowl_ret_to_cstring(ret);
     return cowl_string_get(cstring, strlen(cstring), true);
 }

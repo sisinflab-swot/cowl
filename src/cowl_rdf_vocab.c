@@ -13,7 +13,7 @@
 
 static cowl_struct(CowlRDFVocab) vocab;
 
-static inline cowl_ret_t cowl_rdf_vocab_validate(void) {
+static inline cowl_ret cowl_rdf_vocab_validate(void) {
     if (vocab.ns && vocab.iri.plain_literal && vocab.iri.xml_literal &&
         vocab.iri.lang_range && vocab.dt.plain_literal && vocab.dt.xml_literal) {
         return COWL_OK;
@@ -21,7 +21,7 @@ static inline cowl_ret_t cowl_rdf_vocab_validate(void) {
     return COWL_ERR_MEM;
 }
 
-cowl_ret_t cowl_rdf_vocab_init(void) {
+cowl_ret cowl_rdf_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 
     CowlRDFIRIVocab v = {

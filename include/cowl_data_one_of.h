@@ -109,7 +109,7 @@ bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs);
  * @public @memberof CowlDataOneOf
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range);
+cowl_uint cowl_data_one_of_hash(CowlDataOneOf *range);
 
 /**
  * Iterates over the primitives referenced by the specified literal enumeration.

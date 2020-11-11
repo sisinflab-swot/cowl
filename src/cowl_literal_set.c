@@ -23,7 +23,7 @@ bool cowl_literal_set_equals(CowlLiteralSet *lhs, CowlLiteralSet *rhs) {
     return uhset_equals(CowlLiteralSet, lhs, rhs);
 }
 
-cowl_uint_t cowl_literal_set_hash(CowlLiteralSet *set) {
+cowl_uint cowl_literal_set_hash(CowlLiteralSet *set) {
     return uhset_hash(CowlLiteralSet, set);
 }
 

@@ -18,8 +18,8 @@ static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *inds) {
     CowlObjOneOf *exp = cowl_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF,
-                                   uhset_hash(CowlIndividualSet, inds));
+    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF,
+                                 uhset_hash(CowlIndividualSet, inds));
 
     *exp = (CowlObjOneOf) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_ONE_OF, hash),
@@ -61,7 +61,7 @@ bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
     return uhset_equals(CowlIndividualSet, lhs->inds, rhs->inds);
 }
 
-cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp) {
+cowl_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
     return cowl_object_hash_get(exp);
 }
 

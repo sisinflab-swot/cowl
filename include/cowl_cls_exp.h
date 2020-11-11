@@ -97,7 +97,7 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs);
  * @public @memberof CowlClsExp
  */
 COWL_PUBLIC
-cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp);
+cowl_uint cowl_cls_exp_hash(CowlClsExp *exp);
 
 /**
  * Iterates over the primitives referenced by the specified class expression.

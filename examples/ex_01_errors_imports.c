@@ -40,7 +40,7 @@ int main(void) {
     cowl_parser_release(parser);
 
     // Log the errors, if any.
-    cowl_uint_t error_count = uvec_count(&errors);
+    cowl_uint error_count = uvec_count(&errors);
     cowl_logger_logf(logger, "Ontology parsed with %d error(s).\n", error_count);
     cowl_logger_log_errors(logger, &errors);
 

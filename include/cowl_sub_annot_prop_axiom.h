@@ -135,7 +135,7 @@ bool cowl_sub_annot_prop_axiom_equals(CowlSubAnnotPropAxiom *lhs, CowlSubAnnotPr
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom);
+cowl_uint cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

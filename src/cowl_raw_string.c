@@ -20,7 +20,7 @@ CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy
     }
 
     return (CowlRawString) {
-        .length = (cowl_uint_t)length,
+        .length = (cowl_uint)length,
         .cstring = cstring
     };
 }
@@ -33,27 +33,27 @@ CowlRawString cowl_raw_string_copy(CowlRawString string) {
     return cowl_raw_string_init(string.cstring, string.length, true);
 }
 
-cowl_uint_t cowl_raw_string_index_of(CowlRawString string, char needle) {
+cowl_uint cowl_raw_string_index_of(CowlRawString string, char needle) {
     char const *chr = memchr(string.cstring, needle, string.length);
-    return chr ? (cowl_uint_t)(chr - string.cstring) : string.length;
+    return chr ? (cowl_uint)(chr - string.cstring) : string.length;
 }
 
 bool cowl_raw_string_equals(CowlRawString lhs, CowlRawString rhs) {
     return lhs.length == rhs.length && memcmp(lhs.cstring, rhs.cstring, lhs.length) == 0;
 }
 
-cowl_uint_t cowl_raw_string_hash(CowlRawString string) {
+cowl_uint cowl_raw_string_hash(CowlRawString string) {
     #define cowl_cstring_hash_range(HASH, STR, START, END) do {                                     \
-        for (uhash_uint i = (START); i < (END); ++i) {                                            \
-            (HASH) = ((HASH) << 5u) - (HASH) + (cowl_uint_t)(STR)[i];                               \
+        for (uhash_uint i = (START); i < (END); ++i) {                                              \
+            (HASH) = ((HASH) << 5u) - (HASH) + (cowl_uint)(STR)[i];                                 \
         }                                                                                           \
     } while (0)
 
-    cowl_uint_t const length = string.length;
+    cowl_uint const length = string.length;
     char const *cstr = string.cstring;
 
-    cowl_uint_t const part_size = 32;
-    cowl_uint_t hash = (cowl_uint_t)cstr[0];
+    cowl_uint const part_size = 32;
+    cowl_uint hash = (cowl_uint)cstr[0];
 
     if (length <= 3 * part_size) {
         cowl_cstring_hash_range(hash, cstr, 1, length);
@@ -87,11 +87,11 @@ CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args)
     return cowl_str_buf_to_raw_string(buf);
 }
 
-CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *strings) {
+CowlRawString cowl_raw_string_concat(cowl_uint count, CowlRawString const *strings) {
     CowlStrBuf *buf = cowl_str_buf_alloc();
 
     if (buf) {
-        for (cowl_uint_t i = 0; i < count; ++i) {
+        for (cowl_uint i = 0; i < count; ++i) {
             if (cowl_str_buf_append_raw_string(buf, strings[i])) {
                 cowl_str_buf_free(buf);
                 buf = NULL;

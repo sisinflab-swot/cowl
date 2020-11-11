@@ -63,7 +63,7 @@ bool cowl_data_range_set_equals(CowlDataRangeSet *lhs, CowlDataRangeSet *rhs);
  * @public @memberof CowlDataRangeSet
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_range_set_hash(CowlDataRangeSet *set);
+cowl_uint cowl_data_range_set_hash(CowlDataRangeSet *set);
 
 /**
  * Iterates over the primitives referenced by the specified set.

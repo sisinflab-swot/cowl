@@ -62,7 +62,7 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_primitive_hash(CowlPrimitive *primitive) {
+cowl_uint cowl_primitive_hash(CowlPrimitive *primitive) {
 
 #define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)primitive)
 

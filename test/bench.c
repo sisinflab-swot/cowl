@@ -34,12 +34,12 @@ static inline double get_millis(void) {
 }
 
 static bool count_axiom_iterator(void *ctx, cowl_unused void *obj) {
-    (*((cowl_uint_t *)ctx))++;
+    (*((cowl_uint *)ctx))++;
     return true;
 }
 
 static bool count_primitive_iterator(void *ctx, cowl_unused void *obj) {
-    (*((cowl_uint_t *)ctx))++;
+    (*((cowl_uint *)ctx))++;
     return true;
 }
 
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
     printf("Ontology parsed in %.2f ms\n", stop - start);
 
-    cowl_uint_t count = 0;
+    cowl_uint count = 0;
 
     start = get_micros();
     CowlIterator iter = cowl_iterator_init(&count, count_axiom_iterator);

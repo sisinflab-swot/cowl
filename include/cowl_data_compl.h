@@ -109,7 +109,7 @@ bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs);
  * @public @memberof CowlDataCompl
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_compl_hash(CowlDataCompl *range);
+cowl_uint cowl_data_compl_hash(CowlDataCompl *range);
 
 /**
  * Iterates over the primitives referenced by the specified data range complement.

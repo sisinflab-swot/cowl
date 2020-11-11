@@ -134,7 +134,7 @@ bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs);
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-cowl_uint_t cowl_literal_hash(CowlLiteral *literal);
+cowl_uint cowl_literal_hash(CowlLiteral *literal);
 
 /**
  * Iterates over the primitives referenced by the specified literal.

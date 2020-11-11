@@ -34,27 +34,27 @@
 
 static CowlOntology *onto = NULL;
 
-static cowl_uint_t const test_onto_imports_count = 1;
-static cowl_uint_t const test_onto_axiom_count = 565;
+static cowl_uint const test_onto_imports_count = 1;
+static cowl_uint const test_onto_axiom_count = 565;
 
-static cowl_uint_t const test_onto_classes_count = 104;
-static cowl_uint_t const test_onto_datatypes_count = 43;
-static cowl_uint_t const test_onto_obj_props_count = 47;
-static cowl_uint_t const test_onto_data_props_count = 72;
-static cowl_uint_t const test_onto_annot_props_count = 25;
-static cowl_uint_t const test_onto_named_inds_count = 18;
-static cowl_uint_t const test_onto_anon_inds_count = 1;
+static cowl_uint const test_onto_classes_count = 104;
+static cowl_uint const test_onto_datatypes_count = 43;
+static cowl_uint const test_onto_obj_props_count = 47;
+static cowl_uint const test_onto_data_props_count = 72;
+static cowl_uint const test_onto_annot_props_count = 25;
+static cowl_uint const test_onto_named_inds_count = 18;
+static cowl_uint const test_onto_anon_inds_count = 1;
 
-static cowl_uint_t const test_class_axiom_count = 16;
-static cowl_uint_t const test_datatype_axiom_count = 2;
-static cowl_uint_t const test_obj_prop_axiom_count = 4;
-static cowl_uint_t const test_data_prop_axiom_count = 4;
-static cowl_uint_t const test_annot_prop_axiom_count = 2;
-static cowl_uint_t const test_named_ind_axiom_count = 2;
-static cowl_uint_t const test_anon_ind_axiom_count = 1;
+static cowl_uint const test_class_axiom_count = 16;
+static cowl_uint const test_datatype_axiom_count = 2;
+static cowl_uint const test_obj_prop_axiom_count = 4;
+static cowl_uint const test_data_prop_axiom_count = 4;
+static cowl_uint const test_annot_prop_axiom_count = 2;
+static cowl_uint const test_named_ind_axiom_count = 2;
+static cowl_uint const test_anon_ind_axiom_count = 1;
 
-static cowl_uint_t* test_onto_axiom_counts(void) {
-    static cowl_uint_t counts[COWL_AT_COUNT] = { 0 };
+static cowl_uint* test_onto_axiom_counts(void) {
+    static cowl_uint counts[COWL_AT_COUNT] = { 0 };
 
     counts[COWL_AT_DECL] = 262;
     counts[COWL_AT_DATATYPE_DEF] = 2;
@@ -126,23 +126,23 @@ bool cowl_test_ontology_get_id(void) {
 }
 
 bool cowl_test_ontology_axiom_count(void) {
-    cowl_uint_t axiom_count = cowl_ontology_axiom_count(onto);
+    cowl_uint axiom_count = cowl_ontology_axiom_count(onto);
     cowl_assert_equal_int(axiom_count, test_onto_axiom_count, "Axiom count");
     return true;
 }
 
 bool cowl_test_ontology_imports_count(void) {
-    cowl_uint_t imports_count = cowl_ontology_imports_count(onto);
+    cowl_uint imports_count = cowl_ontology_imports_count(onto);
     cowl_assert_equal_int(imports_count, test_onto_imports_count, "Imports count");
     return true;
 }
 
 bool cowl_test_ontology_axiom_count_for_type(void) {
-    cowl_uint_t *expected_axiom_counts = test_onto_axiom_counts();
+    cowl_uint *expected_axiom_counts = test_onto_axiom_counts();
 
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
-        cowl_uint_t expected_count = expected_axiom_counts[type];
-        cowl_uint_t count = cowl_ontology_axiom_count_for_type(onto, type);
+        cowl_uint expected_count = expected_axiom_counts[type];
+        cowl_uint count = cowl_ontology_axiom_count_for_type(onto, type);
         cowl_assert_equal_int(count, expected_count, "Axiom count for type %d", type);
     }
 
@@ -150,43 +150,43 @@ bool cowl_test_ontology_axiom_count_for_type(void) {
 }
 
 bool cowl_test_ontology_class_count(void) {
-    cowl_uint_t count = cowl_ontology_classes_count(onto);
+    cowl_uint count = cowl_ontology_classes_count(onto);
     cowl_assert_equal_int(count, test_onto_classes_count, "Number of classes");
     return true;
 }
 
 bool cowl_test_ontology_datatypes_count(void) {
-    cowl_uint_t count = cowl_ontology_datatypes_count(onto);
+    cowl_uint count = cowl_ontology_datatypes_count(onto);
     cowl_assert_equal_int(count, test_onto_datatypes_count, "Number of datatypes");
     return true;
 }
 
 bool cowl_test_ontology_obj_props_count(void) {
-    cowl_uint_t count = cowl_ontology_obj_props_count(onto);
+    cowl_uint count = cowl_ontology_obj_props_count(onto);
     cowl_assert_equal_int(count, test_onto_obj_props_count, "Number of object properties");
     return true;
 }
 
 bool cowl_test_ontology_data_props_count(void) {
-    cowl_uint_t count = cowl_ontology_data_props_count(onto);
+    cowl_uint count = cowl_ontology_data_props_count(onto);
     cowl_assert_equal_int(count, test_onto_data_props_count, "Number of data properties");
     return true;
 }
 
 bool cowl_test_ontology_annot_props_count(void) {
-    cowl_uint_t count = cowl_ontology_annot_props_count(onto);
+    cowl_uint count = cowl_ontology_annot_props_count(onto);
     cowl_assert_equal_int(count, test_onto_annot_props_count, "Number of annotation properties");
     return true;
 }
 
 bool cowl_test_ontology_named_inds_count(void) {
-    cowl_uint_t count = cowl_ontology_named_inds_count(onto);
+    cowl_uint count = cowl_ontology_named_inds_count(onto);
     cowl_assert_equal_int(count, test_onto_named_inds_count, "Number of named individuals");
     return true;
 }
 
 bool cowl_test_ontology_anon_inds_count(void) {
-    cowl_uint_t count = cowl_ontology_anon_inds_count(onto);
+    cowl_uint count = cowl_ontology_anon_inds_count(onto);
     cowl_assert_equal_int(count, test_onto_anon_inds_count, "Number of anonymous individuals");
     return true;
 }
@@ -194,7 +194,7 @@ bool cowl_test_ontology_anon_inds_count(void) {
 bool cowl_test_ontology_axiom_count_for_class(void) {
     CowlIRI *iri = cowl_iri_from_static(test_onto_iri test_class);
     CowlClass *cls = cowl_class_get(iri);
-    cowl_uint_t count = cowl_ontology_axiom_count_for_class(onto, cls);
+    cowl_uint count = cowl_ontology_axiom_count_for_class(onto, cls);
     cowl_class_release(cls);
     cowl_iri_release(iri);
     cowl_assert_equal_int(count, test_class_axiom_count, "Number of axioms for " test_class);
@@ -204,7 +204,7 @@ bool cowl_test_ontology_axiom_count_for_class(void) {
 bool cowl_test_ontology_axiom_count_for_datatype(void) {
     CowlIRI *iri = cowl_iri_from_static(test_onto_iri test_datatype);
     CowlDatatype *dt = cowl_datatype_get(iri);
-    cowl_uint_t count = cowl_ontology_axiom_count_for_datatype(onto, dt);
+    cowl_uint count = cowl_ontology_axiom_count_for_datatype(onto, dt);
     cowl_datatype_release(dt);
     cowl_iri_release(iri);
     cowl_assert_equal_int(count, test_datatype_axiom_count, "Number of axioms for " test_datatype);
@@ -214,7 +214,7 @@ bool cowl_test_ontology_axiom_count_for_datatype(void) {
 bool cowl_test_ontology_axiom_count_for_obj_prop(void) {
     CowlIRI *iri = cowl_iri_from_static(test_onto_iri test_obj_prop);
     CowlObjProp *prop = cowl_obj_prop_get(iri);
-    cowl_uint_t count = cowl_ontology_axiom_count_for_obj_prop(onto, prop);
+    cowl_uint count = cowl_ontology_axiom_count_for_obj_prop(onto, prop);
     cowl_obj_prop_release(prop);
     cowl_iri_release(iri);
     cowl_assert_equal_int(count, test_obj_prop_axiom_count, "Number of axioms for " test_obj_prop);
@@ -224,7 +224,7 @@ bool cowl_test_ontology_axiom_count_for_obj_prop(void) {
 bool cowl_test_ontology_axiom_count_for_data_prop(void) {
     CowlIRI *iri = cowl_iri_from_static(test_onto_iri test_data_prop);
     CowlDataProp *prop = cowl_data_prop_get(iri);
-    cowl_uint_t count = cowl_ontology_axiom_count_for_data_prop(onto, prop);
+    cowl_uint count = cowl_ontology_axiom_count_for_data_prop(onto, prop);
     cowl_data_prop_release(prop);
     cowl_iri_release(iri);
     cowl_assert_equal_int(count, test_data_prop_axiom_count,
@@ -235,7 +235,7 @@ bool cowl_test_ontology_axiom_count_for_data_prop(void) {
 bool cowl_test_ontology_axiom_count_for_annot_prop(void) {
     CowlIRI *iri = cowl_iri_from_static(test_onto_iri test_annot_prop);
     CowlAnnotProp *prop = cowl_annot_prop_get(iri);
-    cowl_uint_t count = cowl_ontology_axiom_count_for_annot_prop(onto, prop);
+    cowl_uint count = cowl_ontology_axiom_count_for_annot_prop(onto, prop);
     cowl_annot_prop_release(prop);
     cowl_iri_release(iri);
     cowl_assert_equal_int(count, test_annot_prop_axiom_count,
@@ -246,7 +246,7 @@ bool cowl_test_ontology_axiom_count_for_annot_prop(void) {
 bool cowl_test_ontology_axiom_count_for_named_ind(void) {
     CowlIRI *iri = cowl_iri_from_static(test_onto_iri test_named_ind);
     CowlNamedInd *ind = cowl_named_ind_get(iri);
-    cowl_uint_t count = cowl_ontology_axiom_count_for_named_ind(onto, ind);
+    cowl_uint count = cowl_ontology_axiom_count_for_named_ind(onto, ind);
     cowl_named_ind_release(ind);
     cowl_iri_release(iri);
     cowl_assert_equal_int(count, test_named_ind_axiom_count,
@@ -264,7 +264,7 @@ bool cowl_test_ontology_axiom_count_for_anon_ind(void) {
     CowlIterator iter = cowl_iterator_init(&ind, cowl_test_get_first_anon_ind);
     cowl_ontology_iterate_anon_inds(onto, &iter);
 
-    cowl_uint_t count = cowl_ontology_axiom_count_for_anon_ind(onto, ind);
+    cowl_uint count = cowl_ontology_axiom_count_for_anon_ind(onto, ind);
     cowl_assert_equal_int(count, test_anon_ind_axiom_count,
                           "Number of axioms for the only anonymous individual");
 

@@ -50,7 +50,7 @@ cowl_struct_decl(CowlObjCard);
  */
 COWL_PUBLIC
 CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
-                               CowlClsExp *filler, cowl_uint_t cardinality);
+                               CowlClsExp *filler, cowl_uint cardinality);
 
 /**
  * Retains the specified object property cardinality restriction.
@@ -115,7 +115,7 @@ CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr);
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_card_get_cardinality(CowlObjCard *restr);
+cowl_uint cowl_obj_card_get_cardinality(CowlObjCard *restr);
 
 /**
  * Returns the string representation of the specified restriction.
@@ -151,7 +151,7 @@ bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs);
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_card_hash(CowlObjCard *restr);
+cowl_uint cowl_obj_card_hash(CowlObjCard *restr);
 
 /**
  * Iterates over the primitives referenced by

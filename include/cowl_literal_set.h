@@ -63,7 +63,7 @@ bool cowl_literal_set_equals(CowlLiteralSet *lhs, CowlLiteralSet *rhs);
  * @public @memberof CowlLiteralSet
  */
 COWL_PUBLIC
-cowl_uint_t cowl_literal_set_hash(CowlLiteralSet *set);
+cowl_uint cowl_literal_set_hash(CowlLiteralSet *set);
 
 /**
  * Iterates over the primitives referenced by the specified set.

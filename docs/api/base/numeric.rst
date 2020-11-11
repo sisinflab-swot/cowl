@@ -5,7 +5,7 @@ Numeric types
 Integers
 ========
 
-.. doxygentypedef:: cowl_uint_t
+.. doxygentypedef:: cowl_uint
 .. doxygendefine:: COWL_UINT_MAX
 .. doxygendefine:: COWL_UINT_FMT
 
@@ -17,6 +17,6 @@ Bitmasks
 Return codes
 ============
 
-.. doxygenenum:: cowl_ret_t
-.. doxygenfunction:: cowl_ret_t_to_cstring
-.. doxygenfunction:: cowl_ret_t_to_string
+.. doxygenenum:: cowl_ret
+.. doxygenfunction:: cowl_ret_to_cstring
+.. doxygenfunction:: cowl_ret_to_string

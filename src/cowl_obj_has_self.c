@@ -18,7 +18,7 @@ static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
     CowlObjHasSelf *exp = cowl_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(prop));
+    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(prop));
 
     *exp = (CowlObjHasSelf) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_SELF, hash),
@@ -60,7 +60,7 @@ bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {
     return cowl_obj_prop_exp_equals(lhs->prop, rhs->prop);
 }
 
-cowl_uint_t cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
+cowl_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
     return cowl_object_hash_get(exp);
 }
 

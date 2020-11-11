@@ -139,7 +139,7 @@ bool cowl_nary_data_prop_axiom_equals(CowlNAryDataPropAxiom *lhs, CowlNAryDataPr
  * @public @memberof CowlNAryDataPropAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_nary_data_prop_axiom_hash(CowlNAryDataPropAxiom *axiom);
+cowl_uint cowl_nary_data_prop_axiom_hash(CowlNAryDataPropAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

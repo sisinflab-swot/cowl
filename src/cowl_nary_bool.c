@@ -19,8 +19,8 @@ static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlClsExpSet *op
     CowlNAryBool *exp = cowl_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
-                                   uhset_hash(CowlClsExpSet, operands));
+    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
+                                 uhset_hash(CowlClsExpSet, operands));
 
     *exp = (CowlNAryBool) {
         .super = COWL_CLS_EXP_INIT(type, hash),
@@ -67,7 +67,7 @@ bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
             uhset_equals(CowlClsExpSet, lhs->operands, rhs->operands));
 }
 
-cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp) {
+cowl_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_object_hash_get(exp);
 }
 

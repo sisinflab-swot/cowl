@@ -17,12 +17,12 @@
 #define IS_NCNAME_NON_START_CHAR(C) \
     ((C) == '-' || (C) == '.' || ((C) >= '0' && (C) <= '9') || (C) == 0xB7)
 
-cowl_uint_t cowl_xml_ns_length(CowlRawString string) {
+cowl_uint cowl_xml_ns_length(CowlRawString string) {
     // This is currently not completely compliant with the NCName specification.
     // TODO: account for Unicode code points.
-    cowl_uint_t ns_length = string.length;
+    cowl_uint ns_length = string.length;
 
-    for (cowl_uint_t i = ns_length; i-- != 0;) {
+    for (cowl_uint i = ns_length; i-- != 0;) {
         unsigned char ch = (unsigned char)string.cstring[i];
         if (IS_NCNAME_START_CHAR(ch)) {
             ns_length = i;

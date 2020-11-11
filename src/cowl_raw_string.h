@@ -19,7 +19,7 @@
 COWL_BEGIN_DECLS
 
 typedef cowl_struct(CowlRawString) {
-    cowl_uint_t length;
+    cowl_uint length;
     char const *cstring;
 } CowlRawString;
 
@@ -41,11 +41,11 @@ CowlRawString cowl_raw_string_copy(CowlRawString string);
 
 CowlRawString cowl_raw_string_with_format(char const *format, ...);
 CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args);
-CowlRawString cowl_raw_string_concat(cowl_uint_t count, CowlRawString const *strings);
-cowl_uint_t cowl_raw_string_index_of(CowlRawString string, char needle);
+CowlRawString cowl_raw_string_concat(cowl_uint count, CowlRawString const *strings);
+cowl_uint cowl_raw_string_index_of(CowlRawString string, char needle);
 
 bool cowl_raw_string_equals(CowlRawString lhs, CowlRawString rhs);
-cowl_uint_t cowl_raw_string_hash(CowlRawString string);
+cowl_uint cowl_raw_string_hash(CowlRawString string);
 
 COWL_END_DECLS
 

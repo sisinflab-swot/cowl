@@ -18,7 +18,7 @@ COWL_BEGIN_DECLS
 
 cowl_struct(CowlDataCard) {
     CowlClsExp super;
-    cowl_uint_t cardinality;
+    cowl_uint cardinality;
     CowlDataPropExp *prop;
     CowlDataRange *range;
 };

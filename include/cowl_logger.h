@@ -88,7 +88,7 @@ CowlLogger* cowl_logger_retain(CowlLogger *logger);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_release(CowlLogger *logger);
+cowl_ret cowl_logger_release(CowlLogger *logger);
 
 /// @name State
 
@@ -106,7 +106,7 @@ cowl_ret_t cowl_logger_release(CowlLogger *logger);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_clear(CowlLogger *logger);
+cowl_ret cowl_logger_clear(CowlLogger *logger);
 
 /**
  * Returns the file path of this logger.
@@ -134,7 +134,7 @@ char const* cowl_logger_get_path(CowlLogger *logger);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_logs(CowlLogger *logger, char const *cstring);
+cowl_ret cowl_logger_logs(CowlLogger *logger, char const *cstring);
 
 /**
  * Logs the specified formatted string.
@@ -147,7 +147,7 @@ cowl_ret_t cowl_logger_logs(CowlLogger *logger, char const *cstring);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_logf(CowlLogger *logger, char const *format, ...);
+cowl_ret cowl_logger_logf(CowlLogger *logger, char const *format, ...);
 
 /**
  * Logs the specified string.
@@ -159,7 +159,7 @@ cowl_ret_t cowl_logger_logf(CowlLogger *logger, char const *format, ...);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_log(CowlLogger *logger, CowlString *string);
+cowl_ret cowl_logger_log(CowlLogger *logger, CowlString *string);
 
 /**
  * Logs and releases the specified string.
@@ -171,7 +171,7 @@ cowl_ret_t cowl_logger_log(CowlLogger *logger, CowlString *string);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_consume(CowlLogger *logger, CowlString *string);
+cowl_ret cowl_logger_consume(CowlLogger *logger, CowlString *string);
 
 /**
  * Logs the specified ontology.
@@ -183,7 +183,7 @@ cowl_ret_t cowl_logger_consume(CowlLogger *logger, CowlString *string);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
+cowl_ret cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the entities in the specified ontology.
@@ -195,7 +195,7 @@ cowl_ret_t cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto);
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto);
+cowl_ret cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the axioms in the specified ontology.
@@ -207,7 +207,7 @@ cowl_ret_t cowl_logger_log_entities_in_ontology(CowlLogger *logger, CowlOntology
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
+cowl_ret cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
  * Logs the specified errors.
@@ -219,7 +219,7 @@ cowl_ret_t cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret_t cowl_logger_log_errors(CowlLogger *logger, UVec(CowlError) *errors);
+cowl_ret cowl_logger_log_errors(CowlLogger *logger, UVec(CowlError) *errors);
 
 COWL_END_DECLS
 

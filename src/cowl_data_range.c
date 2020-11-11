@@ -61,7 +61,7 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
     }
 }
 
-cowl_uint_t cowl_data_range_hash(CowlDataRange *range) {
+cowl_uint cowl_data_range_hash(CowlDataRange *range) {
     return cowl_object_hash_get(range);
 }
 

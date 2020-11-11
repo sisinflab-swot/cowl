@@ -132,7 +132,7 @@ bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs);
  * @public @memberof CowlNamedInd
  */
 COWL_PUBLIC
-cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind);
+cowl_uint cowl_named_ind_hash(CowlNamedInd *ind);
 
 /**
  * Iterates over this named individual.

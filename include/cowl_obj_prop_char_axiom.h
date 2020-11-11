@@ -158,7 +158,7 @@ bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharA
  * @public @memberof CowlObjPropCharAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom);
+cowl_uint cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

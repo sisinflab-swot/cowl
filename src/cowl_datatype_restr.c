@@ -21,9 +21,9 @@ static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
     CowlDatatypeRestr *restr = cowl_alloc(restr);
     if (!restr) return NULL;
 
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_RESTR,
-                                   cowl_datatype_hash(datatype),
-                                   uhset_hash(CowlFacetRestrSet, restrictions));
+    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_RESTR,
+                                 cowl_datatype_hash(datatype),
+                                 uhset_hash(CowlFacetRestrSet, restrictions));
 
     *restr = (CowlDatatypeRestr) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE_RESTR, hash),
@@ -72,7 +72,7 @@ bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) 
            uhset_equals(CowlFacetRestrSet, lhs->restrictions, rhs->restrictions);
 }
 
-cowl_uint_t cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
+cowl_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
     return cowl_object_hash_get(restr);
 }
 

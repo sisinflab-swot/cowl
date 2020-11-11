@@ -26,7 +26,7 @@ cowl_struct_decl(CowlString);
  *
  * @public @memberof CowlAnonInd
  */
-typedef cowl_uint_t CowlNodeID;
+typedef cowl_uint CowlNodeID;
 
 /**
  * Null node ID.
@@ -73,7 +73,7 @@ CowlString* cowl_node_id_to_string(CowlNodeID id);
  * Hash function.
  *
  * @param ID [CowlNodeID] The node ID.
- * @return [cowl_uint_t] The hash value.
+ * @return [cowl_uint] The hash value.
  *
  * @public @related CowlAnonInd
  */

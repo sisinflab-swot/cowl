@@ -16,7 +16,7 @@ UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
 static UHash(CowlStringTable) *str_tbl = NULL;
 static CowlString *empty = NULL;
 
-cowl_ret_t cowl_string_api_init(void) {
+cowl_ret cowl_string_api_init(void) {
     str_tbl = uhset_alloc(CowlStringTable);
     empty = cowl_string_from_static("");
     return (str_tbl && empty) ? COWL_OK : COWL_ERR_MEM;
@@ -35,8 +35,8 @@ CowlString* cowl_string_alloc(CowlRawString raw_string) {
 }
 
 CowlString cowl_string_init(CowlRawString raw_string) {
-    cowl_uint_t shash = cowl_raw_string_is_null(raw_string) ? 0 : cowl_raw_string_hash(raw_string);
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length, shash);
+    cowl_uint shash = cowl_raw_string_is_null(raw_string) ? 0 : cowl_raw_string_hash(raw_string);
+    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length, shash);
 
     CowlString init = {
         .super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash),
@@ -69,14 +69,14 @@ CowlString* cowl_string_copy(CowlString *string) {
     CowlString *copy = cowl_alloc(copy);
     if (!copy) return NULL;
 
-    cowl_uint_t hash = cowl_object_hash_get(string);
+    cowl_uint hash = cowl_object_hash_get(string);
     copy->super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash);
     copy->raw_string = cowl_raw_string_copy(string->raw_string);
 
     return copy;
 }
 
-cowl_ret_t cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out) {
+cowl_ret cowl_string_split_two(CowlRawString string, cowl_uint lhs_length, CowlString **out) {
     CowlString *lhs, *rhs;
 
     if (lhs_length < string.length) {
@@ -87,7 +87,7 @@ cowl_ret_t cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, C
         rhs = cowl_string_get_empty();
     }
 
-    cowl_ret_t ret;
+    cowl_ret ret;
 
     if (lhs && rhs) {
         ret = COWL_OK;
@@ -147,7 +147,7 @@ char const* cowl_string_get_cstring(CowlString *string) {
     return string->raw_string.cstring;
 }
 
-cowl_uint_t cowl_string_get_length(CowlString *string) {
+cowl_uint cowl_string_get_length(CowlString *string) {
     return string->raw_string.length;
 }
 
@@ -156,7 +156,7 @@ bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
            cowl_raw_string_equals(lhs->raw_string, rhs->raw_string);
 }
 
-cowl_uint_t cowl_string_hash(CowlString *string) {
+cowl_uint cowl_string_hash(CowlString *string) {
     return cowl_object_hash_get(string);
 }
 

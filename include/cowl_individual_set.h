@@ -63,7 +63,7 @@ bool cowl_individual_set_equals(CowlIndividualSet *lhs, CowlIndividualSet *rhs);
  * @public @memberof CowlIndividualSet
  */
 COWL_PUBLIC
-cowl_uint_t cowl_individual_set_hash(CowlIndividualSet *set);
+cowl_uint cowl_individual_set_hash(CowlIndividualSet *set);
 
 /**
  * Iterates over the primitives referenced by the specified set.

@@ -136,7 +136,7 @@ bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataProp
  * @public @memberof CowlDataPropRangeAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom);
+cowl_uint cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

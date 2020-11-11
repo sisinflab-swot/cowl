@@ -184,7 +184,7 @@ bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs, CowlDataPr
  * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom);
+cowl_uint cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

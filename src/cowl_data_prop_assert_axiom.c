@@ -23,10 +23,10 @@ static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType 
     CowlDataPropAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_4(COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM, annot, type,
-                                         cowl_individual_hash(subj),
-                                         cowl_data_prop_exp_hash(prop),
-                                         cowl_literal_hash(obj));
+    cowl_uint hash = cowl_axiom_hash_4(COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM, annot, type,
+                                       cowl_individual_hash(subj),
+                                       cowl_data_prop_exp_hash(prop),
+                                       cowl_literal_hash(obj));
 
     cowl_axiom_init(CowlDataPropAssertAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
@@ -103,7 +103,7 @@ bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs,
                                   cowl_individual_equals(lhs->subject, rhs->subject));
 }
 
-cowl_uint_t cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
+cowl_uint cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

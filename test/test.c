@@ -51,7 +51,7 @@ int main(void) {
     }
 
 #ifdef COWL_DEBUG_LEAKS
-    cowl_uint_t leaks = cowl_leak_debug_count();
+    cowl_uint leaks = cowl_leak_debug_count();
 
     if (leaks) {
         printf("Detected %" COWL_UINT_FMT " leaked objects.\n", leaks);

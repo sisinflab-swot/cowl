@@ -24,10 +24,10 @@ static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
     value = value ? cowl_string_retain(value) : cowl_string_get_empty();
     lang = lang ? cowl_string_retain(lang) : cowl_string_get_empty();
 
-    cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_LITERAL,
-                                   cowl_datatype_hash(dt),
-                                   cowl_string_hash(value),
-                                   uhash_ptr_hash(lang));
+    cowl_uint hash = cowl_hash_3(COWL_HASH_INIT_LITERAL,
+                                 cowl_datatype_hash(dt),
+                                 cowl_string_hash(value),
+                                 uhash_ptr_hash(lang));
 
     *literal = (CowlLiteral) {
         .super = COWL_HASH_OBJECT_INIT(COWL_OT_LITERAL, hash),
@@ -56,7 +56,7 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRaw
 
     if (!lang.length && value.length) {
         // The literal doesn't have a separate language tag, attempt to parse it from the value.
-        cowl_uint_t lang_idx = cowl_raw_string_index_of(value, '@') + 1;
+        cowl_uint lang_idx = cowl_raw_string_index_of(value, '@') + 1;
 
         if (lang_idx < value.length) {
             value = cowl_raw_string_init(value.cstring, lang_idx, false);
@@ -106,7 +106,7 @@ bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
            cowl_string_equals(lhs->value, rhs->value);
 }
 
-cowl_uint_t cowl_literal_hash(CowlLiteral *literal) {
+cowl_uint cowl_literal_hash(CowlLiteral *literal) {
     return cowl_object_hash_get(literal);
 }
 

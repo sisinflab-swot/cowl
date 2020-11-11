@@ -15,7 +15,7 @@
 
 static CowlIRI *cowl_facet_iris[COWL_FACET_COUNT] = { NULL };
 
-cowl_ret_t cowl_facet_init(void) {
+cowl_ret cowl_facet_init(void) {
     CowlXSDVocab *xsd = cowl_xsd_vocab_get();
     CowlRDFVocab *rdf = cowl_rdf_vocab_get();
     cowl_facet_iris[COWL_FACET_NONE] = NULL;

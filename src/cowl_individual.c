@@ -39,7 +39,7 @@ bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_individual_hash(CowlIndividual *ind) {
+cowl_uint cowl_individual_hash(CowlIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 

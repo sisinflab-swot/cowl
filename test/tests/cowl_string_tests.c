@@ -36,7 +36,7 @@ bool cowl_test_string_get_empty(void) {
 }
 
 bool cowl_test_string_get_length(void) {
-    cowl_uint_t len = sizeof(COWL_TEST_STRING) - 1;
+    cowl_uint len = sizeof(COWL_TEST_STRING) - 1;
     CowlString *string = cowl_string_from_static(COWL_TEST_STRING);
     cowl_assert_equal_int(cowl_string_get_length(string), len, "String length");
     cowl_string_release(string);

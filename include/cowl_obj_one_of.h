@@ -109,7 +109,7 @@ bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs);
  * @public @memberof CowlObjOneOf
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_one_of_hash(CowlObjOneOf *exp);
+cowl_uint cowl_obj_one_of_hash(CowlObjOneOf *exp);
 
 /**
  * Iterates over the primitives referenced by the specified individual enumeration.

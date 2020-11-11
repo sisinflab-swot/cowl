@@ -21,11 +21,11 @@ static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObjPro
     CowlHasKeyAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t obj_props_hash = obj_props ? cowl_obj_prop_exp_set_hash(obj_props) : 0;
-    cowl_uint_t data_props_hash = data_props ? cowl_data_prop_exp_set_hash(data_props) : 0;
-    cowl_uint_t hash = cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM, annot,
-                                         cowl_cls_exp_hash(cls_exp),
-                                         obj_props_hash, data_props_hash);
+    cowl_uint obj_props_hash = obj_props ? cowl_obj_prop_exp_set_hash(obj_props) : 0;
+    cowl_uint data_props_hash = data_props ? cowl_data_prop_exp_set_hash(data_props) : 0;
+    cowl_uint hash = cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM, annot,
+                                       cowl_cls_exp_hash(cls_exp),
+                                       obj_props_hash, data_props_hash);
 
     cowl_axiom_init(CowlHasKeyAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_HAS_KEY, hash, annot),
@@ -87,7 +87,7 @@ bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
                                   cowl_data_prop_exp_set_equals(lhs->data_props, rhs->data_props));
 }
 
-cowl_uint_t cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
+cowl_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

@@ -17,8 +17,8 @@ static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlAnnotationVe
     CowlDeclAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_1(COWL_HASH_INIT_DECL_AXIOM, annot,
-                                         cowl_entity_hash(entity));
+    cowl_uint hash = cowl_axiom_hash_1(COWL_HASH_INIT_DECL_AXIOM, annot,
+                                       cowl_entity_hash(entity));
 
     cowl_axiom_init(CowlDeclAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DECL, hash, annot),
@@ -63,7 +63,7 @@ bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs, cowl_entity_equals(lhs->entity, rhs->entity));
 }
 
-cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
+cowl_uint cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

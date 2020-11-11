@@ -1,5 +1,5 @@
 /**
- * Defines cowl_ret_t and its API.
+ * Defines cowl_ret and its API.
  *
  * @author Ivano Bilenchi
  *
@@ -10,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_RET_T_H
-#define COWL_RET_T_H
+#ifndef COWL_RET_H
+#define COWL_RET_H
 
 #include "cowl_std.h"
 
@@ -26,7 +26,7 @@ cowl_struct_decl(CowlString);
  *
  * @note Error codes are guaranteed to evaluate to true in boolean expressions.
  */
-typedef cowl_enum(cowl_ret_t) {
+typedef cowl_enum(cowl_ret) {
 
 /// @name Codes
 
@@ -57,7 +57,7 @@ typedef cowl_enum(cowl_ret_t) {
     /// First enum value.
     COWL_RET_FIRST = 0
 
-} cowl_ret_t;
+} cowl_ret;
 
 /**
  * Returns a human-readable string representation of the specified return value.
@@ -67,7 +67,7 @@ typedef cowl_enum(cowl_ret_t) {
  *
  * @note You must not modify or free the returned string.
  */
-char const* cowl_ret_t_to_cstring(cowl_ret_t ret);
+char const* cowl_ret_to_cstring(cowl_ret ret);
 
 /**
  * Returns a human-readable string representation of the specified return value.
@@ -77,8 +77,8 @@ char const* cowl_ret_t_to_cstring(cowl_ret_t ret);
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  */
-CowlString* cowl_ret_t_to_string(cowl_ret_t ret);
+CowlString* cowl_ret_to_string(cowl_ret ret);
 
 COWL_END_DECLS
 
-#endif // COWL_RET_T_H
+#endif // COWL_RET_H

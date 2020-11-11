@@ -108,7 +108,7 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs);
  * @public @memberof CowlPrimitive
  */
 COWL_PUBLIC
-cowl_uint_t cowl_primitive_hash(CowlPrimitive *primitive);
+cowl_uint cowl_primitive_hash(CowlPrimitive *primitive);
 
 /**
  * Iterates over this primitive.

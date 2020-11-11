@@ -18,9 +18,9 @@ static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *su
     CowlSubClsAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM, annot,
-                                         cowl_cls_exp_hash(super),
-                                         cowl_cls_exp_hash(sub));
+    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM, annot,
+                                       cowl_cls_exp_hash(super),
+                                       cowl_cls_exp_hash(sub));
 
     cowl_axiom_init(CowlSubClsAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_SUB_CLASS, hash, annot),
@@ -75,7 +75,7 @@ bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs) {
                                   cowl_cls_exp_equals(lhs->super_class, rhs->super_class));
 }
 
-cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
+cowl_uint cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

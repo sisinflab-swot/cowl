@@ -24,8 +24,8 @@ bool cowl_obj_prop_exp_vec_equals(CowlObjPropExpVec *lhs, CowlObjPropExpVec *rhs
     return uvec_equals(CowlObjPropExpPtr, lhs, rhs);
 }
 
-cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec) {
-    cowl_uint_t hash = 0;
+cowl_uint cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec) {
+    cowl_uint hash = 0;
 
     uvec_foreach(CowlObjPropExpPtr, vec, prop, {
         hash = cowl_hash_iter(hash, cowl_obj_prop_exp_hash(prop));

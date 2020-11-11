@@ -13,7 +13,7 @@
 
 static cowl_struct(CowlXSDVocab) vocab;
 
-static inline cowl_ret_t cowl_xsd_vocab_validate(void) {
+static inline cowl_ret cowl_xsd_vocab_validate(void) {
     if (vocab.ns && vocab.iri.any_uri && vocab.iri.base64_binary && vocab.iri.boolean &&
         vocab.iri.byte && vocab.iri.date_time && vocab.iri.date_timestamp && vocab.iri.decimal &&
         vocab.iri.xsd_double && vocab.iri.xsd_float && vocab.iri.hex_binary && vocab.iri.xsd_int &&
@@ -38,7 +38,7 @@ static inline cowl_ret_t cowl_xsd_vocab_validate(void) {
     return COWL_ERR_MEM;
 }
 
-cowl_ret_t cowl_xsd_vocab_init(void) {
+cowl_ret cowl_xsd_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2001/XMLSchema#");
 
     CowlXSDIRIVocab v = {

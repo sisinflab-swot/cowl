@@ -25,7 +25,7 @@ COWL_BEGIN_DECLS
  * @note It's mandatory to call this function before making any other Cowl API call.
  */
 COWL_PUBLIC
-cowl_ret_t cowl_api_init(void);
+cowl_ret cowl_api_init(void);
 
 /**
  * Deinitializes the API.

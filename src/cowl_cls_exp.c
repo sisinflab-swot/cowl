@@ -91,7 +91,7 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
     }
 }
 
-cowl_uint_t cowl_cls_exp_hash(CowlClsExp *exp) {
+cowl_uint cowl_cls_exp_hash(CowlClsExp *exp) {
     return cowl_object_hash_get(exp);
 }
 

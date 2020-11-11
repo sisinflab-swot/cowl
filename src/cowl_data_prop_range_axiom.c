@@ -20,9 +20,9 @@ static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp 
     CowlDataPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM, annot,
-                                         cowl_data_prop_exp_hash(prop),
-                                         cowl_data_range_hash(range));
+    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM, annot,
+                                       cowl_data_prop_exp_hash(prop),
+                                       cowl_data_range_hash(range));
 
     cowl_axiom_init(CowlDataPropRangeAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DATA_PROP_RANGE, hash, annot),
@@ -77,7 +77,7 @@ bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataProp
                                   cowl_data_range_equals(lhs->range, rhs->range));
 }
 
-cowl_uint_t cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom) {
+cowl_uint cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

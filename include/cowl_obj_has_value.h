@@ -122,7 +122,7 @@ bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs);
  * @public @memberof CowlObjHasValue
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp);
+cowl_uint cowl_obj_has_value_hash(CowlObjHasValue *exp);
 
 /**
  * Iterates over the primitives referenced by

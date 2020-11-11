@@ -23,7 +23,7 @@ bool cowl_obj_prop_exp_set_equals(CowlObjPropExpSet *lhs, CowlObjPropExpSet *rhs
     return uhset_equals(CowlObjPropExpSet, lhs, rhs);
 }
 
-cowl_uint_t cowl_obj_prop_exp_set_hash(CowlObjPropExpSet *set) {
+cowl_uint cowl_obj_prop_exp_set_hash(CowlObjPropExpSet *set) {
     return uhset_hash(CowlObjPropExpSet, set);
 }
 

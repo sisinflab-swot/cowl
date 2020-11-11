@@ -132,7 +132,7 @@ bool cowl_data_prop_equals(CowlDataProp *lhs, CowlDataProp *rhs);
  * @public @memberof CowlDataProp
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_prop_hash(CowlDataProp *prop);
+cowl_uint cowl_data_prop_hash(CowlDataProp *prop);
 
 /**
  * Iterates over this data property.

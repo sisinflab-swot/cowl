@@ -122,7 +122,7 @@ bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs);
  * @public @memberof CowlNAryData
  */
 COWL_PUBLIC
-cowl_uint_t cowl_nary_data_hash(CowlNAryData *range);
+cowl_uint cowl_nary_data_hash(CowlNAryData *range);
 
 /**
  * Iterates over the primitives referenced by the specified N-ary data range.

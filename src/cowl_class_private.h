@@ -21,7 +21,7 @@ cowl_struct(CowlClass) {
     CowlIRI *iri;
 };
 
-cowl_ret_t cowl_class_api_init(void);
+cowl_ret cowl_class_api_init(void);
 void cowl_class_api_deinit(void);
 
 COWL_END_DECLS

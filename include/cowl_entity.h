@@ -110,7 +110,7 @@ bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs);
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-cowl_uint_t cowl_entity_hash(CowlEntity *entity);
+cowl_uint cowl_entity_hash(CowlEntity *entity);
 
 /**
  * Iterates over this entity.

@@ -17,7 +17,7 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
     CowlObjCompl *exp = cowl_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
+    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
     *exp = (CowlObjCompl) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_COMPL, hash),
@@ -59,7 +59,7 @@ bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
     return cowl_cls_exp_equals(lhs->operand, rhs->operand);
 }
 
-cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *exp) {
+cowl_uint cowl_obj_compl_hash(CowlObjCompl *exp) {
     return cowl_object_hash_get(exp);
 }
 

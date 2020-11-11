@@ -18,10 +18,10 @@ static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, Cowl
                                                        CowlAnnotationVec *annot) {
     CowlClsAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
-    
-    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM, annot,
-                                         cowl_individual_hash(ind),
-                                         cowl_cls_exp_hash(exp));
+
+    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM, annot,
+                                       cowl_individual_hash(ind),
+                                       cowl_cls_exp_hash(exp));
 
     cowl_axiom_init(CowlClsAssertAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_CLASS_ASSERT, hash, annot),
@@ -76,7 +76,7 @@ bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *r
                                   cowl_cls_exp_equals(lhs->cls_exp, rhs->cls_exp));
 }
 
-cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
+cowl_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

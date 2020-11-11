@@ -183,7 +183,7 @@ bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropA
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
+cowl_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

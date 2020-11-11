@@ -122,7 +122,7 @@ bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs);
  * @public @memberof CowlDatatypeRestr
  */
 COWL_PUBLIC
-cowl_uint_t cowl_datatype_restr_hash(CowlDatatypeRestr *restr);
+cowl_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr);
 
 /**
  * Iterates over the primitives referenced by the specified datatype restriction.

@@ -124,7 +124,7 @@ bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs);
  * @public @memberof CowlNAryBool
  */
 COWL_PUBLIC
-cowl_uint_t cowl_nary_bool_hash(CowlNAryBool *exp);
+cowl_uint cowl_nary_bool_hash(CowlNAryBool *exp);
 
 /**
  * Iterates over the primitives referenced by

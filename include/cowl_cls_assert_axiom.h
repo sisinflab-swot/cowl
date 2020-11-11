@@ -136,7 +136,7 @@ bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *r
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
+cowl_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

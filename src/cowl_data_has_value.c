@@ -19,9 +19,9 @@ static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLi
     CowlDataHasValue *restr = cowl_alloc(restr);
     if (!restr) return NULL;
 
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_HAS_VALUE,
-                                   cowl_data_prop_exp_hash(prop),
-                                   cowl_literal_hash(value));
+    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_HAS_VALUE,
+                                 cowl_data_prop_exp_hash(prop),
+                                 cowl_literal_hash(value));
 
     *restr = (CowlDataHasValue) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_DATA_HAS_VALUE, hash),
@@ -70,7 +70,7 @@ bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
            cowl_literal_equals(lhs->value, rhs->value);
 }
 
-cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *restr) {
+cowl_uint cowl_data_has_value_hash(CowlDataHasValue *restr) {
     return cowl_object_hash_get(restr);
 }
 

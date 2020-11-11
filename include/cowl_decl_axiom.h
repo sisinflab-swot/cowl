@@ -122,7 +122,7 @@ bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
  * @public @memberof CowlDeclAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
+cowl_uint cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

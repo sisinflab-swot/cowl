@@ -20,7 +20,7 @@
 UHASH_INIT(CowlAnnotPropTable, CowlAnnotProp*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlAnnotPropTable) *inst_tbl = NULL;
 
-cowl_ret_t cowl_annot_prop_api_init(void) {
+cowl_ret cowl_annot_prop_api_init(void) {
     inst_tbl = uhset_alloc(CowlAnnotPropTable);
     return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
@@ -77,7 +77,7 @@ bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_annot_prop_hash(CowlAnnotProp *prop) {
+cowl_uint cowl_annot_prop_hash(CowlAnnotProp *prop) {
     return uhash_ptr_hash(prop);
 }
 

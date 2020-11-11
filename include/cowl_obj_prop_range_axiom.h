@@ -136,7 +136,7 @@ bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRan
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom);
+cowl_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

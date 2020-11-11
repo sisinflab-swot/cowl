@@ -17,7 +17,7 @@ static CowlDataCompl* cowl_data_compl_alloc(CowlDataRange *operand) {
     CowlDataCompl *range = cowl_alloc(range);
     if (!range) return NULL;
 
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_COMPL, cowl_data_range_hash(operand));
+    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_DATA_COMPL, cowl_data_range_hash(operand));
 
     *range = (CowlDataCompl) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_COMPL, hash),
@@ -59,7 +59,7 @@ bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs) {
     return cowl_data_range_equals(lhs->operand, rhs->operand);
 }
 
-cowl_uint_t cowl_data_compl_hash(CowlDataCompl *range) {
+cowl_uint cowl_data_compl_hash(CowlDataCompl *range) {
     return cowl_object_hash_get(range);
 }
 

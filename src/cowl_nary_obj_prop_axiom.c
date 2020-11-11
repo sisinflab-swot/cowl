@@ -20,8 +20,8 @@ static CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_alloc(CowlAxiomType type,
     CowlNAryObjPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_OBJ_PROP_AXIOM, annot, type,
-                                         cowl_obj_prop_exp_set_hash(props));
+    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_OBJ_PROP_AXIOM, annot, type,
+                                       cowl_obj_prop_exp_set_hash(props));
 
     cowl_axiom_init(CowlNAryObjPropAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
@@ -74,7 +74,7 @@ bool cowl_nary_obj_prop_axiom_equals(CowlNAryObjPropAxiom *lhs, CowlNAryObjPropA
     return cowl_axiom_equals_impl(lhs, rhs, cowl_obj_prop_exp_set_equals(lhs->props, rhs->props));
 }
 
-cowl_uint_t cowl_nary_obj_prop_axiom_hash(CowlNAryObjPropAxiom *axiom) {
+cowl_uint cowl_nary_obj_prop_axiom_hash(CowlNAryObjPropAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

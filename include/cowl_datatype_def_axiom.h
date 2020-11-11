@@ -135,7 +135,7 @@ bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAx
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom);
+cowl_uint cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

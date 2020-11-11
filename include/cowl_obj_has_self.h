@@ -109,7 +109,7 @@ bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs);
  * @public @memberof CowlObjHasSelf
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_has_self_hash(CowlObjHasSelf *exp);
+cowl_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp);
 
 /**
  * Iterates over the primitives referenced by the specified self-restriction.

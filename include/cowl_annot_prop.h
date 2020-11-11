@@ -131,7 +131,7 @@ bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs);
  * @public @memberof CowlAnnotProp
  */
 COWL_PUBLIC
-cowl_uint_t cowl_annot_prop_hash(CowlAnnotProp *prop);
+cowl_uint cowl_annot_prop_hash(CowlAnnotProp *prop);
 
 /**
  * Iterates over this annotation property.

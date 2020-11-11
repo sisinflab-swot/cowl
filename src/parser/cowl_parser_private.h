@@ -40,18 +40,18 @@ cowl_struct(CowlParser) {
     CowlImportsLoader loader;
 };
 
-cowl_ret_t cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import);
+cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import);
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string);
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id);
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyID id);
-cowl_ret_t cowl_parser_set_imports(CowlParser *parser, UVec(CowlOntologyPtr) *imports);
-cowl_ret_t cowl_parser_set_annotations(CowlParser *parser, UVec(CowlAnnotationPtr) *annot);
-cowl_ret_t cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
-cowl_ret_t cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
+cowl_ret cowl_parser_set_imports(CowlParser *parser, UVec(CowlOntologyPtr) *imports);
+cowl_ret cowl_parser_set_annotations(CowlParser *parser, UVec(CowlAnnotationPtr) *annot);
+cowl_ret cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
+cowl_ret cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
 
-void cowl_parser_log_error(CowlParser *parser, cowl_ret_t code, char const *description);
-void cowl_parser_log_error_type(CowlParser *parser, cowl_ret_t code);
+void cowl_parser_log_error(CowlParser *parser, cowl_ret code, char const *description);
+void cowl_parser_log_error_type(CowlParser *parser, cowl_ret code);
 
 COWL_END_DECLS
 

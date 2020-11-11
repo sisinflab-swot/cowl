@@ -155,7 +155,7 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-cowl_uint_t cowl_iri_hash(CowlIRI *iri);
+cowl_uint cowl_iri_hash(CowlIRI *iri);
 
 COWL_END_DECLS
 

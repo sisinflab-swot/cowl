@@ -123,7 +123,7 @@ bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPr
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom);
+cowl_uint cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

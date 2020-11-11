@@ -19,9 +19,9 @@ static CowlObjHasValue* cowl_obj_has_value_alloc(CowlObjPropExp *prop, CowlIndiv
     CowlObjHasValue *exp = cowl_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_OBJ_HAS_VALUE,
-                                   cowl_obj_prop_exp_hash(prop),
-                                   cowl_individual_hash(ind));
+    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_OBJ_HAS_VALUE,
+                                 cowl_obj_prop_exp_hash(prop),
+                                 cowl_individual_hash(ind));
 
     *exp = (CowlObjHasValue) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_VALUE, hash),
@@ -71,7 +71,7 @@ bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs) {
            cowl_individual_equals(lhs->ind, rhs->ind);
 }
 
-cowl_uint_t cowl_obj_has_value_hash(CowlObjHasValue *exp) {
+cowl_uint cowl_obj_has_value_hash(CowlObjHasValue *exp) {
     return cowl_object_hash_get(exp);
 }
 

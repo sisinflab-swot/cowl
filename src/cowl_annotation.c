@@ -21,10 +21,10 @@ static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue
     CowlAnnotation *annotation = cowl_alloc(annotation);
     if (!annotation) return NULL;
 
-    cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
-                                   cowl_annot_prop_hash(prop),
-                                   cowl_annot_value_hash(value),
-                                   annot ? cowl_annotation_vec_hash(annot) : 0);
+    cowl_uint hash = cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
+                                 cowl_annot_prop_hash(prop),
+                                 cowl_annot_value_hash(value),
+                                 annot ? cowl_annotation_vec_hash(annot) : 0);
 
     (*annotation) = (CowlAnnotation) {
         .super = COWL_HASH_OBJECT_INIT(COWL_OT_ANNOTATION, hash),
@@ -81,7 +81,7 @@ bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
            cowl_annotation_vec_equals(lhs->annot, rhs->annot);
 }
 
-cowl_uint_t cowl_annotation_hash(CowlAnnotation *annot) {
+cowl_uint cowl_annotation_hash(CowlAnnotation *annot) {
     return cowl_object_hash_get(annot);
 }
 

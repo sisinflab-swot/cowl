@@ -23,7 +23,7 @@ bool cowl_cls_exp_set_equals(CowlClsExpSet *lhs, CowlClsExpSet *rhs) {
     return uhset_equals(CowlClsExpSet, lhs, rhs);
 }
 
-cowl_uint_t cowl_cls_exp_set_hash(CowlClsExpSet *set) {
+cowl_uint cowl_cls_exp_set_hash(CowlClsExpSet *set) {
     return uhset_hash(CowlClsExpSet, set);
 }
 

@@ -34,31 +34,31 @@ COWL_BEGIN_DECLS
  *
  * - **COWL_HUGE**: 8 bytes (*uint64_t*)
  *
- * @typedef cowl_uint_t
+ * @typedef cowl_uint
  */
 
 /**
- * Maximum value of a cowl_uint_t variable.
+ * Maximum value of a cowl_uint variable.
  *
  * @def COWL_UINT_MAX
  */
 
 /**
- * Format string for cowl_uint_t variables.
+ * Format string for cowl_uint variables.
  *
  * @def COWL_UINT_FMT
  */
 
 #if defined COWL_TINY
-    typedef uint16_t cowl_uint_t;
+    typedef uint16_t cowl_uint;
     #define COWL_UINT_MAX UINT16_MAX
     #define COWL_UINT_FMT PRIu16
 #elif defined COWL_HUGE
-    typedef uint64_t cowl_uint_t;
+    typedef uint64_t cowl_uint;
     #define COWL_UINT_MAX UINT64_MAX
     #define COWL_UINT_FMT PRIu64
 #else
-    typedef uint32_t cowl_uint_t;
+    typedef uint32_t cowl_uint;
     #define COWL_UINT_MAX UINT32_MAX
     #define COWL_UINT_FMT PRIu32
 #endif

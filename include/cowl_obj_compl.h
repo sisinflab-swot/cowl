@@ -109,7 +109,7 @@ bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs);
  * @public @memberof CowlObjCompl
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_compl_hash(CowlObjCompl *exp);
+cowl_uint cowl_obj_compl_hash(CowlObjCompl *exp);
 
 /**
  * Iterates over the primitives referenced by

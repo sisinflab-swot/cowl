@@ -15,7 +15,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_ret_t cowl_rdfs_vocab_init(void);
+cowl_ret cowl_rdfs_vocab_init(void);
 void cowl_rdfs_vocab_deinit(void);
 
 COWL_END_DECLS

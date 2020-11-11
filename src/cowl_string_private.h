@@ -24,7 +24,7 @@ cowl_struct(CowlString) {
     CowlRawString raw_string;
 };
 
-cowl_ret_t cowl_string_api_init(void);
+cowl_ret cowl_string_api_init(void);
 void cowl_string_api_deinit(void);
 
 CowlString* cowl_string_alloc(CowlRawString raw_string);
@@ -33,7 +33,7 @@ CowlString cowl_string_init(CowlRawString raw_string);
 CowlString* cowl_string_intern(CowlString *string);
 
 CowlString* cowl_string_copy(CowlString *string);
-cowl_ret_t cowl_string_split_two(CowlRawString string, cowl_uint_t lhs_length, CowlString **out);
+cowl_ret cowl_string_split_two(CowlRawString string, cowl_uint lhs_length, CowlString **out);
 
 COWL_END_DECLS
 

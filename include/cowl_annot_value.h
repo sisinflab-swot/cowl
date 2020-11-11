@@ -101,7 +101,7 @@ bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs);
  * @public @memberof CowlAnnotValue
  */
 COWL_PUBLIC
-cowl_uint_t cowl_annot_value_hash(CowlAnnotValue *value);
+cowl_uint cowl_annot_value_hash(CowlAnnotValue *value);
 
 /**
  * Iterates over the primitives referenced by the specified annotation value.

@@ -48,7 +48,7 @@
     static void cowl_functional_error(cowl_unused COWL_FUNCTIONAL_LTYPE *yylloc,
                                       cowl_unused yyscan_t scanner,
                                       CowlParser *parser, const char* s) {
-        cowl_ret_t code = strcmp(s, "memory exhausted") ? COWL_ERR_SYNTAX : COWL_ERR_MEM;
+        cowl_ret code = strcmp(s, "memory exhausted") ? COWL_ERR_SYNTAX : COWL_ERR_MEM;
         cowl_parser_log_error(parser, code, strdup(s));
     }
 
@@ -64,7 +64,7 @@
 
 // Terminals
 
-%token <cowl_uint_t> NON_NEGATIVE_INTEGER
+%token <cowl_uint> NON_NEGATIVE_INTEGER
 %token <CowlRawString> QUOTED_STRING
 %token <CowlRawString> BLANK_NODE_LABEL
 %token <CowlRawString> PNAME_NS
@@ -112,7 +112,7 @@
 %type <CowlAnnotValue *> annotation_subject annotation_value
 %type <CowlNodeID> node_id
 %type <CowlOntologyID> ontology_id
-%type <cowl_uint_t> cardinality
+%type <cowl_uint> cardinality
 
 %type <CowlEntity *> entity
 %type <CowlClass *> class
@@ -255,7 +255,7 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
-        cowl_ret_t ret = cowl_parser_register_ns(parser, $3, $5->ns);
+        cowl_ret ret = cowl_parser_register_ns(parser, $3, $5->ns);
         cowl_string_release($3);
         cowl_iri_release($5);
         if (ret) YYERROR;
@@ -266,7 +266,7 @@ ontology
     : ONTOLOGY L_PAREN ontology_id import_star annotation_star axioms R_PAREN {
         cowl_parser_set_id(parser, $3);
 
-        cowl_ret_t ret = cowl_parser_set_imports(parser, $4);
+        cowl_ret ret = cowl_parser_set_imports(parser, $4);
         if (ret) YYERROR;
 
         ret = cowl_parser_set_annotations(parser, $5);
@@ -299,7 +299,7 @@ version_iri
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret_t ret = cowl_parser_load_import(parser, $3, &$$);
+        cowl_ret ret = cowl_parser_load_import(parser, $3, &$$);
         cowl_iri_release($3);
         if (ret) YYERROR;
     }
@@ -308,7 +308,7 @@ import
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret_t ret = cowl_parser_add_axiom(parser, $2);
+        cowl_ret ret = cowl_parser_add_axiom(parser, $2);
         cowl_axiom_release($2);
         if (ret) YYERROR;
     }

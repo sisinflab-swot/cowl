@@ -23,7 +23,7 @@ bool cowl_facet_restr_set_equals(CowlFacetRestrSet *lhs, CowlFacetRestrSet *rhs)
     return uhset_equals(CowlFacetRestrSet, lhs, rhs);
 }
 
-cowl_uint_t cowl_facet_restr_set_hash(CowlFacetRestrSet *set) {
+cowl_uint cowl_facet_restr_set_hash(CowlFacetRestrSet *set) {
     return uhset_hash(CowlFacetRestrSet, set);
 }
 

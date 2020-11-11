@@ -23,8 +23,8 @@ CowlString* cowl_error_to_string(CowlError error) {
     }
 
     // This must not be freed as the underlying string is not copied.
-    comp[1] = cowl_raw_string_init_cstring(cowl_ret_t_to_cstring(error.code), false);
-    cowl_uint_t n_comp = 2;
+    comp[1] = cowl_raw_string_init_cstring(cowl_ret_to_cstring(error.code), false);
+    cowl_uint n_comp = 2;
 
     if (error.description) {
         comp[2] = cowl_raw_string_init_static(": ", false);

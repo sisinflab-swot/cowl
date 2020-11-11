@@ -147,7 +147,7 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
     }
 }
 
-cowl_uint_t cowl_axiom_hash(CowlAxiom *axiom) {
+cowl_uint cowl_axiom_hash(CowlAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

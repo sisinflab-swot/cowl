@@ -63,7 +63,7 @@ bool cowl_cls_exp_set_equals(CowlClsExpSet *lhs, CowlClsExpSet *rhs);
  * @public @memberof CowlClsExpSet
  */
 COWL_PUBLIC
-cowl_uint_t cowl_cls_exp_set_hash(CowlClsExpSet *set);
+cowl_uint cowl_cls_exp_set_hash(CowlClsExpSet *set);
 
 /**
  * Iterates over the primitives referenced by the specified set.

@@ -63,7 +63,7 @@ bool cowl_facet_restr_set_equals(CowlFacetRestrSet *lhs, CowlFacetRestrSet *rhs)
  * @public @memberof CowlFacetRestrSet
  */
 COWL_PUBLIC
-cowl_uint_t cowl_facet_restr_set_hash(CowlFacetRestrSet *set);
+cowl_uint cowl_facet_restr_set_hash(CowlFacetRestrSet *set);
 
 /**
  * Iterates over the primitives referenced by the specified set.

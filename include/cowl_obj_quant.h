@@ -137,7 +137,7 @@ bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs);
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_quant_hash(CowlObjQuant *restr);
+cowl_uint cowl_obj_quant_hash(CowlObjQuant *restr);
 
 /**
  * Iterates over the primitives referenced by the specified object quantifier.

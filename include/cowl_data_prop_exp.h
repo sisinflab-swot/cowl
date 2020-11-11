@@ -97,7 +97,7 @@ bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs);
  * @public @memberof CowlDataPropExp
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_prop_exp_hash(CowlDataPropExp *exp);
+cowl_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp);
 
 /**
  * Iterates over the primitives referenced by the specified data property expression.

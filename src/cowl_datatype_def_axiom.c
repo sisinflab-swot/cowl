@@ -20,9 +20,9 @@ static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *dt,
     CowlDatatypeDefAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATATYPE_DEF_AXIOM, annot,
-                                         cowl_datatype_hash(dt),
-                                         cowl_data_range_hash(range));
+    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_DATATYPE_DEF_AXIOM, annot,
+                                       cowl_datatype_hash(dt),
+                                       cowl_data_range_hash(range));
 
     cowl_axiom_init(CowlDatatypeDefAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DATATYPE_DEF, hash, annot),
@@ -77,7 +77,7 @@ bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAx
                                   cowl_data_range_equals(lhs->range, rhs->range));
 }
 
-cowl_uint_t cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom) {
+cowl_uint cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

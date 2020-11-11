@@ -63,9 +63,9 @@ cowl_struct(CowlOntology) {
 cowl_struct(CowlOntology)* cowl_ontology_get(void);
 
 void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID id);
-cowl_ret_t cowl_ontology_set_imports(CowlOntology *onto, UVec(CowlOntologyPtr) *imports);
-cowl_ret_t cowl_ontology_set_annot(CowlOntology *onto, UVec(CowlAnnotationPtr) *annot);
-cowl_ret_t cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
+cowl_ret cowl_ontology_set_imports(CowlOntology *onto, UVec(CowlOntologyPtr) *imports);
+cowl_ret cowl_ontology_set_annot(CowlOntology *onto, UVec(CowlAnnotationPtr) *annot);
+cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
 
 COWL_END_DECLS
 

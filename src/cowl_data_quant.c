@@ -21,8 +21,9 @@ static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp
     CowlDataQuant *restr = cowl_alloc(restr);
     if (!restr) return NULL;
 
-    cowl_uint_t hash = cowl_hash_3(COWL_HASH_INIT_DATA_QUANT, type,
-                                   cowl_data_prop_exp_hash(prop), cowl_data_range_hash(range));
+    cowl_uint hash = cowl_hash_3(COWL_HASH_INIT_DATA_QUANT, type,
+                                 cowl_data_prop_exp_hash(prop),
+                                 cowl_data_range_hash(range));
 
     *restr = (CowlDataQuant) {
         .super = COWL_CLS_EXP_INIT(type, hash),
@@ -77,7 +78,7 @@ bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
            cowl_data_range_equals(lhs->range, rhs->range);
 }
 
-cowl_uint_t cowl_data_quant_hash(CowlDataQuant *restr) {
+cowl_uint cowl_data_quant_hash(CowlDataQuant *restr) {
     return cowl_object_hash_get(restr);
 }
 

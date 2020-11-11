@@ -19,8 +19,8 @@ static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlDataRangeS
     CowlNAryData *range = cowl_alloc(range);
     if (!range) return NULL;
 
-    cowl_uint_t hash = cowl_hash_2(COWL_HASH_INIT_DATA_NARY, type,
-                                   uhset_hash(CowlDataRangeSet, operands));
+    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_NARY, type,
+                                 uhset_hash(CowlDataRangeSet, operands));
 
     *range = (CowlNAryData) {
         .super = COWL_DATA_RANGE_INIT(type, hash),
@@ -67,7 +67,7 @@ bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
             uhset_equals(CowlDataRangeSet, lhs->operands, rhs->operands));
 }
 
-cowl_uint_t cowl_nary_data_hash(CowlNAryData *range) {
+cowl_uint cowl_nary_data_hash(CowlNAryData *range) {
     return cowl_object_hash_get(range);
 }
 

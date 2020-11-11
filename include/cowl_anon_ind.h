@@ -110,7 +110,7 @@ bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs);
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-cowl_uint_t cowl_anon_ind_hash(CowlAnonInd *ind);
+cowl_uint cowl_anon_ind_hash(CowlAnonInd *ind);
 
 /**
  * Iterates over the primitives referenced by this anonymous individual.

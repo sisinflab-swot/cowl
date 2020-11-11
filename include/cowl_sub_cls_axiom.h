@@ -135,7 +135,7 @@ bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs);
  * @public @memberof CowlSubClsAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
+cowl_uint cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

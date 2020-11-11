@@ -20,7 +20,7 @@
 UHASH_INIT(CowlDatatypeTable, CowlDatatype*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlDatatypeTable) *inst_tbl = NULL;
 
-cowl_ret_t cowl_datatype_api_init(void) {
+cowl_ret cowl_datatype_api_init(void) {
     inst_tbl = uhset_alloc(CowlDatatypeTable);
     return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
@@ -38,7 +38,7 @@ static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
         .iri = cowl_iri_retain(iri)
     };
 
-    cowl_uint_t hash = uhash_ptr_hash(dt);
+    cowl_uint hash = uhash_ptr_hash(dt);
     cowl_object_hash_set(dt, hash);
 
     return dt;
@@ -80,7 +80,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_datatype_hash(CowlDatatype *dt) {
+cowl_uint cowl_datatype_hash(CowlDatatype *dt) {
     return cowl_object_hash_get(dt);
 }
 

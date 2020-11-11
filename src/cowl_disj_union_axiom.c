@@ -19,9 +19,9 @@ static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlClsEx
     CowlDisjUnionAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
-                                         cowl_class_hash(cls),
-                                         cowl_cls_exp_set_hash(disjoints));
+    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
+                                       cowl_class_hash(cls),
+                                       cowl_cls_exp_set_hash(disjoints));
 
     cowl_axiom_init(CowlDisjUnionAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DISJ_UNION, hash, annot),
@@ -76,7 +76,7 @@ bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *r
                                   cowl_cls_exp_set_equals(lhs->disjoints, rhs->disjoints));
 }
 
-cowl_uint_t cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
+cowl_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

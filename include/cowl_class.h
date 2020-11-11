@@ -132,7 +132,7 @@ bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs);
  * @public @memberof CowlClass
  */
 COWL_PUBLIC
-cowl_uint_t cowl_class_hash(CowlClass *cls);
+cowl_uint cowl_class_hash(CowlClass *cls);
 
 /**
  * Iterates over this class.

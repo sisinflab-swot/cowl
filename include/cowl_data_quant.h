@@ -137,7 +137,7 @@ bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs);
  * @public @memberof CowlDataQuant
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_quant_hash(CowlDataQuant *restr);
+cowl_uint cowl_data_quant_hash(CowlDataQuant *restr);
 
 /**
  * Iterates over the primitives referenced by the specified data quantifier.

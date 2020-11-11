@@ -13,7 +13,7 @@
 
 static cowl_struct(CowlOWLVocab) vocab;
 
-static inline cowl_ret_t cowl_owl_vocab_validate(void) {
+static inline cowl_ret cowl_owl_vocab_validate(void) {
     if (vocab.ns && vocab.iri.thing && vocab.iri.nothing && vocab.iri.top_obj_prop &&
         vocab.iri.bottom_obj_prop && vocab.iri.top_data_prop && vocab.iri.bottom_data_prop &&
         vocab.iri.backward_comp && vocab.iri.deprecated && vocab.iri.incompatible &&
@@ -29,7 +29,7 @@ static inline cowl_ret_t cowl_owl_vocab_validate(void) {
     return COWL_ERR_MEM;
 }
 
-cowl_ret_t cowl_owl_vocab_init(void) {
+cowl_ret cowl_owl_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2002/07/owl#");
 
     CowlOWLIRIVocab v = {

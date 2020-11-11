@@ -24,8 +24,8 @@ bool cowl_annotation_vec_equals(CowlAnnotationVec *lhs, CowlAnnotationVec *rhs) 
     return uvec_equals(CowlAnnotationPtr, lhs, rhs);
 }
 
-cowl_uint_t cowl_annotation_vec_hash(CowlAnnotationVec *vec) {
-    cowl_uint_t hash = 0;
+cowl_uint cowl_annotation_vec_hash(CowlAnnotationVec *vec) {
+    cowl_uint hash = 0;
 
     uvec_foreach(CowlAnnotationPtr, vec, annot, {
         hash = cowl_hash_iter(hash, cowl_annotation_hash(annot));

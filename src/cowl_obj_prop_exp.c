@@ -47,7 +47,7 @@ bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
+cowl_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
     return uhash_ptr_hash(exp);
 }
 

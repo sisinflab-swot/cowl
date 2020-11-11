@@ -32,7 +32,7 @@ bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) {
     return cowl_data_prop_equals((CowlDataProp *)lhs, (CowlDataProp *)rhs);
 }
 
-cowl_uint_t cowl_data_prop_exp_hash(CowlDataPropExp *exp) {
+cowl_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp) {
     return cowl_data_prop_hash((CowlDataProp *)exp);
 }
 

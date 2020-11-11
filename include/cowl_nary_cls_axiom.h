@@ -137,7 +137,7 @@ bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs);
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
+cowl_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

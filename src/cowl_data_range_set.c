@@ -23,7 +23,7 @@ bool cowl_data_range_set_equals(CowlDataRangeSet *lhs, CowlDataRangeSet *rhs) {
     return uhset_equals(CowlDataRangeSet, lhs, rhs);
 }
 
-cowl_uint_t cowl_data_range_set_hash(CowlDataRangeSet *set) {
+cowl_uint cowl_data_range_set_hash(CowlDataRangeSet *set) {
     return uhset_hash(CowlDataRangeSet, set);
 }
 

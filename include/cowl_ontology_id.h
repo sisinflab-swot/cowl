@@ -77,7 +77,7 @@ bool cowl_ontology_id_equals(CowlOntologyID lhs, CowlOntologyID rhs);
  * @public @memberof CowlOntologyID
  */
 COWL_PUBLIC
-cowl_uint_t cowl_ontology_id_hash(CowlOntologyID id);
+cowl_uint cowl_ontology_id_hash(CowlOntologyID id);
 
 COWL_END_DECLS
 

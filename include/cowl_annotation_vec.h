@@ -64,7 +64,7 @@ bool cowl_annotation_vec_equals(CowlAnnotationVec *lhs, CowlAnnotationVec *rhs);
  * @public @memberof CowlAnnotationVec
  */
 COWL_PUBLIC
-cowl_uint_t cowl_annotation_vec_hash(CowlAnnotationVec *vec);
+cowl_uint cowl_annotation_vec_hash(CowlAnnotationVec *vec);
 
 /**
  * Iterates over the primitives referenced by the specified vector.

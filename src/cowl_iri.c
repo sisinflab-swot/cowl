@@ -15,7 +15,7 @@
 #include "cowl_xml_utils.h"
 #include "cowl_template.h"
 
-static inline cowl_uint_t cowl_inst_hash(CowlIRI *iri) {
+static inline cowl_uint cowl_inst_hash(CowlIRI *iri) {
     return cowl_hash_2(COWL_HASH_INIT_IRI,
                        uhash_ptr_hash(iri->ns),
                        cowl_string_hash(iri->rem));
@@ -28,7 +28,7 @@ static inline bool cowl_inst_eq(CowlIRI *lhs, CowlIRI *rhs) {
 UHASH_INIT(CowlIRITable, CowlIRI*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlIRITable) *inst_tbl = NULL;
 
-cowl_ret_t cowl_iri_api_init(void) {
+cowl_ret cowl_iri_api_init(void) {
     inst_tbl = uhset_alloc(CowlIRITable);
     return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
@@ -68,7 +68,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
     CowlRawString p_str = prefix->raw_string;
     CowlRawString s_str = suffix->raw_string;
 
-    cowl_uint_t const s_ns_len = cowl_xml_ns_length(s_str);
+    cowl_uint const s_ns_len = cowl_xml_ns_length(s_str);
 
     if (s_ns_len > 0) {
         // Part of the suffix should go in the namespace.
@@ -84,7 +84,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
         prefix = cowl_str_buf_to_string(buf);
         suffix = cowl_string_get(s_str.cstring + s_ns_len, s_str.length - s_ns_len, true);
     } else {
-        cowl_uint_t p_ns_len = cowl_xml_ns_length(p_str);
+        cowl_uint p_ns_len = cowl_xml_ns_length(p_str);
 
         if (p_ns_len < p_str.length) {
             // Part of the prefix should go in the remainder.
@@ -134,7 +134,7 @@ CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length) {
     if (!(cstring && length)) return NULL;
 
     CowlRawString string = cowl_raw_string_init(cstring, length, false);
-    cowl_uint_t ns_length = cowl_xml_ns_length(string);
+    cowl_uint ns_length = cowl_xml_ns_length(string);
 
     CowlString *parts[2] = { NULL };
     if (cowl_string_split_two(string, ns_length, parts)) return NULL;
@@ -168,6 +168,6 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_iri_hash(CowlIRI *iri) {
+cowl_uint cowl_iri_hash(CowlIRI *iri) {
     return uhash_ptr_hash(iri);
 }

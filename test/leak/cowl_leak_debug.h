@@ -18,7 +18,7 @@ COWL_BEGIN_DECLS
 void cowl_leak_debug_init(void);
 void cowl_leak_debug_deinit(void);
 
-cowl_uint_t cowl_leak_debug_count(void);
+cowl_uint cowl_leak_debug_count(void);
 void cowl_leak_debug_print(void);
 
 void* cowl_custom_malloc(size_t size);

@@ -56,7 +56,7 @@ bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs) {
     }
 }
 
-cowl_uint_t cowl_annot_value_hash(CowlAnnotValue *value) {
+cowl_uint cowl_annot_value_hash(CowlAnnotValue *value) {
 
 #define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)value)
 

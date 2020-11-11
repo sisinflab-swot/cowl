@@ -19,8 +19,8 @@ static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlIndiv
     CowlNAryIndAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint_t hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_IND_AXIOM, annot, type,
-                                         cowl_individual_set_hash(individuals));
+    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_IND_AXIOM, annot, type,
+                                       cowl_individual_set_hash(individuals));
 
     cowl_axiom_init(CowlNAryIndAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
@@ -73,7 +73,7 @@ bool cowl_nary_ind_axiom_equals(CowlNAryIndAxiom *lhs, CowlNAryIndAxiom *rhs) {
                                   cowl_individual_set_equals(lhs->individuals, rhs->individuals));
 }
 
-cowl_uint_t cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom) {
+cowl_uint cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

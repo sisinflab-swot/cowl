@@ -108,7 +108,7 @@ bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs);
  * @public @memberof CowlObjPropExp
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_prop_exp_hash(CowlObjPropExp *exp);
+cowl_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp);
 
 /**
  * Iterates over the primitives referenced by the specified object property expression.

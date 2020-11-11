@@ -122,7 +122,7 @@ bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs);
  * @public @memberof CowlDataHasValue
  */
 COWL_PUBLIC
-cowl_uint_t cowl_data_has_value_hash(CowlDataHasValue *restr);
+cowl_uint cowl_data_has_value_hash(CowlDataHasValue *restr);
 
 /**
  * Iterates over the primitives referenced by the specified literal value restriction.

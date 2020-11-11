@@ -20,7 +20,7 @@
 UHASH_INIT(CowlNamedIndTable, CowlNamedInd*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
 static UHash(CowlNamedIndTable) *inst_tbl = NULL;
 
-cowl_ret_t cowl_named_ind_api_init(void) {
+cowl_ret cowl_named_ind_api_init(void) {
     inst_tbl = uhset_alloc(CowlNamedIndTable);
     return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
@@ -77,7 +77,7 @@ bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_named_ind_hash(CowlNamedInd *ind) {
+cowl_uint cowl_named_ind_hash(CowlNamedInd *ind) {
     return uhash_ptr_hash(ind);
 }
 

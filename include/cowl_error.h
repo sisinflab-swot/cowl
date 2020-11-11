@@ -25,10 +25,10 @@ cowl_struct_decl(CowlString);
 typedef cowl_struct(CowlError) {
 
     /// Error code.
-    cowl_ret_t code;
+    cowl_ret code;
 
     /// If code is COWL_ERR_SYNTAX, this is the line where the error occurred.
-    cowl_uint_t line;
+    cowl_uint line;
 
     /// Human readable description of the error.
     CowlString *description;
@@ -49,9 +49,9 @@ UVEC_DECL_SPEC(CowlError, COWL_PUBLIC)
 /**
  * Initializes a new error.
  *
- * @param CODE [cowl_ret_t] Error code.
+ * @param CODE [cowl_ret] Error code.
  * @param DESC [CowlString *] Error description.
- * @param LINE [cowl_uint_t] Line where the error occurred.
+ * @param LINE [cowl_uint] Line where the error occurred.
  * @return [CowlError] Error instance.
  *
  * @public @related CowlError
@@ -63,9 +63,9 @@ UVEC_DECL_SPEC(CowlError, COWL_PUBLIC)
 /**
  * Convenience error initializer.
  *
- * @param CODE [cowl_ret_t] Error code.
+ * @param CODE [cowl_ret] Error code.
  * @param DESC [char const *] Error description.
- * @param LINE [cowl_uint_t] Line where the error occurred.
+ * @param LINE [cowl_uint] Line where the error occurred.
  * @return [CowlError] Error instance.
  *
  * @public @related CowlError

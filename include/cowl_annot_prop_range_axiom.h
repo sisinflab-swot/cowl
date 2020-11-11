@@ -137,7 +137,7 @@ bool cowl_annot_prop_range_axiom_equals(CowlAnnotPropRangeAxiom *lhs,
  * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom);
+cowl_uint cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

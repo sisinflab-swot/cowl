@@ -27,7 +27,7 @@
 
 static bool cowl_api_initialized = false;
 
-cowl_ret_t cowl_api_init(void) {
+cowl_ret cowl_api_init(void) {
     if (cowl_api_initialized) return COWL_OK;
     cowl_api_initialized = true;
 

@@ -70,7 +70,7 @@ bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint_t cowl_entity_hash(CowlEntity *entity) {
+cowl_uint cowl_entity_hash(CowlEntity *entity) {
 
 #define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)entity)
 

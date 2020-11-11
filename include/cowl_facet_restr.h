@@ -121,7 +121,7 @@ bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs);
  * @public @memberof CowlFacetRestr
  */
 COWL_PUBLIC
-cowl_uint_t cowl_facet_restr_hash(CowlFacetRestr *restr);
+cowl_uint cowl_facet_restr_hash(CowlFacetRestr *restr);
 
 /**
  * Iterates over the primitives referenced by specified facet restriction.

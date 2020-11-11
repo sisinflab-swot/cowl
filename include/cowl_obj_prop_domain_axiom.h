@@ -136,7 +136,7 @@ bool cowl_obj_prop_domain_axiom_equals(CowlObjPropDomainAxiom *lhs, CowlObjPropD
  * @public @memberof CowlObjPropDomainAxiom
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom);
+cowl_uint cowl_obj_prop_domain_axiom_hash(CowlObjPropDomainAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

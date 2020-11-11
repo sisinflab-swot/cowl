@@ -19,7 +19,7 @@ static CowlDataOneOf* cowl_data_one_of_alloc(CowlLiteralSet *values) {
     CowlDataOneOf *range = cowl_alloc(range);
     if (!range) return NULL;
 
-    cowl_uint_t hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_literal_set_hash(values));
+    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_literal_set_hash(values));
 
     *range = (CowlDataOneOf) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_ONE_OF, hash),
@@ -61,7 +61,7 @@ bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {
     return cowl_literal_set_equals(lhs->values, rhs->values);
 }
 
-cowl_uint_t cowl_data_one_of_hash(CowlDataOneOf *range) {
+cowl_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
     return cowl_object_hash_get(range);
 }
 

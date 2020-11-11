@@ -21,7 +21,7 @@ cowl_struct(CowlDatatype) {
     CowlIRI *iri;
 };
 
-cowl_ret_t cowl_datatype_api_init(void);
+cowl_ret cowl_datatype_api_init(void);
 void cowl_datatype_api_deinit(void);
 
 COWL_END_DECLS

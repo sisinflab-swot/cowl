@@ -107,7 +107,7 @@
 #include "cowl_quant_type.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_rdfs_vocab.h"
-#include "cowl_ret_t.h"
+#include "cowl_ret.h"
 #include "cowl_std.h"
 #include "cowl_string.h"
 #include "cowl_sub_annot_prop_axiom.h"

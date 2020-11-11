@@ -64,7 +64,7 @@ bool cowl_obj_prop_exp_vec_equals(CowlObjPropExpVec *lhs, CowlObjPropExpVec *rhs
  * @public @memberof CowlObjPropExpVec
  */
 COWL_PUBLIC
-cowl_uint_t cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec);
+cowl_uint cowl_obj_prop_exp_vec_hash(CowlObjPropExpVec *vec);
 
 /**
  * Iterates over the primitives referenced by the specified vector.

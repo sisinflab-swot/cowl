@@ -95,7 +95,7 @@ bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs);
  * @public @memberof CowlIndividual
  */
 COWL_PUBLIC
-cowl_uint_t cowl_individual_hash(CowlIndividual *ind);
+cowl_uint cowl_individual_hash(CowlIndividual *ind);
 
 /**
  * Iterates over this individual.

@@ -131,7 +131,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs);
  * @public @memberof CowlDatatype
  */
 COWL_PUBLIC
-cowl_uint_t cowl_datatype_hash(CowlDatatype *dt);
+cowl_uint cowl_datatype_hash(CowlDatatype *dt);
 
 /**
  * Iterates over this datatype.
