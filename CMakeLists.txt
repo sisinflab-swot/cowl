@@ -28,9 +28,12 @@ set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
-option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks. Keep off in production builds." OFF)
-set(COWL_ALLOC_HEADERS "" CACHE STRING "Header files that declare custom allocation primitives.")
-set(COWL_ALLOC_SOURCES "" CACHE STRING "Source files that implement custom allocation primitives.")
+option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks (keep OFF in production builds)" OFF)
+set(COWL_USER_HEADERS "" CACHE STRING "User-specified header files")
+set(COWL_USER_SOURCES "" CACHE STRING "User-specified source files")
+set(COWL_MALLOC "malloc" CACHE STRING "malloc function override")
+set(COWL_REALLOC "realloc" CACHE STRING "realloc function override")
+set(COWL_FREE "free" CACHE STRING "free function override")
 
 # Directories
 
@@ -58,28 +61,23 @@ file(MAKE_DIRECTORY "${COWL_PARSER_OUT_DIR}")
 set(COWL_COMPILE_FEATURES c_std_11)
 
 if(COWL_DEBUG_LEAKS)
-    file(GLOB COWL_ALLOC_HEADERS CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.h")
-    file(GLOB COWL_ALLOC_SOURCES CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.c")
+    file(GLOB COWL_LEAK_HEADERS CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.h")
+    file(GLOB COWL_LEAK_SOURCES CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.c")
+    list(APPEND COWL_USER_HEADERS ${COWL_LEAK_HEADERS})
+    list(APPEND COWL_USER_SOURCES ${COWL_LEAK_SOURCES})
+    set(COWL_MALLOC cowl_custom_malloc)
+    set(COWL_REALLOC cowl_custom_realloc)
+    set(COWL_FREE cowl_custom_free)
 endif()
 
-if(COWL_ALLOC_HEADERS)
-    set(COWL_MALLOC_FN cowl_custom_malloc)
-    set(COWL_REALLOC_FN cowl_custom_realloc)
-    set(COWL_FREE_FN cowl_custom_free)
-else()
-    set(COWL_MALLOC_FN malloc)
-    set(COWL_REALLOC_FN realloc)
-    set(COWL_FREE_FN free)
-endif()
-
-set(ULIB_MALLOC ${COWL_MALLOC_FN})
-set(ULIB_REALLOC ${COWL_REALLOC_FN})
-set(ULIB_FREE ${COWL_FREE_FN})
+set(ULIB_MALLOC ${COWL_MALLOC})
+set(ULIB_REALLOC ${COWL_REALLOC})
+set(ULIB_FREE ${COWL_FREE})
 
 list(APPEND COWL_PUBLIC_DEFINES
-     cowl_malloc=${COWL_MALLOC_FN}
-     cowl_realloc=${COWL_REALLOC_FN}
-     cowl_free=${COWL_FREE_FN})
+     cowl_malloc=${COWL_MALLOC}
+     cowl_realloc=${COWL_REALLOC}
+     cowl_free=${COWL_FREE})
 
 list(APPEND COWL_PRIVATE_DEFINES
      COWL_VERSION_MAJOR=${COWL_VERSION_MAJOR}
@@ -150,7 +148,7 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
      "${COWL_SRC_DIR}/*.c"
      "${COWL_PARSER_DIR}/*.c")
 
-list(APPEND COWL_SOURCES ${COWL_ALLOC_SOURCES})
+list(APPEND COWL_SOURCES ${COWL_USER_SOURCES})
 
 ###############
 ### Targets ###
@@ -194,7 +192,7 @@ target_compile_definitions(cowl-static
 target_include_directories(cowl-static
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
-target_precompile_headers(cowl-static PUBLIC ${COWL_ALLOC_HEADERS})
+target_precompile_headers(cowl-static PUBLIC ${COWL_USER_HEADERS})
 target_link_libraries(cowl-static PUBLIC ulib)
 add_dependencies(cowl-static cowl-headers)
 
@@ -222,7 +220,7 @@ target_compile_definitions(cowl-shared
 target_include_directories(cowl-shared
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
-target_precompile_headers(cowl-shared PUBLIC ${COWL_ALLOC_HEADERS})
+target_precompile_headers(cowl-shared PUBLIC ${COWL_USER_HEADERS})
 target_link_libraries(cowl-shared PUBLIC ulib)
 add_dependencies(cowl-shared cowl-headers)
 
