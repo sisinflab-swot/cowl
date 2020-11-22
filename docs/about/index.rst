@@ -21,7 +21,7 @@ to some key principles which make it very portable:
 - It is written in **standard C11** with no compiler-specific extensions and no platform-specific
   API calls.
 - It is completely **self-contained**, with no external dependencies other than
-  `Vector(T)`_ and uHash_ (which are also self-contained).
+  `uLib`_ (which is also self-contained).
 - It goes to great lengths to have a **tiny memory footprint** while being **very fast**,
   meaning it can run even on the most resource-constrained devices.
 
@@ -55,6 +55,5 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
 .. _Polytechnic University of Bari: http://www.poliba.it
 .. _semver: https://semver.org
-.. _SisInf Lab: http://sisinflab.poliba.it/swottools
-.. _uHash: https://github.com/IvanoBilenchi/uhash
-.. _Vector(T): https://github.com/IvanoBilenchi/vector_t
+.. _SisInf Lab: http://swot.sisinflab.poliba.it
+.. _uLib: https://github.com/IvanoBilenchi/ulib
