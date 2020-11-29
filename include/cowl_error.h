@@ -47,55 +47,6 @@ UVEC_DECL_SPEC(CowlError, COWL_PUBLIC)
  */
 
 /**
- * Initializes a new error.
- *
- * @param CODE [cowl_ret] Error code.
- * @param DESC [CowlString *] Error description.
- * @param LINE [cowl_uint] Line where the error occurred.
- * @return [CowlError] Error instance.
- *
- * @public @related CowlError
- */
-#define cowl_error_init(CODE, DESC, LINE) ((CowlError)) {                                           \
-    .code = (CODE), .description = (DESC), .line = (LINE)                                           \
-}
-
-/**
- * Convenience error initializer.
- *
- * @param CODE [cowl_ret] Error code.
- * @param DESC [char const *] Error description.
- * @param LINE [cowl_uint] Line where the error occurred.
- * @return [CowlError] Error instance.
- *
- * @public @related CowlError
- */
-#define cowl_error_init_cstring(CODE, DESC, LINE) ((CowlError) {                                    \
-    .code = (CODE),                                                                                 \
-    .description = cowl_string_get((DESC), strlen(DESC), true),                                     \
-    .line = (LINE)                                                                                  \
-})
-
-/**
- * Retains the specified error.
- *
- * @param ERROR [CowlError] The error.
- * @return [CowlError] Retained error.
- *
- * @public @related CowlError
- */
-#define cowl_error_retain(ERROR) (cowl_string_retain((ERROR).description), (ERROR))
-
-/**
- * Releases the specified error.
- *
- * @param ERROR [CowlError] The error.
- *
- * @public @related CowlError
- */
-#define cowl_error_release(ERROR) cowl_string_release((ERROR).description)
-
-/**
  * Returns a human-readable string representation of the specified error.
  *
  * @param error The error.
