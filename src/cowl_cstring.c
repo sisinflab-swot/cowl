@@ -20,3 +20,14 @@ char* cowl_strdup(char const *string, size_t length) {
 
     return buf;
 }
+
+cowl_uint cowl_strtouint(char const *string, size_t length) {
+    cowl_uint res = 0;
+
+    for (char const *last = string + length; string < last; ++string) {
+        if (*string < '0' || *string > '9') return COWL_UINT_MAX;
+        res = res * 10 + (*string - '0');
+    }
+
+    return res;
+}

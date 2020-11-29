@@ -16,6 +16,7 @@
 COWL_BEGIN_DECLS
 
 char* cowl_strdup(char const *string, size_t length);
+cowl_uint cowl_strtouint(char const *string, size_t length);
 
 COWL_END_DECLS
 

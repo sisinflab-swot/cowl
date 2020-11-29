@@ -16,22 +16,21 @@
 %option noyyalloc noyyrealloc noyyfree
 
 %top{
-    #include "cowl_std.h"
     #include "cowl_functional_parser.h"
 }
 
 %{
     #define YY_USER_ACTION ((yylloc)->first_line = (yylloc)->last_line = yylineno);
 
-    void* yyalloc (size_t bytes, cowl_unused void *yyscanner) {
+    void* yyalloc(size_t bytes, cowl_unused void *yyscanner) {
         return cowl_malloc(bytes);
     }
 
-    void* yyrealloc (void *ptr, size_t bytes, cowl_unused void *yyscanner) {
+    void* yyrealloc(void *ptr, size_t bytes, cowl_unused void *yyscanner) {
         return cowl_realloc(ptr, bytes);
     }
 
-    void yyfree (void *ptr, cowl_unused void *yyscanner) {
+    void yyfree(void *ptr, cowl_unused void *yyscanner) {
         cowl_free(ptr);
     }
 %}
@@ -137,7 +136,7 @@ NON_NEGATIVE_INTEGER                    {DIGIT}+
 "AnnotationPropertyRange"               { return ANNOTATION_PROPERTY_RANGE; }
 
 {NON_NEGATIVE_INTEGER} {
-    yylval->NON_NEGATIVE_INTEGER = (cowl_uint)atoi(yytext);
+    yylval->NON_NEGATIVE_INTEGER = cowl_strtouint(yytext, (size_t)yyleng);
     return NON_NEGATIVE_INTEGER;
 }
 
