@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -35,10 +35,12 @@
     }
 %}
 
-WHITE_SPACE                             [ \t\r\n]+
+WHITESPACE                              [ \t\r\n]+
 COMMENT                                 "#"[^\n]*
 DIGIT                                   [0-9]
-PN_CHARS_BASE                           [A-Za-z]
+ALPHA                                   [A-Za-z]
+ALNUM                                   ({ALPHA}|{DIGIT})
+PN_CHARS_BASE                           {ALPHA}
 PN_CHARS_U                              ({PN_CHARS_BASE}|_)
 PN_CHARS                                ({PN_CHARS_U}|-|{DIGIT})
 PN_PREFIX                               {PN_CHARS_BASE}(({PN_CHARS}|\.)*{PN_CHARS})?
@@ -47,13 +49,13 @@ PNAME_NS                                {PN_PREFIX}?:
 PNAME_LN                                {PNAME_NS}{PN_LOCAL}
 IRI_REF                                 <[^<>"{}|\^`\\ ]{-}[\x00-\x20]*>
 BLANK_NODE_LABEL                        _:{PN_LOCAL}
-LANG_TAG                                @[A-Za-z]+(-[A-Za-z0-9]+)*
+LANG_TAG                                @{ALPHA}+(-{ALNUM}+)*
 QUOTED_STRING                           \"([^\"\\]|\\\"|\\\\)*\"
 NON_NEGATIVE_INTEGER                    {DIGIT}+
 
 %%
 
-{WHITE_SPACE}                           ;
+{WHITESPACE}                            ;
 
 "Import"                                { return IMPORT; }
 "Ontology"                              { return ONTOLOGY; }
