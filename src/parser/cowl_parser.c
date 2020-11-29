@@ -76,7 +76,7 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
         cowl_functional_set_in(yyin, parser->scanner);
         error = cowl_functional_parse(parser->scanner, parser) != 0;
     } else {
-        cowl_parser_log_error(parser, COWL_ERR_IO, strdup(strerror(errno)));
+        cowl_parser_log_error(parser, COWL_ERR_IO, strerror(errno));
         error = true;
     }
 
@@ -241,7 +241,13 @@ static inline cowl_uint cowl_parser_get_line(CowlParser *parser) {
 
 void cowl_parser_log_error(CowlParser *parser, cowl_ret code, char const *description) {
     if (!parser->errors) return;
-    CowlError error = cowl_error_init_cstring(code, description, cowl_parser_get_line(parser));
+
+    CowlError error = {
+        .code = code,
+        .line = cowl_parser_get_line(parser),
+        .description = cowl_string_get(description, strlen(description), true)
+    };
+
     uvec_push(CowlError, parser->errors, error);
 }
 

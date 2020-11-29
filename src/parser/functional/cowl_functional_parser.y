@@ -47,9 +47,9 @@
 
     static void cowl_functional_error(cowl_unused COWL_FUNCTIONAL_LTYPE *yylloc,
                                       cowl_unused yyscan_t scanner,
-                                      CowlParser *parser, const char* s) {
+                                      CowlParser *parser, const char *s) {
         cowl_ret code = strcmp(s, "memory exhausted") ? COWL_ERR_SYNTAX : COWL_ERR_MEM;
-        cowl_parser_log_error(parser, code, strdup(s));
+        cowl_parser_log_error(parser, code, s);
     }
 
     #define COWL_ERROR(CODE) do {                                                                   \
