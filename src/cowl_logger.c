@@ -220,7 +220,7 @@ cowl_ret cowl_logger_logs(CowlLogger *logger, char const *cstring) {
     if (ret) return ret;
 
     if (logger->type == COWL_LT_CONSOLE || logger->type == COWL_LT_FILE) {
-        if (fputs(cstring, logger->file) < 0) return COWL_ERR_IO;
+        if (fputs(cstring, logger->file) < 0 || fflush(logger->file)) return COWL_ERR_IO;
     }
 
     return COWL_OK;
