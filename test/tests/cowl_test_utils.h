@@ -67,6 +67,12 @@ typedef uvec_struct(CowlError) UVec(CowlError);
 #define cowl_assert_not_null(EXP, ...) \
     cowl_assert_wrap(EXP, printf(" must not be NULL."), __VA_ARGS__)
 
+#define cowl_assert_critical(EXP, ...)                                                              \
+    cowl_assert_wrap(EXP, {                                                                         \
+        printf("\nThis is a critical error, aborting...\n");                                        \
+        exit(EXIT_FAILURE);                                                                         \
+    }, __VA_ARGS__)
+
 // Test data
 
 #define COWL_TEST_ONTOLOGY "test_onto.owl"
