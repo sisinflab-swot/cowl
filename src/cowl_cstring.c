@@ -10,7 +10,7 @@
 
 #include "cowl_cstring.h"
 
-char* cowl_strdup(char const *string, size_t length) {
+char* cowl_str_dup(char const *string, size_t length) {
     char *buf = cowl_malloc(length + 1);
 
     if (buf) {
@@ -21,7 +21,7 @@ char* cowl_strdup(char const *string, size_t length) {
     return buf;
 }
 
-cowl_uint cowl_strtouint(char const *string, size_t length) {
+cowl_uint cowl_str_to_uint(char const *string, size_t length) {
     cowl_uint res = 0;
 
     for (char const *last = string + length; string < last; ++string) {

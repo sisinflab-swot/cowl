@@ -133,7 +133,7 @@ char const* cowl_string_release_copying_cstring(CowlString *string) {
     char const *cstring;
 
     if (cowl_object_release(string)) {
-        cstring = cowl_strdup(string->raw_string.cstring, string->raw_string.length);
+        cstring = cowl_str_dup(string->raw_string.cstring, string->raw_string.length);
     } else {
         cstring = string->raw_string.cstring;
         string->raw_string.cstring = NULL;

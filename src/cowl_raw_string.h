@@ -26,7 +26,7 @@ typedef cowl_struct(CowlRawString) {
 #define cowl_raw_string_init_static(CSTRING, COPY)                                                  \
     ((CowlRawString) {                                                                              \
         .length = (sizeof(CSTRING) - 1),                                                            \
-        .cstring = ((COPY) ? cowl_strdup(CSTRING, sizeof(CSTRING) - 1) : (CSTRING))                 \
+        .cstring = ((COPY) ? cowl_str_dup(CSTRING, sizeof(CSTRING) - 1) : (CSTRING))                \
     })
 
 #define cowl_raw_string_deinit(STRING) cowl_free((void *)(STRING).cstring)

@@ -138,7 +138,7 @@ NON_NEGATIVE_INTEGER                    {DIGIT}+
 "AnnotationPropertyRange"               { return ANNOTATION_PROPERTY_RANGE; }
 
 {NON_NEGATIVE_INTEGER} {
-    yylval->NON_NEGATIVE_INTEGER = cowl_strtouint(yytext, (size_t)yyleng);
+    yylval->NON_NEGATIVE_INTEGER = cowl_str_to_uint(yytext, (size_t)yyleng);
     return NON_NEGATIVE_INTEGER;
 }
 

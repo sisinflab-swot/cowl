@@ -179,7 +179,7 @@ CowlLogger* cowl_logger_console_get(void) {
 }
 
 CowlLogger* cowl_logger_file_get(char const *path) {
-    return cowl_logger_alloc(COWL_LT_FILE, cowl_strdup(path, strlen(path)));
+    return cowl_logger_alloc(COWL_LT_FILE, cowl_str_dup(path, strlen(path)));
 }
 
 CowlLogger* cowl_logger_null_get(void) {

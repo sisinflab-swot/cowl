@@ -15,7 +15,7 @@ CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy
     if (!cstring) return COWL_RAW_STRING_NULL;
 
     if (copy) {
-        cstring = cowl_strdup(cstring, length);
+        cstring = cowl_str_dup(cstring, length);
         if (!cstring) return COWL_RAW_STRING_NULL;
     }
 
