@@ -21,6 +21,26 @@ char* cowl_str_dup(char const *string, size_t length) {
     return buf;
 }
 
+size_t cowl_str_from_uint(cowl_uint uint, char *buf) {
+    char *cur = buf;
+
+    do {
+        *(cur++) = (char)(uint % 10 + '0');
+        uint /= 10;
+    } while (uint);
+
+    *cur = '\0';
+    size_t const len = cur - buf;
+
+    while (cur > buf) {
+        char tmp = *(--cur);
+        *cur = *buf;
+        *(buf++) = tmp;
+    }
+
+    return len;
+}
+
 cowl_uint cowl_str_to_uint(char const *string, size_t length) {
     cowl_uint res = 0;
 

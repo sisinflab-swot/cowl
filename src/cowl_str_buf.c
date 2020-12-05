@@ -15,6 +15,14 @@
 
 UVEC_IMPL(CowlChar)
 
+#if COWL_UINT_MAX <= 0xffff
+    #define COWL_UINT_MAX_DIGITS 5
+#elif COWL_UINT_MAX <= 0xffffffff
+    #define COWL_UINT_MAX_DIGITS 10
+#else
+    #define COWL_UINT_MAX_DIGITS 20
+#endif
+
 static char* cowl_str_buf_deinit_get_storage(CowlStrBuf *buf) {
     char *storage = buf->storage.storage;
     buf->storage.storage = NULL;
@@ -177,7 +185,13 @@ cowl_ret cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value)
 }
 
 cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, cowl_uint uint) {
-    return cowl_str_buf_append_format(buf, "%" COWL_UINT_FMT, uint);
+    if (uvec_expand(CowlChar, &buf->storage, (uvec_uint)(COWL_UINT_MAX_DIGITS + 1)) != UVEC_OK) {
+        buf->ret = COWL_ERR_MEM;
+    } else {
+        size_t len = cowl_str_from_uint(uint, buf->storage.storage + buf->storage.count);
+        buf->storage.count += (uvec_uint)len;
+    }
+    return buf->ret;;
 }
 
 // Entities and Primitives
