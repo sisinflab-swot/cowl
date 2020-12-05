@@ -18,8 +18,23 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 /// @endcond
+
+/// Error location.
+typedef cowl_struct(CowlErrorLoc) {
+
+    /// Line where the error occurred.
+    cowl_uint line;
+
+    /// Location of the ontology where the error occurred.
+    CowlString *source;
+
+    /// IRI of the ontology where the error occurred.
+    CowlIRI *iri;
+
+} CowlErrorLoc;
 
 /// Error data structure.
 typedef cowl_struct(CowlError) {
@@ -27,24 +42,13 @@ typedef cowl_struct(CowlError) {
     /// Error code.
     cowl_ret code;
 
-    /// If code is COWL_ERR_SYNTAX, this is the line where the error occurred.
-    cowl_uint line;
-
     /// Human readable description of the error.
     CowlString *description;
 
+    /// Error location.
+    CowlErrorLoc location;
+
 } CowlError;
-
-/// @cond
-UVEC_DECL_SPEC(CowlError, COWL_PUBLIC)
-/// @endcond
-
-/**
- * Vector of CowlError elements.
- *
- * @struct Vector_CowlError
- * @extends Vector
- */
 
 /**
  * Returns a human-readable string representation of the specified error.
@@ -57,7 +61,7 @@ UVEC_DECL_SPEC(CowlError, COWL_PUBLIC)
  * @public @memberof CowlError
  */
 COWL_PUBLIC
-CowlString* cowl_error_to_string(CowlError error);
+CowlString* cowl_error_to_string(CowlError const *error);
 
 COWL_END_DECLS
 

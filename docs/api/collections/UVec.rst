@@ -13,8 +13,3 @@ Vector of object property expressions
 =====================================
 
 .. doxygenstruct:: CowlObjPropExpVec
-
-Vector of errors
-================
-
-.. doxygenstruct:: Vector_CowlError

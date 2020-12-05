@@ -13,7 +13,8 @@
 #define ONTO_PATH "example_pizza.owl"
 #define IMPORT_PATH "import.owl"
 
-static CowlOntology* load_imports(void *ctx, CowlIRI *iri, UVec(CowlError) *errors);
+static CowlOntology* load_import(void *ctx, CowlIRI *iri);
+static void handle_error(void *ctx, CowlError const *error);
 
 int main(void) {
 
@@ -29,26 +30,23 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    // Setup an imports loader.
-    CowlImportsLoader loader = cowl_imports_loader_init(NULL, load_imports, NULL);
+    // Setup an import loader.
+    CowlImportsLoader loader = cowl_imports_loader_init(NULL, load_import, NULL);
     cowl_parser_set_imports_loader(parser, loader);
 
-    // Deserialize an ontology. Errors will be appended to the 'errors' vector.
-    UVec(CowlError) errors = uvec_init(CowlError);
+    // Setup an error handler.
+    CowlErrorHandler handler = cowl_error_handler_init(logger, handle_error, NULL);
+    cowl_parser_set_error_handler(parser, handler);
 
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH, &errors);
+    // Deserialize an ontology.
+    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH);
     cowl_parser_release(parser);
 
-    // Log the errors, if any.
-    cowl_uint error_count = uvec_count(&errors);
-    cowl_logger_logf(logger, "Ontology parsed with %d error(s).\n", error_count);
-    cowl_logger_log_errors(logger, &errors);
-
+    // Log the parsed ontology.
     if (ontology) {
         cowl_logger_log_ontology(logger, ontology);
     }
 
-    uvec_deinit(errors);
     cowl_ontology_release(ontology);
     cowl_logger_release(logger);
 
@@ -61,15 +59,23 @@ int main(void) {
  * the imported ontology from the local filesystem. In this example
  * we just return a generic local "import.owl" ontology, disregarding its IRI.
  */
-static CowlOntology* load_imports(cowl_unused void *ctx, cowl_unused CowlIRI *iri,
-                                  UVec(CowlError) *errors) {
+static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
     CowlOntology *import = NULL;
     CowlParser *parser = cowl_parser_get();
 
     if (parser) {
-        import = cowl_parser_parse_ontology(parser, IMPORT_PATH, errors);
+        import = cowl_parser_parse_ontology(parser, IMPORT_PATH);
         cowl_parser_release(parser);
     }
 
     return import;
+}
+
+/*
+ * In general it is very reasonable to just check that the ontology returned by the parser
+ * is not NULL. The error handler mechanism is only needed if you wish to implement
+ * more fine-grained error handling. In this example, errors are logged to file.
+ */
+static void handle_error(void *ctx, CowlError const *error) {
+    cowl_logger_log_error(ctx, error);
 }

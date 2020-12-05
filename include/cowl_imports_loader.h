@@ -41,12 +41,12 @@ typedef cowl_struct(CowlImportsLoader) {
 
     /**
      * Pointer to a function that returns the ontology having the specified IRI.
+     *
      * @param ctx Loader context.
      * @param iri IRI of the ontology to load.
-     * @param[out] errors Errors loading the imported ontology should be appended here.
-     * @return The imported ontology.
+     * @return The imported ontology, or NULL on error.
      */
-    CowlOntology* (*load_ontology)(void *ctx, CowlIRI *iri, UVec(CowlError) *errors);
+    CowlOntology* (*load_ontology)(void *ctx, CowlIRI *iri);
 
     /**
      * Pointer to a resource deallocator function for the context,
@@ -67,8 +67,6 @@ typedef cowl_struct(CowlImportsLoader) {
  * @param LOAD_FUNC Pointer to a function that returns the ontology having the specified IRI.
  * @param FREE_FUNC Pointer to a resource deallocator function for the context.
  * @return Imports loader instance.
- *
- * @see CowlImportsLoader for the types.
  *
  * @public @related CowlImportsLoader
  */

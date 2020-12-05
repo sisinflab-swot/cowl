@@ -15,18 +15,10 @@
 
 UVEC_IMPL(CowlChar)
 
-CowlStrBuf* cowl_str_buf_alloc(void) {
-    return uvec_alloc(CowlChar);
-}
-
-void cowl_str_buf_free(CowlStrBuf *buf) {
-    uvec_free(CowlChar, buf);
-}
-
-static char* cowl_str_buf_free_get_storage(CowlStrBuf *buf) {
-    char *storage = buf->storage;
-    buf->storage = NULL;
-    cowl_str_buf_free(buf);
+static char* cowl_str_buf_deinit_get_storage(CowlStrBuf *buf) {
+    char *storage = buf->storage.storage;
+    buf->storage.storage = NULL;
+    cowl_str_buf_deinit(buf);
     return storage;
 }
 
@@ -39,7 +31,11 @@ static cowl_uint cowl_cstring_length_of_formatted(char const *format, va_list ar
 }
 
 cowl_ret cowl_str_buf_append_cstring(CowlStrBuf *buf, char const *string, cowl_uint length) {
-    return uvec_append_array(CowlChar, buf, string, length) == UVEC_OK ? COWL_OK : COWL_ERR_MEM;
+    if (!buf->ret) {
+        uvec_ret ret = uvec_append_array(CowlChar, &buf->storage, string, length);
+        buf->ret = ret == UVEC_OK ? COWL_OK : COWL_ERR_MEM;
+    }
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_raw_string(CowlStrBuf *buf, CowlRawString string) {
@@ -59,19 +55,20 @@ cowl_ret cowl_str_buf_append_format(CowlStrBuf *buf, char const *format, ...) {
 }
 
 cowl_ret cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va_list args) {
+    if (buf->ret) goto end;
+
     cowl_uint length = cowl_cstring_length_of_formatted(format, args);
     size_t size = length + 1;
-    cowl_ret ret;
 
-    if (uvec_expand(CowlChar, buf, (uvec_uint)size) != UVEC_OK) {
-        ret = COWL_ERR_MEM;
+    if (uvec_expand(CowlChar, &buf->storage, (uvec_uint)size) != UVEC_OK) {
+        buf->ret = COWL_ERR_MEM;
     } else {
-        ret = COWL_OK;
-        vsnprintf(buf->storage + buf->count, size, format, args);
-        buf->count += length;
+        vsnprintf(buf->storage.storage + buf->storage.count, size, format, args);
+        buf->storage.count += length;
     }
 
-    return ret;
+end:
+    return buf->ret;
 }
 
 // Misc
@@ -103,86 +100,71 @@ cowl_ret cowl_str_buf_append_object(CowlStrBuf *buf, CowlObject *obj) {
 }
 
 cowl_ret cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri) {
-    if (cowl_str_buf_append_static(buf, "<") ||
-        cowl_str_buf_append_iri_no_brackets(buf, iri) ||
-        cowl_str_buf_append_static(buf, ">")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "<");
+    cowl_str_buf_append_iri_no_brackets(buf, iri);
+    cowl_str_buf_append_static(buf, ">");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri) {
-    if (cowl_str_buf_append_string(buf, iri->ns) ||
-        cowl_str_buf_append_string(buf, iri->rem)) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_string(buf, iri->ns);
+    cowl_str_buf_append_string(buf, iri->rem);
+    return buf->ret;
 }
 
-cowl_ret cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID id) {
-    if (id.ontology_iri && cowl_str_buf_append_iri(buf, id.ontology_iri)) return COWL_ERR_MEM;
+cowl_ret cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID *id) {
+    if (id->ontology_iri) cowl_str_buf_append_iri(buf, id->ontology_iri);
 
-    if (id.version_iri) {
-        if (id.ontology_iri && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
-        if (cowl_str_buf_append_iri(buf, id.version_iri)) return COWL_ERR_MEM;
+    if (id->version_iri) {
+        if (id->ontology_iri) cowl_str_buf_append_static(buf, " ");
+        cowl_str_buf_append_iri(buf, id->version_iri);
     }
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_literal(CowlStrBuf *buf, CowlLiteral *literal) {
-    if (cowl_str_buf_append_static(buf, "\"") ||
-        cowl_str_buf_append_string(buf, literal->value) ||
-        cowl_str_buf_append_static(buf, "\"")) {
-        return COWL_ERR_MEM;
-    }
+    cowl_str_buf_append_static(buf, "\"");
+    cowl_str_buf_append_string(buf, literal->value);
+    cowl_str_buf_append_static(buf, "\"");
 
     if (cowl_string_get_length(literal->lang)) {
-        if (cowl_str_buf_append_static(buf, "@") ||
-            cowl_str_buf_append_string(buf, literal->lang)) {
-            return COWL_ERR_MEM;
-        }
+        cowl_str_buf_append_static(buf, "@");
+        cowl_str_buf_append_string(buf, literal->lang);
     }
 
-    if (cowl_str_buf_append_static(buf, "^^") ||
-        cowl_str_buf_append_iri_no_brackets(buf, cowl_datatype_get_iri(literal->dt))) {
-        return COWL_ERR_MEM;
-    }
+    cowl_str_buf_append_static(buf, "^^");
+    cowl_str_buf_append_iri_no_brackets(buf, cowl_datatype_get_iri(literal->dt));
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr) {
     CowlIRI *iri = cowl_facet_get_iri(restr->facet);
-    cowl_ret ret;
-
-    if (cowl_str_buf_append_iri(buf, iri) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_literal(buf, restr->value)) {
-        ret = COWL_ERR_MEM;
-    } else {
-        ret = COWL_OK;
-    }
-
+    cowl_str_buf_append_iri(buf, iri);
     cowl_iri_release(iri);
-    return ret;
+
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_literal(buf, restr->value);
+
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id) {
-    return cowl_str_buf_append_format(buf, "_:id%" COWL_UINT_FMT, id);
+    cowl_str_buf_append_static(buf, "_:id");
+    cowl_str_buf_append_uint(buf, id);
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation) {
-    if (cowl_str_buf_append_static(buf, "Annotation") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, annotation->annot) ||
-        cowl_str_buf_append_annot_prop(buf, annotation->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_annot_value(buf, annotation->value) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Annotation");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, annotation->annot);
+    cowl_str_buf_append_annot_prop(buf, annotation->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_annot_value(buf, annotation->value);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value) {
@@ -192,6 +174,10 @@ cowl_ret cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value)
         case COWL_AVT_LITERAL: return cowl_str_buf_append_literal(buf, (CowlLiteral *)value);
         default: return COWL_ERR;
     }
+}
+
+cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, cowl_uint uint) {
+    return cowl_str_buf_append_format(buf, "%" COWL_UINT_FMT, uint);
 }
 
 // Entities and Primitives
@@ -222,78 +208,64 @@ cowl_ret cowl_str_buf_append_primitive(CowlStrBuf *buf, CowlPrimitive *primitive
 }
 
 cowl_ret cowl_str_buf_append_class(CowlStrBuf *buf, CowlClass *cls) {
-    if (cowl_str_buf_append_static(buf, "Class") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_iri(buf, cls->iri) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Class");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_iri(buf, cls->iri);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_datatype(CowlStrBuf *buf, CowlDatatype *dt) {
-    if (cowl_str_buf_append_static(buf, "Datatype") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_iri(buf, dt->iri) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Datatype");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_iri(buf, dt->iri);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_prop(CowlStrBuf *buf, CowlObjProp *prop) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_iri(buf, prop->iri) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_iri(buf, prop->iri);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_prop(CowlStrBuf *buf, CowlDataProp *prop) {
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_iri(buf, prop->iri) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_iri(buf, prop->iri);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_annot_prop(CowlStrBuf *buf, CowlAnnotProp *prop) {
-    if (cowl_str_buf_append_static(buf, "Annotation") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_iri(buf, prop->iri) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Annotation");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_iri(buf, prop->iri);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_named_ind(CowlStrBuf *buf, CowlNamedInd *ind) {
-    if (cowl_str_buf_append_static(buf, "Named") ||
-        cowl_str_buf_append_static(buf, "Individual") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_iri(buf, ind->iri) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Named");
+    cowl_str_buf_append_static(buf, "Individual");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_iri(buf, ind->iri);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_anon_ind(CowlStrBuf *buf, CowlAnonInd *ind) {
-    if (cowl_str_buf_append_static(buf, "Anonymous") ||
-        cowl_str_buf_append_static(buf, "Individual") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_node_id(buf, ind->id) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Anonymous");
+    cowl_str_buf_append_static(buf, "Individual");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_node_id(buf, ind->id);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_individual(CowlStrBuf *buf, CowlIndividual *ind) {
@@ -315,15 +287,13 @@ cowl_ret cowl_str_buf_append_obj_prop_exp(CowlStrBuf *buf, CowlObjPropExp *exp) 
 }
 
 cowl_ret cowl_str_buf_append_inv_obj_prop(CowlStrBuf *buf, CowlInvObjProp *prop) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Inverse") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_obj_prop(buf, prop->prop) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Inverse");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_obj_prop(buf, prop->prop);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 // Data property expressions
@@ -383,200 +353,162 @@ cowl_ret cowl_str_buf_append_cls_exp(CowlStrBuf *buf, CowlClsExp *exp) {
 }
 
 cowl_ret cowl_str_buf_append_obj_quant(CowlStrBuf *buf, CowlObjQuant *restr) {
-    if (cowl_str_buf_append_static(buf, "Object")) return COWL_ERR_MEM;
-
-    cowl_ret ret;
+    cowl_str_buf_append_static(buf, "Object");
 
     if (cowl_obj_quant_get_type(restr) == COWL_QT_SOME) {
-        ret = cowl_str_buf_append_static(buf, "Some");
+        cowl_str_buf_append_static(buf, "Some");
     } else {
-        ret = cowl_str_buf_append_static(buf, "All");
+        cowl_str_buf_append_static(buf, "All");
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "ValuesFrom");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_obj_prop_exp(buf, restr->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_cls_exp(buf, restr->filler);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "ValuesFrom") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_obj_prop_exp(buf, restr->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_cls_exp(buf, restr->filler) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_card(CowlStrBuf *buf, CowlObjCard *restr) {
-    if (cowl_str_buf_append_static(buf, "Object")) return COWL_ERR_MEM;
-
-    cowl_ret ret;
+    cowl_str_buf_append_static(buf, "Object");
 
     switch (cowl_obj_card_get_type(restr)) {
-        case COWL_CT_MIN: ret = cowl_str_buf_append_static(buf, "Min"); break;
-        case COWL_CT_MAX: ret = cowl_str_buf_append_static(buf, "Max"); break;
-        default: ret = cowl_str_buf_append_static(buf, "Exact"); break;
+        case COWL_CT_MIN: cowl_str_buf_append_static(buf, "Min"); break;
+        case COWL_CT_MAX: cowl_str_buf_append_static(buf, "Max"); break;
+        default: cowl_str_buf_append_static(buf, "Exact"); break;
     }
 
-    if (ret) return COWL_ERR_MEM;
-
-    if (cowl_str_buf_append_static(buf, "Cardinality") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_format(buf, "%" COWL_UINT_FMT " ", restr->cardinality) ||
-        cowl_str_buf_append_obj_prop_exp(buf, restr->prop)) {
-        return COWL_ERR_MEM;
-    }
+    cowl_str_buf_append_static(buf, "Cardinality");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_uint(buf, restr->cardinality);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_obj_prop_exp(buf, restr->prop);
 
     if (restr->filler) {
-        if (cowl_str_buf_append_static(buf, " ") ||
-            cowl_str_buf_append_cls_exp(buf, restr->filler)) {
-            return COWL_ERR_MEM;
-        }
+        cowl_str_buf_append_static(buf, " ");
+        cowl_str_buf_append_cls_exp(buf, restr->filler);
     }
 
-    return cowl_str_buf_append_static(buf, ")");
+    cowl_str_buf_append_static(buf, ")");
+
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_has_value(CowlStrBuf *buf, CowlObjHasValue *restr) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Has") ||
-        cowl_str_buf_append_static(buf, "Value") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_obj_prop_exp(buf, restr->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_individual(buf, restr->ind) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Has");
+    cowl_str_buf_append_static(buf, "Value");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_obj_prop_exp(buf, restr->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_individual(buf, restr->ind);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_has_self(CowlStrBuf *buf, CowlObjHasSelf *restr) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Has") ||
-        cowl_str_buf_append_static(buf, "Self") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_obj_prop_exp(buf, restr->prop) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Has");
+    cowl_str_buf_append_static(buf, "Self");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_obj_prop_exp(buf, restr->prop);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_quant(CowlStrBuf *buf, CowlDataQuant *restr) {
-    if (cowl_str_buf_append_static(buf, "Data")) return COWL_ERR_MEM;
-
-    cowl_ret ret;
+    cowl_str_buf_append_static(buf, "Data");
 
     if (cowl_data_quant_get_type(restr) == COWL_QT_SOME) {
-        ret = cowl_str_buf_append_static(buf, "Some");
+        cowl_str_buf_append_static(buf, "Some");
     } else {
-        ret = cowl_str_buf_append_static(buf, "All");
+        cowl_str_buf_append_static(buf, "All");
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "ValuesFrom");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_data_prop_exp(buf, restr->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_data_range(buf, restr->range);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "ValuesFrom") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_data_prop_exp(buf, restr->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_data_range(buf, restr->range) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_card(CowlStrBuf *buf, CowlDataCard *restr) {
-    if (cowl_str_buf_append_static(buf, "Data")) return COWL_ERR_MEM;
-
-    cowl_ret ret;
+    cowl_str_buf_append_static(buf, "Data");
 
     switch (cowl_data_card_get_type(restr)) {
-        case COWL_CT_MIN: ret = cowl_str_buf_append_static(buf, "Min"); break;
-        case COWL_CT_MAX: ret = cowl_str_buf_append_static(buf, "Max"); break;
-        default: ret = cowl_str_buf_append_static(buf, "Exact"); break;
+        case COWL_CT_MIN: cowl_str_buf_append_static(buf, "Min"); break;
+        case COWL_CT_MAX: cowl_str_buf_append_static(buf, "Max"); break;
+        default: cowl_str_buf_append_static(buf, "Exact"); break;
     }
 
-    if (ret) return COWL_ERR_MEM;
-
-    if (cowl_str_buf_append_static(buf, "Cardinality") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_format(buf, "%" COWL_UINT_FMT " ", restr->cardinality) ||
-        cowl_str_buf_append_data_prop_exp(buf, restr->prop)) {
-        return COWL_ERR_MEM;
-    }
+    cowl_str_buf_append_static(buf, "Cardinality");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_uint(buf, restr->cardinality);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_data_prop_exp(buf, restr->prop);
 
     if (restr->range) {
-        if (cowl_str_buf_append_static(buf, " ") ||
-            cowl_str_buf_append_data_range(buf, restr->range)) {
-            return COWL_ERR_MEM;
-        }
+        cowl_str_buf_append_static(buf, " ");
+        cowl_str_buf_append_data_range(buf, restr->range);
     }
 
-    return cowl_str_buf_append_static(buf, ")");
+    cowl_str_buf_append_static(buf, ")");
+
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_has_value(CowlStrBuf *buf, CowlDataHasValue *restr) {
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Has") ||
-        cowl_str_buf_append_static(buf, "Value") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_data_prop_exp(buf, restr->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_literal(buf, restr->value) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Has");
+    cowl_str_buf_append_static(buf, "Value");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_data_prop_exp(buf, restr->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_literal(buf, restr->value);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_nary_bool(CowlStrBuf *buf, CowlNAryBool *exp) {
-    if (cowl_str_buf_append_static(buf, "Object")) return COWL_ERR_MEM;
-
-    cowl_ret ret;
+    cowl_str_buf_append_static(buf, "Object");
 
     if (cowl_nary_bool_get_type(exp) == COWL_NT_INTERSECT) {
-        ret = cowl_str_buf_append_static(buf, "Intersection");
+        cowl_str_buf_append_static(buf, "Intersection");
     } else {
-        ret = cowl_str_buf_append_static(buf, "Union");
+        cowl_str_buf_append_static(buf, "Union");
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_cls_exp_set(buf, exp->operands);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_cls_exp_set(buf, exp->operands) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_compl(CowlStrBuf *buf, CowlObjCompl *exp) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Complement") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_cls_exp(buf, exp->operand) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Complement");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_cls_exp(buf, exp->operand);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_one_of(CowlStrBuf *buf, CowlObjOneOf *restr) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "One") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_individual_set(buf, restr->inds) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "One");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_individual_set(buf, restr->inds);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 // Data ranges
@@ -606,63 +538,51 @@ cowl_ret cowl_str_buf_append_data_range(CowlStrBuf *buf, CowlDataRange *range) {
 }
 
 cowl_ret cowl_str_buf_append_datatype_restr(CowlStrBuf *buf, CowlDatatypeRestr *restr) {
-    if (cowl_str_buf_append_static(buf, "Datatype") ||
-        cowl_str_buf_append_static(buf, "Restriction") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_iri(buf, restr->datatype->iri) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_facet_restr_set(buf, restr->restrictions) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Datatype");
+    cowl_str_buf_append_static(buf, "Restriction");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_iri(buf, restr->datatype->iri);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_facet_restr_set(buf, restr->restrictions);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_nary_data(CowlStrBuf *buf, CowlNAryData *range) {
-    if (cowl_str_buf_append_static(buf, "Data")) return COWL_ERR_MEM;
-
-    cowl_ret ret;
+    cowl_str_buf_append_static(buf, "Data");
 
     if (cowl_nary_data_get_type(range) == COWL_NT_INTERSECT) {
-        ret = cowl_str_buf_append_static(buf, "Intersection");
+        cowl_str_buf_append_static(buf, "Intersection");
     } else {
-        ret = cowl_str_buf_append_static(buf, "Union");
+        cowl_str_buf_append_static(buf, "Union");
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_data_range_set(buf, range->operands);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_data_range_set(buf, range->operands) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_compl(CowlStrBuf *buf, CowlDataCompl *range) {
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Complement") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_data_range(buf, range->operand) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Complement");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_data_range(buf, range->operand);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_one_of(CowlStrBuf *buf, CowlDataOneOf *restr) {
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "One") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_literal_set(buf, restr->values) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "One");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_literal_set(buf, restr->values);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 // Axioms
@@ -768,472 +688,404 @@ cowl_ret cowl_str_buf_append_axiom(CowlStrBuf *buf, CowlAxiom *axiom) {
 }
 
 cowl_ret cowl_str_buf_append_decl_axiom(CowlStrBuf *buf, CowlDeclAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Declaration") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_entity(buf, axiom->entity) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Declaration");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_entity(buf, axiom->entity);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_datatype_def_axiom(CowlStrBuf *buf, CowlDatatypeDefAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Datatype") ||
-        cowl_str_buf_append_static(buf, "Definition") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_entity(buf, (CowlEntity *)axiom->datatype) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_data_range(buf, axiom->range) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Datatype");
+    cowl_str_buf_append_static(buf, "Definition");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_entity(buf, (CowlEntity *)axiom->datatype);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_data_range(buf, axiom->range);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_sub_cls_axiom(CowlStrBuf *buf, CowlSubClsAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Sub") ||
-        cowl_str_buf_append_static(buf, "Class") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_cls_exp(buf, axiom->sub_class) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_cls_exp(buf, axiom->super_class) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Sub");
+    cowl_str_buf_append_static(buf, "Class");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_cls_exp(buf, axiom->sub_class);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_cls_exp(buf, axiom->super_class);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_nary_cls_axiom(CowlStrBuf *buf, CowlNAryClsAxiom *axiom) {
-    cowl_ret ret;
-
     if (cowl_nary_cls_axiom_get_type(axiom) == COWL_NAT_EQUIV) {
-        ret = cowl_str_buf_append_static(buf, "Equivalent");
+        cowl_str_buf_append_static(buf, "Equivalent");
     } else {
-        ret = cowl_str_buf_append_static(buf, "Disjoint");
+        cowl_str_buf_append_static(buf, "Disjoint");
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "Class");
+    cowl_str_buf_append_static(buf, "es");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_cls_exp_set(buf, axiom->classes);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "Class") ||
-        cowl_str_buf_append_static(buf, "es") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_cls_exp_set(buf, axiom->classes) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_disj_union_axiom(CowlStrBuf *buf, CowlDisjUnionAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Disjoint") ||
-        cowl_str_buf_append_static(buf, "Union") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_cls_exp(buf, (CowlClsExp *)axiom->cls) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_cls_exp_set(buf, axiom->disjoints) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Disjoint");
+    cowl_str_buf_append_static(buf, "Union");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_cls_exp(buf, (CowlClsExp *)axiom->cls);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_cls_exp_set(buf, axiom->disjoints);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_cls_assert(CowlStrBuf *buf, CowlClsAssertAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Class") ||
-        cowl_str_buf_append_static(buf, "Assertion") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_individual(buf, axiom->ind) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_cls_exp(buf, axiom->cls_exp) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Class");
+    cowl_str_buf_append_static(buf, "Assertion");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_individual(buf, axiom->ind);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_cls_exp(buf, axiom->cls_exp);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_nary_ind_axiom(CowlStrBuf *buf, CowlNAryIndAxiom *axiom) {
     if (cowl_nary_ind_axiom_get_type(axiom) == COWL_NAT_SAME) {
-        if (cowl_str_buf_append_static(buf, "Same") ||
-            cowl_str_buf_append_static(buf, "Individual")) {
-            return COWL_ERR_MEM;
-        }
+        cowl_str_buf_append_static(buf, "Same");
+        cowl_str_buf_append_static(buf, "Individual");
     } else {
-        if (cowl_str_buf_append_static(buf, "Different") ||
-            cowl_str_buf_append_static(buf, "Individual") ||
-            cowl_str_buf_append_static(buf, "s")) {
-            return COWL_ERR_MEM;
-        }
-    }
-    if (cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_individual_set(buf, axiom->individuals) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
+        cowl_str_buf_append_static(buf, "Different");
+        cowl_str_buf_append_static(buf, "Individual");
+        cowl_str_buf_append_static(buf, "s");
     }
 
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_individual_set(buf, axiom->individuals);
+    cowl_str_buf_append_static(buf, ")");
+
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_prop_assert(CowlStrBuf *buf, CowlObjPropAssertAxiom *axiom) {
     if (cowl_obj_prop_assert_axiom_is_negative(axiom)) {
-        if (cowl_str_buf_append_static(buf, "Negative")) return COWL_ERR_MEM;
+        cowl_str_buf_append_static(buf, "Negative");
     }
 
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Assertion") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_individual(buf, axiom->subject) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_individual(buf, axiom->object) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Assertion");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_individual(buf, axiom->subject);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_individual(buf, axiom->object);
+    cowl_str_buf_append_static(buf, ")");
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_prop_assert(CowlStrBuf *buf, CowlDataPropAssertAxiom *axiom) {
     if (cowl_data_prop_assert_axiom_is_negative(axiom)) {
-        if (cowl_str_buf_append_static(buf, "Negative")) return COWL_ERR_MEM;
+        cowl_str_buf_append_static(buf, "Negative");
     }
 
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Assertion") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_individual(buf, axiom->subject) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_data_prop_exp(buf, axiom->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_literal(buf, axiom->object) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Assertion");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_individual(buf, axiom->subject);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_data_prop_exp(buf, axiom->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_literal(buf, axiom->object);
+    cowl_str_buf_append_static(buf, ")");
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_sub_obj_prop_axiom(CowlStrBuf *buf, CowlSubObjPropAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Sub") ||
-        cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->sub_prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->super_prop) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Sub");
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->sub_prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->super_prop);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_sub_obj_prop_chain_axiom(CowlStrBuf *buf, CowlSubObjPropChainAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Sub") ||
-        cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Chain") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_obj_prop_exp_vec(buf, axiom->sub_props) ||
-        cowl_str_buf_append_static(buf, ") ") ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->super_prop) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Sub");
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Chain");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_obj_prop_exp_vec(buf, axiom->sub_props);
+    cowl_str_buf_append_static(buf, ") ");
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->super_prop);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_inv_obj_prop_axiom(CowlStrBuf *buf, CowlInvObjPropAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Inverse") ||
-        cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Properties") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->first) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->second) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Inverse");
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Properties");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->first);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->second);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_nary_obj_prop_axiom(CowlStrBuf *buf, CowlNAryObjPropAxiom *axiom) {
-    cowl_ret ret;
-
     if (cowl_nary_obj_prop_axiom_get_type(axiom) == COWL_NAT_EQUIV) {
-        ret = cowl_str_buf_append_static(buf, "Equivalent");
+        cowl_str_buf_append_static(buf, "Equivalent");
     } else {
-        ret = cowl_str_buf_append_static(buf, "Disjoint");
+        cowl_str_buf_append_static(buf, "Disjoint");
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Properties");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_obj_prop_exp_set(buf, axiom->props);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Properties") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_obj_prop_exp_set(buf, axiom->props) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_prop_char(CowlStrBuf *buf, CowlObjPropCharAxiom *axiom) {
     CowlCharAxiomType const type = cowl_obj_prop_char_axiom_get_type(axiom);
-    cowl_ret ret;
 
     switch (type) {
         case COWL_CAT_FUNC:
-            ret = cowl_str_buf_append_static(buf, "Functional");
+            cowl_str_buf_append_static(buf, "Functional");
             break;
 
         case COWL_CAT_INV_FUNC:
-            ret = ((cowl_str_buf_append_static(buf, "Inverse") ||
-                    cowl_str_buf_append_static(buf, "Functional")) ? COWL_ERR_MEM : COWL_OK);
+            cowl_str_buf_append_static(buf, "Inverse");
+            cowl_str_buf_append_static(buf, "Functional");
             break;
 
         case COWL_CAT_SYMM:
-            ret = cowl_str_buf_append_static(buf, "Symmetric");
+            cowl_str_buf_append_static(buf, "Symmetric");
             break;
 
         case COWL_CAT_ASYMM:
-            ret = cowl_str_buf_append_static(buf, "Asymmetric");
+            cowl_str_buf_append_static(buf, "Asymmetric");
             break;
 
         case COWL_CAT_REFL:
-            ret = cowl_str_buf_append_static(buf, "Reflexive");
+            cowl_str_buf_append_static(buf, "Reflexive");
             break;
 
         case COWL_CAT_IRREFL:
-            ret = cowl_str_buf_append_static(buf, "Irreflexive");
+            cowl_str_buf_append_static(buf, "Irreflexive");
             break;
 
         default:
-            ret = cowl_str_buf_append_static(buf, "Transitive");
+            cowl_str_buf_append_static(buf, "Transitive");
             break;
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_prop_domain(CowlStrBuf *buf, CowlObjPropDomainAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Domain") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_cls_exp(buf, axiom->domain) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Domain");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_cls_exp(buf, axiom->domain);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_prop_range(CowlStrBuf *buf, CowlObjPropRangeAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Object") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Range") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_cls_exp(buf, axiom->range) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Object");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Range");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_obj_prop_exp(buf, axiom->prop_exp);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_cls_exp(buf, axiom->range);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_sub_data_prop_axiom(CowlStrBuf *buf, CowlSubDataPropAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Sub") ||
-        cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_data_prop_exp(buf, axiom->sub_prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_data_prop_exp(buf, axiom->super_prop) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Sub");
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_data_prop_exp(buf, axiom->sub_prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_data_prop_exp(buf, axiom->super_prop);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_nary_data_prop_axiom(CowlStrBuf *buf, CowlNAryDataPropAxiom *axiom) {
-    cowl_ret ret;
-
     if (cowl_nary_data_prop_axiom_get_type(axiom) == COWL_NAT_EQUIV) {
-        ret = cowl_str_buf_append_static(buf, "Equivalent");
+        cowl_str_buf_append_static(buf, "Equivalent");
     } else {
-        ret = cowl_str_buf_append_static(buf, "Disjoint");
+        cowl_str_buf_append_static(buf, "Disjoint");
     }
 
-    if (ret) return COWL_ERR_MEM;
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Properties");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_data_prop_exp_set(buf, axiom->props);
+    cowl_str_buf_append_static(buf, ")");
 
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Properties") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_data_prop_exp_set(buf, axiom->props) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_func_data_prop_axiom(CowlStrBuf *buf, CowlFuncDataPropAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Functional") ||
-        cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_data_prop_exp(buf, axiom->prop) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Functional");
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_data_prop_exp(buf, axiom->prop);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_prop_domain(CowlStrBuf *buf, CowlDataPropDomainAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Domain") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_data_prop_exp(buf, axiom->prop_exp) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_cls_exp(buf, axiom->domain) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Domain");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_data_prop_exp(buf, axiom->prop_exp);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_cls_exp(buf, axiom->domain);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_prop_range(CowlStrBuf *buf, CowlDataPropRangeAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Data") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Range") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_data_prop_exp(buf, axiom->prop_exp) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_data_range(buf, axiom->range) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Data");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Range");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_data_prop_exp(buf, axiom->prop_exp);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_data_range(buf, axiom->range);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_has_key_axiom(CowlStrBuf *buf, CowlHasKeyAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Has") ||
-        cowl_str_buf_append_static(buf, "Key") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_cls_exp(buf, axiom->cls_exp) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_obj_prop_exp_set(buf, axiom->obj_props) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_data_prop_exp_set(buf, axiom->data_props) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Has");
+    cowl_str_buf_append_static(buf, "Key");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_cls_exp(buf, axiom->cls_exp);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_obj_prop_exp_set(buf, axiom->obj_props);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_data_prop_exp_set(buf, axiom->data_props);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_annot_assert(CowlStrBuf *buf, CowlAnnotAssertAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Annotation") ||
-        cowl_str_buf_append_static(buf, "Assertion") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_annot_value(buf, axiom->subject) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_annot_prop(buf, axiom->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_annot_value(buf, axiom->value) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Annotation");
+    cowl_str_buf_append_static(buf, "Assertion");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_annot_value(buf, axiom->subject);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_annot_prop(buf, axiom->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_annot_value(buf, axiom->value);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_sub_annot_prop_axiom(CowlStrBuf *buf, CowlSubAnnotPropAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Sub") ||
-        cowl_str_buf_append_static(buf, "Annotation") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Of") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_annot_prop(buf, axiom->sub_prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_annot_prop(buf, axiom->super_prop) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Sub");
+    cowl_str_buf_append_static(buf, "Annotation");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Of");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_annot_prop(buf, axiom->sub_prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_annot_prop(buf, axiom->super_prop);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_annot_prop_domain_axiom(CowlStrBuf *buf, CowlAnnotPropDomainAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Annotation") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Domain") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_annot_prop(buf, axiom->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_iri(buf, axiom->domain) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Annotation");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Domain");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_annot_prop(buf, axiom->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_iri(buf, axiom->domain);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_annot_prop_range_axiom(CowlStrBuf *buf, CowlAnnotPropRangeAxiom *axiom) {
-    if (cowl_str_buf_append_static(buf, "Annotation") ||
-        cowl_str_buf_append_static(buf, "Property") ||
-        cowl_str_buf_append_static(buf, "Range") ||
-        cowl_str_buf_append_static(buf, "(") ||
-        cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom)) ||
-        cowl_str_buf_append_annot_prop(buf, axiom->prop) ||
-        cowl_str_buf_append_static(buf, " ") ||
-        cowl_str_buf_append_iri(buf, axiom->range) ||
-        cowl_str_buf_append_static(buf, ")")) {
-        return COWL_ERR_MEM;
-    }
-    return COWL_OK;
+    cowl_str_buf_append_static(buf, "Annotation");
+    cowl_str_buf_append_static(buf, "Property");
+    cowl_str_buf_append_static(buf, "Range");
+    cowl_str_buf_append_static(buf, "(");
+    cowl_str_buf_append_annotation_vec(buf, cowl_axiom_get_annot(axiom));
+    cowl_str_buf_append_annot_prop(buf, axiom->prop);
+    cowl_str_buf_append_static(buf, " ");
+    cowl_str_buf_append_iri(buf, axiom->range);
+    cowl_str_buf_append_static(buf, ")");
+    return buf->ret;
 }
 
 // Collections
@@ -1242,111 +1094,112 @@ cowl_ret cowl_str_buf_append_cls_exp_set(CowlStrBuf *buf, CowlClsExpSet *set) {
     cowl_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlClsExpSet, set, exp, {
-        if (cowl_str_buf_append_cls_exp(buf, exp)) return COWL_ERR_MEM;
-        if (current++ < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_cls_exp(buf, exp);
+        if (current++ < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_prop_exp_set(CowlStrBuf *buf, CowlDataPropExpSet *set) {
     cowl_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlDataPropExpSet, set, prop, {
-        if (cowl_str_buf_append_data_prop_exp(buf, prop)) return COWL_ERR_MEM;
-        if (current++ < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_data_prop_exp(buf, prop);
+        if (current++ < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_data_range_set(CowlStrBuf *buf, CowlDataRangeSet *set) {
     cowl_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlDataRangeSet, set, range, {
-        if (cowl_str_buf_append_data_range(buf, range)) return COWL_ERR_MEM;
-        if (current++ < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_data_range(buf, range);
+        if (current++ < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_facet_restr_set(CowlStrBuf *buf, CowlFacetRestrSet *set) {
     cowl_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlFacetRestrSet, set, restr, {
-        if (cowl_str_buf_append_facet_restr(buf, restr)) return COWL_ERR_MEM;
-        if (current++ < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_facet_restr(buf, restr);
+        if (current++ < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_individual_set(CowlStrBuf *buf, CowlIndividualSet *set) {
     cowl_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlIndividualSet, set, ind, {
-        if (cowl_str_buf_append_individual(buf, ind)) return COWL_ERR_MEM;
-        if (current++ < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_individual(buf, ind);
+        if (current++ < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_literal_set(CowlStrBuf *buf, CowlLiteralSet *set) {
     cowl_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlLiteralSet, set, literal, {
-        if (cowl_str_buf_append_literal(buf, literal)) return COWL_ERR_MEM;
-        if (current++ < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_literal(buf, literal);
+        if (current++ < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_prop_exp_set(CowlStrBuf *buf, CowlObjPropExpSet *set) {
     cowl_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlObjPropExpSet, set, prop, {
-        if (cowl_str_buf_append_obj_prop_exp(buf, prop)) return COWL_ERR_MEM;
-        if (current++ < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_obj_prop_exp(buf, prop);
+        if (current++ < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_annotation_vec(CowlStrBuf *buf, CowlAnnotationVec *vec) {
     cowl_uint last = uvec_count(vec);
 
     uvec_iterate(CowlAnnotationPtr, vec, annot, idx, {
-        if (cowl_str_buf_append_annotation(buf, annot)) return COWL_ERR_MEM;
-        if (idx < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_annotation(buf, annot);
+        if (idx < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_obj_prop_exp_vec(CowlStrBuf *buf, CowlObjPropExpVec *vec) {
     cowl_uint last = uvec_count(vec);
 
     uvec_iterate(CowlObjPropExpPtr, vec, prop, idx, {
-        if (cowl_str_buf_append_obj_prop_exp(buf, prop)) return COWL_ERR_MEM;
-        if (idx < last && cowl_str_buf_append_static(buf, " ")) return COWL_ERR_MEM;
+        cowl_str_buf_append_obj_prop_exp(buf, prop);
+        if (idx < last) cowl_str_buf_append_static(buf, " ");
     });
 
-    return COWL_OK;
+    return buf->ret;
 }
 
 // Output
 
 CowlRawString cowl_str_buf_to_raw_string(CowlStrBuf *buf) {
-    cowl_uint length = uvec_count(buf);
-    if (!(buf && length)) {
-        cowl_str_buf_free(buf);
+    cowl_uint length = uvec_count(&buf->storage);
+
+    if (buf->ret || !length) {
+        cowl_str_buf_deinit(buf);
         return COWL_RAW_STRING_NULL;
     }
 
-    char *buffer = cowl_str_buf_free_get_storage(buf);
+    char *buffer = cowl_str_buf_deinit_get_storage(buf);
     char *cstring = cowl_realloc(buffer, length + 1);
 
     if (cstring) {

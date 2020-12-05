@@ -49,11 +49,11 @@
                                       cowl_unused yyscan_t scanner,
                                       CowlParser *parser, const char *s) {
         cowl_ret code = strcmp(s, "memory exhausted") ? COWL_ERR_SYNTAX : COWL_ERR_MEM;
-        cowl_parser_log_error(parser, code, s);
+        cowl_parser_handle_error(parser, code, s);
     }
 
     #define COWL_ERROR(CODE) do {                                                                   \
-        cowl_parser_log_error_type(parser, (CODE));                                                 \
+        cowl_parser_handle_error_type(parser, (CODE));                                              \
         YYERROR;                                                                                    \
     } while(0)
 

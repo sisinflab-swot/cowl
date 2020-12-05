@@ -15,6 +15,12 @@
 #include "cowl_ontology.h"
 #include "cowl_test_utils.h"
 
+// Utils
+
+static void cowl_test_parser_handle_error(void *ctx, CowlError const *error) {
+    cowl_logger_log_error(ctx, error);
+}
+
 // Tests
 
 bool cowl_test_parser_lifecycle(void) {
@@ -29,22 +35,20 @@ bool cowl_test_parser_parse_ontology(void) {
 
     CowlImportsLoader loader = cowl_imports_loader_init(NULL, cowl_test_load_import, NULL);
     cowl_parser_set_imports_loader(parser, loader);
-    UVec(CowlError) *errors = uvec_alloc(CowlError);
 
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, COWL_TEST_ONTOLOGY, errors);
     CowlLogger *logger = cowl_logger_file_get(COWL_TEST_ONTOLOGY ".log");
     cowl_assert_not_null(logger, "File logger");
-
     cowl_logger_clear(logger);
-    cowl_logger_log_errors(logger, errors);
 
+    CowlErrorHandler handler = cowl_error_handler_init(logger, cowl_test_parser_handle_error, NULL);
+    cowl_parser_set_error_handler(parser, handler);
+
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, COWL_TEST_ONTOLOGY);
     cowl_assert_not_null(onto, "Parsed ontology");
-    cowl_assert_equal_int(uvec_count(errors), 0, "Parsing errors");
 
     cowl_logger_log_ontology(logger, onto);
 
     cowl_logger_release(logger);
-    uvec_free(CowlError, errors);
     cowl_ontology_release(onto);
     cowl_parser_release(parser);
 

@@ -20,7 +20,7 @@ int main(void) {
 
     // Instantiate a parser and deserialize an ontology.
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH, NULL);
+    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH);
 
     // You don't need the parser anymore.
     cowl_parser_release(parser);

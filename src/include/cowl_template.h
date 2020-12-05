@@ -50,15 +50,14 @@ COWL_BEGIN_DECLS
 }
 
 #define COWL_TO_STRING_IMPL(LC, VAR) {                                                              \
-    CowlStrBuf *buf = cowl_str_buf_alloc();                                                         \
-    if (!buf) return NULL;                                                                          \
+    CowlStrBuf buf = cowl_str_buf_init;                                                             \
                                                                                                     \
-    if (cowl_str_buf_append_##LC(buf, (VAR))) {                                                     \
-        cowl_str_buf_free(buf);                                                                     \
+    if (cowl_str_buf_append_##LC(&buf, (VAR))) {                                                    \
+        cowl_str_buf_deinit(&buf);                                                                  \
         return NULL;                                                                                \
     }                                                                                               \
                                                                                                     \
-    return cowl_str_buf_to_string(buf);                                                             \
+    return cowl_str_buf_to_string(&buf);                                                            \
 }
 
 COWL_END_DECLS

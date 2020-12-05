@@ -77,7 +77,7 @@ typedef uvec_struct(CowlError) UVec(CowlError);
 
 #define COWL_TEST_ONTOLOGY "test_onto.owl"
 
-CowlOntology* cowl_test_load_import(void *ctx, CowlIRI *iri, UVec(CowlError) *errors);
+CowlOntology* cowl_test_load_import(void *ctx, CowlIRI *iri);
 
 COWL_END_DECLS
 

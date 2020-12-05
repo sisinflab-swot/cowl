@@ -34,10 +34,11 @@ cowl_struct(CowlParser) {
     CowlObject super;
     UHash(CowlStringTable) *prefix_ns_map;
     UHash(CowlNodeIdMap) *node_id_map;
-    cowl_struct(CowlOntology) *ontology;
-    UVec(CowlError) *errors;
+    CowlOntology *ontology;
+    CowlString *source;
     void *scanner;
     CowlImportsLoader loader;
+    CowlErrorHandler handler;
 };
 
 cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import);
@@ -50,8 +51,8 @@ cowl_ret cowl_parser_set_annotations(CowlParser *parser, UVec(CowlAnnotationPtr)
 cowl_ret cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
 cowl_ret cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
 
-void cowl_parser_log_error(CowlParser *parser, cowl_ret code, char const *description);
-void cowl_parser_log_error_type(CowlParser *parser, cowl_ret code);
+void cowl_parser_handle_error(CowlParser *parser, cowl_ret code, char const *description);
+void cowl_parser_handle_error_type(CowlParser *parser, cowl_ret code);
 
 COWL_END_DECLS
 

@@ -20,10 +20,14 @@ COWL_BEGIN_DECLS
 
 typedef char CowlChar;
 UVEC_DECL(CowlChar)
-typedef uvec_struct(CowlChar) CowlStrBuf;
 
-CowlStrBuf* cowl_str_buf_alloc(void);
-void cowl_str_buf_free(CowlStrBuf *buf);
+typedef cowl_struct(CowlStrBuf) {
+    cowl_ret ret;
+    UVec(CowlChar) storage;
+} CowlStrBuf;
+
+#define cowl_str_buf_init ((CowlStrBuf){ .ret = 0, .storage = uvec_init(CowlChar) })
+#define cowl_str_buf_deinit(buf) uvec_deinit((buf)->storage)
 
 // Strings
 
@@ -41,12 +45,13 @@ cowl_ret cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va
 cowl_ret cowl_str_buf_append_object(CowlStrBuf *buf, CowlObject *obj);
 cowl_ret cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri);
 cowl_ret cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri);
-cowl_ret cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID id);
+cowl_ret cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID *id);
 cowl_ret cowl_str_buf_append_literal(CowlStrBuf *buf, CowlLiteral *literal);
 cowl_ret cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr);
 cowl_ret cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id);
 cowl_ret cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation);
 cowl_ret cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value);
+cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, cowl_uint uint);
 
 // Entities and Primitives
 

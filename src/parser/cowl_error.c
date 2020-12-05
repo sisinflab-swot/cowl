@@ -9,30 +9,46 @@
  */
 
 #include "cowl_error.h"
-#include "cowl_string_private.h"
+#include "cowl_ret_private.h"
+#include "cowl_str_buf.h"
 
-UVEC_IMPL(CowlError)
+CowlString* cowl_error_to_string(CowlError const *error) {
+    CowlStrBuf buf_storage = cowl_str_buf_init;
+    CowlStrBuf *buf = &buf_storage;
 
-CowlString* cowl_error_to_string(CowlError error) {
-    CowlRawString comp[4];
+    cowl_str_buf_append_static(buf, "Error ");
+    cowl_str_buf_append_uint(buf, error->code);
 
-    if (error.line) {
-        comp[0] = cowl_raw_string_with_format("Error %d (line %d) - ", error.code, error.line);
-    } else {
-        comp[0] = cowl_raw_string_with_format("Error %d - ", error.code);
+    CowlErrorLoc loc = error->location;
+
+    if (loc.iri || loc.source || loc.line) {
+        cowl_str_buf_append_static(buf, " (");
+
+        if (loc.iri) {
+            cowl_str_buf_append_iri_no_brackets(buf, loc.iri);
+            cowl_str_buf_append_static(buf, ", ");
+        }
+
+        if (loc.source) {
+            cowl_str_buf_append_string(buf, loc.source);
+            cowl_str_buf_append_static(buf, ", ");
+        }
+
+        if (loc.line) {
+            cowl_str_buf_append_static(buf, "line ");
+            cowl_str_buf_append_uint(buf, loc.line);
+        }
+
+        cowl_str_buf_append_static(buf, ")");
     }
 
-    // This must not be freed as the underlying string is not copied.
-    comp[1] = cowl_raw_string_init_cstring(cowl_ret_to_cstring(error.code), false);
-    cowl_uint n_comp = 2;
+    cowl_str_buf_append_static(buf, " - ");
+    cowl_str_buf_append_raw_string(buf, cowl_ret_to_raw_string(error->code));
 
-    if (error.description) {
-        comp[2] = cowl_raw_string_init_static(": ", false);
-        comp[3] = error.description->raw_string;
-        n_comp = 4;
+    if (error->description) {
+        cowl_str_buf_append_static(buf, ": ");
+        cowl_str_buf_append_string(buf, error->description);
     }
 
-    CowlRawString raw_string = cowl_raw_string_concat(n_comp, comp);
-    cowl_raw_string_deinit(comp[0]);
-    return cowl_string_alloc(raw_string);
+    return cowl_str_buf_to_string(buf);
 }

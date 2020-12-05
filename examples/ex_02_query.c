@@ -15,13 +15,13 @@
 #define ONTO_NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
-static bool for_each_cls(void *ctx, void *exp);
+static bool for_each_cls(void *ctx, void *cls);
 
 int main(void) {
     cowl_api_init();
 
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH, NULL);
+    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH);
     cowl_parser_release(parser);
 
     // Query the parsed ontology

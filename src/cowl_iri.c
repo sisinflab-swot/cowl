@@ -72,34 +72,32 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
     if (s_ns_len > 0) {
         // Part of the suffix should go in the namespace.
-        CowlStrBuf *buf = cowl_str_buf_alloc();
-        if (!buf) return NULL;
+        CowlStrBuf buf = cowl_str_buf_init;
 
-        if (cowl_str_buf_append_raw_string(buf, p_str) ||
-            cowl_str_buf_append_cstring(buf, s_str.cstring, s_ns_len)) {
-            cowl_str_buf_free(buf);
+        if (cowl_str_buf_append_raw_string(&buf, p_str) ||
+            cowl_str_buf_append_cstring(&buf, s_str.cstring, s_ns_len)) {
+            cowl_str_buf_deinit(&buf);
             return NULL;
         }
 
-        prefix = cowl_str_buf_to_string(buf);
+        prefix = cowl_str_buf_to_string(&buf);
         suffix = cowl_string_get(s_str.cstring + s_ns_len, s_str.length - s_ns_len, true);
     } else {
         cowl_uint p_ns_len = cowl_xml_ns_length(p_str);
 
         if (p_ns_len < p_str.length) {
             // Part of the prefix should go in the remainder.
-            CowlStrBuf *buf = cowl_str_buf_alloc();
-            if (!buf) return NULL;
+            CowlStrBuf buf = cowl_str_buf_init;
 
-            if (cowl_str_buf_append_cstring(buf, p_str.cstring + p_ns_len,
+            if (cowl_str_buf_append_cstring(&buf, p_str.cstring + p_ns_len,
                                             p_str.length - p_ns_len) ||
-                cowl_str_buf_append_raw_string(buf, s_str)) {
-                cowl_str_buf_free(buf);
+                cowl_str_buf_append_raw_string(&buf, s_str)) {
+                cowl_str_buf_deinit(&buf);
                 return NULL;
             }
 
             prefix = cowl_string_get(p_str.cstring, p_ns_len, true);
-            suffix = cowl_str_buf_to_string(buf);
+            suffix = cowl_str_buf_to_string(&buf);
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
             cowl_string_retain(prefix);
@@ -159,9 +157,9 @@ CowlString* cowl_iri_to_string(CowlIRI *iri)
     COWL_TO_STRING_IMPL(iri, iri)
 
 CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
-    cowl_str_buf_append_iri_no_brackets(buf, iri);
-    return cowl_str_buf_to_string(buf);
+    CowlStrBuf buf = cowl_str_buf_init;
+    cowl_str_buf_append_iri_no_brackets(&buf, iri);
+    return cowl_str_buf_to_string(&buf);
 }
 
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {

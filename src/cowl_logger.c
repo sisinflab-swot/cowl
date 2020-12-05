@@ -280,15 +280,9 @@ cowl_ret cowl_logger_log_ontology(CowlLogger *logger, CowlOntology *onto) {
     return COWL_OK;
 }
 
-cowl_ret cowl_logger_log_errors(CowlLogger *logger, UVec(CowlError) *errors) {
-    cowl_ret ret;
-
-    uvec_foreach(CowlError, errors, error, {
-        if ((ret = cowl_logger_consume(logger, cowl_error_to_string(error)))) return ret;
-        if ((ret = cowl_logger_logs(logger, "\n"))) return ret;
-    });
-
-    return COWL_OK;
+cowl_ret cowl_logger_log_error(CowlLogger *logger, CowlError const *error) {
+    cowl_ret ret = cowl_logger_consume(logger, cowl_error_to_string(error));
+    return ret ? ret : cowl_logger_logs(logger, "\n");
 }
 
 char const* cowl_logger_get_path(CowlLogger *logger) {

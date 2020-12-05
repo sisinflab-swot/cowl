@@ -4,5 +4,5 @@ Input / Output
 
 .. toctree::
 
-   CowlParser
-   CowlLogger
+   parsing
+   logging

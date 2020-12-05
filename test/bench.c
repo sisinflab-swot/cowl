@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     CowlParser *parser = cowl_parser_get();
 
     double start = get_millis();
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, onto_path, NULL);
+    CowlOntology *onto = cowl_parser_parse_ontology(parser, onto_path);
     double stop = get_millis();
 
     cowl_parser_release(parser);

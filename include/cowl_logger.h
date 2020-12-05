@@ -13,12 +13,12 @@
 #ifndef COWL_LOGGER_H
 #define COWL_LOGGER_H
 
-#include "cowl_error.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlError);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlLogger);
@@ -210,16 +210,16 @@ COWL_PUBLIC
 cowl_ret cowl_logger_log_axioms_in_ontology(CowlLogger *logger, CowlOntology *onto);
 
 /**
- * Logs the specified errors.
+ * Logs the specified error.
  *
  * @param logger The logger.
- * @param errors Errors to log.
+ * @param error Error to log.
  * @return Return code.
  *
  * @public @memberof CowlLogger
  */
 COWL_PUBLIC
-cowl_ret cowl_logger_log_errors(CowlLogger *logger, UVec(CowlError) *errors);
+cowl_ret cowl_logger_log_error(CowlLogger *logger, CowlError const *error);
 
 COWL_END_DECLS
 

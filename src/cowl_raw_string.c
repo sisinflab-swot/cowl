@@ -77,28 +77,25 @@ CowlRawString cowl_raw_string_with_format(char const *format, ...) {
 }
 
 CowlRawString cowl_raw_string_with_format_list(char const *format, va_list args) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
+    CowlStrBuf buf = cowl_str_buf_init;
 
-    if (buf && cowl_str_buf_append_format_list(buf, format, args)) {
-        cowl_str_buf_free(buf);
-        buf = NULL;
+    if (cowl_str_buf_append_format_list(&buf, format, args)) {
+        cowl_str_buf_deinit(&buf);
+        return COWL_RAW_STRING_NULL;
     }
 
-    return cowl_str_buf_to_raw_string(buf);
+    return cowl_str_buf_to_raw_string(&buf);
 }
 
 CowlRawString cowl_raw_string_concat(cowl_uint count, CowlRawString const *strings) {
-    CowlStrBuf *buf = cowl_str_buf_alloc();
+    CowlStrBuf buf = cowl_str_buf_init;
 
-    if (buf) {
-        for (cowl_uint i = 0; i < count; ++i) {
-            if (cowl_str_buf_append_raw_string(buf, strings[i])) {
-                cowl_str_buf_free(buf);
-                buf = NULL;
-                break;
-            }
+    for (cowl_uint i = 0; i < count; ++i) {
+        if (cowl_str_buf_append_raw_string(&buf, strings[i])) {
+            cowl_str_buf_deinit(&buf);
+            return COWL_RAW_STRING_NULL;
         }
     }
 
-    return cowl_str_buf_to_raw_string(buf);
+    return cowl_str_buf_to_raw_string(&buf);
 }

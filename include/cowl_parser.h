@@ -13,7 +13,7 @@
 #ifndef COWL_PARSER_H
 #define COWL_PARSER_H
 
-#include "cowl_error.h"
+#include "cowl_error_handler.h"
 #include "cowl_imports_loader.h"
 #include "cowl_std.h"
 
@@ -73,18 +73,27 @@ COWL_PUBLIC
 void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader);
 
 /**
+ * Sets the error handler.
+ *
+ * @param parser The parser.
+ * @param handler The error handler.
+ *
+ * @public @memberof CowlParser
+ */
+COWL_PUBLIC
+void cowl_parser_set_error_handler(CowlParser *parser, CowlErrorHandler handler);
+
+/**
  * Parses an ontology from the file at the specified path.
  *
  * @param parser The parser.
  * @param path The file path.
- * @param[out] errors Errors will be appended to this vector.
  * @return The parsed ontology, or NULL on error.
  *
  * @public @memberof CowlParser
  */
 COWL_PUBLIC
-CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path,
-                                         UVec(CowlError) *errors);
+CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path);
 
 COWL_END_DECLS
 

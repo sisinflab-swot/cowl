@@ -49,6 +49,9 @@ typedef cowl_enum(cowl_ret) {
     /// Syntax error.
     COWL_ERR_SYNTAX,
 
+    /// Import error.
+    COWL_ERR_IMPORT,
+
 /// @name Markers
 
     /// Number of enum values.

@@ -81,6 +81,7 @@
 #include "cowl_raw_string.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
+#include "cowl_ret_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_string_private.h"
 #include "cowl_sub_annot_prop_axiom_private.h"

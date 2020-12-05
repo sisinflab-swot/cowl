@@ -1,5 +1,0 @@
-==============
-Imports Loader
-==============
-
-.. doxygenstruct:: CowlImportsLoader

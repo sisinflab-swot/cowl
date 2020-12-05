@@ -104,7 +104,7 @@ bool cowl_test_ontology_init(void) {
     CowlParser *parser = cowl_parser_get();
     CowlImportsLoader loader = cowl_imports_loader_init(NULL, cowl_test_load_import, NULL);
     cowl_parser_set_imports_loader(parser, loader);
-    onto = cowl_parser_parse_ontology(parser, COWL_TEST_ONTOLOGY, NULL);
+    onto = cowl_parser_parse_ontology(parser, COWL_TEST_ONTOLOGY);
     cowl_parser_release(parser);
     cowl_assert_critical(onto, "Ontology parsing must complete without errors.");
     return true;

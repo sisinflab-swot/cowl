@@ -1,5 +1,0 @@
-======
-Errors
-======
-
-.. doxygenstruct:: CowlError
