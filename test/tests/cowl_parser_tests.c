@@ -33,8 +33,8 @@ bool cowl_test_parser_lifecycle(void) {
 bool cowl_test_parser_parse_ontology(void) {
     CowlParser *parser = cowl_parser_get();
 
-    CowlImportsLoader loader = cowl_imports_loader_init(NULL, cowl_test_load_import, NULL);
-    cowl_parser_set_imports_loader(parser, loader);
+    CowlImportLoader loader = cowl_import_loader_init(NULL, cowl_test_load_import, NULL);
+    cowl_parser_set_import_loader(parser, loader);
 
     CowlLogger *logger = cowl_logger_file_get(COWL_TEST_ONTOLOGY ".log");
     cowl_assert_not_null(logger, "File logger");

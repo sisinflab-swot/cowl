@@ -14,7 +14,7 @@
 #define COWL_PARSER_H
 
 #include "cowl_error_handler.h"
-#include "cowl_imports_loader.h"
+#include "cowl_import_loader.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
@@ -62,15 +62,15 @@ COWL_PUBLIC
 void cowl_parser_release(CowlParser *parser);
 
 /**
- * Sets the imports loader.
+ * Sets the import loader.
  *
  * @param parser The parser.
- * @param loader The imports loader.
+ * @param loader The import loader.
  *
  * @public @memberof CowlParser
  */
 COWL_PUBLIC
-void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader);
+void cowl_parser_set_import_loader(CowlParser *parser, CowlImportLoader loader);
 
 /**
  * Sets the error handler.

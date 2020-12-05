@@ -1,6 +1,6 @@
 /*
  * In this example we will be logging the direct atomic subclasses
- * of a certain class. Note that error and imports handling are omitted
+ * of a certain class. Note that error and import handling are omitted
  * for the sake of simplicity.
  *
  * @author Ivano Bilenchi

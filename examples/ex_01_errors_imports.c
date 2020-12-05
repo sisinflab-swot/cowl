@@ -1,6 +1,6 @@
 /*
  * This example is the same as the previous one,
- * except error and imports handling are included.
+ * except error and import handling are included.
  *
  * @author Ivano Bilenchi
  *
@@ -31,8 +31,8 @@ int main(void) {
     }
 
     // Setup an import loader.
-    CowlImportsLoader loader = cowl_imports_loader_init(NULL, load_import, NULL);
-    cowl_parser_set_imports_loader(parser, loader);
+    CowlImportLoader loader = cowl_import_loader_init(NULL, load_import, NULL);
+    cowl_parser_set_import_loader(parser, loader);
 
     // Setup an error handler.
     CowlErrorHandler handler = cowl_error_handler_init(logger, handle_error, NULL);

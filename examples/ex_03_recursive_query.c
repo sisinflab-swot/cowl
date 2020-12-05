@@ -1,6 +1,6 @@
 /*
  * In this example we will be logging the atomic subclasses
- * of a certain class recursively. Error and imports handling are omitted.
+ * of a certain class recursively. Error and import handling are omitted.
  *
  * @author Ivano Bilenchi
  *

@@ -1,5 +1,5 @@
 /**
- * Defines CowlImportsLoader and declares its API.
+ * Defines CowlImportLoader and declares its API.
  *
  * @author Ivano Bilenchi
  *
@@ -10,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_IMPORTS_LOADER_H
-#define COWL_IMPORTS_LOADER_H
+#ifndef COWL_IMPORT_LOADER_H
+#define COWL_IMPORT_LOADER_H
 
 #include "cowl_error.h"
 #include "cowl_std.h"
@@ -26,15 +26,13 @@ cowl_struct_decl(CowlOntology);
 /**
  * Provides a mechanism for generic handling of [ontology imports].
  *
- * By providing an instance to the parser (via cowl_parser_set_imports_loader())
- * you can support loading ontologies imported by the root ontology. Essentially,
- * the CowlImportsLoader::load_ontology function should return the ontology
+ * The CowlImportLoader::load_ontology function should return the ontology
  * having the specified CowlIRI. Imports retrieval and loading is deliberately
  * left to the implementor.
  *
  * [ontology imports]: https://www.w3.org/TR/owl2-syntax/#Imports
  */
-typedef cowl_struct(CowlImportsLoader) {
+typedef cowl_struct(CowlImportLoader) {
 
     /// Loader context, can be anything.
     void *ctx;
@@ -49,8 +47,7 @@ typedef cowl_struct(CowlImportsLoader) {
     CowlOntology* (*load_ontology)(void *ctx, CowlIRI *iri);
 
     /**
-     * Pointer to a resource deallocator function for the context,
-     * called when the parser is destroyed.
+     * Pointer to a resource deallocator function for the context.
      *
      * @param ctx Loader context.
      *
@@ -58,21 +55,21 @@ typedef cowl_struct(CowlImportsLoader) {
      */
     void (*free)(void *ctx);
 
-} CowlImportsLoader;
+} CowlImportLoader;
 
 /**
- * Initializes a new imports loader.
+ * Initializes a new import loader.
  *
  * @param CTX Loader context.
  * @param LOAD_FUNC Pointer to a function that returns the ontology having the specified IRI.
  * @param FREE_FUNC Pointer to a resource deallocator function for the context.
- * @return Imports loader instance.
+ * @return Import loader instance.
  *
- * @public @related CowlImportsLoader
+ * @public @related CowlImportLoader
  */
-#define cowl_imports_loader_init(CTX, LOAD_FUNC, FREE_FUNC) \
-    ((CowlImportsLoader){ .ctx = (CTX), .load_ontology = (LOAD_FUNC), .free = (FREE_FUNC)})
+#define cowl_import_loader_init(CTX, LOAD_FUNC, FREE_FUNC) \
+    ((CowlImportLoader){ .ctx = (CTX), .load_ontology = (LOAD_FUNC), .free = (FREE_FUNC)})
 
 COWL_END_DECLS
 
-#endif // COWL_IMPORTS_LOADER_H
+#endif // COWL_IMPORT_LOADER_H

@@ -2,4 +2,4 @@
 Import handling
 ===============
 
-.. doxygenstruct:: CowlImportsLoader
+.. doxygenstruct:: CowlImportLoader

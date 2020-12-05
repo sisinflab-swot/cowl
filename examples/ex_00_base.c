@@ -1,7 +1,7 @@
 /*
  * This introductory example shows how to parse an ontology
  * and log its axioms and annotations.
- * Note that error and imports handling are omitted for the sake of simplicity.
+ * Note that error and import handling are omitted for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *

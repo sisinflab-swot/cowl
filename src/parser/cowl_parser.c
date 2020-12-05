@@ -92,7 +92,7 @@ CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path) {
     return parser->ontology;
 }
 
-void cowl_parser_set_imports_loader(CowlParser *parser, CowlImportsLoader loader) {
+void cowl_parser_set_import_loader(CowlParser *parser, CowlImportLoader loader) {
     parser->loader = loader;
 }
 
@@ -156,7 +156,7 @@ cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology 
         return COWL_ERR_MEM;
     }
 
-    CowlImportsLoader loader = parser->loader;
+    CowlImportLoader loader = parser->loader;
     if (!loader.load_ontology) return COWL_OK;
 
     *import = loader.load_ontology(loader.ctx, iri);
