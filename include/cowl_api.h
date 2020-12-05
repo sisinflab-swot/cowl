@@ -65,7 +65,7 @@
 #include "cowl_import_loader.h"
 #include "cowl_individual.h"
 #include "cowl_individual_set.h"
-#include "cowl_init.h"
+#include "cowl_config.h"
 #include "cowl_inv_obj_prop.h"
 #include "cowl_inv_obj_prop_axiom.h"
 #include "cowl_iri.h"
@@ -119,4 +119,4 @@
 #include "cowl_version.h"
 #include "cowl_xsd_vocab.h"
 
-#endif // COWL_INIT_H
+#endif // COWL_API_H

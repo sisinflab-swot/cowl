@@ -37,8 +37,8 @@ cowl_struct(CowlParser) {
     CowlOntology *ontology;
     CowlString *source;
     void *scanner;
-    CowlImportLoader loader;
     CowlErrorHandler handler;
+    CowlImportLoader loader;
 };
 
 cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import);

@@ -8,10 +8,10 @@ Initialization
 Before making any API call, you **must** invoke :func:`cowl_api_init()`, which is
 needed in order to initialize the library's internal state.
 
-Calling :func:`cowl_api_deinit()` is not strictly necessary, and may actually be inconvenient
-if you plan to use Cowl functions again at a later time: this is because, once invoked,
-you **must not** use objects previously retrieved via the API. You can, of course, use
-objects retrieved after a new call to :func:`cowl_api_init()`.
+On the other hand, calling :func:`cowl_api_deinit()` is not strictly necessary, and may
+actually be inconvenient if you plan to use Cowl functions again at a later time:
+this is because, once invoked, you **must not** use objects previously retrieved via the API.
+You can, of course, use objects retrieved after a new call to :func:`cowl_api_init()`.
 
 .. doxygenfunction:: cowl_api_init
 .. doxygenfunction:: cowl_api_deinit
@@ -28,6 +28,16 @@ via the `COWL_USER_HEADERS` and `COWL_USER_SOURCES` CMake variables.
 .. doxygendefine:: cowl_realloc
 .. doxygendefine:: cowl_free
 .. doxygendefine:: cowl_alloc
+
+Handlers
+========
+
+You can configure global handlers for errors and imports via these functions, though you can
+also configure local ones for specific objects. Refer to the :ref:`errors <error>` and
+:ref:`imports <import>` handling documentation for further info.
+
+.. doxygenfunction:: cowl_api_set_error_handler
+.. doxygenfunction:: cowl_api_set_import_loader
 
 Library version
 ===============

@@ -10,6 +10,7 @@
 
 #include "cowl_parser_private.h"
 #include "cowl_annotation_vec.h"
+#include "cowl_config_private.h"
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
 #include "cowl_iri_private.h"
@@ -157,6 +158,7 @@ cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology 
     }
 
     CowlImportLoader loader = parser->loader;
+    if (!loader.load_ontology) loader = cowl_api_get_import_loader();
     if (!loader.load_ontology) return COWL_OK;
 
     *import = loader.load_ontology(loader.ctx, iri);
@@ -242,7 +244,9 @@ static inline cowl_uint cowl_parser_get_line(CowlParser *parser) {
 }
 
 void cowl_parser_handle_error(CowlParser *parser, cowl_ret code, char const *description) {
-    if (!parser->handler.handle_error) return;
+    CowlErrorHandler handler = parser->handler;
+    if (!handler.handle_error) handler = cowl_api_get_error_handler();
+    if (!handler.handle_error) return;
 
     CowlError error = {
         .code = code,
@@ -254,7 +258,7 @@ void cowl_parser_handle_error(CowlParser *parser, cowl_ret code, char const *des
         .description = cowl_string_get(description, strlen(description), false)
     };
 
-    parser->handler.handle_error(parser->handler.ctx, &error);
+    handler.handle_error(handler.ctx, &error);
 }
 
 void cowl_parser_handle_error_type(CowlParser *parser, cowl_ret code) {

@@ -11,6 +11,7 @@ git_url = '@COWL_GIT_URL@'
 # Sphinx
 
 primary_domain = 'cpp'
+default_role = 'any'
 extensions = ['breathe']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 rst_prolog = """

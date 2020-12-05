@@ -35,7 +35,7 @@ Downloading the sources
 -----------------------
 
 You can find Cowl's code on its `git repository <git_url_>`_. Please note that it contains
-submodules, so it is recommended that you clone it using the `--recursive` flag.
+submodules, so it is recommended that you clone it using the ``--recursive`` flag.
 
 .. code-block:: bash
 
@@ -49,7 +49,7 @@ The following commands allow you to build Cowl:
 .. code-block:: bash
 
    # Generate the build system
-   cmake -S . -B cmake-build
+   cmake -B cmake-build
 
    # [Optional] Edit build settings (build type, optimization options, etc.)
    ccmake cmake-build
@@ -65,7 +65,7 @@ The following commands allow you to build Cowl:
 Programming with Cowl
 =====================
 
-The easiest way to get started is by checking out the provided :ref:`examples`.
+The easiest way to get started is by checking out the provided :ref:`examples <examples>`.
 However, in order to understand the principles behind the API, reading
 this section is strongly recommended.
 
@@ -79,11 +79,11 @@ Calling API members without initializing the API is undefined behavior.
 Ontology deserialization
 ------------------------
 
-In order to query an ontology you must first deserialize it. This can be done via the
-:func:`cowl_parser_parse_ontology()` function of :class:`CowlParser`. In general, ontologies may
+In order to query an ontology you must first deserialize it, which can be done via
+:func:`CowlParser::cowl_parser_parse_ontology()`. In general, ontologies may
 `import <owl imports_>`_ other ontologies, which may involve retrieving them from the network.
 Cowl's approach to imports reflects its :ref:`focus on portability <about>`, so ontology retrieval
-is delegated to the end user via the :class:`CowlImportLoader` interface.
+:ref:`is delegated to the end user <import>`.
 
 Ontology queries
 ----------------
@@ -97,7 +97,7 @@ by the query. By providing a generic context pointer, you can plug any custom da
 (loggers, collections, etc.), which allows for arbitrarily complex queries.
 
 The iterator function returns a `boolean` that can be used to control iteration:
-by returning `true` iteration goes on to the next element, while returning `false`
+by returning ``true`` iteration goes on to the next element, while returning ``false``
 causes it to stop. This is useful if, for example, you want to find the first element
 matching certain criteria.
 
@@ -107,10 +107,10 @@ Memory management
 Cowl uses `reference counting`_ for memory management.
 You increase and decrease the reference count via `retain` and `release` member functions
 available for every data structure. The API docs are very explicit about which functions
-return already retained instances, which you must `release`. If nothing is specified,
+return already retained instances, which you must release. If nothing is specified,
 then the returned instance is not retained, meaning its lifetime is generally tied
 to that of some other object. If you need to keep it alive after its owner
-has been deallocated, you must `retain` it.
+has been deallocated, you must retain it.
 
 Pseudo-inheritance
 ------------------
@@ -122,8 +122,8 @@ Pseudo-inheritance allows you, as an example, to cast a :class:`CowlClass` to :c
 or :class:`CowlObject` and back. Of course, if the API returns a base pseudo-class
 such as :class:`CowlClsExp` or :class:`CowlObject`, and you are unsure about its concrete subclass,
 you can check its type via `get_type` functions (e.g. :func:`cowl_cls_exp_get_type()`)
-and cast accordingly. The API docs for type enumerations explicitly state the concrete struct
-associated with every type.
+and cast accordingly. The API docs for type enumerations explicitly state the concrete type
+associated with every enumeration value.
 
 .. _Bison: https://www.gnu.org/software/bison
 .. _Breathe: https://breathe.readthedocs.io

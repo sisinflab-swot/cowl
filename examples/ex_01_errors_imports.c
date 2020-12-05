@@ -4,7 +4,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
@@ -30,13 +30,9 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    // Setup an import loader.
-    CowlImportLoader loader = cowl_import_loader_init(NULL, load_import, NULL);
-    cowl_parser_set_import_loader(parser, loader);
-
-    // Setup an error handler.
-    CowlErrorHandler handler = cowl_error_handler_init(logger, handle_error, NULL);
-    cowl_parser_set_error_handler(parser, handler);
+    // Setup a global error handler and import loader.
+    cowl_api_set_import_loader(cowl_import_loader_init(NULL, load_import, NULL));
+    cowl_api_set_error_handler(cowl_error_handler_init(logger, handle_error, NULL));
 
     // Deserialize an ontology.
     CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH);
