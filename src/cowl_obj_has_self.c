@@ -40,11 +40,11 @@ CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop) {
 }
 
 CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp) {
-    return cowl_object_retain(exp);
+    return cowl_object_incr_ref(exp);
 }
 
 void cowl_obj_has_self_release(CowlObjHasSelf *exp) {
-    if (exp && !cowl_object_release(exp)) {
+    if (exp && !cowl_object_decr_ref(exp)) {
         cowl_obj_has_self_free(exp);
     }
 }

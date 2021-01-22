@@ -46,11 +46,11 @@ CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
 }
 
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom) {
-    if (axiom && !cowl_object_release(axiom)) {
+    if (axiom && !cowl_object_decr_ref(axiom)) {
         cowl_obj_prop_char_axiom_free(axiom);
     }
 }

@@ -43,11 +43,11 @@ CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlClsExpSet 
 }
 
 CowlNAryClsAxiom* cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_nary_cls_axiom_release(CowlNAryClsAxiom *axiom) {
-    if (axiom && !cowl_object_release(axiom)) {
+    if (axiom && !cowl_object_decr_ref(axiom)) {
         cowl_nary_cls_axiom_free(axiom);
     }
 }

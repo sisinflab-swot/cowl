@@ -48,11 +48,11 @@ CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,
 }
 
 CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) {
-    return cowl_object_retain(restr);
+    return cowl_object_incr_ref(restr);
 }
 
 void cowl_data_quant_release(CowlDataQuant *restr) {
-    if (restr && !cowl_object_release(restr)) {
+    if (restr && !cowl_object_decr_ref(restr)) {
         cowl_data_quant_free(restr);
     }
 }

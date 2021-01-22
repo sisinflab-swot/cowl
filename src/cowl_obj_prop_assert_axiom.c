@@ -62,11 +62,11 @@ CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *subje
 }
 
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom) {
-    if (axiom && !cowl_object_release(axiom)) {
+    if (axiom && !cowl_object_decr_ref(axiom)) {
         cowl_obj_prop_assert_axiom_free(axiom);
     }
 }

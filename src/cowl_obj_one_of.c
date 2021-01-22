@@ -41,11 +41,11 @@ CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *inds) {
 }
 
 CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp) {
-    return cowl_object_retain(exp);
+    return cowl_object_incr_ref(exp);
 }
 
 void cowl_obj_one_of_release(CowlObjOneOf *exp) {
-    if (exp && !cowl_object_release(exp)) {
+    if (exp && !cowl_object_decr_ref(exp)) {
         cowl_obj_one_of_free(exp);
     }
 }

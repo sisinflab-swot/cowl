@@ -75,11 +75,11 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRaw
 }
 
 CowlLiteral* cowl_literal_retain(CowlLiteral *literal) {
-    return cowl_object_retain(literal);
+    return cowl_object_incr_ref(literal);
 }
 
 void cowl_literal_release(CowlLiteral *literal) {
-    if (literal && !cowl_object_release(literal)) {
+    if (literal && !cowl_object_decr_ref(literal)) {
         cowl_literal_free(literal);
     }
 }

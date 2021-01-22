@@ -45,11 +45,11 @@ CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *in
 }
 
 CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp) {
-    return cowl_object_retain(exp);
+    return cowl_object_incr_ref(exp);
 }
 
 void cowl_obj_has_value_release(CowlObjHasValue *exp) {
-    if (exp && !cowl_object_release(exp)) {
+    if (exp && !cowl_object_decr_ref(exp)) {
         cowl_obj_has_value_free(exp);
     }
 }

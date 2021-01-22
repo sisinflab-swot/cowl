@@ -14,7 +14,7 @@
 #include "cowl_template.h"
 
 CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp) {
-    return cowl_object_retain(exp);
+    return cowl_object_incr_ref(exp);
 }
 
 void cowl_data_prop_exp_release(CowlDataPropExp *exp) {

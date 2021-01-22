@@ -17,7 +17,7 @@
 #include "cowl_template.h"
 
 CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) {
-    return cowl_object_retain(value);
+    return cowl_object_incr_ref(value);
 }
 
 void cowl_annot_value_release(CowlAnnotValue *value) {

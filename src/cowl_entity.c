@@ -19,7 +19,7 @@
 #include "cowl_template.h"
 
 CowlEntity* cowl_entity_retain(CowlEntity *entity) {
-    return cowl_object_retain(entity);
+    return cowl_object_incr_ref(entity);
 }
 
 void cowl_entity_release(CowlEntity *entity) {

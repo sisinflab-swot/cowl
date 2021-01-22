@@ -47,11 +47,11 @@ CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRang
 }
 
 CowlDatatypeDefAxiom* cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_datatype_def_axiom_release(CowlDatatypeDefAxiom *axiom) {
-    if (axiom && !cowl_object_release(axiom)) {
+    if (axiom && !cowl_object_decr_ref(axiom)) {
         cowl_datatype_def_axiom_free(axiom);
     }
 }

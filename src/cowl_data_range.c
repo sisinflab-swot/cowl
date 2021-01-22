@@ -18,7 +18,7 @@
 #include "cowl_template.h"
 
 CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
-    return cowl_object_retain(range);
+    return cowl_object_incr_ref(range);
 }
 
 void cowl_data_range_release(CowlDataRange *range) {

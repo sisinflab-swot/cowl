@@ -47,11 +47,11 @@ CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_get(CowlObjPropExp *prop, CowlC
 }
 
 CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_retain(CowlObjPropRangeAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_obj_prop_range_axiom_release(CowlObjPropRangeAxiom *axiom) {
-    if (axiom && !cowl_object_release(axiom)) {
+    if (axiom && !cowl_object_decr_ref(axiom)) {
         cowl_obj_prop_range_axiom_free(axiom);
     }
 }

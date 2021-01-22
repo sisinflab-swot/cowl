@@ -53,11 +53,11 @@ CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) {
-    return cowl_object_retain(inv);
+    return cowl_object_incr_ref(inv);
 }
 
 void cowl_inv_obj_prop_release(CowlInvObjProp *inv) {
-    if (inv && !cowl_object_release(inv)) {
+    if (inv && !cowl_object_decr_ref(inv)) {
         uhset_remove(CowlInvObjPropTable, inst_tbl, inv);
         cowl_inv_obj_prop_free(inv);
     }

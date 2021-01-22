@@ -47,11 +47,11 @@ CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlFacetRest
 }
 
 CowlDatatypeRestr* cowl_datatype_restr_retain(CowlDatatypeRestr *restr) {
-    return cowl_object_retain(restr);
+    return cowl_object_incr_ref(restr);
 }
 
 void cowl_datatype_restr_release(CowlDatatypeRestr *restr) {
-    if (restr && !cowl_object_release(restr)) {
+    if (restr && !cowl_object_decr_ref(restr)) {
         cowl_datatype_restr_free(restr);
     }
 }

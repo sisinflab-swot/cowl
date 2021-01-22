@@ -20,7 +20,7 @@
 #include "cowl_template.h"
 
 CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) {
-    return cowl_object_retain(primitive);
+    return cowl_object_incr_ref(primitive);
 }
 
 void cowl_primitive_release(CowlPrimitive *primitive) {

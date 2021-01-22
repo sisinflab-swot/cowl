@@ -41,11 +41,11 @@ CowlFacetRestr* cowl_facet_restr_get(CowlFacet facet, CowlLiteral *value) {
 }
 
 CowlFacetRestr* cowl_facet_restr_retain(CowlFacetRestr *restr) {
-    return cowl_object_retain(restr);
+    return cowl_object_incr_ref(restr);
 }
 
 void cowl_facet_restr_release(CowlFacetRestr *restr) {
-    if (restr && !cowl_object_release(restr)) {
+    if (restr && !cowl_object_decr_ref(restr)) {
         cowl_facet_restr_free(restr);
     }
 }

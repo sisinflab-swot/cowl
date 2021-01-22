@@ -56,11 +56,11 @@ CowlClass* cowl_class_get(CowlIRI *iri) {
 }
 
 CowlClass* cowl_class_retain(CowlClass *cls) {
-    return cowl_object_retain(cls);
+    return cowl_object_incr_ref(cls);
 }
 
 void cowl_class_release(CowlClass *cls) {
-    if (cls && !cowl_object_release(cls)) {
+    if (cls && !cowl_object_decr_ref(cls)) {
         uhset_remove(CowlClassTable, inst_tbl, cls);
         cowl_class_free(cls);
     }

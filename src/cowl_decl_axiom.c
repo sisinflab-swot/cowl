@@ -39,11 +39,11 @@ CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlAnnotationVec *annot)
 }
 
 CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_decl_axiom_release(CowlDeclAxiom *axiom) {
-    if (axiom && !cowl_object_release(axiom)) {
+    if (axiom && !cowl_object_decr_ref(axiom)) {
         cowl_decl_axiom_free(axiom);
     }
 }

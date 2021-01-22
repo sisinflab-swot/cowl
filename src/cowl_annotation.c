@@ -51,11 +51,11 @@ CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value,
 }
 
 CowlAnnotation* cowl_annotation_retain(CowlAnnotation *annot) {
-    return cowl_object_retain(annot);
+    return cowl_object_incr_ref(annot);
 }
 
 void cowl_annotation_release(CowlAnnotation *annot) {
-    if (annot && !cowl_object_release(annot)) {
+    if (annot && !cowl_object_decr_ref(annot)) {
         cowl_annotation_free(annot);
     }
 }

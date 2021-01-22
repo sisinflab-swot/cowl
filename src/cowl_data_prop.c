@@ -53,11 +53,11 @@ CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
 }
 
 CowlDataProp* cowl_data_prop_retain(CowlDataProp *prop) {
-    return cowl_object_retain(prop);
+    return cowl_object_incr_ref(prop);
 }
 
 void cowl_data_prop_release(CowlDataProp *prop) {
-    if (prop && !cowl_object_release(prop)) {
+    if (prop && !cowl_object_decr_ref(prop)) {
         uhset_remove(CowlDataPropTable, inst_tbl, prop);
         cowl_data_prop_free(prop);
     }

@@ -55,11 +55,11 @@ CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
 }
 
 CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr) {
-    return cowl_object_retain(restr);
+    return cowl_object_incr_ref(restr);
 }
 
 void cowl_obj_card_release(CowlObjCard *restr) {
-    if (restr && !cowl_object_release(restr)) {
+    if (restr && !cowl_object_decr_ref(restr)) {
         cowl_obj_card_free(restr);
     }
 }

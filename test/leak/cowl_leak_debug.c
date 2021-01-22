@@ -44,7 +44,7 @@ void cowl_leak_debug_print(void) {
     uhash_foreach_key(CowlAllocTable, alloc_table, obj, {
         if (!obj || obj == logger) continue;
         CowlObjectType type = cowl_object_get_type(obj);
-        cowl_uint ref = cowl_object_get_ref_count(obj);
+        cowl_uint ref = cowl_object_get_ref(obj);
         char const fmt[] = "Leak %u: %p <type: %d, ref: %" COWL_UINT_FMT ">\n";
         cowl_logger_logf(logger, fmt, ++i, obj, type, ref);
     });

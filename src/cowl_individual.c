@@ -15,7 +15,7 @@
 #include "cowl_template.h"
 
 CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
-    return cowl_object_retain(ind);
+    return cowl_object_incr_ref(ind);
 }
 
 void cowl_individual_release(CowlIndividual *ind) {

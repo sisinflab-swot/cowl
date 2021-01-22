@@ -192,15 +192,15 @@ CowlLogger* cowl_logger_null_get(void) {
 }
 
 CowlLogger* cowl_logger_retain(CowlLogger *logger) {
-    return cowl_object_retain(logger);
+    return cowl_object_incr_ref(logger);
 }
 
 cowl_ret cowl_logger_release(CowlLogger *logger) {
     cowl_ret ret = COWL_OK;
 
-    if (logger && cowl_object_get_ref_count(logger) == 1) {
+    if (logger && cowl_object_get_ref(logger) == 1) {
         if ((ret = cowl_logger_free(logger))) return ret;
-        cowl_object_release(logger);
+        cowl_object_decr_ref(logger);
     }
 
     return ret;

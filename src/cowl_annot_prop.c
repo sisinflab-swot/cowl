@@ -53,11 +53,11 @@ CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
 }
 
 CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) {
-    return cowl_object_retain(prop);
+    return cowl_object_incr_ref(prop);
 }
 
 void cowl_annot_prop_release(CowlAnnotProp *prop) {
-    if (prop && !cowl_object_release(prop)) {
+    if (prop && !cowl_object_decr_ref(prop)) {
         uhset_remove(CowlAnnotPropTable, inst_tbl, prop);
         cowl_annot_prop_free(prop);
     }

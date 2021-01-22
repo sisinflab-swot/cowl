@@ -39,11 +39,11 @@ static bool cowl_ontology_primitive_adder(void *ctx, void *obj);
 // Public API
 
 CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
-    return cowl_object_retain(onto);
+    return cowl_object_incr_ref(onto);
 }
 
 void cowl_ontology_release(CowlOntology *onto) {
-    if (onto && !cowl_object_release(onto)) {
+    if (onto && !cowl_object_decr_ref(onto)) {
         cowl_ontology_free(onto);
     }
 }

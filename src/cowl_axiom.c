@@ -39,7 +39,7 @@
 #include "cowl_template.h"
 
 CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_axiom_release(CowlAxiom *axiom) {

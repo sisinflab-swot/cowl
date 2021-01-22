@@ -63,11 +63,11 @@ CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *sub
 }
 
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_retain(CowlDataPropAssertAxiom *axiom) {
-    return cowl_object_retain(axiom);
+    return cowl_object_incr_ref(axiom);
 }
 
 void cowl_data_prop_assert_axiom_release(CowlDataPropAssertAxiom *axiom) {
-    if (axiom && !cowl_object_release(axiom)) {
+    if (axiom && !cowl_object_decr_ref(axiom)) {
         cowl_data_prop_assert_axiom_free(axiom);
     }
 }

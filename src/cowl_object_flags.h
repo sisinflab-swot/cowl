@@ -65,11 +65,11 @@ typedef UFlags(COWL_OBJECT_FLAGS_SIZE) CowlObjectFlags;
 #define cowl_object_flags_get_type(FLAGS) \
     ((CowlObjectType)(((FLAGS) & COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))
 
-#define cowl_object_flags_get_ref_count(FLAGS) \
+#define cowl_object_flags_get_ref(FLAGS) \
     ((cowl_uint)((FLAGS) & COWL_OBJECT_FLAGS_REF_MASK))
 
-#define cowl_object_flags_retain(FLAGS) (++(FLAGS))
-#define cowl_object_flags_release(FLAGS) (--(FLAGS))
+#define cowl_object_flags_incr_ref(FLAGS) (++(FLAGS))
+#define cowl_object_flags_decr_ref(FLAGS) (--(FLAGS))
 
 COWL_END_DECLS
 

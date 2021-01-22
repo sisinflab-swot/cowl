@@ -56,11 +56,11 @@ CowlParser* cowl_parser_get(void) {
 }
 
 CowlParser* cowl_parser_retain(CowlParser *parser) {
-    return cowl_object_retain(parser);
+    return cowl_object_incr_ref(parser);
 }
 
 void cowl_parser_release(CowlParser *parser) {
-    if (parser && !cowl_object_release(parser)) {
+    if (parser && !cowl_object_decr_ref(parser)) {
         cowl_parser_free(parser);
     }
 }

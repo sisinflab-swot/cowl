@@ -45,11 +45,11 @@ CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlC
 }
 
 CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) {
-    return cowl_object_retain(restr);
+    return cowl_object_incr_ref(restr);
 }
 
 void cowl_obj_quant_release(CowlObjQuant *restr) {
-    if (restr && !cowl_object_release(restr)) {
+    if (restr && !cowl_object_decr_ref(restr)) {
         cowl_obj_quant_free(restr);
     }
 }

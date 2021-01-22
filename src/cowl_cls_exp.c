@@ -24,7 +24,7 @@
 #include "cowl_template.h"
 
 CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
-    return cowl_object_retain(exp);
+    return cowl_object_incr_ref(exp);
 }
 
 void cowl_cls_exp_release(CowlClsExp *exp) {

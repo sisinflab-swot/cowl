@@ -15,7 +15,7 @@
 #include "cowl_template.h"
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
-    return cowl_object_retain(prop);
+    return cowl_object_incr_ref(prop);
 }
 
 void cowl_obj_prop_exp_release(CowlObjPropExp *exp) {

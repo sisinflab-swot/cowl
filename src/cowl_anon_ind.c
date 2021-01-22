@@ -49,11 +49,11 @@ CowlAnonInd* cowl_anon_ind_get(CowlNodeID id) {
 }
 
 CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind) {
-    return cowl_object_retain(ind);
+    return cowl_object_incr_ref(ind);
 }
 
 void cowl_anon_ind_release(CowlAnonInd *ind) {
-    if (ind && !cowl_object_release(ind)) {
+    if (ind && !cowl_object_decr_ref(ind)) {
         uhset_remove(CowlAnonIndTable, inst_tbl, ind);
         cowl_anon_ind_free(ind);
     }

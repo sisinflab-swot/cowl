@@ -39,11 +39,11 @@ CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand) {
 }
 
 CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range) {
-    return cowl_object_retain(range);
+    return cowl_object_incr_ref(range);
 }
 
 void cowl_data_compl_release(CowlDataCompl *range) {
-    if (range && !cowl_object_release(range)) {
+    if (range && !cowl_object_decr_ref(range)) {
         cowl_data_compl_free(range);
     }
 }

@@ -56,11 +56,11 @@ CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
 }
 
 CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) {
-    return cowl_object_retain(dt);
+    return cowl_object_incr_ref(dt);
 }
 
 void cowl_datatype_release(CowlDatatype *dt) {
-    if (dt && !cowl_object_release(dt)) {
+    if (dt && !cowl_object_decr_ref(dt)) {
         uhset_remove(CowlDatatypeTable, inst_tbl, dt);
         cowl_datatype_free(dt);
     }

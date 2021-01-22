@@ -41,11 +41,11 @@ CowlDataOneOf* cowl_data_one_of_get(CowlLiteralSet *values) {
 }
 
 CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range) {
-    return cowl_object_retain(range);
+    return cowl_object_incr_ref(range);
 }
 
 void cowl_data_one_of_release(CowlDataOneOf *range) {
-    if (range && !cowl_object_release(range)) {
+    if (range && !cowl_object_decr_ref(range)) {
         cowl_data_one_of_free(range);
     }
 }

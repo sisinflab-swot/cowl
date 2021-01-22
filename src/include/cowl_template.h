@@ -31,7 +31,7 @@ COWL_BEGIN_DECLS
         }                                                                                           \
     } else if (ret == UHASH_PRESENT) {                                                              \
         var = uhash_key(inst_tbl, idx);                                                             \
-        (void)cowl_object_retain(var);                                                              \
+        (void)cowl_object_incr_ref(var);                                                            \
     }                                                                                               \
                                                                                                     \
     return var;                                                                                     \

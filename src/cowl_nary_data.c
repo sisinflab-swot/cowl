@@ -42,11 +42,11 @@ CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlDataRangeSet *operands) 
 }
 
 CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) {
-    return cowl_object_retain(range);
+    return cowl_object_incr_ref(range);
 }
 
 void cowl_nary_data_release(CowlNAryData *range) {
-    if (range && !cowl_object_release(range)) {
+    if (range && !cowl_object_decr_ref(range)) {
         cowl_nary_data_free(range);
     }
 }

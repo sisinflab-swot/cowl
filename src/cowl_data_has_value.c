@@ -45,11 +45,11 @@ CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *va
 }
 
 CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr) {
-    return cowl_object_retain(restr);
+    return cowl_object_incr_ref(restr);
 }
 
 void cowl_data_has_value_release(CowlDataHasValue *restr) {
-    if (restr && !cowl_object_release(restr)) {
+    if (restr && !cowl_object_decr_ref(restr)) {
         cowl_data_has_value_free(restr);
     }
 }

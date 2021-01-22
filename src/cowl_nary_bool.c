@@ -42,11 +42,11 @@ CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlClsExpSet *operands) {
 }
 
 CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp) {
-    return cowl_object_retain(exp);
+    return cowl_object_incr_ref(exp);
 }
 
 void cowl_nary_bool_release(CowlNAryBool *exp) {
-    if (exp && !cowl_object_release(exp)) {
+    if (exp && !cowl_object_decr_ref(exp)) {
         cowl_nary_bool_free(exp);
     }
 }

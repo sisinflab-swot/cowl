@@ -118,11 +118,11 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 }
 
 CowlIRI* cowl_iri_retain(CowlIRI *iri) {
-    return cowl_object_retain(iri);
+    return cowl_object_incr_ref(iri);
 }
 
 void cowl_iri_release(CowlIRI *iri) {
-    if (iri && !cowl_object_release(iri)) {
+    if (iri && !cowl_object_decr_ref(iri)) {
         uhset_remove(CowlIRITable, inst_tbl, iri);
         cowl_iri_free(iri);
     }

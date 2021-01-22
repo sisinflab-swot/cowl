@@ -53,11 +53,11 @@ CowlNamedInd* cowl_named_ind_get(CowlIRI *iri) {
 }
 
 CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind) {
-    return cowl_object_retain(ind);
+    return cowl_object_incr_ref(ind);
 }
 
 void cowl_named_ind_release(CowlNamedInd *ind) {
-    if (ind && !cowl_object_release(ind)) {
+    if (ind && !cowl_object_decr_ref(ind)) {
         uhset_remove(CowlNamedIndTable, inst_tbl, ind);
         cowl_named_ind_free(ind);
     }
