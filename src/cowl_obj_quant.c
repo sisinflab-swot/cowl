@@ -70,7 +70,8 @@ CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr)
     COWL_TO_STRING_IMPL(obj_quant, restr)
 
 bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
-    return cowl_hash_object_equals_impl(lhs, rhs) &&
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_object_hash_equals(lhs, rhs) &&
            cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_cls_exp_equals(lhs->filler, rhs->filler);
 }

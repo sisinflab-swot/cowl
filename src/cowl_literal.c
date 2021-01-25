@@ -100,7 +100,7 @@ CowlString* cowl_literal_to_string(CowlLiteral *literal)
     COWL_TO_STRING_IMPL(literal, literal)
 
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
-    return lhs->super.hash == rhs->super.hash &&
+    return cowl_object_hash_equals(lhs, rhs) &&
            lhs->lang == rhs->lang &&
            cowl_datatype_equals(lhs->dt, rhs->dt) &&
            cowl_string_equals(lhs->value, rhs->value);

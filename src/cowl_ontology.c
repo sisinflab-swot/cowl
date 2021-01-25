@@ -58,7 +58,7 @@ bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
 }
 
 cowl_uint cowl_ontology_hash(CowlOntology *onto) {
-    return cowl_ontology_id_hash(onto->id);
+    return cowl_hash_1(COWL_HASH_INIT_ONTO, cowl_ontology_id_hash(onto->id));
 }
 
 cowl_uint cowl_ontology_axiom_count(CowlOntology *onto) {

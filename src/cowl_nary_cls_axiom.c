@@ -68,7 +68,8 @@ CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom)
     COWL_TO_STRING_IMPL(nary_cls_axiom, axiom)
 
 bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {
-    return cowl_axiom_equals_impl(lhs, rhs, cowl_object_set_equals(lhs->classes, rhs->classes));
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_axiom_equals_impl(lhs, rhs, cowl_object_set_equals(lhs->classes, rhs->classes));
 }
 
 cowl_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {

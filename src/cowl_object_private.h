@@ -49,15 +49,6 @@ typedef cowl_struct(CowlHashObject) {
 
 #define cowl_object_hash_equals(LHS, RHS) (cowl_object_hash_get(LHS) == cowl_object_hash_get(RHS))
 
-#define cowl_object_equals_impl(LHS, RHS) ( \
-    (((CowlObject *)(LHS))->flags & COWL_OBJECT_FLAGS_BIT_TYPE_MASK) == \
-    (((CowlObject *)(RHS))->flags & COWL_OBJECT_FLAGS_BIT_TYPE_MASK) \
-)
-#define cowl_hash_object_equals_impl(LHS, RHS) (                                                    \
-    cowl_object_equals_impl(LHS, RHS) &&                                                            \
-    cowl_object_hash_get(LHS) == cowl_object_hash_get(RHS)                                          \
-)
-
 #define cowl_get_type(object) cowl_object_get_type((CowlObject *)(object))
 
 COWL_END_DECLS

@@ -69,7 +69,8 @@ CowlString* cowl_nary_ind_axiom_to_string(CowlNAryIndAxiom *axiom)
     COWL_TO_STRING_IMPL(nary_ind_axiom, axiom)
 
 bool cowl_nary_ind_axiom_equals(CowlNAryIndAxiom *lhs, CowlNAryIndAxiom *rhs) {
-    return cowl_axiom_equals_impl(lhs, rhs,
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_axiom_equals_impl(lhs, rhs,
                                   cowl_object_set_equals(lhs->individuals, rhs->individuals));
 }
 

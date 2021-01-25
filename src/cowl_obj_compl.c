@@ -56,7 +56,8 @@ CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp)
     COWL_TO_STRING_IMPL(obj_compl, exp)
 
 bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
-    return cowl_cls_exp_equals(lhs->operand, rhs->operand);
+    return cowl_object_hash_equals(lhs, rhs) &&
+           cowl_cls_exp_equals(lhs->operand, rhs->operand);
 }
 
 cowl_uint cowl_obj_compl_hash(CowlObjCompl *exp) {

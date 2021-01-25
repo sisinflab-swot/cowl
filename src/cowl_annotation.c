@@ -76,9 +76,10 @@ CowlString* cowl_annotation_to_string(CowlAnnotation *annot)
     COWL_TO_STRING_IMPL(annotation, annot)
 
 bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
-    return (cowl_annot_prop_equals(lhs->prop, rhs->prop) &&
-            cowl_annot_value_equals(lhs->value, rhs->value) &&
-            cowl_object_vec_equals(lhs->annot, rhs->annot));
+    return cowl_object_hash_equals(lhs, rhs) &&
+           cowl_annot_prop_equals(lhs->prop, rhs->prop) &&
+           cowl_annot_value_equals(lhs->value, rhs->value) &&
+           cowl_object_vec_equals(lhs->annot, rhs->annot);
 }
 
 cowl_uint cowl_annotation_hash(CowlAnnotation *annot) {

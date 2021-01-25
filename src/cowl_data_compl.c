@@ -56,7 +56,7 @@ CowlString* cowl_data_compl_to_string(CowlDataCompl *range)
     COWL_TO_STRING_IMPL(data_compl, range)
 
 bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs) {
-    return cowl_data_range_equals(lhs->operand, rhs->operand);
+    return cowl_object_hash_equals(lhs, rhs) && cowl_data_range_equals(lhs->operand, rhs->operand);
 }
 
 cowl_uint cowl_data_compl_hash(CowlDataCompl *range) {

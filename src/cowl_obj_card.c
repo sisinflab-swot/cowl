@@ -85,7 +85,8 @@ CowlString* cowl_obj_card_to_string(CowlObjCard *restr)
 
 bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {
     if (lhs->cardinality != rhs->cardinality) return false;
-    if (!cowl_hash_object_equals_impl(lhs, rhs)) return false;
+    if (!cowl_object_type_equals(lhs, rhs)) return false;
+    if (!cowl_object_hash_equals(lhs, rhs)) return false;
     if (!cowl_obj_prop_exp_equals(lhs->prop, rhs->prop)) return false;
     if (lhs->filler == rhs->filler) return true;
     if (lhs->filler && rhs->filler) return cowl_cls_exp_equals(lhs->filler, rhs->filler);

@@ -62,7 +62,9 @@ CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr)
     COWL_TO_STRING_IMPL(facet_restr, restr)
 
 bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs) {
-    return lhs->facet == rhs->facet && cowl_literal_equals(lhs->value, rhs->value);
+    return lhs->facet == rhs->facet &&
+           cowl_object_hash_equals(lhs, rhs) &&
+           cowl_literal_equals(lhs->value, rhs->value);
 }
 
 cowl_uint cowl_facet_restr_hash(CowlFacetRestr *restr) {

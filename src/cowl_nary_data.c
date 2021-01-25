@@ -63,8 +63,9 @@ CowlString* cowl_nary_data_to_string(CowlNAryData *range)
     COWL_TO_STRING_IMPL(nary_data, range)
 
 bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
-    return (cowl_hash_object_equals_impl(lhs, rhs) &&
-            cowl_object_set_equals(lhs->operands, rhs->operands));
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_object_hash_equals(lhs, rhs) &&
+           cowl_object_set_equals(lhs->operands, rhs->operands);
 }
 
 cowl_uint cowl_nary_data_hash(CowlNAryData *range) {

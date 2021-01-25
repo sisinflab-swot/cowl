@@ -95,7 +95,8 @@ CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom)
     COWL_TO_STRING_IMPL(obj_prop_assert, axiom)
 
 bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs) {
-    return cowl_axiom_equals_impl(lhs, rhs,
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_axiom_equals_impl(lhs, rhs,
                                   cowl_individual_equals(lhs->subject, rhs->subject) &&
                                   cowl_individual_equals(lhs->object, rhs->object) &&
                                   cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp));

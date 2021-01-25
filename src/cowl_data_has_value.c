@@ -66,7 +66,8 @@ CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr)
     COWL_TO_STRING_IMPL(data_has_value, restr)
 
 bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
-    return cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&
+    return cowl_object_hash_equals(lhs, rhs) &&
+           cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_literal_equals(lhs->value, rhs->value);
 }
 

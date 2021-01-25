@@ -68,7 +68,8 @@ CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr)
     COWL_TO_STRING_IMPL(datatype_restr, restr)
 
 bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {
-    return cowl_datatype_equals(lhs->datatype, rhs->datatype) &&
+    return cowl_object_hash_equals(lhs, rhs) &&
+           cowl_datatype_equals(lhs->datatype, rhs->datatype) &&
            cowl_object_set_equals(lhs->restrictions, rhs->restrictions);
 }
 

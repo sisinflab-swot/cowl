@@ -71,7 +71,8 @@ CowlString* cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom)
     COWL_TO_STRING_IMPL(obj_prop_char, axiom)
 
 bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharAxiom *rhs) {
-    return cowl_axiom_equals_impl(lhs, rhs, cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp));
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_axiom_equals_impl(lhs, rhs, cowl_obj_prop_exp_equals(lhs->prop_exp, rhs->prop_exp));
 }
 
 cowl_uint cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom) {

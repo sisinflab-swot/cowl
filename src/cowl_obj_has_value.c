@@ -67,7 +67,8 @@ CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp)
 
 
 bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs) {
-    return cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
+    return cowl_object_hash_equals(lhs, rhs) &&
+           cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_individual_equals(lhs->ind, rhs->ind);
 }
 

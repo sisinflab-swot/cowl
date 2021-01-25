@@ -73,7 +73,8 @@ CowlString* cowl_data_quant_to_string(CowlDataQuant *restr)
     COWL_TO_STRING_IMPL(data_quant, restr)
 
 bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
-    return cowl_hash_object_equals_impl(lhs, rhs) &&
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_object_hash_equals(lhs, rhs) &&
            cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_data_range_equals(lhs->range, rhs->range);
 }

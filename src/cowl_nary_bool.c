@@ -63,8 +63,9 @@ CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp)
     COWL_TO_STRING_IMPL(nary_bool, exp)
 
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
-    return (cowl_hash_object_equals_impl(lhs, rhs) &&
-            cowl_object_set_equals(lhs->operands, rhs->operands));
+    return cowl_object_type_equals(lhs, rhs) &&
+           cowl_object_hash_equals(lhs, rhs) &&
+           cowl_object_set_equals(lhs->operands, rhs->operands);
 }
 
 cowl_uint cowl_nary_bool_hash(CowlNAryBool *exp) {

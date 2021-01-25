@@ -58,7 +58,7 @@ CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp)
     COWL_TO_STRING_IMPL(obj_one_of, exp)
 
 bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
-    return cowl_object_set_equals(lhs->inds, rhs->inds);
+    return cowl_object_hash_equals(lhs, rhs) && cowl_object_set_equals(lhs->inds, rhs->inds);
 }
 
 cowl_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {

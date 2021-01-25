@@ -57,7 +57,8 @@ CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp)
     COWL_TO_STRING_IMPL(obj_has_self, exp)
 
 bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {
-    return cowl_obj_prop_exp_equals(lhs->prop, rhs->prop);
+    return cowl_object_hash_equals(lhs, rhs) &&
+           cowl_obj_prop_exp_equals(lhs->prop, rhs->prop);
 }
 
 cowl_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {

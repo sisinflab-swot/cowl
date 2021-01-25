@@ -152,7 +152,7 @@ cowl_uint cowl_string_get_length(CowlString *string) {
 }
 
 bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
-    return lhs->super.hash == rhs->super.hash &&
+    return cowl_object_hash_equals(lhs, rhs) &&
            cowl_raw_string_equals(lhs->raw_string, rhs->raw_string);
 }
 
