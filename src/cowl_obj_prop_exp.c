@@ -19,13 +19,7 @@ CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {
 }
 
 void cowl_obj_prop_exp_release(CowlObjPropExp *exp) {
-    if (!exp) return;
-
-    if (cowl_obj_prop_exp_is_inverse(exp)) {
-        cowl_inv_obj_prop_release((CowlInvObjProp *)exp);
-    } else {
-        cowl_obj_prop_release((CowlObjProp *)exp);
-    }
+    cowl_object_release((CowlObject *)exp);
 }
 
 bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
@@ -53,9 +47,5 @@ cowl_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
 
 bool cowl_obj_prop_exp_iterate_primitives(CowlObjPropExp *exp, CowlIterator *iter,
                                           CowlPrimitiveFlags flags) {
-    if (cowl_obj_prop_exp_is_inverse(exp)) {
-        return cowl_inv_obj_prop_iterate_primitives((CowlInvObjProp *)exp, iter, flags);
-    } else {
-        return cowl_obj_prop_iterate_primitives((CowlObjProp *)exp, iter, flags);
-    }
+    return cowl_object_iterate_primitives((CowlObject *)exp, iter, flags);
 }

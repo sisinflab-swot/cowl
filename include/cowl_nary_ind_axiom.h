@@ -20,9 +20,9 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlIndividualSet);
+cowl_hash_decl(CowlObjectTable);
 cowl_struct_decl(CowlIndividual);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlNAryIndAxiom);
 /// @endcond
 
@@ -47,8 +47,8 @@ cowl_struct_decl(CowlNAryIndAxiom);
  * @public @memberof CowlNAryIndAxiom
  */
 COWL_PUBLIC
-CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlIndividualSet *individuals,
-                                          CowlAnnotationVec *annot);
+CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlObjectTable *individuals,
+                                          CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -91,7 +91,7 @@ CowlNAryAxiomType cowl_nary_ind_axiom_get_type(CowlNAryIndAxiom *axiom);
  * @public @memberof CowlNAryIndAxiom
  */
 COWL_PUBLIC
-CowlIndividualSet* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom);
+CowlObjectTable* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.
@@ -102,7 +102,7 @@ CowlIndividualSet* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom);
  * @public @memberof CowlNAryIndAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom);
+CowlObjectVec* cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

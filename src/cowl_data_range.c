@@ -9,11 +9,6 @@
  */
 
 #include "cowl_data_range_private.h"
-#include "cowl_datatype.h"
-#include "cowl_datatype_restr.h"
-#include "cowl_data_compl.h"
-#include "cowl_data_one_of.h"
-#include "cowl_nary_data.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -22,19 +17,7 @@ CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
 }
 
 void cowl_data_range_release(CowlDataRange *range) {
-    if (!range) return;
-
-#define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)range); break
-
-    switch (cowl_data_range_get_type(range)) {
-        case COWL_DRT_DATATYPE: GEN_RELEASE(Datatype, datatype);
-        case COWL_DRT_DATATYPE_RESTR: GEN_RELEASE(DatatypeRestr, datatype_restr);
-        case COWL_DRT_DATA_INTERSECT:
-        case COWL_DRT_DATA_UNION: GEN_RELEASE(NAryData, nary_data);
-        case COWL_DRT_DATA_COMPL: GEN_RELEASE(DataCompl, data_compl);
-        case COWL_DRT_DATA_ONE_OF: GEN_RELEASE(DataOneOf, data_one_of);
-        default: break;
-    }
+    cowl_object_release((CowlObject *)range);
 }
 
 CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
@@ -45,20 +28,7 @@ CowlString* cowl_data_range_to_string(CowlDataRange *range)
     COWL_TO_STRING_IMPL(data_range, range)
 
 bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
-    if (lhs == rhs) return true;
-    if (!cowl_hash_object_equals_impl(lhs, rhs)) return false;
-
-#define GEN_EQUAL(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
-
-    switch (cowl_data_range_get_type(lhs)) {
-        case COWL_DRT_DATATYPE: GEN_EQUAL(Datatype, datatype);
-        case COWL_DRT_DATATYPE_RESTR: GEN_EQUAL(DatatypeRestr, datatype_restr);
-        case COWL_DRT_DATA_INTERSECT:
-        case COWL_DRT_DATA_UNION: GEN_EQUAL(NAryData, nary_data);
-        case COWL_DRT_DATA_COMPL: GEN_EQUAL(DataCompl, data_compl);
-        case COWL_DRT_DATA_ONE_OF: GEN_EQUAL(DataOneOf, data_one_of);
-        default: return false;
-    }
+    return cowl_object_equals((CowlObject *)lhs, (CowlObject *)rhs);
 }
 
 cowl_uint cowl_data_range_hash(CowlDataRange *range) {
@@ -67,16 +37,5 @@ cowl_uint cowl_data_range_hash(CowlDataRange *range) {
 
 bool cowl_data_range_iterate_primitives(CowlDataRange *range, CowlIterator *iter,
                                         CowlPrimitiveFlags flags) {
-
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)range, iter, flags)
-
-    switch (cowl_data_range_get_type(range)) {
-        case COWL_DRT_DATATYPE: GEN_ITER(Datatype, datatype);
-        case COWL_DRT_DATATYPE_RESTR: GEN_ITER(DatatypeRestr, datatype_restr);
-        case COWL_DRT_DATA_INTERSECT:
-        case COWL_DRT_DATA_UNION: GEN_ITER(NAryData, nary_data);
-        case COWL_DRT_DATA_COMPL: GEN_ITER(DataCompl, data_compl);
-        case COWL_DRT_DATA_ONE_OF: GEN_ITER(DataOneOf, data_one_of);
-        default: return true;
-    }
+    return cowl_object_iterate_primitives((CowlObject *)range, iter, flags);
 }

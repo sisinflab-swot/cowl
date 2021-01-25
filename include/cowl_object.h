@@ -13,6 +13,7 @@
 #ifndef COWL_OBJECT_H
 #define COWL_OBJECT_H
 
+#include "cowl_iterator.h"
 #include "cowl_std.h"
 #include "cowl_object_type.h"
 
@@ -27,6 +28,27 @@ cowl_struct_decl(CowlObject);
  *
  * @struct CowlObject
  */
+
+/**
+ * Retains the specified object.
+ *
+ * @param object The object.
+ * @return Retained object.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+CowlObject* cowl_object_retain(CowlObject *object);
+
+/**
+ * Releases the specified object.
+ *
+ * @param object The object.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+void cowl_object_release(CowlObject *object);
 
 /**
  * Gets the type of the specified object.
@@ -128,6 +150,43 @@ bool cowl_object_is_data_range(CowlObject *object);
  */
 COWL_PUBLIC
 CowlString* cowl_object_to_string(CowlObject *object);
+
+/**
+ * Equality function.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs);
+
+/**
+ * Hash function.
+ *
+ * @param object The object.
+ * @return The hash value.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+cowl_uint cowl_object_hash(CowlObject *object);
+
+/**
+ * Iterates over the primitives referenced by the specified object.
+ *
+ * @param object The object.
+ * @param iter The iterator.
+ * @param flags Iteration flags.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+bool cowl_object_iterate_primitives(CowlObject *object, CowlIterator *iter,
+                                    CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 

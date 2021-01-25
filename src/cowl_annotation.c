@@ -9,22 +9,22 @@
  */
 
 #include "cowl_annotation_private.h"
-#include "cowl_annotation_vec.h"
 #include "cowl_annot_prop.h"
 #include "cowl_annot_value.h"
 #include "cowl_hash_utils.h"
+#include "cowl_object_vec.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue *value,
-                                             CowlAnnotationVec *annot) {
+                                             CowlObjectVec *annot) {
     CowlAnnotation *annotation = cowl_alloc(annotation);
     if (!annotation) return NULL;
 
     cowl_uint hash = cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
                                  cowl_annot_prop_hash(prop),
                                  cowl_annot_value_hash(value),
-                                 annot ? cowl_annotation_vec_hash(annot) : 0);
+                                 annot ? cowl_object_vec_hash(annot) : 0);
 
     (*annotation) = (CowlAnnotation) {
         .super = COWL_HASH_OBJECT_INIT(COWL_OT_ANNOTATION, hash),
@@ -40,12 +40,12 @@ static void cowl_annotation_free(CowlAnnotation *annot) {
     if (!annot) return;
     cowl_annot_prop_release(annot->prop);
     cowl_annot_value_release(annot->value);
-    cowl_annotation_vec_free(annot->annot);
+    cowl_object_vec_free(annot->annot);
     cowl_free(annot);
 }
 
 CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value,
-                                    CowlAnnotationVec *annot) {
+                                    CowlObjectVec *annot) {
     if (!(prop && value)) return NULL;
     return cowl_annotation_alloc(prop, value, annot);
 }
@@ -68,7 +68,7 @@ CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot) {
     return annot->value;
 }
 
-CowlAnnotationVec* cowl_annotation_get_annot(CowlAnnotation *annot) {
+CowlObjectVec* cowl_annotation_get_annot(CowlAnnotation *annot) {
     return annot->annot;
 }
 
@@ -76,9 +76,9 @@ CowlString* cowl_annotation_to_string(CowlAnnotation *annot)
     COWL_TO_STRING_IMPL(annotation, annot)
 
 bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
-    return cowl_annot_prop_equals(lhs->prop, rhs->prop) &&
-           cowl_annot_value_equals(lhs->value, rhs->value) &&
-           cowl_annotation_vec_equals(lhs->annot, rhs->annot);
+    return (cowl_annot_prop_equals(lhs->prop, rhs->prop) &&
+            cowl_annot_value_equals(lhs->value, rhs->value) &&
+            cowl_object_vec_equals(lhs->annot, rhs->annot));
 }
 
 cowl_uint cowl_annotation_hash(CowlAnnotation *annot) {
@@ -89,5 +89,5 @@ bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlIterator *ite
                                         CowlPrimitiveFlags flags) {
     return (cowl_annot_value_iterate_primitives(annot->value, iter, flags) &&
             cowl_annot_prop_iterate_primitives(annot->prop, iter, flags) &&
-            cowl_annotation_vec_iterate_primitives(annot->annot, iter, flags));
+            cowl_object_vec_iterate_primitives(annot->annot, iter, flags));
 }

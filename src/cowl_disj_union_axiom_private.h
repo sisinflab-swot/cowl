@@ -18,7 +18,7 @@ COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlDisjUnionAxiom,
     CowlClass *cls;
-    CowlClsExpSet *disjoints;
+    CowlObjectTable *disjoints;
 );
 
 COWL_END_DECLS

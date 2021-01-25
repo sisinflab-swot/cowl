@@ -16,7 +16,7 @@
 
 static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *dt,
                                                            CowlDataRange *range,
-                                                           CowlAnnotationVec *annot) {
+                                                           CowlObjectVec *annot) {
     CowlDatatypeDefAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -41,7 +41,7 @@ static void cowl_datatype_def_axiom_free(CowlDatatypeDefAxiom *axiom) {
 }
 
 CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRange *range,
-                                                  CowlAnnotationVec *annot) {
+                                                  CowlObjectVec *annot) {
     if (!(dt && range)) return NULL;
     return cowl_datatype_def_axiom_alloc(dt, range, annot);
 }
@@ -64,7 +64,7 @@ CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
     return axiom->range;
 }
 
-CowlAnnotationVec* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
+CowlObjectVec* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

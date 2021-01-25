@@ -16,7 +16,7 @@
 
 static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp *prop,
                                                                 CowlDataRange *range,
-                                                                CowlAnnotationVec *annot) {
+                                                                CowlObjectVec *annot) {
     CowlDataPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -41,7 +41,7 @@ static void cowl_data_prop_range_axiom_free(CowlDataPropRangeAxiom *axiom) {
 }
 
 CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range,
-                                                       CowlAnnotationVec *annot) {
+                                                       CowlObjectVec *annot) {
     if (!(prop && range)) return NULL;
     return cowl_data_prop_range_axiom_alloc(prop, range, annot);
 }
@@ -64,7 +64,7 @@ CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axio
     return axiom->range;
 }
 
-CowlAnnotationVec* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) {
+CowlObjectVec* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

@@ -4,12 +4,7 @@ UVec
 
 .. doxygenstruct:: UVec
 
-Vector of annotations
-=====================
+Vector of objects
+=================
 
-.. doxygenstruct:: CowlAnnotationVec
-
-Vector of object property expressions
-=====================================
-
-.. doxygenstruct:: CowlObjPropExpVec
+.. doxygenstruct:: CowlObjectVec

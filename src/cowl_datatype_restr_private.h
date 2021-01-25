@@ -19,7 +19,7 @@ COWL_BEGIN_DECLS
 cowl_struct(CowlDatatypeRestr) {
     CowlDataRange super;
     CowlDatatype *datatype;
-    CowlFacetRestrSet *restrictions;
+    CowlObjectTable *restrictions;
 };
 
 COWL_END_DECLS

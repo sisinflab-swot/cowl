@@ -9,8 +9,6 @@
  */
 
 #include "cowl_individual_private.h"
-#include "cowl_anon_ind.h"
-#include "cowl_named_ind.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -19,13 +17,7 @@ CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
 }
 
 void cowl_individual_release(CowlIndividual *ind) {
-    if (!ind) return;
-
-    if (cowl_individual_is_named(ind)) {
-        cowl_named_ind_release((CowlNamedInd *)ind);
-    } else {
-        cowl_anon_ind_release((CowlAnonInd *)ind);
-    }
+    cowl_object_release((CowlObject *)ind);
 }
 
 bool cowl_individual_is_named(CowlIndividual *ind) {
@@ -45,9 +37,5 @@ cowl_uint cowl_individual_hash(CowlIndividual *ind) {
 
 bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlIterator *iter,
                                         CowlPrimitiveFlags flags) {
-    if (cowl_individual_is_named(ind)) {
-        return cowl_named_ind_iterate_primitives((CowlNamedInd *)ind, iter, flags);
-    } else {
-        return cowl_anon_ind_iterate_primitives((CowlAnonInd *)ind, iter, flags);
-    }
+    return cowl_object_iterate_primitives((CowlObject *)ind, iter, flags);
 }

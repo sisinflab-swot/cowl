@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotValue);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlAnnotation);
 /// @endcond
 
@@ -45,7 +45,7 @@ cowl_struct_decl(CowlAnnotation);
  */
 COWL_PUBLIC
 CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value,
-                                    CowlAnnotationVec *annot);
+                                    CowlObjectVec *annot);
 
 /**
  * Retains the specified annotation.
@@ -100,7 +100,7 @@ CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot);
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_annotation_get_annot(CowlAnnotation *annot);
+CowlObjectVec* cowl_annotation_get_annot(CowlAnnotation *annot);
 
 /**
  * Returns the string representation of the specified annotation.

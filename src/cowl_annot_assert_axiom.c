@@ -17,7 +17,7 @@
 static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue *subject,
                                                            CowlAnnotProp *prop,
                                                            CowlAnnotValue *value,
-                                                           CowlAnnotationVec *annot) {
+                                                           CowlObjectVec *annot) {
     CowlAnnotAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -45,7 +45,7 @@ static void cowl_annot_assert_axiom_free(CowlAnnotAssertAxiom *axiom) {
 }
 
 CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
-                                                  CowlAnnotValue *value, CowlAnnotationVec *annot) {
+                                                  CowlAnnotValue *value, CowlObjectVec *annot) {
     if (!(prop && subject && value)) return NULL;
     return cowl_annot_assert_axiom_alloc(subject, prop, value, annot);
 }
@@ -72,7 +72,7 @@ CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
     return axiom->prop;
 }
 
-CowlAnnotationVec* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
+CowlObjectVec* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

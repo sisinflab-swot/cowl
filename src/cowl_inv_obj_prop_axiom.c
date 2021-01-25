@@ -15,7 +15,7 @@
 
 static CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_alloc(CowlObjPropExp *first,
                                                           CowlObjPropExp *second,
-                                                          CowlAnnotationVec *annot) {
+                                                          CowlObjectVec *annot) {
     CowlInvObjPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -40,7 +40,7 @@ static void cowl_inv_obj_prop_axiom_free(CowlInvObjPropAxiom *axiom) {
 }
 
 CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_get(CowlObjPropExp *first, CowlObjPropExp *second,
-                                                 CowlAnnotationVec *annot) {
+                                                 CowlObjectVec *annot) {
     if (!(first && second)) return NULL;
     return cowl_inv_obj_prop_axiom_alloc(first, second, annot);
 }
@@ -63,7 +63,7 @@ CowlObjPropExp* cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axi
     return axiom->second;
 }
 
-CowlAnnotationVec* cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
+CowlObjectVec* cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

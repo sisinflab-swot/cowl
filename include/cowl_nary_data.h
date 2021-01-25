@@ -20,7 +20,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlDataRangeSet);
+cowl_hash_decl(CowlObjectTable);
 cowl_struct_decl(CowlNAryData);
 /// @endcond
 
@@ -44,7 +44,7 @@ cowl_struct_decl(CowlNAryData);
  * @public @memberof CowlNAryData
  */
 COWL_PUBLIC
-CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlDataRangeSet *operands);
+CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlObjectTable *operands);
 
 /**
  * Retains the specified N-ary data range.
@@ -86,7 +86,7 @@ CowlNAryType cowl_nary_data_get_type(CowlNAryData *range);
  * @public @memberof CowlNAryData
  */
 COWL_PUBLIC
-CowlDataRangeSet* cowl_nary_data_get_operands(CowlNAryData *range);
+CowlObjectTable* cowl_nary_data_get_operands(CowlNAryData *range);
 
 /**
  * Returns the string representation of the specified N-ary data range.

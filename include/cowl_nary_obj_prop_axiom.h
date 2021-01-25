@@ -20,8 +20,8 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlObjPropExpSet);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_hash_decl(CowlObjectTable);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlNAryObjPropAxiom);
 /// @endcond
 
@@ -48,8 +48,8 @@ cowl_struct_decl(CowlNAryObjPropAxiom);
  */
 COWL_PUBLIC
 CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_get(CowlNAryAxiomType type,
-                                                   CowlObjPropExpSet *props,
-                                                   CowlAnnotationVec *annot);
+                                                   CowlObjectTable *props,
+                                                   CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -92,7 +92,7 @@ CowlNAryAxiomType cowl_nary_obj_prop_axiom_get_type(CowlNAryObjPropAxiom *axiom)
  * @public @memberof CowlNAryObjPropAxiom
  */
 COWL_PUBLIC
-CowlObjPropExpSet* cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom);
+CowlObjectTable* cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.
@@ -103,7 +103,7 @@ CowlObjPropExpSet* cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axio
  * @public @memberof CowlNAryObjPropAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_nary_obj_prop_axiom_get_annot(CowlNAryObjPropAxiom *axiom);
+CowlObjectVec* cowl_nary_obj_prop_axiom_get_annot(CowlNAryObjPropAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

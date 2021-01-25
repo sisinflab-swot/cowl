@@ -20,8 +20,8 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlObjPropExp);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
-cowl_vector_decl(CowlObjPropExpPtr, CowlObjPropExpVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlSubObjPropChainAxiom);
 /// @endcond
 
@@ -46,9 +46,9 @@ cowl_struct_decl(CowlSubObjPropChainAxiom);
  * @public @memberof CowlSubObjPropChainAxiom
  */
 COWL_PUBLIC
-CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlObjPropExpVec *sub,
+CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlObjectVec *sub,
                                                             CowlObjPropExp *super,
-                                                            CowlAnnotationVec *annot);
+                                                            CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -80,7 +80,7 @@ void cowl_sub_obj_prop_chain_axiom_release(CowlSubObjPropChainAxiom *axiom);
  * @public @memberof CowlSubObjPropChainAxiom
  */
 COWL_PUBLIC
-CowlObjPropExpVec* cowl_sub_obj_prop_chain_axiom_get_sub_props(CowlSubObjPropChainAxiom *axiom);
+CowlObjectVec* cowl_sub_obj_prop_chain_axiom_get_sub_props(CowlSubObjPropChainAxiom *axiom);
 
 /**
  * Gets the superproperty.
@@ -102,7 +102,7 @@ CowlObjPropExp* cowl_sub_obj_prop_chain_axiom_get_super_prop(CowlSubObjPropChain
  * @public @memberof CowlSubObjPropChainAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_sub_obj_prop_chain_axiom_get_annot(CowlSubObjPropChainAxiom *axiom);
+CowlObjectVec* cowl_sub_obj_prop_chain_axiom_get_annot(CowlSubObjPropChainAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

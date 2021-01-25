@@ -15,7 +15,7 @@
 
 static CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_alloc(CowlAnnotProp *sub,
                                                               CowlAnnotProp *super,
-                                                              CowlAnnotationVec *annot) {
+                                                              CowlObjectVec *annot) {
     CowlSubAnnotPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -40,7 +40,7 @@ static void cowl_sub_annot_prop_axiom_free(CowlSubAnnotPropAxiom *axiom) {
 }
 
 CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_get(CowlAnnotProp *sub, CowlAnnotProp *super,
-                                                     CowlAnnotationVec *annot) {
+                                                     CowlObjectVec *annot) {
     if (!(sub && super)) return NULL;
     return cowl_sub_annot_prop_axiom_alloc(sub, super, annot);
 }
@@ -63,7 +63,7 @@ CowlAnnotProp* cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
     return axiom->sub_prop;
 }
 
-CowlAnnotationVec* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
+CowlObjectVec* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

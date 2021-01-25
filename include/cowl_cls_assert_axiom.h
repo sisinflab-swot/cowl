@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlIndividual);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlClsAssertAxiom);
 /// @endcond
 
@@ -46,7 +46,7 @@ cowl_struct_decl(CowlClsAssertAxiom);
  */
 COWL_PUBLIC
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp,
-                                              CowlAnnotationVec *annot);
+                                              CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -100,7 +100,7 @@ CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom);
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom);
+CowlObjectVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

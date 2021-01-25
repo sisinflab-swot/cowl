@@ -19,7 +19,7 @@ static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType 
                                                                   CowlIndividual *subj,
                                                                   CowlDataPropExp *prop,
                                                                   CowlLiteral *obj,
-                                                                  CowlAnnotationVec *annot) {
+                                                                  CowlObjectVec *annot) {
     CowlDataPropAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -49,7 +49,7 @@ static void cowl_data_prop_assert_axiom_free(CowlDataPropAssertAxiom *axiom) {
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                          CowlDataPropExp *prop,
                                                          CowlLiteral *obj,
-                                                         CowlAnnotationVec *annot) {
+                                                         CowlObjectVec *annot) {
     if (!(subj && prop && obj)) return NULL;
     return cowl_data_prop_assert_axiom_alloc(COWL_AT_DATA_PROP_ASSERT, subj, prop, obj, annot);
 }
@@ -57,7 +57,7 @@ CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
 CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                              CowlDataPropExp *prop,
                                                              CowlLiteral *obj,
-                                                             CowlAnnotationVec *annot) {
+                                                             CowlObjectVec *annot) {
     return cowl_data_prop_assert_axiom_alloc(COWL_AT_NEG_DATA_PROP_ASSERT,
                                              subj, prop, obj, annot);
 }
@@ -88,7 +88,7 @@ CowlDataPropExp* cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *a
     return axiom->prop;
 }
 
-CowlAnnotationVec* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom) {
+CowlObjectVec* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

@@ -17,7 +17,7 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlSubObjPropChainAxiom,
-    CowlObjPropExpVec *sub_props;
+    CowlObjectVec *sub_props;
     CowlObjPropExp *super_prop;
 );
 

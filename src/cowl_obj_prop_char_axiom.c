@@ -16,7 +16,7 @@
 
 static CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_alloc(CowlAxiomType type,
                                                             CowlObjPropExp *prop,
-                                                            CowlAnnotationVec *annot) {
+                                                            CowlObjectVec *annot) {
     CowlObjPropCharAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -39,7 +39,7 @@ static void cowl_obj_prop_char_axiom_free(CowlObjPropCharAxiom *axiom) {
 
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
-                                                   CowlAnnotationVec *annot) {
+                                                   CowlObjectVec *annot) {
     if (!(prop && cowl_enum_value_is_valid(CAT, type))) return NULL;
     CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_FUNC_OBJ_PROP;
     return cowl_obj_prop_char_axiom_alloc(axiom_type, prop, annot);
@@ -63,7 +63,7 @@ CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
     return axiom->prop_exp;
 }
 
-CowlAnnotationVec* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
+CowlObjectVec* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

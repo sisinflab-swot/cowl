@@ -14,7 +14,7 @@
 #include "cowl_template.h"
 
 static CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_alloc(CowlDataPropExp *prop,
-                                                              CowlAnnotationVec *annot) {
+                                                              CowlObjectVec *annot) {
     CowlFuncDataPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -36,7 +36,7 @@ static void cowl_func_data_prop_axiom_free(CowlFuncDataPropAxiom *axiom) {
 }
 
 CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop,
-                                                     CowlAnnotationVec *annot) {
+                                                     CowlObjectVec *annot) {
     if (!prop) return NULL;
     return cowl_func_data_prop_axiom_alloc(prop, annot);
 }
@@ -55,7 +55,7 @@ CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom
     return axiom->prop;
 }
 
-CowlAnnotationVec* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
+CowlObjectVec* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

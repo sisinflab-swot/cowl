@@ -9,18 +9,18 @@
  */
 
 #include "cowl_nary_data_private.h"
-#include "cowl_data_range_set.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
+#include "cowl_object_table.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlDataRangeSet *operands) {
+static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlObjectTable *operands) {
     CowlNAryData *range = cowl_alloc(range);
     if (!range) return NULL;
 
     cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_NARY, type,
-                                 uhset_hash(CowlDataRangeSet, operands));
+                                 cowl_object_set_hash(operands));
 
     *range = (CowlNAryData) {
         .super = COWL_DATA_RANGE_INIT(type, hash),
@@ -32,11 +32,11 @@ static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlDataRangeS
 
 static void cowl_nary_data_free(CowlNAryData *range) {
     if (!range) return;
-    cowl_data_range_set_free(range->operands);
+    cowl_object_set_free(range->operands);
     cowl_free(range);
 }
 
-CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlDataRangeSet *operands) {
+CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlObjectTable *operands) {
     if (!(operands && cowl_enum_value_is_valid(NT, type))) return NULL;
     return cowl_nary_data_alloc((CowlDataRangeType)type + COWL_DRT_DATA_INTERSECT, operands);
 }
@@ -55,7 +55,7 @@ CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
     return (CowlNAryType)(cowl_get_type(range) - COWL_OT_DR_DATA_INTERSECT);
 }
 
-CowlDataRangeSet* cowl_nary_data_get_operands(CowlNAryData *range) {
+CowlObjectTable* cowl_nary_data_get_operands(CowlNAryData *range) {
     return range->operands;
 }
 
@@ -64,7 +64,7 @@ CowlString* cowl_nary_data_to_string(CowlNAryData *range)
 
 bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
     return (cowl_hash_object_equals_impl(lhs, rhs) &&
-            uhset_equals(CowlDataRangeSet, lhs->operands, rhs->operands));
+            cowl_object_set_equals(lhs->operands, rhs->operands));
 }
 
 cowl_uint cowl_nary_data_hash(CowlNAryData *range) {
@@ -73,5 +73,5 @@ cowl_uint cowl_nary_data_hash(CowlNAryData *range) {
 
 bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlIterator *iter,
                                        CowlPrimitiveFlags flags) {
-    return cowl_data_range_set_iterate_primitives(range->operands, iter, flags);
+    return cowl_object_set_iterate_primitives(range->operands, iter, flags);
 }

@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataPropExp);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlDataPropDomainAxiom);
 /// @endcond
 
@@ -46,7 +46,7 @@ cowl_struct_decl(CowlDataPropDomainAxiom);
  */
 COWL_PUBLIC
 CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_get(CowlDataPropExp *prop, CowlClsExp *domain,
-                                                         CowlAnnotationVec *annot);
+                                                         CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -100,7 +100,7 @@ CowlClsExp* cowl_data_prop_domain_axiom_get_domain(CowlDataPropDomainAxiom *axio
  * @public @memberof CowlDataPropDomainAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_data_prop_domain_axiom_get_annot(CowlDataPropDomainAxiom *axiom);
+CowlObjectVec* cowl_data_prop_domain_axiom_get_annot(CowlDataPropDomainAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

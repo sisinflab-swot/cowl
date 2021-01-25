@@ -158,8 +158,8 @@ static cowl_ret cowl_logger_log_ontology_header(CowlLogger *logger, CowlOntology
     cowl_ontology_iterate_imports(onto, &iter);
     if ((ret = ctx.ret)) return ret;
 
-    CowlAnnotationVec *annotations = cowl_ontology_get_annot(onto);
-    uvec_foreach(CowlAnnotationPtr, annotations, annot, {
+    CowlObjectVec *annotations = cowl_ontology_get_annot(onto);
+    uvec_foreach(CowlObjectPtr, annotations, annot, {
         if ((ret = cowl_logger_logs(logger, "\n"))) return ret;
         if ((ret = cowl_logger_consume(logger, cowl_annotation_to_string(annot)))) return ret;
     });

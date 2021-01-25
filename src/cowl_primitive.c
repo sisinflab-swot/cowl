@@ -9,13 +9,7 @@
  */
 
 #include "cowl_primitive.h"
-#include "cowl_annot_prop_private.h"
-#include "cowl_anon_ind.h"
-#include "cowl_class_private.h"
-#include "cowl_data_prop_private.h"
-#include "cowl_datatype_private.h"
-#include "cowl_named_ind_private.h"
-#include "cowl_obj_prop_private.h"
+#include "cowl_object_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -24,19 +18,7 @@ CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) {
 }
 
 void cowl_primitive_release(CowlPrimitive *primitive) {
-
-#define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)primitive); break
-
-    switch (cowl_primitive_get_type(primitive)) {
-        case COWL_PT_CLASS: GEN_RELEASE(Class, class);
-        case COWL_PT_OBJ_PROP: GEN_RELEASE(ObjProp, obj_prop);
-        case COWL_PT_NAMED_IND: GEN_RELEASE(NamedInd, named_ind);
-        case COWL_PT_ANON_IND: GEN_RELEASE(AnonInd, anon_ind);
-        case COWL_PT_DATA_PROP: GEN_RELEASE(DataProp, data_prop);
-        case COWL_PT_DATATYPE: GEN_RELEASE(Datatype, datatype);
-        case COWL_PT_ANNOT_PROP: GEN_RELEASE(AnnotProp, annot_prop);
-        default: break;
-    }
+    cowl_object_release((CowlObject *)primitive);
 }
 
 CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive) {
@@ -63,34 +45,10 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) {
 }
 
 cowl_uint cowl_primitive_hash(CowlPrimitive *primitive) {
-
-#define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)primitive)
-
-    switch (cowl_primitive_get_type(primitive)) {
-        case COWL_PT_CLASS: GEN_HASH(Class, class);
-        case COWL_PT_OBJ_PROP: GEN_HASH(ObjProp, obj_prop);
-        case COWL_PT_NAMED_IND: GEN_HASH(NamedInd, named_ind);
-        case COWL_PT_ANON_IND: GEN_HASH(AnonInd, anon_ind);
-        case COWL_PT_DATA_PROP: GEN_HASH(DataProp, data_prop);
-        case COWL_PT_DATATYPE: GEN_HASH(Datatype, datatype);
-        case COWL_PT_ANNOT_PROP: GEN_HASH(AnnotProp, annot_prop);
-        default: return 0;
-    }
+    return uhash_ptr_hash(primitive);
 }
 
 bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlIterator *iter,
                                        CowlPrimitiveFlags flags) {
-
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)primitive, iter, flags)
-
-    switch (cowl_primitive_get_type(primitive)) {
-        case COWL_PT_CLASS: GEN_ITER(Class, class);
-        case COWL_PT_OBJ_PROP: GEN_ITER(ObjProp, obj_prop);
-        case COWL_PT_NAMED_IND: GEN_ITER(NamedInd, named_ind);
-        case COWL_PT_ANON_IND: GEN_ITER(AnonInd, anon_ind);
-        case COWL_PT_DATA_PROP: GEN_ITER(DataProp, data_prop);
-        case COWL_PT_DATATYPE: GEN_ITER(Datatype, datatype);
-        case COWL_PT_ANNOT_PROP: GEN_ITER(AnnotProp, annot_prop);
-        default: return true;
-    }
+    return cowl_object_iterate_primitives((CowlObject *)primitive, iter, flags);
 }

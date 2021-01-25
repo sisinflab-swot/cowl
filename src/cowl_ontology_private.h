@@ -18,31 +18,21 @@
 
 COWL_BEGIN_DECLS
 
-typedef uhash_struct(CowlAxiomSet) UHash(CowlAxiomSet);
-typedef uvec_struct(CowlAnnotationPtr) UVec(CowlAnnotationPtr);
-typedef uvec_struct(CowlAxiomPtr) UVec(CowlAxiomPtr);
-typedef uvec_struct(CowlOntologyPtr) UVec(CowlOntologyPtr);
-
-UHASH_DECL(CowlAnnotPropAxiomMap, CowlAnnotProp*, UVec(CowlAxiomPtr)*)
-UHASH_DECL(CowlClassAxiomMap, CowlClass*, UVec(CowlAxiomPtr)*)
-UHASH_DECL(CowlDataPropAxiomMap, CowlDataProp*, UVec(CowlAxiomPtr)*)
-UHASH_DECL(CowlDatatypeAxiomMap, CowlDatatype*, UVec(CowlAxiomPtr)*)
-UHASH_DECL(CowlObjPropAxiomMap, CowlObjProp*, UVec(CowlAxiomPtr)*)
-UHASH_DECL(CowlNamedIndAxiomMap, CowlNamedInd*, UVec(CowlAxiomPtr)*)
-UHASH_DECL(CowlAnonIndAxiomMap, CowlAnonInd*, UVec(CowlAxiomPtr)*)
+typedef uvec_struct(CowlObjectPtr) UVec(CowlObjectPtr);
+typedef uhash_struct(CowlObjectTable) UHash(CowlObjectTable);
 
 cowl_struct(CowlOntology) {
     CowlObject super;
-    UVec(CowlOntologyPtr) *imports;
-    UVec(CowlAnnotationPtr) *annotations;
-    UHash(CowlAxiomSet) *axioms_by_type[COWL_AT_COUNT];
-    UHash(CowlAnnotPropAxiomMap) *annot_prop_refs;
-    UHash(CowlClassAxiomMap) *class_refs;
-    UHash(CowlDataPropAxiomMap) *data_prop_refs;
-    UHash(CowlDatatypeAxiomMap) *datatype_refs;
-    UHash(CowlObjPropAxiomMap) *obj_prop_refs;
-    UHash(CowlNamedIndAxiomMap) *named_ind_refs;
-    UHash(CowlAnonIndAxiomMap) *anon_ind_refs;
+    UVec(CowlObjectPtr) *imports;
+    UVec(CowlObjectPtr) *annotations;
+    UHash(CowlObjectTable) *axioms_by_type[COWL_AT_COUNT];
+    UHash(CowlObjectTable) *annot_prop_refs;
+    UHash(CowlObjectTable) *class_refs;
+    UHash(CowlObjectTable) *data_prop_refs;
+    UHash(CowlObjectTable) *datatype_refs;
+    UHash(CowlObjectTable) *obj_prop_refs;
+    UHash(CowlObjectTable) *named_ind_refs;
+    UHash(CowlObjectTable) *anon_ind_refs;
     CowlOntologyID id;
 };
 
@@ -51,20 +41,20 @@ cowl_struct(CowlOntology) {
     .id = COWL_ONTOLOGY_ID_ANONYMOUS,                                                               \
     .imports = NULL,                                                                                \
     .annotations = NULL,                                                                            \
-    .annot_prop_refs = uhmap_alloc(CowlAnnotPropAxiomMap),                                          \
-    .class_refs = uhmap_alloc(CowlClassAxiomMap),                                                   \
-    .data_prop_refs = uhmap_alloc(CowlDataPropAxiomMap),                                            \
-    .datatype_refs = uhmap_alloc(CowlDatatypeAxiomMap),                                             \
-    .obj_prop_refs = uhmap_alloc(CowlObjPropAxiomMap),                                              \
-    .named_ind_refs = uhmap_alloc(CowlNamedIndAxiomMap),                                            \
-    .anon_ind_refs = uhmap_alloc(CowlAnonIndAxiomMap),                                              \
+    .annot_prop_refs = uhmap_alloc(CowlObjectTable),                                                \
+    .class_refs = uhmap_alloc(CowlObjectTable),                                                     \
+    .data_prop_refs = uhmap_alloc(CowlObjectTable),                                                 \
+    .datatype_refs = uhmap_alloc(CowlObjectTable),                                                  \
+    .obj_prop_refs = uhmap_alloc(CowlObjectTable),                                                  \
+    .named_ind_refs = uhmap_alloc(CowlObjectTable),                                                 \
+    .anon_ind_refs = uhmap_alloc(CowlObjectTable),                                                  \
 })
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void);
 
 void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID id);
-cowl_ret cowl_ontology_set_imports(CowlOntology *onto, UVec(CowlOntologyPtr) *imports);
-cowl_ret cowl_ontology_set_annot(CowlOntology *onto, UVec(CowlAnnotationPtr) *annot);
+cowl_ret cowl_ontology_set_imports(CowlOntology *onto, UVec(CowlObjectPtr) *imports);
+cowl_ret cowl_ontology_set_annot(CowlOntology *onto, UVec(CowlObjectPtr) *annot);
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
 
 COWL_END_DECLS

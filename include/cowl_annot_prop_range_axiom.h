@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlIRI);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlAnnotPropRangeAxiom);
 /// @endcond
 
@@ -46,7 +46,7 @@ cowl_struct_decl(CowlAnnotPropRangeAxiom);
  */
 COWL_PUBLIC
 CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_get(CowlAnnotProp *prop, CowlIRI *range,
-                                                         CowlAnnotationVec *annot);
+                                                         CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -100,7 +100,7 @@ CowlIRI* cowl_annot_prop_range_axiom_get_range(CowlAnnotPropRangeAxiom *axiom);
  * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom);
+CowlObjectVec* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

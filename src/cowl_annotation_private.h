@@ -20,7 +20,7 @@ cowl_struct(CowlAnnotation) {
     CowlHashObject super;
     CowlAnnotProp *prop;
     CowlAnnotValue *value;
-    CowlAnnotationVec *annot;
+    CowlObjectVec *annot;
 };
 
 COWL_END_DECLS

@@ -96,15 +96,10 @@ cowl_struct_decl(CowlSubDataPropAxiom);
 cowl_struct_decl(CowlSubObjPropAxiom);
 cowl_struct_decl(CowlSubObjPropChainAxiom);
 
-cowl_hash_decl(CowlClsExpSet);
-cowl_hash_decl(CowlDataPropExpSet);
-cowl_hash_decl(CowlDataRangeSet);
-cowl_hash_decl(CowlFacetRestrSet);
-cowl_hash_decl(CowlIndividualSet);
-cowl_hash_decl(CowlLiteralSet);
-cowl_hash_decl(CowlObjPropExpSet);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
-cowl_vector_decl(CowlObjPropExpPtr, CowlObjPropExpVec);
+cowl_hash_decl(CowlObjectTable);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_vector_decl(CowlOntologyPtr, CowlOntologyVec);
 
 COWL_END_DECLS

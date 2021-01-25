@@ -22,7 +22,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlLiteral);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlDataPropAssertAxiom);
 /// @endcond
 
@@ -55,7 +55,7 @@ COWL_PUBLIC
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                          CowlDataPropExp *prop,
                                                          CowlLiteral *obj,
-                                                         CowlAnnotationVec *annot);
+                                                         CowlObjectVec *annot);
 
 /**
  * Returns a retained negative data property assertion axiom.
@@ -72,7 +72,7 @@ COWL_PUBLIC
 CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                              CowlDataPropExp *prop,
                                                              CowlLiteral *obj,
-                                                             CowlAnnotationVec *annot);
+                                                             CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -148,7 +148,7 @@ CowlDataPropExp* cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *a
  * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom);
+CowlObjectVec* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

@@ -16,7 +16,7 @@
 
 static CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_alloc(CowlAnnotProp *prop,
                                                                     CowlIRI *domain,
-                                                                    CowlAnnotationVec *annot) {
+                                                                    CowlObjectVec *annot) {
     CowlAnnotPropDomainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -41,7 +41,7 @@ static void cowl_annot_prop_domain_axiom_free(CowlAnnotPropDomainAxiom *axiom) {
 }
 
 CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_get(CowlAnnotProp *prop, CowlIRI *domain,
-                                                           CowlAnnotationVec *annot) {
+                                                           CowlObjectVec *annot) {
     if (!(prop && domain)) return NULL;
     return cowl_annot_prop_domain_axiom_alloc(prop, domain, annot);
 }
@@ -64,7 +64,7 @@ CowlIRI* cowl_annot_prop_domain_axiom_get_domain(CowlAnnotPropDomainAxiom *axiom
     return axiom->domain;
 }
 
-CowlAnnotationVec* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axiom) {
+CowlObjectVec* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

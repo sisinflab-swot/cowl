@@ -9,18 +9,18 @@
  */
 
 #include "cowl_nary_ind_axiom_private.h"
-#include "cowl_individual_set.h"
 #include "cowl_macros.h"
+#include "cowl_object_table.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlIndividualSet *individuals,
-                                                   CowlAnnotationVec *annot) {
+static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlObjectTable *individuals,
+                                                   CowlObjectVec *annot) {
     CowlNAryIndAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
     cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_IND_AXIOM, annot, type,
-                                       cowl_individual_set_hash(individuals));
+                                       cowl_object_set_hash(individuals));
 
     cowl_axiom_init(CowlNAryIndAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
@@ -32,12 +32,12 @@ static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlIndiv
 
 static void cowl_nary_ind_axiom_free(CowlNAryIndAxiom *axiom) {
     if (!axiom) return;
-    cowl_individual_set_free(axiom->individuals);
+    cowl_object_set_free(axiom->individuals);
     cowl_axiom_free(axiom);
 }
 
-CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlIndividualSet *operands,
-                                          CowlAnnotationVec *annot) {
+CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlObjectTable *operands,
+                                          CowlObjectVec *annot) {
     if (!(operands && cowl_enum_value_is_valid(NAT, type))) return NULL;
     CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_SAME_IND;
     return cowl_nary_ind_axiom_alloc(axiom_type, operands, annot);
@@ -57,11 +57,11 @@ CowlNAryAxiomType cowl_nary_ind_axiom_get_type(CowlNAryIndAxiom *axiom) {
     return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_SAME_IND);
 }
 
-CowlIndividualSet* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom) {
+CowlObjectTable* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom) {
     return axiom->individuals;
 }
 
-CowlAnnotationVec* cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom) {
+CowlObjectVec* cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
@@ -70,7 +70,7 @@ CowlString* cowl_nary_ind_axiom_to_string(CowlNAryIndAxiom *axiom)
 
 bool cowl_nary_ind_axiom_equals(CowlNAryIndAxiom *lhs, CowlNAryIndAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
-                                  cowl_individual_set_equals(lhs->individuals, rhs->individuals));
+                                  cowl_object_set_equals(lhs->individuals, rhs->individuals));
 }
 
 cowl_uint cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom) {
@@ -79,6 +79,6 @@ cowl_uint cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom) {
 
 bool cowl_nary_ind_axiom_iterate_primitives(CowlNAryIndAxiom *axiom, CowlIterator *iter,
                                             CowlPrimitiveFlags flags) {
-    return (cowl_individual_set_iterate_primitives(axiom->individuals, iter, flags) &&
+    return (cowl_object_set_iterate_primitives(axiom->individuals, iter, flags) &&
             cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
 }

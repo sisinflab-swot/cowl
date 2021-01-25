@@ -23,18 +23,7 @@ CowlEntity* cowl_entity_retain(CowlEntity *entity) {
 }
 
 void cowl_entity_release(CowlEntity *entity) {
-
-#define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)entity); break
-
-    switch (cowl_entity_get_type(entity)) {
-        case COWL_ET_CLASS: GEN_RELEASE(Class, class);
-        case COWL_ET_OBJ_PROP: GEN_RELEASE(ObjProp, obj_prop);
-        case COWL_ET_NAMED_IND: GEN_RELEASE(NamedInd, named_ind);
-        case COWL_ET_DATA_PROP: GEN_RELEASE(DataProp, data_prop);
-        case COWL_ET_DATATYPE: GEN_RELEASE(Datatype, datatype);
-        case COWL_ET_ANNOT_PROP: GEN_RELEASE(AnnotProp, annot_prop);
-        default: break;
-    }
+    cowl_object_release((CowlObject *)entity);
 }
 
 CowlEntityType cowl_entity_get_type(CowlEntity *entity) {
@@ -71,32 +60,10 @@ bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) {
 }
 
 cowl_uint cowl_entity_hash(CowlEntity *entity) {
-
-#define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)entity)
-
-    switch (cowl_entity_get_type(entity)) {
-        case COWL_ET_CLASS: GEN_HASH(Class, class);
-        case COWL_ET_OBJ_PROP: GEN_HASH(ObjProp, obj_prop);
-        case COWL_ET_NAMED_IND: GEN_HASH(NamedInd, named_ind);
-        case COWL_ET_DATA_PROP: GEN_HASH(DataProp, data_prop);
-        case COWL_ET_DATATYPE: GEN_HASH(Datatype, datatype);
-        case COWL_ET_ANNOT_PROP: GEN_HASH(AnnotProp, annot_prop);
-        default: return 0;
-    }
+    return uhash_ptr_hash(entity);
 }
 
 bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlIterator *iter,
                                     CowlPrimitiveFlags flags) {
-
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)entity, iter, flags)
-
-    switch (cowl_entity_get_type(entity)) {
-        case COWL_ET_CLASS: GEN_ITER(Class, class);
-        case COWL_ET_OBJ_PROP: GEN_ITER(ObjProp, obj_prop);
-        case COWL_ET_NAMED_IND: GEN_ITER(NamedInd, named_ind);
-        case COWL_ET_DATA_PROP: GEN_ITER(DataProp, data_prop);
-        case COWL_ET_DATATYPE: GEN_ITER(Datatype, datatype);
-        case COWL_ET_ANNOT_PROP: GEN_ITER(AnnotProp, annot_prop);
-        default: return true;
-    }
+    return cowl_object_iterate_primitives((CowlObject *)entity, iter, flags);
 }

@@ -32,7 +32,7 @@ cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlOntologyID);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlOntology);
 /// @endcond
 
@@ -85,7 +85,7 @@ CowlOntologyID cowl_ontology_get_id(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_ontology_get_annot(CowlOntology *onto);
+CowlObjectVec* cowl_ontology_get_annot(CowlOntology *onto);
 
 /**
  * Equality function.

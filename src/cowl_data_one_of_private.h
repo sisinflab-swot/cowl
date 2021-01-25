@@ -18,7 +18,7 @@ COWL_BEGIN_DECLS
 
 cowl_struct(CowlDataOneOf) {
     CowlDataRange super;
-    CowlLiteralSet *values;
+    CowlObjectTable *values;
 };
 
 COWL_END_DECLS

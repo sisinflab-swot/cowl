@@ -10,16 +10,16 @@
 
 #include "cowl_obj_one_of_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_individual_set.h"
+#include "cowl_object_table.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *inds) {
+static CowlObjOneOf* cowl_obj_one_of_alloc(CowlObjectTable *inds) {
     CowlObjOneOf *exp = cowl_alloc(exp);
     if (!exp) return NULL;
 
     cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF,
-                                 uhset_hash(CowlIndividualSet, inds));
+                                 cowl_object_set_hash(inds));
 
     *exp = (CowlObjOneOf) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_ONE_OF, hash),
@@ -31,11 +31,11 @@ static CowlObjOneOf* cowl_obj_one_of_alloc(CowlIndividualSet *inds) {
 
 static void cowl_obj_one_of_free(CowlObjOneOf *exp) {
     if (!exp) return;
-    cowl_individual_set_free(exp->inds);
+    cowl_object_set_free(exp->inds);
     cowl_free(exp);
 }
 
-CowlObjOneOf* cowl_obj_one_of_get(CowlIndividualSet *inds) {
+CowlObjOneOf* cowl_obj_one_of_get(CowlObjectTable *inds) {
     if (!inds) return NULL;
     return cowl_obj_one_of_alloc(inds);
 }
@@ -50,7 +50,7 @@ void cowl_obj_one_of_release(CowlObjOneOf *exp) {
     }
 }
 
-CowlIndividualSet* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
+CowlObjectTable* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
     return exp->inds;
 }
 
@@ -58,7 +58,7 @@ CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp)
     COWL_TO_STRING_IMPL(obj_one_of, exp)
 
 bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
-    return uhset_equals(CowlIndividualSet, lhs->inds, rhs->inds);
+    return cowl_object_set_equals(lhs->inds, rhs->inds);
 }
 
 cowl_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
@@ -67,5 +67,5 @@ cowl_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
 
 bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlIterator *iter,
                                         CowlPrimitiveFlags flags) {
-    return cowl_individual_set_iterate_primitives(exp->inds, iter, flags);
+    return cowl_object_set_iterate_primitives(exp->inds, iter, flags);
 }

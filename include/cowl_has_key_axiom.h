@@ -19,10 +19,9 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlDataPropExpSet);
-cowl_hash_decl(CowlObjPropExpSet);
 cowl_struct_decl(CowlClsExp);
-cowl_vector_decl(CowlAnnotationPtr, CowlAnnotationVec);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_hash_decl(CowlObjectTable);
 cowl_struct_decl(CowlHasKeyAxiom);
 /// @endcond
 
@@ -47,8 +46,8 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlObjPropExpSet *obj_props,
-                                        CowlDataPropExpSet *data_props, CowlAnnotationVec *annot);
+CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlObjectTable *obj_props,
+                                        CowlObjectTable *data_props, CowlObjectVec *annot);
 
 /**
  * Retains the specified axiom.
@@ -91,7 +90,7 @@ CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlObjPropExpSet* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
+CowlObjectTable* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
 
 /**
  * Gets the set of data property expressions that make up the key.
@@ -102,7 +101,7 @@ CowlObjPropExpSet* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlDataPropExpSet* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
+CowlObjectTable* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.
@@ -113,7 +112,7 @@ CowlDataPropExpSet* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlAnnotationVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
+CowlObjectVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

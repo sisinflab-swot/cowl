@@ -24,8 +24,7 @@ cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyID);
 
-typedef uvec_struct(CowlAnnotationPtr) UVec(CowlAnnotationPtr);
-typedef uvec_struct(CowlOntologyPtr) UVec(CowlOntologyPtr);
+typedef uvec_struct(CowlObjectPtr) UVec(CowlObjectPtr);
 typedef uhash_struct(CowlStringTable) UHash(CowlStringTable);
 
 UHASH_DECL(CowlNodeIdMap, CowlString*, CowlNodeID)
@@ -46,8 +45,8 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string);
 CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id);
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyID id);
-cowl_ret cowl_parser_set_imports(CowlParser *parser, UVec(CowlOntologyPtr) *imports);
-cowl_ret cowl_parser_set_annotations(CowlParser *parser, UVec(CowlAnnotationPtr) *annot);
+cowl_ret cowl_parser_set_imports(CowlParser *parser, UVec(CowlObjectPtr) *imports);
+cowl_ret cowl_parser_set_annotations(CowlParser *parser, UVec(CowlObjectPtr) *annot);
 cowl_ret cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom);
 cowl_ret cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns);
 

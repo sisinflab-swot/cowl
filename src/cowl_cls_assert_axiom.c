@@ -15,7 +15,7 @@
 #include "cowl_template.h"
 
 static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, CowlClsExp *exp,
-                                                       CowlAnnotationVec *annot) {
+                                                       CowlObjectVec *annot) {
     CowlClsAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -40,7 +40,7 @@ static void cowl_cls_assert_axiom_free(CowlClsAssertAxiom *axiom) {
 }
 
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp,
-                                              CowlAnnotationVec *annot) {
+                                              CowlObjectVec *annot) {
     if (!(ind && exp)) return NULL;
     return cowl_cls_assert_axiom_alloc(ind, exp, annot);
 }
@@ -63,7 +63,7 @@ CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
     return axiom->cls_exp;
 }
 
-CowlAnnotationVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
+CowlObjectVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

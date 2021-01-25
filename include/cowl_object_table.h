@@ -1,17 +1,17 @@
 /**
- * Declares CowlIndividualSet and its API.
+ * Declares CowlObjectTable and its API.
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
  */
 
-#ifndef COWL_INDIVIDUAL_SET_H
-#define COWL_INDIVIDUAL_SET_H
+#ifndef COWL_OBJECT_TABLE_H
+#define COWL_OBJECT_TABLE_H
 
 #include "cowl_iterator.h"
 #include "cowl_std.h"
@@ -19,16 +19,14 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlIndividual);
-
-UHASH_DECL_SPEC(CowlIndividualSet, CowlIndividual*, UHASH_VAL_IGNORE, COWL_PUBLIC)
-cowl_hash_decl(CowlIndividualSet);
+UHASH_DECL_SPEC(CowlObjectTable, void*, void*, COWL_PUBLIC)
+cowl_hash_decl(CowlObjectTable);
 /// @endcond
 
 /**
- * UHash set of CowlIndividual * elements.
+ * UHash table of CowlObject * elements.
  *
- * @struct CowlIndividualSet
+ * @struct CowlObjectTable
  * @extends UHash
  */
 
@@ -37,10 +35,10 @@ cowl_hash_decl(CowlIndividualSet);
  *
  * @param set The set.
  *
- * @public @memberof CowlIndividualSet
+ * @public @memberof CowlObjectTable
  */
 COWL_PUBLIC
-void cowl_individual_set_free(CowlIndividualSet *set);
+void cowl_object_set_free(CowlObjectTable *set);
 
 /**
  * Equality function.
@@ -49,10 +47,10 @@ void cowl_individual_set_free(CowlIndividualSet *set);
  * @param rhs RHS of the equality relation.
  * @return True if the equality relation holds, false otherwise.
  *
- * @public @memberof CowlIndividualSet
+ * @public @memberof CowlObjectTable
  */
 COWL_PUBLIC
-bool cowl_individual_set_equals(CowlIndividualSet *lhs, CowlIndividualSet *rhs);
+bool cowl_object_set_equals(CowlObjectTable *lhs, CowlObjectTable *rhs);
 
 /**
  * Hash function.
@@ -60,10 +58,10 @@ bool cowl_individual_set_equals(CowlIndividualSet *lhs, CowlIndividualSet *rhs);
  * @param set The set.
  * @return The hash value.
  *
- * @public @memberof CowlIndividualSet
+ * @public @memberof CowlObjectTable
  */
 COWL_PUBLIC
-cowl_uint cowl_individual_set_hash(CowlIndividualSet *set);
+cowl_uint cowl_object_set_hash(CowlObjectTable *set);
 
 /**
  * Iterates over the primitives referenced by the specified set.
@@ -73,12 +71,12 @@ cowl_uint cowl_individual_set_hash(CowlIndividualSet *set);
  * @param flags Iteration flags.
  * @return True if the iteration was completed, false if it was stopped.
  *
- * @public @memberof CowlIndividualSet
+ * @public @memberof CowlObjectTable
  */
 COWL_PUBLIC
-bool cowl_individual_set_iterate_primitives(CowlIndividualSet *set, CowlIterator *iter,
-                                            CowlPrimitiveFlags flags);
+bool cowl_object_set_iterate_primitives(CowlObjectTable *set, CowlIterator *iter,
+                                        CowlPrimitiveFlags flags);
 
 COWL_END_DECLS
 
-#endif // COWL_INDIVIDUAL_SET_H
+#endif // COWL_OBJECT_TABLE_H

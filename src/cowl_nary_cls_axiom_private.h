@@ -17,7 +17,7 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlNAryClsAxiom,
-    CowlClsExpSet *classes;
+    CowlObjectTable *classes;
 );
 
 COWL_END_DECLS

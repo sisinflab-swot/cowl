@@ -129,15 +129,8 @@ cowl_ret cowl_str_buf_append_annot_prop_range_axiom(CowlStrBuf *buf, CowlAnnotPr
 
 // Collections
 
-cowl_ret cowl_str_buf_append_cls_exp_set(CowlStrBuf *buf, CowlClsExpSet *set);
-cowl_ret cowl_str_buf_append_data_prop_exp_set(CowlStrBuf *buf, CowlDataPropExpSet *set);
-cowl_ret cowl_str_buf_append_data_range_set(CowlStrBuf *buf, CowlDataRangeSet *set);
-cowl_ret cowl_str_buf_append_facet_restr_set(CowlStrBuf *buf, CowlFacetRestrSet *set);
-cowl_ret cowl_str_buf_append_individual_set(CowlStrBuf *buf, CowlIndividualSet *set);
-cowl_ret cowl_str_buf_append_literal_set(CowlStrBuf *buf, CowlLiteralSet *set);
-cowl_ret cowl_str_buf_append_obj_prop_exp_set(CowlStrBuf *buf, CowlObjPropExpSet *set);
-cowl_ret cowl_str_buf_append_annotation_vec(CowlStrBuf *buf, CowlAnnotationVec *vec);
-cowl_ret cowl_str_buf_append_obj_prop_exp_vec(CowlStrBuf *buf, CowlObjPropExpVec *vec);
+cowl_ret cowl_str_buf_append_object_set(CowlStrBuf *buf, CowlObjectTable *set);
+cowl_ret cowl_str_buf_append_object_vec(CowlStrBuf *buf, CowlObjectVec *vec);
 
 // Output
 

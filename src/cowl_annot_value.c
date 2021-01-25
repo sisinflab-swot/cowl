@@ -9,9 +9,6 @@
  */
 
 #include "cowl_annot_value.h"
-#include "cowl_anon_ind.h"
-#include "cowl_iri.h"
-#include "cowl_literal.h"
 #include "cowl_object_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
@@ -21,15 +18,7 @@ CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) {
 }
 
 void cowl_annot_value_release(CowlAnnotValue *value) {
-
-#define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)value); break
-
-    switch (cowl_annot_value_get_type(value)) {
-        case COWL_AVT_IRI: GEN_RELEASE(IRI, iri);
-        case COWL_AVT_ANON_IND: GEN_RELEASE(AnonInd, anon_ind);
-        case COWL_AVT_LITERAL: GEN_RELEASE(Literal, literal);
-        default: break;
-    }
+    cowl_object_release((CowlObject *)value);
 }
 
 CowlAnnotValueType cowl_annot_value_get_type(CowlAnnotValue *value) {
@@ -44,38 +33,14 @@ CowlString* cowl_annot_value_to_string(CowlAnnotValue *value)
     COWL_TO_STRING_IMPL(annot_value, value)
 
 bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs) {
-    if (!cowl_object_equals_impl(lhs, rhs)) return false;
-
-#define GEN_EQUALS(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
-
-    switch (cowl_annot_value_get_type(lhs)) {
-        case COWL_AVT_IRI: GEN_EQUALS(IRI, iri);
-        case COWL_AVT_ANON_IND: GEN_EQUALS(AnonInd, anon_ind);
-        case COWL_AVT_LITERAL: GEN_EQUALS(Literal, literal);
-        default: return false;
-    }
+    return cowl_object_equals((CowlObject *)lhs, (CowlObject *)rhs);
 }
 
 cowl_uint cowl_annot_value_hash(CowlAnnotValue *value) {
-
-#define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)value)
-
-    switch (cowl_annot_value_get_type(value)) {
-        case COWL_AVT_IRI: GEN_HASH(IRI, iri);
-        case COWL_AVT_ANON_IND: GEN_HASH(AnonInd, anon_ind);
-        case COWL_AVT_LITERAL: GEN_HASH(Literal, literal);
-        default: return 0;
-    }
+    return cowl_object_hash((CowlObject *)value);
 }
 
 bool cowl_annot_value_iterate_primitives(CowlAnnotValue *value, CowlIterator *iter,
                                          CowlPrimitiveFlags flags) {
-
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)value, iter, flags)
-
-    switch (cowl_annot_value_get_type(value)) {
-        case COWL_AVT_ANON_IND: GEN_ITER(AnonInd, anon_ind);
-        case COWL_AVT_LITERAL: GEN_ITER(Literal, literal);
-        default: return true;
-    }
+    return cowl_object_iterate_primitives((CowlObject *)value, iter, flags);
 }

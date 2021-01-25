@@ -11,15 +11,15 @@
 #include "cowl_data_one_of_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
-#include "cowl_literal_set.h"
+#include "cowl_object_table.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlDataOneOf* cowl_data_one_of_alloc(CowlLiteralSet *values) {
+static CowlDataOneOf* cowl_data_one_of_alloc(CowlObjectTable *values) {
     CowlDataOneOf *range = cowl_alloc(range);
     if (!range) return NULL;
 
-    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_literal_set_hash(values));
+    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_object_set_hash(values));
 
     *range = (CowlDataOneOf) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_ONE_OF, hash),
@@ -31,11 +31,11 @@ static CowlDataOneOf* cowl_data_one_of_alloc(CowlLiteralSet *values) {
 
 static void cowl_data_one_of_free(CowlDataOneOf *range) {
     if (!range) return;
-    cowl_literal_set_free(range->values);
+    cowl_object_set_free(range->values);
     cowl_free(range);
 }
 
-CowlDataOneOf* cowl_data_one_of_get(CowlLiteralSet *values) {
+CowlDataOneOf* cowl_data_one_of_get(CowlObjectTable *values) {
     if (!values) return NULL;
     return cowl_data_one_of_alloc(values);
 }
@@ -50,7 +50,7 @@ void cowl_data_one_of_release(CowlDataOneOf *range) {
     }
 }
 
-CowlLiteralSet* cowl_data_one_of_get_values(CowlDataOneOf *range) {
+CowlObjectTable* cowl_data_one_of_get_values(CowlDataOneOf *range) {
     return range->values;
 }
 
@@ -58,7 +58,7 @@ CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range)
     COWL_TO_STRING_IMPL(data_one_of, range)
 
 bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {
-    return cowl_literal_set_equals(lhs->values, rhs->values);
+    return cowl_object_set_equals(lhs->values, rhs->values);
 }
 
 cowl_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
@@ -67,5 +67,5 @@ cowl_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
 
 bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlIterator *iter,
                                          CowlPrimitiveFlags flags) {
-    return cowl_literal_set_iterate_primitives(range->values, iter, flags);
+    return cowl_object_set_iterate_primitives(range->values, iter, flags);
 }

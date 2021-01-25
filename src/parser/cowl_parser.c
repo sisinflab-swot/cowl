@@ -9,7 +9,6 @@
  */
 
 #include "cowl_parser_private.h"
-#include "cowl_annotation_vec.h"
 #include "cowl_config_private.h"
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
@@ -105,13 +104,13 @@ void cowl_parser_set_id(CowlParser *parser, CowlOntologyID id) {
     cowl_ontology_set_id(parser->ontology, id);
 }
 
-cowl_ret cowl_parser_set_imports(CowlParser *parser, UVec(CowlOntologyPtr) *imports) {
+cowl_ret cowl_parser_set_imports(CowlParser *parser, UVec(CowlObjectPtr) *imports) {
     cowl_ret ret = cowl_ontology_set_imports(parser->ontology, imports);
     if (ret) cowl_parser_handle_error_type(parser, ret);
     return ret;
 }
 
-cowl_ret cowl_parser_set_annotations(CowlParser *parser, UVec(CowlAnnotationPtr) *annot) {
+cowl_ret cowl_parser_set_annotations(CowlParser *parser, UVec(CowlObjectPtr) *annot) {
     cowl_ret ret = cowl_ontology_set_annot(parser->ontology, annot);
     if (ret) cowl_parser_handle_error_type(parser, ret);
     return ret;

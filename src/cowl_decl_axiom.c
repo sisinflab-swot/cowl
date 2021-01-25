@@ -13,7 +13,7 @@
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlAnnotationVec *annot) {
+static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlObjectVec *annot) {
     CowlDeclAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -34,7 +34,7 @@ static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
     cowl_axiom_free(axiom);
 }
 
-CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlAnnotationVec *annot) {
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlObjectVec *annot) {
     return cowl_decl_axiom_alloc(entity, annot);
 }
 
@@ -52,7 +52,7 @@ CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
     return axiom->entity;
 }
 
-CowlAnnotationVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
+CowlObjectVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

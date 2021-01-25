@@ -14,7 +14,7 @@
 #include "cowl_template.h"
 
 static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *super,
-                                                 CowlAnnotationVec *annot) {
+                                                 CowlObjectVec *annot) {
     CowlSubClsAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -39,7 +39,7 @@ static void cowl_sub_cls_axiom_free(CowlSubClsAxiom *axiom) {
 }
 
 CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super,
-                                        CowlAnnotationVec *annot) {
+                                        CowlObjectVec *annot) {
     if (!(sub && super)) return NULL;
     return cowl_sub_cls_axiom_alloc(sub, super, annot);
 }
@@ -62,7 +62,7 @@ CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
     return axiom->sub_class;
 }
 
-CowlAnnotationVec* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
+CowlObjectVec* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
