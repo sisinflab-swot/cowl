@@ -12,13 +12,13 @@
 #define COWL_PARSER_PRIVATE_H
 
 #include "cowl_parser.h"
-#include "cowl_node_id.h"
 #include "cowl_object_private.h"
 #include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlAxiom);
+cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlOntology);
@@ -27,12 +27,10 @@ cowl_struct_decl(CowlOntologyID);
 typedef uvec_struct(CowlObjectPtr) UVec(CowlObjectPtr);
 typedef uhash_struct(CowlObjectTable) UHash(CowlObjectTable);
 
-UHASH_DECL(CowlNodeIdMap, CowlString*, CowlNodeID)
-
 cowl_struct(CowlParser) {
     CowlObject super;
     UHash(CowlObjectTable) *prefix_ns_map;
-    UHash(CowlNodeIdMap) *node_id_map;
+    UHash(CowlObjectTable) *anon_ind_map;
     CowlOntology *ontology;
     CowlString *source;
     void *scanner;
@@ -42,7 +40,7 @@ cowl_struct(CowlParser) {
 
 cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import);
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string);
-CowlNodeID cowl_parser_get_node_id(CowlParser *parser, CowlRawString id);
+CowlAnonInd* cowl_parser_get_anon_ind(CowlParser *parser, CowlRawString id);
 
 void cowl_parser_set_id(CowlParser *parser, CowlOntologyID id);
 cowl_ret cowl_parser_set_imports(CowlParser *parser, UVec(CowlObjectPtr) *imports);

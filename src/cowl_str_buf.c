@@ -15,13 +15,7 @@
 
 UVEC_IMPL(CowlChar)
 
-#if COWL_UINT_MAX <= 0xffff
-    #define COWL_UINT_MAX_DIGITS 5
-#elif COWL_UINT_MAX <= 0xffffffff
-    #define COWL_UINT_MAX_DIGITS 10
-#else
-    #define COWL_UINT_MAX_DIGITS 20
-#endif
+#define UINT_MAX_DIGITS 20
 
 static char* cowl_str_buf_deinit_get_storage(CowlStrBuf *buf) {
     char *storage = buf->storage.storage;
@@ -185,8 +179,8 @@ cowl_ret cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value)
     }
 }
 
-cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, cowl_uint uint) {
-    if (uvec_expand(CowlChar, &buf->storage, (uvec_uint)(COWL_UINT_MAX_DIGITS + 1)) != UVEC_OK) {
+cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, uint64_t uint) {
+    if (uvec_expand(CowlChar, &buf->storage, (uvec_uint)(UINT_MAX_DIGITS + 1)) != UVEC_OK) {
         buf->ret = COWL_ERR_MEM;
     } else {
         size_t len = cowl_str_from_uint(uint, buf->storage.storage + buf->storage.count);
@@ -278,7 +272,7 @@ cowl_ret cowl_str_buf_append_anon_ind(CowlStrBuf *buf, CowlAnonInd *ind) {
     cowl_str_buf_append_static(buf, "Anonymous");
     cowl_str_buf_append_static(buf, "Individual");
     cowl_str_buf_append_static(buf, "(");
-    cowl_str_buf_append_node_id(buf, ind->id);
+    cowl_str_buf_append_node_id(buf, cowl_anon_ind_get_id(ind));
     cowl_str_buf_append_static(buf, ")");
     return buf->ret;
 }

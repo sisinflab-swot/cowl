@@ -36,13 +36,12 @@ cowl_struct_decl(CowlAnonInd);
 /**
  * Returns a retained anonymous individual.
  *
- * @param id The node ID.
  * @return Retained anonymous individual, or NULL on error.
  *
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-CowlAnonInd* cowl_anon_ind_get(CowlNodeID id);
+CowlAnonInd* cowl_anon_ind_get(void);
 
 /**
  * Retains the specified anonymous individual.

@@ -18,11 +18,7 @@ COWL_BEGIN_DECLS
 
 cowl_struct(CowlAnonInd) {
     CowlIndividual super;
-    CowlNodeID id;
 };
-
-cowl_ret cowl_anon_ind_api_init(void);
-void cowl_anon_ind_api_deinit(void);
 
 COWL_END_DECLS
 

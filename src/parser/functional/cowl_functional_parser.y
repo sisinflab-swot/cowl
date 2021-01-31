@@ -110,7 +110,6 @@
 %type <CowlOntology *> import
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue *> annotation_subject annotation_value
-%type <CowlNodeID> node_id
 %type <CowlOntologyID> ontology_id
 %type <cowl_uint> cardinality
 
@@ -366,14 +365,8 @@ named_individual
 ;
 
 anonymous_individual
-    : node_id {
-        $$ = (CowlIndividual *)cowl_anon_ind_get($1);
-    }
-;
-
-node_id
     : BLANK_NODE_LABEL {
-        $$ = cowl_parser_get_node_id(parser, $1);
+        $$ = (CowlIndividual *)cowl_parser_get_anon_ind(parser, $1);
     }
 ;
 

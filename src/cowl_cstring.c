@@ -21,7 +21,7 @@ char* cowl_str_dup(char const *string, size_t length) {
     return buf;
 }
 
-size_t cowl_str_from_uint(cowl_uint uint, char *buf) {
+size_t cowl_str_from_uint(uint64_t uint, char *buf) {
     char *cur = buf;
 
     do {
@@ -41,11 +41,11 @@ size_t cowl_str_from_uint(cowl_uint uint, char *buf) {
     return len;
 }
 
-cowl_uint cowl_str_to_uint(char const *string, size_t length) {
+uint64_t cowl_str_to_uint(char const *string, size_t length) {
     cowl_uint res = 0;
 
     for (char const *last = string + length; string < last; ++string) {
-        if (*string < '0' || *string > '9') return COWL_UINT_MAX;
+        if (*string < '0' || *string > '9') return (uint64_t)-1;
         res = res * 10 + (*string - '0');
     }
 

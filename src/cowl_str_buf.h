@@ -51,7 +51,7 @@ cowl_ret cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr)
 cowl_ret cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id);
 cowl_ret cowl_str_buf_append_annotation(CowlStrBuf *buf, CowlAnnotation *annotation);
 cowl_ret cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value);
-cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, cowl_uint uint);
+cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, uint64_t uint);
 
 // Entities and Primitives
 

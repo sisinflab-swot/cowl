@@ -26,24 +26,14 @@ cowl_struct_decl(CowlString);
  *
  * @public @memberof CowlAnonInd
  */
-typedef cowl_uint CowlNodeID;
+typedef uintptr_t CowlNodeID;
 
 /**
  * Null node ID.
  *
  * @public @related CowlAnonInd
  */
-#define COWL_NODE_ID_NULL 0U
-
-/**
- * Returns an unique node ID.
- *
- * @return Unique node ID.
- *
- * @public @related CowlAnonInd
- */
-COWL_PUBLIC
-CowlNodeID cowl_node_id_get_unique(void);
+#define COWL_NODE_ID_NULL ((CowlNodeID)NULL)
 
 /**
  * Returns the string representation of the specified node ID.
@@ -77,7 +67,7 @@ CowlString* cowl_node_id_to_string(CowlNodeID id);
  *
  * @public @related CowlAnonInd
  */
-#define cowl_node_id_hash(ID) (ID)
+#define cowl_node_id_hash(ID) (uhash_ptr_hash(ID))
 
 COWL_END_DECLS
 

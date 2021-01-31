@@ -10,7 +10,6 @@
 
 #include "cowl_config_private.h"
 #include "cowl_annot_prop_private.h"
-#include "cowl_anon_ind_private.h"
 #include "cowl_class_private.h"
 #include "cowl_data_prop_private.h"
 #include "cowl_datatype_private.h"
@@ -41,7 +40,6 @@ cowl_ret cowl_api_init(void) {
     cowl_api_initialized = true;
 
     if (cowl_annot_prop_api_init() ||
-        cowl_anon_ind_api_init() ||
         cowl_class_api_init() ||
         cowl_data_prop_api_init() ||
         cowl_datatype_api_init() ||
@@ -68,7 +66,6 @@ void cowl_api_deinit(void) {
     cowl_rdfs_vocab_deinit();
     cowl_xsd_vocab_deinit();
     cowl_annot_prop_api_deinit();
-    cowl_anon_ind_api_deinit();
     cowl_class_api_deinit();
     cowl_data_prop_api_deinit();
     cowl_datatype_api_deinit();
