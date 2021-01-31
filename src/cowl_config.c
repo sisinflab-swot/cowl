@@ -15,7 +15,6 @@
 #include "cowl_data_prop_private.h"
 #include "cowl_datatype_private.h"
 #include "cowl_facet_private.h"
-#include "cowl_inv_obj_prop_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_named_ind_private.h"
 #include "cowl_obj_prop_private.h"
@@ -46,7 +45,6 @@ cowl_ret cowl_api_init(void) {
         cowl_class_api_init() ||
         cowl_data_prop_api_init() ||
         cowl_datatype_api_init() ||
-        cowl_inv_obj_prop_api_init() ||
         cowl_iri_api_init() ||
         cowl_named_ind_api_init() ||
         cowl_obj_prop_api_init() ||
@@ -74,7 +72,6 @@ void cowl_api_deinit(void) {
     cowl_class_api_deinit();
     cowl_data_prop_api_deinit();
     cowl_datatype_api_deinit();
-    cowl_inv_obj_prop_api_deinit();
     cowl_iri_api_deinit();
     cowl_named_ind_api_deinit();
     cowl_obj_prop_api_deinit();

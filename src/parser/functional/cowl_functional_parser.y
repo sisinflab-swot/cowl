@@ -488,7 +488,7 @@ datatype_restriction
 
 facet_restriction_list
     : facet_restriction {
-        $$ = uhset_alloc(CowlObjectTable);
+        $$ = cowl_facet_restr_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $1) == UHASH_ERR) COWL_ERROR_MEM;
     }
     | facet_restriction_list facet_restriction {
@@ -1135,7 +1135,7 @@ annotation_star
 
 class_expression_list
     : class_expression {
-        $$ = uhset_alloc(CowlObjectTable);
+        $$ = cowl_cls_exp_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $1) == UHASH_ERR) COWL_ERROR_MEM;
     }
     | class_expression_list class_expression {
@@ -1153,7 +1153,7 @@ class_expression_2_list
 
 data_property_expression_list
     : data_property_expression {
-        $$ = uhset_alloc(CowlObjectTable);
+        $$ = cowl_data_prop_exp_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $1) == UHASH_ERR) COWL_ERROR_MEM;
     }
     | data_property_expression_list data_property_expression {
@@ -1174,14 +1174,14 @@ data_property_expression_star
         $$ = NULL;
     }
     | data_property_expression_star data_property_expression {
-        $$ = $1 ? $1 : uhset_alloc(CowlObjectTable);
+        $$ = $1 ? $1 : cowl_data_prop_exp_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $2) == UHASH_ERR) COWL_ERROR_MEM;
     }
 ;
 
 data_range_list
     : data_range {
-        $$ = uhset_alloc(CowlObjectTable);
+        $$ = cowl_data_range_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $1) == UHASH_ERR) COWL_ERROR_MEM;
     }
     | data_range_list data_range {
@@ -1211,7 +1211,7 @@ import_star
 
 individual_list
     : individual {
-        $$ = uhset_alloc(CowlObjectTable);
+        $$ = cowl_individual_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $1) == UHASH_ERR) COWL_ERROR_MEM;
     }
     | individual_list individual {
@@ -1229,7 +1229,7 @@ individual_2_list
 
 literal_list
     : literal {
-        $$ = uhset_alloc(CowlObjectTable);
+        $$ = cowl_literal_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $1) == UHASH_ERR) COWL_ERROR_MEM;
     }
     | literal_list literal {
@@ -1240,7 +1240,7 @@ literal_list
 
 object_property_expression_list
     : object_property_expression {
-        $$ = uhset_alloc(CowlObjectTable);
+        $$ = cowl_obj_prop_exp_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $1) == UHASH_ERR) COWL_ERROR_MEM;
     }
     | object_property_expression_list object_property_expression {
@@ -1276,7 +1276,7 @@ object_property_expression_star
         $$ = NULL;
     }
     | object_property_expression_star object_property_expression {
-        $$ = $1 ? $1 : uhset_alloc(CowlObjectTable);
+        $$ = $1 ? $1 : cowl_obj_prop_exp_set_alloc();
         if (!$$ || uhset_insert(CowlObjectTable, $$, $2) == UHASH_ERR) COWL_ERROR_MEM;
     }
 ;

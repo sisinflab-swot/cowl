@@ -19,7 +19,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-UHASH_DECL_SPEC(CowlObjectTable, void*, void*, COWL_PUBLIC)
+UHASH_DECL_PI_SPEC(CowlObjectTable, void*, void*, COWL_PUBLIC)
 cowl_hash_decl(CowlObjectTable);
 /// @endcond
 
@@ -29,6 +29,69 @@ cowl_hash_decl(CowlObjectTable);
  * @struct CowlObjectTable
  * @extends UHash
  */
+
+/**
+ * Allocates a new set of CowlClsExp instances.
+ *
+ * @return New set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+UHash(CowlObjectTable)* cowl_cls_exp_set_alloc(void);
+
+/**
+ * Allocates a new set of CowlDataPropExp instances.
+ *
+ * @return New set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+UHash(CowlObjectTable)* cowl_data_prop_exp_set_alloc(void);
+
+/**
+ * Allocates a new set of CowlDataRange instances.
+ *
+ * @return New set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+UHash(CowlObjectTable)* cowl_data_range_set_alloc(void);
+
+/**
+ * Allocates a new set of CowlFacetRestr instances.
+ *
+ * @return New set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+UHash(CowlObjectTable)* cowl_facet_restr_set_alloc(void);
+
+/**
+ * Allocates a new set of CowlIndividual instances.
+ *
+ * @return New set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+UHash(CowlObjectTable)* cowl_individual_set_alloc(void);
+
+/**
+ * Allocates a new set of CowlLiteral instances.
+ *
+ * @return New set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+UHash(CowlObjectTable)* cowl_literal_set_alloc(void);
+
+/**
+ * Allocates a new set of CowlObjPropExp instances.
+ *
+ * @return New set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+UHash(CowlObjectTable)* cowl_obj_prop_exp_set_alloc(void);
 
 /**
  * Deallocates the specified set, releasing its elements.

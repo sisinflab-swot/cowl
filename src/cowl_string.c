@@ -10,21 +10,21 @@
 
 #include "cowl_string_private.h"
 #include "cowl_hash_utils.h"
+#include "cowl_object_table_private.h"
 #include "cowl_macros.h"
 
-UHASH_IMPL(CowlStringTable, cowl_string_hash, cowl_string_equals)
-static UHash(CowlStringTable) *str_tbl = NULL;
+static UHash(CowlObjectTable) *inst_tbl = NULL;
 static CowlString *empty = NULL;
 
 cowl_ret cowl_string_api_init(void) {
-    str_tbl = uhset_alloc(CowlStringTable);
+    inst_tbl = cowl_string_map_alloc();
     empty = cowl_string_from_static("");
-    return (str_tbl && empty) ? COWL_OK : COWL_ERR_MEM;
+    return (inst_tbl && empty) ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_string_api_deinit(void) {
     cowl_string_release(empty);
-    uhash_free(CowlStringTable, str_tbl);
+    uhash_free(CowlObjectTable, inst_tbl);
 }
 
 CowlString* cowl_string_alloc(CowlRawString raw_string) {
@@ -56,10 +56,10 @@ CowlString* cowl_string_intern(CowlString *string) {
     if (!(string && string->raw_string.length)) return empty;
 
     uhash_uint idx;
-    uhash_ret ret = uhash_put(CowlStringTable, str_tbl, string, &idx);
+    uhash_ret ret = uhash_put(CowlObjectTable, inst_tbl, string, &idx);
 
     if (ret != UHASH_INSERTED) {
-        string = (ret == UHASH_PRESENT) ? uhash_key(str_tbl, idx) : NULL;
+        string = (ret == UHASH_PRESENT) ? uhash_key(inst_tbl, idx) : NULL;
     }
 
     return string;
@@ -120,9 +120,9 @@ CowlString* cowl_string_retain(CowlString *string) {
 void cowl_string_release(CowlString *string) {
     if (string && !cowl_object_decr_ref(string)) {
         // If the string was interned, it must also be removed from the hash set.
-        uhash_uint k = uhash_get(CowlStringTable, str_tbl, string);
-        if (k != UHASH_INDEX_MISSING && uhash_key(str_tbl, k) == string) {
-            uhash_delete(CowlStringTable, str_tbl, k);
+        uhash_uint k = uhash_get(CowlObjectTable, inst_tbl, string);
+        if (k != UHASH_INDEX_MISSING && uhash_key(inst_tbl, k) == string) {
+            uhash_delete(CowlObjectTable, inst_tbl, k);
         }
         cowl_string_free(string);
     }

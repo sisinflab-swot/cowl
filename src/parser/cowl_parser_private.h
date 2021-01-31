@@ -25,13 +25,13 @@ cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyID);
 
 typedef uvec_struct(CowlObjectPtr) UVec(CowlObjectPtr);
-typedef uhash_struct(CowlStringTable) UHash(CowlStringTable);
+typedef uhash_struct(CowlObjectTable) UHash(CowlObjectTable);
 
 UHASH_DECL(CowlNodeIdMap, CowlString*, CowlNodeID)
 
 cowl_struct(CowlParser) {
     CowlObject super;
-    UHash(CowlStringTable) *prefix_ns_map;
+    UHash(CowlObjectTable) *prefix_ns_map;
     UHash(CowlNodeIdMap) *node_id_map;
     CowlOntology *ontology;
     CowlString *source;

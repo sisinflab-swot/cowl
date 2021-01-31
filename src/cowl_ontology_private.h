@@ -41,13 +41,13 @@ cowl_struct(CowlOntology) {
     .id = COWL_ONTOLOGY_ID_ANONYMOUS,                                                               \
     .imports = NULL,                                                                                \
     .annotations = NULL,                                                                            \
-    .annot_prop_refs = uhmap_alloc(CowlObjectTable),                                                \
-    .class_refs = uhmap_alloc(CowlObjectTable),                                                     \
-    .data_prop_refs = uhmap_alloc(CowlObjectTable),                                                 \
-    .datatype_refs = uhmap_alloc(CowlObjectTable),                                                  \
-    .obj_prop_refs = uhmap_alloc(CowlObjectTable),                                                  \
-    .named_ind_refs = uhmap_alloc(CowlObjectTable),                                                 \
-    .anon_ind_refs = uhmap_alloc(CowlObjectTable),                                                  \
+    .annot_prop_refs = cowl_annot_prop_map_alloc(),                                                 \
+    .class_refs = cowl_class_map_alloc(),                                                           \
+    .data_prop_refs = cowl_data_prop_map_alloc(),                                                   \
+    .datatype_refs = cowl_datatype_map_alloc(),                                                     \
+    .obj_prop_refs = cowl_obj_prop_map_alloc(),                                                     \
+    .named_ind_refs = cowl_named_ind_map_alloc(),                                                   \
+    .anon_ind_refs = cowl_anon_ind_map_alloc(),                                                     \
 })
 
 cowl_struct(CowlOntology)* cowl_ontology_get(void);

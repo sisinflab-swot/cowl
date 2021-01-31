@@ -10,31 +10,31 @@
 
 #include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
+#include "cowl_object_table.h"
 #include "cowl_string_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_xml_utils.h"
 #include "cowl_template.h"
 
-static inline cowl_uint cowl_inst_hash(CowlIRI *iri) {
-    return cowl_hash_2(COWL_HASH_INIT_IRI,
-                       uhash_ptr_hash(iri->ns),
-                       cowl_string_hash(iri->rem));
+static UHash(CowlObjectTable) *inst_tbl = NULL;
+
+static uhash_uint inst_tbl_hash(void *key) {
+    return cowl_hash_2(COWL_HASH_INIT_IRI, uhash_ptr_hash(cowl_iri_get_ns(key)),
+                       cowl_string_hash(cowl_iri_get_rem(key)));
 }
 
-static inline bool cowl_inst_eq(CowlIRI *lhs, CowlIRI *rhs) {
-    return lhs->ns == rhs->ns && cowl_string_equals(lhs->rem, rhs->rem);
+static bool inst_tbl_eq(void *lhs, void *rhs) {
+    return cowl_iri_get_ns(lhs) == cowl_iri_get_ns(rhs) &&
+           cowl_string_equals(cowl_iri_get_rem(lhs), cowl_iri_get_rem(rhs));
 }
-
-UHASH_INIT(CowlIRITable, CowlIRI*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
-static UHash(CowlIRITable) *inst_tbl = NULL;
 
 cowl_ret cowl_iri_api_init(void) {
-    inst_tbl = uhset_alloc(CowlIRITable);
+    inst_tbl = uhset_alloc_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
     return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_iri_api_deinit(void) {
-    uhash_free(CowlIRITable, inst_tbl);
+    uhash_free(CowlObjectTable, inst_tbl);
 }
 
 static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
@@ -123,7 +123,7 @@ CowlIRI* cowl_iri_retain(CowlIRI *iri) {
 
 void cowl_iri_release(CowlIRI *iri) {
     if (iri && !cowl_object_decr_ref(iri)) {
-        uhset_remove(CowlIRITable, inst_tbl, iri);
+        uhset_remove(CowlObjectTable, inst_tbl, iri);
         cowl_iri_free(iri);
     }
 }

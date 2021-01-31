@@ -71,6 +71,7 @@
 #include "cowl_obj_prop_range_axiom_private.h"
 #include "cowl_obj_quant_private.h"
 #include "cowl_object_private.h"
+#include "cowl_object_table_private.h"
 #include "cowl_ontology_id_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_owl_vocab_private.h"

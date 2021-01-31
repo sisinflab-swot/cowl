@@ -13,6 +13,7 @@
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
 #include "cowl_iri_private.h"
+#include "cowl_object_table_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
 
@@ -24,7 +25,7 @@ static CowlParser* cowl_parser_alloc(void) {
 
     *parser = (CowlParser) {
         .super = COWL_OBJECT_INIT(COWL_OT_PARSER),
-        .prefix_ns_map = uhmap_alloc(CowlStringTable),
+        .prefix_ns_map = cowl_string_map_alloc(),
         .node_id_map = uhmap_alloc(CowlNodeIdMap)
     };
 
@@ -34,13 +35,13 @@ static CowlParser* cowl_parser_alloc(void) {
 static void cowl_parser_free(CowlParser *parser) {
     if (!parser) return;
 
-    uhash_foreach(CowlStringTable, parser->prefix_ns_map, prefix, ns, {
+    uhash_foreach(CowlObjectTable, parser->prefix_ns_map, prefix, ns, {
         cowl_string_release(prefix);
         cowl_string_release(ns);
     });
-    uhash_free(CowlStringTable, parser->prefix_ns_map);
+    uhash_free(CowlObjectTable, parser->prefix_ns_map);
 
-    uhash_foreach_key(CowlNodeIdMap, parser->node_id_map, id, cowl_string_release(id));
+    uhash_foreach_key(CowlObjectTable, parser->node_id_map, id, cowl_string_release(id));
     uhash_free(CowlNodeIdMap, parser->node_id_map);
 
     cowl_string_release(parser->source);
@@ -133,7 +134,7 @@ cowl_ret cowl_parser_add_axiom(CowlParser *parser, CowlAxiom *axiom) {
 }
 
 cowl_ret cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlString *ns) {
-    uhash_ret ret = uhmap_add(CowlStringTable, parser->prefix_ns_map, prefix, ns, NULL);
+    uhash_ret ret = uhmap_add(CowlObjectTable, parser->prefix_ns_map, prefix, ns, NULL);
 
     if (ret == UHASH_ERR) {
         cowl_parser_handle_error_type(parser, COWL_ERR_MEM);
@@ -192,7 +193,7 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
 
     if (!rem) return NULL;
 
-    CowlString *ns = uhmap_get(CowlStringTable, parser->prefix_ns_map, &ns_str, NULL);
+    CowlString *ns = uhmap_get(CowlObjectTable, parser->prefix_ns_map, &ns_str, NULL);
     CowlIRI *iri = NULL;
 
     if (ns) {

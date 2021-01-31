@@ -9,24 +9,10 @@
  */
 
 #include "cowl_inv_obj_prop_private.h"
+#include "cowl_hash_utils.h"
 #include "cowl_obj_prop.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
-
-#define cowl_inst_hash(X) cowl_obj_prop_hash((X)->prop)
-#define cowl_inst_eq(A, B) cowl_obj_prop_equals((A)->prop, (B)->prop)
-
-UHASH_INIT(CowlInvObjPropTable, CowlInvObjProp*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
-static UHash(CowlInvObjPropTable) *inst_tbl = NULL;
-
-cowl_ret cowl_inv_obj_prop_api_init(void) {
-    inst_tbl = uhset_alloc(CowlInvObjPropTable);
-    return inst_tbl ? COWL_OK : COWL_ERR_MEM;
-}
-
-void cowl_inv_obj_prop_api_deinit(void) {
-    uhash_free(CowlInvObjPropTable, inst_tbl);
-}
 
 static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
     CowlInvObjProp *inv = cowl_alloc(inv);
@@ -47,9 +33,7 @@ static void cowl_inv_obj_prop_free(CowlInvObjProp *inv) {
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
-    if (!prop) return NULL;
-    COWL_INST_TBL_GET_IMPL(InvObjProp, inv_obj_prop, { .prop = prop },
-                           cowl_inv_obj_prop_alloc(prop))
+    return prop ? cowl_inv_obj_prop_alloc(prop) : NULL;
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) {
@@ -58,7 +42,6 @@ CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) {
 
 void cowl_inv_obj_prop_release(CowlInvObjProp *inv) {
     if (inv && !cowl_object_decr_ref(inv)) {
-        uhset_remove(CowlInvObjPropTable, inst_tbl, inv);
         cowl_inv_obj_prop_free(inv);
     }
 }
@@ -71,11 +54,11 @@ CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv)
     COWL_TO_STRING_IMPL(inv_obj_prop, inv)
 
 bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs) {
-    return lhs == rhs;
+    return cowl_obj_prop_equals(lhs->prop, rhs->prop);
 }
 
 cowl_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv) {
-    return uhash_ptr_hash(inv);
+    return cowl_hash_1(COWL_HASH_INIT_INV_OBJ_PROP, cowl_obj_prop_hash(inv->prop));
 }
 
 bool cowl_inv_obj_prop_iterate_primitives(CowlInvObjProp *inv, CowlIterator *iter,

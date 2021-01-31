@@ -9,24 +9,29 @@
  */
 
 #include "cowl_named_ind_private.h"
-#include "cowl_iri_private.h"
+#include "cowl_iri.h"
 #include "cowl_iterator_private.h"
+#include "cowl_object_table.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-#define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
-#define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
+static UHash(CowlObjectTable) *inst_tbl = NULL;
 
-UHASH_INIT(CowlNamedIndTable, CowlNamedInd*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
-static UHash(CowlNamedIndTable) *inst_tbl = NULL;
+static uhash_uint inst_tbl_hash(void *key) {
+    return cowl_iri_hash(cowl_named_ind_get_iri(key));
+}
+
+static bool inst_tbl_eq(void *lhs, void *rhs) {
+    return cowl_iri_equals(cowl_named_ind_get_iri(lhs), cowl_named_ind_get_iri(rhs));
+}
 
 cowl_ret cowl_named_ind_api_init(void) {
-    inst_tbl = uhset_alloc(CowlNamedIndTable);
+    inst_tbl = uhset_alloc_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
     return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_named_ind_api_deinit(void) {
-    uhash_free(CowlNamedIndTable, inst_tbl);
+    uhash_free(CowlObjectTable, inst_tbl);
 }
 
 static CowlNamedInd* cowl_named_ind_alloc(CowlIRI *iri) {
@@ -58,7 +63,7 @@ CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind) {
 
 void cowl_named_ind_release(CowlNamedInd *ind) {
     if (ind && !cowl_object_decr_ref(ind)) {
-        uhset_remove(CowlNamedIndTable, inst_tbl, ind);
+        uhset_remove(CowlObjectTable, inst_tbl, ind);
         cowl_named_ind_free(ind);
     }
 }

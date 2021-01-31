@@ -116,7 +116,8 @@ static cowl_ret cowl_ontology_add_axiom_to_map(CowlObject *entity, CowlAxiom *ax
     return COWL_OK;
 }
 
-static cowl_ret cowl_ontology_add_primitive_to_map(CowlObject *entity, UHash(CowlObjectTable) *map) {
+static cowl_ret cowl_ontology_add_primitive_to_map(CowlObject *entity,
+                                                   UHash(CowlObjectTable) *map) {
     uhash_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, map, entity, &idx);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
@@ -459,7 +460,7 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     UHash(CowlObjectTable) *axioms = onto->axioms_by_type[type];
 
     if (!axioms) {
-        axioms = uhset_alloc(CowlObjectTable);
+        axioms = cowl_axiom_set_alloc();
         if (!axioms) return COWL_ERR_MEM;
         onto->axioms_by_type[type] = axioms;
     }

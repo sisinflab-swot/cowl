@@ -9,24 +9,29 @@
  */
 
 #include "cowl_datatype_private.h"
-#include "cowl_iri_private.h"
+#include "cowl_iri.h"
 #include "cowl_iterator_private.h"
+#include "cowl_object_table.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-#define cowl_inst_hash(X) cowl_iri_hash((X)->iri)
-#define cowl_inst_eq(A, B) cowl_iri_equals((A)->iri, (B)->iri)
+static UHash(CowlObjectTable) *inst_tbl = NULL;
 
-UHASH_INIT(CowlDatatypeTable, CowlDatatype*, UHASH_VAL_IGNORE, cowl_inst_hash, cowl_inst_eq)
-static UHash(CowlDatatypeTable) *inst_tbl = NULL;
+static uhash_uint inst_tbl_hash(void *key) {
+    return cowl_iri_hash(cowl_datatype_get_iri(key));
+}
+
+static bool inst_tbl_eq(void *lhs, void *rhs) {
+    return cowl_iri_equals(cowl_datatype_get_iri(lhs), cowl_datatype_get_iri(rhs));
+}
 
 cowl_ret cowl_datatype_api_init(void) {
-    inst_tbl = uhset_alloc(CowlDatatypeTable);
+    inst_tbl = uhset_alloc_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
     return inst_tbl ? COWL_OK : COWL_ERR_MEM;
 }
 
 void cowl_datatype_api_deinit(void) {
-    uhash_free(CowlDatatypeTable, inst_tbl);
+    uhash_free(CowlObjectTable, inst_tbl);
 }
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
@@ -61,7 +66,7 @@ CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) {
 
 void cowl_datatype_release(CowlDatatype *dt) {
     if (dt && !cowl_object_decr_ref(dt)) {
-        uhset_remove(CowlDatatypeTable, inst_tbl, dt);
+        uhset_remove(CowlObjectTable, inst_tbl, dt);
         cowl_datatype_free(dt);
     }
 }
