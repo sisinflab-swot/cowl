@@ -135,7 +135,7 @@ CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length) {
     cowl_uint ns_length = cowl_xml_ns_length(string);
 
     CowlString *parts[2] = { NULL };
-    if (cowl_string_split_two(string, ns_length, parts)) return NULL;
+    if (cowl_string_get_ns_rem(string, ns_length, parts)) return NULL;
 
     CowlIRI *iri = cowl_iri_unvalidated_get(parts[0], parts[1]);
 

@@ -21,7 +21,7 @@ bool cowl_test_string_get_length(void);
 bool cowl_test_string_equals(void);
 bool cowl_test_string_with_format(void);
 bool cowl_test_string_concat(void);
-bool cowl_test_string_get_intern(void);
+bool cowl_test_string_intern(void);
 
 #define COWL_STRING_TESTS                                                                           \
     cowl_test_string_lifecycle,                                                                     \
@@ -30,7 +30,7 @@ bool cowl_test_string_get_intern(void);
     cowl_test_string_equals,                                                                        \
     cowl_test_string_with_format,                                                                   \
     cowl_test_string_concat,                                                                        \
-    cowl_test_string_get_intern
+    cowl_test_string_intern
 
 COWL_END_DECLS
 

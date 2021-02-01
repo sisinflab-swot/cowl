@@ -86,9 +86,12 @@ bool cowl_test_string_concat(void) {
     return true;
 }
 
-bool cowl_test_string_get_intern(void) {
+bool cowl_test_string_intern(void) {
     CowlString *a = cowl_string_from_static(COWL_TEST_STRING);
+    cowl_assert_equal_int(cowl_object_bit_get(a), 0, "CowlObjectFlags bit");
+
     CowlString *ai = cowl_string_intern(a);
+    cowl_assert_equal_int(cowl_object_bit_get(a), 1, "CowlObjectFlags bit");
 
     CowlString *b = cowl_string_from_static(COWL_TEST_STRING);
     CowlString *bi = cowl_string_intern(b);

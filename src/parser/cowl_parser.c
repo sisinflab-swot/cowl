@@ -176,7 +176,7 @@ cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology 
 CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
     cowl_uint ns_length = cowl_raw_string_index_of(string, ':') + 1;
 
-    // We might use 'cowl_string_split_two' to obtain a prefix/suffix split, though
+    // We might use 'cowl_string_get_ns_rem' to obtain a prefix/suffix split, though
     // this involves two allocations: one for the prefix, and one for the suffix.
     // Since we only need the prefix for a hash table lookup, we can avoid its allocation
     // on the heap and keep it on the stack instead.

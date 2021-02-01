@@ -46,7 +46,7 @@ cowl_struct(CowlAxiom) {
     cowl_free(AXIOM);                                                                               \
 } while(0)
 
-#define cowl_axiom_has_annot(AXIOM) cowl_object_flags_has_bit(((CowlObject *)(AXIOM))->flags)
+#define cowl_axiom_has_annot(AXIOM) cowl_object_bit_get(AXIOM)
 #define cowl_axiom_get_annot(AXIOM) (cowl_axiom_has_annot(AXIOM) ? (AXIOM)->annot[0] : NULL)
 
 #define cowl_axiom_equals_impl(LHS, RHS, EXP) (                                                     \

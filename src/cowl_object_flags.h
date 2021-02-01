@@ -61,6 +61,8 @@ typedef UFlags(COWL_OBJECT_FLAGS_SIZE) CowlObjectFlags;
 
 #define cowl_object_flags_has_bit(FLAGS) \
     uflags_is_set(COWL_OBJECT_FLAGS_SIZE, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
+#define cowl_object_flags_set_bit(FLAGS) \
+    uflags_set(COWL_OBJECT_FLAGS_SIZE, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
 
 #define cowl_object_flags_get_type(FLAGS) \
     ((CowlObjectType)(((FLAGS) & COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))

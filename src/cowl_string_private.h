@@ -31,7 +31,7 @@ CowlString cowl_string_init(CowlRawString raw_string);
 CowlString* cowl_string_intern(CowlString *string);
 
 CowlString* cowl_string_copy(CowlString *string);
-cowl_ret cowl_string_split_two(CowlRawString string, cowl_uint lhs_length, CowlString **out);
+cowl_ret cowl_string_get_ns_rem(CowlRawString string, cowl_uint ns_length, CowlString **out);
 
 COWL_END_DECLS
 

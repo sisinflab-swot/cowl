@@ -52,14 +52,42 @@ static void cowl_string_free(CowlString *string) {
     cowl_free(string);
 }
 
+static CowlString* cowl_string_get_intern(CowlRawString raw_string, bool copy) {
+    if (!raw_string.length) return cowl_string_get_empty();
+
+    CowlString *string;
+    CowlString key = cowl_string_init(raw_string);
+
+    uhash_uint idx;
+    uhash_ret ret = uhash_put(CowlObjectTable, inst_tbl, &key, &idx);
+
+    if (ret == UHASH_PRESENT) {
+        string = uhash_key(inst_tbl, idx);
+        cowl_string_retain(string);
+    } else if (ret == UHASH_INSERTED) {
+        if (copy) raw_string = cowl_raw_string_copy(raw_string);
+        string = cowl_string_alloc(raw_string);
+        cowl_object_bit_set(string);
+        uhash_key(inst_tbl, idx) = string;
+    } else {
+        string = NULL;
+    }
+
+    return string;
+}
+
 CowlString* cowl_string_intern(CowlString *string) {
     if (!(string && string->raw_string.length)) return empty;
 
     uhash_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, inst_tbl, string, &idx);
 
-    if (ret != UHASH_INSERTED) {
-        string = (ret == UHASH_PRESENT) ? uhash_key(inst_tbl, idx) : NULL;
+    if (ret == UHASH_INSERTED) {
+        cowl_object_bit_set(string);
+    } else if (ret == UHASH_PRESENT) {
+        string = uhash_key(inst_tbl, idx);
+    } else {
+        string = NULL;
     }
 
     return string;
@@ -76,17 +104,18 @@ CowlString* cowl_string_copy(CowlString *string) {
     return copy;
 }
 
-cowl_ret cowl_string_split_two(CowlRawString string, cowl_uint lhs_length, CowlString **out) {
-    CowlString *lhs, *rhs;
+cowl_ret cowl_string_get_ns_rem(CowlRawString string, cowl_uint ns_length, CowlString **out) {
+    CowlString *rhs;
 
-    if (lhs_length < string.length) {
-        lhs = cowl_string_get(string.cstring, lhs_length, true);
-        rhs = cowl_string_get(string.cstring + lhs_length, string.length - lhs_length, true);
+    if (ns_length < string.length) {
+        rhs = cowl_string_get(string.cstring + ns_length, string.length - ns_length, true);
     } else {
-        lhs = cowl_string_get(string.cstring, string.length, true);
+        ns_length = string.length;
         rhs = cowl_string_get_empty();
     }
 
+    CowlRawString raw_string = cowl_raw_string_init(string.cstring, ns_length, false);
+    CowlString *lhs = cowl_string_get_intern(raw_string, true);
     cowl_ret ret;
 
     if (lhs && rhs) {
@@ -120,10 +149,7 @@ CowlString* cowl_string_retain(CowlString *string) {
 void cowl_string_release(CowlString *string) {
     if (string && !cowl_object_decr_ref(string)) {
         // If the string was interned, it must also be removed from the hash set.
-        uhash_uint k = uhash_get(CowlObjectTable, inst_tbl, string);
-        if (k != UHASH_INDEX_MISSING && uhash_key(inst_tbl, k) == string) {
-            uhash_delete(CowlObjectTable, inst_tbl, k);
-        }
+        if (cowl_object_bit_get(string)) uhset_remove(CowlObjectTable, inst_tbl, string);
         cowl_string_free(string);
     }
 }
