@@ -35,8 +35,7 @@ CowlString* cowl_string_alloc(CowlRawString raw_string) {
 }
 
 CowlString cowl_string_init(CowlRawString raw_string) {
-    cowl_uint shash = cowl_raw_string_is_null(raw_string) ? 0 : cowl_raw_string_hash(raw_string);
-    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_STRING, raw_string.length, shash);
+    cowl_uint hash = cowl_raw_string_is_null(raw_string) ? 0 : cowl_raw_string_hash(raw_string);
 
     CowlString init = {
         .super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash),

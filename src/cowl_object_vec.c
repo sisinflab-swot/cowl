@@ -28,7 +28,7 @@ cowl_uint cowl_object_vec_hash(CowlObjectVec *vec) {
     cowl_uint hash = 0;
 
     uvec_foreach(CowlObjectPtr, vec, prop, {
-        hash = cowl_hash_iter(hash, cowl_object_hash(prop));
+        hash = cowl_hash_1(hash, cowl_object_hash(prop));
     });
 
     return hash;

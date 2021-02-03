@@ -9,6 +9,7 @@
  */
 
 #include "cowl_raw_string.h"
+#include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
 
 CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy) {
@@ -53,14 +54,14 @@ cowl_uint cowl_raw_string_hash(CowlRawString string) {
     char const *cstr = string.cstring;
 
     cowl_uint const part_size = 32;
-    cowl_uint hash = (cowl_uint)cstr[0];
+    cowl_uint hash = length;
 
     if (length <= 3 * part_size) {
-        cowl_cstring_hash_range(hash, cstr, 1, length);
+        cowl_cstring_hash_range(hash, cstr, 0, length);
     } else {
         uhash_uint const half_idx = length / 2;
         uhash_uint const half_part_size = part_size / 2;
-        cowl_cstring_hash_range(hash, cstr, 1, part_size);
+        cowl_cstring_hash_range(hash, cstr, 0, part_size);
         cowl_cstring_hash_range(hash, cstr, half_idx - half_part_size, half_idx + half_part_size);
         cowl_cstring_hash_range(hash, cstr, length - part_size, length);
     }

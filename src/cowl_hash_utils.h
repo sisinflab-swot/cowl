@@ -13,9 +13,6 @@
 
 #include "cowl_std.h"
 
-#define COWL_HASH_MULT 31
-
-#define COWL_HASH_INIT_STRING 3
 #define COWL_HASH_INIT_IRI 5
 #define COWL_HASH_INIT_OBJ_COMPL 7
 #define COWL_HASH_INIT_NARY_BOOL 11
@@ -72,12 +69,10 @@
 #define COWL_HASH_INIT_ONTO 991
 #define COWL_HASH_INIT_ONTO_ID 997
 
-#define cowl_hash_iter(hash_acc, hash_new) ((hash_acc) * COWL_HASH_MULT + (hash_new))
-
-#define cowl_hash_1(init, a) (cowl_hash_iter(init, a))
-#define cowl_hash_2(init, a, b) (cowl_hash_iter(cowl_hash_1(init, a), b))
-#define cowl_hash_3(init, a, b, c) (cowl_hash_iter(cowl_hash_2(init, a, b), c))
-#define cowl_hash_4(init, a, b, c, d) (cowl_hash_iter(cowl_hash_3(init, a, b, c), d))
-#define cowl_hash_5(init, a, b, c, d, e) (cowl_hash_iter(cowl_hash_4(init, a, b, c, d), e))
+#define cowl_hash_1(init, a) (uhash_combine_hash(init, a))
+#define cowl_hash_2(init, a, b) (uhash_combine_hash(cowl_hash_1(init, a), b))
+#define cowl_hash_3(init, a, b, c) (uhash_combine_hash(cowl_hash_2(init, a, b), c))
+#define cowl_hash_4(init, a, b, c, d) (uhash_combine_hash(cowl_hash_3(init, a, b, c), d))
+#define cowl_hash_5(init, a, b, c, d, e) (uhash_combine_hash(cowl_hash_4(init, a, b, c, d), e))
 
 #endif // COWL_HASH_UTILS_H
