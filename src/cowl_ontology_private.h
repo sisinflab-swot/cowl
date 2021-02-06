@@ -14,7 +14,7 @@
 #include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
 #include "cowl_object_private.h"
-#include "cowl_ontology_id_private.h"
+#include "cowl_ontology_id.h"
 
 COWL_BEGIN_DECLS
 
@@ -38,9 +38,6 @@ cowl_struct(CowlOntology) {
 
 #define COWL_ONTOLOGY_INIT ((CowlOntology) {                                                        \
     .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY),                                                    \
-    .id = COWL_ONTOLOGY_ID_ANONYMOUS,                                                               \
-    .imports = NULL,                                                                                \
-    .annotations = NULL,                                                                            \
     .annot_prop_refs = cowl_annot_prop_map_alloc(),                                                 \
     .class_refs = cowl_class_map_alloc(),                                                           \
     .data_prop_refs = cowl_data_prop_map_alloc(),                                                   \
@@ -50,11 +47,11 @@ cowl_struct(CowlOntology) {
     .anon_ind_refs = cowl_anon_ind_map_alloc(),                                                     \
 })
 
-cowl_struct(CowlOntology)* cowl_ontology_get(void);
-
-void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID id);
-cowl_ret cowl_ontology_set_imports(CowlOntology *onto, UVec(CowlObjectPtr) *imports);
-cowl_ret cowl_ontology_set_annot(CowlOntology *onto, UVec(CowlObjectPtr) *annot);
+CowlOntology* cowl_ontology_get(void);
+void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
+void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
+cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
+cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlOntology *import);
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
 
 COWL_END_DECLS

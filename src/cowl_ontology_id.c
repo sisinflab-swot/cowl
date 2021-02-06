@@ -8,7 +8,7 @@
  * @file
  */
 
-#include "cowl_ontology_id_private.h"
+#include "cowl_ontology_id.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iri.h"
 #include "cowl_str_buf.h"

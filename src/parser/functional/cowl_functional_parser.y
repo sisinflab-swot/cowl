@@ -107,10 +107,8 @@
 
 %type <CowlString *> prefix_name
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
-%type <CowlOntology *> import
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue *> annotation_subject annotation_value
-%type <CowlOntologyID> ontology_id
 %type <cowl_uint> cardinality
 
 %type <CowlEntity *> entity
@@ -172,7 +170,6 @@
 %type <UHash(CowlObjectTable)*> object_property_expression_star
 %type <UVec(CowlObjectPtr)*> object_property_expression_ordered_2_list property_expression_chain
 %type <UVec(CowlObjectPtr)*> annotation_star
-%type <UVec(CowlObjectPtr)*> import_star
 
 // Start symbol
 
@@ -198,8 +195,6 @@
 %destructor { cowl_named_ind_release($$); } <CowlNamedInd *>
 %destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
-%destructor { cowl_ontology_release($$); } <CowlOntology *>
-%destructor { cowl_ontology_id_deinit($$); } <CowlOntologyID>
 %destructor { cowl_string_release($$); } <CowlString *>
 %destructor { cowl_object_vec_free($$); } <UVec(CowlObjectPtr)*>
 %destructor { cowl_object_set_free($$); } <UHash(CowlObjectTable)*>
@@ -254,27 +249,18 @@ prefix_declaration
 ;
 
 ontology
-    : ONTOLOGY L_PAREN ontology_id import_star annotation_star axioms R_PAREN {
-        cowl_parser_set_id(parser, $3);
-
-        cowl_ret ret = cowl_parser_set_imports(parser, $4);
-        if (ret) YYERROR;
-
-        ret = cowl_parser_set_annotations(parser, $5);
-        if (ret) YYERROR;
-    }
+    : ONTOLOGY L_PAREN ontology_id ontology_imports ontology_annotations axioms R_PAREN
 ;
 
 ontology_id
-    : %empty {
-        $$ = COWL_ONTOLOGY_ID_ANONYMOUS;
-    }
+    : %empty
     | ontology_iri {
-        $$ = cowl_ontology_id_init($1, NULL);
+        cowl_parser_set_iri(parser, $1);
         cowl_iri_release($1);
     }
     | ontology_iri version_iri {
-        $$ = cowl_ontology_id_init($1, $2);
+        cowl_parser_set_iri(parser, $1);
+        cowl_parser_set_version(parser, $2);
         cowl_iri_release($1);
         cowl_iri_release($2);
     }
@@ -288,13 +274,26 @@ version_iri
     : iri
 ;
 
+ontology_imports
+    : %empty
+    | ontology_imports import
+;
+
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret ret = cowl_parser_load_import(parser, $3, &$$);
+        cowl_ret ret = cowl_parser_add_import(parser, $3);
         cowl_iri_release($3);
         if (ret) YYERROR;
     }
 ;
+
+ontology_annotations
+    : %empty
+    | ontology_annotations annotation {
+        cowl_ret ret = cowl_parser_add_annot(parser, $2);
+        cowl_annotation_release($2);
+        if (ret) YYERROR;
+    }
 
 axioms
     : %empty
@@ -1187,18 +1186,6 @@ data_range_2_list
     : data_range_list data_range {
         $$ = $1;
         if (uhset_insert(CowlObjectTable, $$, $2) == UHASH_ERR) COWL_ERROR_MEM;
-    }
-;
-
-import_star
-    : %empty {
-        $$ = NULL;
-    }
-    | import_star import {
-        if ($2) {
-            $$ = $1 ? $1 : uvec_alloc(CowlObjectPtr);
-            if (!$$ || uvec_push(CowlObjectPtr, $$, $2) == UVEC_ERR) COWL_ERROR_MEM;
-        }
     }
 ;
 

@@ -14,6 +14,7 @@
 #include "cowl_functional_lexer.h"
 #include "cowl_functional_parser.h"
 #include "cowl_iri_private.h"
+#include "cowl_macros.h"
 #include "cowl_object_table_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
@@ -103,18 +104,44 @@ void cowl_parser_set_error_handler(CowlParser *parser, CowlErrorHandler handler)
     parser->handler = handler;
 }
 
-void cowl_parser_set_id(CowlParser *parser, CowlOntologyID id) {
-    cowl_ontology_set_id(parser->ontology, id);
+void cowl_parser_set_iri(CowlParser *parser, CowlIRI *iri) {
+    cowl_ontology_set_iri(parser->ontology, iri);
 }
 
-cowl_ret cowl_parser_set_imports(CowlParser *parser, UVec(CowlObjectPtr) *imports) {
-    cowl_ret ret = cowl_ontology_set_imports(parser->ontology, imports);
+void cowl_parser_set_version(CowlParser *parser, CowlIRI *version) {
+    cowl_ontology_set_version(parser->ontology, version);
+}
+
+cowl_ret cowl_parser_add_import(CowlParser *parser, CowlIRI *iri) {
+    CowlOntology *import = NULL;
+    cowl_ret ret;
+
+    if (!iri) {
+        ret = COWL_ERR_MEM;
+        goto err;
+    }
+
+    CowlImportLoader loader = parser->loader;
+    if (!loader.load_ontology) loader = cowl_api_get_import_loader();
+    if (!loader.load_ontology) return COWL_OK;
+
+    import = loader.load_ontology(loader.ctx, iri);
+
+    if (!import) {
+        ret = COWL_ERR_IMPORT;
+        goto err;
+    }
+
+    ret = cowl_ontology_add_import(parser->ontology, import);
+    cowl_ontology_release(import);
+
+err:
     if (ret) cowl_parser_handle_error_type(parser, ret);
     return ret;
 }
 
-cowl_ret cowl_parser_set_annotations(CowlParser *parser, UVec(CowlObjectPtr) *annot) {
-    cowl_ret ret = cowl_ontology_set_annot(parser->ontology, annot);
+cowl_ret cowl_parser_add_annot(CowlParser *parser, CowlAnnotation *annot) {
+    cowl_ret ret = cowl_ontology_add_annot(parser->ontology, annot);
     if (ret) cowl_parser_handle_error_type(parser, ret);
     return ret;
 }
@@ -146,28 +173,6 @@ cowl_ret cowl_parser_register_ns(CowlParser *parser, CowlString *prefix, CowlStr
     if (ret == UHASH_INSERTED) {
         cowl_string_retain(prefix);
         cowl_string_retain(ns);
-    }
-
-    return COWL_OK;
-}
-
-cowl_ret cowl_parser_load_import(CowlParser *parser, CowlIRI *iri, CowlOntology **import) {
-    *import = NULL;
-
-    if (!iri) {
-        cowl_parser_handle_error_type(parser, COWL_ERR_MEM);
-        return COWL_ERR_MEM;
-    }
-
-    CowlImportLoader loader = parser->loader;
-    if (!loader.load_ontology) loader = cowl_api_get_import_loader();
-    if (!loader.load_ontology) return COWL_OK;
-
-    *import = loader.load_ontology(loader.ctx, iri);
-
-    if (!*import) {
-        cowl_parser_handle_error_type(parser, COWL_ERR_IMPORT);
-        return COWL_ERR_IMPORT;
     }
 
     return COWL_OK;
@@ -207,7 +212,7 @@ CowlIRI* cowl_parser_get_full_iri(CowlParser *parser, CowlRawString string) {
             cowl_raw_string_init_static("no namespace mapping for ", false),
             raw_ns
         };
-        CowlRawString err_str = cowl_raw_string_concat(2, comp);
+        CowlRawString err_str = cowl_raw_string_concat(cowl_array_size(comp), comp);
         cowl_parser_handle_error(parser, COWL_ERR_SYNTAX, err_str.cstring);
         cowl_raw_string_deinit(err_str);
     }

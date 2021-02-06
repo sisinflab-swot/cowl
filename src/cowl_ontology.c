@@ -385,7 +385,8 @@ CowlOntology* cowl_ontology_alloc(void) {
 void cowl_ontology_free(CowlOntology *onto) {
     if (!onto) return;
 
-    cowl_ontology_id_deinit(onto->id);
+    cowl_iri_release(onto->id.ontology_iri);
+    cowl_iri_release(onto->id.version_iri);
     cowl_object_vec_free(onto->imports);
     cowl_object_vec_free(onto->annotations);
 
@@ -412,34 +413,44 @@ void cowl_ontology_free(CowlOntology *onto) {
     cowl_free(onto);
 }
 
-void cowl_ontology_set_id(CowlOntology *onto, CowlOntologyID id) {
-    onto->id = id;
+void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {
+    cowl_iri_release(onto->id.ontology_iri);
+    onto->id.ontology_iri = cowl_iri_retain(iri);
 }
 
-cowl_ret cowl_ontology_set_annot(CowlOntology *onto, UVec(CowlObjectPtr) *annot) {
-    onto->annotations = annot;
+void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version) {
+    cowl_iri_release(onto->id.version_iri);
+    onto->id.version_iri = cowl_iri_retain(version);
+}
 
-    CowlAxiomCtx ctx = { .onto = onto };
-    CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_axiom_adder);
-    if (!cowl_object_vec_iterate_primitives(annot, &iter, COWL_PF_ALL) && ctx.ret) {
-        return COWL_ERR_MEM;
+cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
+    if (!onto->annotations) {
+        onto->annotations = uvec_alloc(CowlObjectPtr);
+        if (!onto->annotations) return COWL_ERR_MEM;
     }
-    return COWL_OK;
-}
 
-cowl_ret cowl_ontology_set_imports(CowlOntology *onto, UVec(CowlObjectPtr) *imports) {
-    onto->imports = imports;
+    if (uvec_push(CowlObjectPtr, onto->annotations, annot) != UVEC_OK) return COWL_ERR_MEM;
+    cowl_annotation_retain(annot);
 
     CowlAxiomCtx ctx = { .onto = onto };
     CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_adder);
+    cowl_annotation_iterate_primitives(annot, &iter, COWL_PF_ALL);
+    return ctx.ret;
+}
 
-    uvec_foreach(CowlObjectPtr, imports, import, {
-        if (!cowl_ontology_iterate_primitives(import, &iter, COWL_PF_ALL) && ctx.ret) {
-            return COWL_ERR_MEM;
-        }
-    });
+cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlOntology *import) {
+    if (!onto->imports) {
+        onto->imports = uvec_alloc(CowlObjectPtr);
+        if (!onto->imports) return COWL_ERR_MEM;
+    }
 
-    return COWL_OK;
+    if (uvec_push(CowlObjectPtr, onto->imports, import) != UVEC_OK) return COWL_ERR_MEM;
+    cowl_ontology_retain(import);
+
+    CowlAxiomCtx ctx = { .onto = onto };
+    CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_adder);
+    cowl_ontology_iterate_primitives(import, &iter, COWL_PF_ALL);
+    return ctx.ret;
 }
 
 cowl_ret cowl_ontology_add_primitive(CowlOntology *onto, CowlObject *obj) {
