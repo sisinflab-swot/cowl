@@ -10,7 +10,6 @@
 
 #include "cowl_sub_obj_prop_chain_axiom_private.h"
 #include "cowl_obj_prop_exp.h"
-#include "cowl_object_vec.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 

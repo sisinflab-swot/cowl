@@ -80,10 +80,10 @@ Ontology deserialization
 ------------------------
 
 In order to query an ontology you must first deserialize it, which can be done via
-:func:`CowlParser::cowl_parser_parse_ontology()`. In general, ontologies may
-`import <owl imports_>`_ other ontologies, which may involve retrieving them from the network.
-Cowl's approach to imports reflects its :ref:`focus on portability <about>`, so ontology retrieval
-:ref:`is delegated to the end user <import>`.
+:class:`CowlParser`. In general, ontologies may `import <owl imports_>`_ other ontologies,
+which may involve retrieving them from the network.
+Cowl's approach to imports reflects its :ref:`focus on portability <about>`,
+so ontology retrieval :ref:`is delegated to the end user <import>`.
 
 Ontology queries
 ----------------

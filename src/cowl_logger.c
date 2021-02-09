@@ -11,8 +11,6 @@
 #include "cowl_logger.h"
 #include "cowl_private.h"
 
-#include <stdio.h>
-
 typedef cowl_enum(CowlLoggerType) {
     COWL_LT_NULL,
     COWL_LT_CONSOLE,

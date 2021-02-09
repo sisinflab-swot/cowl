@@ -29,10 +29,10 @@ typedef uhash_struct(CowlObjectTable) UHash(CowlObjectTable);
 
 cowl_struct(CowlParser) {
     CowlObject super;
+    CowlInputStream *stream;
     UHash(CowlObjectTable) *prefix_ns_map;
     UHash(CowlObjectTable) *anon_ind_map;
     CowlOntology *ontology;
-    CowlString *source;
     void *scanner;
     CowlErrorHandler handler;
     CowlImportLoader loader;

@@ -62,6 +62,7 @@ cowl_struct_decl(CowlFacetRestr);
 cowl_struct_decl(CowlFuncDataPropAxiom);
 cowl_struct_decl(CowlHasKeyAxiom);
 cowl_struct_decl(CowlIndividual);
+cowl_struct_decl(CowlInputStream);
 cowl_struct_decl(CowlInvObjProp);
 cowl_struct_decl(CowlInvObjPropAxiom);
 cowl_struct_decl(CowlIRI);

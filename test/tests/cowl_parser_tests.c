@@ -43,7 +43,7 @@ bool cowl_test_parser_parse_ontology(void) {
     CowlErrorHandler handler = cowl_error_handler_init(logger, cowl_test_parser_handle_error, NULL);
     cowl_parser_set_error_handler(parser, handler);
 
-    CowlOntology *onto = cowl_parser_parse_ontology(parser, COWL_TEST_ONTOLOGY);
+    CowlOntology *onto = cowl_parser_parse_path(parser, COWL_TEST_ONTOLOGY);
     cowl_assert_not_null(onto, "Parsed ontology");
 
     cowl_logger_log_ontology(logger, onto);

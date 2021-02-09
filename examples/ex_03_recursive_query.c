@@ -20,7 +20,7 @@ int main(void) {
     cowl_api_init();
 
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH);
+    CowlOntology *ontology = cowl_parser_parse_path(parser, ONTO_PATH);
     cowl_parser_release(parser);
 
     if (ontology) {
@@ -36,9 +36,8 @@ int main(void) {
 
         cowl_class_release(cls);
         cowl_logger_release(logger);
+        cowl_ontology_release(ontology);
     }
-
-    cowl_ontology_release(ontology);
 
     return EXIT_SUCCESS;
 }

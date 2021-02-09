@@ -13,6 +13,7 @@
 #ifndef COWL_STD_H
 #define COWL_STD_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>

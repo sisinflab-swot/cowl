@@ -35,15 +35,15 @@ int main(void) {
     cowl_api_set_error_handler(cowl_error_handler_init(logger, handle_error, NULL));
 
     // Deserialize an ontology.
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH);
+    CowlOntology *ontology = cowl_parser_parse_path(parser, ONTO_PATH);
     cowl_parser_release(parser);
 
     // Log the parsed ontology.
     if (ontology) {
         cowl_logger_log_ontology(logger, ontology);
+        cowl_ontology_release(ontology);
     }
 
-    cowl_ontology_release(ontology);
     cowl_logger_release(logger);
 
     return EXIT_SUCCESS;
@@ -60,7 +60,7 @@ static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
     CowlParser *parser = cowl_parser_get();
 
     if (parser) {
-        import = cowl_parser_parse_ontology(parser, IMPORT_PATH);
+        import = cowl_parser_parse_path(parser, IMPORT_PATH);
         cowl_parser_release(parser);
     }
 

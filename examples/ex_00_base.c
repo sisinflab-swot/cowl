@@ -20,7 +20,7 @@ int main(void) {
 
     // Instantiate a parser and deserialize an ontology.
     CowlParser *parser = cowl_parser_get();
-    CowlOntology *ontology = cowl_parser_parse_ontology(parser, ONTO_PATH);
+    CowlOntology *ontology = cowl_parser_parse_path(parser, ONTO_PATH);
 
     // You don't need the parser anymore.
     cowl_parser_release(parser);
@@ -30,10 +30,10 @@ int main(void) {
         CowlLogger *logger = cowl_logger_console_get();
         cowl_logger_log_ontology(logger, ontology);
         cowl_logger_release(logger);
-    }
 
-    // Release the ontology.
-    cowl_ontology_release(ontology);
+        // Release the ontology.
+        cowl_ontology_release(ontology);
+    }
 
     return EXIT_SUCCESS;
 }

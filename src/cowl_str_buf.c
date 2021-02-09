@@ -11,8 +11,6 @@
 #include "cowl_str_buf.h"
 #include "cowl_private.h"
 
-#include <stdio.h>
-
 UVEC_IMPL(CowlChar)
 
 #define UINT_MAX_DIGITS 20

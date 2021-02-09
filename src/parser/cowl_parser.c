@@ -12,7 +12,7 @@
 #include "cowl_anon_ind.h"
 #include "cowl_config_private.h"
 #include "cowl_functional_lexer.h"
-#include "cowl_functional_parser.h"
+#include "cowl_input_stream.h"
 #include "cowl_iri_private.h"
 #include "cowl_macros.h"
 #include "cowl_object_table_private.h"
@@ -47,7 +47,6 @@ static void cowl_parser_free(CowlParser *parser) {
     });
     uhash_free(CowlObjectTable, parser->anon_ind_map);
 
-    cowl_string_release(parser->source);
     if (parser->loader.free) parser->loader.free(parser->loader.ctx);
     if (parser->handler.free) parser->handler.free(parser->handler.ctx);
 
@@ -68,32 +67,92 @@ void cowl_parser_release(CowlParser *parser) {
     }
 }
 
-CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path) {
-    if (cowl_functional_lex_init(&parser->scanner)) return NULL;
+static CowlOntology* cowl_parser_parse(CowlParser *parser) {
+    if (!parser->stream) return NULL;
 
-    parser->ontology = cowl_ontology_get();
-    parser->source = cowl_string_get(path, strlen(path), true);
-
-    FILE *yyin = fopen(path, "r");
-    bool error;
-
-    if (yyin) {
-        cowl_functional_set_in(yyin, parser->scanner);
-        error = cowl_functional_parse(parser->scanner, parser) != 0;
-    } else {
-        cowl_parser_handle_error(parser, COWL_ERR_IO, strerror(errno));
-        error = true;
+    if (cowl_functional_lex_init(&parser->scanner)) {
+        cowl_parser_handle_error_type(parser, COWL_ERR_MEM);
+        return NULL;
     }
 
-    fclose(yyin);
+    parser->ontology = cowl_ontology_get();
+
+    if (!parser->ontology) {
+        cowl_parser_handle_error_type(parser, COWL_ERR_MEM);
+        return NULL;
+    }
+
+    cowl_functional_set_in(NULL, parser->scanner);
+    cowl_functional_set_extra(parser->stream, parser->scanner);
+    cowl_ret ret = cowl_functional_parse(parser->scanner, parser) == 0 ? COWL_OK : COWL_ERR;
     cowl_functional_lex_destroy(parser->scanner);
 
-    if (error) {
+    if (ret) {
         cowl_ontology_release(parser->ontology);
         parser->ontology = NULL;
     }
 
     return parser->ontology;
+}
+
+static CowlOntology* cowl_parser_parse_deinit(CowlParser *parser) {
+    cowl_parser_parse(parser);
+    cowl_ret ret = cowl_input_stream_deinit(parser->stream);
+    if (ret) cowl_parser_handle_error_type(parser, ret);
+    parser->stream = NULL;
+    return parser->ontology;
+}
+
+CowlOntology* cowl_parser_parse_path(CowlParser *parser, char const *path) {
+    CowlInputStream stream;
+    parser->stream = &stream;
+
+    cowl_ret ret;
+
+    if ((ret = cowl_input_stream_from_path(parser->stream, path))) {
+        cowl_parser_handle_error_type(parser, ret);
+        parser->stream = NULL;
+        return NULL;
+    }
+
+    return cowl_parser_parse_deinit(parser);
+}
+
+CowlOntology* cowl_parser_parse_file(CowlParser *parser, FILE *file) {
+    CowlInputStream stream;
+    parser->stream = &stream;
+
+    cowl_ret ret;
+
+    if ((ret = cowl_input_stream_from_file(parser->stream, file))) {
+        cowl_parser_handle_error_type(parser, ret);
+        parser->stream = NULL;
+        return NULL;
+    }
+
+    return cowl_parser_parse_deinit(parser);
+}
+
+CowlOntology* cowl_parser_parse_cstring(CowlParser *parser, char const *cstring, size_t length) {
+    CowlInputStream stream;
+    parser->stream = &stream;
+
+    cowl_ret ret;
+
+    if ((ret = cowl_input_stream_from_cstring(parser->stream, cstring, length))) {
+        cowl_parser_handle_error_type(parser, ret);
+        parser->stream = NULL;
+        return NULL;
+    }
+
+    return cowl_parser_parse_deinit(parser);
+}
+
+CowlOntology* cowl_parser_parse_stream(CowlParser *parser, CowlInputStream const *stream) {
+    parser->stream = (CowlInputStream *)stream;
+    CowlOntology *onto = cowl_parser_parse(parser);
+    parser->stream = NULL;
+    return onto;
 }
 
 void cowl_parser_set_import_loader(CowlParser *parser, CowlImportLoader loader) {
@@ -259,14 +318,20 @@ void cowl_parser_handle_error(CowlParser *parser, cowl_ret code, char const *des
     if (!handler.handle_error) handler = cowl_api_get_error_handler();
     if (!handler.handle_error) return;
 
+    char const *temp = parser->stream->description;
+    CowlString source = cowl_string_init(cowl_raw_string_init(temp, strlen(temp), false));
+
+    temp = description;
+    CowlString descr = cowl_string_init(cowl_raw_string_init(temp, strlen(temp), false));
+
     CowlError error = {
         .code = code,
         .location = {
             .line = cowl_parser_get_line(parser),
-            .source = parser->source,
+            .source = &source,
             .iri = cowl_ontology_get_id(parser->ontology).ontology_iri,
         },
-        .description = cowl_string_get(description, strlen(description), false)
+        .description = &descr
     };
 
     handler.handle_error(handler.ctx, &error);

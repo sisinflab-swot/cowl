@@ -14,8 +14,6 @@
 #include "cowl_macros.h"
 #include "cowl_std.h"
 
-#include <stdio.h>
-
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlIRI);

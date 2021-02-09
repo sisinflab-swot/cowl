@@ -14,12 +14,18 @@
 %option yylineno batch
 %option noyywrap nounput noinput
 %option noyyalloc noyyrealloc noyyfree
+%option extra-type="CowlInputStream const *"
 
 %top{
     #include "cowl_functional_parser.h"
 }
 
 %{
+    #include "cowl_input_stream.h"
+
+    #define YY_INPUT(buf, result, max_size) \
+        ((result) = cowl_input_stream_read_bytes(yyextra, (cowl_byte *)buf, max_size))
+
     #define YY_USER_ACTION ((yylloc)->first_line = (yylloc)->last_line = yylineno);
 
     void* yyalloc(size_t bytes, cowl_unused void *yyscanner) {

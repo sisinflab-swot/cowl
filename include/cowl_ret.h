@@ -13,7 +13,7 @@
 #ifndef COWL_RET_H
 #define COWL_RET_H
 
-#include "cowl_std.h"
+#include "cowl_compat.h"
 
 COWL_BEGIN_DECLS
 
@@ -37,7 +37,7 @@ typedef cowl_enum(cowl_ret) {
     COWL_ERR,
 
     /**
-     * Input/output error, usually returned when a file operation fails.
+     * Input/output error, usually returned when a file or stream operation fails.
      *
      * @note When this happens, *errno* is sometimes set to a more meaningful value.
      */

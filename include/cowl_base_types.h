@@ -63,6 +63,9 @@ COWL_BEGIN_DECLS
     #define COWL_UINT_FMT PRIu32
 #endif
 
+/// Byte type.
+typedef uint8_t cowl_byte;
+
 COWL_END_DECLS
 
 #endif // COWL_BASE_TYPES_H

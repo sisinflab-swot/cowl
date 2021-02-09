@@ -20,6 +20,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlInputStream);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlParser);
 /// @endcond
@@ -93,7 +94,46 @@ void cowl_parser_set_error_handler(CowlParser *parser, CowlErrorHandler handler)
  * @public @memberof CowlParser
  */
 COWL_PUBLIC
-CowlOntology* cowl_parser_parse_ontology(CowlParser *parser, char const *path);
+CowlOntology* cowl_parser_parse_path(CowlParser *parser, char const *path);
+
+/**
+ * Parses an ontology from the specified file.
+ *
+ * @param parser The parser.
+ * @param file The input file.
+ * @return The parsed ontology, or NULL on error.
+ *
+ * @public @memberof CowlParser
+ */
+COWL_PUBLIC
+CowlOntology* cowl_parser_parse_file(CowlParser *parser, FILE *file);
+
+/**
+ * Parses an ontology from the specified string.
+ *
+ * @param parser The parser.
+ * @param cstring The input string.
+ * @param length Length of the input string (excluding the NULL terminator).
+ * @return The parsed ontology, or NULL on error.
+ *
+ * @public @memberof CowlParser
+ */
+COWL_PUBLIC
+CowlOntology* cowl_parser_parse_cstring(CowlParser *parser, char const *cstring, size_t length);
+
+/**
+ * Parses an ontology from the specified input stream.
+ *
+ * @param parser The parser.
+ * @param stream The input stream.
+ * @return The parsed ontology, or NULL on error.
+ *
+ * @public @memberof CowlParser
+ *
+ * @note The stream is not released by the parser, you must do it yourself.
+ */
+COWL_PUBLIC
+CowlOntology* cowl_parser_parse_stream(CowlParser *parser, CowlInputStream const *stream);
 
 COWL_END_DECLS
 

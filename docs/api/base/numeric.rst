@@ -9,6 +9,8 @@ Integers
 .. doxygendefine:: COWL_UINT_MAX
 .. doxygendefine:: COWL_UINT_FMT
 
+.. doxygentypedef:: cowl_byte
+
 Bitmasks
 ========
 

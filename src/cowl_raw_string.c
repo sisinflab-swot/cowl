@@ -9,7 +9,6 @@
  */
 
 #include "cowl_raw_string.h"
-#include "cowl_hash_utils.h"
 #include "cowl_str_buf.h"
 
 CowlRawString cowl_raw_string_init(char const *cstring, size_t length, bool copy) {
