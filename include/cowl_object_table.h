@@ -127,6 +127,21 @@ COWL_PUBLIC
 cowl_uint cowl_object_set_hash(CowlObjectTable *set);
 
 /**
+ * Inserts an element into the specified set and retains it.
+ *
+ * @param set The set.
+ * @param object The object to insert.
+ * @return Return code.
+ *
+ * @public @memberof CowlObjectTable
+ *
+ * @note The object is only retained if it is actually inserted into the set, which may not
+ *       happen if an equal object is already present.
+ */
+COWL_PUBLIC
+cowl_ret cowl_object_set_insert(UHash(CowlObjectTable) *set, CowlObject *object);
+
+/**
  * Iterates over the primitives referenced by the specified set.
  *
  * @param set The set.

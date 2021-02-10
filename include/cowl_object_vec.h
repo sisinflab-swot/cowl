@@ -65,6 +65,18 @@ COWL_PUBLIC
 cowl_uint cowl_object_vec_hash(CowlObjectVec *vec);
 
 /**
+ * Pushes an element into the specified vector and retains it.
+ *
+ * @param vec The vector.
+ * @param object The object to push.
+ * @return Return code.
+ *
+ * @public @memberof CowlObjectVec
+ */
+COWL_PUBLIC
+cowl_ret cowl_object_vec_push(UVec(CowlObjectPtr) *vec, CowlObject *object);
+
+/**
  * Iterates over the primitives referenced by the specified vector.
  *
  * @param vec The vector.

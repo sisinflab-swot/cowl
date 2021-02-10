@@ -32,6 +32,14 @@ cowl_uint cowl_object_vec_hash(CowlObjectVec *vec) {
     return hash;
 }
 
+cowl_ret cowl_object_vec_push(UVec(CowlObjectPtr) *vec, CowlObject *object) {
+    if ((uvec_push(CowlObjectPtr, vec, object) == UVEC_OK)) {
+        cowl_object_retain(object);
+        return COWL_OK;
+    }
+    return COWL_ERR_MEM;
+}
+
 bool cowl_object_vec_iterate_primitives(CowlObjectVec *vec, CowlIterator *iter,
                                               CowlPrimitiveFlags flags) {
     uvec_foreach(CowlObjectPtr, vec, prop, {

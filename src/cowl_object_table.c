@@ -67,6 +67,12 @@ cowl_uint cowl_object_set_hash(CowlObjectTable *set) {
     return uhset_hash(CowlObjectTable, set);
 }
 
+cowl_ret cowl_object_set_insert(UHash(CowlObjectTable) *set, CowlObject *object) {
+    uhash_ret ret = uhset_insert(CowlObjectTable, set, object);
+    if (ret == UHASH_INSERTED) cowl_object_retain(object);
+    return ret == UHASH_ERR ? COWL_ERR_MEM : COWL_OK;
+}
+
 bool cowl_object_set_iterate_primitives(CowlObjectTable *set, CowlIterator *iter,
                                         CowlPrimitiveFlags flags) {
     uhash_foreach_key(CowlObjectTable, set, obj, {
