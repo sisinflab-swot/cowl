@@ -387,8 +387,8 @@ void cowl_ontology_free(CowlOntology *onto) {
 
     cowl_iri_release(onto->id.ontology_iri);
     cowl_iri_release(onto->id.version_iri);
-    cowl_object_vec_free(onto->imports);
-    cowl_object_vec_free(onto->annotations);
+    cowl_object_vec_free_spec(ontology, onto->imports);
+    cowl_object_vec_free_spec(annotation, onto->annotations);
 
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; type++) {
         cowl_object_set_free(onto->axioms_by_type[type]);

@@ -12,9 +12,10 @@
 #define COWL_AXIOM_PRIVATE_H
 
 #include "cowl_axiom.h"
+#include "cowl_annotation.h"
 #include "cowl_hash_utils.h"
 #include "cowl_object_private.h"
-#include "cowl_object_vec.h"
+#include "cowl_object_vec_private.h"
 
 COWL_BEGIN_DECLS
 
@@ -42,7 +43,7 @@ cowl_struct(CowlAxiom) {
 }
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \
-    if (cowl_axiom_has_annot(AXIOM)) cowl_object_vec_free((AXIOM)->annot[0]);                       \
+    if (cowl_axiom_has_annot(AXIOM)) cowl_object_vec_free_spec(annotation, (AXIOM)->annot[0]);      \
     cowl_free(AXIOM);                                                                               \
 } while(0)
 

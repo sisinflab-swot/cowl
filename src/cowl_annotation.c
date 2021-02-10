@@ -12,7 +12,7 @@
 #include "cowl_annot_prop.h"
 #include "cowl_annot_value.h"
 #include "cowl_hash_utils.h"
-#include "cowl_object_vec.h"
+#include "cowl_object_vec_private.h"
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
@@ -40,7 +40,7 @@ static void cowl_annotation_free(CowlAnnotation *annot) {
     if (!annot) return;
     cowl_annot_prop_release(annot->prop);
     cowl_annot_value_release(annot->value);
-    cowl_object_vec_free(annot->annot);
+    cowl_object_vec_free_spec(annotation, annot->annot);
     cowl_free(annot);
 }
 

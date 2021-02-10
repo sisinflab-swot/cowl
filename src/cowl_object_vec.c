@@ -8,16 +8,14 @@
  * @file
  */
 
-#include "cowl_object_vec.h"
+#include "cowl_object_vec_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_object.h"
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_object_equals)
 
 void cowl_object_vec_free(CowlObjectVec *vec) {
-    if (!vec) return;
-    uvec_foreach(CowlObjectPtr, vec, prop, cowl_object_release(prop));
-    uvec_free(CowlObjectPtr, (UVec(CowlObjectPtr)*)vec);
+    cowl_object_vec_free_spec(object, vec);
 }
 
 bool cowl_object_vec_equals(CowlObjectVec *lhs, CowlObjectVec *rhs) {

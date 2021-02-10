@@ -29,11 +29,11 @@
 
 UHASH_IMPL_PI(CowlObjectTable)
 
-#define HASH_GEN(T, TYPE) \
-    static cowl_uint T##_hash(void *obj) { return cowl_##T##_hash(obj); } \
-    static bool T##_equals(void *lhs, void *rhs) { return cowl_##T##_equals(lhs, rhs); } \
-    UHash(CowlObjectTable)* cowl_##T##_##TYPE##_alloc(void) { \
-        return uh##TYPE##_alloc_pi(CowlObjectTable, T##_hash, T##_equals); \
+#define HASH_GEN(T, TYPE)                                                                           \
+    static cowl_uint T##_hash(void *obj) { return cowl_##T##_hash(obj); }                           \
+    static bool T##_equals(void *lhs, void *rhs) { return cowl_##T##_equals(lhs, rhs); }            \
+    UHash(CowlObjectTable)* cowl_##T##_##TYPE##_alloc(void) {                                       \
+        return uh##TYPE##_alloc_pi(CowlObjectTable, T##_hash, T##_equals);                          \
     }
 
 HASH_GEN(annot_prop, map)
