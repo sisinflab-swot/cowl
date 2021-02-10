@@ -329,11 +329,10 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
         if (cowl_axiom_get_type(axiom) != COWL_AT_EQUIV_CLASSES) continue;
         CowlObjectTable *eq_classes = ((CowlNAryClsAxiom *)axiom)->classes;
 
-        uhash_uint cls_idx = uhash_get(CowlObjectTable, eq_classes, owl_class);
-        if (cls_idx < uhash_end(eq_classes)) {
-            for (uhash_uint i = uhash_begin(eq_classes); i != uhash_end(eq_classes); ++i) {
-                if (i != cls_idx && !cowl_iterate(iter, uhash_key(eq_classes, i))) return false;
-            }
+        if (uhash_contains(CowlObjectTable, eq_classes, owl_class)) {
+            uhash_foreach_key(CowlObjectTable, eq_classes, cls_exp, {
+                if (cls_exp != owl_class && !cowl_iterate(iter, cls_exp)) return false;
+            });
         }
     });
 
