@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -97,6 +97,7 @@
 #include "cowl_ontology_id.h"
 #include "cowl_owl_vocab.h"
 #include "cowl_parser.h"
+#include "cowl_parser_ctx.h"
 #include "cowl_primitive.h"
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
@@ -110,6 +111,7 @@
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sub_obj_prop_chain_axiom.h"
+#include "cowl_sub_parser.h"
 #include "cowl_version.h"
 #include "cowl_xsd_vocab.h"
 

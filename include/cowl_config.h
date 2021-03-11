@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -18,6 +18,10 @@
 #include "cowl_import_loader.h"
 
 COWL_BEGIN_DECLS
+
+/// @cond
+cowl_struct_decl(CowlSubParser);
+/// @endcond
 
 /**
  * Initializes the API.
@@ -58,6 +62,16 @@ void cowl_api_set_error_handler(CowlErrorHandler handler);
  */
 COWL_PUBLIC
 void cowl_api_set_import_loader(CowlImportLoader loader);
+
+/**
+ * Sets the default subparser.
+ *
+ * @param sub_parser The subparser.
+ *
+ * @note This function must be called again if you reinitialize the API after deinitializing it.
+ */
+COWL_PUBLIC
+void cowl_api_set_subparser(CowlSubParser const *sub_parser);
 
 COWL_END_DECLS
 

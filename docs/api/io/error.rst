@@ -16,3 +16,4 @@ local error handlers, as you would expect.
 
 .. doxygenstruct:: CowlErrorHandler
 .. doxygenstruct:: CowlError
+.. doxygenstruct:: CowlErrorLoc

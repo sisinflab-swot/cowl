@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -17,6 +17,8 @@ COWL_BEGIN_DECLS
 
 CowlErrorHandler cowl_api_get_error_handler(void);
 CowlImportLoader cowl_api_get_import_loader(void);
+CowlSubParser const* cowl_api_get_sub_parser(void);
+CowlSubParser const* cowl_api_default_sub_parser(void);
 
 COWL_END_DECLS
 

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -76,6 +76,7 @@
 #include "cowl_ontology_private.h"
 #include "cowl_owl_vocab_private.h"
 #include "cowl_parser_private.h"
+#include "cowl_parser_ctx_private.h"
 #include "cowl_raw_string.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"

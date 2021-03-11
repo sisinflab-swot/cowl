@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -26,6 +26,7 @@
 #include "cowl_ontology_id.h"
 #include "cowl_quant_type.h"
 #include "cowl_raw_string.h"
+#include "cowl_sub_parser.h"
 #include "cowl_version.h"
 
 COWL_BEGIN_DECLS
@@ -60,6 +61,7 @@ cowl_struct_decl(CowlDisjUnionAxiom);
 cowl_struct_decl(CowlEntity);
 cowl_struct_decl(CowlFacetRestr);
 cowl_struct_decl(CowlFuncDataPropAxiom);
+cowl_struct_decl(CowlFuncParser);
 cowl_struct_decl(CowlHasKeyAxiom);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlInputStream);
@@ -89,6 +91,7 @@ cowl_struct_decl(CowlObjPropRangeAxiom);
 cowl_struct_decl(CowlObjQuant);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlParser);
+cowl_struct_decl(CowlParserCtx);
 cowl_struct_decl(CowlPrimitive);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubAnnotPropAxiom);

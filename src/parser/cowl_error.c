@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,6 +9,8 @@
  */
 
 #include "cowl_error.h"
+#include "cowl_object.h"
+#include "cowl_parser.h"
 #include "cowl_ret_private.h"
 #include "cowl_str_buf.h"
 
@@ -18,6 +20,19 @@ CowlString* cowl_error_to_string(CowlError const *error) {
 
     cowl_str_buf_append_static(buf, "Error ");
     cowl_str_buf_append_uint(buf, error->code);
+
+    if (error->origin) {
+        cowl_str_buf_append_static(buf, " - triggered by ");
+
+        if (cowl_object_get_type(error->origin) == COWL_OT_PARSER) {
+            CowlSubParser const *sp = cowl_parser_get_subparser((CowlParser *)error->origin);
+            char const *name = sp->name ? sp->name : "unnamed";
+            cowl_str_buf_append_cstring(buf, name, strlen(name));
+            cowl_str_buf_append_static(buf, " parser ");
+        } else {
+            cowl_str_buf_append_object_debug(buf, error->origin);
+        }
+    }
 
     CowlErrorLoc loc = error->location;
 

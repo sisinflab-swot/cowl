@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -19,6 +19,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlObject);
 cowl_struct_decl(CowlString);
 /// @endcond
 
@@ -44,6 +45,9 @@ typedef cowl_struct(CowlError) {
 
     /// Human readable description of the error.
     CowlString *description;
+
+    /// Object that originated the error.
+    CowlObject *origin;
 
     /// Error location.
     CowlErrorLoc location;

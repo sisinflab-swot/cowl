@@ -1,14 +1,14 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
  */
 
-%option prefix="cowl_functional_"
+%option prefix="cowl_func_yy"
 %option 8bit reentrant bison-bridge bison-locations
 %option warn nodefault
 %option yylineno batch
@@ -17,7 +17,7 @@
 %option extra-type="CowlInputStream const *"
 
 %top{
-    #include "cowl_functional_parser.h"
+    #include "cowl_func_yyparser.h"
 }
 
 %{

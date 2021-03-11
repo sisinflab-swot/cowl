@@ -19,7 +19,7 @@ Requirements
 
 In order to compile it, you will need:
 
-- CMake_ version 3.16 or later.
+- CMake_ version 3.18 or later.
 - Flex_ version 2.6.4 or later.
 - Bison_ version 3.0 or later.
 

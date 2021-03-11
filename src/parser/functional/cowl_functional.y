@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -10,11 +10,11 @@
 
 // API configuration
 
-%define api.prefix {cowl_functional_}
+%define api.prefix {cowl_func_yy}
 %define api.pure full
-%lex-param { yyscan_t scanner }
-%parse-param { yyscan_t scanner }
-%parse-param { CowlParser *parser }
+%lex-param {yyscan_t scanner}
+%parse-param {yyscan_t scanner}
+%parse-param {CowlFuncParser *parser}
 %locations
 
 // Code
@@ -23,8 +23,8 @@
     #undef YYSTYPE
     #undef YYLTYPE
 
-    #define YYSTYPE COWL_FUNCTIONAL_STYPE
-    #define YYLTYPE COWL_FUNCTIONAL_LTYPE
+    #define YYSTYPE COWL_FUNC_YYSTYPE
+    #define YYLTYPE COWL_FUNC_YYLTYPE
 
     #define YYMALLOC cowl_malloc
     #define YYFREE cowl_free
@@ -41,19 +41,20 @@
 }
 
 %code top {
-    #include "cowl_functional_parser.h"
-    #include "cowl_functional_lexer.h"
+    #include "cowl_func_yyparser.h"
+    #include "cowl_func_yylexer.h"
+    #include "cowl_func_parser.h"
     #include "cowl_private.h"
 
-    static void cowl_functional_error(cowl_unused COWL_FUNCTIONAL_LTYPE *yylloc,
-                                      cowl_unused yyscan_t scanner,
-                                      CowlParser *parser, const char *s) {
+    static void cowl_func_yyerror(cowl_unused COWL_FUNC_YYLTYPE *yylloc,
+                                  cowl_unused yyscan_t scanner,
+                                  CowlFuncParser *parser, const char *s) {
         cowl_ret code = strcmp(s, "memory exhausted") ? COWL_ERR_SYNTAX : COWL_ERR_MEM;
-        cowl_parser_handle_error(parser, code, s);
+        cowl_parser_ctx_handle_error(parser->ctx, code, s);
     }
 
     #define COWL_ERROR(CODE) do {                                                                   \
-        cowl_parser_handle_error_type(parser, (CODE));                                              \
+        cowl_parser_ctx_handle_error_type(parser->ctx, (CODE));                                     \
         YYERROR;                                                                                    \
     } while(0)
 
@@ -235,7 +236,7 @@ prefix_name
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_parser_get_full_iri(parser, $1);
+        $$ = cowl_func_parser_get_full_iri(parser, $1);
     }
 ;
 
@@ -257,7 +258,7 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
-        cowl_ret ret = cowl_parser_register_ns(parser, $3, $5->ns);
+        cowl_ret ret = cowl_func_parser_register_ns(parser, $3, $5->ns);
         cowl_string_release($3);
         cowl_iri_release($5);
         if (ret) YYERROR;
@@ -271,12 +272,12 @@ ontology
 ontology_id
     : %empty
     | ontology_iri {
-        cowl_parser_set_iri(parser, $1);
+        cowl_parser_ctx_set_iri(parser->ctx, $1);
         cowl_iri_release($1);
     }
     | ontology_iri version_iri {
-        cowl_parser_set_iri(parser, $1);
-        cowl_parser_set_version(parser, $2);
+        cowl_parser_ctx_set_iri(parser->ctx, $1);
+        cowl_parser_ctx_set_version(parser->ctx, $2);
         cowl_iri_release($1);
         cowl_iri_release($2);
     }
@@ -297,7 +298,7 @@ ontology_imports
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret ret = cowl_parser_add_import(parser, $3);
+        cowl_ret ret = cowl_parser_ctx_add_import(parser->ctx, $3);
         cowl_iri_release($3);
         if (ret) YYERROR;
     }
@@ -306,7 +307,7 @@ import
 ontology_annotations
     : %empty
     | ontology_annotations annotation {
-        cowl_ret ret = cowl_parser_add_annot(parser, $2);
+        cowl_ret ret = cowl_parser_ctx_add_annot(parser->ctx, $2);
         cowl_annotation_release($2);
         if (ret) YYERROR;
     }
@@ -314,7 +315,7 @@ ontology_annotations
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret ret = cowl_parser_add_axiom(parser, $2);
+        cowl_ret ret = cowl_parser_ctx_add_axiom(parser->ctx, $2);
         cowl_axiom_release($2);
         if (ret) YYERROR;
     }
@@ -381,7 +382,7 @@ named_individual
 
 anonymous_individual
     : BLANK_NODE_LABEL {
-        $$ = (CowlIndividual *)cowl_parser_get_anon_ind(parser, $1);
+        $$ = (CowlIndividual *)cowl_func_parser_get_anon_ind(parser, $1);
     }
 ;
 

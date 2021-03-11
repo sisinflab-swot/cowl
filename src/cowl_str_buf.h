@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,6 +43,7 @@ cowl_ret cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va
 // Misc
 
 cowl_ret cowl_str_buf_append_object(CowlStrBuf *buf, CowlObject *obj);
+cowl_ret cowl_str_buf_append_object_debug(CowlStrBuf *buf, CowlObject *obj);
 cowl_ret cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri);
 cowl_ret cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri);
 cowl_ret cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID *id);

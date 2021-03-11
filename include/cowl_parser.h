@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,7 @@
 
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
-#include "cowl_std.h"
+#include "cowl_sub_parser.h"
 
 COWL_BEGIN_DECLS
 
@@ -32,14 +32,27 @@ cowl_struct_decl(CowlParser);
  */
 
 /**
- * Returns a retained parser.
+ * Returns a retained parser that uses the default subparser.
  *
  * @return Retained parser, or NULL on error.
+ *
+ * @note You can specify the default subparser via `cowl_api_set_subparser`.
  *
  * @public @memberof CowlParser
  */
 COWL_PUBLIC
 CowlParser* cowl_parser_get(void);
+
+/**
+ * Returns a retained parser that uses the specified subparser.
+ *
+ * @param sub_parser The subparser.
+ * @return Retained parser, or NULL on error.
+ *
+ * @public @memberof CowlParser
+ */
+COWL_PUBLIC
+CowlParser* cowl_parser_get_with_subparser(CowlSubParser const *sub_parser);
 
 /**
  * Retains the specified parser.
@@ -61,6 +74,17 @@ CowlParser* cowl_parser_retain(CowlParser *parser);
  */
 COWL_PUBLIC
 void cowl_parser_release(CowlParser *parser);
+
+/**
+ * Returns the subparser that is currently in use by the parser.
+ *
+ * @param parser The parser.
+ * @return The subparser.
+ *
+ * @public @memberof CowlParser
+ */
+COWL_PUBLIC
+CowlSubParser const* cowl_parser_get_subparser(CowlParser *parser);
 
 /**
  * Sets the import loader.

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,7 +13,9 @@
 #include "cowl_class_private.h"
 #include "cowl_data_prop_private.h"
 #include "cowl_datatype_private.h"
+#include "cowl_error_handler_private.h"
 #include "cowl_facet_private.h"
+#include "cowl_import_loader_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_named_ind_private.h"
 #include "cowl_obj_prop_private.h"
@@ -21,23 +23,29 @@
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_string_private.h"
+#include "cowl_sub_parser.h"
 #include "cowl_xsd_vocab_private.h"
 
 static bool cowl_api_initialized = false;
-static CowlErrorHandler global_error_handler = cowl_error_handler_init(NULL, NULL, NULL);
-static CowlImportLoader global_import_loader = cowl_import_loader_init(NULL, NULL, NULL);
+static CowlErrorHandler global_error_handler;
+static CowlImportLoader global_import_loader;
+static CowlSubParser const *global_sub_parser;
+
+static void cowl_api_config_init(void) {
+    global_error_handler = cowl_error_handler_init(NULL, NULL, NULL);
+    global_import_loader = cowl_import_loader_init(NULL, NULL, NULL);
+    global_sub_parser = cowl_api_default_sub_parser();
+}
 
 static void cowl_api_config_deinit(void) {
-    if (global_error_handler.free) global_error_handler.free(global_error_handler.ctx);
-    global_error_handler = cowl_error_handler_init(NULL, NULL, NULL);
-
-    if (global_import_loader.free) global_import_loader.free(global_import_loader.ctx);
-    global_import_loader = cowl_import_loader_init(NULL, NULL, NULL);
+    cowl_error_handler_deinit(global_error_handler);
+    cowl_import_loader_deinit(global_import_loader);
 }
 
 cowl_ret cowl_api_init(void) {
     if (cowl_api_initialized) return COWL_OK;
     cowl_api_initialized = true;
+    cowl_api_config_init();
 
     if (cowl_annot_prop_api_init() ||
         cowl_class_api_init() ||
@@ -93,6 +101,18 @@ CowlImportLoader cowl_api_get_import_loader(void) {
         .ctx = global_import_loader.ctx,
         .load_ontology = global_import_loader.load_ontology
     };
+}
+
+CowlSubParser const* cowl_api_get_sub_parser(void) {
+    return global_sub_parser;
+}
+
+CowlSubParser const* cowl_api_default_sub_parser(void) {
+#ifdef COWL_PARSER_FUNCTIONAL
+    return cowl_func_parser;
+#else
+    return NULL;
+#endif
 }
 
 void cowl_api_set_import_loader(CowlImportLoader loader) {

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -96,8 +96,13 @@ cowl_ret cowl_str_buf_append_object(CowlStrBuf *buf, CowlObject *obj) {
         case COWL_OT_FACET_RESTR: return cowl_str_buf_append_facet_restr(buf, (CowlFacetRestr *)obj);
         case COWL_OT_ANNOTATION: return cowl_str_buf_append_annotation(buf, (CowlAnnotation *)obj);
         case COWL_OT_ANNOT_PROP: return cowl_str_buf_append_annot_prop(buf, (CowlAnnotProp *)obj);
-        default: return COWL_OK;
+        default: return cowl_str_buf_append_object_debug(buf, obj);
     }
+}
+
+cowl_ret cowl_str_buf_append_object_debug(CowlStrBuf *buf, CowlObject *obj) {
+    return cowl_str_buf_append_format(buf, "<CowlObject %p, type %d, ref %" COWL_UINT_FMT ">",
+                                      obj, cowl_object_get_type(obj), cowl_object_get_ref(obj));
 }
 
 cowl_ret cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri) {
