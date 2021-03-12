@@ -24,9 +24,9 @@
 #include "cowl_nary_axiom_type.h"
 #include "cowl_node_id.h"
 #include "cowl_ontology_id.h"
+#include "cowl_parser.h"
 #include "cowl_quant_type.h"
 #include "cowl_raw_string.h"
-#include "cowl_sub_parser.h"
 #include "cowl_version.h"
 
 COWL_BEGIN_DECLS
@@ -90,9 +90,9 @@ cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlObjPropRangeAxiom);
 cowl_struct_decl(CowlObjQuant);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlParser);
 cowl_struct_decl(CowlParserCtx);
 cowl_struct_decl(CowlPrimitive);
+cowl_struct_decl(CowlReader);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubAnnotPropAxiom);
 cowl_struct_decl(CowlSubClsAxiom);

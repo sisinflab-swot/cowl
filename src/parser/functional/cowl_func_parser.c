@@ -17,7 +17,7 @@
 #include "cowl_parser_ctx.h"
 #include "cowl_string_private.h"
 
-static CowlSubParser const cowl_func_parser_storage = {
+static CowlParser const cowl_func_parser = {
     .name = "functional",
     .alloc = cowl_func_parser_alloc,
     .free = cowl_func_parser_free,
@@ -25,7 +25,9 @@ static CowlSubParser const cowl_func_parser_storage = {
     .get_line = cowl_func_parser_get_line
 };
 
-CowlSubParser const *const cowl_func_parser = &cowl_func_parser_storage;
+CowlParser cowl_parser_get_functional(void) {
+    return cowl_func_parser;
+}
 
 void* cowl_func_parser_alloc(void) {
     CowlFuncParser *parser = cowl_alloc(parser);

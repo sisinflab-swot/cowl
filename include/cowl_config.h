@@ -16,12 +16,9 @@
 #include "cowl_std.h"
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
+#include "cowl_parser.h"
 
 COWL_BEGIN_DECLS
-
-/// @cond
-cowl_struct_decl(CowlSubParser);
-/// @endcond
 
 /**
  * Initializes the API.
@@ -64,14 +61,14 @@ COWL_PUBLIC
 void cowl_api_set_import_loader(CowlImportLoader loader);
 
 /**
- * Sets the default subparser.
+ * Sets the default parser.
  *
- * @param sub_parser The subparser.
+ * @param parser The parser.
  *
  * @note This function must be called again if you reinitialize the API after deinitializing it.
  */
 COWL_PUBLIC
-void cowl_api_set_subparser(CowlSubParser const *sub_parser);
+void cowl_api_set_parser(CowlParser parser);
 
 COWL_END_DECLS
 

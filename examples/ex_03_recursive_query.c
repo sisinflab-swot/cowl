@@ -19,9 +19,9 @@ static bool for_each_cls(void *ctx, void *cls);
 int main(void) {
     cowl_api_init();
 
-    CowlParser *parser = cowl_parser_get();
-    CowlOntology *ontology = cowl_parser_parse_path(parser, ONTO_PATH);
-    cowl_parser_release(parser);
+    CowlReader *reader = cowl_reader_get();
+    CowlOntology *ontology = cowl_reader_read_path(reader, ONTO_PATH);
+    cowl_reader_release(reader);
 
     if (ontology) {
         CowlLogger *logger = cowl_logger_console_get();

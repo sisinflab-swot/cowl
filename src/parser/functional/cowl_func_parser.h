@@ -11,7 +11,7 @@
 #ifndef COWL_FUNC_PARSER_H
 #define COWL_FUNC_PARSER_H
 
-#include "cowl_sub_parser.h"
+#include "cowl_parser.h"
 #include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS

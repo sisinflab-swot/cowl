@@ -20,21 +20,21 @@
 #include "cowl_named_ind_private.h"
 #include "cowl_obj_prop_private.h"
 #include "cowl_owl_vocab_private.h"
+#include "cowl_parser.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_string_private.h"
-#include "cowl_sub_parser.h"
 #include "cowl_xsd_vocab_private.h"
 
 static bool cowl_api_initialized = false;
 static CowlErrorHandler global_error_handler;
 static CowlImportLoader global_import_loader;
-static CowlSubParser const *global_sub_parser;
+static CowlParser global_parser;
 
 static void cowl_api_config_init(void) {
-    global_error_handler = cowl_error_handler_init(NULL, NULL, NULL);
-    global_import_loader = cowl_import_loader_init(NULL, NULL, NULL);
-    global_sub_parser = cowl_api_default_sub_parser();
+    global_error_handler = (CowlErrorHandler){};
+    global_import_loader = (CowlImportLoader){};
+    global_parser = cowl_api_default_parser();
 }
 
 static void cowl_api_config_deinit(void) {
@@ -103,18 +103,22 @@ CowlImportLoader cowl_api_get_import_loader(void) {
     };
 }
 
-CowlSubParser const* cowl_api_get_sub_parser(void) {
-    return global_sub_parser;
-}
-
-CowlSubParser const* cowl_api_default_sub_parser(void) {
-#ifdef COWL_PARSER_FUNCTIONAL
-    return cowl_func_parser;
-#else
-    return NULL;
-#endif
-}
-
 void cowl_api_set_import_loader(CowlImportLoader loader) {
     global_import_loader = loader;
+}
+
+CowlParser cowl_api_get_parser(void) {
+    return global_parser;
+}
+
+void cowl_api_set_parser(CowlParser parser) {
+    global_parser = parser;
+}
+
+CowlParser cowl_api_default_parser(void) {
+#ifdef COWL_PARSER_FUNCTIONAL
+    return cowl_parser_get_functional();
+#else
+    return (CowlParser){};
+#endif
 }

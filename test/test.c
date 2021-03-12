@@ -11,7 +11,7 @@
 #include "cowl_api.h"
 #include "cowl_iri_tests.h"
 #include "cowl_ontology_tests.h"
-#include "cowl_parser_tests.h"
+#include "cowl_reader_tests.h"
 #include "cowl_string_tests.h"
 #include "cowl_test_utils.h"
 #include "cowl_version_tests.h"
@@ -37,7 +37,7 @@ int main(void) {
     cowl_run_tests(exit_code,
         COWL_STRING_TESTS,
         COWL_IRI_TESTS,
-        COWL_PARSER_TESTS,
+        COWL_READER_TESTS,
         COWL_ONTOLOGY_TESTS,
         COWL_VERSION_TESTS
     );

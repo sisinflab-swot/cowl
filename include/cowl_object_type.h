@@ -37,8 +37,8 @@ typedef cowl_enum(CowlObjectType) {
     /// CowlOntology - Ontology.
     COWL_OT_ONTOLOGY,
 
-    /// CowlParser - Parser.
-    COWL_OT_PARSER,
+    /// CowlReader - Reader.
+    COWL_OT_READER,
 
     /// CowlLogger - Logger.
     COWL_OT_LOGGER,

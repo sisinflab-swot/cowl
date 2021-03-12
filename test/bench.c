@@ -46,16 +46,16 @@ int main(int argc, char *argv[]) {
     cowl_api_init();
 
     char const *onto_path = argc > 1 ? argv[1] : "test_onto.owl";
-    CowlParser *parser = cowl_parser_get();
+    CowlReader *reader = cowl_reader_get();
 
     double start = get_millis();
-    CowlOntology *onto = cowl_parser_parse_path(parser, onto_path);
+    CowlOntology *onto = cowl_reader_read_path(reader, onto_path);
     double stop = get_millis();
 
-    cowl_parser_release(parser);
+    cowl_reader_release(reader);
 
     if (!onto) {
-        printf("Failed to parse ontology at path: %s", onto_path);
+        printf("Failed to read ontology at path: %s", onto_path);
         return EXIT_FAILURE;
     }
 

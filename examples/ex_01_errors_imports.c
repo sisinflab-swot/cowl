@@ -23,10 +23,10 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    CowlParser *parser = cowl_parser_get();
+    CowlReader *reader = cowl_reader_get();
     CowlLogger *logger = cowl_logger_console_get();
 
-    if (!(parser && logger)) {
+    if (!(reader && logger)) {
         return EXIT_FAILURE;
     }
 
@@ -34,11 +34,11 @@ int main(void) {
     cowl_api_set_import_loader(cowl_import_loader_init(NULL, load_import, NULL));
     cowl_api_set_error_handler(cowl_error_handler_init(logger, handle_error, NULL));
 
-    // Deserialize an ontology.
-    CowlOntology *ontology = cowl_parser_parse_path(parser, ONTO_PATH);
-    cowl_parser_release(parser);
+    // Read the ontology from file.
+    CowlOntology *ontology = cowl_reader_read_path(reader, ONTO_PATH);
+    cowl_reader_release(reader);
 
-    // Log the parsed ontology.
+    // Log the ontology.
     if (ontology) {
         cowl_logger_log_ontology(logger, ontology);
         cowl_ontology_release(ontology);
@@ -57,18 +57,18 @@ int main(void) {
  */
 static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
     CowlOntology *import = NULL;
-    CowlParser *parser = cowl_parser_get();
+    CowlReader *reader = cowl_reader_get();
 
-    if (parser) {
-        import = cowl_parser_parse_path(parser, IMPORT_PATH);
-        cowl_parser_release(parser);
+    if (reader) {
+        import = cowl_reader_read_path(reader, IMPORT_PATH);
+        cowl_reader_release(reader);
     }
 
     return import;
 }
 
 /*
- * In general it is very reasonable to just check that the ontology returned by the parser
+ * In general it is very reasonable to just check that the ontology returned by the reader
  * is not NULL. The error handler mechanism is only needed if you wish to implement
  * more fine-grained error handling. In this example, errors are logged to file.
  */

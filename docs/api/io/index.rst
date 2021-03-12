@@ -4,6 +4,6 @@ Input / Output
 
 .. toctree::
 
-   parsing
+   reading
    logging
    error

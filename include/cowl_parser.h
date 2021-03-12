@@ -1,9 +1,9 @@
 /**
- * Declares CowlParser and its API.
+ * Defines CowlParser and declares its API.
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,151 +13,74 @@
 #ifndef COWL_PARSER_H
 #define COWL_PARSER_H
 
-#include "cowl_error_handler.h"
-#include "cowl_import_loader.h"
-#include "cowl_sub_parser.h"
+#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlInputStream);
-cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlParser);
+cowl_struct_decl(CowlParserCtx);
 /// @endcond
 
-/**
- * Allows for the deserialization of ontology documents.
- *
- * @struct CowlParser
- */
+/// Defines a parser.
+typedef cowl_struct(CowlParser) {
+
+    /// Name of the parser.
+    char const *name;
+
+    /**
+     * Pointer to a function that allocates the parser's state and reserves any needed resource.
+     *
+     * @return Parser state.
+     *
+     * @note This member is optional.
+     */
+    void* (*alloc)(void);
+
+    /**
+     * Pointer to a function that deallocates the parser's state and releases reserved resources.
+     *
+     * @param state Parser state.
+     *
+     * @note This member is optional.
+     */
+    void (*free)(void *state);
+
+    /**
+     * Pointer to a function that parses an ontology from an input stream.
+     *
+     * @param state Parser state.
+     * @param ctx Parser context.
+     * @return Return code.
+     *
+     * @note This member is mandatory.
+     */
+    cowl_ret (*parse)(void *state, CowlParserCtx *ctx);
+
+    /**
+     * Pointer to a function that returns the current line in the input stream, if applicable.
+     *
+     * @param state Parser state.
+     * @return Current line.
+     *
+     * @note This member is optional.
+     */
+    cowl_uint (*get_line)(void *state);
+
+} CowlParser;
+
+#ifdef COWL_PARSER_FUNCTIONAL
 
 /**
- * Returns a retained parser that uses the default subparser.
+ * Returns the functional syntax parser.
  *
- * @return Retained parser, or NULL on error.
+ * @return Functional syntax parser.
  *
- * @note You can specify the default subparser via `cowl_api_set_subparser`.
- *
- * @public @memberof CowlParser
+ * @public @related CowlParser
  */
 COWL_PUBLIC
-CowlParser* cowl_parser_get(void);
+CowlParser cowl_parser_get_functional(void);
 
-/**
- * Returns a retained parser that uses the specified subparser.
- *
- * @param sub_parser The subparser.
- * @return Retained parser, or NULL on error.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-CowlParser* cowl_parser_get_with_subparser(CowlSubParser const *sub_parser);
-
-/**
- * Retains the specified parser.
- *
- * @param parser The parser.
- * @return Retained parser.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-CowlParser* cowl_parser_retain(CowlParser *parser);
-
-/**
- * Releases the specified parser.
- *
- * @param parser The parser.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-void cowl_parser_release(CowlParser *parser);
-
-/**
- * Returns the subparser that is currently in use by the parser.
- *
- * @param parser The parser.
- * @return The subparser.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-CowlSubParser const* cowl_parser_get_subparser(CowlParser *parser);
-
-/**
- * Sets the import loader.
- *
- * @param parser The parser.
- * @param loader The import loader.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-void cowl_parser_set_import_loader(CowlParser *parser, CowlImportLoader loader);
-
-/**
- * Sets the error handler.
- *
- * @param parser The parser.
- * @param handler The error handler.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-void cowl_parser_set_error_handler(CowlParser *parser, CowlErrorHandler handler);
-
-/**
- * Parses an ontology from the file at the specified path.
- *
- * @param parser The parser.
- * @param path The file path.
- * @return The parsed ontology, or NULL on error.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-CowlOntology* cowl_parser_parse_path(CowlParser *parser, char const *path);
-
-/**
- * Parses an ontology from the specified file.
- *
- * @param parser The parser.
- * @param file The input file.
- * @return The parsed ontology, or NULL on error.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-CowlOntology* cowl_parser_parse_file(CowlParser *parser, FILE *file);
-
-/**
- * Parses an ontology from the specified string.
- *
- * @param parser The parser.
- * @param cstring The input string.
- * @param length Length of the input string (excluding the NULL terminator).
- * @return The parsed ontology, or NULL on error.
- *
- * @public @memberof CowlParser
- */
-COWL_PUBLIC
-CowlOntology* cowl_parser_parse_cstring(CowlParser *parser, char const *cstring, size_t length);
-
-/**
- * Parses an ontology from the specified input stream.
- *
- * @param parser The parser.
- * @param stream The input stream.
- * @return The parsed ontology, or NULL on error.
- *
- * @public @memberof CowlParser
- *
- * @note The stream is not released by the parser, you must do it yourself.
- */
-COWL_PUBLIC
-CowlOntology* cowl_parser_parse_stream(CowlParser *parser, CowlInputStream const *stream);
+#endif // COWL_PARSER_FUNCTIONAL
 
 COWL_END_DECLS
 

@@ -18,7 +18,7 @@
 #include "cowl_obj_prop.h"
 #include "cowl_ontology.h"
 #include "cowl_ontology_id.h"
-#include "cowl_parser.h"
+#include "cowl_reader.h"
 #include "cowl_string.h"
 #include "cowl_test_utils.h"
 
@@ -101,11 +101,11 @@ static cowl_uint* test_onto_axiom_counts(void) {
 // Init/deinit
 
 bool cowl_test_ontology_init(void) {
-    CowlParser *parser = cowl_parser_get();
+    CowlReader *reader = cowl_reader_get();
     CowlImportLoader loader = cowl_import_loader_init(NULL, cowl_test_load_import, NULL);
-    cowl_parser_set_import_loader(parser, loader);
-    onto = cowl_parser_parse_path(parser, COWL_TEST_ONTOLOGY);
-    cowl_parser_release(parser);
+    cowl_reader_set_import_loader(reader, loader);
+    onto = cowl_reader_read_path(reader, COWL_TEST_ONTOLOGY);
+    cowl_reader_release(reader);
     cowl_assert_critical(onto, "Ontology parsing must complete without errors.");
     return true;
 }

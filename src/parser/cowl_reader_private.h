@@ -8,24 +8,24 @@
  * @file
  */
 
-#ifndef COWL_PARSER_PRIVATE_H
-#define COWL_PARSER_PRIVATE_H
+#ifndef COWL_READER_PRIVATE_H
+#define COWL_READER_PRIVATE_H
 
-#include "cowl_parser.h"
+#include "cowl_reader.h"
 #include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlParser) {
+cowl_struct(CowlReader) {
     CowlObject super;
-    CowlSubParser const *sp;
     CowlInputStream *stream;
     CowlOntology *ontology;
     void *state;
+    CowlParser parser;
     CowlErrorHandler handler;
     CowlImportLoader loader;
 };
 
 COWL_END_DECLS
 
-#endif // COWL_PARSER_PRIVATE_H
+#endif // COWL_READER_PRIVATE_H

@@ -17,8 +17,8 @@ COWL_BEGIN_DECLS
 
 CowlErrorHandler cowl_api_get_error_handler(void);
 CowlImportLoader cowl_api_get_import_loader(void);
-CowlSubParser const* cowl_api_get_sub_parser(void);
-CowlSubParser const* cowl_api_default_sub_parser(void);
+CowlParser cowl_api_get_parser(void);
+CowlParser cowl_api_default_parser(void);
 
 COWL_END_DECLS
 

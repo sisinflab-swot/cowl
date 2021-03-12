@@ -1,5 +1,5 @@
 /*
- * This introductory example shows how to parse an ontology
+ * This introductory example shows how to read an ontology
  * and log its axioms and annotations.
  * Note that error and import handling are omitted for the sake of simplicity.
  *
@@ -18,14 +18,14 @@ int main(void) {
     // You must always initialize the API before use.
     cowl_api_init();
 
-    // Instantiate a parser and deserialize an ontology.
-    CowlParser *parser = cowl_parser_get();
-    CowlOntology *ontology = cowl_parser_parse_path(parser, ONTO_PATH);
+    // Instantiate a reader and deserialize an ontology from file.
+    CowlReader *reader = cowl_reader_get();
+    CowlOntology *ontology = cowl_reader_read_path(reader, ONTO_PATH);
 
-    // You don't need the parser anymore.
-    cowl_parser_release(parser);
+    // You don't need the reader anymore.
+    cowl_reader_release(reader);
 
-    // Log the parsed ontology.
+    // Log the ontology.
     if (ontology) {
         CowlLogger *logger = cowl_logger_console_get();
         cowl_logger_log_ontology(logger, ontology);

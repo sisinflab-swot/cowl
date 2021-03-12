@@ -10,7 +10,7 @@
 
 #include "cowl_error.h"
 #include "cowl_object.h"
-#include "cowl_parser.h"
+#include "cowl_reader_private.h"
 #include "cowl_ret_private.h"
 #include "cowl_str_buf.h"
 
@@ -24,9 +24,9 @@ CowlString* cowl_error_to_string(CowlError const *error) {
     if (error->origin) {
         cowl_str_buf_append_static(buf, " - triggered by ");
 
-        if (cowl_object_get_type(error->origin) == COWL_OT_PARSER) {
-            CowlSubParser const *sp = cowl_parser_get_subparser((CowlParser *)error->origin);
-            char const *name = sp->name ? sp->name : "unnamed";
+        if (cowl_object_get_type(error->origin) == COWL_OT_READER) {
+            CowlParser parser = ((CowlReader *)error->origin)->parser;
+            char const *name = parser.name ? parser.name : "unnamed";
             cowl_str_buf_append_cstring(buf, name, strlen(name));
             cowl_str_buf_append_static(buf, " parser ");
         } else {
