@@ -60,8 +60,6 @@ The following commands allow you to build Cowl:
    # [Optional] Build the documentation
    cmake --build cmake-build --target cowl-docs
 
-.. _basics:
-
 Programming with Cowl
 =====================
 
@@ -80,10 +78,13 @@ Ontology deserialization
 ------------------------
 
 In order to query an ontology you must first deserialize it, which can be done via
-:class:`CowlReader`. In general, ontologies may `import <owl imports_>`_ other ontologies,
-which may involve retrieving them from the network.
-Cowl's approach to imports reflects its :ref:`focus on portability <about>`,
-so ontology retrieval :ref:`is delegated to the end user <import>`.
+:class:`CowlReader`. Cowl can use multiple parsers, either built-in or provided by the user.
+For further information, refer to :ref:`the related documentation <reading>`.
+
+OWL ontologies may `import <owl imports_>`_ other ontologies, which may involve loading them
+from mass storage or retrieving them from the network. Cowl's approach to imports reflects
+its :ref:`focus on portability <about>`, so ontology retrieval
+:ref:`is delegated to the end user <import>`.
 
 Ontology queries
 ----------------
@@ -95,11 +96,6 @@ member functions, which generally accept :class:`CowlIterator` instances.
 :class:`CowlIterator` is a wrapper around a function that is called for every element matched
 by the query. By providing a generic context pointer, you can plug any custom data structure
 (loggers, collections, etc.), which allows for arbitrarily complex queries.
-
-The iterator function returns a `boolean` that can be used to control iteration:
-by returning ``true`` iteration goes on to the next element, while returning ``false``
-causes it to stop. This is useful if, for example, you want to find the first element
-matching certain criteria.
 
 Memory management
 -----------------

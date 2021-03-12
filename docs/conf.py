@@ -7,6 +7,9 @@ version = '@PROJECT_VERSION@'
 release = '@PROJECT_VERSION@'
 logo = '@COWL_ICON@'
 git_url = '@COWL_GIT_URL@'
+poliba_url = 'http://www.poliba.it'
+sisinflab_url = 'http://sisinflab.poliba.it'
+swot_url = '@COWL_VENDOR_URL@'
 
 # Sphinx
 
@@ -14,12 +17,12 @@ primary_domain = 'cpp'
 default_role = 'any'
 extensions = ['breathe']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-rst_prolog = """
-:github_url: @COWL_GIT_URL@
-"""
-rst_epilog = """
-.. _git_url: @COWL_GIT_URL@
-"""
+rst_prolog = f':github_url: {git_url}'
+rst_epilog = (
+    f'.. _git_url: {git_url}\n'
+    f'.. _swot_url: {swot_url}\n'
+    f'.. _poliba_url: {poliba_url}\n'
+)
 
 # HTML
 
@@ -29,6 +32,11 @@ templates_path = ['@SPHINX_INPUT_DIRECTORY@/_templates']
 html_static_path = ['@SPHINX_INPUT_DIRECTORY@/_static', '@DOCS_IMAGES_DIRECTORY@']
 html_logo = logo
 html_short_title = '{} docs'.format(project)
+html_context = {
+    'poliba_url': poliba_url,
+    'sisinflab_url': sisinflab_url,
+    'swot_url': swot_url
+}
 html_copy_source = False
 html_show_sphinx = False
 html_use_index = False

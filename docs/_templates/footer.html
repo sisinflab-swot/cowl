@@ -1,17 +1,17 @@
 {% extends "!footer.html" %}
 {% block extrafooter %}
     <div class="swot-logos">
-        <a href="http://www.poliba.it" target="_blank">
+        <a href="{{ poliba_url }}" target="_blank">
             <img src="{{ pathto('_static/poliba_logo.png', 1) }}"
                  alt="Polytechnic University of Bari logo"
             />
         </a>
-        <a href="http://sisinflab.poliba.it" target="_blank">
+        <a href="{{ sisinflab_url }}" target="_blank">
             <img src="{{ pathto('_static/sisinflab_logo.png', 1) }}"
                  alt="Information Systems Laboratory logo"
             />
         </a>
-        <a href="http://sisinflab.poliba.it/swottools" target="_blank">
+        <a href="{{ swot_url }}" target="_blank">
             <img src="{{ pathto('_static/swot_logo.png', 1) }}"
                  alt="Semantic Web of Things logo"
             />

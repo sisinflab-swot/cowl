@@ -2,6 +2,10 @@ img.logo {
     width: 160px !important;
     height: 160px !important;
 }
+/* TODO: remove when the RTD theme fixes spacing for function args and return types */
+dt {
+    display: inline-block !important;
+}
 
 .swot-logos {
     width: 100%;

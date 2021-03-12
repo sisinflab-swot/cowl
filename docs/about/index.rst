@@ -5,7 +5,7 @@ What is this?
 =============
 
 *Cowl* is a lightweight C API for working with OWL 2 ontologies, developed by
-`SisInf Lab`_ at the `Polytechnic University of Bari`_.
+`SisInf Lab <swot_url_>`_ at the `Polytechnic University of Bari <poliba_url_>`_.
 
 Motivation
 ==========
@@ -35,9 +35,9 @@ for axioms and other constructs.
 Limitations
 ===========
 
-Cowl currently only supports ontologies in **functional syntax**.
-Furthermore, it does not yet provide ontology editing and serialization capabilities.
-We plan to address these shortcomings soon.
+While Cowl's architecture allows for multiple parsers, the library currently only provides
+a **functional syntax** built-in parser. Furthermore, it does not yet provide ontology editing
+and serialization capabilities. We plan to address these shortcomings soon.
 
 Finally, it is important to note that the library is in **early development**, as denoted by
 the `0.x version number <semver_>`_, so expect its API to change between minor releases.
@@ -53,7 +53,5 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _OWL API: https://github.com/owlcs/owlapi
 .. _owl-cpp: http://owl-cpp.sourceforge.net
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
-.. _Polytechnic University of Bari: http://www.poliba.it
 .. _semver: https://semver.org
-.. _SisInf Lab: http://swot.sisinflab.poliba.it
 .. _uLib: https://github.com/IvanoBilenchi/ulib

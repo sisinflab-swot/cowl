@@ -14,15 +14,16 @@ set(COWL_VERSION_MINOR 4)
 set(COWL_VERSION_PATCH 1)
 set(COWL_VERSION "${COWL_VERSION_MAJOR}.${COWL_VERSION_MINOR}.${COWL_VERSION_PATCH}")
 
+set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
+set(COWL_VENDOR_URL "http://swot.sisinflab.poliba.it")
+set(COWL_COPYRIGHT_YEAR "2019-2021")
+set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
+
 project(Cowl
         VERSION "${COWL_VERSION}"
         DESCRIPTION "A lightweight C API for working with OWL ontologies."
-        HOMEPAGE_URL "http://swot.sisinflab.poliba.it/cowl"
+        HOMEPAGE_URL "${COWL_VENDOR_URL}/cowl"
         LANGUAGES C)
-
-set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
-set(COWL_COPYRIGHT_YEAR "2019-2021")
-set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
 # Options
 

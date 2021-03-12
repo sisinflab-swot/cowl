@@ -26,7 +26,13 @@ cowl_struct_decl(CowlReader);
 /// @endcond
 
 /**
- * Allows for the deserialization of ontology documents.
+ * Reads ontology documents.
+ *
+ * CowlReader supports multiple input sources, such as files, memory buffers, or buffered
+ * input streams. It also supports multiple parsers, either built-in or provided by the user.
+ *
+ * @see CowlInputStream
+ * @see CowlParser
  *
  * @struct CowlReader
  */
@@ -36,7 +42,7 @@ cowl_struct_decl(CowlReader);
  *
  * @return Retained reader, or NULL on error.
  *
- * @note You can specify the default parser via `cowl_api_set_parser`.
+ * @note You can specify the default parser via `cowl_api_set_parser()`.
  *
  * @public @memberof CowlReader
  */

@@ -29,15 +29,15 @@ via the `COWL_USER_HEADERS` and `COWL_USER_SOURCES` CMake variables.
 .. doxygendefine:: cowl_free
 .. doxygendefine:: cowl_alloc
 
-Handlers
-========
+Handlers and defaults
+=====================
 
-You can configure global handlers for errors and imports via these functions, though you can
-also configure local ones for specific objects. Refer to the :ref:`errors <error>` and
-:ref:`imports <import>` handling documentation for further info.
+Global/default behaviour of the API can be configured via these functions. In general, you will
+still be able to provide local overrides for specific objects.
 
 .. doxygenfunction:: cowl_api_set_error_handler
 .. doxygenfunction:: cowl_api_set_import_loader
+.. doxygenfunction:: cowl_api_set_parser
 
 Library version
 ===============
