@@ -145,6 +145,9 @@ bool cowl_object_is_data_range(CowlObject *object) {
 CowlString* cowl_object_to_string(CowlObject *object)
     COWL_TO_STRING_IMPL(object, object)
 
+CowlString* cowl_object_to_debug_string(CowlObject *object)
+    COWL_TO_STRING_IMPL(object_debug, object)
+
 bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs) {
     CowlObjectType type = cowl_object_get_type(lhs);
     if (type != cowl_object_get_type(rhs)) return false;

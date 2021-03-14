@@ -152,6 +152,22 @@ COWL_PUBLIC
 CowlString* cowl_object_to_string(CowlObject *object);
 
 /**
+ * Returns a debug string representation of the specified object.
+ *
+ * The debug string includes internal details such as the object's address,
+ * type and reference count.
+ *
+ * @param object The object.
+ * @return String representation, or NULL on error.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+CowlString* cowl_object_to_debug_string(CowlObject *object);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

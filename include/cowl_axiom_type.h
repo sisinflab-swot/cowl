@@ -13,7 +13,7 @@
 #ifndef COWL_AXIOM_TYPE_H
 #define COWL_AXIOM_TYPE_H
 
-#include "cowl_std.h"
+#include "cowl_compat.h"
 
 COWL_BEGIN_DECLS
 

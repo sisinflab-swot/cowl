@@ -100,9 +100,103 @@ cowl_ret cowl_str_buf_append_object(CowlStrBuf *buf, CowlObject *obj) {
     }
 }
 
+static cowl_ret cowl_str_buf_append_object_type(CowlStrBuf *buf, CowlObjectType type) {
+    #define GEN_OT_STRING(T) case COWL_OT_##T: return cowl_str_buf_append_static(buf, #T)
+
+    switch (type) {
+        GEN_OT_STRING(STRING);
+        GEN_OT_STRING(IRI);
+        GEN_OT_STRING(LITERAL);
+        GEN_OT_STRING(FACET_RESTR);
+        GEN_OT_STRING(ONTOLOGY);
+        GEN_OT_STRING(READER);
+        GEN_OT_STRING(LOGGER);
+        GEN_OT_STRING(ANNOTATION);
+        GEN_OT_STRING(ANNOT_PROP);
+        GEN_OT_STRING(A_DECL);
+        GEN_OT_STRING(A_DATATYPE_DEF);
+        GEN_OT_STRING(A_SUB_CLASS);
+        GEN_OT_STRING(A_EQUIV_CLASSES);
+        GEN_OT_STRING(A_DISJ_CLASSES);
+        GEN_OT_STRING(A_DISJ_UNION);
+        GEN_OT_STRING(A_CLASS_ASSERT);
+        GEN_OT_STRING(A_SAME_IND);
+        GEN_OT_STRING(A_DIFF_IND);
+        GEN_OT_STRING(A_OBJ_PROP_ASSERT);
+        GEN_OT_STRING(A_NEG_OBJ_PROP_ASSERT);
+        GEN_OT_STRING(A_DATA_PROP_ASSERT);
+        GEN_OT_STRING(A_NEG_DATA_PROP_ASSERT);
+        GEN_OT_STRING(A_SUB_OBJ_PROP);
+        GEN_OT_STRING(A_SUB_OBJ_PROP_CHAIN);
+        GEN_OT_STRING(A_INV_OBJ_PROP);
+        GEN_OT_STRING(A_EQUIV_OBJ_PROP);
+        GEN_OT_STRING(A_DISJ_OBJ_PROP);
+        GEN_OT_STRING(A_FUNC_OBJ_PROP);
+        GEN_OT_STRING(A_INV_FUNC_OBJ_PROP);
+        GEN_OT_STRING(A_SYMM_OBJ_PROP);
+        GEN_OT_STRING(A_ASYMM_OBJ_PROP);
+        GEN_OT_STRING(A_TRANS_OBJ_PROP);
+        GEN_OT_STRING(A_REFL_OBJ_PROP);
+        GEN_OT_STRING(A_IRREFL_OBJ_PROP);
+        GEN_OT_STRING(A_OBJ_PROP_DOMAIN);
+        GEN_OT_STRING(A_OBJ_PROP_RANGE);
+        GEN_OT_STRING(A_SUB_DATA_PROP);
+        GEN_OT_STRING(A_EQUIV_DATA_PROP);
+        GEN_OT_STRING(A_DISJ_DATA_PROP);
+        GEN_OT_STRING(A_FUNC_DATA_PROP);
+        GEN_OT_STRING(A_DATA_PROP_DOMAIN);
+        GEN_OT_STRING(A_DATA_PROP_RANGE);
+        GEN_OT_STRING(A_HAS_KEY);
+        GEN_OT_STRING(A_ANNOT_ASSERT);
+        GEN_OT_STRING(A_SUB_ANNOT_PROP);
+        GEN_OT_STRING(A_ANNOT_PROP_DOMAIN);
+        GEN_OT_STRING(A_ANNOT_PROP_RANGE);
+        GEN_OT_STRING(CE_CLASS);
+        GEN_OT_STRING(CE_OBJ_SOME);
+        GEN_OT_STRING(CE_OBJ_ALL);
+        GEN_OT_STRING(CE_OBJ_MIN_CARD);
+        GEN_OT_STRING(CE_OBJ_MAX_CARD);
+        GEN_OT_STRING(CE_OBJ_EXACT_CARD);
+        GEN_OT_STRING(CE_OBJ_HAS_VALUE);
+        GEN_OT_STRING(CE_OBJ_HAS_SELF);
+        GEN_OT_STRING(CE_DATA_SOME);
+        GEN_OT_STRING(CE_DATA_ALL);
+        GEN_OT_STRING(CE_DATA_MIN_CARD);
+        GEN_OT_STRING(CE_DATA_MAX_CARD);
+        GEN_OT_STRING(CE_DATA_EXACT_CARD);
+        GEN_OT_STRING(CE_DATA_HAS_VALUE);
+        GEN_OT_STRING(CE_OBJ_INTERSECT);
+        GEN_OT_STRING(CE_OBJ_UNION);
+        GEN_OT_STRING(CE_OBJ_COMPL);
+        GEN_OT_STRING(CE_OBJ_ONE_OF);
+        GEN_OT_STRING(DPE_DATA_PROP);
+        GEN_OT_STRING(DR_DATATYPE);
+        GEN_OT_STRING(DR_DATATYPE_RESTR);
+        GEN_OT_STRING(DR_DATA_INTERSECT);
+        GEN_OT_STRING(DR_DATA_UNION);
+        GEN_OT_STRING(DR_DATA_COMPL);
+        GEN_OT_STRING(DR_DATA_ONE_OF);
+        GEN_OT_STRING(I_ANONYMOUS);
+        GEN_OT_STRING(I_NAMED);
+        GEN_OT_STRING(OPE_OBJ_PROP);
+        GEN_OT_STRING(OPE_INV_OBJ_PROP);
+        default: {
+            cowl_str_buf_append_static(buf, "UNKNOWN(");
+            cowl_str_buf_append_uint(buf, type);
+            cowl_str_buf_append_static(buf, ")");
+            break;
+        }
+    }
+    return buf->ret;
+}
+
 cowl_ret cowl_str_buf_append_object_debug(CowlStrBuf *buf, CowlObject *obj) {
-    return cowl_str_buf_append_format(buf, "<CowlObject %p, type %d, ref %" COWL_UINT_FMT ">",
-                                      obj, cowl_object_get_type(obj), cowl_object_get_ref(obj));
+    cowl_str_buf_append_format(buf, "<CowlObject %p, type ", obj);
+    cowl_str_buf_append_object_type(buf, cowl_object_get_type(obj));
+    cowl_str_buf_append_static(buf, ", ref ");
+    cowl_str_buf_append_uint(buf, cowl_object_get_ref(obj));
+    cowl_str_buf_append_static(buf, ">");
+    return buf->ret;
 }
 
 cowl_ret cowl_str_buf_append_iri(CowlStrBuf *buf, CowlIRI *iri) {
