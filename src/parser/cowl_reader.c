@@ -118,9 +118,9 @@ CowlOntology* cowl_reader_read_file(CowlReader *reader, FILE *file) {
     CowlInputStream stream;
     reader->stream = &stream;
 
-    cowl_ret ret;
+    cowl_ret ret = cowl_input_stream_from_file(reader->stream, file);
 
-    if ((ret = cowl_input_stream_from_file(reader->stream, file))) {
+    if (ret) {
         cowl_parser_ctx_handle_error_type((CowlParserCtx *)reader, ret);
         reader->stream = NULL;
         return NULL;
@@ -133,9 +133,9 @@ CowlOntology* cowl_reader_read_cstring(CowlReader *reader, char const *cstring, 
     CowlInputStream stream;
     reader->stream = &stream;
 
-    cowl_ret ret;
+    cowl_ret ret = cowl_input_stream_from_cstring(reader->stream, cstring, length);
 
-    if ((ret = cowl_input_stream_from_cstring(reader->stream, cstring, length))) {
+    if (ret) {
         cowl_parser_ctx_handle_error_type((CowlParserCtx *)reader, ret);
         reader->stream = NULL;
         return NULL;

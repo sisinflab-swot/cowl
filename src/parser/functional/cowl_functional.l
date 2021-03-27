@@ -23,8 +23,12 @@
 %{
     #include "cowl_input_stream.h"
 
-    #define YY_INPUT(buf, result, max_size) \
-        ((result) = cowl_input_stream_read_bytes(yyextra, (cowl_byte *)buf, max_size))
+    #define YY_INPUT(buf, result, max_size) do {                                                    \
+        size_t cowl_yyinput_read;                                                                   \
+        if (cowl_input_stream_read_bytes(yyextra, (cowl_byte *)buf, max_size, &cowl_yyinput_read))  \
+            YY_FATAL_ERROR("Failed to read from stream");                                           \
+        result = (int)cowl_yyinput_read;                                                            \
+    } while(0)
 
     #define YY_USER_ACTION ((yylloc)->first_line = (yylloc)->last_line = yylineno);
 

@@ -11,21 +11,24 @@
 #include "cowl_input_stream.h"
 #include "cowl_raw_string.h"
 
-static size_t cowl_file_read(void *file, cowl_byte *buf, size_t count) {
-    return fread(buf, 1, count, file);
+static cowl_ret cowl_file_read(void *file, cowl_byte *buf, size_t count, size_t *read) {
+    size_t const read_size = fread(buf, 1, count, file);
+    if (read) *read = read_size;
+    return count != read_size && ferror(file) ? COWL_ERR_IO : COWL_OK;
 }
 
 static cowl_ret cowl_file_close(void *file) {
     return fclose(file) == 0 ? COWL_OK : COWL_ERR_IO;
 }
 
-static size_t cowl_raw_string_read(void *string, cowl_byte *buf, size_t count) {
+static cowl_ret cowl_raw_string_read(void *string, cowl_byte *buf, size_t count, size_t *read) {
     CowlRawString *raw_string = string;
     size_t const string_size = raw_string->length + 1;
     size_t const read_size = count < string_size ? count : string_size;
     memcpy(buf, raw_string->cstring, read_size);
     raw_string->cstring += read_size;
-    return read_size;
+    if (read) *read = read_size;
+    return COWL_OK;
 }
 
 static cowl_ret cowl_raw_string_free(void *string) {
@@ -37,8 +40,9 @@ cowl_ret cowl_input_stream_deinit(CowlInputStream *stream) {
     return stream->free ? stream->free(stream->ctx) : COWL_OK;
 }
 
-size_t cowl_input_stream_read_bytes(CowlInputStream const *stream, cowl_byte *buf, size_t count) {
-    return stream->read_bytes(stream->ctx, buf, count);
+cowl_ret cowl_input_stream_read_bytes(CowlInputStream const *stream, cowl_byte *buf,
+                                      size_t count, size_t *read) {
+    return stream->read_bytes(stream->ctx, buf, count, read);
 }
 
 cowl_ret cowl_input_stream_from_path(CowlInputStream *stream, char const *path) {

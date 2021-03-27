@@ -37,9 +37,10 @@ typedef cowl_struct(CowlInputStream) {
      * @param ctx Stream context.
      * @param buf Input buffer.
      * @param count Maximum number of bytes to read.
-     * @return Number of bytes read.
+     * @param[out] read Number of bytes read.
+     * @return Return code.
      */
-    size_t (*read_bytes)(void *ctx, cowl_byte *buf, size_t count);
+    cowl_ret (*read_bytes)(void *ctx, cowl_byte *buf, size_t count, size_t *read);
 
     /**
      * Pointer to a function that releases any resource reserved by the stream.
@@ -128,12 +129,14 @@ cowl_ret cowl_input_stream_from_cstring(CowlInputStream *stream, char const *cst
  * @param stream Input stream.
  * @param buf Input buffer.
  * @param count Maximum number of bytes to read.
- * @return Number of bytes read.
+ * @param[out] read Number of bytes read.
+ * @return Return code.
  *
  * @public @memberof CowlInputStream
  */
 COWL_PUBLIC
-size_t cowl_input_stream_read_bytes(CowlInputStream const *stream, cowl_byte *buf, size_t count);
+cowl_ret cowl_input_stream_read_bytes(CowlInputStream const *stream, cowl_byte *buf,
+                                      size_t count, size_t *read);
 
 COWL_END_DECLS
 
