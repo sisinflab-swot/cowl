@@ -1,5 +1,5 @@
 /**
- * Defines #CowlNodeID and its API.
+ * Defines #CowlNodeId and its API.
  *
  * @author Ivano Bilenchi
  *
@@ -26,14 +26,14 @@ cowl_struct_decl(CowlString);
  *
  * @public @memberof CowlAnonInd
  */
-typedef uintptr_t CowlNodeID;
+typedef uintptr_t CowlNodeId;
 
 /**
  * Null node ID.
  *
  * @public @related CowlAnonInd
  */
-#define COWL_NODE_ID_NULL ((CowlNodeID)NULL)
+#define COWL_NODE_ID_NULL ((CowlNodeId)NULL)
 
 /**
  * Returns the string representation of the specified node ID.
@@ -46,13 +46,13 @@ typedef uintptr_t CowlNodeID;
  * @public @related CowlAnonInd
  */
 COWL_PUBLIC
-CowlString* cowl_node_id_to_string(CowlNodeID id);
+CowlString* cowl_node_id_to_string(CowlNodeId id);
 
 /**
  * Equality function.
  *
- * @param LHS [CowlNodeID] LHS of the equality relation.
- * @param RHS [CowlNodeID] RHS of the equality relation.
+ * @param LHS [CowlNodeId] LHS of the equality relation.
+ * @param RHS [CowlNodeId] RHS of the equality relation.
  * @return [bool] True if the equality relation holds, false otherwise.
  *
  * @public @related CowlAnonInd
@@ -62,7 +62,7 @@ CowlString* cowl_node_id_to_string(CowlNodeID id);
 /**
  * Hash function.
  *
- * @param ID [CowlNodeID] The node ID.
+ * @param ID [CowlNodeId] The node ID.
  * @return [cowl_uint] The hash value.
  *
  * @public @related CowlAnonInd

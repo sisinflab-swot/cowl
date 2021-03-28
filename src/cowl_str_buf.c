@@ -250,7 +250,7 @@ cowl_ret cowl_str_buf_append_facet_restr(CowlStrBuf *buf, CowlFacetRestr *restr)
     return buf->ret;
 }
 
-cowl_ret cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeID id) {
+cowl_ret cowl_str_buf_append_node_id(CowlStrBuf *buf, CowlNodeId id) {
     cowl_str_buf_append_static(buf, "_:id");
     cowl_str_buf_append_uint(buf, id);
     return buf->ret;

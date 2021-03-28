@@ -41,8 +41,8 @@ void cowl_anon_ind_release(CowlAnonInd *ind) {
     }
 }
 
-CowlNodeID cowl_anon_ind_get_id(CowlAnonInd *ind) {
-    return (CowlNodeID)ind;
+CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind) {
+    return (CowlNodeId)ind;
 }
 
 CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind)

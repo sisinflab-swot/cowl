@@ -12,5 +12,5 @@
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-CowlString* cowl_node_id_to_string(CowlNodeID id)
+CowlString* cowl_node_id_to_string(CowlNodeId id)
     COWL_TO_STRING_IMPL(node_id, id)

@@ -73,7 +73,7 @@ void cowl_anon_ind_release(CowlAnonInd *ind);
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-CowlNodeID cowl_anon_ind_get_id(CowlAnonInd *ind);
+CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind);
 
 /**
  * Returns the string representation of the specified anonymous individual.
