@@ -5,11 +5,41 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2021-03-28
+### Added
+- Support for multiple parsers via `CowlReader` and `CowlParser` API.
+- Parsing from arbitrary streams via `CowlInputStream` API.
+- Support for global handlers via `cowl_api_set_import_loader`,
+  `cowl_api_set_import_handler` and `cowl_api_set_parser`.
+- `cowl_object_set_insert`, `cowl_object_vec_push`.
+- `cowl_object_to_debug_string`.
+
+### Changed
+- Replaced typed collection with `CowlObject`-based ones to reduce code size.
+- Reworked handling of errors via `CowlErrorHandler` API.
+- Renamed `CowlImportsLoader` to `CowlImportLoader`.
+- Renamed `CowlNodeID` to `CowlNodeId`.
+- Changed `CowlNodeId` type from `cowl_uint` to `uintptr_t`.
+- Renamed `CowlParser` to `CowlReader`.
+- Improved performance of string interning and object hashing.
+- `CowlLogger` is flushed after each write.
+- Bumped minimum CMake version to 3.18.
+
+### Removed
+- `cowl_error_init`, `cowl_error_init_cstring`, `cowl_error_retain`, `cowl_error_release`.
+
+### Fixed
+- Access to uninitialized memory while iterating equivalent classes.
+- Memory leaks in error handling logic.
+- Memory leak when parsing lists with duplicated elements.
+- `cowl_logger_file_get` not using `cowl_malloc` for memory allocation.
+- Compilation of benchmark target.
+
 ## [0.4.1] - 2020-11-22
 ### Added
-- `COWL_MALLOC`, `COWL_REALLOC` and `COWL_FREE` Cmake variables to specify
+- `COWL_MALLOC`, `COWL_REALLOC` and `COWL_FREE` CMake variables to specify
   custom allocators.
-- `COWL_USER_HEADERS` and `COWL_USER_SOURCES` Cmake variables to specify
+- `COWL_USER_HEADERS` and `COWL_USER_SOURCES` CMake variables to specify
   custom header and source files.
 
 ### Changed
@@ -20,7 +50,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Renamed `cowl_ret_t` to `cowl_ret` for POSIX compatibility.
 
 ### Removed
-- `COWL_ALLOC_HEADERS` and `COWL_ALLOC_SOURCES` Cmake variables.
+- `COWL_ALLOC_HEADERS` and `COWL_ALLOC_SOURCES` CMake variables.
 
 ## [0.4.0] - 2020-11-05
 ### Added
@@ -34,8 +64,8 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `CowlEntity`, `CowlPrimitive` and `CowlAnnotValue` are not tagged unions anymore,
   but are exposed as opaque types which inherit from `CowlObject`.
 - Custom allocators can now be specified via the `COWL_ALLOC_HEADERS`
-  and `COWL_ALLOC_SOURCES` Cmake variables.
-- Minimum Cmake version has been bumped to 3.16.
+  and `COWL_ALLOC_SOURCES` CMake variables.
+- Bumped minimum CMake version to 3.16.
 
 ### Fixed
 - `cowl_strdup` not using `cowl_malloc` for memory allocation.
@@ -128,6 +158,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.5.0]: https://github.com/sisinflab-swot/cowl/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/sisinflab-swot/cowl/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/sisinflab-swot/cowl/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/sisinflab-swot/cowl/compare/v0.2.2...v0.3.0
