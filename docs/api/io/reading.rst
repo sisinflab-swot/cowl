@@ -11,6 +11,8 @@ or buffered input streams (see :class:`CowlInputStream`).
 .. doxygenstruct:: CowlReader
 .. doxygenstruct:: CowlInputStream
 
+.. _parsers:
+
 Parsers
 =======
 
@@ -31,10 +33,10 @@ such as ontology population and error handling. Refer to the built-in parsers if
 .. doxygenstruct:: CowlParser
 .. doxygenstruct:: CowlParserCtx
 
+.. _import:
+
 Import handling
 ===============
-
-.. _import:
 
 Cowl delegates locating and loading imported ontologies to the end user via the
 :class:`CowlImportLoader` interface. Import loaders can be either provided locally

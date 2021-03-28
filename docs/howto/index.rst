@@ -9,27 +9,33 @@ How-to
 Building from source
 ====================
 
-Cowl can be built and run on **Windows**, **macOS** and **Linux**. We have successfully
-deployed it to a wider range of platforms, including tiny microcontrollers,
-with relatively minor build system setup. It can be compiled via any fairly recent version
-of **GCC**, **LLVM** or **MSVC**, either as a **static** or **dynamic library**.
+Cowl can be built and run on **Windows**, **macOS** and **Linux**. We have successfully deployed it
+to a wider range of platforms, including tiny microcontrollers, with relatively minor
+build system setup. It can be compiled either as a **static** or **dynamic library**.
 
 Requirements
 ------------
 
-In order to compile it, you will need:
+In order to compile the library, you will need at a minimum:
 
+- GCC_, LLVM_ or MSVC_, any fairly recent version.
 - CMake_ version 3.18 or later.
+
+There are additional requirements depending on which additional components
+you would like to build or compile (e.g. :ref:`parsers <parsers>`).
+
+**Functional parser:**
+
 - Flex_ version 2.6.4 or later.
 - Bison_ version 3.0 or later.
 
-This is enough to build the library. If you also want to build its documentation, you will need:
+**Documentation:**
 
 - Doxygen_ version 1.8 or later.
 - Sphinx_ version 2.0 or later, Breathe_ and the `Read The Docs Theme`_.
 
-Sphinx is actually optional as well. Just having Doxygen will already generate some form of
-HTML docs, though not as fancy as the ones you are viewing.
+Sphinx is optional: Doxygen will already generate some form of HTML docs,
+though not as fancy as the ones you are viewing.
 
 Downloading the sources
 -----------------------
@@ -126,6 +132,9 @@ associated with every enumeration value.
 .. _CMake: https://cmake.org
 .. _Doxygen: http://doxygen.nl
 .. _Flex: https://github.com/westes/flex
+.. _GCC: https://gcc.gnu.org
+.. _LLVM: https://llvm.org
+.. _MSVC: https://visualstudio.microsoft.com
 .. _OWL imports: https://www.w3.org/TR/owl2-syntax/#Imports
 .. _OWL 2 specification: https://www.w3.org/TR/owl2-syntax
 .. _Read The Docs Theme: https://sphinx-rtd-theme.readthedocs.io
