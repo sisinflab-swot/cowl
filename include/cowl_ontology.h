@@ -15,6 +15,7 @@
 
 #include "cowl_axiom_type.h"
 #include "cowl_iterator.h"
+#include "cowl_ontology_id.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
@@ -31,7 +32,6 @@ cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
-cowl_struct_decl(CowlOntologyID);
 cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlOntology);
 /// @endcond
