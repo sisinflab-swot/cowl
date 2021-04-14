@@ -7,5 +7,5 @@ Ontologies
 .. toctree::
    :caption: Related types
 
-   CowlOntologyID
+   CowlOntologyId
    CowlIterator

@@ -2,4 +2,4 @@
 Ontology Identifiers
 ====================
 
-.. doxygenstruct:: CowlOntologyID
+.. doxygenstruct:: CowlOntologyId

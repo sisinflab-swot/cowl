@@ -14,10 +14,10 @@
 #include "cowl_str_buf.h"
 #include "cowl_template.h"
 
-CowlString* cowl_ontology_id_to_string(CowlOntologyID id)
+CowlString* cowl_ontology_id_to_string(CowlOntologyId id)
     COWL_TO_STRING_IMPL(ontology_id, &id)
 
-bool cowl_ontology_id_equals(CowlOntologyID lhs, CowlOntologyID rhs) {
+bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs) {
     if (lhs.ontology_iri != rhs.ontology_iri &&
         !cowl_iri_equals(lhs.ontology_iri, rhs.ontology_iri)) {
         return false;
@@ -31,7 +31,7 @@ bool cowl_ontology_id_equals(CowlOntologyID lhs, CowlOntologyID rhs) {
     return true;
 }
 
-cowl_uint cowl_ontology_id_hash(CowlOntologyID id) {
+cowl_uint cowl_ontology_id_hash(CowlOntologyId id) {
     cowl_uint hash = COWL_HASH_INIT_ONTO_ID;
 
     if (id.ontology_iri) hash = cowl_hash_1(hash, cowl_iri_hash(id.ontology_iri));

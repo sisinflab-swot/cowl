@@ -1,5 +1,5 @@
 /**
- * Declares CowlOntologyID and its API.
+ * Declares CowlOntologyId and its API.
  *
  * @author Ivano Bilenchi
  *
@@ -29,7 +29,7 @@ cowl_struct_decl(CowlString);
  *
  * [Ontology IRI and version IRI]: https://www.w3.org/TR/owl2-syntax/#Ontology_IRI_and_Version_IRI
  */
-typedef cowl_struct(CowlOntologyID) {
+typedef cowl_struct(CowlOntologyId) {
 
     /// The ontology IRI.
     CowlIRI *ontology_iri;
@@ -37,7 +37,7 @@ typedef cowl_struct(CowlOntologyID) {
     /// The version IRI.
     CowlIRI *version_iri;
 
-} CowlOntologyID;
+} CowlOntologyId;
 
 /**
  * Returns the string representation of the specified ontology ID.
@@ -47,10 +47,10 @@ typedef cowl_struct(CowlOntologyID) {
  *
  * @note The returned string is retained, so you are responsible for releasing it.
  *
- * @public @memberof CowlOntologyID
+ * @public @memberof CowlOntologyId
  */
 COWL_PUBLIC
-CowlString* cowl_ontology_id_to_string(CowlOntologyID id);
+CowlString* cowl_ontology_id_to_string(CowlOntologyId id);
 
 /**
  * Equality function.
@@ -63,10 +63,10 @@ CowlString* cowl_ontology_id_to_string(CowlOntologyID id);
  *       Since OWL 2 allows for both the ontology and version IRIs to be simultaneously empty,
  *       in that case the ontology IDs are considered different unless they are the same instance.
  *
- * @public @memberof CowlOntologyID
+ * @public @memberof CowlOntologyId
  */
 COWL_PUBLIC
-bool cowl_ontology_id_equals(CowlOntologyID lhs, CowlOntologyID rhs);
+bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs);
 
 /**
  * Hash function.
@@ -74,10 +74,10 @@ bool cowl_ontology_id_equals(CowlOntologyID lhs, CowlOntologyID rhs);
  * @param id The ontology ID.
  * @return The hash value.
  *
- * @public @memberof CowlOntologyID
+ * @public @memberof CowlOntologyId
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_id_hash(CowlOntologyID id);
+cowl_uint cowl_ontology_id_hash(CowlOntologyId id);
 
 COWL_END_DECLS
 

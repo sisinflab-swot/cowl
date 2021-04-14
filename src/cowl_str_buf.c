@@ -212,7 +212,7 @@ cowl_ret cowl_str_buf_append_iri_no_brackets(CowlStrBuf *buf, CowlIRI *iri) {
     return buf->ret;
 }
 
-cowl_ret cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyID *id) {
+cowl_ret cowl_str_buf_append_ontology_id(CowlStrBuf *buf, CowlOntologyId *id) {
     if (id->ontology_iri) cowl_str_buf_append_iri(buf, id->ontology_iri);
 
     if (id->version_iri) {

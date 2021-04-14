@@ -39,7 +39,7 @@ void cowl_ontology_release(CowlOntology *onto) {
     }
 }
 
-CowlOntologyID cowl_ontology_get_id(CowlOntology *onto) {
+CowlOntologyId cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
 }
 

@@ -33,7 +33,7 @@ cowl_struct(CowlOntology) {
     UHash(CowlObjectTable) *obj_prop_refs;
     UHash(CowlObjectTable) *named_ind_refs;
     UHash(CowlObjectTable) *anon_ind_refs;
-    CowlOntologyID id;
+    CowlOntologyId id;
 };
 
 #define COWL_ONTOLOGY_INIT ((CowlOntology) {                                                        \

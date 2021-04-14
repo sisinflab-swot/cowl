@@ -74,7 +74,7 @@ void cowl_ontology_release(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlOntologyID cowl_ontology_get_id(CowlOntology *onto);
+CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
 
 /**
  * Gets the annotations of the specified ontology.

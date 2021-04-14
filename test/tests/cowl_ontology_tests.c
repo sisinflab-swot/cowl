@@ -118,7 +118,7 @@ bool cowl_test_ontology_deinit(void) {
 // Tests
 
 bool cowl_test_ontology_get_id(void) {
-    CowlOntologyID id = cowl_ontology_get_id(onto);
+    CowlOntologyId id = cowl_ontology_get_id(onto);
     CowlIRI *expected_onto_iri = cowl_iri_from_static(test_onto_iri);
     cowl_assert_equal(iri, id.ontology_iri, expected_onto_iri, "Ontology IRI");
     cowl_iri_release(expected_onto_iri);
