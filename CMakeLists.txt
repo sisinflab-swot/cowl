@@ -30,7 +30,7 @@ project(Cowl
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
 option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks (keep OFF in production builds)" OFF)
-option(COWL_PARSER_FUNCTIONAL "Include functional syntax parser" ON)
+set(COWL_PARSERS "functional" CACHE STRING "List of enabled built-in parsers (semicolon-separated")
 set(COWL_USER_HEADERS "" CACHE STRING "User-specified header files")
 set(COWL_USER_SOURCES "" CACHE STRING "User-specified source files")
 set(COWL_MALLOC "malloc" CACHE STRING "malloc function override")
@@ -46,7 +46,6 @@ set(COWL_LIB_DIR "${COWL_PROJECT_DIR}/lib")
 set(COWL_SRC_DIR "${COWL_PROJECT_DIR}/src")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
 set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
-set(COWL_FUNC_PARSER_DIR "${COWL_PARSER_DIR}/functional")
 
 set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
 set(COWL_DOCS_DIR "${COWL_PROJECT_DIR}/docs")
@@ -139,10 +138,16 @@ list(APPEND COWL_SOURCES ${COWL_USER_SOURCES})
 add_custom_target(cowl-parsers
                   COMMENT "Generate builtin parsers.")
 
-if(COWL_PARSER_FUNCTIONAL)
-    add_subdirectory("${COWL_FUNC_PARSER_DIR}")
-    add_dependencies(cowl-parsers cowl-func-parser)
-endif()
+foreach(PARSER IN LISTS COWL_PARSERS)
+    string(TOUPPER "${PARSER}" PARSER_OPT)
+    set(PARSER_OPT "COWL_PARSER_${PARSER_OPT}")
+    string(TOLOWER "${PARSER}" PARSER)
+
+    add_subdirectory("${COWL_PARSER_DIR}/${PARSER}")
+    list(APPEND COWL_PARSER_DEFINES "${PARSER_OPT}")
+endforeach()
+
+list(APPEND COWL_PUBLIC_DEFINES ${COWL_PARSER_DEFINES})
 
 # Copy headers
 

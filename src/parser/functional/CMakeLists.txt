@@ -5,12 +5,10 @@ find_package(FLEX 2.6.4 REQUIRED)
 
 # Directories
 
-set(COWL_FUNC_PARSER_OUT_DIR "${COWL_OUTPUT_DIR}/functional")
-file(MAKE_DIRECTORY "${COWL_FUNC_PARSER_OUT_DIR}")
+set(COWL_PARSER_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(COWL_PARSER_OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Target settings
-
-list(APPEND COWL_PUBLIC_DEFINES COWL_PARSER_FUNCTIONAL)
 
 if(MSVC)
     list(APPEND COWL_FUNC_FLEX_FLAGS --wincompat)
@@ -25,22 +23,22 @@ list(JOIN COWL_FUNC_FLEX_FLAGS " " COWL_FUNC_FLEX_FLAGS)
 # Header dirs
 
 list(APPEND COWL_PRIVATE_HEADERS_DIRS
-     "${COWL_FUNC_PARSER_DIR}"
-     "${COWL_FUNC_PARSER_OUT_DIR}")
+     "${COWL_PARSER_SRC_DIR}"
+     "${COWL_PARSER_OUT_DIR}")
 
 # Sources
 
 file(GLOB COWL_FUNC_PARSER_SOURCES CONFIGURE_DEPENDS
-     "${COWL_FUNC_PARSER_DIR}/*.c")
+     "${COWL_PARSER_SRC_DIR}/*.c")
 list(APPEND COWL_SOURCES ${COWL_FUNC_PARSER_SOURCES})
 
-set(COWL_FUNC_LEXER_IN "${COWL_FUNC_PARSER_DIR}/cowl_functional.l")
-set(COWL_FUNC_LEXER_HEADER "${COWL_FUNC_PARSER_OUT_DIR}/cowl_func_yylexer.h")
-set(COWL_FUNC_LEXER_OUT "${COWL_FUNC_PARSER_OUT_DIR}/cowl_func_yylexer.c")
+set(COWL_FUNC_LEXER_IN "${COWL_PARSER_SRC_DIR}/cowl_functional.l")
+set(COWL_FUNC_LEXER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_func_yylexer.h")
+set(COWL_FUNC_LEXER_OUT "${COWL_PARSER_OUT_DIR}/cowl_func_yylexer.c")
 
-set(COWL_FUNC_PARSER_IN "${COWL_FUNC_PARSER_DIR}/cowl_functional.y")
-set(COWL_FUNC_PARSER_HEADER "${COWL_FUNC_PARSER_OUT_DIR}/cowl_func_yyparser.h")
-set(COWL_FUNC_PARSER_OUT "${COWL_FUNC_PARSER_OUT_DIR}/cowl_func_yyparser.c")
+set(COWL_FUNC_PARSER_IN "${COWL_PARSER_SRC_DIR}/cowl_functional.y")
+set(COWL_FUNC_PARSER_HEADER "${COWL_PARSER_OUT_DIR}/cowl_func_yyparser.h")
+set(COWL_FUNC_PARSER_OUT "${COWL_PARSER_OUT_DIR}/cowl_func_yyparser.c")
 
 ###############
 ### Targets ###
@@ -55,11 +53,12 @@ flex_target(COWL_FUNC_LEXER "${COWL_FUNC_LEXER_IN}" "${COWL_FUNC_LEXER_OUT}"
             DEFINES_FILE "${COWL_FUNC_LEXER_HEADER}")
 add_flex_bison_dependency(COWL_FUNC_LEXER COWL_FUNC_PARSER)
 
-add_custom_target(cowl-func-parser
+add_custom_target(cowl-functional-parser
                   DEPENDS
                   ${FLEX_COWL_FUNC_LEXER_OUTPUTS}
                   ${BISON_COWL_FUNC_PARSER_OUTPUT_SOURCE}
                   COMMENT "Generate the functional syntax parser.")
+add_dependencies(cowl-parsers cowl-functional-parser)
 
 # Propagate changes in the parent project
 
@@ -67,7 +66,6 @@ list(APPEND COWL_SOURCES
      ${FLEX_COWL_FUNC_LEXER_OUTPUTS}
      ${BISON_COWL_FUNC_PARSER_OUTPUT_SOURCE})
 
-set(COWL_PUBLIC_DEFINES ${COWL_PUBLIC_DEFINES} PARENT_SCOPE)
 set(COWL_PRIVATE_HEADERS_DIRS ${COWL_PRIVATE_HEADERS_DIRS} PARENT_SCOPE)
 set(COWL_SOURCES ${COWL_SOURCES} PARENT_SCOPE)
 
