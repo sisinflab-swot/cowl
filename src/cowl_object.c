@@ -153,9 +153,9 @@ bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs) {
     if (type != cowl_object_get_type(rhs)) return false;
 
     #define GEN_EQUALS(UC, LC) \
-        return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs);
+        return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
     #define GEN_EQUALS_AXIOM(UC, LC) \
-        return cowl_##LC##_axiom_equals((Cowl##UC##Axiom *)lhs, (Cowl##UC##Axiom *)rhs);
+        return cowl_##LC##_axiom_equals((Cowl##UC##Axiom *)lhs, (Cowl##UC##Axiom *)rhs)
 
     switch (type) {
         case COWL_OT_STRING: GEN_EQUALS(String, string);
@@ -237,8 +237,8 @@ bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs) {
 }
 
 cowl_uint cowl_object_hash(CowlObject *object) {
-    #define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)object);
-    #define GEN_HASH_AXIOM(UC, LC) return cowl_##LC##_axiom_hash((Cowl##UC##Axiom *)object);
+    #define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)object)
+    #define GEN_HASH_AXIOM(UC, LC) return cowl_##LC##_axiom_hash((Cowl##UC##Axiom *)object)
 
     switch (cowl_object_get_type(object)) {
         case COWL_OT_STRING: GEN_HASH(String, string);
@@ -322,9 +322,9 @@ cowl_uint cowl_object_hash(CowlObject *object) {
 bool cowl_object_iterate_primitives(CowlObject *object, CowlIterator *iter,
                                     CowlPrimitiveFlags flags) {
     #define GEN_ITER(UC, LC) \
-        return cowl_##LC##_iterate_primitives((Cowl##UC *)object, iter, flags);
+        return cowl_##LC##_iterate_primitives((Cowl##UC *)object, iter, flags)
     #define GEN_ITER_AXIOM(UC, LC) \
-        return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, iter, flags);
+        return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, iter, flags)
 
     switch (cowl_object_get_type(object)) {
         case COWL_OT_LITERAL: GEN_ITER(Literal, literal);

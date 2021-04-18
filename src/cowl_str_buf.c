@@ -283,7 +283,7 @@ cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, uint64_t uint) {
         size_t len = cowl_str_from_uint(uint, buf->storage.storage + buf->storage.count);
         buf->storage.count += (uvec_uint)len;
     }
-    return buf->ret;;
+    return buf->ret;
 }
 
 // Entities and Primitives
