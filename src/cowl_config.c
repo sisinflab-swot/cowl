@@ -32,8 +32,8 @@ static CowlImportLoader global_import_loader;
 static CowlParser global_parser;
 
 static void cowl_api_config_init(void) {
-    global_error_handler = (CowlErrorHandler){};
-    global_import_loader = (CowlImportLoader){};
+    global_error_handler = (CowlErrorHandler){0};
+    global_import_loader = (CowlImportLoader){0};
     global_parser = cowl_api_default_parser();
 }
 

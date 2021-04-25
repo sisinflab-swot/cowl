@@ -42,18 +42,19 @@
  */
 
 #if defined _WIN32 || defined __CYGWIN__
-    #ifdef COWL_DLL
-        #ifdef __GNUC__
-            #define COWL_PUBLIC __attribute__ ((dllexport))
+    #ifdef COWL_SHARED
+        #ifdef COWL_BUILDING
+            #define COWL_DLL_SPEC dllexport
         #else
-            #define COWL_PUBLIC __declspec(dllexport)
+            #define COWL_DLL_SPEC dllimport
+        #endif
+        #ifdef __GNUC__
+            #define COWL_PUBLIC __attribute__ ((COWL_DLL_SPEC))
+        #else
+            #define COWL_PUBLIC __declspec(COWL_DLL_SPEC)
         #endif
     #else
-        #ifdef __GNUC__
-            #define COWL_PUBLIC __attribute__ ((dllimport))
-        #else
-            #define COWL_PUBLIC __declspec(dllimport)
-        #endif
+        #define COWL_PUBLIC
     #endif
     #define COWL_PRIVATE
 #else

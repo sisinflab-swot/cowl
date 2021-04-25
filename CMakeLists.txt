@@ -78,13 +78,13 @@ list(APPEND COWL_PUBLIC_DEFINES
      cowl_free=${COWL_FREE})
 
 list(APPEND COWL_PRIVATE_DEFINES
+     COWL_BUILDING
      COWL_VERSION_MAJOR=${COWL_VERSION_MAJOR}
      COWL_VERSION_MINOR=${COWL_VERSION_MINOR}
      COWL_VERSION_PATCH=${COWL_VERSION_PATCH})
 
 if(MSVC)
     set(COWL_WARNING_OPTIONS /W3 /wd4996)
-    list(APPEND COWL_PRIVATE_DEFINES COWL_DLL)
 else()
     set(COWL_WARNING_OPTIONS -Wall -Wextra)
 endif()
@@ -193,7 +193,7 @@ set_target_properties(cowl-shared PROPERTIES
 target_compile_features(cowl-shared PRIVATE ${COWL_COMPILE_FEATURES})
 target_compile_options(cowl-shared PRIVATE ${COWL_WARNING_OPTIONS})
 target_compile_definitions(cowl-shared
-                           PUBLIC ${COWL_PUBLIC_DEFINES}
+                           PUBLIC ${COWL_PUBLIC_DEFINES} "COWL_SHARED"
                            PRIVATE ${COWL_PRIVATE_DEFINES})
 target_include_directories(cowl-shared
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}

@@ -38,7 +38,7 @@ static void cowl_reader_free(CowlReader *reader) {
 }
 
 CowlReader* cowl_reader_get(void) {
-    return cowl_reader_alloc((CowlParser){});
+    return cowl_reader_alloc((CowlParser){0});
 }
 
 CowlReader* cowl_reader_get_with_parser(CowlParser parser) {

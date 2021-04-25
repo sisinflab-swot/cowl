@@ -42,7 +42,7 @@ size_t cowl_str_from_uint(uint64_t uint, char *buf) {
 }
 
 uint64_t cowl_str_to_uint(char const *string, size_t length) {
-    cowl_uint res = 0;
+    uint64_t res = 0;
 
     for (char const *last = string + length; string < last; ++string) {
         if (*string < '0' || *string > '9') return (uint64_t)-1;
