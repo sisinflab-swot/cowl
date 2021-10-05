@@ -180,6 +180,22 @@ COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlAnnotProp, annot_prop, annot_props)
 COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlNamedInd, named_ind, named_inds)
 COWL_ONTOLOGY_ENTITY_QUERY_IMPL(CowlAnonInd, anon_ind, anon_inds)
 
+bool cowl_ontology_has_entity(CowlOntology *onto, CowlEntity *entity) {
+    UHash(CowlObjectTable) *table = NULL;
+
+    switch (cowl_entity_get_type(entity)) {
+        case COWL_ET_CLASS: table = onto->class_refs; break;
+        case COWL_ET_DATATYPE: table = onto->datatype_refs; break;
+        case COWL_ET_NAMED_IND: table = onto->named_ind_refs; break;
+        case COWL_ET_OBJ_PROP: table = onto->obj_prop_refs; break;
+        case COWL_ET_DATA_PROP: table = onto->data_prop_refs; break;
+        case COWL_ET_ANNOT_PROP: table = onto->annot_prop_refs; break;
+        default: break;
+    }
+
+    return table && uhash_contains(CowlObjectTable, table, entity);
+}
+
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlIterator *iter,
                                       CowlPrimitiveFlags flags) {
 

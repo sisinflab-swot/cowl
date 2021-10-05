@@ -29,6 +29,7 @@ cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDatatype);
+cowl_struct_decl(CowlEntity);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
@@ -304,6 +305,18 @@ cowl_uint cowl_ontology_named_inds_count(CowlOntology *onto);
  */
 COWL_PUBLIC
 cowl_uint cowl_ontology_anon_inds_count(CowlOntology *onto);
+
+/**
+ * Checks if the specified entity is referenced by an axiom in the ontology.
+ *
+ * @param onto The ontology.
+ * @param entity The entity.
+ * @return True if the entity is referenced by an axiom, false otherwise.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+bool cowl_ontology_has_entity(CowlOntology *onto, CowlEntity *entity);
 
 /**
  * Iterates over the primitives referenced by the specified ontology.

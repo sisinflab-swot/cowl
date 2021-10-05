@@ -13,6 +13,7 @@
 #include "cowl_class.h"
 #include "cowl_data_prop.h"
 #include "cowl_datatype.h"
+#include "cowl_entity.h"
 #include "cowl_iri.h"
 #include "cowl_named_ind.h"
 #include "cowl_obj_prop.h"
@@ -252,6 +253,26 @@ bool cowl_test_ontology_axiom_count_for_named_ind(void) {
     cowl_iri_release(iri);
     cowl_assert_equal_int(count, test_named_ind_axiom_count,
                           "Number of axioms for " test_named_ind);
+    return true;
+}
+
+#define cowl_test_has_entity(TYPE) do {                                                             \
+    CowlEntity *entity = (CowlEntity *)cowl_##TYPE##_from_static(test_onto_iri test_##TYPE);        \
+    cowl_assert(cowl_ontology_has_entity(onto, entity), "Entity should be present: " test_##TYPE);  \
+    cowl_entity_release(entity);                                                                    \
+    entity = (CowlEntity *)cowl_##TYPE##_from_static(test_onto_iri test_##TYPE "_not_present");     \
+    cowl_assert(!cowl_ontology_has_entity(onto, entity),                                            \
+                "Entity should not be present: " test_##TYPE "_not_present");                       \
+    cowl_entity_release(entity);                                                                    \
+} while(0)
+
+bool cowl_test_ontology_has_entity(void) {
+    cowl_test_has_entity(class);
+    cowl_test_has_entity(datatype);
+    cowl_test_has_entity(named_ind);
+    cowl_test_has_entity(obj_prop);
+    cowl_test_has_entity(data_prop);
+    cowl_test_has_entity(annot_prop);
     return true;
 }
 

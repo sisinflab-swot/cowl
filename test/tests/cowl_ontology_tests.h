@@ -37,6 +37,7 @@ bool cowl_test_ontology_axiom_count_for_data_prop(void);
 bool cowl_test_ontology_axiom_count_for_annot_prop(void);
 bool cowl_test_ontology_axiom_count_for_named_ind(void);
 bool cowl_test_ontology_axiom_count_for_anon_ind(void);
+bool cowl_test_ontology_has_entity(void);
 
 #define COWL_ONTOLOGY_TESTS                                                                         \
     cowl_test_ontology_init,                                                                        \
@@ -58,6 +59,7 @@ bool cowl_test_ontology_axiom_count_for_anon_ind(void);
     cowl_test_ontology_axiom_count_for_annot_prop,                                                  \
     cowl_test_ontology_axiom_count_for_named_ind,                                                   \
     cowl_test_ontology_axiom_count_for_anon_ind,                                                    \
+    cowl_test_ontology_has_entity,                                                                  \
     cowl_test_ontology_deinit
 
 COWL_END_DECLS
