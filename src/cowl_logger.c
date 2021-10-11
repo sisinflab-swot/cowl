@@ -84,8 +84,8 @@ static cowl_ret cowl_logger_free(CowlLogger *logger) {
             break;
 
         case COWL_LT_FILE:
-            ret = cowl_logger_close(logger);
-            if (!ret) cowl_free((void *)logger->path);
+            if ((ret = cowl_logger_close(logger))) return ret;
+            cowl_free((void *)logger->path);
             break;
 
         default:
@@ -198,7 +198,7 @@ cowl_ret cowl_logger_release(CowlLogger *logger) {
 
     if (logger && cowl_object_get_ref(logger) == 1) {
         if ((ret = cowl_logger_free(logger))) return ret;
-        cowl_object_decr_ref(logger);
+        (void)cowl_object_decr_ref(logger);
     }
 
     return ret;
