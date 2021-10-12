@@ -142,15 +142,15 @@ cowl_uint cowl_annotation_hash(CowlAnnotation *annot);
  * Iterates over the primitives referenced by the specified annotation.
  *
  * @param annot The annotation.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags);
+bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter);
 
 COWL_END_DECLS
 

@@ -101,15 +101,15 @@ cowl_uint cowl_individual_hash(CowlIndividual *ind);
  * Iterates over this individual.
  *
  * @param ind The individual.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlIndividual
  */
 COWL_PUBLIC
-bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags);
+bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter);
 
 COWL_END_DECLS
 

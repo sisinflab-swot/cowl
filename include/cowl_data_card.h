@@ -157,15 +157,15 @@ cowl_uint cowl_data_card_hash(CowlDataCard *restr);
  * Iterates over the primitives referenced by the specified data property cardinality restriction.
  *
  * @param restr The restriction.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataCard
  */
 COWL_PUBLIC
-bool cowl_data_card_iterate_primitives(CowlDataCard *restr, CowlIterator *iter,
-                                       CowlPrimitiveFlags flags);
+bool cowl_data_card_iterate_primitives(CowlDataCard *restr, CowlPrimitiveFlags flags,
+                                       CowlIterator *iter);
 
 COWL_END_DECLS
 

@@ -61,7 +61,7 @@ cowl_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv) {
     return cowl_hash_1(COWL_HASH_INIT_INV_OBJ_PROP, cowl_obj_prop_hash(inv->prop));
 }
 
-bool cowl_inv_obj_prop_iterate_primitives(CowlInvObjProp *inv, CowlIterator *iter,
-                                          CowlPrimitiveFlags flags) {
-    return cowl_obj_prop_iterate_primitives(inv->prop, iter, flags);
+bool cowl_inv_obj_prop_iterate_primitives(CowlInvObjProp *inv, CowlPrimitiveFlags flags,
+                                          CowlIterator *iter) {
+    return cowl_obj_prop_iterate_primitives(inv->prop, flags, iter);
 }

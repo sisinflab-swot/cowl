@@ -86,9 +86,9 @@ cowl_uint cowl_annotation_hash(CowlAnnotation *annot) {
     return cowl_object_hash_get(annot);
 }
 
-bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags) {
-    return (cowl_annot_value_iterate_primitives(annot->value, iter, flags) &&
-            cowl_annot_prop_iterate_primitives(annot->prop, iter, flags) &&
-            cowl_object_vec_iterate_primitives(annot->annot, iter, flags));
+bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter) {
+    return (cowl_annot_value_iterate_primitives(annot->value, flags, iter) &&
+            cowl_annot_prop_iterate_primitives(annot->prop, flags, iter) &&
+            cowl_object_vec_iterate_primitives(annot->annot, flags, iter));
 }

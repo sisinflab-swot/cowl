@@ -40,10 +40,10 @@ cowl_ret cowl_object_vec_push(UVec(CowlObjectPtr) *vec, CowlObject *object) {
     return COWL_ERR_MEM;
 }
 
-bool cowl_object_vec_iterate_primitives(CowlObjectVec *vec, CowlIterator *iter,
-                                              CowlPrimitiveFlags flags) {
+bool cowl_object_vec_iterate_primitives(CowlObjectVec *vec, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter) {
     uvec_foreach(CowlObjectPtr, vec, prop, {
-        if (!cowl_object_iterate_primitives(prop, iter, flags)) return false;
+        if (!cowl_object_iterate_primitives(prop, flags, iter)) return false;
     });
     return true;
 }

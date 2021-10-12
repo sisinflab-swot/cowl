@@ -154,15 +154,15 @@ cowl_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom);
  * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlIterator *iter,
-                                           CowlPrimitiveFlags flags);
+bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveFlags flags,
+                                           CowlIterator *iter);
 
 COWL_END_DECLS
 

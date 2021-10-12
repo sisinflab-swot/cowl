@@ -63,7 +63,7 @@ cowl_uint cowl_entity_hash(CowlEntity *entity) {
     return uhash_ptr_hash(entity);
 }
 
-bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlIterator *iter,
-                                    CowlPrimitiveFlags flags) {
-    return cowl_object_iterate_primitives((CowlObject *)entity, iter, flags);
+bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlPrimitiveFlags flags,
+                                    CowlIterator *iter) {
+    return cowl_object_iterate_primitives((CowlObject *)entity, flags, iter);
 }

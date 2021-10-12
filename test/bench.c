@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
 
     start = get_micros();
     iter = cowl_iterator_init(&count, count_primitive_iterator);
-    cowl_ontology_iterate_primitives(onto, &iter, COWL_PF_ALL);
+    cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter);
     stop = get_micros();
 
     printf("%" COWL_UINT_FMT " primitives iterated in %.2f us\n", count, stop - start);

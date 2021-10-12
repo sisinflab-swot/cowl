@@ -131,15 +131,15 @@ cowl_uint cowl_nary_bool_hash(CowlNAryBool *exp);
  * the specified N-ary boolean class expression.
  *
  * @param exp The expression.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlNAryBool
  */
 COWL_PUBLIC
-bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlIterator *iter,
-                                       CowlPrimitiveFlags flags);
+bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlPrimitiveFlags flags,
+                                       CowlIterator *iter);
 
 COWL_END_DECLS
 

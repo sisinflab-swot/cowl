@@ -35,6 +35,6 @@ cowl_uint cowl_axiom_hash(CowlAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlIterator *iter, CowlPrimitiveFlags flags) {
-    return cowl_object_iterate_primitives((CowlObject *)axiom, iter, flags);
+bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_object_iterate_primitives((CowlObject *)axiom, flags, iter);
 }

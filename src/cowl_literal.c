@@ -110,7 +110,7 @@ cowl_uint cowl_literal_hash(CowlLiteral *literal) {
     return cowl_object_hash_get(literal);
 }
 
-bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlIterator *iter,
-                                     CowlPrimitiveFlags flags) {
-    return cowl_datatype_iterate_primitives(literal->dt, iter, flags);
+bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,
+                                     CowlIterator *iter) {
+    return cowl_datatype_iterate_primitives(literal->dt, flags, iter);
 }

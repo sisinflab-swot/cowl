@@ -90,10 +90,10 @@ cowl_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlIterator *iter,
-                                           CowlPrimitiveFlags flags) {
-    return (cowl_cls_exp_iterate_primitives(axiom->cls_exp, iter, flags) &&
-            cowl_object_set_iterate_primitives(axiom->obj_props, iter, flags) &&
-            cowl_object_set_iterate_primitives(axiom->data_props, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveFlags flags,
+                                           CowlIterator *iter) {
+    return (cowl_cls_exp_iterate_primitives(axiom->cls_exp, flags, iter) &&
+            cowl_object_set_iterate_primitives(axiom->obj_props, flags, iter) &&
+            cowl_object_set_iterate_primitives(axiom->data_props, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

@@ -138,14 +138,14 @@ cowl_uint cowl_class_hash(CowlClass *cls);
  * Iterates over this class.
  *
  * @param cls The class.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlClass
  */
 COWL_PUBLIC
-bool cowl_class_iterate_primitives(CowlClass *cls, CowlIterator *iter, CowlPrimitiveFlags flags);
+bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

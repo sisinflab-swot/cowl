@@ -107,9 +107,9 @@ cowl_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom) {
 }
 
 bool cowl_obj_prop_assert_axiom_iterate_primitives(CowlObjPropAssertAxiom *axiom,
-                                                   CowlIterator *iter, CowlPrimitiveFlags flags) {
-    return (cowl_individual_iterate_primitives(axiom->subject, iter, flags) &&
-            cowl_individual_iterate_primitives(axiom->object, iter, flags) &&
-            cowl_obj_prop_exp_iterate_primitives(axiom->prop_exp, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+                                                   CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return (cowl_individual_iterate_primitives(axiom->subject, flags, iter) &&
+            cowl_individual_iterate_primitives(axiom->object, flags, iter) &&
+            cowl_obj_prop_exp_iterate_primitives(axiom->prop_exp, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

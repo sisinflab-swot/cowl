@@ -319,12 +319,12 @@ cowl_uint cowl_object_hash(CowlObject *object) {
     }
 }
 
-bool cowl_object_iterate_primitives(CowlObject *object, CowlIterator *iter,
-                                    CowlPrimitiveFlags flags) {
+bool cowl_object_iterate_primitives(CowlObject *object, CowlPrimitiveFlags flags,
+                                    CowlIterator *iter) {
     #define GEN_ITER(UC, LC) \
-        return cowl_##LC##_iterate_primitives((Cowl##UC *)object, iter, flags)
+        return cowl_##LC##_iterate_primitives((Cowl##UC *)object, flags, iter)
     #define GEN_ITER_AXIOM(UC, LC) \
-        return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, iter, flags)
+        return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, flags, iter)
 
     switch (cowl_object_get_type(object)) {
         case COWL_OT_LITERAL: GEN_ITER(Literal, literal);

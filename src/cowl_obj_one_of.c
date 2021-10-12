@@ -65,7 +65,7 @@ cowl_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
     return cowl_object_hash_get(exp);
 }
 
-bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags) {
-    return cowl_object_set_iterate_primitives(exp->inds, iter, flags);
+bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter) {
+    return cowl_object_set_iterate_primitives(exp->inds, flags, iter);
 }

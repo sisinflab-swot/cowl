@@ -143,15 +143,15 @@ cowl_uint cowl_obj_quant_hash(CowlObjQuant *restr);
  * Iterates over the primitives referenced by the specified object quantifier.
  *
  * @param restr The axiom.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
-bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlIterator *iter,
-                                       CowlPrimitiveFlags flags);
+bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveFlags flags,
+                                       CowlIterator *iter);
 
 COWL_END_DECLS
 

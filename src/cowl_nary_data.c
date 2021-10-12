@@ -72,7 +72,7 @@ cowl_uint cowl_nary_data_hash(CowlNAryData *range) {
     return cowl_object_hash_get(range);
 }
 
-bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlIterator *iter,
-                                       CowlPrimitiveFlags flags) {
-    return cowl_object_set_iterate_primitives(range->operands, iter, flags);
+bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlPrimitiveFlags flags,
+                                       CowlIterator *iter) {
+    return cowl_object_set_iterate_primitives(range->operands, flags, iter);
 }

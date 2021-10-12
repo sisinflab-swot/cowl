@@ -97,9 +97,9 @@ cowl_uint cowl_obj_card_hash(CowlObjCard *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlIterator *iter,
-                                      CowlPrimitiveFlags flags) {
-    if (!cowl_obj_prop_exp_iterate_primitives(restr->prop, iter, flags)) return false;
-    if (restr->filler && !cowl_cls_exp_iterate_primitives(restr->filler, iter, flags)) return false;
+bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter) {
+    if (!cowl_obj_prop_exp_iterate_primitives(restr->prop, flags, iter)) return false;
+    if (restr->filler && !cowl_cls_exp_iterate_primitives(restr->filler, flags, iter)) return false;
     return true;
 }

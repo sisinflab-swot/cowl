@@ -48,7 +48,7 @@ cowl_uint cowl_primitive_hash(CowlPrimitive *primitive) {
     return uhash_ptr_hash(primitive);
 }
 
-bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlIterator *iter,
-                                       CowlPrimitiveFlags flags) {
-    return cowl_object_iterate_primitives((CowlObject *)primitive, iter, flags);
+bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlPrimitiveFlags flags,
+                                       CowlIterator *iter) {
+    return cowl_object_iterate_primitives((CowlObject *)primitive, flags, iter);
 }

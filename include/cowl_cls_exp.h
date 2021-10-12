@@ -103,14 +103,14 @@ cowl_uint cowl_cls_exp_hash(CowlClsExp *exp);
  * Iterates over the primitives referenced by the specified class expression.
  *
  * @param exp The class expression.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlClsExp
  */
 COWL_PUBLIC
-bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlIterator *iter, CowlPrimitiveFlags flags);
+bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

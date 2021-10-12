@@ -143,15 +143,15 @@ cowl_uint cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom);
  * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_PUBLIC
 bool cowl_annot_prop_range_axiom_iterate_primitives(CowlAnnotPropRangeAxiom *axiom,
-                                                    CowlIterator *iter, CowlPrimitiveFlags flags);
+                                                    CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

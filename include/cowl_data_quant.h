@@ -143,15 +143,15 @@ cowl_uint cowl_data_quant_hash(CowlDataQuant *restr);
  * Iterates over the primitives referenced by the specified data quantifier.
  *
  * @param restr The data quantifier.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataQuant
  */
 COWL_PUBLIC
-bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags);
+bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter);
 
 COWL_END_DECLS
 

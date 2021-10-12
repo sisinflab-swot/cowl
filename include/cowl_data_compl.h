@@ -115,15 +115,15 @@ cowl_uint cowl_data_compl_hash(CowlDataCompl *range);
  * Iterates over the primitives referenced by the specified data range complement.
  *
  * @param range The data range complement.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlDataCompl
  */
 COWL_PUBLIC
-bool cowl_data_compl_iterate_primitives(CowlDataCompl *range, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags);
+bool cowl_data_compl_iterate_primitives(CowlDataCompl *range, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter);
 
 COWL_END_DECLS
 

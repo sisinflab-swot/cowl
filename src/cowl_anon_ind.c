@@ -56,7 +56,7 @@ cowl_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlIterator *iter,
-                                      CowlPrimitiveFlags flags) {
+bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter) {
     return uflags_is_set(COWL_PF, flags, COWL_PF_ANON_IND) ? cowl_iterate(iter, ind) : true;
 }

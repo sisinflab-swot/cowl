@@ -196,48 +196,47 @@ bool cowl_ontology_has_entity(CowlOntology *onto, CowlEntity *entity) {
     return table && uhash_contains(CowlObjectTable, table, entity);
 }
 
-bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlIterator *iter,
-                                      CowlPrimitiveFlags flags) {
-
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter) {
     if (uflags_is_set(COWL_PF, flags, COWL_PF_CLASS)) {
         uhash_foreach_key(CowlObjectTable, onto->class_refs, cls, {
-            if (!cowl_class_iterate_primitives(cls, iter, flags)) return false;
+            if (!cowl_class_iterate_primitives(cls, flags, iter)) return false;
         });
     }
 
     if (uflags_is_set(COWL_PF, flags, COWL_PF_DATATYPE)) {
         uhash_foreach_key(CowlObjectTable, onto->datatype_refs, dt, {
-            if (!cowl_datatype_iterate_primitives(dt, iter, flags)) return false;
+            if (!cowl_datatype_iterate_primitives(dt, flags, iter)) return false;
         });
     }
 
     if (uflags_is_set(COWL_PF, flags, COWL_PF_OBJ_PROP)) {
         uhash_foreach_key(CowlObjectTable, onto->obj_prop_refs, prop, {
-            if (!cowl_obj_prop_iterate_primitives(prop, iter, flags)) return false;
+            if (!cowl_obj_prop_iterate_primitives(prop, flags, iter)) return false;
         });
     }
 
     if (uflags_is_set(COWL_PF, flags, COWL_PF_DATA_PROP)) {
         uhash_foreach_key(CowlObjectTable, onto->data_prop_refs, prop, {
-            if (!cowl_data_prop_iterate_primitives(prop, iter, flags)) return false;
+            if (!cowl_data_prop_iterate_primitives(prop, flags, iter)) return false;
         });
     }
 
     if (uflags_is_set(COWL_PF, flags, COWL_PF_ANNOT_PROP)) {
         uhash_foreach_key(CowlObjectTable, onto->annot_prop_refs, prop, {
-            if (!cowl_annot_prop_iterate_primitives(prop, iter, flags)) return false;
+            if (!cowl_annot_prop_iterate_primitives(prop, flags, iter)) return false;
         });
     }
 
     if (uflags_is_set(COWL_PF, flags, COWL_PF_NAMED_IND)) {
         uhash_foreach_key(CowlObjectTable, onto->named_ind_refs, ind, {
-            if (!cowl_named_ind_iterate_primitives(ind, iter, flags)) return false;
+            if (!cowl_named_ind_iterate_primitives(ind, flags, iter)) return false;
         });
     }
 
     if (uflags_is_set(COWL_PF, flags, COWL_PF_ANON_IND)) {
         uhash_foreach_key(CowlObjectTable, onto->anon_ind_refs, ind, {
-            if (!cowl_anon_ind_iterate_primitives(ind, iter, flags)) return false;
+            if (!cowl_anon_ind_iterate_primitives(ind, flags, iter)) return false;
         });
     }
 
@@ -449,7 +448,7 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
 
     CowlAxiomCtx ctx = { .onto = onto };
     CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_adder);
-    cowl_annotation_iterate_primitives(annot, &iter, COWL_PF_ALL);
+    cowl_annotation_iterate_primitives(annot, COWL_PF_ALL, &iter);
     return ctx.ret;
 }
 
@@ -464,7 +463,7 @@ cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlOntology *import) {
 
     CowlAxiomCtx ctx = { .onto = onto };
     CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_adder);
-    cowl_ontology_iterate_primitives(import, &iter, COWL_PF_ALL);
+    cowl_ontology_iterate_primitives(import, COWL_PF_ALL, &iter);
     return ctx.ret;
 }
 
@@ -498,7 +497,7 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     cowl_axiom_retain(axiom);
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_axiom_adder);
-    if (!cowl_axiom_iterate_primitives(axiom, &iter, COWL_PF_ALL) && ctx.ret) return COWL_ERR_MEM;
+    if (!cowl_axiom_iterate_primitives(axiom, COWL_PF_ALL, &iter) && ctx.ret) return COWL_ERR_MEM;
 
     return COWL_OK;
 }

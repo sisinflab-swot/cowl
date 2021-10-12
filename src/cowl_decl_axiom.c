@@ -67,8 +67,8 @@ cowl_uint cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_decl_axiom_iterate_primitives(CowlDeclAxiom *axiom, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags) {
-    return (cowl_entity_iterate_primitives(axiom->entity, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+bool cowl_decl_axiom_iterate_primitives(CowlDeclAxiom *axiom, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter) {
+    return (cowl_entity_iterate_primitives(axiom->entity, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

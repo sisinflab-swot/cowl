@@ -40,7 +40,7 @@ cowl_uint cowl_annot_value_hash(CowlAnnotValue *value) {
     return cowl_object_hash((CowlObject *)value);
 }
 
-bool cowl_annot_value_iterate_primitives(CowlAnnotValue *value, CowlIterator *iter,
-                                         CowlPrimitiveFlags flags) {
-    return cowl_object_iterate_primitives((CowlObject *)value, iter, flags);
+bool cowl_annot_value_iterate_primitives(CowlAnnotValue *value, CowlPrimitiveFlags flags,
+                                         CowlIterator *iter) {
+    return cowl_object_iterate_primitives((CowlObject *)value, flags, iter);
 }

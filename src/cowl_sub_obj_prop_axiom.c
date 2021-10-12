@@ -80,9 +80,9 @@ cowl_uint cowl_sub_obj_prop_axiom_hash(CowlSubObjPropAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_sub_obj_prop_axiom_iterate_primitives(CowlSubObjPropAxiom *axiom, CowlIterator *iter,
-                                                CowlPrimitiveFlags flags) {
-    return (cowl_obj_prop_exp_iterate_primitives(axiom->super_prop, iter, flags) &&
-            cowl_obj_prop_exp_iterate_primitives(axiom->sub_prop, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+bool cowl_sub_obj_prop_axiom_iterate_primitives(CowlSubObjPropAxiom *axiom,
+                                                CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return (cowl_obj_prop_exp_iterate_primitives(axiom->super_prop, flags, iter) &&
+            cowl_obj_prop_exp_iterate_primitives(axiom->sub_prop, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

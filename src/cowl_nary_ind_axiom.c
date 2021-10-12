@@ -78,8 +78,8 @@ cowl_uint cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_nary_ind_axiom_iterate_primitives(CowlNAryIndAxiom *axiom, CowlIterator *iter,
-                                            CowlPrimitiveFlags flags) {
-    return (cowl_object_set_iterate_primitives(axiom->individuals, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+bool cowl_nary_ind_axiom_iterate_primitives(CowlNAryIndAxiom *axiom, CowlPrimitiveFlags flags,
+                                            CowlIterator *iter) {
+    return (cowl_object_set_iterate_primitives(axiom->individuals, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

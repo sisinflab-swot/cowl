@@ -86,7 +86,7 @@ cowl_uint cowl_annot_prop_hash(CowlAnnotProp *prop) {
     return uhash_ptr_hash(prop);
 }
 
-bool cowl_annot_prop_iterate_primitives(CowlAnnotProp *prop, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags) {
+bool cowl_annot_prop_iterate_primitives(CowlAnnotProp *prop, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter) {
     return uflags_is_set(COWL_PF, flags, COWL_PF_ANNOT_PROP) ? cowl_iterate(iter, prop) : true;
 }

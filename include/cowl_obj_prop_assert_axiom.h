@@ -189,15 +189,15 @@ cowl_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
  * Iterates over the primitives referenced by the specified axiom.
  *
  * @param axiom The axiom.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_PUBLIC
 bool cowl_obj_prop_assert_axiom_iterate_primitives(CowlObjPropAssertAxiom *axiom,
-                                                   CowlIterator *iter, CowlPrimitiveFlags flags);
+                                                   CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

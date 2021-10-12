@@ -83,7 +83,7 @@ cowl_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom) {
 }
 
 bool cowl_annot_prop_domain_axiom_iterate_primitives(CowlAnnotPropDomainAxiom *axiom,
-                                                     CowlIterator *iter, CowlPrimitiveFlags flags) {
-    return (cowl_annot_prop_iterate_primitives(axiom->prop, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+                                                     CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return (cowl_annot_prop_iterate_primitives(axiom->prop, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

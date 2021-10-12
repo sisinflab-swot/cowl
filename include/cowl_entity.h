@@ -116,15 +116,15 @@ cowl_uint cowl_entity_hash(CowlEntity *entity);
  * Iterates over this entity.
  *
  * @param entity The entity.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlIterator *iter,
-                                    CowlPrimitiveFlags flags);
+bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlPrimitiveFlags flags,
+                                    CowlIterator *iter);
 
 COWL_END_DECLS
 

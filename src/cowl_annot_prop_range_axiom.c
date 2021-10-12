@@ -83,7 +83,7 @@ cowl_uint cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom) {
 }
 
 bool cowl_annot_prop_range_axiom_iterate_primitives(CowlAnnotPropRangeAxiom *axiom,
-                                                    CowlIterator *iter, CowlPrimitiveFlags flags) {
-    return (cowl_annot_prop_iterate_primitives(axiom->prop, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+                                                    CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return (cowl_annot_prop_iterate_primitives(axiom->prop, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

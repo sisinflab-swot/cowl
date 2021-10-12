@@ -129,15 +129,15 @@ cowl_uint cowl_obj_has_value_hash(CowlObjHasValue *exp);
  * the specified individual value restriction.
  *
  * @param exp The restriction.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjHasValue
  */
 COWL_PUBLIC
-bool cowl_obj_has_value_iterate_primitives(CowlObjHasValue *exp, CowlIterator *iter,
-                                           CowlPrimitiveFlags flags);
+bool cowl_obj_has_value_iterate_primitives(CowlObjHasValue *exp, CowlPrimitiveFlags flags,
+                                           CowlIterator *iter);
 
 COWL_END_DECLS
 

@@ -83,8 +83,8 @@ cowl_uint cowl_data_prop_domain_axiom_hash(CowlDataPropDomainAxiom *axiom) {
 }
 
 bool cowl_data_prop_domain_axiom_iterate_primitives(CowlDataPropDomainAxiom *axiom,
-                                                    CowlIterator *iter, CowlPrimitiveFlags flags) {
-    return (cowl_data_prop_exp_iterate_primitives(axiom->prop_exp, iter, flags) &&
-            cowl_cls_exp_iterate_primitives(axiom->domain, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+                                                    CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return (cowl_data_prop_exp_iterate_primitives(axiom->prop_exp, flags, iter) &&
+            cowl_cls_exp_iterate_primitives(axiom->domain, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

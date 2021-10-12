@@ -77,12 +77,12 @@ cowl_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlIterator *iter,
-                                            CowlPrimitiveFlags flags) {
-    if (!cowl_datatype_iterate_primitives(restr->datatype, iter, flags)) return false;
+bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimitiveFlags flags,
+                                            CowlIterator *iter) {
+    if (!cowl_datatype_iterate_primitives(restr->datatype, flags, iter)) return false;
 
     uhash_foreach_key(CowlObjectTable, restr->restrictions, fr, {
-        if (!cowl_facet_restr_iterate_primitives((CowlFacetRestr *)fr, iter, flags)) return false;
+        if (!cowl_facet_restr_iterate_primitives((CowlFacetRestr *)fr, flags, iter)) return false;
     });
 
     return true;

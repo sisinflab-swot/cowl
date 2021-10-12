@@ -79,8 +79,8 @@ cowl_uint cowl_nary_obj_prop_axiom_hash(CowlNAryObjPropAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
-bool cowl_nary_obj_prop_axiom_iterate_primitives(CowlNAryObjPropAxiom *axiom, CowlIterator *iter,
-                                                 CowlPrimitiveFlags flags) {
-    return (cowl_object_set_iterate_primitives(axiom->props, iter, flags) &&
-            cowl_axiom_annot_iterate_primitives(axiom, iter, flags));
+bool cowl_nary_obj_prop_axiom_iterate_primitives(CowlNAryObjPropAxiom *axiom,
+                                                 CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return (cowl_object_set_iterate_primitives(axiom->props, flags, iter) &&
+            cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

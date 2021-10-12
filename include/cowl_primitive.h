@@ -114,15 +114,15 @@ cowl_uint cowl_primitive_hash(CowlPrimitive *primitive);
  * Iterates over this primitive.
  *
  * @param primitive The primitive.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlPrimitive
  */
 COWL_PUBLIC
-bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlIterator *iter,
-                                       CowlPrimitiveFlags flags);
+bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlPrimitiveFlags flags,
+                                       CowlIterator *iter);
 
 COWL_END_DECLS
 

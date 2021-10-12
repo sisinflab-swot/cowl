@@ -116,15 +116,15 @@ cowl_uint cowl_obj_compl_hash(CowlObjCompl *exp);
  * the specified class expression complement.
  *
  * @param exp The complement.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjCompl
  */
 COWL_PUBLIC
-bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlIterator *iter,
-                                       CowlPrimitiveFlags flags);
+bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlPrimitiveFlags flags,
+                                       CowlIterator *iter);
 
 COWL_END_DECLS
 

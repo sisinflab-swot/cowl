@@ -138,15 +138,15 @@ cowl_uint cowl_obj_prop_hash(CowlObjProp *prop);
  * Iterates over this object property.
  *
  * @param prop The object property.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjProp
  */
 COWL_PUBLIC
-bool cowl_obj_prop_iterate_primitives(CowlObjProp *prop, CowlIterator *iter,
-                                      CowlPrimitiveFlags flags);
+bool cowl_obj_prop_iterate_primitives(CowlObjProp *prop, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter);
 
 COWL_END_DECLS
 

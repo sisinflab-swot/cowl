@@ -322,15 +322,15 @@ bool cowl_ontology_has_entity(CowlOntology *onto, CowlEntity *entity);
  * Iterates over the primitives referenced by the specified ontology.
  *
  * @param onto The ontology.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlIterator *iter,
-                                      CowlPrimitiveFlags flags);
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter);
 
 /**
  * Iterates over the imported ontologies.

@@ -194,15 +194,15 @@ cowl_uint cowl_object_hash(CowlObject *object);
  * Iterates over the primitives referenced by the specified object.
  *
  * @param object The object.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_iterate_primitives(CowlObject *object, CowlIterator *iter,
-                                    CowlPrimitiveFlags flags);
+bool cowl_object_iterate_primitives(CowlObject *object, CowlPrimitiveFlags flags,
+                                    CowlIterator *iter);
 
 COWL_END_DECLS
 

@@ -71,7 +71,7 @@ cowl_uint cowl_facet_restr_hash(CowlFacetRestr *restr) {
     return cowl_object_hash_get(restr);
 }
 
-bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlIterator *iter,
-                                         CowlPrimitiveFlags flags) {
-    return cowl_literal_iterate_primitives(restr->value, iter, flags);
+bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlPrimitiveFlags flags,
+                                         CowlIterator *iter) {
+    return cowl_literal_iterate_primitives(restr->value, flags, iter);
 }

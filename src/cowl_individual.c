@@ -35,7 +35,7 @@ cowl_uint cowl_individual_hash(CowlIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 
-bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlIterator *iter,
-                                        CowlPrimitiveFlags flags) {
-    return cowl_object_iterate_primitives((CowlObject *)ind, iter, flags);
+bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter) {
+    return cowl_object_iterate_primitives((CowlObject *)ind, flags, iter);
 }

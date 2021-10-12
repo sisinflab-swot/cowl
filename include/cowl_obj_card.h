@@ -158,15 +158,15 @@ cowl_uint cowl_obj_card_hash(CowlObjCard *restr);
  * the specified object property cardinality restriction.
  *
  * @param restr The restriction.
- * @param iter The iterator.
  * @param flags Iteration flags.
+ * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
-bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlIterator *iter,
-                                      CowlPrimitiveFlags flags);
+bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter);
 
 COWL_END_DECLS
 
