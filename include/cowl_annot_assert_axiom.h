@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -21,9 +21,9 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotValue);
+cowl_struct_decl(CowlString);
 cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlAnnotAssertAxiom);
-cowl_struct_decl(CowlString);
 /// @endcond
 
 /**
