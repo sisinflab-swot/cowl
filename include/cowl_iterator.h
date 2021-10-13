@@ -20,6 +20,8 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlObject);
+cowl_hash_decl(CowlObjectTable);
+cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 /// @endcond
 
 /**
@@ -56,6 +58,38 @@ typedef cowl_struct(CowlIterator) {
  */
 #define cowl_iterator_init(CTX, FOR_EACH) \
     ((CowlIterator){ .ctx = (void *)(CTX), .for_each = (FOR_EACH) })
+
+/**
+ * Initializes an iterator that stores objects in the specified vector.
+ *
+ * @param vec Vector.
+ * @return Initialized iterator.
+ *
+ * @note When using this iterator, iterator functions return false on error,
+ *       e.g. when memory cannot be allocated.
+ * @note If vec is NULL, a new vector is allocated and assigned to the iterator context.
+ *       You are responsible for deallocating it and releasing its elements.
+ *
+ * @public @related CowlIterator
+ */
+COWL_PUBLIC
+CowlIterator cowl_iterator_vec_init(UVec(CowlObjectPtr) *vec);
+
+/**
+ * Initializes an iterator that stores objects in the specified set.
+ *
+ * @param set Set.
+ * @return Initialized iterator.
+ *
+ * @note When using this iterator, iterator functions return false on error,
+ *       e.g. when memory cannot be allocated.
+ * @note If set is NULL, a new set is allocated and assigned to the iterator context.
+ *       You are responsible for deallocating it and releasing its elements.
+ *
+ * @public @related CowlIterator
+ */
+COWL_PUBLIC
+CowlIterator cowl_iterator_set_init(UHash(CowlObjectTable) *set);
 
 COWL_END_DECLS
 
