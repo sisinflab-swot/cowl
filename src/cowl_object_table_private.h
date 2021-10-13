@@ -16,6 +16,14 @@
 COWL_BEGIN_DECLS
 
 UHash(CowlObjectTable)* cowl_axiom_set_alloc(void);
+UHash(CowlObjectTable)* cowl_cls_exp_set_alloc(void);
+UHash(CowlObjectTable)* cowl_data_prop_exp_set_alloc(void);
+UHash(CowlObjectTable)* cowl_data_range_set_alloc(void);
+UHash(CowlObjectTable)* cowl_facet_restr_set_alloc(void);
+UHash(CowlObjectTable)* cowl_individual_set_alloc(void);
+UHash(CowlObjectTable)* cowl_literal_set_alloc(void);
+UHash(CowlObjectTable)* cowl_obj_prop_exp_set_alloc(void);
+
 UHash(CowlObjectTable)* cowl_annot_prop_map_alloc(void);
 UHash(CowlObjectTable)* cowl_anon_ind_map_alloc(void);
 UHash(CowlObjectTable)* cowl_class_map_alloc(void);

@@ -27,7 +27,9 @@
 #include "cowl_object.h"
 #include "cowl_string.h"
 
-UHASH_IMPL_PI(CowlObjectTable)
+static uhash_uint cowl_object_table_hash(void *k) { return cowl_object_hash(k); }
+static bool cowl_object_table_equals(void *a, void *b) { return cowl_object_equals(a, b); }
+UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
 
 #define HASH_GEN(T, TYPE)                                                                           \
     static cowl_uint T##_hash(void *obj) { return cowl_##T##_hash(obj); }                           \
