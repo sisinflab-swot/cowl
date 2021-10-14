@@ -5,6 +5,28 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2021-10-14
+### Added
+- `cowl_ontology_has_entity`.
+- `cowl_iterator_vec_init` and `cowl_iterator_set_init`.
+
+### Changed
+- Renamed `CowlOntologyID` to `CowlOntologyId`.
+- Changed argument order of `*_iterate_primitives` functions to match convention.
+- Reworked parser build logic.
+
+### Removed
+- `cowl_cls_exp_set_alloc`, `cowl_data_prop_exp_set_alloc`, `cowl_data_range_set_alloc`,
+  `cowl_facet_restr_set_alloc`, `cowl_individual_set_alloc`, `cowl_literal_set_alloc`,
+  `cowl_obj_prop_exp_set_alloc` (use plain `uhset_alloc(CowlObjectTable)` instead).
+
+### Fixed
+- UaF in `cowl_logger_release`.
+- Return of incomplete `CowlOntologyID` type.
+- Compilation via MSVC.
+- Warnings when compiling via GCC.
+- Warnings due to macros expanding to empty statements.
+
 ## [0.5.0] - 2021-03-28
 ### Added
 - Support for multiple parsers via `CowlReader` and `CowlParser` API.
@@ -158,6 +180,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.5.1]: https://github.com/sisinflab-swot/cowl/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/sisinflab-swot/cowl/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/sisinflab-swot/cowl/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/sisinflab-swot/cowl/compare/v0.3.0...v0.4.0
