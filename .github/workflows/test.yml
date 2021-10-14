@@ -1,0 +1,61 @@
+name: Build and test
+
+on: push
+
+env:
+  build_dir: build
+  build_config: Release
+  cflags_gnuc: -Werror
+  cflags_msvc: /wd5105 /WX
+  test_target: cowl-test
+
+jobs:
+  build:
+    name: Build and test
+
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Configure runner
+      run: |
+        if [ $RUNNER_OS == 'Windows' ]; then
+          echo 'cflags="${{env.cflags_msvc}}"' >> $GITHUB_ENV
+          echo 'test_subdir=./${{env.build_config}}' >> $GITHUB_ENV
+          choco install winflexbison3
+        else
+          echo 'cflags="${{env.cflags_gnuc}}"' >> $GITHUB_ENV
+          echo 'test_subdir=.' >> $GITHUB_ENV
+          if [ $RUNNER_OS == 'macOS' ]; then
+            brew install flex bison
+            echo '/usr/local/opt/bison/bin' >> $GITHUB_PATH
+            echo '/usr/local/opt/flex/bin' >> $GITHUB_PATH
+          fi
+        fi
+      shell: bash
+
+    - name: Configure CMake
+      run: >
+        cmake -B ${{env.build_dir}}
+        -DCOWL_DEBUG_LEAKS=ON
+        -DCMAKE_BUILD_TYPE=${{env.build_config}}
+        -DCMAKE_C_FLAGS=${{env.cflags}}
+
+    - name: Build
+      run: >
+        cmake --build ${{env.build_dir}}
+        --config ${{env.build_config}}
+        --target ${{env.test_target}}
+
+    - name: Test
+      working-directory: ${{env.build_dir}}/test
+      run: ${{env.test_subdir}}/${{env.test_target}}
