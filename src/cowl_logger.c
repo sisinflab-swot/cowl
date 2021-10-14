@@ -92,6 +92,7 @@ static cowl_ret cowl_logger_free(CowlLogger *logger) {
             break;
     }
 
+    (void)cowl_object_decr_ref(logger);
     cowl_free(logger);
 
     return ret;
@@ -194,14 +195,16 @@ CowlLogger* cowl_logger_retain(CowlLogger *logger) {
 }
 
 cowl_ret cowl_logger_release(CowlLogger *logger) {
-    cowl_ret ret = COWL_OK;
+    if (!logger) return COWL_OK;
 
-    if (logger && cowl_object_get_ref(logger) == 1) {
-        if ((ret = cowl_logger_free(logger))) return ret;
+    if (cowl_object_get_ref(logger) == 1) {
+        cowl_ret ret = cowl_logger_free(logger);
+        if (ret != COWL_OK) return ret;
+    } else {
         (void)cowl_object_decr_ref(logger);
     }
 
-    return ret;
+    return COWL_OK;
 }
 
 cowl_ret cowl_logger_clear(CowlLogger *logger) {
