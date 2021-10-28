@@ -7,7 +7,7 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 
 Ontology(<http://visualdataweb.de/ontobench/ontology/1/>
-Import(<http://sisinflab.poliba.it/swottools/test_import>)
+Import(<http://swot.sisinflab.poliba.it/test_import>)
 Annotation(<http://purl.org/dc/elements/1.1/contributor> "Vincent Link"^^xsd:string)
 Annotation(<http://purl.org/dc/elements/1.1/creator> "Ontology Visualization Benchmark Generator"^^xsd:string)
 Annotation(<http://purl.org/dc/elements/1.1/date> "2019-07-14"^^xsd:string)

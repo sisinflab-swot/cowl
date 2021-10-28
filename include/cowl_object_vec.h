@@ -4,7 +4,7 @@
  * @author Ivano Bilenchi
  *
  * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
- * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
