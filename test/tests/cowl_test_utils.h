@@ -30,14 +30,14 @@ typedef uvec_struct(CowlError) UVec(CowlError);
                cowl_string_get_cstring(T##_lhs_str));                                               \
         cowl_string_release(T##_lhs_str);                                                           \
         cowl_string_release(T##_rhs_str);                                                           \
-    }, "")
+    }, #LHS)
 
 #define cowl_assert_not_equal(T, LHS, RHS)                                                          \
     utest_assert_wrap(!cowl_##T##_equals(LHS, RHS), {                                               \
         CowlString *T##_rhs_str = cowl_##T##_to_string(RHS);                                        \
         printf(" must not be equal to \"%s\".", cowl_string_get_cstring(T##_rhs_str));              \
         cowl_string_release(T##_rhs_str);                                                           \
-    }, "")
+    }, #LHS)
 
 // Test data
 

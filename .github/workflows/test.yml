@@ -8,13 +8,12 @@ env:
   cflags_gnuc: -Werror
   cflags_msvc: /wd5105 /WX
   test_target: cowl-test
+  docs_target: cowl-docs
 
 jobs:
   build:
     name: Build and test
-
     runs-on: ${{matrix.os}}
-
     strategy:
       fail-fast: false
       matrix:
@@ -59,3 +58,23 @@ jobs:
     - name: Test
       working-directory: ${{env.build_dir}}/test
       run: ${{env.test_subdir}}/${{env.test_target}}
+
+  docs:
+    name: Generate the documentation
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Configure runner
+        run: |
+          brew install doxygen
+          pip3 install -U Sphinx sphinx-rtd-theme breathe
+
+      - name: Build docs
+        run: |
+          cmake -B ${{env.build_dir}} -DCOWL_PARSERS=''
+          cmake --build ${{env.build_dir}} --target ${{env.docs_target}}
