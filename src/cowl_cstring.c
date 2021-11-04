@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,17 +9,6 @@
  */
 
 #include "cowl_cstring.h"
-
-char* cowl_str_dup(char const *string, size_t length) {
-    char *buf = cowl_malloc(length + 1);
-
-    if (buf) {
-        memcpy(buf, string, length);
-        buf[length] = '\0';
-    }
-
-    return buf;
-}
 
 size_t cowl_str_from_uint(uint64_t uint, char *buf) {
     char *cur = buf;

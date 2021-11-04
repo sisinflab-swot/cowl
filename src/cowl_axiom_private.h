@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -31,7 +31,7 @@ cowl_struct(CowlAxiom) {
     }
 
 #define cowl_axiom_alloc(AXIOM, ANNOT) \
-    cowl_malloc(sizeof(*(AXIOM)) + ((ANNOT) ? sizeof(CowlObjectVec*) : 0))
+    ulib_malloc(sizeof(*(AXIOM)) + ((ANNOT) ? sizeof(CowlObjectVec*) : 0))
 
 #define cowl_axiom_init(T, AXIOM, ANNOT, ...) do {                                                  \
     *(AXIOM) = (T){__VA_ARGS__};                                                                    \
@@ -44,7 +44,7 @@ cowl_struct(CowlAxiom) {
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \
     if (cowl_axiom_has_annot(AXIOM)) cowl_object_vec_free_spec(annotation, (AXIOM)->annot[0]);      \
-    cowl_free(AXIOM);                                                                               \
+    ulib_free(AXIOM);                                                                               \
 } while(0)
 
 #define cowl_axiom_has_annot(AXIOM) cowl_object_bit_get(AXIOM)

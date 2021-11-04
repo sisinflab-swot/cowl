@@ -12,14 +12,13 @@
 #include "cowl_config_private.h"
 #include "cowl_error_handler_private.h"
 #include "cowl_import_loader_private.h"
-#include "cowl_input_stream.h"
 #include "cowl_ontology_private.h"
-#include "cowl_parser_ctx.h"
+#include "cowl_parser_ctx_private.h"
 
 #define cowl_parser_is_null(p) (!(p).name)
 
 static CowlReader* cowl_reader_alloc(CowlParser parser) {
-    CowlReader *reader = cowl_alloc(reader);
+    CowlReader *reader = ulib_alloc(reader);
     if (!reader) return NULL;
 
     *reader = (CowlReader) {
@@ -34,7 +33,7 @@ static void cowl_reader_free(CowlReader *reader) {
     if (!reader) return;
     cowl_import_loader_deinit(reader->loader);
     cowl_error_handler_deinit(reader->handler);
-    cowl_free(reader);
+    ulib_free(reader);
 }
 
 CowlReader* cowl_reader_get(void) {
@@ -56,15 +55,16 @@ void cowl_reader_release(CowlReader *reader) {
 }
 
 static CowlOntology* cowl_reader_read(CowlReader *reader) {
-    if (!reader->stream || cowl_parser_is_null(reader->parser)) return NULL;
+    CowlOntology *onto = NULL;
+    if (!reader->stream || cowl_parser_is_null(reader->parser)) goto end;
 
     CowlParser parser = reader->parser;
     CowlParserCtx *ctx = (CowlParserCtx *)reader;
-    CowlOntology *onto = cowl_ontology_get();
+    onto = cowl_ontology_get();
 
     if (!onto) {
         cowl_parser_ctx_handle_error_type(ctx, COWL_ERR_MEM);
-        return NULL;
+        goto end;
     }
 
     void *state = NULL;
@@ -72,7 +72,7 @@ static CowlOntology* cowl_reader_read(CowlReader *reader) {
     if (parser.alloc && !(state = parser.alloc())) {
         cowl_parser_ctx_handle_error_type(ctx, COWL_ERR_MEM);
         cowl_ontology_release(onto);
-        return NULL;
+        goto end;
     }
 
     reader->state = state;
@@ -88,25 +88,29 @@ static CowlOntology* cowl_reader_read(CowlReader *reader) {
     reader->state = NULL;
     reader->ontology = NULL;
 
+end:
+    reader->stream_description = NULL;
+
     return onto;
 }
 
 static CowlOntology* cowl_reader_read_deinit(CowlReader *reader) {
     CowlOntology *onto = cowl_reader_read(reader);
-    cowl_ret ret = cowl_input_stream_deinit(reader->stream);
-    if (ret) cowl_parser_ctx_handle_error_type((CowlParserCtx *)reader, ret);
+    ustream_ret ret = uistream_deinit(reader->stream);
+    if (ret) cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
     reader->stream = NULL;
     return onto;
 }
 
 CowlOntology* cowl_reader_read_path(CowlReader *reader, char const *path) {
-    CowlInputStream stream;
+    UIStream stream;
     reader->stream = &stream;
+    reader->stream_description = path;
 
-    cowl_ret ret = cowl_input_stream_from_path(reader->stream, path);
+    ustream_ret ret = uistream_from_path(reader->stream, path);
 
     if (ret) {
-        cowl_parser_ctx_handle_error_type((CowlParserCtx *)reader, ret);
+        cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
         reader->stream = NULL;
         return NULL;
     }
@@ -115,13 +119,13 @@ CowlOntology* cowl_reader_read_path(CowlReader *reader, char const *path) {
 }
 
 CowlOntology* cowl_reader_read_file(CowlReader *reader, FILE *file) {
-    CowlInputStream stream;
+    UIStream stream;
     reader->stream = &stream;
 
-    cowl_ret ret = cowl_input_stream_from_file(reader->stream, file);
+    ustream_ret ret = uistream_from_file(reader->stream, file);
 
     if (ret) {
-        cowl_parser_ctx_handle_error_type((CowlParserCtx *)reader, ret);
+        cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
         reader->stream = NULL;
         return NULL;
     }
@@ -130,13 +134,13 @@ CowlOntology* cowl_reader_read_file(CowlReader *reader, FILE *file) {
 }
 
 CowlOntology* cowl_reader_read_cstring(CowlReader *reader, char const *cstring, size_t length) {
-    CowlInputStream stream;
+    UIStream stream;
     reader->stream = &stream;
 
-    cowl_ret ret = cowl_input_stream_from_cstring(reader->stream, cstring, length);
+    ustream_ret ret = uistream_from_buf(reader->stream, (char *)cstring, length);
 
     if (ret) {
-        cowl_parser_ctx_handle_error_type((CowlParserCtx *)reader, ret);
+        cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
         reader->stream = NULL;
         return NULL;
     }
@@ -144,8 +148,8 @@ CowlOntology* cowl_reader_read_cstring(CowlReader *reader, char const *cstring, 
     return cowl_reader_read_deinit(reader);
 }
 
-CowlOntology* cowl_reader_read_stream(CowlReader *reader, CowlInputStream const *stream) {
-    reader->stream = (CowlInputStream *)stream;
+CowlOntology* cowl_reader_read_stream(CowlReader *reader, UIStream const *stream) {
+    reader->stream = (UIStream *)stream;
     return cowl_reader_read(reader);
 }
 

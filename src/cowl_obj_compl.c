@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -14,10 +14,10 @@
 #include "cowl_template.h"
 
 static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
-    CowlObjCompl *exp = cowl_alloc(exp);
+    CowlObjCompl *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
+    ulib_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
 
     *exp = (CowlObjCompl) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_COMPL, hash),
@@ -30,7 +30,7 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
 static void cowl_obj_compl_free(CowlObjCompl *exp) {
     if (!exp) return;
     cowl_cls_exp_release(exp->operand);
-    cowl_free(exp);
+    ulib_free(exp);
 }
 
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
@@ -60,7 +60,7 @@ bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
            cowl_cls_exp_equals(lhs->operand, rhs->operand);
 }
 
-cowl_uint cowl_obj_compl_hash(CowlObjCompl *exp) {
+ulib_uint cowl_obj_compl_hash(CowlObjCompl *exp) {
     return cowl_object_hash_get(exp);
 }
 

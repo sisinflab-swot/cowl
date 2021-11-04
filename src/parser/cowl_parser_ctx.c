@@ -10,11 +10,10 @@
 
 #include "cowl_parser_ctx_private.h"
 #include "cowl_config_private.h"
-#include "cowl_input_stream.h"
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
 
-CowlInputStream* cowl_parser_ctx_get_stream(CowlParserCtx *ctx) {
+UIStream * cowl_parser_ctx_get_stream(CowlParserCtx *ctx) {
     return ((CowlReader *)ctx)->stream;
 }
 
@@ -83,11 +82,11 @@ void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, char const 
     if (!handler.handle_error) handler = cowl_api_get_error_handler();
     if (!handler.handle_error) return;
 
-    char const *temp = reader->stream->description;
-    CowlString source = cowl_string_init(cowl_raw_string_init(temp, strlen(temp), false));
+    char const *temp = reader->stream_description ? reader->stream_description : "";
+    CowlString source = cowl_string_init(ustring_init(temp, strlen(temp), false));
 
     temp = description;
-    CowlString descr = cowl_string_init(cowl_raw_string_init(temp, strlen(temp), false));
+    CowlString descr = cowl_string_init(ustring_init(temp, strlen(temp), false));
 
     CowlError error = {
         .code = code,
@@ -105,4 +104,8 @@ void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, char const 
 
 void cowl_parser_ctx_handle_error_type(CowlParserCtx *ctx, cowl_ret code) {
     cowl_parser_ctx_handle_error(ctx, code, cowl_ret_to_cstring(code));
+}
+
+void cowl_parser_ctx_handle_stream_error(CowlParserCtx *ctx, ustream_ret code) {
+    cowl_parser_ctx_handle_error_type(ctx, cowl_ret_from_ustream(code));
 }

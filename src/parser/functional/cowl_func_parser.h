@@ -12,7 +12,6 @@
 #define COWL_FUNC_PARSER_H
 
 #include "cowl_parser.h"
-#include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 
@@ -30,11 +29,11 @@ typedef cowl_struct(CowlFuncParser) {
 void* cowl_func_parser_alloc(void);
 void cowl_func_parser_free(void *state);
 cowl_ret cowl_func_parser_parse(void *state, CowlParserCtx *ctx);
-cowl_uint cowl_func_parser_get_line(void *state);
+ulib_uint cowl_func_parser_get_line(void *state);
 
 cowl_ret cowl_func_parser_register_ns(CowlFuncParser *parser, CowlString *prefix, CowlString *ns);
-CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, CowlRawString string);
-CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, CowlRawString id);
+CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string);
+CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, UString id);
 
 COWL_END_DECLS
 

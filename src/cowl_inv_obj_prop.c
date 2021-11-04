@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,7 @@
 #include "cowl_template.h"
 
 static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
-    CowlInvObjProp *inv = cowl_alloc(inv);
+    CowlInvObjProp *inv = ulib_alloc(inv);
     if (!inv) return NULL;
 
     *inv = (CowlInvObjProp) {
@@ -29,7 +29,7 @@ static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
 static void cowl_inv_obj_prop_free(CowlInvObjProp *inv) {
     if (!inv) return;
     cowl_obj_prop_release(inv->prop);
-    cowl_free(inv);
+    ulib_free(inv);
 }
 
 CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
@@ -57,7 +57,7 @@ bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs) {
     return cowl_obj_prop_equals(lhs->prop, rhs->prop);
 }
 
-cowl_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv) {
+ulib_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv) {
     return cowl_hash_1(COWL_HASH_INIT_INV_OBJ_PROP, cowl_obj_prop_hash(inv->prop));
 }
 

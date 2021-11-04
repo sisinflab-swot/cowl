@@ -16,19 +16,6 @@ You can, of course, use objects retrieved after a new call to :func:`cowl_api_in
 .. doxygenfunction:: cowl_api_init
 .. doxygenfunction:: cowl_api_deinit
 
-Memory allocation
-=================
-
-You can override the default allocator by defining the `COWL_MALLOC`, `COWL_REALLOC` and `COWL_FREE`
-CMake variables to the names of your custom :func:`malloc()`, :func:`realloc()` and :func:`free()`
-functions. Headers and source files that implement your custom allocator can be specified
-via the `COWL_USER_HEADERS` and `COWL_USER_SOURCES` CMake variables.
-
-.. doxygendefine:: cowl_malloc
-.. doxygendefine:: cowl_realloc
-.. doxygendefine:: cowl_free
-.. doxygendefine:: cowl_alloc
-
 Handlers and defaults
 =====================
 

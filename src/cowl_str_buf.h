@@ -12,27 +12,24 @@
 #define COWL_STR_BUF_H
 
 #include "cowl_node_id.h"
-#include "cowl_raw_string.h"
 #include "cowl_std.h"
 #include "cowl_types.h"
+#include "ustrbuf.h"
 
 COWL_BEGIN_DECLS
 
-typedef char CowlChar;
-UVEC_DECL(CowlChar)
-
 typedef cowl_struct(CowlStrBuf) {
     cowl_ret ret;
-    UVec(CowlChar) storage;
+    UStrBuf storage;
 } CowlStrBuf;
 
-#define cowl_str_buf_init ((CowlStrBuf){ .ret = 0, .storage = uvec_init(CowlChar) })
+#define cowl_str_buf_init ((CowlStrBuf){ .ret = 0, .storage = ustrbuf_init() })
 #define cowl_str_buf_deinit(buf) uvec_deinit((buf)->storage)
 
 // Strings
 
-cowl_ret cowl_str_buf_append_cstring(CowlStrBuf *buf, char const *string, cowl_uint length);
-cowl_ret cowl_str_buf_append_raw_string(CowlStrBuf *buf, CowlRawString string);
+cowl_ret cowl_str_buf_append_cstring(CowlStrBuf *buf, char const *string, ulib_uint length);
+cowl_ret cowl_str_buf_append_ustring(CowlStrBuf *buf, UString string);
 cowl_ret cowl_str_buf_append_string(CowlStrBuf *buf, CowlString *string);
 cowl_ret cowl_str_buf_append_format(CowlStrBuf *buf, char const *format, ...);
 cowl_ret cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va_list args);
@@ -135,7 +132,7 @@ cowl_ret cowl_str_buf_append_object_vec(CowlStrBuf *buf, CowlObjectVec *vec);
 
 // Output
 
-CowlRawString cowl_str_buf_to_raw_string(CowlStrBuf *buf);
+UString cowl_str_buf_to_ustring(CowlStrBuf *buf);
 CowlString* cowl_str_buf_to_string(CowlStrBuf *buf);
 
 COWL_END_DECLS

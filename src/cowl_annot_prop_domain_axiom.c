@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ static CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_alloc(CowlAnnotPro
     CowlAnnotPropDomainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_ANNOT_PROP_DOMAIN_AXIOM, annot,
+    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_ANNOT_PROP_DOMAIN_AXIOM, annot,
                                        cowl_annot_prop_hash(prop),
                                        cowl_iri_hash(domain));
 
@@ -78,7 +78,7 @@ bool cowl_annot_prop_domain_axiom_equals(CowlAnnotPropDomainAxiom *lhs,
                                   cowl_annot_prop_equals(lhs->prop, rhs->prop));
 }
 
-cowl_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom) {
+ulib_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

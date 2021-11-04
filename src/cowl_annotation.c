@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -18,10 +18,10 @@
 
 static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue *value,
                                              CowlObjectVec *annot) {
-    CowlAnnotation *annotation = cowl_alloc(annotation);
+    CowlAnnotation *annotation = ulib_alloc(annotation);
     if (!annotation) return NULL;
 
-    cowl_uint hash = cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
+    ulib_uint hash = cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
                                  cowl_annot_prop_hash(prop),
                                  cowl_annot_value_hash(value),
                                  annot ? cowl_object_vec_hash(annot) : 0);
@@ -41,7 +41,7 @@ static void cowl_annotation_free(CowlAnnotation *annot) {
     cowl_annot_prop_release(annot->prop);
     cowl_annot_value_release(annot->value);
     cowl_object_vec_free_spec(annotation, annot->annot);
-    cowl_free(annot);
+    ulib_free(annot);
 }
 
 CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value,
@@ -82,7 +82,7 @@ bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
            cowl_object_vec_equals(lhs->annot, rhs->annot);
 }
 
-cowl_uint cowl_annotation_hash(CowlAnnotation *annot) {
+ulib_uint cowl_annotation_hash(CowlAnnotation *annot) {
     return cowl_object_hash_get(annot);
 }
 

@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -108,7 +108,7 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs);
  * @public @memberof CowlPrimitive
  */
 COWL_PUBLIC
-cowl_uint cowl_primitive_hash(CowlPrimitive *primitive);
+ulib_uint cowl_primitive_hash(CowlPrimitive *primitive);
 
 /**
  * Iterates over this primitive.

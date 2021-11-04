@@ -11,12 +11,11 @@
 #ifndef COWL_XML_UTILS_H
 #define COWL_XML_UTILS_H
 
-#include "cowl_raw_string.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
-cowl_uint cowl_xml_ns_length(CowlRawString string);
+ulib_uint cowl_xml_ns_length(UString string);
 
 COWL_END_DECLS
 

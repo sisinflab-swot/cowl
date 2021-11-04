@@ -26,7 +26,6 @@
 #include "cowl_ontology_id.h"
 #include "cowl_parser.h"
 #include "cowl_quant_type.h"
-#include "cowl_raw_string.h"
 #include "cowl_version.h"
 
 COWL_BEGIN_DECLS
@@ -64,7 +63,6 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
 cowl_struct_decl(CowlFuncParser);
 cowl_struct_decl(CowlHasKeyAxiom);
 cowl_struct_decl(CowlIndividual);
-cowl_struct_decl(CowlInputStream);
 cowl_struct_decl(CowlInvObjProp);
 cowl_struct_decl(CowlInvObjPropAxiom);
 cowl_struct_decl(CowlIRI);

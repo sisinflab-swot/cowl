@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -63,7 +63,7 @@ CowlString* cowl_node_id_to_string(CowlNodeId id);
  * Hash function.
  *
  * @param ID [CowlNodeId] The node ID.
- * @return [cowl_uint] The hash value.
+ * @return [ulib_uint] The hash value.
  *
  * @public @related CowlAnonInd
  */

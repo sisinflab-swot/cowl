@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -111,7 +111,7 @@ bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_hash(CowlOntology *onto);
+ulib_uint cowl_ontology_hash(CowlOntology *onto);
 
 /**
  * Gets the number of axioms in the ontology.
@@ -122,7 +122,7 @@ cowl_uint cowl_ontology_hash(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count(CowlOntology *onto);
+ulib_uint cowl_ontology_axiom_count(CowlOntology *onto);
 
 /**
  * Gets the number of imported ontologies.
@@ -133,7 +133,7 @@ cowl_uint cowl_ontology_axiom_count(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_imports_count(CowlOntology *onto);
+ulib_uint cowl_ontology_imports_count(CowlOntology *onto);
 
 /**
  * Gets the number of axioms of the specified type.
@@ -143,7 +143,7 @@ cowl_uint cowl_ontology_imports_count(CowlOntology *onto);
  * @return Number of axioms.
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type);
+ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type);
 
 /**
  * Gets the number of axioms referencing the specified annotation property.
@@ -155,7 +155,7 @@ cowl_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop);
+ulib_uint cowl_ontology_axiom_count_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop);
 
 /**
  * Gets the number of axioms referencing the specified class.
@@ -167,7 +167,7 @@ cowl_uint cowl_ontology_axiom_count_for_annot_prop(CowlOntology *onto, CowlAnnot
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class);
+ulib_uint cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class);
 
 /**
  * Gets the number of axioms referencing the specified data property.
@@ -179,7 +179,7 @@ cowl_uint cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_data_prop(CowlOntology *onto, CowlDataProp *prop);
+ulib_uint cowl_ontology_axiom_count_for_data_prop(CowlOntology *onto, CowlDataProp *prop);
 
 /**
  * Gets the number of axioms referencing the specified datatype.
@@ -191,7 +191,7 @@ cowl_uint cowl_ontology_axiom_count_for_data_prop(CowlOntology *onto, CowlDataPr
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_datatype(CowlOntology *onto, CowlDatatype *datatype);
+ulib_uint cowl_ontology_axiom_count_for_datatype(CowlOntology *onto, CowlDatatype *datatype);
 
 /**
  * Gets the number of axioms referencing the specified object property.
@@ -203,7 +203,7 @@ cowl_uint cowl_ontology_axiom_count_for_datatype(CowlOntology *onto, CowlDatatyp
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *prop);
+ulib_uint cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *prop);
 
 /**
  * Gets the number of axioms referencing the specified named individual.
@@ -215,7 +215,7 @@ cowl_uint cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_named_ind(CowlOntology *onto, CowlNamedInd *ind);
+ulib_uint cowl_ontology_axiom_count_for_named_ind(CowlOntology *onto, CowlNamedInd *ind);
 
 /**
  * Gets the number of axioms referencing the specified anonymous individual.
@@ -227,7 +227,7 @@ cowl_uint cowl_ontology_axiom_count_for_named_ind(CowlOntology *onto, CowlNamedI
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_axiom_count_for_anon_ind(CowlOntology *onto, CowlAnonInd *ind);
+ulib_uint cowl_ontology_axiom_count_for_anon_ind(CowlOntology *onto, CowlAnonInd *ind);
 
 /**
  * Gets the number of classes.
@@ -238,7 +238,7 @@ cowl_uint cowl_ontology_axiom_count_for_anon_ind(CowlOntology *onto, CowlAnonInd
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_classes_count(CowlOntology *onto);
+ulib_uint cowl_ontology_classes_count(CowlOntology *onto);
 
 /**
  * Gets the number of datatypes.
@@ -249,7 +249,7 @@ cowl_uint cowl_ontology_classes_count(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_datatypes_count(CowlOntology *onto);
+ulib_uint cowl_ontology_datatypes_count(CowlOntology *onto);
 
 /**
  * Gets the number of object properties.
@@ -260,7 +260,7 @@ cowl_uint cowl_ontology_datatypes_count(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_obj_props_count(CowlOntology *onto);
+ulib_uint cowl_ontology_obj_props_count(CowlOntology *onto);
 
 /**
  * Gets the number of data properties.
@@ -271,7 +271,7 @@ cowl_uint cowl_ontology_obj_props_count(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_data_props_count(CowlOntology *onto);
+ulib_uint cowl_ontology_data_props_count(CowlOntology *onto);
 
 /**
  * Gets the number of annotation properties.
@@ -282,7 +282,7 @@ cowl_uint cowl_ontology_data_props_count(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_annot_props_count(CowlOntology *onto);
+ulib_uint cowl_ontology_annot_props_count(CowlOntology *onto);
 
 /**
  * Gets the number of named individuals.
@@ -293,7 +293,7 @@ cowl_uint cowl_ontology_annot_props_count(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_named_inds_count(CowlOntology *onto);
+ulib_uint cowl_ontology_named_inds_count(CowlOntology *onto);
 
 /**
  * Gets the number of anonymous individuals.
@@ -304,7 +304,7 @@ cowl_uint cowl_ontology_named_inds_count(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_anon_inds_count(CowlOntology *onto);
+ulib_uint cowl_ontology_anon_inds_count(CowlOntology *onto);
 
 /**
  * Checks if the specified entity is referenced by an axiom in the ontology.

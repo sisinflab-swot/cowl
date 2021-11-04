@@ -1,0 +1,5 @@
+======
+Vector
+======
+
+.. doxygenstruct:: CowlObjectVec

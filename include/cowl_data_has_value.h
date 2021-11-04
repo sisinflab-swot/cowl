@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -122,7 +122,7 @@ bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs);
  * @public @memberof CowlDataHasValue
  */
 COWL_PUBLIC
-cowl_uint cowl_data_has_value_hash(CowlDataHasValue *restr);
+ulib_uint cowl_data_has_value_hash(CowlDataHasValue *restr);
 
 /**
  * Iterates over the primitives referenced by the specified literal value restriction.

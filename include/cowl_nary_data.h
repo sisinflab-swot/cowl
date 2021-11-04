@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -122,7 +122,7 @@ bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs);
  * @public @memberof CowlNAryData
  */
 COWL_PUBLIC
-cowl_uint cowl_nary_data_hash(CowlNAryData *range);
+ulib_uint cowl_nary_data_hash(CowlNAryData *range);
 
 /**
  * Iterates over the primitives referenced by the specified N-ary data range.

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -38,7 +38,7 @@ void cowl_iri_api_deinit(void) {
 }
 
 static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
-    CowlIRI *iri = cowl_alloc(iri);
+    CowlIRI *iri = ulib_alloc(iri);
     if (!iri) return NULL;
 
     *iri = (CowlIRI) {
@@ -54,7 +54,7 @@ static void cowl_iri_free(CowlIRI *iri) {
     if (!iri) return;
     cowl_string_release(iri->ns);
     cowl_string_release(iri->rem);
-    cowl_free(iri);
+    ulib_free(iri);
 }
 
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
@@ -65,16 +65,16 @@ CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
 CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
     if (!(prefix && suffix)) return NULL;
 
-    CowlRawString p_str = prefix->raw_string;
-    CowlRawString s_str = suffix->raw_string;
+    UString p_str = prefix->raw_string;
+    UString s_str = suffix->raw_string;
 
-    cowl_uint const s_ns_len = cowl_xml_ns_length(s_str);
+    ulib_uint const s_ns_len = cowl_xml_ns_length(s_str);
 
     if (s_ns_len > 0) {
         // Part of the suffix should go in the namespace.
         CowlStrBuf buf = cowl_str_buf_init;
 
-        if (cowl_str_buf_append_raw_string(&buf, p_str) ||
+        if (cowl_str_buf_append_ustring(&buf, p_str) ||
             cowl_str_buf_append_cstring(&buf, s_str.cstring, s_ns_len)) {
             cowl_str_buf_deinit(&buf);
             return NULL;
@@ -83,7 +83,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
         prefix = cowl_str_buf_to_string(&buf);
         suffix = cowl_string_get(s_str.cstring + s_ns_len, s_str.length - s_ns_len, true);
     } else {
-        cowl_uint p_ns_len = cowl_xml_ns_length(p_str);
+        ulib_uint p_ns_len = cowl_xml_ns_length(p_str);
 
         if (p_ns_len < p_str.length) {
             // Part of the prefix should go in the remainder.
@@ -91,7 +91,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
             if (cowl_str_buf_append_cstring(&buf, p_str.cstring + p_ns_len,
                                             p_str.length - p_ns_len) ||
-                cowl_str_buf_append_raw_string(&buf, s_str)) {
+                cowl_str_buf_append_ustring(&buf, s_str)) {
                 cowl_str_buf_deinit(&buf);
                 return NULL;
             }
@@ -131,8 +131,8 @@ void cowl_iri_release(CowlIRI *iri) {
 CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length) {
     if (!(cstring && length)) return NULL;
 
-    CowlRawString string = cowl_raw_string_init(cstring, length, false);
-    cowl_uint ns_length = cowl_xml_ns_length(string);
+    UString string = ustring_init(cstring, length, false);
+    ulib_uint ns_length = cowl_xml_ns_length(string);
 
     CowlString *parts[2] = { NULL };
     if (cowl_string_get_ns_rem(string, ns_length, parts)) return NULL;
@@ -166,6 +166,6 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint cowl_iri_hash(CowlIRI *iri) {
+ulib_uint cowl_iri_hash(CowlIRI *iri) {
     return uhash_ptr_hash(iri);
 }

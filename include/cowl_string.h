@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -116,7 +116,7 @@ char const* cowl_string_get_cstring(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-cowl_uint cowl_string_get_length(CowlString *string);
+ulib_uint cowl_string_get_length(CowlString *string);
 
 /**
  * Returns the string representation of the specified string.
@@ -151,7 +151,7 @@ bool cowl_string_equals(CowlString *lhs, CowlString *rhs);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-cowl_uint cowl_string_hash(CowlString *string);
+ulib_uint cowl_string_hash(CowlString *string);
 
 /**
  * Returns a retained string with the specified format.

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *pr
     CowlObjPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_RANGE_AXIOM, annot,
+    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_RANGE_AXIOM, annot,
                                        cowl_obj_prop_exp_hash(prop),
                                        cowl_cls_exp_hash(range));
 
@@ -77,7 +77,7 @@ bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRan
                                   cowl_cls_exp_equals(lhs->range, rhs->range));
 }
 
-cowl_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
+ulib_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

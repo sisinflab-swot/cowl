@@ -76,7 +76,6 @@
 #include "cowl_ontology_private.h"
 #include "cowl_owl_vocab_private.h"
 #include "cowl_parser_ctx_private.h"
-#include "cowl_raw_string.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_reader_private.h"

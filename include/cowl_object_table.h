@@ -61,7 +61,7 @@ bool cowl_object_set_equals(CowlObjectTable *lhs, CowlObjectTable *rhs);
  * @public @memberof CowlObjectTable
  */
 COWL_PUBLIC
-cowl_uint cowl_object_set_hash(CowlObjectTable *set);
+ulib_uint cowl_object_set_hash(CowlObjectTable *set);
 
 /**
  * Inserts an element into the specified set and retains it.

@@ -22,8 +22,8 @@ bool cowl_object_vec_equals(CowlObjectVec *lhs, CowlObjectVec *rhs) {
     return uvec_equals(CowlObjectPtr, lhs, rhs);
 }
 
-cowl_uint cowl_object_vec_hash(CowlObjectVec *vec) {
-    cowl_uint hash = 0;
+ulib_uint cowl_object_vec_hash(CowlObjectVec *vec) {
+    ulib_uint hash = 0;
 
     uvec_foreach(CowlObjectPtr, vec, prop, {
         hash = cowl_hash_1(hash, cowl_object_hash(prop));

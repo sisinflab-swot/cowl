@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,7 +13,6 @@
 
 #include "cowl_literal.h"
 #include "cowl_object_private.h"
-#include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 
@@ -27,7 +26,7 @@ cowl_struct(CowlLiteral) {
     CowlString *lang;
 };
 
-CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRawString lang);
+CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang);
 
 COWL_END_DECLS
 

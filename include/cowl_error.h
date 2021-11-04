@@ -27,7 +27,7 @@ cowl_struct_decl(CowlString);
 typedef cowl_struct(CowlErrorLoc) {
 
     /// Line where the error occurred.
-    cowl_uint line;
+    ulib_uint line;
 
     /// Location of the ontology where the error occurred.
     CowlString *source;

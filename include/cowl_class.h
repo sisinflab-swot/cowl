@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -132,7 +132,7 @@ bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs);
  * @public @memberof CowlClass
  */
 COWL_PUBLIC
-cowl_uint cowl_class_hash(CowlClass *cls);
+ulib_uint cowl_class_hash(CowlClass *cls);
 
 /**
  * Iterates over this class.

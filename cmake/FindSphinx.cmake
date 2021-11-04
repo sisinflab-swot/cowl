@@ -6,8 +6,11 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Sphinx "Failed to find sphinx-build" SPHINX_EXECUTABLE)
 
 function(sphinx_add_docs SPHINX_TARGET SPHINX_INPUT_DIRECTORY)
+    list(LENGTH ARGN INDEX)
+    math(EXPR INDEX "${ARGC} - ${INDEX}")
     set(ONE_VALUE_ARGS COMMENT)
-    cmake_parse_arguments(PARSE_ARGV ${ARGC} SPHINX_ "" "${ONE_VALUE_ARGS}" "")
+    set(MULTI_VALUE_ARGS ARGS)
+    cmake_parse_arguments(PARSE_ARGV ${INDEX} SPHINX "" "${ONE_VALUE_ARGS}" "${MULTI_VALUE_ARGS}")
 
     set(SPHINX_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/sphinx")
     set(SPHINX_HTML_OUTPUT_DIRECTORY "${SPHINX_OUTPUT_DIRECTORY}/html")
@@ -17,7 +20,8 @@ function(sphinx_add_docs SPHINX_TARGET SPHINX_INPUT_DIRECTORY)
     add_custom_target("${SPHINX_TARGET}"
                       COMMAND "${CMAKE_COMMAND}" -E remove_directory
                       "${SPHINX_HTML_OUTPUT_DIRECTORY}"
-                      COMMAND "${SPHINX_EXECUTABLE}" -b html -c "${SPHINX_OUTPUT_DIRECTORY}"
+                      COMMAND "${SPHINX_EXECUTABLE}" ${SPHINX_ARGS}
+                      -b html -c "${SPHINX_OUTPUT_DIRECTORY}"
                       "${SPHINX_INPUT_DIRECTORY}" "${SPHINX_HTML_OUTPUT_DIRECTORY}"
                       WORKING_DIRECTORY "${SPHINX_OUTPUT_DIRECTORY}"
                       COMMENT "${SPHINX_COMMENT}"

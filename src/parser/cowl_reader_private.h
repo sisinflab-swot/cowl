@@ -18,7 +18,8 @@ COWL_BEGIN_DECLS
 
 cowl_struct(CowlReader) {
     CowlObject super;
-    CowlInputStream *stream;
+    UIStream *stream;
+    char const *stream_description;
     CowlOntology *ontology;
     void *state;
     CowlParser parser;

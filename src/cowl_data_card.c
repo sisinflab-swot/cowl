@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -17,11 +17,11 @@
 #include "cowl_template.h"
 
 static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *prop,
-                                          CowlDataRange *range, cowl_uint cardinality) {
-    CowlDataCard *restr = cowl_alloc(restr);
+                                          CowlDataRange *range, ulib_uint cardinality) {
+    CowlDataCard *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    cowl_uint hash;
+    ulib_uint hash;
 
     if (range) {
         hash = cowl_hash_4(COWL_HASH_INIT_DATA_CARD, type, cardinality,
@@ -46,11 +46,11 @@ static void cowl_data_card_free(CowlDataCard *restr) {
     if (!restr) return;
     cowl_data_prop_exp_release(restr->prop);
     cowl_data_range_release(restr->range);
-    cowl_free(restr);
+    ulib_free(restr);
 }
 
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
-                                 CowlDataRange *range, cowl_uint cardinality) {
+                                 CowlDataRange *range, ulib_uint cardinality) {
     if (!(prop && cowl_enum_value_is_valid(CT, type))) return NULL;
     return cowl_data_card_alloc(COWL_CET_DATA_MIN_CARD + type, prop, range, cardinality);
 }
@@ -77,7 +77,7 @@ CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr) {
     return restr->range;
 }
 
-cowl_uint cowl_data_card_get_cardinality(CowlDataCard *restr) {
+ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr) {
     return restr->cardinality;
 }
 
@@ -94,7 +94,7 @@ bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {
     return false;
 }
 
-cowl_uint cowl_data_card_hash(CowlDataCard *restr) {
+ulib_uint cowl_data_card_hash(CowlDataCard *restr) {
     return cowl_object_hash_get(restr);
 }
 

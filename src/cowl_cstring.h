@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,6 @@
 
 COWL_BEGIN_DECLS
 
-char* cowl_str_dup(char const *string, size_t length);
 size_t cowl_str_from_uint(uint64_t uint, char *buf);
 uint64_t cowl_str_to_uint(char const *string, size_t length);
 

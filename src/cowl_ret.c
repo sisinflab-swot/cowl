@@ -22,11 +22,29 @@ char const* cowl_ret_to_cstring(cowl_ret ret) {
     }
 }
 
-CowlString* cowl_ret_to_string(cowl_ret ret) {
-    return cowl_string_alloc(cowl_ret_to_raw_string(ret));
+cowl_ret cowl_ret_from_ustream(ustream_ret ret) {
+    switch (ret) {
+        case USTREAM_OK: return COWL_OK;
+        case USTREAM_ERR_BOUNDS:
+        case USTREAM_ERR_IO: return COWL_ERR_IO;
+        case USTREAM_ERR_MEM: return COWL_ERR_MEM;
+        default: return COWL_ERR;
+    }
 }
 
-CowlRawString cowl_ret_to_raw_string(cowl_ret ret) {
+cowl_ret cowl_ret_from_uvec(uvec_ret ret) {
+    return ret == UVEC_ERR ? COWL_ERR_MEM : COWL_OK;
+}
+
+cowl_ret cowl_ret_from_uhash(uhash_ret ret) {
+    return ret == UHASH_ERR ? COWL_ERR_MEM : COWL_OK;
+}
+
+CowlString* cowl_ret_to_string(cowl_ret ret) {
+    return cowl_string_alloc(cowl_ret_to_ustring(ret));
+}
+
+UString cowl_ret_to_ustring(cowl_ret ret) {
     char const *cstring = cowl_ret_to_cstring(ret);
-    return cowl_raw_string_init(cstring, strlen(cstring), true);
+    return ustring_init(cstring, strlen(cstring), true);
 }

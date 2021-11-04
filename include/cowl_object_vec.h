@@ -25,10 +25,10 @@ cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 /// @endcond
 
 /**
- * Vector of CowlObject * elements.
+ * UVec of CowlObject * elements.
  *
  * @struct CowlObjectVec
- * @extends Vector
+ * @extends UVec
  */
 
 /**
@@ -62,7 +62,7 @@ bool cowl_object_vec_equals(CowlObjectVec *lhs, CowlObjectVec *rhs);
  * @public @memberof CowlObjectVec
  */
 COWL_PUBLIC
-cowl_uint cowl_object_vec_hash(CowlObjectVec *vec);
+ulib_uint cowl_object_vec_hash(CowlObjectVec *vec);
 
 /**
  * Pushes an element into the specified vector and retains it.

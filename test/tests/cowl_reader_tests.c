@@ -9,7 +9,6 @@
  */
 
 #include "cowl_reader_tests.h"
-#include "cowl_iri.h"
 #include "cowl_logger.h"
 #include "cowl_ontology.h"
 #include "cowl_reader.h"
@@ -25,7 +24,7 @@ static void cowl_test_reader_handle_error(void *ctx, CowlError const *error) {
 
 bool cowl_test_reader_lifecycle(void) {
     CowlReader *reader = cowl_reader_get();
-    cowl_assert_not_null(reader, "Reader");
+    utest_assert_not_null(reader);
     cowl_reader_release(reader);
     return true;
 }
@@ -37,14 +36,14 @@ bool cowl_test_reader_read_ontology(void) {
     cowl_reader_set_import_loader(reader, loader);
 
     CowlLogger *logger = cowl_logger_file_get(COWL_TEST_ONTOLOGY ".log");
-    cowl_assert_not_null(logger, "File logger");
+    utest_assert_not_null(logger);
     cowl_logger_clear(logger);
 
     CowlErrorHandler handler = cowl_error_handler_init(logger, cowl_test_reader_handle_error, NULL);
     cowl_reader_set_error_handler(reader, handler);
 
     CowlOntology *onto = cowl_reader_read_path(reader, COWL_TEST_ONTOLOGY);
-    cowl_assert_not_null(onto, "Parsed ontology");
+    utest_assert_not_null(onto);
 
     cowl_logger_log_ontology(logger, onto);
 

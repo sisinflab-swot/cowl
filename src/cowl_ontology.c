@@ -57,12 +57,12 @@ bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
     return cowl_ontology_id_equals(lhs->id, rhs->id);
 }
 
-cowl_uint cowl_ontology_hash(CowlOntology *onto) {
+ulib_uint cowl_ontology_hash(CowlOntology *onto) {
     return cowl_hash_1(COWL_HASH_INIT_ONTO, cowl_ontology_id_hash(onto->id));
 }
 
-cowl_uint cowl_ontology_axiom_count(CowlOntology *onto) {
-    cowl_uint count = 0;
+ulib_uint cowl_ontology_axiom_count(CowlOntology *onto) {
+    ulib_uint count = 0;
 
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
         count += uhash_count(onto->axioms_by_type[type]);
@@ -75,8 +75,8 @@ cowl_uint cowl_ontology_axiom_count(CowlOntology *onto) {
     return count;
 }
 
-cowl_uint cowl_ontology_imports_count(CowlOntology *onto) {
-    cowl_uint count = uvec_count(onto->imports);
+ulib_uint cowl_ontology_imports_count(CowlOntology *onto) {
+    ulib_uint count = uvec_count(onto->imports);
 
     uvec_foreach(CowlObjectPtr, onto->imports, import, {
         count += cowl_ontology_imports_count(import);
@@ -85,8 +85,8 @@ cowl_uint cowl_ontology_imports_count(CowlOntology *onto) {
     return count;
 }
 
-cowl_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type) {
-    cowl_uint count = uhash_count(onto->axioms_by_type[type]);
+ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type) {
+    ulib_uint count = uhash_count(onto->axioms_by_type[type]);
 
     uvec_foreach(CowlObjectPtr, onto->imports, import, {
         count += cowl_ontology_axiom_count_for_type(import, type);
@@ -131,8 +131,8 @@ static cowl_ret cowl_ontology_add_primitive_to_map(CowlObject *entity,
 
 #define COWL_ONTOLOGY_ENTITY_QUERY_IMPL(T, SINGULAR, PLURAL)                                        \
                                                                                                     \
-cowl_uint cowl_ontology_##PLURAL##_count(CowlOntology *onto) {                                      \
-    return (cowl_uint)uhash_count(onto->SINGULAR##_refs);                                           \
+ulib_uint cowl_ontology_##PLURAL##_count(CowlOntology *onto) {                                      \
+    return (ulib_uint)uhash_count(onto->SINGULAR##_refs);                                           \
 }                                                                                                   \
                                                                                                     \
 bool cowl_ontology_iterate_##PLURAL(CowlOntology *onto, CowlIterator *iter) {                       \
@@ -142,10 +142,10 @@ bool cowl_ontology_iterate_##PLURAL(CowlOntology *onto, CowlIterator *iter) {   
     return true;                                                                                    \
 }                                                                                                   \
                                                                                                     \
-cowl_uint cowl_ontology_axiom_count_for_##SINGULAR(CowlOntology *onto, T *entity) {                 \
+ulib_uint cowl_ontology_axiom_count_for_##SINGULAR(CowlOntology *onto, T *entity) {                 \
     UHash(CowlObjectTable) *map = onto->SINGULAR##_refs;                                            \
     UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, entity, NULL);                    \
-    cowl_uint count = uvec_count(axioms);                                                           \
+    ulib_uint count = uvec_count(axioms);                                                           \
                                                                                                     \
     uvec_foreach(CowlObjectPtr, onto->imports, import, {                                            \
         count += cowl_ontology_axiom_count_for_##SINGULAR(import, entity);                          \
@@ -391,7 +391,7 @@ CowlOntology* cowl_ontology_get(void) {
 }
 
 CowlOntology* cowl_ontology_alloc(void) {
-    CowlOntology *onto = cowl_alloc(onto);
+    CowlOntology *onto = ulib_alloc(onto);
     if (onto) *onto = COWL_ONTOLOGY_INIT;
     return onto;
 }
@@ -424,7 +424,7 @@ void cowl_ontology_free(CowlOntology *onto) {
     uhash_free(CowlObjectTable, onto->named_ind_refs);
     uhash_free(CowlObjectTable, onto->anon_ind_refs);
 
-    cowl_free(onto);
+    ulib_free(onto);
 }
 
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {

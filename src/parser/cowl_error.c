@@ -27,7 +27,7 @@ CowlString* cowl_error_to_string(CowlError const *error) {
         if (cowl_object_get_type(error->origin) == COWL_OT_READER) {
             CowlParser parser = ((CowlReader *)error->origin)->parser;
             char const *name = parser.name ? parser.name : "unnamed";
-            cowl_str_buf_append_cstring(buf, name, (cowl_uint)strlen(name));
+            cowl_str_buf_append_cstring(buf, name, (ulib_uint)strlen(name));
             cowl_str_buf_append_static(buf, " parser ");
         } else {
             cowl_str_buf_append_object_debug(buf, error->origin);
@@ -58,7 +58,7 @@ CowlString* cowl_error_to_string(CowlError const *error) {
     }
 
     cowl_str_buf_append_static(buf, " - ");
-    cowl_str_buf_append_raw_string(buf, cowl_ret_to_raw_string(error->code));
+    cowl_str_buf_append_ustring(buf, cowl_ret_to_ustring(error->code));
 
     if (error->description) {
         cowl_str_buf_append_static(buf, ": ");

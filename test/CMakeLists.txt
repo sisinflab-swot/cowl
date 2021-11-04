@@ -10,10 +10,6 @@ add_executable(cowl-test EXCLUDE_FROM_ALL ${COWL_TEST_SOURCES} test.c)
 target_include_directories(cowl-test PRIVATE ${COWL_PRIVATE_HEADERS_DIRS} tests)
 target_link_libraries(cowl-test PRIVATE cowl-static)
 
-if(COWL_DEBUG_LEAKS)
-    target_compile_definitions(cowl-test PRIVATE COWL_DEBUG_LEAKS)
-endif()
-
 # Benchmark target
 
 add_executable(cowl-bench EXCLUDE_FROM_ALL bench.c)

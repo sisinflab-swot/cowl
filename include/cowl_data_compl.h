@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -109,7 +109,7 @@ bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs);
  * @public @memberof CowlDataCompl
  */
 COWL_PUBLIC
-cowl_uint cowl_data_compl_hash(CowlDataCompl *range);
+ulib_uint cowl_data_compl_hash(CowlDataCompl *range);
 
 /**
  * Iterates over the primitives referenced by the specified data range complement.

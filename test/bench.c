@@ -33,12 +33,12 @@ static inline double get_millis(void) {
 }
 
 static bool count_axiom_iterator(void *ctx, cowl_unused void *obj) {
-    (*((cowl_uint *)ctx))++;
+    (*((ulib_uint *)ctx))++;
     return true;
 }
 
 static bool count_primitive_iterator(void *ctx, cowl_unused void *obj) {
-    (*((cowl_uint *)ctx))++;
+    (*((ulib_uint *)ctx))++;
     return true;
 }
 
@@ -61,14 +61,14 @@ int main(int argc, char *argv[]) {
 
     printf("Ontology parsed in %.2f ms\n", stop - start);
 
-    cowl_uint count = 0;
+    ulib_uint count = 0;
 
     start = get_micros();
     CowlIterator iter = cowl_iterator_init(&count, count_axiom_iterator);
     cowl_ontology_iterate_axioms(onto, &iter);
     stop = get_micros();
 
-    printf("%" COWL_UINT_FMT " axioms iterated in %.2f us\n", count, stop - start);
+    printf("%" ULIB_UINT_FMT " axioms iterated in %.2f us\n", count, stop - start);
 
     count = 0;
 
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter);
     stop = get_micros();
 
-    printf("%" COWL_UINT_FMT " primitives iterated in %.2f us\n", count, stop - start);
+    printf("%" ULIB_UINT_FMT " primitives iterated in %.2f us\n", count, stop - start);
 
     cowl_ontology_release(onto);
 

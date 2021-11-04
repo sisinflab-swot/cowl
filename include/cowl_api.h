@@ -13,7 +13,6 @@
 #ifndef COWL_API_H
 #define COWL_API_H
 
-#include "cowl_alloc.h"
 #include "cowl_annot_assert_axiom.h"
 #include "cowl_annot_prop.h"
 #include "cowl_annot_prop_domain_axiom.h"
@@ -24,7 +23,6 @@
 #include "cowl_anon_ind.h"
 #include "cowl_axiom.h"
 #include "cowl_axiom_type.h"
-#include "cowl_base_types.h"
 #include "cowl_card_type.h"
 #include "cowl_char_axiom_type.h"
 #include "cowl_class.h"
@@ -60,7 +58,6 @@
 #include "cowl_import_loader.h"
 #include "cowl_individual.h"
 #include "cowl_config.h"
-#include "cowl_input_stream.h"
 #include "cowl_inv_obj_prop.h"
 #include "cowl_inv_obj_prop_axiom.h"
 #include "cowl_iri.h"

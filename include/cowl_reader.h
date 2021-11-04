@@ -20,7 +20,6 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlInputStream);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlReader);
 /// @endcond
@@ -31,7 +30,6 @@ cowl_struct_decl(CowlReader);
  * CowlReader supports multiple input sources, such as files, memory buffers, or buffered
  * input streams. It also supports multiple parsers, either built-in or provided by the user.
  *
- * @see CowlInputStream
  * @see CowlParser
  *
  * @struct CowlReader
@@ -152,7 +150,7 @@ CowlOntology* cowl_reader_read_cstring(CowlReader *reader, char const *cstring, 
  * @note The stream is not released by the reader, you must do it yourself.
  */
 COWL_PUBLIC
-CowlOntology* cowl_reader_read_stream(CowlReader *reader, CowlInputStream const *stream);
+CowlOntology* cowl_reader_read_stream(CowlReader *reader, UIStream const *stream);
 
 COWL_END_DECLS
 

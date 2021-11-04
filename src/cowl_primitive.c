@@ -44,7 +44,7 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint cowl_primitive_hash(CowlPrimitive *primitive) {
+ulib_uint cowl_primitive_hash(CowlPrimitive *primitive) {
     return uhash_ptr_hash(primitive);
 }
 

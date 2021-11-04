@@ -20,6 +20,8 @@ typedef cowl_struct(CowlParserCtx) {
     CowlReader super;
 } CowlParserCtx;
 
+void cowl_parser_ctx_handle_stream_error(CowlParserCtx *ctx, ustream_ret code);
+
 COWL_END_DECLS
 
 #endif // COWL_PARSER_CTX_PRIVATE_H

@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -136,7 +136,7 @@ bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRan
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_PUBLIC
-cowl_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom);
+ulib_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

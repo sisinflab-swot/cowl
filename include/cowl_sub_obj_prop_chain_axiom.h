@@ -138,7 +138,7 @@ bool cowl_sub_obj_prop_chain_axiom_equals(CowlSubObjPropChainAxiom *lhs,
  * @public @memberof CowlSubObjPropChainAxiom
  */
 COWL_PUBLIC
-cowl_uint cowl_sub_obj_prop_chain_axiom_hash(CowlSubObjPropChainAxiom *axiom);
+ulib_uint cowl_sub_obj_prop_chain_axiom_hash(CowlSubObjPropChainAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

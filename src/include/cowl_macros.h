@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,6 @@
 
 COWL_BEGIN_DECLS
 
-#define cowl_array_size(ARRAY) (sizeof(ARRAY) / sizeof(*(ARRAY)))
 #define cowl_enum_value_is_valid(T, VAL) ((VAL) >= COWL_##T##_FIRST && (VAL) < COWL_##T##_COUNT)
 
 COWL_END_DECLS

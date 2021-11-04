@@ -6,10 +6,9 @@ Ontology reading
 
 In order to query an ontology you must first deserialize it. This can be done via
 :class:`CowlReader`, which can read ontologies from files, memory buffers,
-or buffered input streams (see :class:`CowlInputStream`).
+or input streams (see :class:`UIStream`).
 
 .. doxygenstruct:: CowlReader
-.. doxygenstruct:: CowlInputStream
 
 .. _parsers:
 

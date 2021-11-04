@@ -135,7 +135,7 @@ bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *r
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PUBLIC
-cowl_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom);
+ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

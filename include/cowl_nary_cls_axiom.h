@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -137,7 +137,7 @@ bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs);
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_PUBLIC
-cowl_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
+ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

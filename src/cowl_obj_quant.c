@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -17,10 +17,10 @@
 
 static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *prop,
                                           CowlClsExp *filler) {
-    CowlObjQuant *restr = cowl_alloc(restr);
+    CowlObjQuant *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    cowl_uint hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
+    ulib_uint hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
                                  cowl_obj_prop_exp_hash(prop), cowl_cls_exp_hash(filler));
 
     *restr = (CowlObjQuant) {
@@ -36,7 +36,7 @@ static void cowl_obj_quant_free(CowlObjQuant *restr) {
     if (!restr) return;
     cowl_obj_prop_exp_release(restr->prop);
     cowl_cls_exp_release(restr->filler);
-    cowl_free(restr);
+    ulib_free(restr);
 }
 
 CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler) {
@@ -76,7 +76,7 @@ bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
            cowl_cls_exp_equals(lhs->filler, rhs->filler);
 }
 
-cowl_uint cowl_obj_quant_hash(CowlObjQuant *restr) {
+ulib_uint cowl_obj_quant_hash(CowlObjQuant *restr) {
     return cowl_object_hash_get(restr);
 }
 

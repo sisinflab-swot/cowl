@@ -13,25 +13,24 @@
 
 #include "cowl_string.h"
 #include "cowl_object_private.h"
-#include "cowl_raw_string.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct(CowlString) {
     CowlHashObject super;
-    CowlRawString raw_string;
+    UString raw_string;
 };
 
 cowl_ret cowl_string_api_init(void);
 void cowl_string_api_deinit(void);
 
-CowlString* cowl_string_alloc(CowlRawString raw_string);
-CowlString cowl_string_init(CowlRawString raw_string);
+CowlString* cowl_string_alloc(UString raw_string);
+CowlString cowl_string_init(UString raw_string);
 
 CowlString* cowl_string_intern(CowlString *string);
 
 CowlString* cowl_string_copy(CowlString *string);
-cowl_ret cowl_string_get_ns_rem(CowlRawString string, cowl_uint ns_length, CowlString **out);
+cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString **out);
 
 COWL_END_DECLS
 

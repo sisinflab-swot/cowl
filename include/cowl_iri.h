@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -155,7 +155,7 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-cowl_uint cowl_iri_hash(CowlIRI *iri);
+ulib_uint cowl_iri_hash(CowlIRI *iri);
 
 COWL_END_DECLS
 

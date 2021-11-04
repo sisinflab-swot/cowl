@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -183,7 +183,7 @@ bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropA
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_PUBLIC
-cowl_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
+ulib_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

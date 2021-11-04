@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -49,9 +49,8 @@ typedef UFlags(COWL_PF) CowlPrimitiveFlags;
 #define COWL_PF_DATATYPE    uflags_bit(COWL_PF, 6)
 
 /// Iterate over entities.
-#define COWL_PF_ENTITY      (COWL_PF_CLASS | COWL_PF_OBJ_PROP |                \
-                              COWL_PF_DATA_PROP | COWL_PF_ANNOT_PROP | COWL_PF_NAMED_IND |          \
-                              COWL_PF_DATATYPE)
+#define COWL_PF_ENTITY      (COWL_PF_CLASS | COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP | \
+                             COWL_PF_ANNOT_PROP | COWL_PF_NAMED_IND | COWL_PF_DATATYPE)
 
 COWL_END_DECLS
 

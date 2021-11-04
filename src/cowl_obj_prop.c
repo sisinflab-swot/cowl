@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -35,7 +35,7 @@ void cowl_obj_prop_api_deinit(void) {
 }
 
 static CowlObjProp* cowl_obj_prop_alloc(CowlIRI *iri) {
-    CowlObjProp *prop = cowl_alloc(prop);
+    CowlObjProp *prop = ulib_alloc(prop);
     if (!prop) return NULL;
 
     *prop = (CowlObjProp) {
@@ -49,7 +49,7 @@ static CowlObjProp* cowl_obj_prop_alloc(CowlIRI *iri) {
 static void cowl_obj_prop_free(CowlObjProp *prop) {
     if (!prop) return;
     cowl_iri_release(prop->iri);
-    cowl_free(prop);
+    ulib_free(prop);
 }
 
 CowlObjProp* cowl_obj_prop_get(CowlIRI *iri) {
@@ -82,7 +82,7 @@ bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint cowl_obj_prop_hash(CowlObjProp *prop) {
+ulib_uint cowl_obj_prop_hash(CowlObjProp *prop) {
     return uhash_ptr_hash(prop);
 }
 

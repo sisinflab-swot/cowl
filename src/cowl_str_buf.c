@@ -11,39 +11,22 @@
 #include "cowl_str_buf.h"
 #include "cowl_private.h"
 
-UVEC_IMPL(CowlChar)
-
 #define UINT_MAX_DIGITS 20
 
-static char* cowl_str_buf_deinit_get_storage(CowlStrBuf *buf) {
-    char *storage = buf->storage.storage;
-    buf->storage.storage = NULL;
-    cowl_str_buf_deinit(buf);
-    return storage;
-}
-
-static cowl_uint cowl_cstring_length_of_formatted(char const *format, va_list argptr) {
-    va_list args;
-    va_copy(args, argptr);
-    int res = vsnprintf(NULL, 0, format, args);
-    va_end(args);
-    return res > 0 ? (cowl_uint)res : 0;
-}
-
-cowl_ret cowl_str_buf_append_cstring(CowlStrBuf *buf, char const *string, cowl_uint length) {
+cowl_ret cowl_str_buf_append_cstring(CowlStrBuf *buf, char const *string, ulib_uint length) {
     if (!buf->ret) {
-        uvec_ret ret = uvec_append_array(CowlChar, &buf->storage, string, length);
+        uvec_ret ret = ustrbuf_append_cstring(&buf->storage, string, length);
         buf->ret = ret == UVEC_OK ? COWL_OK : COWL_ERR_MEM;
     }
     return buf->ret;
 }
 
-cowl_ret cowl_str_buf_append_raw_string(CowlStrBuf *buf, CowlRawString string) {
+cowl_ret cowl_str_buf_append_ustring(CowlStrBuf *buf, UString string) {
     return cowl_str_buf_append_cstring(buf, string.cstring, string.length);
 }
 
 cowl_ret cowl_str_buf_append_string(CowlStrBuf *buf, CowlString *string) {
-    return cowl_str_buf_append_raw_string(buf, string->raw_string);
+    return cowl_str_buf_append_ustring(buf, string->raw_string);
 }
 
 cowl_ret cowl_str_buf_append_format(CowlStrBuf *buf, char const *format, ...) {
@@ -55,19 +38,9 @@ cowl_ret cowl_str_buf_append_format(CowlStrBuf *buf, char const *format, ...) {
 }
 
 cowl_ret cowl_str_buf_append_format_list(CowlStrBuf *buf, char const *format, va_list args) {
-    if (buf->ret) goto end;
-
-    cowl_uint length = cowl_cstring_length_of_formatted(format, args);
-    size_t size = length + 1;
-
-    if (uvec_expand(CowlChar, &buf->storage, (uvec_uint)size) != UVEC_OK) {
+    if (!buf->ret && ustrbuf_append_format_list(&buf->storage, format, args) != UVEC_OK) {
         buf->ret = COWL_ERR_MEM;
-    } else {
-        vsnprintf(buf->storage.storage + buf->storage.count, size, format, args);
-        buf->storage.count += length;
     }
-
-end:
     return buf->ret;
 }
 
@@ -277,11 +250,11 @@ cowl_ret cowl_str_buf_append_annot_value(CowlStrBuf *buf, CowlAnnotValue *value)
 }
 
 cowl_ret cowl_str_buf_append_uint(CowlStrBuf *buf, uint64_t uint) {
-    if (uvec_expand(CowlChar, &buf->storage, (uvec_uint)(UINT_MAX_DIGITS + 1)) != UVEC_OK) {
+    if (uvec_expand(char, &buf->storage, (ulib_uint)(UINT_MAX_DIGITS + 1)) != UVEC_OK) {
         buf->ret = COWL_ERR_MEM;
     } else {
         size_t len = cowl_str_from_uint(uint, buf->storage.storage + buf->storage.count);
-        buf->storage.count += (uvec_uint)len;
+        buf->storage.count += (ulib_uint)len;
     }
     return buf->ret;
 }
@@ -1197,7 +1170,7 @@ cowl_ret cowl_str_buf_append_annot_prop_range_axiom(CowlStrBuf *buf, CowlAnnotPr
 // Collections
 
 cowl_ret cowl_str_buf_append_object_set(CowlStrBuf *buf, CowlObjectTable *set) {
-    cowl_uint current = 0, last = uhash_count(set) - 1;
+    ulib_uint current = 0, last = uhash_count(set) - 1;
 
     uhash_foreach_key(CowlObjectTable, set, obj, {
         cowl_str_buf_append_object(buf, obj);
@@ -1208,7 +1181,7 @@ cowl_ret cowl_str_buf_append_object_set(CowlStrBuf *buf, CowlObjectTable *set) {
 }
 
 cowl_ret cowl_str_buf_append_object_vec(CowlStrBuf *buf, CowlObjectVec *vec) {
-    cowl_uint last = uvec_count(vec);
+    ulib_uint last = uvec_count(vec);
 
     uvec_iterate(CowlObjectPtr, vec, obj, idx, {
         cowl_str_buf_append_object(buf, obj);
@@ -1220,27 +1193,14 @@ cowl_ret cowl_str_buf_append_object_vec(CowlStrBuf *buf, CowlObjectVec *vec) {
 
 // Output
 
-CowlRawString cowl_str_buf_to_raw_string(CowlStrBuf *buf) {
-    cowl_uint length = uvec_count(&buf->storage);
-
-    if (buf->ret || !length) {
+UString cowl_str_buf_to_ustring(CowlStrBuf *buf) {
+    if (buf->ret) {
         cowl_str_buf_deinit(buf);
-        return COWL_RAW_STRING_NULL;
+        return ustring_null;
     }
-
-    char *buffer = cowl_str_buf_deinit_get_storage(buf);
-    char *cstring = cowl_realloc(buffer, length + 1);
-
-    if (cstring) {
-        cstring[length] = '\0';
-    } else {
-        cowl_free(buffer);
-        length = 0;
-    }
-
-    return cowl_raw_string_init(cstring, length, false);
+    return ustrbuf_to_ustring(&buf->storage);
 }
 
 CowlString* cowl_str_buf_to_string(CowlStrBuf *buf) {
-    return cowl_string_alloc(cowl_str_buf_to_raw_string(buf));
+    return cowl_string_alloc(cowl_str_buf_to_ustring(buf));
 }

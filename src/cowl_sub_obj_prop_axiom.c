@@ -19,7 +19,7 @@ static CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_alloc(CowlObjPropExp *sub,
     CowlSubObjPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUB_OBJ_PROP_AXIOM, annot,
+    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUB_OBJ_PROP_AXIOM, annot,
                                        cowl_obj_prop_exp_hash(sub),
                                        cowl_obj_prop_exp_hash(super));
 
@@ -76,7 +76,7 @@ bool cowl_sub_obj_prop_axiom_equals(CowlSubObjPropAxiom *lhs, CowlSubObjPropAxio
                                   cowl_obj_prop_exp_equals(lhs->sub_prop, rhs->sub_prop));
 }
 
-cowl_uint cowl_sub_obj_prop_axiom_hash(CowlSubObjPropAxiom *axiom) {
+ulib_uint cowl_sub_obj_prop_axiom_hash(CowlSubObjPropAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

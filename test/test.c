@@ -13,56 +13,14 @@
 #include "cowl_ontology_tests.h"
 #include "cowl_reader_tests.h"
 #include "cowl_string_tests.h"
-#include "cowl_test_utils.h"
 #include "cowl_version_tests.h"
 
-#define cowl_run_tests(EXIT_CODE, ...) do {                                                         \
-    bool (*tests_to_run[])(void) = { __VA_ARGS__ };                                                 \
-    for (size_t test_i = 0; test_i < cowl_array_size(tests_to_run); ++test_i) {                     \
-        if (!tests_to_run[test_i]()) EXIT_CODE = EXIT_FAILURE;                                      \
-    }                                                                                               \
-} while(0)
-
-int main(void) {
-
-#ifdef COWL_DEBUG_LEAKS
-    cowl_leak_debug_init();
-#endif
-
+utest_main(
     cowl_api_init();
-
-    int exit_code = EXIT_SUCCESS;
-    printf("Starting tests...\n");
-
-    cowl_run_tests(exit_code,
-        COWL_STRING_TESTS,
-        COWL_IRI_TESTS,
-        COWL_READER_TESTS,
-        COWL_ONTOLOGY_TESTS,
-        COWL_VERSION_TESTS
-    );
-
+    utest_run("string", COWL_STRING_TESTS);
+    utest_run("iri", COWL_IRI_TESTS);
+    utest_run("reader", COWL_READER_TESTS);
+    utest_run("ontology", COWL_ONTOLOGY_TESTS);
+    utest_run("version", COWL_VERSION_TESTS);
     cowl_api_deinit();
-
-    if (exit_code == EXIT_SUCCESS) {
-        printf("All tests passed.\n");
-    } else {
-        printf("Some tests failed.\n");
-    }
-
-#ifdef COWL_DEBUG_LEAKS
-    cowl_uint leaks = cowl_leak_debug_count();
-
-    if (leaks) {
-        printf("Detected %" COWL_UINT_FMT " leaked objects.\n", leaks);
-        cowl_leak_debug_print();
-        exit_code = EXIT_FAILURE;
-    } else {
-        printf("No leaks detected.\n");
-    }
-
-    cowl_leak_debug_deinit();
-#endif
-
-    return exit_code;
-}
+)

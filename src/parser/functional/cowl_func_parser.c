@@ -30,12 +30,12 @@ CowlParser cowl_parser_get_functional(void) {
 }
 
 void* cowl_func_parser_alloc(void) {
-    CowlFuncParser *parser = cowl_alloc(parser);
+    CowlFuncParser *parser = ulib_alloc(parser);
     UHash(CowlObjectTable) *prefix_ns_map = cowl_string_map_alloc();
     UHash(CowlObjectTable) *anon_ind_map = cowl_string_map_alloc();
 
     if (!(parser && anon_ind_map && prefix_ns_map)) {
-        cowl_free(parser);
+        ulib_free(parser);
         uhash_free(CowlObjectTable, prefix_ns_map);
         uhash_free(CowlObjectTable, anon_ind_map);
         return NULL;
@@ -66,7 +66,7 @@ void cowl_func_parser_free(void *state) {
     });
     uhash_free(CowlObjectTable, parser->anon_ind_map);
 
-    cowl_free(parser);
+    ulib_free(parser);
 }
 
 cowl_ret cowl_func_parser_parse(void *state, CowlParserCtx *ctx) {
@@ -86,10 +86,10 @@ cowl_ret cowl_func_parser_parse(void *state, CowlParserCtx *ctx) {
     return ret;
 }
 
-cowl_uint cowl_func_parser_get_line(void *state) {
+ulib_uint cowl_func_parser_get_line(void *state) {
     CowlFuncParser *parser = state;
     if (!(parser->scanner && cowl_func_yyget_lloc(parser->scanner))) return 0;
-    return (cowl_uint)cowl_func_yyget_lloc(parser->scanner)->last_line;
+    return (ulib_uint)cowl_func_yyget_lloc(parser->scanner)->last_line;
 }
 
 cowl_ret cowl_func_parser_register_ns(CowlFuncParser *parser, CowlString *prefix, CowlString *ns) {
@@ -108,14 +108,14 @@ cowl_ret cowl_func_parser_register_ns(CowlFuncParser *parser, CowlString *prefix
     return COWL_OK;
 }
 
-CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, CowlRawString string) {
-    cowl_uint ns_length = cowl_raw_string_index_of(string, ':') + 1;
+CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
+    ulib_uint ns_length = ustring_index_of(string, ':') + 1;
 
     // We might use 'cowl_string_get_ns_rem' to obtain a prefix/suffix split, though
     // this involves two allocations: one for the prefix, and one for the suffix.
     // Since we only need the prefix for a hash table lookup, we can avoid its allocation
     // on the heap and keep it on the stack instead.
-    CowlRawString raw_ns = cowl_raw_string_init(string.cstring, ns_length, false);
+    UString raw_ns = ustring_init(string.cstring, ns_length, false);
     CowlString ns_str = cowl_string_init(raw_ns);
 
     // If the remainder is empty, another slight optimization involves
@@ -138,20 +138,20 @@ CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, CowlRawString str
     } else {
         // We couldn't find a namespace mapping for the specified short namespace.
         iri = NULL;
-        CowlRawString comp[] = {
-            cowl_raw_string_init_static("no namespace mapping for ", false),
+        UString comp[] = {
+            ustring_literal("no namespace mapping for "),
             raw_ns
         };
-        CowlRawString err_str = cowl_raw_string_concat(cowl_array_size(comp), comp);
+        UString err_str = ustring_concat(comp, ulib_array_count(comp));
         cowl_parser_ctx_handle_error(parser->ctx, COWL_ERR_SYNTAX, err_str.cstring);
-        cowl_raw_string_deinit(err_str);
+        ustring_deinit(err_str);
     }
 
     cowl_string_release(rem);
     return iri;
 }
 
-CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, CowlRawString id) {
+CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, UString id) {
     uhash_uint idx;
     CowlString id_str = cowl_string_init(id);
     uhash_ret ret = uhash_put(CowlObjectTable, parser->anon_ind_map, &id_str, &idx);

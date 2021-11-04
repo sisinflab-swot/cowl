@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -31,7 +31,7 @@ bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint cowl_individual_hash(CowlIndividual *ind) {
+ulib_uint cowl_individual_hash(CowlIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 

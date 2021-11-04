@@ -15,7 +15,7 @@ swot_url = '@COWL_VENDOR_URL@'
 
 primary_domain = 'cpp'
 default_role = 'any'
-extensions = ['breathe']
+extensions = ['breathe', 'sphinx.ext.intersphinx']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 rst_prolog = f':github_url: {git_url}'
 rst_epilog = (
@@ -40,6 +40,12 @@ html_context = {
 html_copy_source = False
 html_show_sphinx = False
 html_use_index = False
+
+# Intersphinx
+
+intersphinx_mapping = {
+    'ulib': ('https://ivanobilenchi.com/docs/ulib', '@ULIB_DOCS_INVENTORY_FILE@')
+}
 
 # Breathe
 

@@ -12,11 +12,11 @@
 #define COWL_RET_PRIVATE_H
 
 #include "cowl_ret.h"
-#include "cowl_raw_string.h"
+#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
-CowlRawString cowl_ret_to_raw_string(cowl_ret ret);
+UString cowl_ret_to_ustring(cowl_ret ret);
 
 COWL_END_DECLS
 

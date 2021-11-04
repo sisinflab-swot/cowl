@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAxiom);
-cowl_struct_decl(CowlInputStream);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlParserCtx);
@@ -41,7 +40,7 @@ cowl_struct_decl(CowlParserCtx);
  * @public @memberof CowlParserCtx
  */
 COWL_PUBLIC
-CowlInputStream* cowl_parser_ctx_get_stream(CowlParserCtx *ctx);
+UIStream* cowl_parser_ctx_get_stream(CowlParserCtx *ctx);
 
 /**
  * Sets the IRI of the parsed ontology.

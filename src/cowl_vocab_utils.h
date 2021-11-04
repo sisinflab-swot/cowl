@@ -25,30 +25,30 @@ COWL_BEGIN_DECLS
 #define cowl_string_vocab_get(CSTR) \
     cowl_string_get((CSTR), sizeof(CSTR) - 1, false)
 
-#define cowl_string_vocab_free(STR) cowl_free(STR)
+#define cowl_string_vocab_free(STR) ulib_free(STR)
 
 #define cowl_iri_vocab_get(NS_STR, REM_CSTR) \
     cowl_iri_unvalidated_get((NS_STR), cowl_string_vocab_get(REM_CSTR))
 
 #define cowl_iri_vocab_free(IRI) do {                                                               \
     cowl_string_vocab_free((IRI)->rem);                                                             \
-    cowl_free(IRI);                                                                                 \
+    ulib_free(IRI);                                                                                 \
 } while(0)
 
 #define cowl_annot_prop_vocab_get(IRI) cowl_annot_prop_get(IRI)
-#define cowl_annot_prop_vocab_free(PROP) cowl_free(PROP)
+#define cowl_annot_prop_vocab_free(PROP) ulib_free(PROP)
 
 #define cowl_class_vocab_get(IRI) cowl_class_get(IRI)
-#define cowl_class_vocab_free(CLS) cowl_free(CLS)
+#define cowl_class_vocab_free(CLS) ulib_free(CLS)
 
 #define cowl_datatype_vocab_get(IRI) cowl_datatype_get(IRI)
-#define cowl_datatype_vocab_free(DT) cowl_free(DT)
+#define cowl_datatype_vocab_free(DT) ulib_free(DT)
 
 #define cowl_data_prop_vocab_get(IRI) cowl_data_prop_get(IRI)
-#define cowl_data_prop_vocab_free(PROP) cowl_free(PROP)
+#define cowl_data_prop_vocab_free(PROP) ulib_free(PROP)
 
 #define cowl_obj_prop_vocab_get(IRI) cowl_obj_prop_get(IRI)
-#define cowl_obj_prop_vocab_free(PROP) cowl_free(PROP)
+#define cowl_obj_prop_vocab_free(PROP) ulib_free(PROP)
 
 COWL_END_DECLS
 

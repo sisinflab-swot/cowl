@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,10 +16,10 @@
 #include "cowl_template.h"
 
 static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectTable *operands) {
-    CowlNAryBool *exp = cowl_alloc(exp);
+    CowlNAryBool *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
+    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
                                  cowl_object_set_hash(operands));
 
     *exp = (CowlNAryBool) {
@@ -33,7 +33,7 @@ static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectTable *
 static void cowl_nary_bool_free(CowlNAryBool *exp) {
     if (!exp) return;
     cowl_object_set_free(exp->operands);
-    cowl_free(exp);
+    ulib_free(exp);
 }
 
 CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlObjectTable *operands) {
@@ -68,7 +68,7 @@ bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
            cowl_object_set_equals(lhs->operands, rhs->operands);
 }
 
-cowl_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
+ulib_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_object_hash_get(exp);
 }
 

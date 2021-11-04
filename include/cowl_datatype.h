@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -131,7 +131,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs);
  * @public @memberof CowlDatatype
  */
 COWL_PUBLIC
-cowl_uint cowl_datatype_hash(CowlDatatype *dt);
+ulib_uint cowl_datatype_hash(CowlDatatype *dt);
 
 /**
  * Iterates over this datatype.

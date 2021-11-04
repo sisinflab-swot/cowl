@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,10 +16,10 @@
 #include "cowl_template.h"
 
 static CowlDataOneOf* cowl_data_one_of_alloc(CowlObjectTable *values) {
-    CowlDataOneOf *range = cowl_alloc(range);
+    CowlDataOneOf *range = ulib_alloc(range);
     if (!range) return NULL;
 
-    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_object_set_hash(values));
+    ulib_uint hash = cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_object_set_hash(values));
 
     *range = (CowlDataOneOf) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_ONE_OF, hash),
@@ -32,7 +32,7 @@ static CowlDataOneOf* cowl_data_one_of_alloc(CowlObjectTable *values) {
 static void cowl_data_one_of_free(CowlDataOneOf *range) {
     if (!range) return;
     cowl_object_set_free(range->values);
-    cowl_free(range);
+    ulib_free(range);
 }
 
 CowlDataOneOf* cowl_data_one_of_get(CowlObjectTable *values) {
@@ -61,7 +61,7 @@ bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {
     return cowl_object_hash_equals(lhs, rhs) && cowl_object_set_equals(lhs->values, rhs->values);
 }
 
-cowl_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
+ulib_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
     return cowl_object_hash_get(range);
 }
 

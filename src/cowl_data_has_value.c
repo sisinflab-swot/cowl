@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,10 +16,10 @@
 #include "cowl_template.h"
 
 static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLiteral *value) {
-    CowlDataHasValue *restr = cowl_alloc(restr);
+    CowlDataHasValue *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_HAS_VALUE,
+    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_HAS_VALUE,
                                  cowl_data_prop_exp_hash(prop),
                                  cowl_literal_hash(value));
 
@@ -36,7 +36,7 @@ static void cowl_data_has_value_free(CowlDataHasValue *restr) {
     if (!restr) return;
     cowl_data_prop_exp_release(restr->prop);
     cowl_literal_release(restr->value);
-    cowl_free(restr);
+    ulib_free(restr);
 }
 
 CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value) {
@@ -71,7 +71,7 @@ bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
            cowl_literal_equals(lhs->value, rhs->value);
 }
 
-cowl_uint cowl_data_has_value_hash(CowlDataHasValue *restr) {
+ulib_uint cowl_data_has_value_hash(CowlDataHasValue *restr) {
     return cowl_object_hash_get(restr);
 }
 

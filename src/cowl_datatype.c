@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -35,7 +35,7 @@ void cowl_datatype_api_deinit(void) {
 }
 
 static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
-    CowlDatatype *dt = cowl_alloc(dt);
+    CowlDatatype *dt = ulib_alloc(dt);
     if (!dt) return NULL;
 
     *dt = (CowlDatatype) {
@@ -43,7 +43,7 @@ static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
         .iri = cowl_iri_retain(iri)
     };
 
-    cowl_uint hash = uhash_ptr_hash(dt);
+    ulib_uint hash = uhash_ptr_hash(dt);
     cowl_object_hash_set(dt, hash);
 
     return dt;
@@ -52,7 +52,7 @@ static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
 static void cowl_datatype_free(CowlDatatype *dt) {
     if (!dt) return;
     cowl_iri_release(dt->iri);
-    cowl_free(dt);
+    ulib_free(dt);
 }
 
 CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
@@ -85,7 +85,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint cowl_datatype_hash(CowlDatatype *dt) {
+ulib_uint cowl_datatype_hash(CowlDatatype *dt) {
     return cowl_object_hash_get(dt);
 }
 

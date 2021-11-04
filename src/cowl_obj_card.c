@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,11 +16,11 @@
 #include "cowl_template.h"
 
 static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *prop,
-                                        CowlClsExp *filler, cowl_uint cardinality) {
-    CowlObjCard *restr = cowl_alloc(restr);
+                                        CowlClsExp *filler, ulib_uint cardinality) {
+    CowlObjCard *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    cowl_uint hash;
+    ulib_uint hash;
 
     if (filler) {
         hash = cowl_hash_4(COWL_HASH_INIT_OBJ_CARD, type, cardinality,
@@ -45,11 +45,11 @@ static void cowl_obj_card_free(CowlObjCard *restr) {
     if (!restr) return;
     cowl_obj_prop_exp_release(restr->prop);
     cowl_cls_exp_release(restr->filler);
-    cowl_free(restr);
+    ulib_free(restr);
 }
 
 CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
-                               CowlClsExp *filler, cowl_uint cardinality) {
+                               CowlClsExp *filler, ulib_uint cardinality) {
     if (!(prop && cowl_enum_value_is_valid(CT, type))) return NULL;
     return cowl_obj_card_alloc(COWL_CET_OBJ_MIN_CARD + type, prop, filler, cardinality);
 }
@@ -76,7 +76,7 @@ CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) {
     return restr->filler;
 }
 
-cowl_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) {
+ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) {
     return restr->cardinality;
 }
 
@@ -93,7 +93,7 @@ bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {
     return false;
 }
 
-cowl_uint cowl_obj_card_hash(CowlObjCard *restr) {
+ulib_uint cowl_obj_card_hash(CowlObjCard *restr) {
     return cowl_object_hash_get(restr);
 }
 

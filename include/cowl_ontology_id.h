@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -77,7 +77,7 @@ bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs);
  * @public @memberof CowlOntologyId
  */
 COWL_PUBLIC
-cowl_uint cowl_ontology_id_hash(CowlOntologyId id);
+ulib_uint cowl_ontology_id_hash(CowlOntologyId id);
 
 COWL_END_DECLS
 

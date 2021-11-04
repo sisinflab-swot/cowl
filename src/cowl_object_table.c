@@ -32,7 +32,7 @@ static bool cowl_object_table_equals(void *a, void *b) { return cowl_object_equa
 UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
 
 #define HASH_GEN(T, TYPE)                                                                           \
-    static cowl_uint T##_hash(void *obj) { return cowl_##T##_hash(obj); }                           \
+    static ulib_uint T##_hash(void *obj) { return cowl_##T##_hash(obj); }                           \
     static bool T##_equals(void *lhs, void *rhs) { return cowl_##T##_equals(lhs, rhs); }            \
     UHash(CowlObjectTable)* cowl_##T##_##TYPE##_alloc(void) {                                       \
         return uh##TYPE##_alloc_pi(CowlObjectTable, T##_hash, T##_equals);                          \
@@ -65,7 +65,7 @@ bool cowl_object_set_equals(CowlObjectTable *lhs, CowlObjectTable *rhs) {
     return uhset_equals(CowlObjectTable, lhs, rhs);
 }
 
-cowl_uint cowl_object_set_hash(CowlObjectTable *set) {
+ulib_uint cowl_object_set_hash(CowlObjectTable *set) {
     return uhset_hash(CowlObjectTable, set);
 }
 

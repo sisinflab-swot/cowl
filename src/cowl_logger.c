@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -58,7 +58,7 @@ static cowl_ret cowl_logger_close(CowlLogger *logger) {
 }
 
 static CowlLogger* cowl_logger_alloc(CowlLoggerType type, void *context) {
-    CowlLogger *logger = cowl_alloc(logger);
+    CowlLogger *logger = ulib_alloc(logger);
     if (!logger) return NULL;
 
     *logger = (CowlLogger) {
@@ -85,7 +85,7 @@ static cowl_ret cowl_logger_free(CowlLogger *logger) {
 
         case COWL_LT_FILE:
             if ((ret = cowl_logger_close(logger))) return ret;
-            cowl_free((void *)logger->path);
+            ulib_free((void *)logger->path);
             break;
 
         default:
@@ -93,7 +93,7 @@ static cowl_ret cowl_logger_free(CowlLogger *logger) {
     }
 
     (void)cowl_object_decr_ref(logger);
-    cowl_free(logger);
+    ulib_free(logger);
 
     return ret;
 }
@@ -178,7 +178,7 @@ CowlLogger* cowl_logger_console_get(void) {
 }
 
 CowlLogger* cowl_logger_file_get(char const *path) {
-    return cowl_logger_alloc(COWL_LT_FILE, cowl_str_dup(path, strlen(path)));
+    return cowl_logger_alloc(COWL_LT_FILE, ulib_str_dup(path, strlen(path)));
 }
 
 CowlLogger* cowl_logger_null_get(void) {

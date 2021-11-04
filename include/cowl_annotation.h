@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -136,7 +136,7 @@ bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs);
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-cowl_uint cowl_annotation_hash(CowlAnnotation *annot);
+ulib_uint cowl_annotation_hash(CowlAnnotation *annot);
 
 /**
  * Iterates over the primitives referenced by the specified annotation.

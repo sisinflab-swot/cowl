@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,10 +16,10 @@
 #include "cowl_template.h"
 
 static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlObjectTable *operands) {
-    CowlNAryData *range = cowl_alloc(range);
+    CowlNAryData *range = ulib_alloc(range);
     if (!range) return NULL;
 
-    cowl_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_NARY, type,
+    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_NARY, type,
                                  cowl_object_set_hash(operands));
 
     *range = (CowlNAryData) {
@@ -33,7 +33,7 @@ static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlObjectTabl
 static void cowl_nary_data_free(CowlNAryData *range) {
     if (!range) return;
     cowl_object_set_free(range->operands);
-    cowl_free(range);
+    ulib_free(range);
 }
 
 CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlObjectTable *operands) {
@@ -68,7 +68,7 @@ bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
            cowl_object_set_equals(lhs->operands, rhs->operands);
 }
 
-cowl_uint cowl_nary_data_hash(CowlNAryData *range) {
+ulib_uint cowl_nary_data_hash(CowlNAryData *range) {
     return cowl_object_hash_get(range);
 }
 

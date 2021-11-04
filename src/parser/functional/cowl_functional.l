@@ -14,18 +14,18 @@
 %option yylineno batch
 %option noyywrap nounput noinput
 %option noyyalloc noyyrealloc noyyfree
-%option extra-type="CowlInputStream const *"
+%option extra-type="UIStream *"
 
 %top{
     #include "cowl_func_yyparser.h"
 }
 
 %{
-    #include "cowl_input_stream.h"
+    #include "cowl_cstring.h"
 
     #define YY_INPUT(buf, result, max_size) do {                                                    \
         size_t cowl_yyinput_read;                                                                   \
-        if (cowl_input_stream_read_bytes(yyextra, (cowl_byte *)buf, max_size, &cowl_yyinput_read))  \
+        if (uistream_read(yyextra, buf, max_size, &cowl_yyinput_read))                              \
             YY_FATAL_ERROR("Failed to read from stream");                                           \
         result = (int)cowl_yyinput_read;                                                            \
     } while(0)
@@ -33,15 +33,15 @@
     #define YY_USER_ACTION ((yylloc)->first_line = (yylloc)->last_line = yylineno);
 
     void* yyalloc(size_t bytes, cowl_unused void *yyscanner) {
-        return cowl_malloc(bytes);
+        return ulib_malloc(bytes);
     }
 
     void* yyrealloc(void *ptr, size_t bytes, cowl_unused void *yyscanner) {
-        return cowl_realloc(ptr, bytes);
+        return ulib_realloc(ptr, bytes);
     }
 
     void yyfree(void *ptr, cowl_unused void *yyscanner) {
-        cowl_free(ptr);
+        ulib_free(ptr);
     }
 %}
 
@@ -148,37 +148,37 @@ NON_NEGATIVE_INTEGER                    {DIGIT}+
 "AnnotationPropertyRange"               { return ANNOTATION_PROPERTY_RANGE; }
 
 {NON_NEGATIVE_INTEGER} {
-    yylval->NON_NEGATIVE_INTEGER = (cowl_uint)cowl_str_to_uint(yytext, (size_t)yyleng);
+    yylval->NON_NEGATIVE_INTEGER = (ulib_uint)cowl_str_to_uint(yytext, (size_t)yyleng);
     return NON_NEGATIVE_INTEGER;
 }
 
 {IRI_REF} {
-    yylval->IRI_REF = cowl_raw_string_init(yytext + 1, (cowl_uint)(yyleng - 2), false);
+    yylval->IRI_REF = ustring_init(yytext + 1, (ulib_uint)(yyleng - 2), false);
     return IRI_REF;
 }
 
 {PNAME_NS} {
-    yylval->PNAME_NS = cowl_raw_string_init(yytext, (cowl_uint)yyleng, false);
+    yylval->PNAME_NS = ustring_init(yytext, (ulib_uint)yyleng, false);
     return PNAME_NS;
 }
 
 {PNAME_LN} {
-    yylval->PNAME_LN = cowl_raw_string_init(yytext, (cowl_uint)yyleng, false);
+    yylval->PNAME_LN = ustring_init(yytext, (ulib_uint)yyleng, false);
     return PNAME_LN;
 }
 
 {BLANK_NODE_LABEL} {
-    yylval->BLANK_NODE_LABEL = cowl_raw_string_init(yytext + 2, (cowl_uint)(yyleng - 2), false);
+    yylval->BLANK_NODE_LABEL = ustring_init(yytext + 2, (ulib_uint)(yyleng - 2), false);
     return BLANK_NODE_LABEL;
 }
 
 {LANG_TAG} {
-    yylval->LANG_TAG = cowl_raw_string_init(yytext + 1, (cowl_uint)(yyleng - 1), false);
+    yylval->LANG_TAG = ustring_init(yytext + 1, (ulib_uint)(yyleng - 1), false);
     return LANG_TAG;
 }
 
 {QUOTED_STRING} {
-    yylval->QUOTED_STRING = cowl_raw_string_init(yytext + 1, (cowl_uint)(yyleng - 2), false);
+    yylval->QUOTED_STRING = ustring_init(yytext + 1, (ulib_uint)(yyleng - 2), false);
     return QUOTED_STRING;
 }
 

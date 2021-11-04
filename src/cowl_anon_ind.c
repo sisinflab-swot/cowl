@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,7 +13,7 @@
 #include "cowl_template.h"
 
 static CowlAnonInd* cowl_anon_ind_alloc(void) {
-    CowlAnonInd *ind = cowl_alloc(ind);
+    CowlAnonInd *ind = ulib_alloc(ind);
     if (!ind) return NULL;
 
     (*ind) = (CowlAnonInd) {
@@ -24,7 +24,7 @@ static CowlAnonInd* cowl_anon_ind_alloc(void) {
 }
 
 static void cowl_anon_ind_free(CowlAnonInd *ind) {
-    if (ind) cowl_free(ind);
+    if (ind) ulib_free(ind);
 }
 
 CowlAnonInd* cowl_anon_ind_get(void) {
@@ -52,7 +52,7 @@ bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {
     return lhs == rhs;
 }
 
-cowl_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
+ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
     return uhash_ptr_hash(ind);
 }
 

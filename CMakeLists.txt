@@ -29,7 +29,6 @@ project(Cowl
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
-option(COWL_DEBUG_LEAKS "Enable debugging of memory leaks (keep OFF in production builds)" OFF)
 set(COWL_PARSERS "functional" CACHE STRING "List of enabled built-in parsers (semicolon-separated")
 set(COWL_USER_HEADERS "" CACHE STRING "User-specified header files")
 set(COWL_USER_SOURCES "" CACHE STRING "User-specified source files")
@@ -58,25 +57,6 @@ set(COWL_HEADERS_OUT_DIR "${COWL_OUTPUT_DIR}/include")
 
 set(COWL_COMPILE_FEATURES c_std_11)
 
-if(COWL_DEBUG_LEAKS)
-    file(GLOB COWL_LEAK_HEADERS CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.h")
-    file(GLOB COWL_LEAK_SOURCES CONFIGURE_DEPENDS "${COWL_TEST_DIR}/leak/*.c")
-    list(APPEND COWL_USER_HEADERS ${COWL_LEAK_HEADERS})
-    list(APPEND COWL_USER_SOURCES ${COWL_LEAK_SOURCES})
-    set(COWL_MALLOC cowl_custom_malloc)
-    set(COWL_REALLOC cowl_custom_realloc)
-    set(COWL_FREE cowl_custom_free)
-endif()
-
-set(ULIB_MALLOC ${COWL_MALLOC})
-set(ULIB_REALLOC ${COWL_REALLOC})
-set(ULIB_FREE ${COWL_FREE})
-
-list(APPEND COWL_PUBLIC_DEFINES
-     cowl_malloc=${COWL_MALLOC}
-     cowl_realloc=${COWL_REALLOC}
-     cowl_free=${COWL_FREE})
-
 list(APPEND COWL_PRIVATE_DEFINES
      COWL_BUILDING
      COWL_VERSION_MAJOR=${COWL_VERSION_MAJOR}
@@ -95,20 +75,18 @@ if(COWL_LTO)
 endif()
 
 if(COWL_EMBEDDED)
-    list(APPEND COWL_PUBLIC_DEFINES COWL_TINY)
     set(ULIB_EMBEDDED ON)
 endif()
 
 # uLib
 
-if(NOT TARGET ulib)
+if(NOT TARGET ulib-static)
     add_subdirectory("${COWL_LIB_DIR}/ulib" EXCLUDE_FROM_ALL)
 endif()
 
 # Header dirs
 
-get_target_property(COWL_ULIB_HEADERS_DIRS ulib INTERFACE_INCLUDE_DIRECTORIES)
-set(COWL_PUBLIC_HEADERS_DIRS "${COWL_PUBLIC_HEADERS_DIR}" ${COWL_ULIB_HEADERS_DIRS})
+set(COWL_PUBLIC_HEADERS_DIRS "${COWL_PUBLIC_HEADERS_DIR}")
 
 set(COWL_PRIVATE_HEADERS_DIRS
     "${COWL_PRIVATE_HEADERS_DIR}"
@@ -118,7 +96,7 @@ set(COWL_PRIVATE_HEADERS_DIRS
 # Header files
 
 file(GLOB COWL_PUBLIC_HEADERS CONFIGURE_DEPENDS "${COWL_PUBLIC_HEADERS_DIR}/*.h")
-get_target_property(COWL_ULIB_HEADERS ulib INTERFACE_SOURCES)
+get_target_property(COWL_ULIB_HEADERS ulib-static PUBLIC_HEADER)
 list(APPEND COWL_PUBLIC_HEADERS ${COWL_ULIB_HEADERS})
 
 # Sources
@@ -175,7 +153,7 @@ target_include_directories(cowl-static
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_precompile_headers(cowl-static PUBLIC ${COWL_USER_HEADERS})
-target_link_libraries(cowl-static PUBLIC ulib)
+target_link_libraries(cowl-static PUBLIC ulib-static)
 add_dependencies(cowl-static cowl-parsers cowl-headers)
 
 if(COWL_LTO_ENABLED)
@@ -199,7 +177,7 @@ target_include_directories(cowl-shared
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_precompile_headers(cowl-shared PUBLIC ${COWL_USER_HEADERS})
-target_link_libraries(cowl-shared PUBLIC ulib)
+target_link_libraries(cowl-shared PUBLIC ulib-static)
 add_dependencies(cowl-shared cowl-parsers cowl-headers)
 
 if(COWL_LTO_ENABLED)

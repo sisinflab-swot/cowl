@@ -10,7 +10,6 @@
 
 #include "cowl_string_private.h"
 #include "cowl_object_table_private.h"
-#include "cowl_macros.h"
 
 static UHash(CowlObjectTable) *inst_tbl = NULL;
 static CowlString *empty = NULL;
@@ -26,15 +25,15 @@ void cowl_string_api_deinit(void) {
     uhash_free(CowlObjectTable, inst_tbl);
 }
 
-CowlString* cowl_string_alloc(CowlRawString raw_string) {
-    if (cowl_raw_string_is_null(raw_string)) return NULL;
-    CowlString *string = cowl_alloc(string);
+CowlString* cowl_string_alloc(UString raw_string) {
+    if (ustring_is_null(raw_string)) return NULL;
+    CowlString *string = ulib_alloc(string);
     if (string) *string = cowl_string_init(raw_string);
     return string;
 }
 
-CowlString cowl_string_init(CowlRawString raw_string) {
-    cowl_uint hash = cowl_raw_string_is_null(raw_string) ? 0 : cowl_raw_string_hash(raw_string);
+CowlString cowl_string_init(UString raw_string) {
+    ulib_uint hash = ustring_is_null(raw_string) ? 0 : ustring_hash(raw_string);
 
     CowlString init = {
         .super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash),
@@ -46,11 +45,11 @@ CowlString cowl_string_init(CowlRawString raw_string) {
 
 static void cowl_string_free(CowlString *string) {
     if (!string) return;
-    cowl_raw_string_deinit(string->raw_string);
-    cowl_free(string);
+    ustring_deinit(string->raw_string);
+    ulib_free(string);
 }
 
-static CowlString* cowl_string_get_intern(CowlRawString raw_string, bool copy) {
+static CowlString* cowl_string_get_intern(UString raw_string, bool copy) {
     if (!raw_string.length) return cowl_string_get_empty();
 
     CowlString *string;
@@ -63,7 +62,7 @@ static CowlString* cowl_string_get_intern(CowlRawString raw_string, bool copy) {
         string = uhash_key(inst_tbl, idx);
         cowl_string_retain(string);
     } else if (ret == UHASH_INSERTED) {
-        if (copy) raw_string = cowl_raw_string_copy(raw_string);
+        if (copy) raw_string = ustring_copy(raw_string);
         string = cowl_string_alloc(raw_string);
         cowl_object_bit_set(string);
         uhash_key(inst_tbl, idx) = string;
@@ -92,17 +91,17 @@ CowlString* cowl_string_intern(CowlString *string) {
 }
 
 CowlString* cowl_string_copy(CowlString *string) {
-    CowlString *copy = cowl_alloc(copy);
+    CowlString *copy = ulib_alloc(copy);
     if (!copy) return NULL;
 
-    cowl_uint hash = cowl_object_hash_get(string);
+    ulib_uint hash = cowl_object_hash_get(string);
     copy->super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash);
-    copy->raw_string = cowl_raw_string_copy(string->raw_string);
+    copy->raw_string = ustring_copy(string->raw_string);
 
     return copy;
 }
 
-cowl_ret cowl_string_get_ns_rem(CowlRawString string, cowl_uint ns_length, CowlString **out) {
+cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString **out) {
     CowlString *rhs;
 
     if (ns_length < string.length) {
@@ -112,7 +111,7 @@ cowl_ret cowl_string_get_ns_rem(CowlRawString string, cowl_uint ns_length, CowlS
         rhs = cowl_string_get_empty();
     }
 
-    CowlRawString raw_string = cowl_raw_string_init(string.cstring, ns_length, false);
+    UString raw_string = ustring_init(string.cstring, ns_length, false);
     CowlString *lhs = cowl_string_get_intern(raw_string, true);
     cowl_ret ret;
 
@@ -132,7 +131,7 @@ cowl_ret cowl_string_get_ns_rem(CowlRawString string, cowl_uint ns_length, CowlS
 }
 
 CowlString* cowl_string_get(char const *cstring, size_t length, bool copy) {
-    CowlRawString raw_string = cowl_raw_string_init(cstring, length, copy);
+    UString raw_string = ustring_init(cstring, length, copy);
     return cowl_string_alloc(raw_string);
 }
 
@@ -157,7 +156,7 @@ char const* cowl_string_release_copying_cstring(CowlString *string) {
     char const *cstring;
 
     if (cowl_object_decr_ref(string)) {
-        cstring = cowl_str_dup(string->raw_string.cstring, string->raw_string.length);
+        cstring = ulib_str_dup(string->raw_string.cstring, string->raw_string.length);
     } else {
         cstring = string->raw_string.cstring;
         string->raw_string.cstring = NULL;
@@ -171,29 +170,29 @@ char const* cowl_string_get_cstring(CowlString *string) {
     return string->raw_string.cstring;
 }
 
-cowl_uint cowl_string_get_length(CowlString *string) {
+ulib_uint cowl_string_get_length(CowlString *string) {
     return string->raw_string.length;
 }
 
 bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
     return cowl_object_hash_equals(lhs, rhs) &&
-           cowl_raw_string_equals(lhs->raw_string, rhs->raw_string);
+           ustring_equals(lhs->raw_string, rhs->raw_string);
 }
 
-cowl_uint cowl_string_hash(CowlString *string) {
+ulib_uint cowl_string_hash(CowlString *string) {
     return cowl_object_hash_get(string);
 }
 
 CowlString* cowl_string_with_format(char const *format, ...) {
     va_list args;
     va_start(args, format);
-    CowlRawString raw_string = cowl_raw_string_with_format_list(format, args);
+    UString raw_string = ustring_with_format_list(format, args);
     va_end(args);
     return cowl_string_alloc(raw_string);
 }
 
 CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs) {
-    CowlRawString comp[] = { lhs->raw_string, rhs->raw_string };
-    CowlRawString cat = cowl_raw_string_concat(cowl_array_size(comp), comp);
+    UString comp[] = { lhs->raw_string, rhs->raw_string };
+    UString cat = ustring_concat(comp, ulib_array_count(comp));
     return cowl_string_alloc(cat);
 }

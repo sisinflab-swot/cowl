@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,10 +15,10 @@
 #include "cowl_template.h"
 
 static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
-    CowlObjHasSelf *exp = cowl_alloc(exp);
+    CowlObjHasSelf *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    cowl_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(prop));
+    ulib_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(prop));
 
     *exp = (CowlObjHasSelf) {
         .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_SELF, hash),
@@ -31,7 +31,7 @@ static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
 static void cowl_obj_has_self_free(CowlObjHasSelf *exp) {
     if (!exp) return;
     cowl_obj_prop_exp_release(exp->prop);
-    cowl_free(exp);
+    ulib_free(exp);
 }
 
 CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop) {
@@ -61,7 +61,7 @@ bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {
            cowl_obj_prop_exp_equals(lhs->prop, rhs->prop);
 }
 
-cowl_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
+ulib_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
     return cowl_object_hash_get(exp);
 }
 

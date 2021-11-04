@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -22,7 +22,7 @@ COWL_BEGIN_DECLS
 //
 // The reference count field is variably sized, depending on certain preprocessor definitions:
 //
-// - No definitions (default) or COWL_TINY: 3 bytes
+// - No definitions (default): 3 bytes
 // - COWL_HUGE: 7 bytes
 //
 // This of course limits the maximum number of references that can be held for any object.
@@ -68,7 +68,7 @@ typedef UFlags(COWL_OBJECT_FLAGS_SIZE) CowlObjectFlags;
     ((CowlObjectType)(((FLAGS) & COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))
 
 #define cowl_object_flags_get_ref(FLAGS) \
-    ((cowl_uint)((FLAGS) & COWL_OBJECT_FLAGS_REF_MASK))
+    ((ulib_uint)((FLAGS) & COWL_OBJECT_FLAGS_REF_MASK))
 
 #define cowl_object_flags_incr_ref(FLAGS) (++(FLAGS))
 #define cowl_object_flags_decr_ref(FLAGS) (--(FLAGS))

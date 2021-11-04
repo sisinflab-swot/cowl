@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -17,14 +17,14 @@
 #include "cowl_template.h"
 
 static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    CowlLiteral *literal = cowl_alloc(literal);
+    CowlLiteral *literal = ulib_alloc(literal);
     if (!literal) return NULL;
 
     dt = cowl_datatype_retain(dt ? dt : cowl_rdf_vocab_get()->dt.plain_literal);
     value = value ? cowl_string_retain(value) : cowl_string_get_empty();
     lang = lang ? cowl_string_retain(lang) : cowl_string_get_empty();
 
-    cowl_uint hash = cowl_hash_3(COWL_HASH_INIT_LITERAL,
+    ulib_uint hash = cowl_hash_3(COWL_HASH_INIT_LITERAL,
                                  cowl_datatype_hash(dt),
                                  cowl_string_hash(value),
                                  uhash_ptr_hash(lang));
@@ -44,7 +44,7 @@ static void cowl_literal_free(CowlLiteral *literal) {
     cowl_datatype_release(literal->dt);
     cowl_string_release(literal->value);
     cowl_string_release(literal->lang);
-    cowl_free(literal);
+    ulib_free(literal);
 }
 
 CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {
@@ -52,15 +52,15 @@ CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *l
     return cowl_literal_alloc(dt, value, cowl_string_intern(lang));
 }
 
-CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, CowlRawString value, CowlRawString lang) {
+CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang) {
 
     if (!lang.length && value.length) {
         // The literal doesn't have a separate language tag, attempt to parse it from the value.
-        cowl_uint lang_idx = cowl_raw_string_index_of(value, '@') + 1;
+        ulib_uint lang_idx = ustring_index_of(value, '@') + 1;
 
         if (lang_idx < value.length) {
-            value = cowl_raw_string_init(value.cstring, lang_idx, false);
-            lang = cowl_raw_string_init(value.cstring + lang_idx, value.length - lang_idx, false);
+            value = ustring_init(value.cstring, lang_idx, false);
+            lang = ustring_init(value.cstring + lang_idx, value.length - lang_idx, false);
         }
     }
 
@@ -106,7 +106,7 @@ bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
            cowl_string_equals(lhs->value, rhs->value);
 }
 
-cowl_uint cowl_literal_hash(CowlLiteral *literal) {
+ulib_uint cowl_literal_hash(CowlLiteral *literal) {
     return cowl_object_hash_get(literal);
 }
 

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -19,7 +19,7 @@ static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjec
     CowlDisjUnionAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
+    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
                                        cowl_class_hash(cls),
                                        cowl_object_set_hash(disjoints));
 
@@ -76,7 +76,7 @@ bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *r
                                   cowl_object_set_equals(lhs->disjoints, rhs->disjoints));
 }
 
-cowl_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
+ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 

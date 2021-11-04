@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -50,7 +50,7 @@ cowl_struct_decl(CowlDataCard);
  */
 COWL_PUBLIC
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
-                                 CowlDataRange *range, cowl_uint cardinality);
+                                 CowlDataRange *range, ulib_uint cardinality);
 
 /**
  * Retains the specified data property cardinality restriction.
@@ -115,7 +115,7 @@ CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr);
  * @public @memberof CowlDataCard
  */
 COWL_PUBLIC
-cowl_uint cowl_data_card_get_cardinality(CowlDataCard *restr);
+ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr);
 
 /**
  * Returns the string representation of the specified restriction.
@@ -151,7 +151,7 @@ bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs);
  * @public @memberof CowlDataCard
  */
 COWL_PUBLIC
-cowl_uint cowl_data_card_hash(CowlDataCard *restr);
+ulib_uint cowl_data_card_hash(CowlDataCard *restr);
 
 /**
  * Iterates over the primitives referenced by the specified data property cardinality restriction.

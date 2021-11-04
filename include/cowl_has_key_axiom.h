@@ -148,7 +148,7 @@ bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-cowl_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom);
+ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

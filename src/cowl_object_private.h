@@ -22,7 +22,7 @@ typedef cowl_struct(CowlObject) {
 
 typedef cowl_struct(CowlHashObject) {
     CowlObject super;
-    cowl_uint hash;
+    ulib_uint hash;
 } CowlHashObject;
 
 #define COWL_OBJECT_BIT_INIT(TYPE, HAS_BIT) \

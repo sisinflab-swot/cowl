@@ -151,7 +151,7 @@ bool cowl_annot_assert_axiom_equals(CowlAnnotAssertAxiom *lhs, CowlAnnotAssertAx
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_PUBLIC
-cowl_uint cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom);
+ulib_uint cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

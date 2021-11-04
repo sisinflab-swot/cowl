@@ -64,7 +64,7 @@ typedef cowl_struct(CowlParser) {
      *
      * @note This member is optional.
      */
-    cowl_uint (*get_line)(void *state);
+    ulib_uint (*get_line)(void *state);
 
 } CowlParser;
 

@@ -26,8 +26,8 @@
     #define YYSTYPE COWL_FUNC_YYSTYPE
     #define YYLTYPE COWL_FUNC_YYLTYPE
 
-    #define YYMALLOC cowl_malloc
-    #define YYFREE cowl_free
+    #define YYMALLOC ulib_malloc
+    #define YYFREE ulib_free
 }
 
 %code requires {
@@ -81,13 +81,13 @@
 
 // Terminals
 
-%token <cowl_uint> NON_NEGATIVE_INTEGER
-%token <CowlRawString> QUOTED_STRING
-%token <CowlRawString> BLANK_NODE_LABEL
-%token <CowlRawString> PNAME_NS
-%token <CowlRawString> PNAME_LN
-%token <CowlRawString> LANG_TAG
-%token <CowlRawString> IRI_REF
+%token <ulib_uint> NON_NEGATIVE_INTEGER
+%token <UString> QUOTED_STRING
+%token <UString> BLANK_NODE_LABEL
+%token <UString> PNAME_NS
+%token <UString> PNAME_LN
+%token <UString> LANG_TAG
+%token <UString> IRI_REF
 
 %token L_PAREN R_PAREN EQUALS DOUBLE_CARET
 
@@ -126,7 +126,7 @@
 %type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue *> annotation_subject annotation_value
-%type <cowl_uint> cardinality
+%type <ulib_uint> cardinality
 
 %type <CowlEntity *> entity
 %type <CowlClass *> class
@@ -391,14 +391,14 @@ anonymous_individual
 literal
     : QUOTED_STRING DOUBLE_CARET datatype {
         if (!$3) COWL_ERROR_MEM;
-        $$ = cowl_literal_get_raw($3, $1, cowl_raw_string_empty);
+        $$ = cowl_literal_get_raw($3, $1, ustring_empty);
         cowl_datatype_release($3);
     }
     | QUOTED_STRING LANG_TAG {
         $$ = cowl_literal_get_raw(NULL, $1, $2);
     }
     | QUOTED_STRING {
-        $$ = cowl_literal_get_raw(NULL, $1, cowl_raw_string_empty);
+        $$ = cowl_literal_get_raw(NULL, $1, ustring_empty);
     }
 ;
 

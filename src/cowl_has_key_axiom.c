@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,9 +20,9 @@ static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObject
     CowlHasKeyAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    cowl_uint obj_props_hash = obj_props ? cowl_object_set_hash(obj_props) : 0;
-    cowl_uint data_props_hash = data_props ? cowl_object_set_hash(data_props) : 0;
-    cowl_uint hash = cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM, annot,
+    ulib_uint obj_props_hash = obj_props ? cowl_object_set_hash(obj_props) : 0;
+    ulib_uint data_props_hash = data_props ? cowl_object_set_hash(data_props) : 0;
+    ulib_uint hash = cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM, annot,
                                        cowl_cls_exp_hash(cls_exp),
                                        obj_props_hash, data_props_hash);
 
@@ -86,7 +86,7 @@ bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
                                   cowl_object_set_equals(lhs->data_props, rhs->data_props));
 }
 
-cowl_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
+ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
     return cowl_object_hash_get(axiom);
 }
 
