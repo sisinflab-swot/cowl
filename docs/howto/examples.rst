@@ -15,19 +15,19 @@ They are ordered by complexity, so it is recommended that you read them sequenti
 Basic ontology parsing
 ======================
 
-.. literalinclude:: ../../examples/ex_00_base.c
+.. literalinclude:: ../../examples/00_base.c
 
 Handling of errors and imports
 ==============================
 
-.. literalinclude:: ../../examples/ex_01_errors_imports.c
+.. literalinclude:: ../../examples/01_errors_imports.c
 
 Ontology querying
 =================
 
-.. literalinclude:: ../../examples/ex_02_query.c
+.. literalinclude:: ../../examples/02_query.c
 
 Recursive ontology querying
 ===========================
 
-.. literalinclude:: ../../examples/ex_03_recursive_query.c
+.. literalinclude:: ../../examples/03_recursive_query.c
