@@ -11,7 +11,6 @@
 #include "cowl_inv_obj_prop_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {

@@ -13,7 +13,6 @@
 #include "cowl_annot_value.h"
 #include "cowl_hash_utils.h"
 #include "cowl_object_vec_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue *value,

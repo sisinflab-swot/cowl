@@ -11,7 +11,9 @@
 #ifndef COWL_TEMPLATE_H
 #define COWL_TEMPLATE_H
 
-#include "cowl_compat.h"
+#include "cowl_std.h"
+#include "cowl_stream.h"
+#include "cowl_string_private.h"
 
 COWL_BEGIN_DECLS
 
@@ -50,14 +52,17 @@ COWL_BEGIN_DECLS
 }
 
 #define COWL_TO_STRING_IMPL(LC, VAR) {                                                              \
-    CowlStrBuf buf = cowl_str_buf_init;                                                             \
-                                                                                                    \
-    if (cowl_str_buf_append_##LC(&buf, (VAR))) {                                                    \
-        cowl_str_buf_deinit(&buf);                                                                  \
-        return NULL;                                                                                \
+    CowlString *string = NULL;                                                                      \
+    UOStream stream;                                                                                \
+    UStrBuf buf = ustrbuf_init();                                                                   \
+    if (uostream_to_strbuf(&stream, &buf) == USTREAM_OK) {                                          \
+        if (cowl_stream_write_##LC(&stream, (VAR)) == USTREAM_OK) {                                 \
+            string = cowl_string_alloc(ustrbuf_to_ustring(&buf));                                   \
+        }                                                                                           \
+        uostream_deinit(&stream);                                                                   \
     }                                                                                               \
-                                                                                                    \
-    return cowl_str_buf_to_string(&buf);                                                            \
+    ustrbuf_deinit(&buf);                                                                           \
+    return string;                                                                                  \
 }
 
 COWL_END_DECLS

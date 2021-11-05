@@ -12,7 +12,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
 #include "cowl_obj_prop_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *prop,

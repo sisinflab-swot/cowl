@@ -10,7 +10,6 @@
 
 #include "cowl_data_compl_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlDataCompl* cowl_data_compl_alloc(CowlDataRange *operand) {

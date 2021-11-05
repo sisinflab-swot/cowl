@@ -11,7 +11,6 @@
 #include "cowl_nary_obj_prop_axiom_private.h"
 #include "cowl_macros.h"
 #include "cowl_object_table.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_alloc(CowlAxiomType type,

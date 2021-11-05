@@ -12,7 +12,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_object_table.h"
 #include "cowl_string_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_xml_utils.h"
 #include "cowl_template.h"
 
@@ -72,32 +71,31 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
     if (s_ns_len > 0) {
         // Part of the suffix should go in the namespace.
-        CowlStrBuf buf = cowl_str_buf_init;
+        UStrBuf buf = ustrbuf_init();
 
-        if (cowl_str_buf_append_ustring(&buf, p_str) ||
-            cowl_str_buf_append_cstring(&buf, s_str.cstring, s_ns_len)) {
-            cowl_str_buf_deinit(&buf);
+        if (ustrbuf_append_ustring(&buf, p_str) ||
+            ustrbuf_append_cstring(&buf, s_str.cstring, s_ns_len)) {
+            ustrbuf_deinit(&buf);
             return NULL;
         }
 
-        prefix = cowl_str_buf_to_string(&buf);
+        prefix = cowl_string_alloc(ustrbuf_to_ustring(&buf));
         suffix = cowl_string_get(s_str.cstring + s_ns_len, s_str.length - s_ns_len, true);
     } else {
         ulib_uint p_ns_len = cowl_xml_ns_length(p_str);
 
         if (p_ns_len < p_str.length) {
             // Part of the prefix should go in the remainder.
-            CowlStrBuf buf = cowl_str_buf_init;
+            UStrBuf buf = ustrbuf_init();
 
-            if (cowl_str_buf_append_cstring(&buf, p_str.cstring + p_ns_len,
-                                            p_str.length - p_ns_len) ||
-                cowl_str_buf_append_ustring(&buf, s_str)) {
-                cowl_str_buf_deinit(&buf);
+            if (ustrbuf_append_cstring(&buf, p_str.cstring + p_ns_len, p_str.length - p_ns_len) ||
+                ustrbuf_append_ustring(&buf, s_str)) {
+                ustrbuf_deinit(&buf);
                 return NULL;
             }
 
             prefix = cowl_string_get(p_str.cstring, p_ns_len, true);
-            suffix = cowl_str_buf_to_string(&buf);
+            suffix = cowl_string_alloc(ustrbuf_to_ustring(&buf));
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
             cowl_string_retain(prefix);
@@ -156,11 +154,8 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri) {
 CowlString* cowl_iri_to_string(CowlIRI *iri)
     COWL_TO_STRING_IMPL(iri, iri)
 
-CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri) {
-    CowlStrBuf buf = cowl_str_buf_init;
-    cowl_str_buf_append_iri_no_brackets(&buf, iri);
-    return cowl_str_buf_to_string(&buf);
-}
+CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri)
+    COWL_TO_STRING_IMPL(iri_no_brackets, iri)
 
 bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
     return lhs == rhs;

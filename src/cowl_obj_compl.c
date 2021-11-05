@@ -10,7 +10,6 @@
 
 #include "cowl_obj_compl_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {

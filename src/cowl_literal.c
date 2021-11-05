@@ -12,7 +12,6 @@
 #include "cowl_datatype.h"
 #include "cowl_hash_utils.h"
 #include "cowl_rdf_vocab.h"
-#include "cowl_str_buf.h"
 #include "cowl_string_private.h"
 #include "cowl_template.h"
 

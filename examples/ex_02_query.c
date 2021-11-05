@@ -26,19 +26,16 @@ int main(void) {
 
     // Query the ontology
     if (ontology) {
-        CowlLogger *logger = cowl_logger_console_get();
-
         // Get the class whose atomic subclasses we are interested in.
         CowlClass *cls = cowl_class_from_static(ONTO_NS CLASS_NAME);
-        cowl_logger_logs(logger, "Atomic subclasses of " CLASS_NAME ":\n");
+        printf("Atomic subclasses of " CLASS_NAME ":\n");
 
         // Run the query.
-        CowlIterator iter = cowl_iterator_init(logger, for_each_cls);
+        CowlIterator iter = cowl_iterator_init(NULL, for_each_cls);
         cowl_ontology_iterate_sub_classes(ontology, cls, &iter);
 
         // Cleanup.
         cowl_class_release(cls);
-        cowl_logger_release(logger);
         cowl_ontology_release(ontology);
     }
 
@@ -46,16 +43,14 @@ int main(void) {
 }
 
 // Iterator body, invoked for each class expression matching the query.
-static bool for_each_cls(void *ctx, void *cls) {
-
+static bool for_each_cls(cowl_unused void *ctx, void *cls) {
     // We are only interested in atomic classes. Note that, due to pseudo-inheritance,
     // this check ensures that the concrete type of 'exp' is CowlClass.
     if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
 
     // Log the IRI remainder.
-    CowlIRI *iri = cowl_class_get_iri(cls);
-    cowl_logger_log(ctx, cowl_iri_get_rem(iri));
-    cowl_logger_logs(ctx, "\n");
+    puts(cowl_string_get_cstring(cowl_iri_get_rem(cowl_class_get_iri(cls))));
+    puts("\n");
 
     return true;
 }

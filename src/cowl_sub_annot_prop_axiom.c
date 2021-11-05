@@ -10,7 +10,6 @@
 
 #include "cowl_sub_annot_prop_axiom_private.h"
 #include "cowl_annot_prop.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_alloc(CowlAnnotProp *sub,

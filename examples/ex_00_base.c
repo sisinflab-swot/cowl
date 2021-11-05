@@ -27,9 +27,9 @@ int main(void) {
 
     // Log the ontology.
     if (ontology) {
-        CowlLogger *logger = cowl_logger_console_get();
-        cowl_logger_log_ontology(logger, ontology);
-        cowl_logger_release(logger);
+        CowlString *string = cowl_ontology_to_string(ontology);
+        puts(cowl_string_get_cstring(string));
+        cowl_string_release(string);
 
         // Release the ontology.
         cowl_ontology_release(ontology);

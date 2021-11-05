@@ -9,7 +9,6 @@
  */
 
 #include "cowl_axiom_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {

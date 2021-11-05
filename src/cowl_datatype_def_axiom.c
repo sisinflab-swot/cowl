@@ -11,7 +11,6 @@
 #include "cowl_datatype_def_axiom_private.h"
 #include "cowl_data_range.h"
 #include "cowl_datatype.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *dt,

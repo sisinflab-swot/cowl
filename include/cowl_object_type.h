@@ -40,9 +40,6 @@ typedef cowl_enum(CowlObjectType) {
     /// CowlReader - Reader.
     COWL_OT_READER,
 
-    /// CowlLogger - Logger.
-    COWL_OT_LOGGER,
-
     /// CowlAnnotation - Annotation.
     COWL_OT_ANNOTATION,
 

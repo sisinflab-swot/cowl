@@ -11,7 +11,6 @@
 #include "cowl_obj_prop_char_axiom_private.h"
 #include "cowl_macros.h"
 #include "cowl_obj_prop_exp_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_alloc(CowlAxiomType type,

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -10,7 +10,6 @@
 
 #include "cowl_primitive.h"
 #include "cowl_object_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) {

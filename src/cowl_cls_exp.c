@@ -9,7 +9,6 @@
  */
 
 #include "cowl_cls_exp_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {

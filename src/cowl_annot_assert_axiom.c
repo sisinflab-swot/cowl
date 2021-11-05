@@ -11,7 +11,6 @@
 #include "cowl_annot_assert_axiom_private.h"
 #include "cowl_annot_prop.h"
 #include "cowl_annot_value.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue *subject,

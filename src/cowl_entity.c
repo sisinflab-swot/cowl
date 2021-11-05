@@ -15,7 +15,6 @@
 #include "cowl_datatype_private.h"
 #include "cowl_named_ind_private.h"
 #include "cowl_obj_prop_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlEntity* cowl_entity_retain(CowlEntity *entity) {

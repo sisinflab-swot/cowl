@@ -9,7 +9,6 @@
  */
 
 #include "cowl_anon_ind_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlAnonInd* cowl_anon_ind_alloc(void) {

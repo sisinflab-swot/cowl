@@ -28,7 +28,11 @@ void cowl_string_api_deinit(void) {
 CowlString* cowl_string_alloc(UString raw_string) {
     if (ustring_is_null(raw_string)) return NULL;
     CowlString *string = ulib_alloc(string);
-    if (string) *string = cowl_string_init(raw_string);
+    if (string) {
+        *string = cowl_string_init(raw_string);
+    } else {
+        ustring_deinit(raw_string);
+    }
     return string;
 }
 

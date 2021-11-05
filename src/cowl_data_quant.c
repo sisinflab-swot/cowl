@@ -13,7 +13,6 @@
 #include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp *prop,

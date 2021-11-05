@@ -10,7 +10,6 @@
 
 #include "cowl_func_data_prop_axiom_private.h"
 #include "cowl_data_prop_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_alloc(CowlDataPropExp *prop,

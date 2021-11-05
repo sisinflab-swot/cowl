@@ -63,7 +63,6 @@
 #include "cowl_iri.h"
 #include "cowl_iterator.h"
 #include "cowl_literal.h"
-#include "cowl_logger.h"
 #include "cowl_named_ind.h"
 #include "cowl_nary_axiom_type.h"
 #include "cowl_nary_bool.h"

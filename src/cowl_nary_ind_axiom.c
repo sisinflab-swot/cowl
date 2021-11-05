@@ -11,7 +11,6 @@
 #include "cowl_nary_ind_axiom_private.h"
 #include "cowl_macros.h"
 #include "cowl_object_table.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlObjectTable *individuals,

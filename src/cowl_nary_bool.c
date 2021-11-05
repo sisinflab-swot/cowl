@@ -12,7 +12,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
 #include "cowl_object_table.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectTable *operands) {

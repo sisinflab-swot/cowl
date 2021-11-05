@@ -9,7 +9,6 @@
  */
 
 #include "cowl_data_range_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {

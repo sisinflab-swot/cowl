@@ -12,7 +12,6 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLiteral *value) {

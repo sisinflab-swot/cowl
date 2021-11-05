@@ -11,7 +11,6 @@
 #include "cowl_obj_has_self_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_obj_prop_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {

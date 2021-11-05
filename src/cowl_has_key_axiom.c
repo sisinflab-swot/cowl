@@ -11,7 +11,6 @@
 #include "cowl_has_key_axiom_private.h"
 #include "cowl_cls_exp.h"
 #include "cowl_object_table.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObjectTable *obj_props,

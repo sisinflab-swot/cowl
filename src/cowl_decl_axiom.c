@@ -10,7 +10,6 @@
 
 #include "cowl_decl_axiom_private.h"
 #include "cowl_entity.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlObjectVec *annot) {

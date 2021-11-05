@@ -89,6 +89,19 @@ COWL_PUBLIC
 CowlObjectVec* cowl_ontology_get_annot(CowlOntology *onto);
 
 /**
+ * Returns the string representation of the specified ontology.
+ *
+ * @param onto The ontology.
+ * @return String representation, or NULL on error.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+CowlString* cowl_ontology_to_string(CowlOntology *onto);
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

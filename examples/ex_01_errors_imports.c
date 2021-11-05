@@ -12,6 +12,7 @@
 
 #define ONTO_PATH "example_pizza.owl"
 #define IMPORT_PATH "import.owl"
+#define ERROR_LOG_PATH "errors.log"
 
 static CowlOntology* load_import(void *ctx, CowlIRI *iri);
 static void handle_error(void *ctx, CowlError const *error);
@@ -23,28 +24,34 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    CowlReader *reader = cowl_reader_get();
-    CowlLogger *logger = cowl_logger_console_get();
+    // Setup a global error handler and import loader.
+    cowl_api_set_import_loader(cowl_import_loader_init(NULL, load_import, NULL));
 
-    if (!(reader && logger)) {
+    UOStream stream;
+    if (uostream_to_path(&stream, ERROR_LOG_PATH)) {
         return EXIT_FAILURE;
     }
 
-    // Setup a global error handler and import loader.
-    cowl_api_set_import_loader(cowl_import_loader_init(NULL, load_import, NULL));
-    cowl_api_set_error_handler(cowl_error_handler_init(logger, handle_error, NULL));
+    cowl_api_set_error_handler(cowl_error_handler_init(&stream, handle_error, NULL));
 
     // Read the ontology from file.
-    CowlOntology *ontology = cowl_reader_read_path(reader, ONTO_PATH);
-    cowl_reader_release(reader);
+    CowlOntology *ontology = NULL;
+    CowlReader *reader = cowl_reader_get();
+
+    if (reader) {
+        ontology = cowl_reader_read_path(reader, ONTO_PATH);
+        cowl_reader_release(reader);
+    }
 
     // Log the ontology.
     if (ontology) {
-        cowl_logger_log_ontology(logger, ontology);
+        CowlString *string = cowl_ontology_to_string(ontology);
+        puts(cowl_string_get_cstring(string));
+        cowl_string_release(string);
         cowl_ontology_release(ontology);
     }
 
-    cowl_logger_release(logger);
+    uostream_deinit(&stream);
 
     return EXIT_SUCCESS;
 }
@@ -73,5 +80,7 @@ static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
  * more fine-grained error handling. In this example, errors are logged to file.
  */
 static void handle_error(void *ctx, CowlError const *error) {
-    cowl_logger_log_error(ctx, error);
+    CowlString *string = cowl_error_to_string(error);
+    uostream_write(ctx, cowl_string_get_cstring(string), cowl_string_get_length(string), NULL);
+    cowl_string_release(string);
 }

@@ -12,7 +12,6 @@
 #include "cowl_data_prop_exp.h"
 #include "cowl_individual.h"
 #include "cowl_literal.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType type,

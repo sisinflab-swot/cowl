@@ -11,7 +11,6 @@
 #include "cowl_ontology_id.h"
 #include "cowl_hash_utils.h"
 #include "cowl_iri.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlString* cowl_ontology_id_to_string(CowlOntologyId id)

@@ -12,7 +12,6 @@
 #include "cowl_hash_utils.h"
 #include "cowl_literal.h"
 #include "cowl_macros.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *value) {

@@ -10,7 +10,6 @@
 
 #include "cowl_data_prop_exp_private.h"
 #include "cowl_data_prop_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp) {

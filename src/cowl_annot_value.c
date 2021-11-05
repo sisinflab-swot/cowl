@@ -10,7 +10,6 @@
 
 #include "cowl_annot_value.h"
 #include "cowl_object_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) {

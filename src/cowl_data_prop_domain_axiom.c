@@ -11,7 +11,6 @@
 #include "cowl_data_prop_domain_axiom_private.h"
 #include "cowl_cls_exp.h"
 #include "cowl_data_prop_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_alloc(CowlDataPropExp *prop,

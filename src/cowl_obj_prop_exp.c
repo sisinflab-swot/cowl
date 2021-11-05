@@ -11,7 +11,6 @@
 #include "cowl_obj_prop_exp_private.h"
 #include "cowl_inv_obj_prop_private.h"
 #include "cowl_obj_prop_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop) {

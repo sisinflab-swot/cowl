@@ -10,7 +10,6 @@
 
 #include "cowl_inv_obj_prop_axiom_private.h"
 #include "cowl_obj_prop_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_alloc(CowlObjPropExp *first,

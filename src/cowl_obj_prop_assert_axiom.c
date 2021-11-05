@@ -11,7 +11,6 @@
 #include "cowl_obj_prop_assert_axiom_private.h"
 #include "cowl_individual.h"
 #include "cowl_obj_prop_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType type,

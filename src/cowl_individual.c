@@ -9,7 +9,6 @@
  */
 
 #include "cowl_individual_private.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {

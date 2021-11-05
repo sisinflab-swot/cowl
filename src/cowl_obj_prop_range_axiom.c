@@ -11,7 +11,6 @@
 #include "cowl_obj_prop_range_axiom_private.h"
 #include "cowl_cls_exp.h"
 #include "cowl_obj_prop_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *prop,

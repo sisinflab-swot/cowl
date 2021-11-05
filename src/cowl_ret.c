@@ -8,7 +8,7 @@
  * @file
  */
 
-#include "cowl_ret_private.h"
+#include "cowl_ret.h"
 #include "cowl_string_private.h"
 
 char const* cowl_ret_to_cstring(cowl_ret ret) {
@@ -41,10 +41,6 @@ cowl_ret cowl_ret_from_uhash(uhash_ret ret) {
 }
 
 CowlString* cowl_ret_to_string(cowl_ret ret) {
-    return cowl_string_alloc(cowl_ret_to_ustring(ret));
-}
-
-UString cowl_ret_to_ustring(cowl_ret ret) {
-    char const *cstring = cowl_ret_to_cstring(ret);
-    return ustring_init(cstring, strlen(cstring), true);
+    char const *cstr = cowl_ret_to_cstring(ret);
+    return cowl_string_alloc(ustring_init(cstr, strlen(cstr), true));
 }

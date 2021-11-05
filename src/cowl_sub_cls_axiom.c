@@ -10,7 +10,6 @@
 
 #include "cowl_sub_cls_axiom_private.h"
 #include "cowl_cls_exp.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *super,

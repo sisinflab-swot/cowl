@@ -9,7 +9,6 @@
  */
 
 #include "cowl_node_id.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 CowlString* cowl_node_id_to_string(CowlNodeId id)

@@ -11,7 +11,6 @@
 #include "cowl_annot_prop_domain_axiom_private.h"
 #include "cowl_annot_prop.h"
 #include "cowl_iri.h"
-#include "cowl_str_buf.h"
 #include "cowl_template.h"
 
 static CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_alloc(CowlAnnotProp *prop,
