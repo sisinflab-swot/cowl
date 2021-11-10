@@ -10,28 +10,6 @@
 
 #include "cowl_api.h"
 
-#include <time.h>
-
-#ifdef CLOCK_MONOTONIC_RAW
-    #define COWL_CLOCK CLOCK_MONOTONIC_RAW
-#else
-    #define COWL_CLOCK CLOCK_MONOTONIC
-#endif
-
-static inline uint64_t get_nanos(void) {
-    struct timespec ts;
-    clock_gettime(COWL_CLOCK, &ts);
-    return (uint64_t)ts.tv_sec * 1000000000 + (uint64_t)ts.tv_nsec;
-}
-
-static inline double get_micros(void) {
-    return ((double)get_nanos()) / 1000.0;
-}
-
-static inline double get_millis(void) {
-    return ((double)get_nanos()) / 1000000.0;
-}
-
 static bool count_axiom_iterator(void *ctx, cowl_unused void *obj) {
     (*((ulib_uint *)ctx))++;
     return true;
@@ -48,9 +26,9 @@ int main(int argc, char *argv[]) {
     char const *onto_path = argc > 1 ? argv[1] : "test_onto.owl";
     CowlReader *reader = cowl_reader_get();
 
-    double start = get_millis();
+    utime_ns t = utime_get_ns();
     CowlOntology *onto = cowl_reader_read_path(reader, onto_path);
-    double stop = get_millis();
+    t = utime_get_ns() - t;
 
     cowl_reader_release(reader);
 
@@ -59,25 +37,27 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    printf("Ontology parsed in %.2f ms\n", stop - start);
+    printf("Ontology parsed in %.2f ms\n", utime_convert(t, UTIME_UNIT_MS));
 
     ulib_uint count = 0;
 
-    start = get_micros();
+    t = utime_get_ns();
     CowlIterator iter = cowl_iterator_init(&count, count_axiom_iterator);
     cowl_ontology_iterate_axioms(onto, &iter);
-    stop = get_micros();
+    t = utime_get_ns() - t;
 
-    printf("%" ULIB_UINT_FMT " axioms iterated in %.2f us\n", count, stop - start);
+    printf("%" ULIB_UINT_FMT " axioms iterated in %.2f us\n",
+           count, utime_convert(t, UTIME_UNIT_US));
 
     count = 0;
 
-    start = get_micros();
+    t = utime_get_ns();
     iter = cowl_iterator_init(&count, count_primitive_iterator);
     cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter);
-    stop = get_micros();
+    t = utime_get_ns() - t;
 
-    printf("%" ULIB_UINT_FMT " primitives iterated in %.2f us\n", count, stop - start);
+    printf("%" ULIB_UINT_FMT " primitives iterated in %.2f us\n",
+           count, utime_convert(t, UTIME_UNIT_US));
 
     cowl_ontology_release(onto);
 

@@ -6,10 +6,11 @@ env:
   build_dir: build
   build_config: Release
   cflags_gnuc: -Werror
-  cflags_msvc: /wd5105 /WX
+  cflags_msvc: /WX
   test_target: cowl-test
-  docs_target: cowl-docs
+  bench_target: cowl-bench
   examples_target: cowl-examples
+  docs_target: cowl-docs
 
 jobs:
   build:
@@ -47,6 +48,7 @@ jobs:
       run: >
         cmake -B ${{env.build_dir}}
         -DULIB_LEAKS=ON
+        -DCMAKE_SYSTEM_VERSION=''
         -DCMAKE_BUILD_TYPE=${{env.build_config}}
         -DCMAKE_C_FLAGS=${{env.cflags}}
 
@@ -54,12 +56,16 @@ jobs:
       run: >
         cmake --build ${{env.build_dir}}
         --config ${{env.build_config}}
-        --target ${{env.test_target}} ${{env.examples_target}}
+        --target ${{env.test_target}} ${{env.bench_target}} ${{env.examples_target}}
 
     - name: Run examples
       working-directory: ${{env.build_dir}}/examples
       run: ${{env.config_subdir}}/*-example*
       shell: bash
+
+    - name: Run benchmark
+      working-directory: ${{env.build_dir}}/test
+      run: ${{env.config_subdir}}/${{env.bench_target}}
 
     - name: Run tests
       working-directory: ${{env.build_dir}}/test
