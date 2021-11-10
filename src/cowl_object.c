@@ -114,17 +114,17 @@ bool cowl_object_is_entity(CowlObject *object) {
 
 bool cowl_object_is_axiom(CowlObject *object) {
     CowlObjectType type = cowl_object_get_type(object);
-    return type >= COWL_OT_A_DECL && type <= COWL_OT_A_ANNOT_PROP_RANGE;
+    return type >= COWL_OT_FIRST_A && type <= COWL_OT_LAST_A;
 }
 
 bool cowl_object_is_cls_exp(CowlObject *object) {
     CowlObjectType type = cowl_object_get_type(object);
-    return type >= COWL_OT_CE_CLASS && type <= COWL_OT_CE_OBJ_ONE_OF;
+    return type >= COWL_OT_FIRST_CE && type <= COWL_OT_LAST_CE;
 }
 
 bool cowl_object_is_obj_prop_exp(CowlObject *object) {
     CowlObjectType type = cowl_object_get_type(object);
-    return type >= COWL_OT_OPE_OBJ_PROP && type <= COWL_OT_OPE_INV_OBJ_PROP;
+    return type >= COWL_OT_FIRST_OPE && type <= COWL_OT_LAST_OPE;
 }
 
 bool cowl_object_is_data_prop_exp(CowlObject *object) {
@@ -133,12 +133,12 @@ bool cowl_object_is_data_prop_exp(CowlObject *object) {
 
 bool cowl_object_is_individual(CowlObject *object) {
     CowlObjectType type = cowl_object_get_type(object);
-    return type >= COWL_OT_I_ANONYMOUS && type <= COWL_OT_I_NAMED;
+    return type >= COWL_OT_FIRST_I && type <= COWL_OT_LAST_I;
 }
 
 bool cowl_object_is_data_range(CowlObject *object) {
     CowlObjectType type = cowl_object_get_type(object);
-    return type >= COWL_OT_DR_DATATYPE && type <= COWL_OT_DR_DATA_ONE_OF;
+    return type >= COWL_OT_FIRST_DR && type <= COWL_OT_LAST_DR;
 }
 
 CowlString* cowl_object_to_string(CowlObject *object)

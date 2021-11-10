@@ -265,7 +265,37 @@ typedef cowl_enum(CowlObjectType) {
     COWL_OT_COUNT,
 
     /// First enum value.
-    COWL_OT_FIRST = 0
+    COWL_OT_FIRST = 0,
+
+    /// First axiom type.
+    COWL_OT_FIRST_A = COWL_OT_A_DECL,
+
+    /// Last axiom type.
+    COWL_OT_LAST_A = COWL_OT_A_ANNOT_PROP_RANGE,
+
+    /// First class expression type.
+    COWL_OT_FIRST_CE = COWL_OT_CE_CLASS,
+
+    /// Last class expression type.
+    COWL_OT_LAST_CE = COWL_OT_CE_OBJ_ONE_OF,
+
+    /// First object property expression type.
+    COWL_OT_FIRST_OPE = COWL_OT_OPE_OBJ_PROP,
+
+    /// Last object property expression type.
+    COWL_OT_LAST_OPE = COWL_OT_OPE_INV_OBJ_PROP,
+
+    /// First individual type.
+    COWL_OT_FIRST_I = COWL_OT_I_ANONYMOUS,
+
+    /// Last individual type.
+    COWL_OT_LAST_I = COWL_OT_I_NAMED,
+
+    /// First data range type.
+    COWL_OT_FIRST_DR = COWL_OT_DR_DATATYPE,
+
+    /// Last data range type.
+    COWL_OT_LAST_DR = COWL_OT_DR_DATA_ONE_OF
 
 } CowlObjectType;
 
