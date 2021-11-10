@@ -145,9 +145,9 @@ CowlOntology* cowl_reader_read_cstring(CowlReader *reader, char const *cstring, 
  * @param stream The input stream.
  * @return The read ontology, or NULL on error.
  *
- * @public @memberof CowlReader
- *
  * @note The stream is not released by the reader, you must do it yourself.
+ *
+ * @public @memberof CowlReader
  */
 COWL_PUBLIC
 CowlOntology* cowl_reader_read_stream(CowlReader *reader, UIStream const *stream);
