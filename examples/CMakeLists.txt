@@ -5,7 +5,7 @@ file(COPY ${COWL_EXAMPLES_DATA} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Example targets
 
-add_custom_target(cowl-examples ALL COMMENT "Build the examples")
+add_custom_target(cowl-examples COMMENT "Build the examples")
 file(GLOB COWL_EXAMPLES CONFIGURE_DEPENDS "${COWL_EXAMPLES_DIR}/*.c")
 
 foreach(COWL_EXAMPLE ${COWL_EXAMPLES})

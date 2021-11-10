@@ -29,6 +29,9 @@ project(Cowl
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
+option(COWL_STATIC "Generate static library target." ON)
+option(COWL_SHARED "Generate shared library target." ON)
+option(COWL_OBJECT "Generate object library target." OFF)
 set(COWL_PARSERS "functional" CACHE STRING "List of enabled built-in parsers (semicolon-separated")
 set(COWL_USER_HEADERS "" CACHE STRING "User-specified header files")
 set(COWL_USER_SOURCES "" CACHE STRING "User-specified source files")
@@ -111,10 +114,13 @@ list(APPEND COWL_SOURCES ${COWL_USER_SOURCES})
 ### Targets ###
 ###############
 
+# Main target
+
+add_custom_target(cowl ALL COMMENT "Build Cowl")
+
 # Parsers
 
-add_custom_target(cowl-parsers
-                  COMMENT "Generate builtin parsers.")
+add_custom_target(cowl-parsers COMMENT "Generate builtin parsers.")
 
 foreach(PARSER IN LISTS COWL_PARSERS)
     string(TOUPPER "${PARSER}" PARSER_OPT)
@@ -136,52 +142,45 @@ add_custom_target(cowl-headers
                           ${COWL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
                   COMMENT "Copy headers to the build directory.")
 
-# Static library
+# Libraries
 
-add_library(cowl-static STATIC EXCLUDE_FROM_ALL ${COWL_SOURCES})
-set_target_properties(cowl-static PROPERTIES
-                      OUTPUT_NAME "cowl"
-                      PUBLIC_HEADER "${COWL_PUBLIC_HEADERS}"
-                      C_VISIBILITY_PRESET hidden
-                      VISIBILITY_INLINES_HIDDEN ON)
-target_compile_features(cowl-static PRIVATE ${COWL_COMPILE_FEATURES})
-target_compile_options(cowl-static PRIVATE ${COWL_WARNING_OPTIONS})
-target_compile_definitions(cowl-static
-                           PUBLIC ${COWL_PUBLIC_DEFINES}
-                           PRIVATE ${COWL_PRIVATE_DEFINES})
-target_include_directories(cowl-static
-                           PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
-                           PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
-target_precompile_headers(cowl-static PUBLIC ${COWL_USER_HEADERS})
-target_link_libraries(cowl-static PUBLIC ulib-static)
-add_dependencies(cowl-static cowl-parsers cowl-headers)
+function(cowl_library_target NAME TYPE)
+    add_library(${NAME} ${TYPE} EXCLUDE_FROM_ALL ${COWL_SOURCES})
+    set_target_properties(${NAME} PROPERTIES
+                          OUTPUT_NAME "cowl"
+                          PUBLIC_HEADER "${COWL_PUBLIC_HEADERS}"
+                          C_VISIBILITY_PRESET hidden
+                          VISIBILITY_INLINES_HIDDEN ON)
+    target_compile_features(${NAME} PRIVATE ${COWL_COMPILE_FEATURES})
+    target_compile_options(${NAME} PRIVATE ${COWL_WARNING_OPTIONS})
+    target_compile_definitions(${NAME}
+                               PUBLIC ${COWL_PUBLIC_DEFINES}
+                               PRIVATE ${COWL_PRIVATE_DEFINES})
+    target_include_directories(${NAME}
+                               PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
+                               PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
+    target_precompile_headers(${NAME} PUBLIC ${COWL_USER_HEADERS})
+    target_link_libraries(${NAME} PUBLIC ulib-static)
+    add_dependencies(${NAME} cowl-parsers cowl-headers)
 
-if(COWL_LTO_ENABLED)
-    set_property(TARGET cowl-static PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+    if(COWL_LTO_ENABLED)
+        set_property(TARGET ${NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+    endif()
+
+    add_dependencies(cowl ${NAME})
+endfunction()
+
+if(COWL_STATIC)
+    cowl_library_target(cowl-static STATIC)
 endif()
 
-# Shared library
+if(COWL_SHARED)
+    cowl_library_target(cowl-shared SHARED)
+    target_compile_definitions(cowl-shared PUBLIC COWL_SHARED)
+endif()
 
-add_library(cowl-shared SHARED EXCLUDE_FROM_ALL ${COWL_SOURCES})
-set_target_properties(cowl-shared PROPERTIES
-                      OUTPUT_NAME "cowl"
-                      PUBLIC_HEADER "${COWL_PUBLIC_HEADERS}"
-                      C_VISIBILITY_PRESET hidden
-                      VISIBILITY_INLINES_HIDDEN ON)
-target_compile_features(cowl-shared PRIVATE ${COWL_COMPILE_FEATURES})
-target_compile_options(cowl-shared PRIVATE ${COWL_WARNING_OPTIONS})
-target_compile_definitions(cowl-shared
-                           PUBLIC ${COWL_PUBLIC_DEFINES} "COWL_SHARED"
-                           PRIVATE ${COWL_PRIVATE_DEFINES})
-target_include_directories(cowl-shared
-                           PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
-                           PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
-target_precompile_headers(cowl-shared PUBLIC ${COWL_USER_HEADERS})
-target_link_libraries(cowl-shared PUBLIC ulib-static)
-add_dependencies(cowl-shared cowl-parsers cowl-headers)
-
-if(COWL_LTO_ENABLED)
-    set_property(TARGET cowl-shared PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+if(COWL_OBJECT)
+    cowl_library_target(cowl-object OBJECT)
 endif()
 
 # Subprojects
@@ -189,8 +188,3 @@ endif()
 add_subdirectory("${COWL_DOCS_DIR}")
 add_subdirectory("${COWL_EXAMPLES_DIR}")
 add_subdirectory("${COWL_TEST_DIR}")
-
-# Main target
-
-add_custom_target(cowl ALL COMMENT "Build Cowl")
-add_dependencies(cowl cowl-static cowl-shared)
