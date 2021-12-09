@@ -14,44 +14,49 @@
 static cowl_struct(CowlXSDVocab) vocab;
 
 static inline cowl_ret cowl_xsd_vocab_validate(void) {
-    if (vocab.ns && vocab.iri.any_uri && vocab.iri.base64_binary && vocab.iri.boolean &&
-        vocab.iri.byte && vocab.iri.date_time && vocab.iri.date_timestamp && vocab.iri.decimal &&
-        vocab.iri.xsd_double && vocab.iri.xsd_float && vocab.iri.hex_binary && vocab.iri.xsd_int &&
-        vocab.iri.integer && vocab.iri.language && vocab.iri.xsd_long && vocab.iri.name &&
-        vocab.iri.ncname && vocab.iri.negative_int && vocab.iri.nmtoken &&
-        vocab.iri.non_negative_int && vocab.iri.non_positive_int && vocab.iri.norm_string &&
-        vocab.iri.xsd_short && vocab.iri.string && vocab.iri.token && vocab.iri.unsigned_byte &&
-        vocab.iri.unsigned_int && vocab.iri.unsigned_long && vocab.iri.unsigned_short &&
-        vocab.iri.length && vocab.iri.min_length && vocab.iri.max_length && vocab.iri.pattern &&
-        vocab.iri.min_inclusive && vocab.iri.min_exclusive && vocab.iri.max_inclusive &&
-        vocab.iri.max_exclusive && vocab.iri.total_digits && vocab.iri.fraction_digits &&
-        vocab.dt.any_uri && vocab.dt.base64_binary && vocab.dt.boolean && vocab.dt.byte &&
-        vocab.dt.date_time && vocab.dt.date_timestamp && vocab.dt.decimal && vocab.dt.xsd_double &&
-        vocab.dt.xsd_float && vocab.dt.hex_binary && vocab.dt.xsd_int && vocab.dt.integer &&
-        vocab.dt.language && vocab.dt.xsd_long && vocab.dt.name && vocab.dt.ncname &&
-        vocab.dt.negative_int && vocab.dt.nmtoken && vocab.dt.non_negative_int &&
-        vocab.dt.non_positive_int && vocab.dt.norm_string && vocab.dt.xsd_short &&
-        vocab.dt.string && vocab.dt.token && vocab.dt.unsigned_byte && vocab.dt.unsigned_int &&
-        vocab.dt.unsigned_long && vocab.dt.unsigned_short) {
-        return COWL_OK;
-    }
-    return COWL_ERR_MEM;
+    if (!vocab.ns) return COWL_ERR_MEM;
+
+    void **temp = (void **)&vocab.iri;
+    size_t count = sizeof(vocab.iri) / sizeof(void*);
+    for (size_t i = 0; i < count; ++i) if (!temp[i]) return COWL_ERR_MEM;
+
+    temp = (void **)&vocab.dt;
+    count = sizeof(vocab.dt) / sizeof(void*);
+    for (size_t i = 0; i < count; ++i) if (!temp[i]) return COWL_ERR_MEM;
+
+    return COWL_OK;
 }
 
 cowl_ret cowl_xsd_vocab_init(void) {
     CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2001/XMLSchema#");
 
     CowlXSDIRIVocab v = {
+        .any_atomic_type = cowl_iri_vocab_get(ns, "anyAtomicType"),
+        .any_simple_type = cowl_iri_vocab_get(ns, "anySimpleType"),
+        .any_type = cowl_iri_vocab_get(ns, "anyType"),
         .any_uri = cowl_iri_vocab_get(ns, "anyURI"),
         .base64_binary = cowl_iri_vocab_get(ns, "base64Binary"),
         .boolean = cowl_iri_vocab_get(ns, "boolean"),
         .byte = cowl_iri_vocab_get(ns, "byte"),
+        .date = cowl_iri_vocab_get(ns, "date"),
         .date_time = cowl_iri_vocab_get(ns, "dateTime"),
         .date_timestamp = cowl_iri_vocab_get(ns, "dateTimeStamp"),
+        .day_time_duration = cowl_iri_vocab_get(ns, "dayTimeDuration"),
         .decimal = cowl_iri_vocab_get(ns, "decimal"),
         .xsd_double = cowl_iri_vocab_get(ns, "double"),
+        .duration = cowl_iri_vocab_get(ns, "duration"),
+        .entities = cowl_iri_vocab_get(ns, "ENTITIES"),
+        .entity = cowl_iri_vocab_get(ns, "ENTITY"),
         .xsd_float = cowl_iri_vocab_get(ns, "float"),
+        .g_day = cowl_iri_vocab_get(ns, "gDay"),
+        .g_month = cowl_iri_vocab_get(ns, "gMonth"),
+        .g_month_day = cowl_iri_vocab_get(ns, "gMonthDay"),
+        .g_year = cowl_iri_vocab_get(ns, "gYear"),
+        .g_year_month = cowl_iri_vocab_get(ns, "gYearMonth"),
         .hex_binary = cowl_iri_vocab_get(ns, "hexBinary"),
+        .id = cowl_iri_vocab_get(ns, "ID"),
+        .id_ref = cowl_iri_vocab_get(ns, "IDREF"),
+        .id_refs = cowl_iri_vocab_get(ns, "IDREFS"),
         .xsd_int = cowl_iri_vocab_get(ns, "int"),
         .integer = cowl_iri_vocab_get(ns, "integer"),
         .language = cowl_iri_vocab_get(ns, "language"),
@@ -60,16 +65,22 @@ cowl_ret cowl_xsd_vocab_init(void) {
         .ncname = cowl_iri_vocab_get(ns, "NCName"),
         .negative_int = cowl_iri_vocab_get(ns, "negativeInteger"),
         .nmtoken = cowl_iri_vocab_get(ns, "NMTOKEN"),
+        .nmtokens = cowl_iri_vocab_get(ns, "NMTOKENS"),
         .non_negative_int = cowl_iri_vocab_get(ns, "nonNegativeInteger"),
         .non_positive_int = cowl_iri_vocab_get(ns, "nonPositiveInteger"),
         .norm_string = cowl_iri_vocab_get(ns, "normalizedString"),
+        .notation = cowl_iri_vocab_get(ns, "NOTATION"),
+        .positive_int = cowl_iri_vocab_get(ns, "positiveInteger"),
+        .q_name = cowl_iri_vocab_get(ns, "QName"),
         .xsd_short = cowl_iri_vocab_get(ns, "short"),
         .string = cowl_iri_vocab_get(ns, "string"),
+        .time = cowl_iri_vocab_get(ns, "time"),
         .token = cowl_iri_vocab_get(ns, "token"),
         .unsigned_byte = cowl_iri_vocab_get(ns, "unsignedByte"),
         .unsigned_int = cowl_iri_vocab_get(ns, "unsignedInt"),
         .unsigned_long = cowl_iri_vocab_get(ns, "unsignedLong"),
         .unsigned_short = cowl_iri_vocab_get(ns, "unsignedShort"),
+        .year_month_duration = cowl_iri_vocab_get(ns, "yearMonthDuration"),
         .length = cowl_iri_vocab_get(ns, "length"),
         .min_length = cowl_iri_vocab_get(ns, "minLength"),
         .max_length = cowl_iri_vocab_get(ns, "maxLength"),
@@ -86,16 +97,32 @@ cowl_ret cowl_xsd_vocab_init(void) {
         .ns = ns,
         .iri = v,
         .dt = {
+            .any_atomic_type = cowl_datatype_vocab_get(v.any_atomic_type),
+            .any_simple_type = cowl_datatype_vocab_get(v.any_simple_type),
+            .any_type = cowl_datatype_vocab_get(v.any_type),
             .any_uri = cowl_datatype_vocab_get(v.any_uri),
             .base64_binary = cowl_datatype_vocab_get(v.base64_binary),
             .boolean = cowl_datatype_vocab_get(v.boolean),
             .byte = cowl_datatype_vocab_get(v.byte),
+            .date = cowl_datatype_vocab_get(v.date),
             .date_time = cowl_datatype_vocab_get(v.date_time),
             .date_timestamp = cowl_datatype_vocab_get(v.date_timestamp),
+            .day_time_duration = cowl_datatype_vocab_get(v.day_time_duration),
             .decimal = cowl_datatype_vocab_get(v.decimal),
             .xsd_double = cowl_datatype_vocab_get(v.xsd_double),
+            .duration = cowl_datatype_vocab_get(v.duration),
+            .entities = cowl_datatype_vocab_get(v.entities),
+            .entity = cowl_datatype_vocab_get(v.entity),
             .xsd_float = cowl_datatype_vocab_get(v.xsd_float),
+            .g_day = cowl_datatype_vocab_get(v.g_day),
+            .g_month = cowl_datatype_vocab_get(v.g_month),
+            .g_month_day = cowl_datatype_vocab_get(v.g_month_day),
+            .g_year = cowl_datatype_vocab_get(v.g_year),
+            .g_year_month = cowl_datatype_vocab_get(v.g_year_month),
             .hex_binary = cowl_datatype_vocab_get(v.hex_binary),
+            .id = cowl_datatype_vocab_get(v.id),
+            .id_ref = cowl_datatype_vocab_get(v.id_ref),
+            .id_refs = cowl_datatype_vocab_get(v.id_refs),
             .xsd_int = cowl_datatype_vocab_get(v.xsd_int),
             .integer = cowl_datatype_vocab_get(v.integer),
             .language = cowl_datatype_vocab_get(v.language),
@@ -104,16 +131,22 @@ cowl_ret cowl_xsd_vocab_init(void) {
             .ncname = cowl_datatype_vocab_get(v.ncname),
             .negative_int = cowl_datatype_vocab_get(v.negative_int),
             .nmtoken = cowl_datatype_vocab_get(v.nmtoken),
+            .nmtokens = cowl_datatype_vocab_get(v.nmtokens),
             .non_negative_int = cowl_datatype_vocab_get(v.non_negative_int),
             .non_positive_int = cowl_datatype_vocab_get(v.non_positive_int),
             .norm_string = cowl_datatype_vocab_get(v.norm_string),
+            .notation = cowl_datatype_vocab_get(v.notation),
+            .positive_int = cowl_datatype_vocab_get(v.positive_int),
+            .q_name = cowl_datatype_vocab_get(v.q_name),
             .xsd_short = cowl_datatype_vocab_get(v.xsd_short),
             .string = cowl_datatype_vocab_get(v.string),
+            .time = cowl_datatype_vocab_get(v.time),
             .token = cowl_datatype_vocab_get(v.token),
             .unsigned_byte = cowl_datatype_vocab_get(v.unsigned_byte),
             .unsigned_int = cowl_datatype_vocab_get(v.unsigned_int),
             .unsigned_long = cowl_datatype_vocab_get(v.unsigned_long),
-            .unsigned_short = cowl_datatype_vocab_get(v.unsigned_short)
+            .unsigned_short = cowl_datatype_vocab_get(v.unsigned_short),
+            .year_month_duration = cowl_datatype_vocab_get(v.year_month_duration)
         }
     };
 
@@ -123,73 +156,13 @@ cowl_ret cowl_xsd_vocab_init(void) {
 void cowl_xsd_vocab_deinit(void) {
     cowl_string_vocab_free(vocab.ns);
 
-    cowl_iri_vocab_free(vocab.iri.any_uri);
-    cowl_iri_vocab_free(vocab.iri.base64_binary);
-    cowl_iri_vocab_free(vocab.iri.boolean);
-    cowl_iri_vocab_free(vocab.iri.byte);
-    cowl_iri_vocab_free(vocab.iri.date_time);
-    cowl_iri_vocab_free(vocab.iri.date_timestamp);
-    cowl_iri_vocab_free(vocab.iri.decimal);
-    cowl_iri_vocab_free(vocab.iri.xsd_double);
-    cowl_iri_vocab_free(vocab.iri.xsd_float);
-    cowl_iri_vocab_free(vocab.iri.hex_binary);
-    cowl_iri_vocab_free(vocab.iri.xsd_int);
-    cowl_iri_vocab_free(vocab.iri.integer);
-    cowl_iri_vocab_free(vocab.iri.language);
-    cowl_iri_vocab_free(vocab.iri.xsd_long);
-    cowl_iri_vocab_free(vocab.iri.name);
-    cowl_iri_vocab_free(vocab.iri.ncname);
-    cowl_iri_vocab_free(vocab.iri.negative_int);
-    cowl_iri_vocab_free(vocab.iri.nmtoken);
-    cowl_iri_vocab_free(vocab.iri.non_negative_int);
-    cowl_iri_vocab_free(vocab.iri.non_positive_int);
-    cowl_iri_vocab_free(vocab.iri.norm_string);
-    cowl_iri_vocab_free(vocab.iri.xsd_short);
-    cowl_iri_vocab_free(vocab.iri.string);
-    cowl_iri_vocab_free(vocab.iri.token);
-    cowl_iri_vocab_free(vocab.iri.unsigned_byte);
-    cowl_iri_vocab_free(vocab.iri.unsigned_int);
-    cowl_iri_vocab_free(vocab.iri.unsigned_long);
-    cowl_iri_vocab_free(vocab.iri.unsigned_short);
-    cowl_iri_vocab_free(vocab.iri.length);
-    cowl_iri_vocab_free(vocab.iri.min_length);
-    cowl_iri_vocab_free(vocab.iri.max_length);
-    cowl_iri_vocab_free(vocab.iri.pattern);
-    cowl_iri_vocab_free(vocab.iri.min_inclusive);
-    cowl_iri_vocab_free(vocab.iri.min_exclusive);
-    cowl_iri_vocab_free(vocab.iri.max_inclusive);
-    cowl_iri_vocab_free(vocab.iri.max_exclusive);
-    cowl_iri_vocab_free(vocab.iri.total_digits);
-    cowl_iri_vocab_free(vocab.iri.fraction_digits);
+    CowlIRI **iris = (CowlIRI **)&vocab.iri;
+    size_t count = sizeof(vocab.iri) / sizeof(CowlIRI*);
+    for (size_t i = 0; i < count; ++i) cowl_iri_vocab_free(iris[i]);
 
-    cowl_datatype_vocab_free(vocab.dt.any_uri);
-    cowl_datatype_vocab_free(vocab.dt.base64_binary);
-    cowl_datatype_vocab_free(vocab.dt.boolean);
-    cowl_datatype_vocab_free(vocab.dt.byte);
-    cowl_datatype_vocab_free(vocab.dt.date_time);
-    cowl_datatype_vocab_free(vocab.dt.date_timestamp);
-    cowl_datatype_vocab_free(vocab.dt.decimal);
-    cowl_datatype_vocab_free(vocab.dt.xsd_double);
-    cowl_datatype_vocab_free(vocab.dt.xsd_float);
-    cowl_datatype_vocab_free(vocab.dt.hex_binary);
-    cowl_datatype_vocab_free(vocab.dt.xsd_int);
-    cowl_datatype_vocab_free(vocab.dt.integer);
-    cowl_datatype_vocab_free(vocab.dt.language);
-    cowl_datatype_vocab_free(vocab.dt.xsd_long);
-    cowl_datatype_vocab_free(vocab.dt.name);
-    cowl_datatype_vocab_free(vocab.dt.ncname);
-    cowl_datatype_vocab_free(vocab.dt.negative_int);
-    cowl_datatype_vocab_free(vocab.dt.nmtoken);
-    cowl_datatype_vocab_free(vocab.dt.non_negative_int);
-    cowl_datatype_vocab_free(vocab.dt.non_positive_int);
-    cowl_datatype_vocab_free(vocab.dt.norm_string);
-    cowl_datatype_vocab_free(vocab.dt.xsd_short);
-    cowl_datatype_vocab_free(vocab.dt.string);
-    cowl_datatype_vocab_free(vocab.dt.token);
-    cowl_datatype_vocab_free(vocab.dt.unsigned_byte);
-    cowl_datatype_vocab_free(vocab.dt.unsigned_int);
-    cowl_datatype_vocab_free(vocab.dt.unsigned_long);
-    cowl_datatype_vocab_free(vocab.dt.unsigned_short);
+    CowlDatatype **dts = (CowlDatatype **)&vocab.dt;
+    count = sizeof(vocab.dt) / sizeof(CowlDatatype*);
+    for (size_t i = 0; i < count; ++i) cowl_datatype_vocab_free(dts[i]);
 }
 
 CowlXSDVocab* cowl_xsd_vocab_get(void) {

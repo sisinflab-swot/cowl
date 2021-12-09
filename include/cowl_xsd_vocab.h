@@ -28,6 +28,15 @@ typedef cowl_struct(CowlXSDIRIVocab) {
 
 /// @name Datatypes
 
+    /// xsd:anyAtomicType
+    CowlIRI *any_atomic_type;
+
+    /// xsd:anySimpleType
+    CowlIRI *any_simple_type;
+
+    /// xsd:anyType
+    CowlIRI *any_type;
+
     /// xsd:anyURI
     CowlIRI *any_uri;
 
@@ -40,11 +49,17 @@ typedef cowl_struct(CowlXSDIRIVocab) {
     /// xsd:byte
     CowlIRI *byte;
 
+    /// xsd:date
+    CowlIRI *date;
+
     /// xsd:dateTime
     CowlIRI *date_time;
 
     /// xsd:dateTimeStamp
     CowlIRI *date_timestamp;
+
+    /// xsd:dayTimeDuration
+    CowlIRI *day_time_duration;
 
     /// xsd:decimal
     CowlIRI *decimal;
@@ -52,11 +67,44 @@ typedef cowl_struct(CowlXSDIRIVocab) {
     /// xsd:double
     CowlIRI *xsd_double;
 
+    /// xsd:duration
+    CowlIRI *duration;
+
+    /// xsd:ENTITIES
+    CowlIRI *entities;
+
+    /// xsd:ENTITY
+    CowlIRI *entity;
+
     /// xsd:float
     CowlIRI *xsd_float;
 
+    /// xsd:gDay
+    CowlIRI *g_day;
+
+    /// xsd:gMonth
+    CowlIRI *g_month;
+
+    /// xsd:gMonthDay
+    CowlIRI *g_month_day;
+
+    /// xsd:gYear
+    CowlIRI *g_year;
+
+    /// xsd:gYearMonth
+    CowlIRI *g_year_month;
+
     /// xsd:hexBinary
     CowlIRI *hex_binary;
+
+    /// xsd:ID
+    CowlIRI *id;
+
+    /// xsd:IDREF
+    CowlIRI *id_ref;
+
+    /// xsd:IDREFS
+    CowlIRI *id_refs;
 
     /// xsd:int
     CowlIRI *xsd_int;
@@ -82,6 +130,9 @@ typedef cowl_struct(CowlXSDIRIVocab) {
     /// xsd:NMTOKEN
     CowlIRI *nmtoken;
 
+    /// xsd:NMTOKENS
+    CowlIRI *nmtokens;
+
     /// xsd:nonNegativeInteger
     CowlIRI *non_negative_int;
 
@@ -91,11 +142,23 @@ typedef cowl_struct(CowlXSDIRIVocab) {
     /// xsd:normalizedString
     CowlIRI *norm_string;
 
+    /// xsd:NOTATION
+    CowlIRI *notation;
+
+    /// xsd:positiveInteger
+    CowlIRI *positive_int;
+
+    /// xsd:QName
+    CowlIRI *q_name;
+
     /// xsd:short
     CowlIRI *xsd_short;
 
     /// xsd:string
     CowlIRI *string;
+
+    /// xsd:time
+    CowlIRI *time;
 
     /// xsd:token
     CowlIRI *token;
@@ -111,6 +174,9 @@ typedef cowl_struct(CowlXSDIRIVocab) {
 
     /// xsd:unsignedShort
     CowlIRI *unsigned_short;
+
+    /// xsd:yearMonthDuration
+    CowlIRI *year_month_duration;
 
 /// @name Facets
 
@@ -149,6 +215,15 @@ typedef cowl_struct(CowlXSDIRIVocab) {
 /// Vocabulary of XSD datatypes.
 typedef cowl_struct(CowlXSDDatatypeVocab) {
 
+    /// xsd:anyAtomicType
+    CowlDatatype *any_atomic_type;
+
+    /// xsd:anySimpleType
+    CowlDatatype *any_simple_type;
+
+    /// xsd:anyType
+    CowlDatatype *any_type;
+
     /// xsd:anyURI
     CowlDatatype *any_uri;
 
@@ -161,11 +236,17 @@ typedef cowl_struct(CowlXSDDatatypeVocab) {
     /// xsd:byte
     CowlDatatype *byte;
 
+    /// xsd:date
+    CowlDatatype *date;
+
     /// xsd:dateTime
     CowlDatatype *date_time;
 
     /// xsd:dateTimeStamp
     CowlDatatype *date_timestamp;
+
+    /// xsd:dayTimeDuration
+    CowlDatatype *day_time_duration;
 
     /// xsd:decimal
     CowlDatatype *decimal;
@@ -173,11 +254,44 @@ typedef cowl_struct(CowlXSDDatatypeVocab) {
     /// xsd:double
     CowlDatatype *xsd_double;
 
+    /// xsd:duration
+    CowlDatatype *duration;
+
+    /// xsd:ENTITIES
+    CowlDatatype *entities;
+
+    /// xsd:ENTITY
+    CowlDatatype *entity;
+
     /// xsd:float
     CowlDatatype *xsd_float;
 
+    /// xsd:gDay
+    CowlDatatype *g_day;
+
+    /// xsd:gMonth
+    CowlDatatype *g_month;
+
+    /// xsd:gMonthDay
+    CowlDatatype *g_month_day;
+
+    /// xsd:gYear
+    CowlDatatype *g_year;
+
+    /// xsd:gYearMonth
+    CowlDatatype *g_year_month;
+
     /// xsd:hexBinary
     CowlDatatype *hex_binary;
+
+    /// xsd:ID
+    CowlDatatype *id;
+
+    /// xsd:IDREF
+    CowlDatatype *id_ref;
+
+    /// xsd:IDREFS
+    CowlDatatype *id_refs;
 
     /// xsd:int
     CowlDatatype *xsd_int;
@@ -203,6 +317,9 @@ typedef cowl_struct(CowlXSDDatatypeVocab) {
     /// xsd:NMTOKEN
     CowlDatatype *nmtoken;
 
+    /// xsd:NMTOKENS
+    CowlDatatype *nmtokens;
+
     /// xsd:nonNegativeInteger
     CowlDatatype *non_negative_int;
 
@@ -212,11 +329,23 @@ typedef cowl_struct(CowlXSDDatatypeVocab) {
     /// xsd:normalizedString
     CowlDatatype *norm_string;
 
+    /// xsd:NOTATION
+    CowlDatatype *notation;
+
+    /// xsd:positiveInteger
+    CowlDatatype *positive_int;
+
+    /// xsd:QName
+    CowlDatatype *q_name;
+
     /// xsd:short
     CowlDatatype *xsd_short;
 
     /// xsd:string
     CowlDatatype *string;
+
+    /// xsd:time
+    CowlDatatype *time;
 
     /// xsd:token
     CowlDatatype *token;
@@ -232,6 +361,9 @@ typedef cowl_struct(CowlXSDDatatypeVocab) {
 
     /// xsd:unsignedShort
     CowlDatatype *unsigned_short;
+
+    /// xsd:yearMonthDuration
+    CowlDatatype *year_month_duration;
 
 } CowlXSDDatatypeVocab;
 
