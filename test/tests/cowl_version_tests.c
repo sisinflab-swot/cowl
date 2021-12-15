@@ -12,7 +12,7 @@
 #include "cowl_version.h"
 
 bool cowl_test_version(void) {
-    CowlVersion v = cowl_api_get_version();
-    utest_assert_false(v.major == 0 && v.minor == 0 && v.patch == 0);
+    UVersion v = cowl_api_get_version(), zero = {0};
+    utest_assert_int(uversion_compare(v, zero), ==, 1);
     return true;
 }

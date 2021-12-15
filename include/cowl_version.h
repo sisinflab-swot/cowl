@@ -1,5 +1,5 @@
 /**
- * Defines CowlVersion and declares its API.
+ * Allows retrieving the version of the library.
  *
  * @author Ivano Bilenchi
  *
@@ -17,29 +17,13 @@
 
 COWL_BEGIN_DECLS
 
-/// Version of the library.
-typedef cowl_struct(CowlVersion) {
-
-    /// Major revision.
-    unsigned major;
-
-    /// Minor revision.
-    unsigned minor;
-
-    /// Patch number.
-    unsigned patch;
-
-} CowlVersion;
-
 /**
  * Returns the version of the library.
  *
  * @return Library version.
- *
- * @public @memberof CowlVersion
  */
 COWL_PUBLIC
-CowlVersion cowl_api_get_version(void);
+UVersion cowl_api_get_version(void);
 
 /**
  * Returns the string representation of the library version.
@@ -47,8 +31,6 @@ CowlVersion cowl_api_get_version(void);
  * @return String representation.
  *
  * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlVersion
  */
 COWL_PUBLIC
 CowlString* cowl_api_get_version_string(void);

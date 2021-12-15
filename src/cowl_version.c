@@ -23,13 +23,13 @@
     #define COWL_VERSION_PATCH 0
 #endif
 
-static CowlVersion version = {
+static UVersion version = {
     .major = COWL_VERSION_MAJOR,
     .minor = COWL_VERSION_MINOR,
     .patch = COWL_VERSION_PATCH
 };
 
-CowlVersion cowl_api_get_version(void) {
+UVersion cowl_api_get_version(void) {
     return version;
 }
 

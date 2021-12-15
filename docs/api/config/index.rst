@@ -29,4 +29,5 @@ still be able to provide local overrides for specific objects.
 Library version
 ===============
 
-.. doxygenstruct:: CowlVersion
+.. doxygenfunction:: cowl_api_get_version
+.. doxygenfunction:: cowl_api_get_version_string
