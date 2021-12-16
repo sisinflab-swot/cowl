@@ -32,17 +32,6 @@ cowl_struct_decl(CowlParserCtx);
  */
 
 /**
- * Retrieves the parser's input stream.
- *
- * @param ctx Parser context.
- * @return Input stream.
- *
- * @public @memberof CowlParserCtx
- */
-COWL_PUBLIC
-UIStream* cowl_parser_ctx_get_stream(CowlParserCtx *ctx);
-
-/**
  * Sets the IRI of the parsed ontology.
  *
  * @param ctx Parser context.

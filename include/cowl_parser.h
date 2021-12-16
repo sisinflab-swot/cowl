@@ -49,12 +49,13 @@ typedef cowl_struct(CowlParser) {
      * Pointer to a function that parses an ontology from an input stream.
      *
      * @param state Parser state.
+     * @param stream Input stream.
      * @param ctx Parser context.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*parse)(void *state, CowlParserCtx *ctx);
+    cowl_ret (*parse)(void *state, UIStream *stream, CowlParserCtx *ctx);
 
     /**
      * Pointer to a function that returns the current line in the input stream, if applicable.

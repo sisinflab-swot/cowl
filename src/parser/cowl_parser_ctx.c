@@ -13,10 +13,6 @@
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
 
-UIStream * cowl_parser_ctx_get_stream(CowlParserCtx *ctx) {
-    return ((CowlReader *)ctx)->stream;
-}
-
 void cowl_parser_ctx_set_iri(CowlParserCtx *ctx, CowlIRI *iri) {
     cowl_ontology_set_iri(((CowlReader *)ctx)->ontology, iri);
 }
@@ -82,7 +78,7 @@ void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, char const 
     if (!handler.handle_error) handler = cowl_api_get_error_handler();
     if (!handler.handle_error) return;
 
-    char const *temp = reader->stream_description ? reader->stream_description : "";
+    char const *temp = reader->description ? reader->description : "";
     CowlString source = cowl_string_init(ustring_init(temp, strlen(temp), false));
 
     temp = description;

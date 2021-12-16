@@ -28,7 +28,7 @@ typedef cowl_struct(CowlFuncParser) {
 
 void* cowl_func_parser_alloc(void);
 void cowl_func_parser_free(void *state);
-cowl_ret cowl_func_parser_parse(void *state, CowlParserCtx *ctx);
+cowl_ret cowl_func_parser_parse(void *state, UIStream *stream, CowlParserCtx *ctx);
 ulib_uint cowl_func_parser_get_line(void *state);
 
 cowl_ret cowl_func_parser_register_ns(CowlFuncParser *parser, CowlString *prefix, CowlString *ns);

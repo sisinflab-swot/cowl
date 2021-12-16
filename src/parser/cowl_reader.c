@@ -54,9 +54,9 @@ void cowl_reader_release(CowlReader *reader) {
     }
 }
 
-static CowlOntology* cowl_reader_read(CowlReader *reader) {
+CowlOntology* cowl_reader_read_stream(CowlReader *reader, UIStream *stream) {
     CowlOntology *onto = NULL;
-    if (!reader->stream || cowl_parser_is_null(reader->parser)) goto end;
+    if (!stream || cowl_parser_is_null(reader->parser)) goto end;
 
     CowlParser parser = reader->parser;
     CowlParserCtx *ctx = (CowlParserCtx *)reader;
@@ -78,7 +78,7 @@ static CowlOntology* cowl_reader_read(CowlReader *reader) {
     reader->state = state;
     reader->ontology = onto;
 
-    if (parser.parse(state, ctx)) {
+    if (parser.parse(state, stream, ctx)) {
         cowl_ontology_release(onto);
         onto = NULL;
     }
@@ -89,68 +89,53 @@ static CowlOntology* cowl_reader_read(CowlReader *reader) {
     reader->ontology = NULL;
 
 end:
-    reader->stream_description = NULL;
+    reader->description = NULL;
 
     return onto;
 }
 
-static CowlOntology* cowl_reader_read_deinit(CowlReader *reader) {
-    CowlOntology *onto = cowl_reader_read(reader);
-    ustream_ret ret = uistream_deinit(reader->stream);
+static CowlOntology* cowl_reader_read_deinit(CowlReader *reader, UIStream *stream) {
+    CowlOntology *onto = cowl_reader_read_stream(reader, stream);
+    ustream_ret ret = uistream_deinit(stream);
     if (ret) cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
-    reader->stream = NULL;
     return onto;
 }
 
 CowlOntology* cowl_reader_read_path(CowlReader *reader, char const *path) {
     UIStream stream;
-    reader->stream = &stream;
-    reader->stream_description = path;
-
-    ustream_ret ret = uistream_from_path(reader->stream, path);
+    reader->description = path;
+    ustream_ret ret = uistream_from_path(&stream, path);
 
     if (ret) {
         cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
-        reader->stream = NULL;
         return NULL;
     }
 
-    return cowl_reader_read_deinit(reader);
+    return cowl_reader_read_deinit(reader, &stream);
 }
 
 CowlOntology* cowl_reader_read_file(CowlReader *reader, FILE *file) {
     UIStream stream;
-    reader->stream = &stream;
-
-    ustream_ret ret = uistream_from_file(reader->stream, file);
+    ustream_ret ret = uistream_from_file(&stream, file);
 
     if (ret) {
         cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
-        reader->stream = NULL;
         return NULL;
     }
 
-    return cowl_reader_read_deinit(reader);
+    return cowl_reader_read_deinit(reader, &stream);
 }
 
 CowlOntology* cowl_reader_read_cstring(CowlReader *reader, char const *cstring, size_t length) {
     UIStream stream;
-    reader->stream = &stream;
-
-    ustream_ret ret = uistream_from_buf(reader->stream, (char *)cstring, length);
+    ustream_ret ret = uistream_from_buf(&stream, (char *)cstring, length);
 
     if (ret) {
         cowl_parser_ctx_handle_stream_error((CowlParserCtx *)reader, ret);
-        reader->stream = NULL;
         return NULL;
     }
 
-    return cowl_reader_read_deinit(reader);
-}
-
-CowlOntology* cowl_reader_read_stream(CowlReader *reader, UIStream const *stream) {
-    reader->stream = (UIStream *)stream;
-    return cowl_reader_read(reader);
+    return cowl_reader_read_deinit(reader, &stream);
 }
 
 void cowl_reader_set_import_loader(CowlReader *reader, CowlImportLoader loader) {

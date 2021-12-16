@@ -69,7 +69,7 @@ void cowl_func_parser_free(void *state) {
     ulib_free(parser);
 }
 
-cowl_ret cowl_func_parser_parse(void *state, CowlParserCtx *ctx) {
+cowl_ret cowl_func_parser_parse(void *state, UIStream *stream, CowlParserCtx *ctx) {
     CowlFuncParser *parser = state;
     parser->ctx = ctx;
 
@@ -79,7 +79,7 @@ cowl_ret cowl_func_parser_parse(void *state, CowlParserCtx *ctx) {
     }
 
     cowl_func_yyset_in(NULL, parser->scanner);
-    cowl_func_yyset_extra(cowl_parser_ctx_get_stream(ctx), parser->scanner);
+    cowl_func_yyset_extra(stream, parser->scanner);
     cowl_ret ret = cowl_func_yyparse(parser->scanner, parser) == 0 ? COWL_OK : COWL_ERR;
     cowl_func_yylex_destroy(parser->scanner);
 

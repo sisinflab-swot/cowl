@@ -150,7 +150,7 @@ CowlOntology* cowl_reader_read_cstring(CowlReader *reader, char const *cstring, 
  * @public @memberof CowlReader
  */
 COWL_PUBLIC
-CowlOntology* cowl_reader_read_stream(CowlReader *reader, UIStream const *stream);
+CowlOntology* cowl_reader_read_stream(CowlReader *reader, UIStream *stream);
 
 COWL_END_DECLS
 
