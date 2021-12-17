@@ -5,6 +5,23 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2021-12-17
+### Added
+- `cowl_ontology_has_entity`.
+- Missing XSD datatypes in `CowlXSDVocab`.
+- Object library target.
+
+### Changed
+- Updated `uLib` to the latest version.
+- Replaced base types with `uLib` types.
+- Replaced `CowlVersion` with `UVersion`.
+- Renamed `CowlReader` to `CowlManager`.
+- Signature of `CowlParser`'s `parse` function.
+
+### Removed
+- `CowlLogger`, `CowlStrBuf`, `CowlVersion` (superseded by `uLib`).
+- `cowl_parser_ctx_get_stream`.
+
 ## [0.5.1] - 2021-10-14
 ### Added
 - `cowl_ontology_has_entity`.
@@ -180,6 +197,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.5.2]: https://github.com/sisinflab-swot/cowl/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/sisinflab-swot/cowl/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/sisinflab-swot/cowl/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/sisinflab-swot/cowl/compare/v0.4.0...v0.4.1
