@@ -12,12 +12,16 @@
 #define COWL_PARSER_CTX_PRIVATE_H
 
 #include "cowl_parser_ctx.h"
-#include "cowl_reader_private.h"
 
 COWL_BEGIN_DECLS
 
+cowl_struct_decl(CowlReader);
+
 typedef cowl_struct(CowlParserCtx) {
-    CowlReader super;
+    CowlReader *reader;
+    CowlOntology *ontology;
+    char const *description;
+    void *state;
 } CowlParserCtx;
 
 void cowl_parser_ctx_handle_stream_error(CowlParserCtx *ctx, ustream_ret code);

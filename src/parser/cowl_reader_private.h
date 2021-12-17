@@ -18,9 +18,6 @@ COWL_BEGIN_DECLS
 
 cowl_struct(CowlReader) {
     CowlObject super;
-    char const *description;
-    CowlOntology *ontology;
-    void *state;
     CowlParser parser;
     CowlErrorHandler handler;
     CowlImportLoader loader;
