@@ -152,7 +152,7 @@ CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
 }
 
 CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, UString id) {
-    uhash_uint idx;
+    ulib_uint idx;
     CowlString id_str = cowl_string_init(id);
     uhash_ret ret = uhash_put(CowlObjectTable, parser->anon_ind_map, &id_str, &idx);
 

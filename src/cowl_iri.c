@@ -17,7 +17,7 @@
 
 static UHash(CowlObjectTable) *inst_tbl = NULL;
 
-static uhash_uint inst_tbl_hash(void *key) {
+static ulib_uint inst_tbl_hash(void *key) {
     return cowl_hash_2(COWL_HASH_INIT_IRI, uhash_ptr_hash(cowl_iri_get_ns(key)),
                        cowl_string_hash(cowl_iri_get_rem(key)));
 }

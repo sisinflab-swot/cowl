@@ -101,7 +101,7 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
 static cowl_ret cowl_ontology_add_axiom_to_map(CowlObject *entity, CowlAxiom *axiom,
                                                UHash(CowlObjectTable) *map) {
 
-    uhash_uint idx;
+    ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, map, entity, &idx);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
 
@@ -121,7 +121,7 @@ static cowl_ret cowl_ontology_add_axiom_to_map(CowlObject *entity, CowlAxiom *ax
 
 static cowl_ret cowl_ontology_add_primitive_to_map(CowlObject *entity,
                                                    UHash(CowlObjectTable) *map) {
-    uhash_uint idx;
+    ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, map, entity, &idx);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
 

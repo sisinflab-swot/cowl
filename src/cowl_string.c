@@ -59,7 +59,7 @@ static CowlString* cowl_string_get_intern(UString raw_string, bool copy) {
     CowlString *string;
     CowlString key = cowl_string_init(raw_string);
 
-    uhash_uint idx;
+    ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, inst_tbl, &key, &idx);
 
     if (ret == UHASH_PRESENT) {
@@ -80,7 +80,7 @@ static CowlString* cowl_string_get_intern(UString raw_string, bool copy) {
 CowlString* cowl_string_intern(CowlString *string) {
     if (!(string && string->raw_string.length)) return empty;
 
-    uhash_uint idx;
+    ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, inst_tbl, string, &idx);
 
     if (ret == UHASH_INSERTED) {
