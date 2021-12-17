@@ -24,13 +24,13 @@ int main(int argc, char *argv[]) {
     cowl_api_init();
 
     char const *onto_path = argc > 1 ? argv[1] : "test_onto.owl";
-    CowlReader *reader = cowl_reader_get();
+    CowlManager *manager = cowl_manager_get();
 
     utime_ns t = utime_get_ns();
-    CowlOntology *onto = cowl_reader_read_path(reader, onto_path);
+    CowlOntology *onto = cowl_manager_read_path(manager, onto_path);
     t = utime_get_ns() - t;
 
-    cowl_reader_release(reader);
+    cowl_manager_release(manager);
 
     if (!onto) {
         printf("Failed to read ontology at path: %s", onto_path);

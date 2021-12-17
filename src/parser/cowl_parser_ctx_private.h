@@ -15,10 +15,10 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct_decl(CowlReader);
+cowl_struct_decl(CowlManager);
 
 typedef cowl_struct(CowlParserCtx) {
-    CowlReader *reader;
+    CowlManager *manager;
     CowlOntology *ontology;
     char const *description;
     void *state;

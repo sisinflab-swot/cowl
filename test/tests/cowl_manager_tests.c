@@ -8,15 +8,15 @@
  * @file
  */
 
-#include "cowl_reader_tests.h"
+#include "cowl_manager_tests.h"
+#include "cowl_manager.h"
 #include "cowl_ontology.h"
-#include "cowl_reader.h"
 #include "cowl_string.h"
 #include "cowl_test_utils.h"
 
 // Utils
 
-static void cowl_test_reader_write_error(void *ctx, CowlError const *error) {
+static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
     CowlString *string = cowl_error_to_string(error);
     uostream_write(ctx, cowl_string_get_cstring(string), cowl_string_get_length(string), NULL);
     cowl_string_release(string);
@@ -24,26 +24,26 @@ static void cowl_test_reader_write_error(void *ctx, CowlError const *error) {
 
 // Tests
 
-bool cowl_test_reader_lifecycle(void) {
-    CowlReader *reader = cowl_reader_get();
-    utest_assert_not_null(reader);
-    cowl_reader_release(reader);
+bool cowl_test_manager_lifecycle(void) {
+    CowlManager *manager = cowl_manager_get();
+    utest_assert_not_null(manager);
+    cowl_manager_release(manager);
     return true;
 }
 
-bool cowl_test_reader_read_ontology(void) {
-    CowlReader *reader = cowl_reader_get();
+bool cowl_test_manager_read_ontology(void) {
+    CowlManager *manager = cowl_manager_get();
 
     CowlImportLoader loader = cowl_import_loader_init(NULL, cowl_test_load_import, NULL);
-    cowl_reader_set_import_loader(reader, loader);
+    cowl_manager_set_import_loader(manager, loader);
 
     UOStream stream;
     utest_assert_critical(uostream_to_path(&stream, COWL_TEST_ONTOLOGY ".log") == USTREAM_OK);
 
-    CowlErrorHandler handler = cowl_error_handler_init(&stream, cowl_test_reader_write_error, NULL);
-    cowl_reader_set_error_handler(reader, handler);
+    CowlErrorHandler handler = cowl_error_handler_init(&stream, cowl_test_manager_write_error, NULL);
+    cowl_manager_set_error_handler(manager, handler);
 
-    CowlOntology *onto = cowl_reader_read_path(reader, COWL_TEST_ONTOLOGY);
+    CowlOntology *onto = cowl_manager_read_path(manager, COWL_TEST_ONTOLOGY);
     utest_assert_not_null(onto);
 
     CowlString *string = cowl_ontology_to_string(onto);
@@ -51,7 +51,7 @@ bool cowl_test_reader_read_ontology(void) {
     cowl_string_release(string);
 
     cowl_ontology_release(onto);
-    cowl_reader_release(reader);
+    cowl_manager_release(manager);
 
     return true;
 }

@@ -51,7 +51,7 @@ static ustream_ret cowl_stream_write_object_type(UOStream *s, CowlObjectType typ
         GEN_OT_STRING(LITERAL);
         GEN_OT_STRING(FACET_RESTR);
         GEN_OT_STRING(ONTOLOGY);
-        GEN_OT_STRING(READER);
+        GEN_OT_STRING(MANAGER);
         GEN_OT_STRING(ANNOTATION);
         GEN_OT_STRING(ANNOT_PROP);
         GEN_OT_STRING(A_DECL);
@@ -292,8 +292,8 @@ ustream_ret cowl_stream_write_error(UOStream *s, CowlError const *error) {
     if (error->origin) {
         cowl_stream_write_static(s, " - triggered by ");
 
-        if (cowl_object_get_type(error->origin) == COWL_OT_READER) {
-            CowlParser parser = ((CowlReader *)error->origin)->parser;
+        if (cowl_object_get_type(error->origin) == COWL_OT_MANAGER) {
+            CowlParser parser = ((CowlManager *)error->origin)->parser;
             char const *name = parser.name ? parser.name : "unnamed";
             uostream_write(s, name, (ulib_uint)strlen(name), NULL);
             cowl_stream_write_static(s, " parser ");

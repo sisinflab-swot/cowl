@@ -18,7 +18,7 @@
 #include "cowl_named_ind.h"
 #include "cowl_obj_prop.h"
 #include "cowl_ontology.h"
-#include "cowl_reader.h"
+#include "cowl_manager.h"
 #include "cowl_string.h"
 #include "cowl_test_utils.h"
 
@@ -101,11 +101,11 @@ static ulib_uint* test_onto_axiom_counts(void) {
 // Init/deinit
 
 bool cowl_test_ontology_init(void) {
-    CowlReader *reader = cowl_reader_get();
+    CowlManager *manager = cowl_manager_get();
     CowlImportLoader loader = cowl_import_loader_init(NULL, cowl_test_load_import, NULL);
-    cowl_reader_set_import_loader(reader, loader);
-    onto = cowl_reader_read_path(reader, COWL_TEST_ONTOLOGY);
-    cowl_reader_release(reader);
+    cowl_manager_set_import_loader(manager, loader);
+    onto = cowl_manager_read_path(manager, COWL_TEST_ONTOLOGY);
+    cowl_manager_release(manager);
     utest_assert_critical(onto);
     return true;
 }
@@ -119,6 +119,8 @@ bool cowl_test_ontology_deinit(void) {
 
 bool cowl_test_ontology_get_id(void) {
     CowlOntologyId id = cowl_ontology_get_id(onto);
+    utest_assert_not_null(id.ontology_iri);
+
     CowlIRI *expected_onto_iri = cowl_iri_from_static(test_onto_iri);
     cowl_assert_equal(iri, id.ontology_iri, expected_onto_iri);
     cowl_iri_release(expected_onto_iri);

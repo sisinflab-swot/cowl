@@ -84,7 +84,7 @@ Ontology deserialization
 ------------------------
 
 In order to query an ontology you must first deserialize it, which can be done via
-:class:`CowlReader`. Cowl can use multiple parsers, either built-in or provided by the user.
+:class:`CowlManager`. Cowl can use multiple parsers, either built-in or provided by the user.
 For further information, refer to :ref:`the related documentation <reading>`.
 
 OWL ontologies may `import <owl imports_>`_ other ontologies, which may involve loading them

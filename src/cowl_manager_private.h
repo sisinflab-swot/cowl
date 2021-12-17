@@ -8,15 +8,15 @@
  * @file
  */
 
-#ifndef COWL_READER_PRIVATE_H
-#define COWL_READER_PRIVATE_H
+#ifndef COWL_MANAGER_PRIVATE_H
+#define COWL_MANAGER_PRIVATE_H
 
-#include "cowl_reader.h"
+#include "cowl_manager.h"
 #include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlReader) {
+cowl_struct(CowlManager) {
     CowlObject super;
     CowlParser parser;
     CowlErrorHandler handler;
@@ -25,4 +25,4 @@ cowl_struct(CowlReader) {
 
 COWL_END_DECLS
 
-#endif // COWL_READER_PRIVATE_H
+#endif // COWL_MANAGER_PRIVATE_H

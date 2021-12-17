@@ -19,9 +19,9 @@ static bool for_each_cls(void *ctx, void *cls);
 int main(void) {
     cowl_api_init();
 
-    CowlReader *reader = cowl_reader_get();
-    CowlOntology *ontology = cowl_reader_read_path(reader, ONTO_PATH);
-    cowl_reader_release(reader);
+    CowlManager *manager = cowl_manager_get();
+    CowlOntology *ontology = cowl_manager_read_path(manager, ONTO_PATH);
+    cowl_manager_release(manager);
 
     if (ontology) {
         CowlClass *cls = cowl_class_from_static(ONTO_NS CLASS_NAME);

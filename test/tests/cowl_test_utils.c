@@ -9,7 +9,7 @@
  */
 
 #include "cowl_test_utils.h"
-#include "cowl_reader.h"
+#include "cowl_manager.h"
 
 // Test import ontology
 
@@ -18,8 +18,8 @@ static char const test_import[] = "test_import.owl";
 // Import loader
 
 CowlOntology* cowl_test_load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
-    CowlReader *reader = cowl_reader_get();
-    CowlOntology *onto = cowl_reader_read_path(reader, test_import);
-    cowl_reader_release(reader);
+    CowlManager *manager = cowl_manager_get();
+    CowlOntology *onto = cowl_manager_read_path(manager, test_import);
+    cowl_manager_release(manager);
     return onto;
 }

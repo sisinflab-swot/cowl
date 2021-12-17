@@ -18,12 +18,12 @@ int main(void) {
     // You must always initialize the API before use.
     cowl_api_init();
 
-    // Instantiate a reader and deserialize an ontology from file.
-    CowlReader *reader = cowl_reader_get();
-    CowlOntology *ontology = cowl_reader_read_path(reader, ONTO_PATH);
+    // Instantiate a manager and deserialize an ontology from file.
+    CowlManager *manager = cowl_manager_get();
+    CowlOntology *ontology = cowl_manager_read_path(manager, ONTO_PATH);
 
-    // You don't need the reader anymore.
-    cowl_reader_release(reader);
+    // You don't need the manager anymore.
+    cowl_manager_release(manager);
 
     // Log the ontology.
     if (ontology) {

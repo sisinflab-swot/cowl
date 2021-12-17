@@ -36,11 +36,11 @@ int main(void) {
 
     // Read the ontology from file.
     CowlOntology *ontology = NULL;
-    CowlReader *reader = cowl_reader_get();
+    CowlManager *manager = cowl_manager_get();
 
-    if (reader) {
-        ontology = cowl_reader_read_path(reader, ONTO_PATH);
-        cowl_reader_release(reader);
+    if (manager) {
+        ontology = cowl_manager_read_path(manager, ONTO_PATH);
+        cowl_manager_release(manager);
     }
 
     // Log the ontology.
@@ -64,23 +64,24 @@ int main(void) {
  */
 static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
     CowlOntology *import = NULL;
-    CowlReader *reader = cowl_reader_get();
+    CowlManager *manager = cowl_manager_get();
 
-    if (reader) {
-        import = cowl_reader_read_path(reader, IMPORT_PATH);
-        cowl_reader_release(reader);
+    if (manager) {
+        import = cowl_manager_read_path(manager, IMPORT_PATH);
+        cowl_manager_release(manager);
     }
 
     return import;
 }
 
 /*
- * In general it is very reasonable to just check that the ontology returned by the reader
+ * In general it is very reasonable to just check that the ontology returned by the manager
  * is not NULL. The error handler mechanism is only needed if you wish to implement
  * more fine-grained error handling. In this example, errors are logged to file.
  */
 static void handle_error(void *ctx, CowlError const *error) {
     CowlString *string = cowl_error_to_string(error);
-    uostream_write(ctx, cowl_string_get_cstring(string), cowl_string_get_length(string), NULL);
+    uostream_write(ctx, cowl_string_get_cstring(string),
+                   cowl_string_get_length(string), NULL);
     cowl_string_release(string);
 }

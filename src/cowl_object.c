@@ -27,7 +27,7 @@ void cowl_object_release(CowlObject *object) {
         case COWL_OT_LITERAL: GEN_RELEASE(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_RELEASE(FacetRestr, facet_restr);
         case COWL_OT_ONTOLOGY: GEN_RELEASE(Ontology, ontology);
-        case COWL_OT_READER: GEN_RELEASE(Reader, reader);
+        case COWL_OT_MANAGER: GEN_RELEASE(Manager, manager);
         case COWL_OT_ANNOTATION: GEN_RELEASE(Annotation, annotation);
         case COWL_OT_ANNOT_PROP: GEN_RELEASE(AnnotProp, annot_prop);
         case COWL_OT_A_DECL: GEN_RELEASE_AXIOM(Decl, decl);
