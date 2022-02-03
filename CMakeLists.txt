@@ -77,13 +77,11 @@ if(COWL_LTO)
     check_ipo_supported(RESULT COWL_LTO_ENABLED)
 endif()
 
-if(COWL_EMBEDDED)
-    set(ULIB_EMBEDDED ON)
-endif()
-
 # uLib
 
 if(NOT TARGET ulib-static)
+    option(ULIB_EMBEDDED "" ${COWL_EMBEDDED})
+    option(ULIB_LTO "" ${COWL_LTO})
     add_subdirectory("${COWL_LIB_DIR}/ulib" EXCLUDE_FROM_ALL)
 endif()
 
