@@ -689,12 +689,12 @@ data_max_cardinality
 
 data_exact_cardinality
     : DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
-        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MAX, $4, NULL, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_EXACT, $4, NULL, $3);
         cowl_data_prop_exp_release($4);
     }
     | DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
         if (!$5) COWL_ERROR_MEM;
-        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_MAX, $4, $5, $3);
+        $$ = (CowlClsExp *)cowl_data_card_get(COWL_CT_EXACT, $4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_data_range_release($5);
     }
