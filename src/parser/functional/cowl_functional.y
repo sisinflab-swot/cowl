@@ -123,7 +123,7 @@
 // Nonterminals
 
 %type <CowlString *> prefix_name
-%type <CowlIRI *> iri full_iri abbreviated_iri ontology_iri version_iri
+%type <CowlIRI *> iri full_iri abbreviated_iri
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue *> annotation_subject annotation_value
 %type <ulib_uint> cardinality
@@ -134,9 +134,9 @@
 %type <CowlDataProp *> data_property
 %type <CowlNamedInd *> named_individual
 %type <CowlDatatype *> datatype
-%type <CowlAnnotProp *> annotation_property sub_annotation_property super_annotation_property
+%type <CowlAnnotProp *> annotation_property
 
-%type <CowlClsExp *> class_expression sub_class_expression super_class_expression
+%type <CowlClsExp *> class_expression
 %type <CowlClsExp *> object_intersection_of object_union_of object_complement_of object_one_of
 %type <CowlClsExp *> object_some_values_from object_all_values_from object_has_value object_has_self
 %type <CowlClsExp *> object_min_cardinality object_max_cardinality object_exact_cardinality
@@ -144,19 +144,14 @@
 %type <CowlClsExp *> data_min_cardinality data_max_cardinality data_exact_cardinality
 
 %type <CowlIndividual *> individual anonymous_individual
-%type <CowlIndividual *> source_individual target_individual
-
 %type <CowlObjPropExp *> object_property_expression inverse_object_property
-%type <CowlObjPropExp *> sub_object_property_expression super_object_property_expression
-
 %type <CowlDataPropExp *> data_property_expression
-%type <CowlDataPropExp *> sub_data_property_expression super_data_property_expression
 
 %type <CowlDataRange *> data_range data_intersection_of data_union_of data_complement_of
 %type <CowlDataRange *> data_one_of datatype_restriction
 
 %type <CowlFacetRestr *> facet_restriction
-%type <CowlLiteral *> literal target_value
+%type <CowlLiteral *> literal
 
 %type <CowlAxiom *> axiom declaration
 %type <CowlAxiom *> class_axiom object_property_axiom data_property_axiom annotation_axiom
@@ -271,24 +266,16 @@ ontology
 
 ontology_id
     : %empty
-    | ontology_iri {
+    | iri {
         cowl_parser_ctx_set_iri(parser->ctx, $1);
         cowl_iri_release($1);
     }
-    | ontology_iri version_iri {
+    | iri iri {
         cowl_parser_ctx_set_iri(parser->ctx, $1);
         cowl_parser_ctx_set_version(parser->ctx, $2);
         cowl_iri_release($1);
         cowl_iri_release($2);
     }
-;
-
-ontology_iri
-    : iri
-;
-
-version_iri
-    : iri
 ;
 
 ontology_imports
@@ -723,19 +710,11 @@ class_axiom
 ;
 
 sub_class_of
-    : SUB_CLASS_OF L_PAREN annotation_star sub_class_expression super_class_expression R_PAREN {
+    : SUB_CLASS_OF L_PAREN annotation_star class_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_cls_axiom_get($4, $5, $3);
         cowl_cls_exp_release($4);
         cowl_cls_exp_release($5);
     }
-;
-
-sub_class_expression
-    : class_expression
-;
-
-super_class_expression
-    : class_expression
 ;
 
 equivalent_classes
@@ -776,23 +755,15 @@ object_property_axiom
 ;
 
 sub_object_property_of
-    : SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star sub_object_property_expression super_object_property_expression R_PAREN {
+    : SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star object_property_expression object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_obj_prop_axiom_get($4, $5, $3);
         cowl_obj_prop_exp_release($4);
         cowl_obj_prop_exp_release($5);
     }
-    | SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star property_expression_chain super_object_property_expression R_PAREN {
+    | SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star property_expression_chain object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_obj_prop_chain_axiom_get($4, $5, $3);
         cowl_obj_prop_exp_release($5);
     }
-;
-
-sub_object_property_expression
-    : object_property_expression
-;
-
-super_object_property_expression
-    : object_property_expression
 ;
 
 property_expression_chain
@@ -898,19 +869,11 @@ data_property_axiom
 ;
 
 sub_data_property_of
-    : SUB_DATA_PROPERTY_OF L_PAREN annotation_star sub_data_property_expression super_data_property_expression R_PAREN {
+    : SUB_DATA_PROPERTY_OF L_PAREN annotation_star data_property_expression data_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_data_prop_axiom_get($4, $5, $3);
         cowl_data_prop_exp_release($4);
         cowl_data_prop_exp_release($5);
     }
-;
-
-sub_data_property_expression
-    : data_property_expression
-;
-
-super_data_property_expression
-    : data_property_expression
 ;
 
 equivalent_data_properties
@@ -1003,7 +966,7 @@ class_assertion
 ;
 
 object_property_assertion
-    : OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression source_individual target_individual R_PAREN {
+    : OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
@@ -1012,7 +975,7 @@ object_property_assertion
 ;
 
 negative_object_property_assertion
-    : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression source_individual target_individual R_PAREN {
+    : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
         $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
@@ -1021,7 +984,7 @@ negative_object_property_assertion
 ;
 
 data_property_assertion
-    : DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression source_individual target_value R_PAREN {
+    : DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
         $$ = (CowlAxiom *)cowl_data_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
@@ -1030,24 +993,12 @@ data_property_assertion
 ;
 
 negative_data_property_assertion
-    : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression source_individual target_value R_PAREN {
+    : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
         $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom_get($5, $4, $6, $3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_literal_release($6);
     }
-;
-
-source_individual
-    : individual
-;
-
-target_individual
-    : individual
-;
-
-target_value
-    : literal
 ;
 
 // Annotations
@@ -1100,19 +1051,11 @@ annotation_subject
 ;
 
 sub_annotation_property_of
-    : SUB_ANNOTATION_PROPERTY_OF L_PAREN annotation_star sub_annotation_property super_annotation_property R_PAREN {
+    : SUB_ANNOTATION_PROPERTY_OF L_PAREN annotation_star annotation_property annotation_property R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_annot_prop_axiom_get($4, $5, $3);
         cowl_annot_prop_release($4);
         cowl_annot_prop_release($5);
     }
-;
-
-sub_annotation_property
-    : annotation_property
-;
-
-super_annotation_property
-    : annotation_property
 ;
 
 annotation_property_domain
