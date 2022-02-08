@@ -46,14 +46,13 @@ CowlDatatype* cowl_datatype_get(CowlIRI *iri);
 /**
  * Returns a retained datatype given the string representation of its IRI.
  *
- * @param cstring String representation of the IRI.
- * @param length Length of the string.
+ * @param string String representation of the IRI.
  * @return Retained datatype, or NULL on error.
  *
  * @public @memberof CowlDatatype
  */
 COWL_PUBLIC
-CowlDatatype* cowl_datatype_from_cstring(char const *cstring, size_t length);
+CowlDatatype* cowl_datatype_from_string(UString string);
 
 /**
  * Returns a retained datatype given the static string representation of its IRI.
@@ -63,7 +62,7 @@ CowlDatatype* cowl_datatype_from_cstring(char const *cstring, size_t length);
  *
  * @public @related CowlDatatype
  */
-#define cowl_datatype_from_static(CSTR) (cowl_datatype_from_cstring((CSTR), sizeof(CSTR) - 1))
+#define cowl_datatype_from_static(CSTR) cowl_datatype_from_string(ustring_literal(CSTR))
 
 /**
  * Retains the specified datatype.

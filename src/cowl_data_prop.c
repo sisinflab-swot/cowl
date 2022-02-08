@@ -67,8 +67,8 @@ void cowl_data_prop_release(CowlDataProp *prop) {
     }
 }
 
-CowlDataProp* cowl_data_prop_from_cstring(char const *cstring, size_t length)
-    COWL_ENTITY_FROM_CSTRING_IMPL(DataProp, data_prop)
+CowlDataProp* cowl_data_prop_from_string(UString string)
+    COWL_ENTITY_FROM_STRING_IMPL(DataProp, data_prop)
 
 CowlIRI* cowl_data_prop_get_iri(CowlDataProp *prop) {
     return prop->iri;

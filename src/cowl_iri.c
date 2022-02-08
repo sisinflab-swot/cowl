@@ -72,29 +72,31 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
     if (s_ns_len > 0) {
         // Part of the suffix should go in the namespace.
         UStrBuf buf = ustrbuf_init();
+        char const *s_cstr = ustring_data(s_str);
 
         if (ustrbuf_append_ustring(&buf, p_str) ||
-            ustrbuf_append_cstring(&buf, s_str.cstring, s_ns_len)) {
-            ustrbuf_deinit(&buf);
+            ustrbuf_append_string(&buf, s_cstr, s_ns_len)) {
+            ustrbuf_deinit(buf);
             return NULL;
         }
 
-        prefix = cowl_string_alloc(ustrbuf_to_ustring(&buf));
-        suffix = cowl_string_get(s_str.cstring + s_ns_len, s_str.length - s_ns_len, true);
+        prefix = cowl_string_get(ustrbuf_to_ustring(&buf));
+        suffix = cowl_string_get(ustring_copy(s_cstr + s_ns_len, ustring_length(s_str) - s_ns_len));
     } else {
         ulib_uint p_ns_len = cowl_xml_ns_length(p_str);
 
-        if (p_ns_len < p_str.length) {
+        if (p_ns_len < ustring_length(p_str)) {
             // Part of the prefix should go in the remainder.
             UStrBuf buf = ustrbuf_init();
+            char const *p_cstr = ustring_data(p_str);
 
-            if (ustrbuf_append_cstring(&buf, p_str.cstring + p_ns_len, p_str.length - p_ns_len) ||
+            if (ustrbuf_append_string(&buf, p_cstr + p_ns_len, ustring_length(p_str) - p_ns_len) ||
                 ustrbuf_append_ustring(&buf, s_str)) {
-                ustrbuf_deinit(&buf);
+                ustrbuf_deinit(buf);
                 return NULL;
             }
 
-            prefix = cowl_string_get(p_str.cstring, p_ns_len, true);
+            prefix = cowl_string_get(ustring_copy(p_cstr, p_ns_len));
             suffix = cowl_string_alloc(ustrbuf_to_ustring(&buf));
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
@@ -126,10 +128,8 @@ void cowl_iri_release(CowlIRI *iri) {
     }
 }
 
-CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length) {
-    if (!(cstring && length)) return NULL;
-
-    UString string = ustring_init(cstring, length, false);
+CowlIRI* cowl_iri_from_string(UString string) {
+    if (ustring_size(string) <= 1) return NULL;
     ulib_uint ns_length = cowl_xml_ns_length(string);
 
     CowlString *parts[2] = { NULL };

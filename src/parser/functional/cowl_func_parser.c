@@ -110,20 +110,22 @@ cowl_ret cowl_func_parser_register_ns(CowlFuncParser *parser, CowlString *prefix
 
 CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
     ulib_uint ns_length = ustring_index_of(string, ':') + 1;
+    char const *str = ustring_data(string);
+    ulib_uint str_length = ustring_length(string);
 
     // We might use 'cowl_string_get_ns_rem' to obtain a prefix/suffix split, though
     // this involves two allocations: one for the prefix, and one for the suffix.
     // Since we only need the prefix for a hash table lookup, we can avoid its allocation
     // on the heap and keep it on the stack instead.
-    UString raw_ns = ustring_init(string.cstring, ns_length, false);
+    UString raw_ns = ustring_wrap(str, ns_length);
     CowlString ns_str = cowl_string_init(raw_ns);
 
     // If the remainder is empty, another slight optimization involves
     // using a shared empty string instance.
     CowlString *rem;
 
-    if (ns_length < string.length) {
-        rem = cowl_string_get(string.cstring + ns_length, string.length - ns_length, true);
+    if (ns_length < str_length) {
+        rem = cowl_string_get(ustring_copy(str + ns_length, str_length - ns_length));
     } else {
         rem = cowl_string_get_empty();
     }
@@ -143,7 +145,7 @@ CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
             raw_ns
         };
         UString err_str = ustring_concat(comp, ulib_array_count(comp));
-        cowl_parser_ctx_handle_error(parser->ctx, COWL_ERR_SYNTAX, err_str.cstring);
+        cowl_parser_ctx_handle_error(parser->ctx, COWL_ERR_SYNTAX, ustring_data(err_str));
         ustring_deinit(err_str);
     }
 

@@ -113,8 +113,8 @@
  * @param NAME Name of the vector type.
  */
 #define cowl_vector_decl(T, NAME)                                                                   \
-    typedef uvec_struct(T) UVec(T);                                                                 \
-    typedef uvec_struct(T) const NAME
+    uvec_decl(T);                                                                                   \
+    typedef struct UVec(T) const NAME
 
 /**
  * Hash table type forward declaration.
@@ -122,7 +122,7 @@
  * @param NAME Name of the hash table type.
  */
 #define cowl_hash_decl(NAME)                                                                        \
-    typedef uhash_struct(NAME) UHash(NAME);                                                         \
-    typedef uhash_struct(NAME) const NAME
+    uhash_decl(NAME);                                                                               \
+    typedef struct UHash(NAME) const NAME
 
 #endif // COWL_COMPAT_H

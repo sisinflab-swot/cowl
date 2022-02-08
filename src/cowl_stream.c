@@ -141,7 +141,7 @@ ustream_ret cowl_stream_write_object_debug(UOStream *s, CowlObject *obj) {
 }
 
 ustream_ret cowl_stream_write_string(UOStream *s, CowlString *string) {
-    return uostream_write(s, string->raw_string.cstring, string->raw_string.length, NULL);
+    return uostream_write_string(s, &string->raw_string, NULL);
 }
 
 ustream_ret cowl_stream_write_iri(UOStream *s, CowlIRI *iri) {

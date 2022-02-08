@@ -4,7 +4,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
@@ -44,7 +44,6 @@ static bool for_each_cls(void *ctx, void *cls) {
 
     // Log the IRI remainder.
     puts(cowl_string_get_cstring(cowl_iri_get_rem(cowl_class_get_iri(cls))));
-    puts("\n");
 
     // Recurse.
     CowlIterator iter = cowl_iterator_init(ctx, for_each_cls);

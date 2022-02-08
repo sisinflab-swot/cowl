@@ -47,14 +47,13 @@ CowlObjProp* cowl_obj_prop_get(CowlIRI *iri);
 /**
  * Returns a retained object property given the string representation of its IRI.
  *
- * @param cstring String representation of the IRI.
- * @param length Length of the string.
+ * @param string String representation of the IRI.
  * @return Retained object property, or NULL on error.
  *
  * @public @memberof CowlObjProp
  */
 COWL_PUBLIC
-CowlObjProp* cowl_obj_prop_from_cstring(char const *cstring, size_t length);
+CowlObjProp* cowl_obj_prop_from_string(UString string);
 
 /**
  * Returns a retained object property given the static string representation of its IRI.
@@ -64,7 +63,7 @@ CowlObjProp* cowl_obj_prop_from_cstring(char const *cstring, size_t length);
  *
  * @public @related CowlObjProp
  */
-#define cowl_obj_prop_from_static(CSTR) (cowl_obj_prop_from_cstring((CSTR), sizeof(CSTR) - 1))
+#define cowl_obj_prop_from_static(CSTR) cowl_obj_prop_from_string(ustring_literal(CSTR))
 
 /**
  * Retains the specified object property.

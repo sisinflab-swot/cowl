@@ -52,19 +52,22 @@ CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *l
 }
 
 CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang) {
+    ulib_uint val_len = ustring_length(value), lang_len = ustring_length(lang);
+    char const *val_str = ustring_data(value), *lang_str = ustring_data(lang);
 
-    if (!lang.length && value.length) {
+    if (!lang_len && val_len) {
         // The literal doesn't have a separate language tag, attempt to parse it from the value.
         ulib_uint lang_idx = ustring_index_of(value, '@') + 1;
 
-        if (lang_idx < value.length) {
-            value = ustring_init(value.cstring, lang_idx, false);
-            lang = ustring_init(value.cstring + lang_idx, value.length - lang_idx, false);
+        if (lang_idx < val_len) {
+            val_len = lang_idx;
+            lang_str = val_str + lang_idx;
+            lang_len = val_len - lang_idx;
         }
     }
 
-    CowlString *val_s = value.length ? cowl_string_get(value.cstring, value.length, true) : NULL;
-    CowlString *lang_s = lang.length ? cowl_string_get(lang.cstring, lang.length, true) : NULL;
+    CowlString *val_s = val_len ? cowl_string_get(ustring_copy(val_str, val_len)) : NULL;
+    CowlString *lang_s = lang_len ? cowl_string_get(ustring_copy(lang_str, lang_len)) : NULL;
     CowlLiteral *literal = cowl_literal_alloc(dt, val_s, cowl_string_intern(lang_s));
 
     cowl_string_release(lang_s);

@@ -71,8 +71,8 @@ void cowl_class_release(CowlClass *cls) {
     }
 }
 
-CowlClass* cowl_class_from_cstring(char const *cstring, size_t length)
-    COWL_ENTITY_FROM_CSTRING_IMPL(Class, class)
+CowlClass* cowl_class_from_string(UString string)
+    COWL_ENTITY_FROM_STRING_IMPL(Class, class)
 
 CowlIRI* cowl_class_get_iri(CowlClass *cls) {
     return cls->iri;

@@ -153,32 +153,32 @@ NON_NEGATIVE_INTEGER                    {DIGIT}+
 }
 
 {IRI_REF} {
-    yylval->IRI_REF = ustring_init(yytext + 1, (ulib_uint)(yyleng - 2), false);
+    yylval->IRI_REF = ustring_wrap(yytext + 1, (ulib_uint)(yyleng - 2));
     return IRI_REF;
 }
 
 {PNAME_NS} {
-    yylval->PNAME_NS = ustring_init(yytext, (ulib_uint)yyleng, false);
+    yylval->PNAME_NS = ustring_wrap(yytext, (ulib_uint)yyleng);
     return PNAME_NS;
 }
 
 {PNAME_LN} {
-    yylval->PNAME_LN = ustring_init(yytext, (ulib_uint)yyleng, false);
+    yylval->PNAME_LN = ustring_wrap(yytext, (ulib_uint)yyleng);
     return PNAME_LN;
 }
 
 {BLANK_NODE_LABEL} {
-    yylval->BLANK_NODE_LABEL = ustring_init(yytext + 2, (ulib_uint)(yyleng - 2), false);
+    yylval->BLANK_NODE_LABEL = ustring_wrap(yytext + 2, (ulib_uint)(yyleng - 2));
     return BLANK_NODE_LABEL;
 }
 
 {LANG_TAG} {
-    yylval->LANG_TAG = ustring_init(yytext + 1, (ulib_uint)(yyleng - 1), false);
+    yylval->LANG_TAG = ustring_wrap(yytext + 1, (ulib_uint)(yyleng - 1));
     return LANG_TAG;
 }
 
 {QUOTED_STRING} {
-    yylval->QUOTED_STRING = ustring_init(yytext + 1, (ulib_uint)(yyleng - 2), false);
+    yylval->QUOTED_STRING = ustring_wrap(yytext + 1, (ulib_uint)(yyleng - 2));
     return QUOTED_STRING;
 }
 

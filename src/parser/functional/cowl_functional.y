@@ -219,13 +219,13 @@
 
 full_iri
     : IRI_REF {
-        $$ = cowl_iri_from_cstring($1.cstring, $1.length);
+        $$ = cowl_iri_from_string($1);
     }
 ;
 
 prefix_name
     : PNAME_NS {
-        $$ = cowl_string_get($1.cstring, $1.length, true);
+        $$ = cowl_string_get(ustring_dup($1));
     }
 ;
 

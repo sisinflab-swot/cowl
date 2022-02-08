@@ -39,9 +39,9 @@ COWL_BEGIN_DECLS
     return var;                                                                                     \
 }
 
-#define COWL_ENTITY_FROM_CSTRING_IMPL(UC, LC) {                                                     \
+#define COWL_ENTITY_FROM_STRING_IMPL(UC, LC) {                                                      \
     Cowl##UC *var = NULL;                                                                           \
-    CowlIRI *iri = cowl_iri_from_cstring(cstring, length);                                          \
+    CowlIRI *iri = cowl_iri_from_string(string);                                                    \
                                                                                                     \
     if (iri) {                                                                                      \
         var = cowl_##LC##_get(iri);                                                                 \
@@ -61,7 +61,7 @@ COWL_BEGIN_DECLS
         }                                                                                           \
         uostream_deinit(&stream);                                                                   \
     }                                                                                               \
-    ustrbuf_deinit(&buf);                                                                           \
+    ustrbuf_deinit(buf);                                                                            \
     return string;                                                                                  \
 }
 

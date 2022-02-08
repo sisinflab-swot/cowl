@@ -20,10 +20,11 @@
 ulib_uint cowl_xml_ns_length(UString string) {
     // This is currently not completely compliant with the NCName specification.
     // TODO: account for Unicode code points.
-    ulib_uint ns_length = string.length;
+    ulib_uint ns_length = ustring_length(string);
+    char const *cstring = ustring_data(string);
 
     for (ulib_uint i = ns_length; i-- != 0;) {
-        unsigned char ch = (unsigned char)string.cstring[i];
+        unsigned char ch = (unsigned char)cstring[i];
         if (IS_NCNAME_START_CHAR(ch)) {
             ns_length = i;
         } else if (!IS_NCNAME_NON_START_CHAR(ch)) {

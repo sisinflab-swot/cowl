@@ -79,10 +79,10 @@ void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, char const 
     if (!handler.handle_error) return;
 
     char const *temp = ctx->description ? ctx->description : "";
-    CowlString source = cowl_string_init(ustring_init(temp, strlen(temp), false));
+    CowlString source = cowl_string_init(ustring_wrap(temp, strlen(temp)));
 
     temp = description;
-    CowlString descr = cowl_string_init(ustring_init(temp, strlen(temp), false));
+    CowlString descr = cowl_string_init(ustring_wrap(temp, strlen(temp)));
 
     CowlError error = {
         .code = code,

@@ -17,7 +17,7 @@ COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlOntology);
-typedef uvec_struct(CowlError) UVec(CowlError);
+uvec_decl(CowlError);
 
 // Test utils
 

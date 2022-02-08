@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    printf("Ontology parsed in %.2f ms\n", utime_convert(t, UTIME_UNIT_MS));
+    printf("Ontology parsed in %.2f ms\n", utime_interval_convert(t, UTIME_MILLISECONDS));
 
     ulib_uint count = 0;
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     t = utime_get_ns() - t;
 
     printf("%" ULIB_UINT_FMT " axioms iterated in %.2f us\n",
-           count, utime_convert(t, UTIME_UNIT_US));
+           count, utime_interval_convert(t, UTIME_MICROSECONDS));
 
     count = 0;
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     t = utime_get_ns() - t;
 
     printf("%" ULIB_UINT_FMT " primitives iterated in %.2f us\n",
-           count, utime_convert(t, UTIME_UNIT_US));
+           count, utime_interval_convert(t, UTIME_MICROSECONDS));
 
     cowl_ontology_release(onto);
 

@@ -23,7 +23,7 @@
 COWL_BEGIN_DECLS
 
 #define cowl_string_vocab_get(CSTR) \
-    cowl_string_get((CSTR), sizeof(CSTR) - 1, false)
+    cowl_string_get(ustring_literal(CSTR))
 
 #define cowl_string_vocab_free(STR) ulib_free(STR)
 

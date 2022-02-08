@@ -34,7 +34,7 @@ bool cowl_test_iri_get_ns(void) {
     for (unsigned i = 0; i < ulib_array_count(tests); ++i) {
         char const *iri_str = tests[i][0];
         char const *ns_str = tests[i][1];
-        CowlIRI *iri = cowl_iri_from_cstring(iri_str, strlen(iri_str));
+        CowlIRI *iri = cowl_iri_from_string(ustring_wrap(iri_str, strlen(iri_str)));
         CowlString *ns = cowl_iri_get_ns(iri);
         utest_assert_string(cowl_string_get_cstring(ns), ==, ns_str);
         cowl_iri_release(iri);
@@ -53,7 +53,7 @@ bool cowl_test_iri_get_rem(void) {
     for (unsigned i = 0; i < ulib_array_count(tests); ++i) {
         char const *iri_str = tests[i][0];
         char const *rem_str = tests[i][1];
-        CowlIRI *iri = cowl_iri_from_cstring(iri_str, strlen(iri_str));
+        CowlIRI *iri = cowl_iri_from_string(ustring_wrap(iri_str, strlen(iri_str)));
         CowlString *rem = cowl_iri_get_rem(iri);
         utest_assert_string(cowl_string_get_cstring(rem), ==, rem_str);
         cowl_iri_release(iri);
@@ -88,8 +88,8 @@ bool cowl_test_iri_equals(void) {
         char const *prefix_str = tests[i][0];
         char const *suffix_str = tests[i][1];
 
-        CowlString *prefix = cowl_string_get(prefix_str, strlen(prefix_str), true);
-        CowlString *suffix = cowl_string_get(suffix_str, strlen(suffix_str), true);
+        CowlString *prefix = cowl_string_get(ustring_copy(prefix_str, strlen(prefix_str)));
+        CowlString *suffix = cowl_string_get(ustring_copy(suffix_str, strlen(suffix_str)));
 
         CowlIRI *iri = cowl_iri_get(prefix, suffix);
         cowl_assert_equal(iri, iri, expected);

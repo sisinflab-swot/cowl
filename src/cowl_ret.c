@@ -42,5 +42,5 @@ cowl_ret cowl_ret_from_uhash(uhash_ret ret) {
 
 CowlString* cowl_ret_to_string(cowl_ret ret) {
     char const *cstr = cowl_ret_to_cstring(ret);
-    return cowl_string_alloc(ustring_init(cstr, strlen(cstr), true));
+    return cowl_string_alloc(ustring_copy(cstr, strlen(cstr)));
 }

@@ -18,8 +18,8 @@
 
 COWL_BEGIN_DECLS
 
-typedef uvec_struct(CowlObjectPtr) UVec(CowlObjectPtr);
-typedef uhash_struct(CowlObjectTable) UHash(CowlObjectTable);
+uvec_decl(CowlObjectPtr);
+uhash_decl(CowlObjectTable);
 
 cowl_struct(CowlOntology) {
     CowlObject super;

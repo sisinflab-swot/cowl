@@ -46,14 +46,13 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix);
 /**
  * Returns a retained IRI given its string representation.
  *
- * @param cstring String representation of the IRI.
- * @param length Length of the string.
+ * @param string String representation of the IRI.
  * @return Retained IRI, or NULL on error
  *
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length);
+CowlIRI* cowl_iri_from_string(UString string);
 
 /**
  * Returns a retained IRI given its static string representation.
@@ -63,7 +62,7 @@ CowlIRI* cowl_iri_from_cstring(char const *cstring, size_t length);
  *
  * @public @related CowlIRI
  */
-#define cowl_iri_from_static(CSTR) (cowl_iri_from_cstring((CSTR), sizeof(CSTR) - 1))
+#define cowl_iri_from_static(CSTR) (cowl_iri_from_string(ustring_literal(CSTR)))
 
 /**
  * Retains the specified IRI.

@@ -67,8 +67,8 @@ void cowl_annot_prop_release(CowlAnnotProp *prop) {
     }
 }
 
-CowlAnnotProp* cowl_annot_prop_from_cstring(char const *cstring, size_t length)
-    COWL_ENTITY_FROM_CSTRING_IMPL(AnnotProp, annot_prop)
+CowlAnnotProp* cowl_annot_prop_from_string(UString string)
+    COWL_ENTITY_FROM_STRING_IMPL(AnnotProp, annot_prop)
 
 CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
     return prop->iri;
