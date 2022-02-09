@@ -13,7 +13,7 @@ See [CHANGELOG.md](CHANGELOG.md)
 
 ### Copyright and License
 
-Copyright (c) 2019-2021 [SisInf Lab][swot], [Polytechnic University of Bari][poliba]
+Copyright (c) 2019-2022 [SisInf Lab][swot], [Polytechnic University of Bari][poliba]
 
 Cowl is distributed under the [Eclipse Public License, Version 2.0][epl2].
 
