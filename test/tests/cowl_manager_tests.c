@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -18,7 +18,7 @@
 
 static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
     CowlString *string = cowl_error_to_string(error);
-    uostream_write(ctx, cowl_string_get_cstring(string), cowl_string_get_length(string), NULL);
+    uostream_write_string(ctx, cowl_string_get_raw(string), NULL);
     cowl_string_release(string);
 }
 
@@ -47,7 +47,7 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_not_null(onto);
 
     CowlString *string = cowl_ontology_to_string(onto);
-    uostream_write(&stream, cowl_string_get_cstring(string), cowl_string_get_length(string), NULL);
+    uostream_write_string(&stream, cowl_string_get_raw(string), NULL);
     cowl_string_release(string);
 
     cowl_ontology_release(onto);

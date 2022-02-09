@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -115,6 +115,17 @@ char const* cowl_string_get_cstring(CowlString *string);
  */
 COWL_PUBLIC
 ulib_uint cowl_string_get_length(CowlString *string);
+
+/**
+ * Gets the underlying string object.
+ *
+ * @param string The string.
+ * @return Underlying string object.
+ *
+ * @public @memberof CowlString
+ */
+COWL_PUBLIC
+UString const* cowl_string_get_raw(CowlString *string);
 
 /**
  * Returns the string representation of the specified string.

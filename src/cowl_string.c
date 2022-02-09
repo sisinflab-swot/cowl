@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -178,6 +178,10 @@ char const* cowl_string_get_cstring(CowlString *string) {
 
 ulib_uint cowl_string_get_length(CowlString *string) {
     return ustring_length(string->raw_string);
+}
+
+UString const* cowl_string_get_raw(CowlString *string) {
+    return &string->raw_string;
 }
 
 bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {

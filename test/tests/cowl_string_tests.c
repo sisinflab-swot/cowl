@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -23,8 +23,7 @@ bool cowl_test_string_lifecycle(void) {
 
 bool cowl_test_string_get_empty(void) {
     CowlString *string = cowl_string_get_empty();
-    utest_assert_string(cowl_string_get_cstring(string), ==, "");
-    utest_assert_uint(cowl_string_get_length(string), ==, 0);
+    utest_assert_ustring(*cowl_string_get_raw(string), ==, ustring_empty);
 
     CowlString *other = cowl_string_get_empty();
     utest_assert_ptr(string, ==, other);
