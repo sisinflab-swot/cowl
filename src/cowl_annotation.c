@@ -36,7 +36,6 @@ static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue
 }
 
 static void cowl_annotation_free(CowlAnnotation *annot) {
-    if (!annot) return;
     cowl_annot_prop_release(annot->prop);
     cowl_annot_value_release(annot->value);
     cowl_object_vec_free_spec(annotation, annot->annot);

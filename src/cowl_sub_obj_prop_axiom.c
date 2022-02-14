@@ -32,7 +32,6 @@ static CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_alloc(CowlObjPropExp *sub,
 }
 
 static void cowl_sub_obj_prop_axiom_free(CowlSubObjPropAxiom *axiom) {
-    if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->super_prop);
     cowl_obj_prop_exp_release(axiom->sub_prop);
     cowl_axiom_free(axiom);

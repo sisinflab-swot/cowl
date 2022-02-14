@@ -25,7 +25,6 @@ static CowlManager* cowl_manager_alloc() {
 }
 
 static void cowl_manager_free(CowlManager *manager) {
-    if (!manager) return;
     cowl_import_loader_deinit(manager->loader);
     cowl_error_handler_deinit(manager->handler);
     ulib_free(manager);

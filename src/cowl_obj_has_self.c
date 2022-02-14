@@ -28,7 +28,6 @@ static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
 }
 
 static void cowl_obj_has_self_free(CowlObjHasSelf *exp) {
-    if (!exp) return;
     cowl_obj_prop_exp_release(exp->prop);
     ulib_free(exp);
 }

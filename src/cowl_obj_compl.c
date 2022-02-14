@@ -27,7 +27,6 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
 }
 
 static void cowl_obj_compl_free(CowlObjCompl *exp) {
-    if (!exp) return;
     cowl_cls_exp_release(exp->operand);
     ulib_free(exp);
 }

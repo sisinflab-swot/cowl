@@ -34,7 +34,6 @@ static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
 }
 
 static void cowl_datatype_restr_free(CowlDatatypeRestr *restr) {
-    if (!restr) return;
     cowl_datatype_release(restr->datatype);
     cowl_object_set_free(restr->restrictions);
     ulib_free(restr);

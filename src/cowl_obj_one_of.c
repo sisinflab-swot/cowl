@@ -29,7 +29,6 @@ static CowlObjOneOf* cowl_obj_one_of_alloc(CowlObjectTable *inds) {
 }
 
 static void cowl_obj_one_of_free(CowlObjOneOf *exp) {
-    if (!exp) return;
     cowl_object_set_free(exp->inds);
     ulib_free(exp);
 }

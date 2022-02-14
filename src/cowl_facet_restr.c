@@ -29,7 +29,6 @@ static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *valu
 }
 
 static void cowl_facet_restr_free(CowlFacetRestr *restr) {
-    if (!restr) return;
     cowl_literal_release(restr->value);
     ulib_free(restr);
 }

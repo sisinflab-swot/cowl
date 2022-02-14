@@ -33,7 +33,6 @@ static CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_alloc(CowlDataPropExp 
 }
 
 static void cowl_data_prop_range_axiom_free(CowlDataPropRangeAxiom *axiom) {
-    if (!axiom) return;
     cowl_data_prop_exp_release(axiom->prop_exp);
     cowl_data_range_release(axiom->range);
     cowl_axiom_free(axiom);

@@ -33,7 +33,6 @@ static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *pr
 }
 
 static void cowl_obj_prop_range_axiom_free(CowlObjPropRangeAxiom *axiom) {
-    if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->prop_exp);
     cowl_cls_exp_release(axiom->range);
     cowl_axiom_free(axiom);

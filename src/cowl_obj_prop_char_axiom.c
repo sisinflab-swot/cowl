@@ -31,7 +31,6 @@ static CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_alloc(CowlAxiomType type,
 }
 
 static void cowl_obj_prop_char_axiom_free(CowlObjPropCharAxiom *axiom) {
-    if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->prop_exp);
     cowl_axiom_free(axiom);
 }

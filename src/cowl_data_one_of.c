@@ -29,7 +29,6 @@ static CowlDataOneOf* cowl_data_one_of_alloc(CowlObjectTable *values) {
 }
 
 static void cowl_data_one_of_free(CowlDataOneOf *range) {
-    if (!range) return;
     cowl_object_set_free(range->values);
     ulib_free(range);
 }

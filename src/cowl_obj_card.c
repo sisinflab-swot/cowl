@@ -41,7 +41,6 @@ static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *pro
 }
 
 static void cowl_obj_card_free(CowlObjCard *restr) {
-    if (!restr) return;
     cowl_obj_prop_exp_release(restr->prop);
     cowl_cls_exp_release(restr->filler);
     ulib_free(restr);

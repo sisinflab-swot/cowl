@@ -31,7 +31,6 @@ static CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_alloc(CowlAxiomType type
 }
 
 static void cowl_nary_data_prop_axiom_free(CowlNAryDataPropAxiom *axiom) {
-    if (!axiom) return;
     cowl_object_set_free(axiom->props);
     cowl_axiom_free(axiom);
 }

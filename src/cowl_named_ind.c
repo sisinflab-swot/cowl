@@ -46,7 +46,6 @@ static CowlNamedInd* cowl_named_ind_alloc(CowlIRI *iri) {
 }
 
 static void cowl_named_ind_free(CowlNamedInd *ind) {
-    if (!ind) return;
     cowl_iri_release(ind->iri);
     ulib_free(ind);
 }

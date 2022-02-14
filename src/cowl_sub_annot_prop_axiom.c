@@ -32,7 +32,6 @@ static CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_alloc(CowlAnnotProp *sub
 }
 
 static void cowl_sub_annot_prop_axiom_free(CowlSubAnnotPropAxiom *axiom) {
-    if (!axiom) return;
     cowl_annot_prop_release(axiom->sub_prop);
     cowl_annot_prop_release(axiom->super_prop);
     cowl_axiom_free(axiom);

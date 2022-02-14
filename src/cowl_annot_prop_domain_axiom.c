@@ -33,7 +33,6 @@ static CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_alloc(CowlAnnotPro
 }
 
 static void cowl_annot_prop_domain_axiom_free(CowlAnnotPropDomainAxiom *axiom) {
-    if (!axiom) return;
     cowl_annot_prop_release(axiom->prop);
     cowl_iri_release(axiom->domain);
     cowl_axiom_free(axiom);

@@ -28,7 +28,6 @@ static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlObjectVec *a
 }
 
 static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
-    if (!axiom) return;
     cowl_entity_release(axiom->entity);
     cowl_axiom_free(axiom);
 }

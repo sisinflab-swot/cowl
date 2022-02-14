@@ -49,7 +49,6 @@ static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
 }
 
 static void cowl_datatype_free(CowlDatatype *dt) {
-    if (!dt) return;
     cowl_iri_release(dt->iri);
     ulib_free(dt);
 }

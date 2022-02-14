@@ -12,7 +12,6 @@
 #include "cowl_anon_ind.h"
 #include "cowl_func_yylexer.h"
 #include "cowl_iri.h"
-#include "cowl_macros.h"
 #include "cowl_object_table_private.h"
 #include "cowl_parser_ctx.h"
 #include "cowl_string_private.h"

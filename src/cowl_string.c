@@ -49,12 +49,11 @@ CowlString cowl_string_init(UString raw_string) {
 }
 
 static void cowl_string_free(CowlString *string) {
-    if (!string) return;
     ustring_deinit(string->raw_string);
     ulib_free(string);
 }
 
-static CowlString* cowl_string_get_intern(UString raw_string, bool copy) {
+static CowlString* cowl_string_get_intern(UString raw_string) {
     if (!ustring_length(raw_string)) return cowl_string_get_empty();
 
     CowlString *string;
@@ -67,8 +66,7 @@ static CowlString* cowl_string_get_intern(UString raw_string, bool copy) {
         string = uhash_key(inst_tbl, idx);
         cowl_string_retain(string);
     } else if (ret == UHASH_INSERTED) {
-        if (copy) raw_string = ustring_dup(raw_string);
-        string = cowl_string_alloc(raw_string);
+        string = cowl_string_alloc(ustring_dup(raw_string));
         cowl_object_bit_set(string);
         uhash_key(inst_tbl, idx) = string;
     } else {
@@ -119,7 +117,7 @@ cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString 
     }
 
     UString raw_string = ustring_wrap(cstring, ns_length);
-    CowlString *lhs = cowl_string_get_intern(raw_string, true);
+    CowlString *lhs = cowl_string_get_intern(raw_string);
     cowl_ret ret;
 
     if (lhs && rhs) {

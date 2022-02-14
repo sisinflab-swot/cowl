@@ -30,7 +30,6 @@ static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectTable *
 }
 
 static void cowl_nary_bool_free(CowlNAryBool *exp) {
-    if (!exp) return;
     cowl_object_set_free(exp->operands);
     ulib_free(exp);
 }

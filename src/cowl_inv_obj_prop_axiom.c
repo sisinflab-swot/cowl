@@ -32,7 +32,6 @@ static CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_alloc(CowlObjPropExp *first,
 }
 
 static void cowl_inv_obj_prop_axiom_free(CowlInvObjPropAxiom *axiom) {
-    if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->first);
     cowl_obj_prop_exp_release(axiom->second);
     cowl_axiom_free(axiom);

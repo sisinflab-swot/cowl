@@ -50,7 +50,6 @@ static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
 }
 
 static void cowl_iri_free(CowlIRI *iri) {
-    if (!iri) return;
     cowl_string_release(iri->ns);
     cowl_string_release(iri->rem);
     ulib_free(iri);

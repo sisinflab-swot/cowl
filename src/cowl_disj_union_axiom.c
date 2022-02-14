@@ -32,7 +32,6 @@ static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjec
 }
 
 static void cowl_disj_union_axiom_free(CowlDisjUnionAxiom *axiom) {
-    if (!axiom) return;
     cowl_class_release(axiom->cls);
     cowl_object_set_free(axiom->disjoints);
     cowl_axiom_free(axiom);

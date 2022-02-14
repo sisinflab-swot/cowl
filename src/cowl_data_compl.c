@@ -27,7 +27,6 @@ static CowlDataCompl* cowl_data_compl_alloc(CowlDataRange *operand) {
 }
 
 static void cowl_data_compl_free(CowlDataCompl *range) {
-    if (!range) return;
     cowl_data_range_release(range->operand);
     ulib_free(range);
 }

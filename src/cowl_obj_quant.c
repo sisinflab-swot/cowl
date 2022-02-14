@@ -32,7 +32,6 @@ static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *p
 }
 
 static void cowl_obj_quant_free(CowlObjQuant *restr) {
-    if (!restr) return;
     cowl_obj_prop_exp_release(restr->prop);
     cowl_cls_exp_release(restr->filler);
     ulib_free(restr);

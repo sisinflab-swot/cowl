@@ -34,7 +34,6 @@ static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp
 }
 
 static void cowl_data_quant_free(CowlDataQuant *restr) {
-    if (!restr) return;
     cowl_data_prop_exp_release(restr->prop);
     cowl_data_range_release(restr->range);
     ulib_free(restr);

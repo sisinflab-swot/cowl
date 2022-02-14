@@ -23,7 +23,7 @@ static CowlAnonInd* cowl_anon_ind_alloc(void) {
 }
 
 static void cowl_anon_ind_free(CowlAnonInd *ind) {
-    if (ind) ulib_free(ind);
+    ulib_free(ind);
 }
 
 CowlAnonInd* cowl_anon_ind_get(void) {

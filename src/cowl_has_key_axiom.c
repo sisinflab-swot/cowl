@@ -36,7 +36,6 @@ static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObject
 }
 
 static void cowl_has_key_axiom_free(CowlHasKeyAxiom *axiom) {
-    if (!axiom) return;
     cowl_cls_exp_release(axiom->cls_exp);
     cowl_object_set_free(axiom->obj_props);
     cowl_object_set_free(axiom->data_props);

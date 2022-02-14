@@ -33,7 +33,6 @@ static CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_alloc(CowlAnnotProp 
 }
 
 static void cowl_annot_prop_range_axiom_free(CowlAnnotPropRangeAxiom *axiom) {
-    if (!axiom) return;
     cowl_annot_prop_release(axiom->prop);
     cowl_iri_release(axiom->range);
     cowl_axiom_free(axiom);

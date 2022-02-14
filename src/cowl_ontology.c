@@ -400,8 +400,6 @@ CowlOntology* cowl_ontology_alloc(void) {
 }
 
 void cowl_ontology_free(CowlOntology *onto) {
-    if (!onto) return;
-
     cowl_iri_release(onto->id.ontology_iri);
     cowl_iri_release(onto->id.version_iri);
     cowl_object_vec_free_spec(ontology, onto->imports);

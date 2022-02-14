@@ -46,7 +46,6 @@ static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
 }
 
 static void cowl_data_prop_free(CowlDataProp *prop) {
-    if (!prop) return;
     cowl_iri_release(prop->iri);
     ulib_free(prop);
 }

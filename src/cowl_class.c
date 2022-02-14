@@ -50,7 +50,6 @@ static CowlClass* cowl_class_alloc(CowlIRI *iri) {
 }
 
 static void cowl_class_free(CowlClass *cls) {
-    if (!cls) return;
     cowl_iri_release(cls->iri);
     ulib_free(cls);
 }

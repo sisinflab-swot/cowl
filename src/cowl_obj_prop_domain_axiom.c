@@ -33,7 +33,6 @@ static CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp *
 }
 
 static void cowl_obj_prop_domain_axiom_free(CowlObjPropDomainAxiom *axiom) {
-    if (!axiom) return;
     cowl_obj_prop_exp_release(axiom->prop_exp);
     cowl_cls_exp_release(axiom->domain);
     cowl_axiom_free(axiom);

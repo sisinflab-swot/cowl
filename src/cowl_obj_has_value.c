@@ -32,7 +32,6 @@ static CowlObjHasValue* cowl_obj_has_value_alloc(CowlObjPropExp *prop, CowlIndiv
 }
 
 static void cowl_obj_has_value_free(CowlObjHasValue *exp) {
-    if (!exp) return;
     cowl_obj_prop_exp_release(exp->prop);
     cowl_individual_release(exp->ind);
     ulib_free(exp);

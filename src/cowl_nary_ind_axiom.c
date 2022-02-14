@@ -30,7 +30,6 @@ static CowlNAryIndAxiom* cowl_nary_ind_axiom_alloc(CowlAxiomType type, CowlObjec
 }
 
 static void cowl_nary_ind_axiom_free(CowlNAryIndAxiom *axiom) {
-    if (!axiom) return;
     cowl_object_set_free(axiom->individuals);
     cowl_axiom_free(axiom);
 }

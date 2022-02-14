@@ -46,7 +46,6 @@ static CowlAnnotProp* cowl_annot_prop_alloc(CowlIRI *iri) {
 }
 
 static void cowl_annot_prop_free(CowlAnnotProp *prop) {
-    if (!prop) return;
     cowl_iri_release(prop->iri);
     ulib_free(prop);
 }

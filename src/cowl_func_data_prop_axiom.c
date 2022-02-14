@@ -29,7 +29,6 @@ static CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_alloc(CowlDataPropExp *p
 }
 
 static void cowl_func_data_prop_axiom_free(CowlFuncDataPropAxiom *axiom) {
-    if (!axiom) return;
     cowl_data_prop_exp_release(axiom->prop);
     cowl_axiom_free(axiom);
 }

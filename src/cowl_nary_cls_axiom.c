@@ -30,7 +30,6 @@ static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlObjec
 }
 
 static void cowl_nary_cls_axiom_free(CowlNAryClsAxiom *axiom) {
-    if (!axiom) return;
     cowl_object_set_free(axiom->classes);
     cowl_axiom_free(axiom);
 }

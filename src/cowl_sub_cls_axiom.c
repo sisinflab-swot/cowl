@@ -31,7 +31,6 @@ static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *su
 }
 
 static void cowl_sub_cls_axiom_free(CowlSubClsAxiom *axiom) {
-    if (!axiom) return;
     cowl_cls_exp_release(axiom->super_class);
     cowl_cls_exp_release(axiom->sub_class);
     cowl_axiom_free(axiom);

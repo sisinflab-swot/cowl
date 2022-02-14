@@ -32,7 +32,6 @@ static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLi
 }
 
 static void cowl_data_has_value_free(CowlDataHasValue *restr) {
-    if (!restr) return;
     cowl_data_prop_exp_release(restr->prop);
     cowl_literal_release(restr->value);
     ulib_free(restr);

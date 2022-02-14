@@ -26,7 +26,6 @@ static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
 }
 
 static void cowl_inv_obj_prop_free(CowlInvObjProp *inv) {
-    if (!inv) return;
     cowl_obj_prop_release(inv->prop);
     ulib_free(inv);
 }

@@ -37,7 +37,6 @@ static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType ty
 }
 
 static void cowl_obj_prop_assert_axiom_free(CowlObjPropAssertAxiom *axiom) {
-    if (!axiom) return;
     cowl_individual_release(axiom->subject);
     cowl_individual_release(axiom->object);
     cowl_obj_prop_exp_release(axiom->prop_exp);

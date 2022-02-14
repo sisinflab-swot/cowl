@@ -36,7 +36,6 @@ static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue *subje
 }
 
 static void cowl_annot_assert_axiom_free(CowlAnnotAssertAxiom *axiom) {
-    if (!axiom) return;
     cowl_annot_value_release(axiom->subject);
     cowl_annot_value_release(axiom->value);
     cowl_annot_prop_release(axiom->prop);

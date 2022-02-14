@@ -33,7 +33,6 @@ static CowlDatatypeDefAxiom* cowl_datatype_def_axiom_alloc(CowlDatatype *dt,
 }
 
 static void cowl_datatype_def_axiom_free(CowlDatatypeDefAxiom *axiom) {
-    if (!axiom) return;
     cowl_datatype_release(axiom->datatype);
     cowl_data_range_release(axiom->range);
     cowl_axiom_free(axiom);

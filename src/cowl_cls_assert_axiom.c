@@ -32,7 +32,6 @@ static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, Cowl
 }
 
 static void cowl_cls_assert_axiom_free(CowlClsAssertAxiom *axiom) {
-    if (!axiom) return;
     cowl_individual_release(axiom->ind);
     cowl_cls_exp_release(axiom->cls_exp);
     cowl_axiom_free(axiom);

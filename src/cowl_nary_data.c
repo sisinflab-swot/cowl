@@ -30,7 +30,6 @@ static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlObjectTabl
 }
 
 static void cowl_nary_data_free(CowlNAryData *range) {
-    if (!range) return;
     cowl_object_set_free(range->operands);
     ulib_free(range);
 }
