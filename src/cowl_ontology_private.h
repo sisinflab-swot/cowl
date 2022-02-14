@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 uvec_decl(CowlObjectPtr);
 uhash_decl(CowlObjectTable);
 
-cowl_struct(CowlOntology) {
+struct CowlOntology {
     CowlObject super;
     UVec(CowlObjectPtr) *imports;
     UVec(CowlObjectPtr) *annotations;

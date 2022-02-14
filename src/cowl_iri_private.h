@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlIRI) {
+struct CowlIRI {
     CowlObject super;
     CowlString *ns;
     CowlString *rem;

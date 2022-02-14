@@ -34,7 +34,7 @@ typedef enum uvec_ret uvec_ret;
  *
  * @note Error codes are guaranteed to evaluate to true in boolean expressions.
  */
-typedef cowl_enum(cowl_ret) {
+typedef enum cowl_ret {
 
 /// @name Codes
 

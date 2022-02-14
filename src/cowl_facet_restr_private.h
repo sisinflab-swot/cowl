@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlFacetRestr) {
+struct CowlFacetRestr {
     CowlHashObject super;
     CowlFacet facet;
     CowlLiteral *value;

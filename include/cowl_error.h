@@ -24,7 +24,7 @@ cowl_struct_decl(CowlString);
 /// @endcond
 
 /// Error location.
-typedef cowl_struct(CowlErrorLoc) {
+typedef struct CowlErrorLoc {
 
     /// Line where the error occurred.
     ulib_uint line;
@@ -38,7 +38,7 @@ typedef cowl_struct(CowlErrorLoc) {
 } CowlErrorLoc;
 
 /// Error data structure.
-typedef cowl_struct(CowlError) {
+typedef struct CowlError {
 
     /// Error code.
     cowl_ret code;

@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlObjQuant) {
+struct CowlObjQuant {
     CowlClsExp super;
     CowlObjPropExp *prop;
     CowlClsExp *filler;

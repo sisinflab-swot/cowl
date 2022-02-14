@@ -11,7 +11,7 @@
 #include "cowl_xsd_vocab_private.h"
 #include "cowl_vocab_utils.h"
 
-static cowl_struct(CowlXSDVocab) vocab;
+static struct CowlXSDVocab vocab;
 
 static inline cowl_ret cowl_xsd_vocab_validate(void) {
     if (!vocab.ns) return COWL_ERR_MEM;
@@ -93,7 +93,7 @@ cowl_ret cowl_xsd_vocab_init(void) {
         .fraction_digits = cowl_iri_vocab_get(ns, "fractionDigits")
     };
 
-    vocab = (cowl_struct(CowlXSDVocab)) {
+    vocab = (struct CowlXSDVocab) {
         .ns = ns,
         .iri = v,
         .dt = {

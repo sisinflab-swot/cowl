@@ -19,7 +19,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlString);
 
-cowl_struct(CowlLiteral) {
+struct CowlLiteral {
     CowlHashObject super;
     CowlDatatype *dt;
     CowlString *value;

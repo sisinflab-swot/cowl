@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlEntity.
-typedef cowl_enum(CowlEntityType) {
+typedef enum CowlEntityType {
 
 /// @name Types
 

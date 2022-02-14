@@ -22,7 +22,7 @@ cowl_struct_decl(CowlParserCtx);
 /// @endcond
 
 /// Defines a parser.
-typedef cowl_struct(CowlParser) {
+typedef struct CowlParser {
 
     /// Name of the parser.
     char const *name;

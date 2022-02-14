@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataCard) {
+struct CowlDataCard {
     CowlClsExp super;
     ulib_uint cardinality;
     CowlDataPropExp *prop;

@@ -25,7 +25,7 @@ cowl_struct_decl(CowlString);
 /// @endcond
 
 /// Vocabulary of RDFS IRIs.
-typedef cowl_struct(CowlRDFSIRIVocab) {
+typedef struct CowlRDFSIRIVocab {
 
     /// rdfs:comment
     CowlIRI *comment;
@@ -45,7 +45,7 @@ typedef cowl_struct(CowlRDFSIRIVocab) {
 } CowlRDFSIRIVocab;
 
 /// Vocabulary of RDFS datatypes.
-typedef cowl_struct(CowlRDFSDatatypeVocab) {
+typedef struct CowlRDFSDatatypeVocab {
 
     /// rdfs:Literal
     CowlDatatype *literal;
@@ -53,7 +53,7 @@ typedef cowl_struct(CowlRDFSDatatypeVocab) {
 } CowlRDFSDatatypeVocab;
 
 /// Vocabulary of RDFS annotation properties.
-typedef cowl_struct(CowlRDFSAnnotPropVocab) {
+typedef struct CowlRDFSAnnotPropVocab {
 
     /// rdfs:comment
     CowlAnnotProp *comment;
@@ -70,7 +70,7 @@ typedef cowl_struct(CowlRDFSAnnotPropVocab) {
 } CowlRDFSAnnotPropVocab;
 
 /// The RDFS vocabulary.
-typedef cowl_struct(CowlRDFSVocab) {
+typedef struct CowlRDFSVocab {
 
     /// RDFS namespace.
     CowlString *ns;

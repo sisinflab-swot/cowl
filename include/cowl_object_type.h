@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlObject.
-typedef cowl_enum(CowlObjectType) {
+typedef enum CowlObjectType {
 
 /// @name Base types
 

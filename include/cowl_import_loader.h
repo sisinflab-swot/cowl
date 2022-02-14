@@ -32,7 +32,7 @@ cowl_struct_decl(CowlOntology);
  *
  * [ontology imports]: https://www.w3.org/TR/owl2-syntax/#Imports
  */
-typedef cowl_struct(CowlImportLoader) {
+typedef struct CowlImportLoader {
 
     /// Loader context, can be anything.
     void *ctx;

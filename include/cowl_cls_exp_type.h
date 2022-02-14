@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlClsExp.
-typedef cowl_enum(CowlClsExpType) {
+typedef enum CowlClsExpType {
 
     /// CowlClass - class.
     COWL_CET_CLASS,

@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlObjCard and CowlDataCard.
-typedef cowl_enum(CowlCardType) {
+typedef enum CowlCardType {
 
 /// @name Types
 

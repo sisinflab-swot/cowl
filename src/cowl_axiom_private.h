@@ -19,12 +19,12 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlAxiom) {
+struct CowlAxiom {
     CowlHashObject super;
 };
 
 #define cowl_axiom_struct(T, FIELDS)                                                                \
-    cowl_struct(T) {                                                                                \
+    struct T {                                                                                \
         CowlAxiom super;                                                                            \
         FIELDS                                                                                      \
         CowlObjectVec *annot[];                                                                     \

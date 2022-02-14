@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlString) {
+struct CowlString {
     CowlHashObject super;
     UString raw_string;
 };

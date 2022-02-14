@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDatatype) {
+struct CowlDatatype {
     CowlDataRange super;
     CowlIRI *iri;
 };

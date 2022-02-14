@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlAnnotProp) {
+struct CowlAnnotProp {
     CowlObject super;
     CowlIRI *iri;
 };

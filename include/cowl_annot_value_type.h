@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlAnnotValue.
-typedef cowl_enum(CowlAnnotValueType) {
+typedef enum CowlAnnotValueType {
 
 /// @name Types
 

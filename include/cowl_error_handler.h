@@ -22,7 +22,7 @@ cowl_struct_decl(CowlError);
 /// @endcond
 
 /// Provides a mechanism for error handling.
-typedef cowl_struct(CowlErrorHandler) {
+typedef struct CowlErrorHandler {
 
     /// Error handler context, can be anything.
     void *ctx;

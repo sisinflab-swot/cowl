@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataRange) {
+struct CowlDataRange {
     CowlHashObject super;
 };
 

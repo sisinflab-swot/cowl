@@ -22,7 +22,7 @@ cowl_struct_decl(CowlIRI);
 /// @endcond
 
 /// Represents the facets that can be used for restricting a datatype.
-typedef cowl_enum(CowlFacet) {
+typedef enum CowlFacet {
 
 /// @name Facets
 

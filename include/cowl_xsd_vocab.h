@@ -24,7 +24,7 @@ cowl_struct_decl(CowlString);
 /// @endcond
 
 /// Vocabulary of XSD IRIs.
-typedef cowl_struct(CowlXSDIRIVocab) {
+typedef struct CowlXSDIRIVocab {
 
 /// @name Datatypes
 
@@ -213,7 +213,7 @@ typedef cowl_struct(CowlXSDIRIVocab) {
 } CowlXSDIRIVocab;
 
 /// Vocabulary of XSD datatypes.
-typedef cowl_struct(CowlXSDDatatypeVocab) {
+typedef struct CowlXSDDatatypeVocab {
 
     /// xsd:anyAtomicType
     CowlDatatype *any_atomic_type;
@@ -368,7 +368,7 @@ typedef cowl_struct(CowlXSDDatatypeVocab) {
 } CowlXSDDatatypeVocab;
 
 /// The XSD vocabulary.
-typedef cowl_struct(CowlXSDVocab) {
+typedef struct CowlXSDVocab {
 
     /// XSD namespace.
     CowlString *ns;

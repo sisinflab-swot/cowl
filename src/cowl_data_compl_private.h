@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataCompl) {
+struct CowlDataCompl {
     CowlDataRange super;
     CowlDataRange *operand;
 };

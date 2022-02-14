@@ -17,7 +17,7 @@ COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlManager);
 
-typedef cowl_struct(CowlParserCtx) {
+typedef struct CowlParserCtx {
     CowlManager *manager;
     CowlOntology *ontology;
     char const *description;

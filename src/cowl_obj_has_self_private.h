@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlObjHasSelf) {
+struct CowlObjHasSelf {
     CowlClsExp super;
     CowlObjPropExp *prop;
 };

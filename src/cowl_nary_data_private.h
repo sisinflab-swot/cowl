@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlNAryData) {
+struct CowlNAryData {
     CowlDataRange super;
     CowlObjectTable *operands;
 };

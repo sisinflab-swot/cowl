@@ -11,7 +11,7 @@
 #include "cowl_ontology_private.h"
 #include "cowl_private.h"
 
-typedef cowl_struct(CowlAxiomCtx) {
+typedef struct CowlAxiomCtx {
     cowl_ret ret;
     CowlOntology *onto;
     CowlAxiom *axiom;

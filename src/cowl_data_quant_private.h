@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataQuant) {
+struct CowlDataQuant {
     CowlClsExp super;
     CowlDataPropExp *prop;
     CowlDataRange *range;

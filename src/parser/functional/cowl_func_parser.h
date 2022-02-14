@@ -19,7 +19,7 @@ cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlIRI);
 cowl_hash_decl(CowlObjectTable);
 
-typedef cowl_struct(CowlFuncParser) {
+typedef struct CowlFuncParser {
     CowlParserCtx *ctx;
     UHash(CowlObjectTable) *prefix_ns_map;
     UHash(CowlObjectTable) *anon_ind_map;

@@ -11,7 +11,7 @@
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_vocab_utils.h"
 
-static cowl_struct(CowlRDFVocab) vocab;
+static struct CowlRDFVocab vocab;
 
 static inline cowl_ret cowl_rdf_vocab_validate(void) {
     if (vocab.ns && vocab.iri.plain_literal && vocab.iri.xml_literal &&
@@ -30,7 +30,7 @@ cowl_ret cowl_rdf_vocab_init(void) {
         .lang_range = cowl_iri_vocab_get(ns, "langRange")
     };
 
-    vocab = (cowl_struct(CowlRDFVocab)) {
+    vocab = (struct CowlRDFVocab) {
         .ns = ns,
         .iri = v,
         .dt = {

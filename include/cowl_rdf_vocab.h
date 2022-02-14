@@ -24,7 +24,7 @@ cowl_struct_decl(CowlString);
 /// @endcond
 
 /// Vocabulary of RDF IRIs.
-typedef cowl_struct(CowlRDFIRIVocab) {
+typedef struct CowlRDFIRIVocab {
 
     /// rdf:langRange
     CowlIRI *lang_range;
@@ -38,7 +38,7 @@ typedef cowl_struct(CowlRDFIRIVocab) {
 } CowlRDFIRIVocab;
 
 /// Vocabulary of RDF datatypes.
-typedef cowl_struct(CowlRDFDatatypeVocab) {
+typedef struct CowlRDFDatatypeVocab {
 
     /// rdf:PlainLiteral
     CowlDatatype *plain_literal;
@@ -49,7 +49,7 @@ typedef cowl_struct(CowlRDFDatatypeVocab) {
 } CowlRDFDatatypeVocab;
 
 /// The RDF vocabulary.
-typedef cowl_struct(CowlRDFVocab) {
+typedef struct CowlRDFVocab {
 
     /// RDF namespace.
     CowlString *ns;

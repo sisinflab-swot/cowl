@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDatatypeRestr) {
+struct CowlDatatypeRestr {
     CowlDataRange super;
     CowlDatatype *datatype;
     CowlObjectTable *restrictions;

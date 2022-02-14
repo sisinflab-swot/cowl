@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlAnnotation) {
+struct CowlAnnotation {
     CowlHashObject super;
     CowlAnnotProp *prop;
     CowlAnnotValue *value;

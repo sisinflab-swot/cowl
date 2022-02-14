@@ -79,32 +79,11 @@
 #endif
 
 /**
- * Struct type.
- *
- * @param NAME Name of the struct type.
- */
-#define cowl_struct(NAME) struct NAME##_s
-
-/**
- * Enum type.
- *
- * @param NAME Name of the enum type.
- */
-#define cowl_enum(NAME) enum NAME##_e
-
-/**
  * Struct type forward declaration.
  *
  * @param NAME Name of the struct type.
  */
-#define cowl_struct_decl(NAME) typedef cowl_struct(NAME) NAME
-
-/**
- * Enum type forward declaration.
- *
- * @param NAME Name of the enum type.
- */
-#define cowl_enum_decl(NAME) typedef cowl_enum(NAME) NAME
+#define cowl_struct_decl(NAME) typedef struct NAME NAME
 
 /**
  * Vector type forward declaration.

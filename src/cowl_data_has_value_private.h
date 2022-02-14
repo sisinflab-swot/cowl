@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataHasValue) {
+struct CowlDataHasValue {
     CowlClsExp super;
     CowlDataPropExp *prop;
     CowlLiteral *value;

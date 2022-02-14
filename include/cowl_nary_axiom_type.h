@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
  * Represents the type of CowlNAryClsAxiom, CowlNAryObjPropAxiom,
  * CowlNAryDataPropAxiom and CowlNAryIndAxiom.
  */
-typedef cowl_enum(CowlNAryAxiomType) {
+typedef enum CowlNAryAxiomType {
 
 /// @name Classes and Properties
 

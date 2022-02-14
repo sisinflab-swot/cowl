@@ -11,7 +11,7 @@
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_vocab_utils.h"
 
-static cowl_struct(CowlRDFSVocab) vocab;
+static struct CowlRDFSVocab vocab;
 
 static inline cowl_ret cowl_rdfs_vocab_validate(void) {
     if (vocab.ns && vocab.iri.comment && vocab.iri.defined_by && vocab.iri.label &&

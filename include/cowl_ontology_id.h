@@ -29,7 +29,7 @@ cowl_struct_decl(CowlString);
  *
  * [Ontology IRI and version IRI]: https://www.w3.org/TR/owl2-syntax/#Ontology_IRI_and_Version_IRI
  */
-typedef cowl_struct(CowlOntologyId) {
+typedef struct CowlOntologyId {
 
     /// The ontology IRI.
     CowlIRI *ontology_iri;

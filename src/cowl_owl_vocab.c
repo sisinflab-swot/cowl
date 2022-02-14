@@ -11,7 +11,7 @@
 #include "cowl_owl_vocab_private.h"
 #include "cowl_vocab_utils.h"
 
-static cowl_struct(CowlOWLVocab) vocab;
+static struct CowlOWLVocab vocab;
 
 static inline cowl_ret cowl_owl_vocab_validate(void) {
     if (vocab.ns && vocab.iri.thing && vocab.iri.nothing && vocab.iri.top_obj_prop &&
@@ -48,7 +48,7 @@ cowl_ret cowl_owl_vocab_init(void) {
         .version_info = cowl_iri_vocab_get(ns, "versionInfo")
     };
 
-    vocab = (cowl_struct(CowlOWLVocab)) {
+    vocab = (struct CowlOWLVocab) {
         .ns = ns,
         .iri = v,
 

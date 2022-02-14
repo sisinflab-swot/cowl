@@ -16,11 +16,11 @@
 
 COWL_BEGIN_DECLS
 
-typedef cowl_struct(CowlObject) {
+typedef struct CowlObject {
     CowlObjectFlags flags;
 } CowlObject;
 
-typedef cowl_struct(CowlHashObject) {
+typedef struct CowlHashObject {
     CowlObject super;
     ulib_uint hash;
 } CowlHashObject;

@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlObjOneOf) {
+struct CowlObjOneOf {
     CowlClsExp super;
     CowlObjectTable *inds;
 };

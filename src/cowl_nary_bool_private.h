@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlNAryBool) {
+struct CowlNAryBool {
     CowlClsExp super;
     CowlObjectTable *operands;
 };

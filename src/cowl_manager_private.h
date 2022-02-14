@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlManager) {
+struct CowlManager {
     CowlObject super;
     CowlParser parser;
     CowlErrorHandler handler;

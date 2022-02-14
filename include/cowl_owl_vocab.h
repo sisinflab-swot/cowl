@@ -28,7 +28,7 @@ cowl_struct_decl(CowlString);
 /// @endcond
 
 /// Vocabulary of OWL IRIs.
-typedef cowl_struct(CowlOWLIRIVocab) {
+typedef struct CowlOWLIRIVocab {
 
     /// owl:backwardCompatibleWith
     CowlIRI *backward_comp;
@@ -72,7 +72,7 @@ typedef cowl_struct(CowlOWLIRIVocab) {
 } CowlOWLIRIVocab;
 
 /// Vocabulary of OWL classes.
-typedef cowl_struct(CowlOWLClassVocab) {
+typedef struct CowlOWLClassVocab {
 
     /// owl:Thing
     CowlClass *thing;
@@ -83,7 +83,7 @@ typedef cowl_struct(CowlOWLClassVocab) {
 } CowlOWLClassVocab;
 
 /// Vocabulary of OWL datatypes.
-typedef cowl_struct(CowlOWLDatatypeVocab) {
+typedef struct CowlOWLDatatypeVocab {
 
     /// owl:rational
     CowlDatatype *rational;
@@ -94,7 +94,7 @@ typedef cowl_struct(CowlOWLDatatypeVocab) {
 } CowlOWLDatatypeVocab;
 
 /// Vocabulary of OWL object properties.
-typedef cowl_struct(CowlOWLObjPropVocab) {
+typedef struct CowlOWLObjPropVocab {
 
     /// owl:topObjectProperty
     CowlObjProp *top_obj_prop;
@@ -105,7 +105,7 @@ typedef cowl_struct(CowlOWLObjPropVocab) {
 } CowlOWLObjPropVocab;
 
 /// Vocabulary of OWL data properties.
-typedef cowl_struct(CowlOWLDataPropVocab) {
+typedef struct CowlOWLDataPropVocab {
 
     /// owl:topDataProperty
     CowlDataProp *top_data_prop;
@@ -116,7 +116,7 @@ typedef cowl_struct(CowlOWLDataPropVocab) {
 } CowlOWLDataPropVocab;
 
 /// Vocabulary of OWL annotation properties.
-typedef cowl_struct(CowlOWLAnnotPropVocab) {
+typedef struct CowlOWLAnnotPropVocab {
 
     /// owl:backwardCompatibleWith
     CowlAnnotProp *backward_comp;
@@ -136,7 +136,7 @@ typedef cowl_struct(CowlOWLAnnotPropVocab) {
 } CowlOWLAnnotPropVocab;
 
 /// The OWL 2 vocabulary.
-typedef cowl_struct(CowlOWLVocab) {
+typedef struct CowlOWLVocab {
 
     /// OWL namespace.
     CowlString *ns;

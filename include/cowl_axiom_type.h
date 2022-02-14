@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlAxiom.
-typedef cowl_enum(CowlAxiomType) {
+typedef enum CowlAxiomType {
 
 /// @name Declaration/definition
 

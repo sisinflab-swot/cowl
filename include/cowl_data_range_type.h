@@ -19,7 +19,7 @@ COWL_BEGIN_DECLS
 
 
 /// Represents the type of CowlDataRange.
-typedef cowl_enum(CowlDataRangeType) {
+typedef enum CowlDataRangeType {
 
 /// @name Types
 

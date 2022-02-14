@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// Represents the type of CowlObjPropCharAxiom.
-typedef cowl_enum(CowlCharAxiomType) {
+typedef enum CowlCharAxiomType {
 
 /// @name Types
 

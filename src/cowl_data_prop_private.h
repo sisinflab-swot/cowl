@@ -16,7 +16,7 @@
 
 COWL_BEGIN_DECLS
 
-cowl_struct(CowlDataProp) {
+struct CowlDataProp {
     CowlDataPropExp super;
     CowlIRI *iri;
 };

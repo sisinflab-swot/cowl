@@ -37,7 +37,7 @@ cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
  * while returning `false` causes it to stop. This is useful if, for example,
  * you want to find the first element matching certain criteria.
  */
-typedef cowl_struct(CowlIterator) {
+typedef struct CowlIterator {
 
     /// The iterator context, can be anything.
     void *ctx;
