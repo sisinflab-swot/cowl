@@ -129,14 +129,13 @@ CowlOntology* cowl_manager_read_file(CowlManager *manager, FILE *file);
  * Reads an ontology from the specified string.
  *
  * @param manager The manager.
- * @param cstring The input string.
- * @param length Length of the input string (excluding the NULL terminator).
+ * @param string The input string.
  * @return The read ontology, or NULL on error.
  *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOntology* cowl_manager_read_cstring(CowlManager *manager, char const *cstring, size_t length);
+CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *string);
 
 /**
  * Reads an ontology from the specified input stream.

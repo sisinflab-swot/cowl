@@ -111,9 +111,9 @@ CowlOntology* cowl_manager_read_file(CowlManager *manager, FILE *file) {
     return cowl_parser_ctx_read_deinit(&ctx, &stream);
 }
 
-CowlOntology* cowl_manager_read_cstring(CowlManager *manager, char const *cstring, size_t length) {
+CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *string) {
     UIStream stream;
-    ustream_ret ret = uistream_from_buf(&stream, (char *)cstring, length);
+    ustream_ret ret = uistream_from_ustring(&stream, string);
     CowlParserCtx ctx = { .manager = manager };
 
     if (ret) {
