@@ -23,17 +23,17 @@ static bool count_primitive_iterator(void *ctx, cowl_unused void *obj) {
 int main(int argc, char *argv[]) {
     cowl_api_init();
 
-    char const *onto_path = argc > 1 ? argv[1] : "test_onto.owl";
+    char const *path = argc > 1 ? argv[1] : "test_onto.owl";
     CowlManager *manager = cowl_manager_get();
 
     utime_ns t = utime_get_ns();
-    CowlOntology *onto = cowl_manager_read_path(manager, onto_path);
+    CowlOntology *onto = cowl_manager_read_path(manager, ustring_wrap(path, strlen(path)));
     t = utime_get_ns() - t;
 
     cowl_manager_release(manager);
 
     if (!onto) {
-        printf("Failed to read ontology at path: %s", onto_path);
+        printf("Failed to read ontology at path: %s", path);
         return EXIT_FAILURE;
     }
 

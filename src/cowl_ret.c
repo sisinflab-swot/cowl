@@ -9,16 +9,16 @@
  */
 
 #include "cowl_ret.h"
-#include "cowl_string_private.h"
+#include "cowl_string.h"
 
-char const* cowl_ret_to_cstring(cowl_ret ret) {
+UString cowl_ret_to_ustring(cowl_ret ret) {
     switch (ret) {
-        case COWL_OK: return "success";
-        case COWL_ERR_IO: return "input/output error";
-        case COWL_ERR_MEM: return "memory exhausted";
-        case COWL_ERR_SYNTAX: return "syntax error";
-        case COWL_ERR_IMPORT: return "import error";
-        default: return "unknown error";
+        case COWL_OK: return ustring_literal("success");
+        case COWL_ERR_IO: return ustring_literal("input/output error");
+        case COWL_ERR_MEM: return ustring_literal("memory exhausted");
+        case COWL_ERR_SYNTAX: return ustring_literal("syntax error");
+        case COWL_ERR_IMPORT: return ustring_literal("import error");
+        default: return ustring_literal("unknown error");
     }
 }
 
@@ -41,6 +41,5 @@ cowl_ret cowl_ret_from_uhash(uhash_ret ret) {
 }
 
 CowlString* cowl_ret_to_string(cowl_ret ret) {
-    char const *cstr = cowl_ret_to_cstring(ret);
-    return cowl_string_alloc(ustring_copy(cstr, strlen(cstr)));
+    return cowl_string_get(ustring_dup(cowl_ret_to_ustring(ret)));
 }

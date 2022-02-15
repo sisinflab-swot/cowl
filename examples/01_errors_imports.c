@@ -39,7 +39,7 @@ int main(void) {
     CowlManager *manager = cowl_manager_get();
 
     if (manager) {
-        ontology = cowl_manager_read_path(manager, ONTO_PATH);
+        ontology = cowl_manager_read_path(manager, ustring_literal(ONTO_PATH));
         cowl_manager_release(manager);
     }
 
@@ -67,7 +67,7 @@ static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
     CowlManager *manager = cowl_manager_get();
 
     if (manager) {
-        import = cowl_manager_read_path(manager, IMPORT_PATH);
+        import = cowl_manager_read_path(manager, ustring_literal(IMPORT_PATH));
         cowl_manager_release(manager);
     }
 

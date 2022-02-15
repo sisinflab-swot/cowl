@@ -20,7 +20,7 @@ int main(void) {
     cowl_api_init();
 
     CowlManager *manager = cowl_manager_get();
-    CowlOntology *ontology = cowl_manager_read_path(manager, ONTO_PATH);
+    CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO_PATH));
     cowl_manager_release(manager);
 
     if (ontology) {

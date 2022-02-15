@@ -111,7 +111,7 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOntology* cowl_manager_read_path(CowlManager *manager, char const *path);
+CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path);
 
 /**
  * Reads an ontology from the specified file.

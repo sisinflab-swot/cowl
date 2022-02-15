@@ -85,9 +85,9 @@ CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream) {
     return cowl_parser_ctx_read_stream(&ctx, stream);
 }
 
-CowlOntology* cowl_manager_read_path(CowlManager *manager, char const *path) {
+CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path) {
     UIStream stream;
-    ustream_ret ret = uistream_from_path(&stream, path);
+    ustream_ret ret = uistream_from_path(&stream, ustring_data(path));
     CowlParserCtx ctx = { .manager = manager, .description = path };
 
     if (ret) {

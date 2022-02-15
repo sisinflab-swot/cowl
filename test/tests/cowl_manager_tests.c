@@ -43,7 +43,7 @@ bool cowl_test_manager_read_ontology(void) {
     CowlErrorHandler handler = cowl_error_handler_init(&stream, cowl_test_manager_write_error, NULL);
     cowl_manager_set_error_handler(manager, handler);
 
-    CowlOntology *onto = cowl_manager_read_path(manager, COWL_TEST_ONTOLOGY);
+    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_not_null(onto);
 
     CowlString *string = cowl_ontology_to_string(onto);

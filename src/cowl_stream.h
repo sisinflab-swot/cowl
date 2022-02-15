@@ -23,6 +23,7 @@ COWL_BEGIN_DECLS
 ustream_ret cowl_stream_write_object(UOStream *s, CowlObject *obj);
 ustream_ret cowl_stream_write_object_debug(UOStream *s, CowlObject *obj);
 ustream_ret cowl_stream_write_string(UOStream *stream, CowlString *string);
+ustream_ret cowl_stream_write_ustring(UOStream *stream, UString string);
 ustream_ret cowl_stream_write_iri(UOStream *s, CowlIRI *iri);
 ustream_ret cowl_stream_write_iri_no_brackets(UOStream *s, CowlIRI *iri);
 ustream_ret cowl_stream_write_ontology(UOStream *s, CowlOntology *onto);

@@ -144,6 +144,10 @@ ustream_ret cowl_stream_write_string(UOStream *s, CowlString *string) {
     return uostream_write_string(s, &string->raw_string, NULL);
 }
 
+ustream_ret cowl_stream_write_ustring(UOStream *s, UString string) {
+    return uostream_write_string(s, &string, NULL);
+}
+
 ustream_ret cowl_stream_write_iri(UOStream *s, CowlIRI *iri) {
     cowl_stream_write_static(s, "<");
     cowl_stream_write_iri_no_brackets(s, iri);
@@ -295,7 +299,7 @@ ustream_ret cowl_stream_write_error(UOStream *s, CowlError const *error) {
         if (cowl_object_get_type(error->origin) == COWL_OT_MANAGER) {
             CowlParser parser = ((CowlManager *)error->origin)->parser;
             char const *name = parser.name ? parser.name : "unnamed";
-            uostream_write(s, name, (ulib_uint)strlen(name), NULL);
+            uostream_write(s, name, strlen(name), NULL);
             cowl_stream_write_static(s, " parser ");
         } else {
             cowl_stream_write_object_debug(s, error->origin);
@@ -326,8 +330,7 @@ ustream_ret cowl_stream_write_error(UOStream *s, CowlError const *error) {
     }
 
     cowl_stream_write_static(s, " - ");
-    char const *cstr = cowl_ret_to_cstring(error->code);
-    uostream_write(s, cstr, strlen(cstr), NULL);
+    cowl_stream_write_ustring(s, cowl_ret_to_ustring(error->code));
 
     if (error->description) {
         cowl_stream_write_static(s, ": ");

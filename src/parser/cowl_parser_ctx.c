@@ -72,17 +72,15 @@ cowl_ret cowl_parser_ctx_add_axiom(CowlParserCtx *ctx, CowlAxiom *axiom) {
     return COWL_OK;
 }
 
-void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, char const *description) {
+void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, UString description) {
     CowlManager *manager = ctx->manager;
     CowlErrorHandler handler = manager->handler;
     if (!handler.handle_error) handler = cowl_api_get_error_handler();
     if (!handler.handle_error) return;
 
-    char const *temp = ctx->description ? ctx->description : "";
-    CowlString source = cowl_string_init(ustring_wrap(temp, strlen(temp)));
-
-    temp = description;
-    CowlString descr = cowl_string_init(ustring_wrap(temp, strlen(temp)));
+    UString temp = ustring_is_null(ctx->description) ? ustring_empty : ctx->description;
+    CowlString source = cowl_string_init(temp);
+    CowlString descr = cowl_string_init(description);
 
     CowlError error = {
         .code = code,
@@ -99,7 +97,7 @@ void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, char const 
 }
 
 void cowl_parser_ctx_handle_error_type(CowlParserCtx *ctx, cowl_ret code) {
-    cowl_parser_ctx_handle_error(ctx, code, cowl_ret_to_cstring(code));
+    cowl_parser_ctx_handle_error(ctx, code, cowl_ret_to_ustring(code));
 }
 
 void cowl_parser_ctx_handle_stream_error(CowlParserCtx *ctx, ustream_ret code) {

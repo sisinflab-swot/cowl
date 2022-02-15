@@ -144,7 +144,7 @@ CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
             raw_ns
         };
         UString err_str = ustring_concat(comp, ulib_array_count(comp));
-        cowl_parser_ctx_handle_error(parser->ctx, COWL_ERR_SYNTAX, ustring_data(err_str));
+        cowl_parser_ctx_handle_error(parser->ctx, COWL_ERR_SYNTAX, err_str);
         ustring_deinit(err_str);
     }
 

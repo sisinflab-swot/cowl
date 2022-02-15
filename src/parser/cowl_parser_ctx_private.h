@@ -20,7 +20,7 @@ cowl_struct_decl(CowlManager);
 typedef struct CowlParserCtx {
     CowlManager *manager;
     CowlOntology *ontology;
-    char const *description;
+    UString description;
     void *state;
 } CowlParserCtx;
 

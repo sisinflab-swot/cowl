@@ -106,7 +106,7 @@ cowl_ret cowl_ret_from_uhash(uhash_ret ret);
  * @note You must not modify or free the returned string.
  */
 COWL_PUBLIC
-char const* cowl_ret_to_cstring(cowl_ret ret);
+UString cowl_ret_to_ustring(cowl_ret ret);
 
 /**
  * Returns a human-readable string representation of the specified return value.

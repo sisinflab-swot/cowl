@@ -13,13 +13,13 @@
 
 // Test import ontology
 
-static char const test_import[] = "test_import.owl";
+#define COWL_TEST_IMPORT "test_import.owl"
 
 // Import loader
 
 CowlOntology* cowl_test_load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
     CowlManager *manager = cowl_manager_get();
-    CowlOntology *onto = cowl_manager_read_path(manager, test_import);
+    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
     cowl_manager_release(manager);
     return onto;
 }

@@ -99,7 +99,7 @@ cowl_ret cowl_parser_ctx_add_axiom(CowlParserCtx *ctx, CowlAxiom *axiom);
  * @public @memberof CowlParserCtx
  */
 COWL_PUBLIC
-void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, char const *description);
+void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, UString description);
 
 /**
  * Handles a generic error with the specified code through the user-provided error handler.
