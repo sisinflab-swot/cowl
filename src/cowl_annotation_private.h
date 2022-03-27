@@ -17,7 +17,7 @@
 COWL_BEGIN_DECLS
 
 struct CowlAnnotation {
-    CowlHashObject super;
+    CowlObject super;
     CowlAnnotProp *prop;
     CowlAnnotValue *value;
     CowlObjectVec *annot;

@@ -17,10 +17,8 @@ static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
     CowlObjHasSelf *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    ulib_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(prop));
-
     *exp = (CowlObjHasSelf) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_SELF, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_SELF),
         .prop = cowl_obj_prop_exp_retain(prop)
     };
 
@@ -55,12 +53,11 @@ CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp)
     COWL_TO_STRING_IMPL(obj_has_self, exp)
 
 bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) &&
-           cowl_obj_prop_exp_equals(lhs->prop, rhs->prop);
+    return cowl_obj_prop_exp_equals(lhs->prop, rhs->prop);
 }
 
 ulib_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
-    return cowl_object_hash_get(exp);
+    return cowl_hash_1(COWL_HASH_INIT_OBJ_HAS_SELF, cowl_obj_prop_exp_hash(exp->prop));
 }
 
 bool cowl_obj_has_self_iterate_primitives(CowlObjHasSelf *exp, CowlPrimitiveFlags flags,

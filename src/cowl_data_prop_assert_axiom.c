@@ -22,13 +22,8 @@ static CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_alloc(CowlAxiomType 
     CowlDataPropAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint hash = cowl_axiom_hash_4(COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM, annot, type,
-                                       cowl_individual_hash(subj),
-                                       cowl_data_prop_exp_hash(prop),
-                                       cowl_literal_hash(obj));
-
     cowl_axiom_init(CowlDataPropAssertAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(type, hash, annot),
+        .super = COWL_AXIOM_INIT(type, annot),
         .subject = cowl_individual_retain(subj),
         .prop = cowl_data_prop_exp_retain(prop),
         .object = cowl_literal_retain(obj)
@@ -103,7 +98,12 @@ bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs,
 }
 
 ulib_uint cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_axiom_hash_4(COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_data_prop_assert_axiom_is_negative(axiom),
+                             cowl_individual_hash(axiom->subject),
+                             cowl_data_prop_exp_hash(axiom->prop),
+                             cowl_literal_hash(axiom->object));
 }
 
 bool cowl_data_prop_assert_axiom_iterate_primitives(CowlDataPropAssertAxiom *axiom,

@@ -38,12 +38,9 @@ static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     if (!dt) return NULL;
 
     *dt = (CowlDatatype) {
-        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE, 0),
+        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE),
         .iri = cowl_iri_retain(iri)
     };
-
-    ulib_uint hash = uhash_ptr_hash(dt);
-    cowl_object_hash_set(dt, hash);
 
     return dt;
 }
@@ -84,7 +81,7 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
 }
 
 ulib_uint cowl_datatype_hash(CowlDatatype *dt) {
-    return cowl_object_hash_get(dt);
+    return uhash_ptr_hash(dt);
 }
 
 bool cowl_datatype_iterate_primitives(CowlDatatype *dt, CowlPrimitiveFlags flags,

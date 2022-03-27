@@ -25,7 +25,7 @@ struct CowlOntology {
     CowlObject super;
     UVec(CowlObjectPtr) *imports;
     UVec(CowlObjectPtr) *annotations;
-    UHash(CowlObjectTable) *axioms_by_type[COWL_AT_COUNT];
+    UVec(CowlObjectPtr) *axioms_by_type[COWL_AT_COUNT];
     UHash(CowlObjectTable) *annot_prop_refs;
     UHash(CowlObjectTable) *class_refs;
     UHash(CowlObjectTable) *data_prop_refs;

@@ -18,11 +18,8 @@ static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectVec *op
     CowlNAryBool *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
-                                 cowl_object_vec_hash(operands));
-
     *exp = (CowlNAryBool) {
-        .super = COWL_CLS_EXP_INIT(type, hash),
+        .super = COWL_CLS_EXP_INIT(type),
         .operands = operands
     };
 
@@ -62,12 +59,13 @@ CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp)
 
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
-           cowl_object_hash_equals(lhs, rhs) &&
            cowl_object_vec_equals(lhs->operands, rhs->operands);
 }
 
 ulib_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
-    return cowl_object_hash_get(exp);
+    return cowl_hash_2(COWL_HASH_INIT_NARY_BOOL,
+                       cowl_nary_bool_get_type(exp),
+                       cowl_object_vec_hash(exp->operands));
 }
 
 bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlPrimitiveFlags flags,

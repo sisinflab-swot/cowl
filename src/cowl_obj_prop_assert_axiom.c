@@ -14,22 +14,17 @@
 #include "cowl_template.h"
 
 static CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_alloc(CowlAxiomType type,
-                                                                CowlIndividual *source,
+                                                                CowlIndividual *subject,
                                                                 CowlObjPropExp *prop,
-                                                                CowlIndividual *target,
+                                                                CowlIndividual *object,
                                                                 CowlObjectVec *annot) {
     CowlObjPropAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint hash = cowl_axiom_hash_4(COWL_HASH_INIT_OBJ_PROP_ASSERT_AXIOM, annot, type,
-                                       cowl_individual_hash(source),
-                                       cowl_individual_hash(target),
-                                       cowl_obj_prop_exp_hash(prop));
-
     cowl_axiom_init(CowlObjPropAssertAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(type, hash, annot),
-        .subject = cowl_individual_retain(source),
-        .object = cowl_individual_retain(target),
+        .super = COWL_AXIOM_INIT(type, annot),
+        .subject = cowl_individual_retain(subject),
+        .object = cowl_individual_retain(object),
         .prop_exp = cowl_obj_prop_exp_retain(prop)
     );
 
@@ -101,7 +96,12 @@ bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropA
 }
 
 ulib_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_axiom_hash_4(COWL_HASH_INIT_OBJ_PROP_ASSERT_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_obj_prop_assert_axiom_is_negative(axiom),
+                             cowl_individual_hash(axiom->subject),
+                             cowl_individual_hash(axiom->object),
+                             cowl_obj_prop_exp_hash(axiom->prop_exp));
 }
 
 bool cowl_obj_prop_assert_axiom_iterate_primitives(CowlObjPropAssertAxiom *axiom,

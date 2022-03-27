@@ -19,14 +19,8 @@ static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObject
     CowlHasKeyAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint obj_props_hash = obj_props ? cowl_object_vec_hash(obj_props) : 0;
-    ulib_uint data_props_hash = data_props ? cowl_object_vec_hash(data_props) : 0;
-    ulib_uint hash = cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM, annot,
-                                       cowl_cls_exp_hash(cls_exp),
-                                       obj_props_hash, data_props_hash);
-
     cowl_axiom_init(CowlHasKeyAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(COWL_AT_HAS_KEY, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_HAS_KEY, annot),
         .cls_exp = cowl_cls_exp_retain(cls_exp),
         .obj_props = obj_props,
         .data_props = data_props
@@ -85,7 +79,12 @@ bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
 }
 
 ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    ulib_uint obj_props_hash = axiom->obj_props ? cowl_object_vec_hash(axiom->obj_props) : 0;
+    ulib_uint data_props_hash = axiom->data_props ? cowl_object_vec_hash(axiom->data_props) : 0;
+    return cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_cls_exp_hash(axiom->cls_exp),
+                             obj_props_hash, data_props_hash);
 }
 
 bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveFlags flags,

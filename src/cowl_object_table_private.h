@@ -15,7 +15,6 @@
 
 COWL_BEGIN_DECLS
 
-UHash(CowlObjectTable)* cowl_axiom_set_alloc(void);
 UHash(CowlObjectTable)* cowl_annot_prop_map_alloc(void);
 UHash(CowlObjectTable)* cowl_anon_ind_map_alloc(void);
 UHash(CowlObjectTable)* cowl_class_map_alloc(void);

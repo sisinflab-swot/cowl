@@ -19,12 +19,8 @@ static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *pr
     CowlObjPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_RANGE_AXIOM, annot,
-                                       cowl_obj_prop_exp_hash(prop),
-                                       cowl_cls_exp_hash(range));
-
     cowl_axiom_init(CowlObjPropRangeAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(COWL_AT_OBJ_PROP_RANGE, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_OBJ_PROP_RANGE, annot),
         .prop_exp = cowl_obj_prop_exp_retain(prop),
         .range = cowl_cls_exp_retain(range)
     );
@@ -76,7 +72,10 @@ bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRan
 }
 
 ulib_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_RANGE_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_obj_prop_exp_hash(axiom->prop_exp),
+                             cowl_cls_exp_hash(axiom->range));
 }
 
 bool cowl_obj_prop_range_axiom_iterate_primitives(CowlObjPropRangeAxiom *axiom,

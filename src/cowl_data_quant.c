@@ -20,12 +20,8 @@ static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp
     CowlDataQuant *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    ulib_uint hash = cowl_hash_3(COWL_HASH_INIT_DATA_QUANT, type,
-                                 cowl_data_prop_exp_hash(prop),
-                                 cowl_data_range_hash(range));
-
     *restr = (CowlDataQuant) {
-        .super = COWL_CLS_EXP_INIT(type, hash),
+        .super = COWL_CLS_EXP_INIT(type),
         .prop = cowl_data_prop_exp_retain(prop),
         .range = cowl_data_range_retain(range)
     };
@@ -72,13 +68,15 @@ CowlString* cowl_data_quant_to_string(CowlDataQuant *restr)
 
 bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
-           cowl_object_hash_equals(lhs, rhs) &&
            cowl_data_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_data_range_equals(lhs->range, rhs->range);
 }
 
 ulib_uint cowl_data_quant_hash(CowlDataQuant *restr) {
-    return cowl_object_hash_get(restr);
+    return cowl_hash_3(COWL_HASH_INIT_DATA_QUANT,
+                       cowl_data_quant_get_type(restr),
+                       cowl_data_prop_exp_hash(restr->prop),
+                       cowl_data_range_hash(restr->range));
 }
 
 bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,

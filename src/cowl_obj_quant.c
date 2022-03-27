@@ -19,11 +19,8 @@ static CowlObjQuant* cowl_obj_quant_alloc(CowlClsExpType type, CowlObjPropExp *p
     CowlObjQuant *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    ulib_uint hash = cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT, type,
-                                 cowl_obj_prop_exp_hash(prop), cowl_cls_exp_hash(filler));
-
     *restr = (CowlObjQuant) {
-        .super = COWL_CLS_EXP_INIT(type, hash),
+        .super = COWL_CLS_EXP_INIT(type),
         .prop = cowl_obj_prop_exp_retain(prop),
         .filler = cowl_cls_exp_retain(filler)
     };
@@ -69,13 +66,15 @@ CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr)
 
 bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
-           cowl_object_hash_equals(lhs, rhs) &&
            cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_cls_exp_equals(lhs->filler, rhs->filler);
 }
 
 ulib_uint cowl_obj_quant_hash(CowlObjQuant *restr) {
-    return cowl_object_hash_get(restr);
+    return cowl_hash_3(COWL_HASH_INIT_OBJ_QUANT,
+                       cowl_obj_quant_get_type(restr),
+                       cowl_obj_prop_exp_hash(restr->prop),
+                       cowl_cls_exp_hash(restr->filler));
 }
 
 bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveFlags flags,

@@ -20,12 +20,8 @@ static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
     CowlDatatypeRestr *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_RESTR,
-                                 cowl_datatype_hash(datatype),
-                                 cowl_object_vec_hash(restrictions));
-
     *restr = (CowlDatatypeRestr) {
-        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE_RESTR, hash),
+        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE_RESTR),
         .datatype = cowl_datatype_retain(datatype),
         .restrictions = restrictions
     };
@@ -66,13 +62,14 @@ CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr)
     COWL_TO_STRING_IMPL(datatype_restr, restr)
 
 bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) &&
-           cowl_datatype_equals(lhs->datatype, rhs->datatype) &&
+    return cowl_datatype_equals(lhs->datatype, rhs->datatype) &&
            cowl_object_vec_equals(lhs->restrictions, rhs->restrictions);
 }
 
 ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
-    return cowl_object_hash_get(restr);
+    return cowl_hash_2(COWL_HASH_INIT_DATA_RESTR,
+                       cowl_datatype_hash(restr->datatype),
+                       cowl_object_vec_hash(restr->restrictions));
 }
 
 bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimitiveFlags flags,

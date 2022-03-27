@@ -18,12 +18,8 @@ static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, Cowl
     CowlClsAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM, annot,
-                                       cowl_individual_hash(ind),
-                                       cowl_cls_exp_hash(exp));
-
     cowl_axiom_init(CowlClsAssertAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(COWL_AT_CLASS_ASSERT, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_CLASS_ASSERT, annot),
         .ind = cowl_individual_retain(ind),
         .cls_exp = cowl_cls_exp_retain(exp)
     );
@@ -75,7 +71,10 @@ bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *r
 }
 
 ulib_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_axiom_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_individual_hash(axiom->ind),
+                             cowl_cls_exp_hash(axiom->cls_exp));
 }
 
 bool cowl_cls_assert_axiom_iterate_primitives(CowlClsAssertAxiom *axiom, CowlPrimitiveFlags flags,

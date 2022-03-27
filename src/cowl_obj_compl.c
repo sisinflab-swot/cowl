@@ -16,10 +16,8 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
     CowlObjCompl *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    ulib_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(operand));
-
     *exp = (CowlObjCompl) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_COMPL, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_COMPL),
         .operand = cowl_cls_exp_retain(operand)
     };
 
@@ -54,12 +52,11 @@ CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp)
     COWL_TO_STRING_IMPL(obj_compl, exp)
 
 bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) &&
-           cowl_cls_exp_equals(lhs->operand, rhs->operand);
+    return cowl_cls_exp_equals(lhs->operand, rhs->operand);
 }
 
 ulib_uint cowl_obj_compl_hash(CowlObjCompl *exp) {
-    return cowl_object_hash_get(exp);
+    return cowl_hash_1(COWL_HASH_INIT_OBJ_COMPL, cowl_cls_exp_hash(exp->operand));
 }
 
 bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlPrimitiveFlags flags,

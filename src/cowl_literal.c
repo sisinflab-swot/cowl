@@ -23,13 +23,8 @@ static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
     value = value ? cowl_string_retain(value) : cowl_string_get_empty();
     lang = lang ? cowl_string_retain(lang) : cowl_string_get_empty();
 
-    ulib_uint hash = cowl_hash_3(COWL_HASH_INIT_LITERAL,
-                                 cowl_datatype_hash(dt),
-                                 cowl_string_hash(value),
-                                 uhash_ptr_hash(lang));
-
     *literal = (CowlLiteral) {
-        .super = COWL_HASH_OBJECT_INIT(COWL_OT_LITERAL, hash),
+        .super = COWL_OBJECT_INIT(COWL_OT_LITERAL),
         .dt = dt,
         .value = value,
         .lang = lang
@@ -101,14 +96,16 @@ CowlString* cowl_literal_to_string(CowlLiteral *literal)
     COWL_TO_STRING_IMPL(literal, literal)
 
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) &&
-           lhs->lang == rhs->lang &&
+    return lhs->lang == rhs->lang &&
            cowl_datatype_equals(lhs->dt, rhs->dt) &&
            cowl_string_equals(lhs->value, rhs->value);
 }
 
 ulib_uint cowl_literal_hash(CowlLiteral *literal) {
-    return cowl_object_hash_get(literal);
+    return cowl_hash_3(COWL_HASH_INIT_LITERAL,
+                       cowl_datatype_hash(literal->dt),
+                       cowl_string_hash(literal->value),
+                       uhash_ptr_hash(literal->lang));
 }
 
 bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,

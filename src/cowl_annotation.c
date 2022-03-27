@@ -20,13 +20,8 @@ static CowlAnnotation* cowl_annotation_alloc(CowlAnnotProp *prop, CowlAnnotValue
     CowlAnnotation *annotation = ulib_alloc(annotation);
     if (!annotation) return NULL;
 
-    ulib_uint hash = cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
-                                 cowl_annot_prop_hash(prop),
-                                 cowl_annot_value_hash(value),
-                                 annot ? cowl_object_vec_hash(annot) : 0);
-
     (*annotation) = (CowlAnnotation) {
-        .super = COWL_HASH_OBJECT_INIT(COWL_OT_ANNOTATION, hash),
+        .super = COWL_OBJECT_INIT(COWL_OT_ANNOTATION),
         .prop = cowl_annot_prop_retain(prop),
         .value = cowl_annot_value_retain(value),
         .annot = annot
@@ -74,14 +69,16 @@ CowlString* cowl_annotation_to_string(CowlAnnotation *annot)
     COWL_TO_STRING_IMPL(annotation, annot)
 
 bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) &&
-           cowl_annot_prop_equals(lhs->prop, rhs->prop) &&
+    return cowl_annot_prop_equals(lhs->prop, rhs->prop) &&
            cowl_annot_value_equals(lhs->value, rhs->value) &&
            cowl_object_vec_equals(lhs->annot, rhs->annot);
 }
 
 ulib_uint cowl_annotation_hash(CowlAnnotation *annot) {
-    return cowl_object_hash_get(annot);
+    return cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
+                       cowl_annot_prop_hash(annot->prop),
+                       cowl_annot_value_hash(annot->value),
+                       annot ? cowl_object_vec_hash(annot->annot) : 0);
 }
 
 bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveFlags flags,

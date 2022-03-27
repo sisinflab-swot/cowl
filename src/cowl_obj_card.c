@@ -19,21 +19,10 @@ static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *pro
     CowlObjCard *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    ulib_uint hash;
-
-    if (filler) {
-        hash = cowl_hash_4(COWL_HASH_INIT_OBJ_CARD, type, cardinality,
-                           cowl_obj_prop_exp_hash(prop), cowl_cls_exp_hash(filler));
-        cowl_cls_exp_retain(filler);
-    } else {
-        hash = cowl_hash_3(COWL_HASH_INIT_OBJ_CARD, type, cardinality,
-                           cowl_obj_prop_exp_hash(prop));
-    }
-
     *restr = (CowlObjCard) {
-        .super = COWL_CLS_EXP_INIT(type, hash),
+        .super = COWL_CLS_EXP_INIT(type),
         .prop = cowl_obj_prop_exp_retain(prop),
-        .filler = filler,
+        .filler = filler ? cowl_cls_exp_retain(filler) : NULL,
         .cardinality = cardinality
     };
 
@@ -84,7 +73,6 @@ CowlString* cowl_obj_card_to_string(CowlObjCard *restr)
 bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {
     if (lhs->cardinality != rhs->cardinality) return false;
     if (!cowl_object_type_equals(lhs, rhs)) return false;
-    if (!cowl_object_hash_equals(lhs, rhs)) return false;
     if (!cowl_obj_prop_exp_equals(lhs->prop, rhs->prop)) return false;
     if (lhs->filler == rhs->filler) return true;
     if (lhs->filler && rhs->filler) return cowl_cls_exp_equals(lhs->filler, rhs->filler);
@@ -92,7 +80,15 @@ bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {
 }
 
 ulib_uint cowl_obj_card_hash(CowlObjCard *restr) {
-    return cowl_object_hash_get(restr);
+    CowlCardType type = cowl_obj_card_get_type(restr);
+    if (restr->filler) {
+        return cowl_hash_4(COWL_HASH_INIT_OBJ_CARD, type, restr->cardinality,
+                           cowl_obj_prop_exp_hash(restr->prop),
+                           cowl_cls_exp_hash(restr->filler));
+    } else {
+        return cowl_hash_3(COWL_HASH_INIT_OBJ_CARD, type, restr->cardinality,
+                           cowl_obj_prop_exp_hash(restr->prop));
+    }
 }
 
 bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlPrimitiveFlags flags,

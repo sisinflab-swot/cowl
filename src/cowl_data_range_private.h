@@ -17,11 +17,11 @@
 COWL_BEGIN_DECLS
 
 struct CowlDataRange {
-    CowlHashObject super;
+    CowlObject super;
 };
 
-#define COWL_DATA_RANGE_INIT(T, H) {                                                                \
-    .super = COWL_HASH_OBJECT_INIT((CowlObjectType)(T) + COWL_OT_DR_DATATYPE, H)                    \
+#define COWL_DATA_RANGE_INIT(T) {                                                                   \
+    .super = COWL_OBJECT_INIT((CowlObjectType)(T) + COWL_OT_DR_DATATYPE)                            \
 }
 
 COWL_END_DECLS

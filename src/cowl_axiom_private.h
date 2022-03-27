@@ -20,11 +20,11 @@
 COWL_BEGIN_DECLS
 
 struct CowlAxiom {
-    CowlHashObject super;
+    CowlObject super;
 };
 
 #define cowl_axiom_struct(T, FIELDS)                                                                \
-    struct T {                                                                                \
+    struct T {                                                                                      \
         CowlAxiom super;                                                                            \
         FIELDS                                                                                      \
         CowlObjectVec *annot[];                                                                     \
@@ -38,8 +38,8 @@ struct CowlAxiom {
     if (ANNOT) (AXIOM)->annot[0] = (ANNOT);                                                         \
 } while (0)
 
-#define COWL_AXIOM_INIT(T, H, A) {                                                                  \
-    .super = COWL_HASH_OBJECT_BIT_INIT((CowlObjectType)(T) + COWL_OT_A_DECL, A, H),                 \
+#define COWL_AXIOM_INIT(T, A) {                                                                     \
+    .super = COWL_OBJECT_BIT_INIT((CowlObjectType)(T) + COWL_OT_A_DECL, A)                          \
 }
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \
@@ -51,7 +51,6 @@ struct CowlAxiom {
 #define cowl_axiom_get_annot(AXIOM) (cowl_axiom_has_annot(AXIOM) ? (AXIOM)->annot[0] : NULL)
 
 #define cowl_axiom_equals_impl(LHS, RHS, EXP) (                                                     \
-    cowl_object_hash_equals(LHS, RHS) &&                                                            \
     (EXP) &&                                                                                        \
     (!cowl_axiom_has_annot(LHS) || cowl_object_vec_equals((LHS)->annot[0], (RHS)->annot[0]))        \
 )

@@ -17,11 +17,8 @@ static CowlObjOneOf* cowl_obj_one_of_alloc(CowlObjectVec *inds) {
     CowlObjOneOf *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    ulib_uint hash = cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF,
-                                 cowl_object_vec_hash(inds));
-
     *exp = (CowlObjOneOf) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_ONE_OF, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_ONE_OF),
         .inds = inds
     };
 
@@ -56,11 +53,11 @@ CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp)
     COWL_TO_STRING_IMPL(obj_one_of, exp)
 
 bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) && cowl_object_vec_equals(lhs->inds, rhs->inds);
+    return cowl_object_vec_equals(lhs->inds, rhs->inds);
 }
 
 ulib_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
-    return cowl_object_hash_get(exp);
+    return cowl_hash_1(COWL_HASH_INIT_OBJECT_ONE_OF, cowl_object_vec_hash(exp->inds));
 }
 
 bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveFlags flags,

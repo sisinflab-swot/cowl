@@ -20,7 +20,7 @@ cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlString);
 
 struct CowlLiteral {
-    CowlHashObject super;
+    CowlObject super;
     CowlDatatype *dt;
     CowlString *value;
     CowlString *lang;

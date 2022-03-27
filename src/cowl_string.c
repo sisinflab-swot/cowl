@@ -38,10 +38,9 @@ CowlString* cowl_string_alloc(UString raw_string) {
 }
 
 CowlString cowl_string_init(UString raw_string) {
-    ulib_uint hash = ustring_is_null(raw_string) ? 0 : ustring_hash(raw_string);
-
     CowlString init = {
-        .super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash),
+        .super = COWL_OBJECT_INIT(COWL_OT_STRING),
+        .hash = ustring_is_null(raw_string) ? 0 : ustring_hash(raw_string),
         .raw_string = raw_string
     };
 
@@ -97,8 +96,8 @@ CowlString* cowl_string_copy(CowlString *string) {
     CowlString *copy = ulib_alloc(copy);
     if (!copy) return NULL;
 
-    ulib_uint hash = cowl_object_hash_get(string);
-    copy->super = COWL_HASH_OBJECT_INIT(COWL_OT_STRING, hash);
+    copy->super = COWL_OBJECT_INIT(COWL_OT_STRING);
+    copy->hash = string->hash;
     copy->raw_string = ustring_dup(string->raw_string);
 
     return copy;
@@ -183,12 +182,12 @@ UString const* cowl_string_get_raw(CowlString *string) {
 }
 
 bool cowl_string_equals(CowlString *lhs, CowlString *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) &&
+    return lhs->hash == rhs->hash &&
            ustring_equals(lhs->raw_string, rhs->raw_string);
 }
 
 ulib_uint cowl_string_hash(CowlString *string) {
-    return cowl_object_hash_get(string);
+    return string->hash;
 }
 
 CowlString* cowl_string_with_format(char const *format, ...) {

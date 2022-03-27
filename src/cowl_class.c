@@ -39,12 +39,9 @@ static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     if (!cls) return NULL;
 
     (*cls) = (CowlClass) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_CLASS, 0),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_CLASS),
         .iri = cowl_iri_retain(iri)
     };
-
-    ulib_uint hash = uhash_ptr_hash(cls);
-    cowl_object_hash_set(cls, hash);
 
     return cls;
 }
@@ -85,7 +82,7 @@ bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
 }
 
 ulib_uint cowl_class_hash(CowlClass *cls) {
-    return cowl_object_hash_get(cls);
+    return uhash_ptr_hash(cls);
 }
 
 bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveFlags flags, CowlIterator *iter) {

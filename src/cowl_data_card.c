@@ -20,21 +20,10 @@ static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *
     CowlDataCard *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    ulib_uint hash;
-
-    if (range) {
-        hash = cowl_hash_4(COWL_HASH_INIT_DATA_CARD, type, cardinality,
-                           cowl_data_prop_exp_hash(prop), cowl_data_range_hash(range));
-        cowl_data_range_retain(range);
-    } else {
-        hash = cowl_hash_3(COWL_HASH_INIT_DATA_CARD, type, cardinality,
-                           cowl_data_prop_exp_hash(prop));
-    }
-
     *restr = (CowlDataCard) {
-        .super = COWL_CLS_EXP_INIT(type, hash),
+        .super = COWL_CLS_EXP_INIT(type),
         .prop = cowl_data_prop_exp_retain(prop),
-        .range = range,
+        .range = range ? cowl_data_range_retain(range) : NULL,
         .cardinality = cardinality
     };
 
@@ -85,7 +74,6 @@ CowlString* cowl_data_card_to_string(CowlDataCard *restr)
 bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {
     if (lhs->cardinality != rhs->cardinality) return false;
     if (!cowl_object_type_equals(lhs, rhs)) return false;
-    if (!cowl_object_hash_equals(lhs, rhs)) return false;
     if (!cowl_data_prop_exp_equals(lhs->prop, rhs->prop)) return false;
     if (lhs->range == rhs->range) return true;
     if (lhs->range && rhs->range) return cowl_data_range_equals(lhs->range, rhs->range);
@@ -93,7 +81,15 @@ bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {
 }
 
 ulib_uint cowl_data_card_hash(CowlDataCard *restr) {
-    return cowl_object_hash_get(restr);
+    CowlCardType type = cowl_data_card_get_type(restr);
+    if (restr->range) {
+        return cowl_hash_4(COWL_HASH_INIT_DATA_CARD, type, restr->cardinality,
+                           cowl_data_prop_exp_hash(restr->prop),
+                           cowl_data_range_hash(restr->range));
+    } else {
+        return cowl_hash_3(COWL_HASH_INIT_DATA_CARD, type, restr->cardinality,
+                           cowl_data_prop_exp_hash(restr->prop));
+    }
 }
 
 bool cowl_data_card_iterate_primitives(CowlDataCard *restr, CowlPrimitiveFlags flags,

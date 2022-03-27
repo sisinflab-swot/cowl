@@ -18,11 +18,8 @@ static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlObjectVec 
     CowlNAryData *range = ulib_alloc(range);
     if (!range) return NULL;
 
-    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_NARY, type,
-                                 cowl_object_vec_hash(operands));
-
     *range = (CowlNAryData) {
-        .super = COWL_DATA_RANGE_INIT(type, hash),
+        .super = COWL_DATA_RANGE_INIT(type),
         .operands = operands
     };
 
@@ -62,12 +59,13 @@ CowlString* cowl_nary_data_to_string(CowlNAryData *range)
 
 bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
-           cowl_object_hash_equals(lhs, rhs) &&
            cowl_object_vec_equals(lhs->operands, rhs->operands);
 }
 
 ulib_uint cowl_nary_data_hash(CowlNAryData *range) {
-    return cowl_object_hash_get(range);
+    return cowl_hash_2(COWL_HASH_INIT_DATA_NARY,
+                       cowl_nary_data_get_type(range),
+                       cowl_object_vec_hash(range->operands));
 }
 
 bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlPrimitiveFlags flags,

@@ -18,12 +18,8 @@ static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjec
     CowlDisjUnionAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
-                                       cowl_class_hash(cls),
-                                       cowl_object_vec_hash(disjoints));
-
     cowl_axiom_init(CowlDisjUnionAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(COWL_AT_DISJ_UNION, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_DISJ_UNION, annot),
         .cls = cowl_class_retain(cls),
         .disjoints = disjoints
     );
@@ -75,7 +71,10 @@ bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *r
 }
 
 ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_class_hash(axiom->cls),
+                             cowl_object_vec_hash(axiom->disjoints));
 }
 
 bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom, CowlPrimitiveFlags flags,

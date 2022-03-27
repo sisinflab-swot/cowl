@@ -68,7 +68,7 @@ ulib_uint cowl_ontology_axiom_count(CowlOntology *onto) {
     ulib_uint count = 0;
 
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
-        count += uhash_count(onto->axioms_by_type[type]);
+        count += uvec_count(onto->axioms_by_type[type]);
     }
 
     uvec_foreach(CowlObjectPtr, onto->imports, import, {
@@ -89,7 +89,7 @@ ulib_uint cowl_ontology_imports_count(CowlOntology *onto) {
 }
 
 ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type) {
-    ulib_uint count = uhash_count(onto->axioms_by_type[type]);
+    ulib_uint count = uvec_count(onto->axioms_by_type[type]);
 
     uvec_foreach(CowlObjectPtr, onto->imports, import, {
         count += cowl_ontology_axiom_count_for_type(import, type);
@@ -100,7 +100,6 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
 
 static cowl_ret cowl_ontology_add_axiom_to_map(CowlObject *entity, CowlAxiom *axiom,
                                                UHash(CowlObjectTable) *map) {
-
     ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, map, entity, &idx);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
@@ -260,8 +259,8 @@ bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter) {
 
 bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter) {
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
-        UHash(CowlObjectTable) *axioms = onto->axioms_by_type[type];
-        uhash_foreach_key(CowlObjectTable, axioms, axiom, {
+        UVec(CowlObjectPtr) *axioms = onto->axioms_by_type[type];
+        uvec_foreach(CowlObjectPtr, axioms, axiom, {
             if (!cowl_iterate(iter, axiom)) return false;
         });
     }
@@ -277,9 +276,9 @@ bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter) {
 
 bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
                                           CowlIterator *iter) {
-    UHash(CowlObjectTable) *axioms = onto->axioms_by_type[type];
+    UVec(CowlObjectPtr) *axioms = onto->axioms_by_type[type];
 
-    uhash_foreach_key(CowlObjectTable, axioms, axiom, {
+    uvec_foreach(CowlObjectPtr, axioms, axiom, {
         if (!cowl_iterate(iter, axiom)) return false;
     });
 
@@ -406,7 +405,7 @@ void cowl_ontology_free(CowlOntology *onto) {
     cowl_object_vec_free_spec(annotation, onto->annotations);
 
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; type++) {
-        cowl_object_set_free(onto->axioms_by_type[type]);
+        cowl_object_vec_free(onto->axioms_by_type[type]);
     }
 
     uhash_foreach_value(CowlObjectTable, onto->annot_prop_refs, vec, uvec_free(CowlObjectPtr, vec));
@@ -483,17 +482,15 @@ cowl_ret cowl_ontology_add_primitive(CowlOntology *onto, CowlObject *obj) {
 
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     CowlAxiomType type = cowl_axiom_get_type(axiom);
-    UHash(CowlObjectTable) *axioms = onto->axioms_by_type[type];
+    UVec(CowlObjectPtr) *axioms = onto->axioms_by_type[type];
 
     if (!axioms) {
-        axioms = cowl_axiom_set_alloc();
+        axioms = uvec_alloc(CowlObjectPtr);
         if (!axioms) return COWL_ERR_MEM;
         onto->axioms_by_type[type] = axioms;
     }
 
-    uhash_ret ret = uhset_insert(CowlObjectTable, axioms, axiom);
-    if (ret == UHASH_ERR) return COWL_ERR_MEM;
-    if (ret == UHASH_PRESENT) return COWL_OK;
+    if (uvec_push(CowlObjectPtr, axioms, axiom)) return COWL_ERR_MEM;
 
     cowl_axiom_retain(axiom);
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };

@@ -18,12 +18,8 @@ static CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_alloc(CowlAnnotProp *sub
     CowlSubAnnotPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_SUB_ANNOT_PROP_AXIOM, annot,
-                                       cowl_annot_prop_hash(sub),
-                                       cowl_annot_prop_hash(super));
-
     cowl_axiom_init(CowlSubAnnotPropAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(COWL_AT_SUB_ANNOT_PROP, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_SUB_ANNOT_PROP, annot),
         .sub_prop = cowl_annot_prop_retain(sub),
         .super_prop = cowl_annot_prop_retain(super)
     );
@@ -75,7 +71,10 @@ bool cowl_sub_annot_prop_axiom_equals(CowlSubAnnotPropAxiom *lhs, CowlSubAnnotPr
 }
 
 ulib_uint cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_axiom_hash_2(COWL_HASH_INIT_SUB_ANNOT_PROP_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_annot_prop_hash(axiom->sub_prop),
+                             cowl_annot_prop_hash(axiom->super_prop));
 }
 
 bool cowl_sub_annot_prop_axiom_iterate_primitives(CowlSubAnnotPropAxiom *axiom,

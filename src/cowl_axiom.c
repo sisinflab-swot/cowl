@@ -31,7 +31,7 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
 }
 
 ulib_uint cowl_axiom_hash(CowlAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_object_hash((CowlObject *)axiom);
 }
 
 bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlPrimitiveFlags flags, CowlIterator *iter) {

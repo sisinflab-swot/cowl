@@ -17,11 +17,8 @@ static CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_alloc(CowlDataPropExp *p
     CowlFuncDataPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
-    ulib_uint hash = cowl_axiom_hash_1(COWL_HASH_INIT_FUNCTIONAL_DATA_PROP_AXIOM, annot,
-                                       cowl_data_prop_exp_hash(prop));
-
     cowl_axiom_init(CowlFuncDataPropAxiom, axiom, annot,
-        .super = COWL_AXIOM_INIT(COWL_AT_FUNC_DATA_PROP, hash, annot),
+        .super = COWL_AXIOM_INIT(COWL_AT_FUNC_DATA_PROP, annot),
         .prop = cowl_data_prop_exp_retain(prop)
     );
 
@@ -65,7 +62,9 @@ bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPr
 }
 
 ulib_uint cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom) {
-    return cowl_object_hash_get(axiom);
+    return cowl_axiom_hash_1(COWL_HASH_INIT_FUNCTIONAL_DATA_PROP_AXIOM,
+                             cowl_axiom_get_annot(axiom),
+                             cowl_data_prop_exp_hash(axiom->prop));
 }
 
 bool cowl_func_data_prop_axiom_iterate_primitives(CowlFuncDataPropAxiom *axiom,

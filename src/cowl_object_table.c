@@ -11,7 +11,6 @@
 #include "cowl_object_table_private.h"
 #include "cowl_annot_prop.h"
 #include "cowl_anon_ind.h"
-#include "cowl_axiom.h"
 #include "cowl_class.h"
 #include "cowl_data_prop.h"
 #include "cowl_datatype.h"
@@ -33,7 +32,6 @@ UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
 
 HASH_GEN(annot_prop, map)
 HASH_GEN(anon_ind, map)
-HASH_GEN(axiom, set)
 HASH_GEN(class, map)
 HASH_GEN(data_prop, map)
 HASH_GEN(datatype, map)

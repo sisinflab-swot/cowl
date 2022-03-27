@@ -18,9 +18,8 @@ static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *valu
     CowlFacetRestr *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
-    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, facet, cowl_literal_hash(value));
     *restr = (CowlFacetRestr) {
-        .super = COWL_HASH_OBJECT_INIT(COWL_OT_FACET_RESTR, hash),
+        .super = COWL_OBJECT_INIT(COWL_OT_FACET_RESTR),
         .facet = facet,
         .value = cowl_literal_retain(value)
     };
@@ -61,12 +60,11 @@ CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr)
 
 bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs) {
     return lhs->facet == rhs->facet &&
-           cowl_object_hash_equals(lhs, rhs) &&
            cowl_literal_equals(lhs->value, rhs->value);
 }
 
 ulib_uint cowl_facet_restr_hash(CowlFacetRestr *restr) {
-    return cowl_object_hash_get(restr);
+    return cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, restr->facet, cowl_literal_hash(restr->value));
 }
 
 bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlPrimitiveFlags flags,

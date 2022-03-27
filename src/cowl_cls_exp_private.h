@@ -17,11 +17,11 @@
 COWL_BEGIN_DECLS
 
 struct CowlClsExp {
-    CowlHashObject super;
+    CowlObject super;
 };
 
-#define COWL_CLS_EXP_INIT(T, H) {                                                                   \
-    .super = COWL_HASH_OBJECT_INIT((CowlObjectType)(T) + COWL_OT_CE_CLASS, H)                       \
+#define COWL_CLS_EXP_INIT(T) {                                                                      \
+    .super = COWL_OBJECT_INIT((CowlObjectType)(T) + COWL_OT_CE_CLASS)                               \
 }
 
 COWL_END_DECLS

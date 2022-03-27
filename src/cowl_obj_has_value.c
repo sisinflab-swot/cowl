@@ -18,12 +18,8 @@ static CowlObjHasValue* cowl_obj_has_value_alloc(CowlObjPropExp *prop, CowlIndiv
     CowlObjHasValue *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
-    ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_OBJ_HAS_VALUE,
-                                 cowl_obj_prop_exp_hash(prop),
-                                 cowl_individual_hash(ind));
-
     *exp = (CowlObjHasValue) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_VALUE, hash),
+        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_VALUE),
         .prop = cowl_obj_prop_exp_retain(prop),
         .ind = cowl_individual_retain(ind)
     };
@@ -65,13 +61,14 @@ CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp)
 
 
 bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs) {
-    return cowl_object_hash_equals(lhs, rhs) &&
-           cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
+    return cowl_obj_prop_exp_equals(lhs->prop, rhs->prop) &&
            cowl_individual_equals(lhs->ind, rhs->ind);
 }
 
 ulib_uint cowl_obj_has_value_hash(CowlObjHasValue *exp) {
-    return cowl_object_hash_get(exp);
+    return cowl_hash_2(COWL_HASH_INIT_OBJ_HAS_VALUE,
+                       cowl_obj_prop_exp_hash(exp->prop),
+                       cowl_individual_hash(exp->ind));
 }
 
 bool cowl_obj_has_value_iterate_primitives(CowlObjHasValue *exp, CowlPrimitiveFlags flags,

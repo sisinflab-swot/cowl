@@ -31,7 +31,7 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
 }
 
 ulib_uint cowl_data_range_hash(CowlDataRange *range) {
-    return cowl_object_hash_get(range);
+    return cowl_object_hash((CowlObject *)range);
 }
 
 bool cowl_data_range_iterate_primitives(CowlDataRange *range, CowlPrimitiveFlags flags,
