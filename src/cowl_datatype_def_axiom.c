@@ -72,10 +72,9 @@ bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAx
 }
 
 ulib_uint cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_DATATYPE_DEF_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_datatype_hash(axiom->datatype),
-                             cowl_data_range_hash(axiom->range));
+    return cowl_hash_2(COWL_HASH_INIT_DATATYPE_DEF_AXIOM,
+                       cowl_datatype_hash(axiom->datatype),
+                       cowl_data_range_hash(axiom->range));
 }
 
 bool cowl_datatype_def_axiom_iterate_primitives(CowlDatatypeDefAxiom *axiom,

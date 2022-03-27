@@ -68,10 +68,9 @@ bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {
 }
 
 ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_nary_cls_axiom_get_type(axiom),
-                             cowl_object_vec_hash(axiom->classes));
+    return cowl_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM,
+                       cowl_nary_cls_axiom_get_type(axiom),
+                       cowl_object_vec_hash(axiom->classes));
 }
 
 bool cowl_nary_cls_axiom_iterate_primitives(CowlNAryClsAxiom *axiom, CowlPrimitiveFlags flags,

@@ -71,10 +71,9 @@ bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *r
 }
 
 ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_class_hash(axiom->cls),
-                             cowl_object_vec_hash(axiom->disjoints));
+    return cowl_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM,
+                       cowl_class_hash(axiom->cls),
+                       cowl_object_vec_hash(axiom->disjoints));
 }
 
 bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom, CowlPrimitiveFlags flags,

@@ -73,10 +73,9 @@ bool cowl_annot_prop_range_axiom_equals(CowlAnnotPropRangeAxiom *lhs,
 }
 
 ulib_uint cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_ANNOT_PROP_RANGE_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_annot_prop_hash(axiom->prop),
-                             cowl_iri_hash(axiom->range));
+    return cowl_hash_2(COWL_HASH_INIT_ANNOT_PROP_RANGE_AXIOM,
+                       cowl_annot_prop_hash(axiom->prop),
+                       cowl_iri_hash(axiom->range));
 }
 
 bool cowl_annot_prop_range_axiom_iterate_primitives(CowlAnnotPropRangeAxiom *axiom,

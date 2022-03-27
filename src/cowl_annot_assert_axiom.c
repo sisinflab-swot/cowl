@@ -80,11 +80,10 @@ bool cowl_annot_assert_axiom_equals(CowlAnnotAssertAxiom *lhs, CowlAnnotAssertAx
 }
 
 ulib_uint cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom) {
-    return cowl_axiom_hash_3(COWL_HASH_INIT_ANNOT_ASSERT_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_annot_prop_hash(axiom->prop),
-                             cowl_annot_value_hash(axiom->subject),
-                             cowl_annot_value_hash(axiom->value));
+    return cowl_hash_3(COWL_HASH_INIT_ANNOT_ASSERT_AXIOM,
+                       cowl_annot_prop_hash(axiom->prop),
+                       cowl_annot_value_hash(axiom->subject),
+                       cowl_annot_value_hash(axiom->value));
 }
 
 bool cowl_annot_assert_axiom_iterate_primitives(CowlAnnotAssertAxiom *axiom,

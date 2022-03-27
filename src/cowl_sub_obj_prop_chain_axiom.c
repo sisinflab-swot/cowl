@@ -73,10 +73,9 @@ bool cowl_sub_obj_prop_chain_axiom_equals(CowlSubObjPropChainAxiom *lhs,
 }
 
 ulib_uint cowl_sub_obj_prop_chain_axiom_hash(CowlSubObjPropChainAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_SUB_OBJ_PROP_CHAIN_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_obj_prop_exp_hash(axiom->super_prop),
-                             cowl_object_vec_hash(axiom->sub_props));
+    return cowl_hash_2(COWL_HASH_INIT_SUB_OBJ_PROP_CHAIN_AXIOM,
+                       cowl_obj_prop_exp_hash(axiom->super_prop),
+                       cowl_object_vec_hash(axiom->sub_props));
 }
 
 bool cowl_sub_obj_prop_chain_axiom_iterate_primitives(CowlSubObjPropChainAxiom *axiom,

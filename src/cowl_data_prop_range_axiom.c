@@ -72,10 +72,9 @@ bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataProp
 }
 
 ulib_uint cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_data_prop_exp_hash(axiom->prop_exp),
-                             cowl_data_range_hash(axiom->range));
+    return cowl_hash_2(COWL_HASH_INIT_DATA_PROP_RANGE_AXIOM,
+                       cowl_data_prop_exp_hash(axiom->prop_exp),
+                       cowl_data_range_hash(axiom->range));
 }
 
 bool cowl_data_prop_range_axiom_iterate_primitives(CowlDataPropRangeAxiom *axiom,

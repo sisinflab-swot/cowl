@@ -62,9 +62,8 @@ bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPr
 }
 
 ulib_uint cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom) {
-    return cowl_axiom_hash_1(COWL_HASH_INIT_FUNCTIONAL_DATA_PROP_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_data_prop_exp_hash(axiom->prop));
+    return cowl_hash_1(COWL_HASH_INIT_FUNCTIONAL_DATA_PROP_AXIOM,
+                       cowl_data_prop_exp_hash(axiom->prop));
 }
 
 bool cowl_func_data_prop_axiom_iterate_primitives(CowlFuncDataPropAxiom *axiom,

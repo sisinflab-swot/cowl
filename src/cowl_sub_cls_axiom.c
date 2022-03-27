@@ -70,10 +70,9 @@ bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs) {
 }
 
 ulib_uint cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_cls_exp_hash(axiom->super_class),
-                             cowl_cls_exp_hash(axiom->sub_class));
+    return cowl_hash_2(COWL_HASH_INIT_SUBCLASS_AXIOM,
+                       cowl_cls_exp_hash(axiom->super_class),
+                       cowl_cls_exp_hash(axiom->sub_class));
 }
 
 bool cowl_sub_cls_axiom_iterate_primitives(CowlSubClsAxiom *axiom, CowlPrimitiveFlags flags,

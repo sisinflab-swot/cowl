@@ -59,9 +59,8 @@ bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {
 }
 
 ulib_uint cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
-    return cowl_axiom_hash_1(COWL_HASH_INIT_DECL_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_entity_hash(axiom->entity));
+    return cowl_hash_1(COWL_HASH_INIT_DECL_AXIOM,
+                       cowl_entity_hash(axiom->entity));
 }
 
 bool cowl_decl_axiom_iterate_primitives(CowlDeclAxiom *axiom, CowlPrimitiveFlags flags,

@@ -73,10 +73,9 @@ bool cowl_annot_prop_domain_axiom_equals(CowlAnnotPropDomainAxiom *lhs,
 }
 
 ulib_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_ANNOT_PROP_DOMAIN_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_annot_prop_hash(axiom->prop),
-                             cowl_iri_hash(axiom->domain));
+    return cowl_hash_2(COWL_HASH_INIT_ANNOT_PROP_DOMAIN_AXIOM,
+                       cowl_annot_prop_hash(axiom->prop),
+                       cowl_iri_hash(axiom->domain));
 }
 
 bool cowl_annot_prop_domain_axiom_iterate_primitives(CowlAnnotPropDomainAxiom *axiom,

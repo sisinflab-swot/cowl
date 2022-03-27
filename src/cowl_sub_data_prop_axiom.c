@@ -71,10 +71,9 @@ bool cowl_sub_data_prop_axiom_equals(CowlSubDataPropAxiom *lhs, CowlSubDataPropA
 }
 
 ulib_uint cowl_sub_data_prop_axiom_hash(CowlSubDataPropAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_SUB_DATA_PROP_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_data_prop_exp_hash(axiom->super_prop),
-                             cowl_data_prop_exp_hash(axiom->sub_prop));
+    return cowl_hash_2(COWL_HASH_INIT_SUB_DATA_PROP_AXIOM,
+                       cowl_data_prop_exp_hash(axiom->super_prop),
+                       cowl_data_prop_exp_hash(axiom->sub_prop));
 }
 
 bool cowl_sub_data_prop_axiom_iterate_primitives(CowlSubDataPropAxiom *axiom,

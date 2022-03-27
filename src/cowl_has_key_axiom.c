@@ -81,10 +81,9 @@ bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
 ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
     ulib_uint obj_props_hash = axiom->obj_props ? cowl_object_vec_hash(axiom->obj_props) : 0;
     ulib_uint data_props_hash = axiom->data_props ? cowl_object_vec_hash(axiom->data_props) : 0;
-    return cowl_axiom_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_cls_exp_hash(axiom->cls_exp),
-                             obj_props_hash, data_props_hash);
+    return cowl_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM,
+                       cowl_cls_exp_hash(axiom->cls_exp),
+                       obj_props_hash, data_props_hash);
 }
 
 bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveFlags flags,

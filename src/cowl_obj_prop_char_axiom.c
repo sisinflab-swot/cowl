@@ -71,9 +71,9 @@ bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharA
 }
 
 ulib_uint cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_OBJ_PROP_CHAR_AXIOM, cowl_axiom_get_annot(axiom),
-                             cowl_obj_prop_char_axiom_get_type(axiom),
-                             cowl_obj_prop_exp_hash(axiom->prop_exp));
+    return cowl_hash_2(COWL_HASH_INIT_OBJ_PROP_CHAR_AXIOM,
+                       cowl_obj_prop_char_axiom_get_type(axiom),
+                       cowl_obj_prop_exp_hash(axiom->prop_exp));
 }
 
 bool cowl_obj_prop_char_axiom_iterate_primitives(CowlObjPropCharAxiom *axiom,

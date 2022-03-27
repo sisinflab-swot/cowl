@@ -71,10 +71,9 @@ bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *r
 }
 
 ulib_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
-    return cowl_axiom_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_individual_hash(axiom->ind),
-                             cowl_cls_exp_hash(axiom->cls_exp));
+    return cowl_hash_2(COWL_HASH_INIT_CLS_ASSERT_AXIOM,
+                       cowl_individual_hash(axiom->ind),
+                       cowl_cls_exp_hash(axiom->cls_exp));
 }
 
 bool cowl_cls_assert_axiom_iterate_primitives(CowlClsAssertAxiom *axiom, CowlPrimitiveFlags flags,

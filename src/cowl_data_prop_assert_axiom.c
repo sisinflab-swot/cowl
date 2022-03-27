@@ -98,12 +98,11 @@ bool cowl_data_prop_assert_axiom_equals(CowlDataPropAssertAxiom *lhs,
 }
 
 ulib_uint cowl_data_prop_assert_axiom_hash(CowlDataPropAssertAxiom *axiom) {
-    return cowl_axiom_hash_4(COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM,
-                             cowl_axiom_get_annot(axiom),
-                             cowl_data_prop_assert_axiom_is_negative(axiom),
-                             cowl_individual_hash(axiom->subject),
-                             cowl_data_prop_exp_hash(axiom->prop),
-                             cowl_literal_hash(axiom->object));
+    return cowl_hash_4(COWL_HASH_INIT_DATA_PROP_ASSERT_AXIOM,
+                       cowl_data_prop_assert_axiom_is_negative(axiom),
+                       cowl_individual_hash(axiom->subject),
+                       cowl_data_prop_exp_hash(axiom->prop),
+                       cowl_literal_hash(axiom->object));
 }
 
 bool cowl_data_prop_assert_axiom_iterate_primitives(CowlDataPropAssertAxiom *axiom,

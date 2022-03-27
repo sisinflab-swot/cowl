@@ -55,22 +55,6 @@ struct CowlAxiom {
     (!cowl_axiom_has_annot(LHS) || cowl_object_vec_equals((LHS)->annot[0], (RHS)->annot[0]))        \
 )
 
-#define cowl_axiom_hash_1(INIT, ANNOT, A)                                                           \
-    ((ANNOT) ? cowl_hash_2(INIT, A, cowl_object_vec_hash(ANNOT)) :                                  \
-     cowl_hash_1(INIT, A))
-
-#define cowl_axiom_hash_2(INIT, ANNOT, A, B)                                                        \
-    ((ANNOT) ? cowl_hash_3(INIT, A, B, cowl_object_vec_hash(ANNOT)) :                               \
-     cowl_hash_2(INIT, A, B))
-
-#define cowl_axiom_hash_3(INIT, ANNOT, A, B, C)                                                     \
-    ((ANNOT) ? cowl_hash_4(INIT, A, B, C, cowl_object_vec_hash(ANNOT)) :                            \
-     cowl_hash_3(INIT, A, B, C))
-
-#define cowl_axiom_hash_4(INIT, ANNOT, A, B, C, D)                                                  \
-    ((ANNOT) ? cowl_hash_5(INIT, A, B, C, D, cowl_object_vec_hash(ANNOT)) :                         \
-     cowl_hash_4(INIT, A, B, C, D))
-
 #define cowl_axiom_annot_iterate_primitives(AXIOM, FLAGS, ITER)                                     \
     (!cowl_axiom_has_annot(AXIOM) ||                                                                \
      cowl_object_vec_iterate_primitives((AXIOM)->annot[0], FLAGS, ITER))
