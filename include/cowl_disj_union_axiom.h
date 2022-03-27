@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlClass);
-cowl_hash_decl(CowlObjectTable);
 cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
 cowl_struct_decl(CowlDisjUnionAxiom);
 /// @endcond
@@ -45,7 +44,7 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PUBLIC
-CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlObjectTable *disjoints,
+CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlObjectVec *disjoints,
                                               CowlObjectVec *annot);
 
 /**
@@ -88,7 +87,7 @@ CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom);
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PUBLIC
-CowlObjectTable* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom);
+CowlObjectVec* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.

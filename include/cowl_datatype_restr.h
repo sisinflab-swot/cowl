@@ -19,7 +19,6 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlObjectTable);
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlDatatypeRestr);
 /// @endcond
@@ -43,7 +42,7 @@ cowl_struct_decl(CowlDatatypeRestr);
  * @public @memberof CowlDatatypeRestr
  */
 COWL_PUBLIC
-CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlObjectTable *restrictions);
+CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlObjectVec *restrictions);
 
 /**
  * Retains the specified datatype restriction.
@@ -86,7 +85,7 @@ CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr);
  * @public @memberof CowlDatatypeRestr
  */
 COWL_PUBLIC
-CowlObjectTable* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr);
+CowlObjectVec* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr);
 
 /**
  * Returns the string representation of the specified datatype restriction.

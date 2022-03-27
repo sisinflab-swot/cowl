@@ -11,15 +11,15 @@
 #include "cowl_nary_bool_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
-#include "cowl_object_table.h"
+#include "cowl_object_vec.h"
 #include "cowl_template.h"
 
-static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectTable *operands) {
+static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectVec *operands) {
     CowlNAryBool *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
     ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_NARY_BOOL, type,
-                                 cowl_object_set_hash(operands));
+                                 cowl_object_vec_hash(operands));
 
     *exp = (CowlNAryBool) {
         .super = COWL_CLS_EXP_INIT(type, hash),
@@ -30,11 +30,11 @@ static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlObjectTable *
 }
 
 static void cowl_nary_bool_free(CowlNAryBool *exp) {
-    cowl_object_set_free(exp->operands);
+    cowl_object_vec_free(exp->operands);
     ulib_free(exp);
 }
 
-CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlObjectTable *operands) {
+CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlObjectVec *operands) {
     if (!(operands && cowl_enum_value_is_valid(NT, type))) return NULL;
     return cowl_nary_bool_alloc((CowlClsExpType)type + COWL_CET_OBJ_INTERSECT, operands);
 }
@@ -53,7 +53,7 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
     return (CowlNAryType)(cowl_get_type(exp) - COWL_OT_CE_OBJ_INTERSECT);
 }
 
-CowlObjectTable* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
+CowlObjectVec* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
     return exp->operands;
 }
 
@@ -63,7 +63,7 @@ CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp)
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
            cowl_object_hash_equals(lhs, rhs) &&
-           cowl_object_set_equals(lhs->operands, rhs->operands);
+           cowl_object_vec_equals(lhs->operands, rhs->operands);
 }
 
 ulib_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
@@ -72,5 +72,5 @@ ulib_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
 
 bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlPrimitiveFlags flags,
                                        CowlIterator *iter) {
-    return cowl_object_set_iterate_primitives(exp->operands, flags, iter);
+    return cowl_object_vec_iterate_primitives(exp->operands, flags, iter);
 }

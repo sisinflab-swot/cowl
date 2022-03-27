@@ -19,7 +19,6 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlObjectTable);
 cowl_struct_decl(CowlObjOneOf);
 /// @endcond
 
@@ -41,7 +40,7 @@ cowl_struct_decl(CowlObjOneOf);
  * @public @memberof CowlObjOneOf
  */
 COWL_PUBLIC
-CowlObjOneOf* cowl_obj_one_of_get(CowlObjectTable *inds);
+CowlObjOneOf* cowl_obj_one_of_get(CowlObjectVec *inds);
 
 /**
  * Retains the specified individual enumeration.
@@ -73,7 +72,7 @@ void cowl_obj_one_of_release(CowlObjOneOf *exp);
  * @public @memberof CowlObjOneOf
  */
 COWL_PUBLIC
-CowlObjectTable* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
+CowlObjectVec* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
 
 /**
  * Returns the string representation of the specified individual enumeration.

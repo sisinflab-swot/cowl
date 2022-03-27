@@ -10,17 +10,17 @@
 
 #include "cowl_disj_union_axiom_private.h"
 #include "cowl_class.h"
-#include "cowl_object_table.h"
+#include "cowl_object_vec.h"
 #include "cowl_template.h"
 
-static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjectTable *disjoints,
+static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjectVec *disjoints,
                                                        CowlObjectVec *annot) {
     CowlDisjUnionAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
     ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM, annot,
                                        cowl_class_hash(cls),
-                                       cowl_object_set_hash(disjoints));
+                                       cowl_object_vec_hash(disjoints));
 
     cowl_axiom_init(CowlDisjUnionAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DISJ_UNION, hash, annot),
@@ -33,11 +33,11 @@ static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjec
 
 static void cowl_disj_union_axiom_free(CowlDisjUnionAxiom *axiom) {
     cowl_class_release(axiom->cls);
-    cowl_object_set_free(axiom->disjoints);
+    cowl_object_vec_free(axiom->disjoints);
     cowl_axiom_free(axiom);
 }
 
-CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlObjectTable *disjoints,
+CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlObjectVec *disjoints,
                                               CowlObjectVec *annot) {
     if (!(cls && disjoints)) return NULL;
     return cowl_disj_union_axiom_alloc(cls, disjoints, annot);
@@ -57,7 +57,7 @@ CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
     return axiom->cls;
 }
 
-CowlObjectTable* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
+CowlObjectVec* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
     return axiom->disjoints;
 }
 
@@ -71,7 +71,7 @@ CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom)
 bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
                                   cowl_class_equals(lhs->cls, rhs->cls) &&
-                                  cowl_object_set_equals(lhs->disjoints, rhs->disjoints));
+                                  cowl_object_vec_equals(lhs->disjoints, rhs->disjoints));
 }
 
 ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
@@ -81,6 +81,6 @@ ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
 bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom, CowlPrimitiveFlags flags,
                                               CowlIterator *iter) {
     return (cowl_class_iterate_primitives(axiom->cls, flags, iter) &&
-            cowl_object_set_iterate_primitives(axiom->disjoints, flags, iter) &&
+            cowl_object_vec_iterate_primitives(axiom->disjoints, flags, iter) &&
             cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

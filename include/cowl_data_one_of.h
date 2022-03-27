@@ -19,7 +19,6 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlObjectTable);
 cowl_struct_decl(CowlDataOneOf);
 /// @endcond
 
@@ -41,7 +40,7 @@ cowl_struct_decl(CowlDataOneOf);
  * @public @memberof CowlDataOneOf
  */
 COWL_PUBLIC
-CowlDataOneOf* cowl_data_one_of_get(CowlObjectTable *values);
+CowlDataOneOf* cowl_data_one_of_get(CowlObjectVec *values);
 
 /**
  * Retains the specified literal enumeration.
@@ -73,7 +72,7 @@ void cowl_data_one_of_release(CowlDataOneOf *range);
  * @public @memberof CowlDataOneOf
  */
 COWL_PUBLIC
-CowlObjectTable* cowl_data_one_of_get_values(CowlDataOneOf *range);
+CowlObjectVec* cowl_data_one_of_get_values(CowlDataOneOf *range);
 
 /**
  * Returns the string representation of the specified literal enumeration.

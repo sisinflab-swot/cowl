@@ -12,17 +12,17 @@
 #include "cowl_datatype.h"
 #include "cowl_facet_restr.h"
 #include "cowl_hash_utils.h"
-#include "cowl_object_table.h"
+#include "cowl_object_vec.h"
 #include "cowl_template.h"
 
 static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
-                                                    CowlObjectTable *restrictions) {
+                                                    CowlObjectVec *restrictions) {
     CowlDatatypeRestr *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
     ulib_uint hash = cowl_hash_2(COWL_HASH_INIT_DATA_RESTR,
                                  cowl_datatype_hash(datatype),
-                                 cowl_object_set_hash(restrictions));
+                                 cowl_object_vec_hash(restrictions));
 
     *restr = (CowlDatatypeRestr) {
         .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE_RESTR, hash),
@@ -35,11 +35,11 @@ static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
 
 static void cowl_datatype_restr_free(CowlDatatypeRestr *restr) {
     cowl_datatype_release(restr->datatype);
-    cowl_object_set_free(restr->restrictions);
+    cowl_object_vec_free(restr->restrictions);
     ulib_free(restr);
 }
 
-CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlObjectTable *restr) {
+CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlObjectVec *restr) {
     if (!(datatype && restr)) return NULL;
     return cowl_datatype_restr_alloc(datatype, restr);
 }
@@ -58,7 +58,7 @@ CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
     return restr->datatype;
 }
 
-CowlObjectTable* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
+CowlObjectVec* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
     return restr->restrictions;
 }
 
@@ -68,7 +68,7 @@ CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr)
 bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {
     return cowl_object_hash_equals(lhs, rhs) &&
            cowl_datatype_equals(lhs->datatype, rhs->datatype) &&
-           cowl_object_set_equals(lhs->restrictions, rhs->restrictions);
+           cowl_object_vec_equals(lhs->restrictions, rhs->restrictions);
 }
 
 ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
@@ -79,7 +79,7 @@ bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimit
                                             CowlIterator *iter) {
     if (!cowl_datatype_iterate_primitives(restr->datatype, flags, iter)) return false;
 
-    uhash_foreach_key(CowlObjectTable, restr->restrictions, fr, {
+    uvec_foreach(CowlObjectPtr, restr->restrictions, fr, {
         if (!cowl_facet_restr_iterate_primitives((CowlFacetRestr *)fr, flags, iter)) return false;
     });
 

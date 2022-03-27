@@ -67,14 +67,6 @@
             COWL_ERROR_MEM;                                                                         \
         }                                                                                           \
     } while (0)
-
-    #define COWL_SET_INSERT(T, SET, OBJ) do {                                                       \
-        uhash_ret ret = uhset_insert(CowlObjectTable, SET, OBJ);                                    \
-        if (ret != UHASH_INSERTED) {                                                                \
-            cowl_##T##_release(OBJ);                                                                \
-            if (ret == UHASH_ERR) COWL_ERROR_MEM;                                                   \
-        }                                                                                           \
-    } while (0)
 }
 
 %define api.value.type union
@@ -171,15 +163,15 @@
 %type <CowlAxiom *> datatype_definition has_key
 %type <CowlAxiom *> sub_annotation_property_of annotation_property_domain annotation_property_range
 
-%type <UHash(CowlObjectTable)*> class_expression_list class_expression_2_list
-%type <UHash(CowlObjectTable)*> data_property_expression_list data_property_expression_2_list
-%type <UHash(CowlObjectTable)*> data_property_expression_star
-%type <UHash(CowlObjectTable)*> data_range_list data_range_2_list
-%type <UHash(CowlObjectTable)*> facet_restriction_list
-%type <UHash(CowlObjectTable)*> individual_list individual_2_list
-%type <UHash(CowlObjectTable)*> literal_list
-%type <UHash(CowlObjectTable)*> object_property_expression_list object_property_expression_2_list
-%type <UHash(CowlObjectTable)*> object_property_expression_star
+%type <UVec(CowlObjectPtr)*> class_expression_list class_expression_2_list
+%type <UVec(CowlObjectPtr)*> data_property_expression_list data_property_expression_2_list
+%type <UVec(CowlObjectPtr)*> data_property_expression_star
+%type <UVec(CowlObjectPtr)*> data_range_list data_range_2_list
+%type <UVec(CowlObjectPtr)*> facet_restriction_list
+%type <UVec(CowlObjectPtr)*> individual_list individual_2_list
+%type <UVec(CowlObjectPtr)*> literal_list
+%type <UVec(CowlObjectPtr)*> object_property_expression_list object_property_expression_2_list
+%type <UVec(CowlObjectPtr)*> object_property_expression_star
 %type <UVec(CowlObjectPtr)*> object_property_expression_ordered_2_list property_expression_chain
 %type <UVec(CowlObjectPtr)*> annotation_star
 
@@ -209,7 +201,6 @@
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
 %destructor { cowl_string_release($$); } <CowlString *>
 %destructor { cowl_object_vec_free($$); } <UVec(CowlObjectPtr)*>
-%destructor { cowl_object_set_free($$); } <UHash(CowlObjectTable)*>
 
 %%
 
@@ -484,13 +475,13 @@ datatype_restriction
 
 facet_restriction_list
     : facet_restriction {
-        $$ = cowl_facet_restr_set_alloc();
+        $$ = uvec_alloc(CowlObjectPtr);
         if (!$$) COWL_ERROR_MEM;
-        COWL_SET_INSERT(facet_restr, $$, $1);
+        COWL_VEC_PUSH(facet_restr, $$, $1);
     }
     | facet_restriction_list facet_restriction {
         $$ = $1;
-        COWL_SET_INSERT(facet_restr, $$, $2);
+        COWL_VEC_PUSH(facet_restr, $$, $2);
     }
 ;
 
@@ -1093,39 +1084,39 @@ annotation_star
 
 class_expression_list
     : class_expression {
-        $$ = cowl_cls_exp_set_alloc();
+        $$ = uvec_alloc(CowlObjectPtr);
         if (!$$) COWL_ERROR_MEM;
-        COWL_SET_INSERT(cls_exp, $$, $1);
+        COWL_VEC_PUSH(cls_exp, $$, $1);
     }
     | class_expression_list class_expression {
         $$ = $1;
-        COWL_SET_INSERT(cls_exp, $$, $2);
+        COWL_VEC_PUSH(cls_exp, $$, $2);
     }
 ;
 
 class_expression_2_list
     : class_expression_list class_expression {
         $$ = $1;
-        COWL_SET_INSERT(cls_exp, $$, $2);
+        COWL_VEC_PUSH(cls_exp, $$, $2);
     }
 ;
 
 data_property_expression_list
     : data_property_expression {
-        $$ = cowl_data_prop_exp_set_alloc();
+        $$ = uvec_alloc(CowlObjectPtr);
         if (!$$) COWL_ERROR_MEM;
-        COWL_SET_INSERT(data_prop_exp, $$, $1);
+        COWL_VEC_PUSH(data_prop_exp, $$, $1);
     }
     | data_property_expression_list data_property_expression {
         $$ = $1;
-        COWL_SET_INSERT(data_prop_exp, $$, $2);
+        COWL_VEC_PUSH(data_prop_exp, $$, $2);
     }
 ;
 
 data_property_expression_2_list
     : data_property_expression_list data_property_expression {
         $$ = $1;
-        COWL_SET_INSERT(data_prop_exp, $$, $2);
+        COWL_VEC_PUSH(data_prop_exp, $$, $2);
     }
 ;
 
@@ -1137,79 +1128,79 @@ data_property_expression_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = cowl_data_prop_exp_set_alloc();
+            $$ = uvec_alloc(CowlObjectPtr);
             if (!$$) COWL_ERROR_MEM;
         }
-        COWL_SET_INSERT(data_prop_exp, $$, $2);
+        COWL_VEC_PUSH(data_prop_exp, $$, $2);
     }
 ;
 
 data_range_list
     : data_range {
-        $$ = cowl_data_range_set_alloc();
+        $$ = uvec_alloc(CowlObjectPtr);
         if (!$$) COWL_ERROR_MEM;
-        COWL_SET_INSERT(data_range, $$, $1);
+        COWL_VEC_PUSH(data_range, $$, $1);
     }
     | data_range_list data_range {
         $$ = $1;
-        COWL_SET_INSERT(data_range, $$, $2);
+        COWL_VEC_PUSH(data_range, $$, $2);
     }
 ;
 
 data_range_2_list
     : data_range_list data_range {
         $$ = $1;
-        COWL_SET_INSERT(data_range, $$, $2);
+        COWL_VEC_PUSH(data_range, $$, $2);
     }
 ;
 
 individual_list
     : individual {
-        $$ = cowl_individual_set_alloc();
+        $$ = uvec_alloc(CowlObjectPtr);
         if (!$$) COWL_ERROR_MEM;
-        COWL_SET_INSERT(individual, $$, $1);
+        COWL_VEC_PUSH(individual, $$, $1);
     }
     | individual_list individual {
         $$ = $1;
-        COWL_SET_INSERT(individual, $$, $2);
+        COWL_VEC_PUSH(individual, $$, $2);
     }
 ;
 
 individual_2_list
     : individual_list individual {
         $$ = $1;
-        COWL_SET_INSERT(individual, $$, $2);
+        COWL_VEC_PUSH(individual, $$, $2);
     }
 ;
 
 literal_list
     : literal {
-        $$ = cowl_literal_set_alloc();
+        $$ = uvec_alloc(CowlObjectPtr);
         if (!$$) COWL_ERROR_MEM;
-        COWL_SET_INSERT(literal, $$, $1);
+        COWL_VEC_PUSH(literal, $$, $1);
     }
     | literal_list literal {
         $$ = $1;
-        COWL_SET_INSERT(literal, $$, $2);
+        COWL_VEC_PUSH(literal, $$, $2);
     }
 ;
 
 object_property_expression_list
     : object_property_expression {
-        $$ = cowl_obj_prop_exp_set_alloc();
+        $$ = uvec_alloc(CowlObjectPtr);
         if (!$$) COWL_ERROR_MEM;
-        COWL_SET_INSERT(obj_prop_exp, $$, $1);
+        COWL_VEC_PUSH(obj_prop_exp, $$, $1);
     }
     | object_property_expression_list object_property_expression {
         $$ = $1;
-        COWL_SET_INSERT(obj_prop_exp, $$, $2);
+        COWL_VEC_PUSH(obj_prop_exp, $$, $2);
     }
 ;
 
 object_property_expression_2_list
     : object_property_expression_list object_property_expression {
         $$ = $1;
-        COWL_SET_INSERT(obj_prop_exp, $$, $2);
+        COWL_VEC_PUSH(obj_prop_exp, $$, $2);
     }
 ;
 
@@ -1234,10 +1225,10 @@ object_property_expression_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = cowl_obj_prop_exp_set_alloc();
+            $$ = uvec_alloc(CowlObjectPtr);
             if (!$$) COWL_ERROR_MEM;
         }
-        COWL_SET_INSERT(obj_prop_exp, $$, $2);
+        COWL_VEC_PUSH(obj_prop_exp, $$, $2);
     }
 ;
 

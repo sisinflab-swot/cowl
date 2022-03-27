@@ -10,16 +10,16 @@
 
 #include "cowl_nary_cls_axiom_private.h"
 #include "cowl_macros.h"
-#include "cowl_object_table.h"
+#include "cowl_object_vec.h"
 #include "cowl_template.h"
 
-static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlObjectTable *classes,
+static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlObjectVec *classes,
                                                    CowlObjectVec *annot) {
     CowlNAryClsAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
     ulib_uint hash = cowl_axiom_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM, annot, type,
-                                       cowl_object_set_hash(classes));
+                                       cowl_object_vec_hash(classes));
 
     cowl_axiom_init(CowlNAryClsAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(type, hash, annot),
@@ -30,11 +30,11 @@ static CowlNAryClsAxiom* cowl_nary_cls_axiom_alloc(CowlAxiomType type, CowlObjec
 }
 
 static void cowl_nary_cls_axiom_free(CowlNAryClsAxiom *axiom) {
-    cowl_object_set_free(axiom->classes);
+    cowl_object_vec_free(axiom->classes);
     cowl_axiom_free(axiom);
 }
 
-CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlObjectTable *classes,
+CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlObjectVec *classes,
                                           CowlObjectVec *annot) {
     if (!(classes && cowl_enum_value_is_valid(NAT, type))) return NULL;
     return cowl_nary_cls_axiom_alloc((CowlAxiomType)type + COWL_AT_EQUIV_CLASSES, classes, annot);
@@ -54,7 +54,7 @@ CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom) {
     return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_EQUIV_CLASSES);
 }
 
-CowlObjectTable *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
+CowlObjectVec *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
     return axiom->classes;
 }
 
@@ -67,7 +67,7 @@ CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom)
 
 bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
-           cowl_axiom_equals_impl(lhs, rhs, cowl_object_set_equals(lhs->classes, rhs->classes));
+           cowl_axiom_equals_impl(lhs, rhs, cowl_object_vec_equals(lhs->classes, rhs->classes));
 }
 
 ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
@@ -76,6 +76,6 @@ ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
 
 bool cowl_nary_cls_axiom_iterate_primitives(CowlNAryClsAxiom *axiom, CowlPrimitiveFlags flags,
                                             CowlIterator *iter) {
-    return (cowl_object_set_iterate_primitives(axiom->classes, flags, iter) &&
+    return (cowl_object_vec_iterate_primitives(axiom->classes, flags, iter) &&
             cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

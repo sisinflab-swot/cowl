@@ -17,7 +17,7 @@
 COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlNAryObjPropAxiom,
-    CowlObjectTable *props;
+    CowlObjectVec *props;
 );
 
 COWL_END_DECLS

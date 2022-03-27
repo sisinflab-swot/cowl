@@ -345,10 +345,10 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
 
     uvec_foreach(CowlObjectPtr, axioms, axiom, {
         if (cowl_axiom_get_type(axiom) != COWL_AT_EQUIV_CLASSES) continue;
-        CowlObjectTable *eq_classes = ((CowlNAryClsAxiom *)axiom)->classes;
+        CowlObjectVec *eq_classes = ((CowlNAryClsAxiom *)axiom)->classes;
 
-        if (uhash_contains(CowlObjectTable, eq_classes, owl_class)) {
-            uhash_foreach_key(CowlObjectTable, eq_classes, cls_exp, {
+        if (uvec_contains(CowlObjectPtr, eq_classes, owl_class)) {
+            uvec_foreach(CowlObjectPtr, eq_classes, cls_exp, {
                 if (cls_exp != owl_class && !cowl_iterate(iter, cls_exp)) return false;
             });
         }

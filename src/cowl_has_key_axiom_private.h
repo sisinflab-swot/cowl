@@ -18,8 +18,8 @@ COWL_BEGIN_DECLS
 
 cowl_axiom_struct(CowlHasKeyAxiom,
     CowlClsExp *cls_exp;
-    CowlObjectTable *data_props;
-    CowlObjectTable *obj_props;
+    CowlObjectVec *data_props;
+    CowlObjectVec *obj_props;
 );
 
 COWL_END_DECLS

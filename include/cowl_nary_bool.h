@@ -20,7 +20,6 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_hash_decl(CowlObjectTable);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlNAryBool);
 /// @endcond
@@ -45,7 +44,7 @@ cowl_struct_decl(CowlNAryBool);
  * @public @memberof CowlNAryBool
  */
 COWL_PUBLIC
-CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlObjectTable *operands);
+CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlObjectVec *operands);
 
 /**
  * Retains the specified N-ary boolean class expression.
@@ -88,7 +87,7 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp);
  * @public @memberof CowlNAryBool
  */
 COWL_PUBLIC
-CowlObjectTable* cowl_nary_bool_get_operands(CowlNAryBool *exp);
+CowlObjectVec* cowl_nary_bool_get_operands(CowlNAryBool *exp);
 
 /**
  * Returns the string representation of the specified N-ary boolean class expression.
