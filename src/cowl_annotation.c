@@ -75,10 +75,9 @@ bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
 }
 
 ulib_uint cowl_annotation_hash(CowlAnnotation *annot) {
-    return cowl_hash_3(COWL_HASH_INIT_ANNOTATION,
+    return cowl_hash_2(COWL_HASH_INIT_ANNOTATION,
                        cowl_annot_prop_hash(annot->prop),
-                       cowl_annot_value_hash(annot->value),
-                       annot ? cowl_object_vec_hash(annot->annot) : 0);
+                       cowl_annot_value_hash(annot->value));
 }
 
 bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveFlags flags,

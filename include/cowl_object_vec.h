@@ -54,6 +54,18 @@ COWL_PUBLIC
 bool cowl_object_vec_equals(CowlObjectVec *lhs, CowlObjectVec *rhs);
 
 /**
+ * Equality function that does not account for the order of elements.
+ *
+ * @param lhs LHS of the equality relation.
+ * @param rhs RHS of the equality relation.
+ * @return True if the equality relation holds, false otherwise.
+ *
+ * @public @memberof CowlObjectVec
+ */
+COWL_PUBLIC
+bool cowl_object_vec_equals_no_order(CowlObjectVec *lhs, CowlObjectVec *rhs);
+
+/**
  * Hash function.
  *
  * @param vec The vector.
@@ -63,6 +75,17 @@ bool cowl_object_vec_equals(CowlObjectVec *lhs, CowlObjectVec *rhs);
  */
 COWL_PUBLIC
 ulib_uint cowl_object_vec_hash(CowlObjectVec *vec);
+
+/**
+ * Hash function that does not account for the order of elements.
+ *
+ * @param vec The vector.
+ * @return The hash value.
+ *
+ * @public @memberof CowlObjectVec
+ */
+COWL_PUBLIC
+ulib_uint cowl_object_vec_hash_no_order(CowlObjectVec *vec);
 
 /**
  * Pushes an element into the specified vector and retains it.

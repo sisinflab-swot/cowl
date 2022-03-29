@@ -64,13 +64,14 @@ CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom)
 
 bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
-           cowl_axiom_equals_impl(lhs, rhs, cowl_object_vec_equals(lhs->classes, rhs->classes));
+           cowl_axiom_equals_impl(lhs, rhs,
+                                  cowl_object_vec_equals_no_order(lhs->classes, rhs->classes));
 }
 
 ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
     return cowl_hash_2(COWL_HASH_INIT_NARY_CLS_AXIOM,
                        cowl_nary_cls_axiom_get_type(axiom),
-                       cowl_object_vec_hash(axiom->classes));
+                       cowl_object_vec_hash_no_order(axiom->classes));
 }
 
 bool cowl_nary_cls_axiom_iterate_primitives(CowlNAryClsAxiom *axiom, CowlPrimitiveFlags flags,

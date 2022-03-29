@@ -65,13 +65,14 @@ CowlString* cowl_nary_ind_axiom_to_string(CowlNAryIndAxiom *axiom)
 bool cowl_nary_ind_axiom_equals(CowlNAryIndAxiom *lhs, CowlNAryIndAxiom *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
            cowl_axiom_equals_impl(lhs, rhs,
-                                  cowl_object_vec_equals(lhs->individuals, rhs->individuals));
+                                  cowl_object_vec_equals_no_order(lhs->individuals,
+                                                                  rhs->individuals));
 }
 
 ulib_uint cowl_nary_ind_axiom_hash(CowlNAryIndAxiom *axiom) {
     return cowl_hash_2(COWL_HASH_INIT_NARY_IND_AXIOM,
                        cowl_nary_ind_axiom_get_type(axiom),
-                       cowl_object_vec_hash(axiom->individuals));
+                       cowl_object_vec_hash_no_order(axiom->individuals));
 }
 
 bool cowl_nary_ind_axiom_iterate_primitives(CowlNAryIndAxiom *axiom, CowlPrimitiveFlags flags,

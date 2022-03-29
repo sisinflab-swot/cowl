@@ -22,11 +22,30 @@ bool cowl_object_vec_equals(CowlObjectVec *lhs, CowlObjectVec *rhs) {
     return uvec_equals(CowlObjectPtr, lhs, rhs);
 }
 
+bool cowl_object_vec_equals_no_order(CowlObjectVec *lhs, CowlObjectVec *rhs) {
+    if (lhs == rhs) return true;
+    if (uvec_count(lhs) != uvec_count(rhs)) return false;
+    uvec_foreach(CowlObjectPtr, lhs, item, {
+        if (!uvec_contains(CowlObjectPtr, rhs, item)) return false;
+    });
+    return true;
+}
+
 ulib_uint cowl_object_vec_hash(CowlObjectVec *vec) {
     ulib_uint hash = 0;
 
-    uvec_foreach(CowlObjectPtr, vec, prop, {
-        hash = cowl_hash_1(hash, cowl_object_hash(prop));
+    uvec_foreach(CowlObjectPtr, vec, obj, {
+        hash = cowl_hash_1(hash, cowl_object_hash(obj));
+    });
+
+    return hash;
+}
+
+ulib_uint cowl_object_vec_hash_no_order(CowlObjectVec *vec) {
+    ulib_uint hash = 0;
+
+    uvec_foreach(CowlObjectPtr, vec, obj, {
+        hash ^= cowl_object_hash(obj);
     });
 
     return hash;
