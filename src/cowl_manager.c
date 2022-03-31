@@ -44,6 +44,10 @@ void cowl_manager_release(CowlManager *manager) {
     }
 }
 
+CowlParser cowl_manager_get_parser(CowlManager *manager) {
+    return manager->parser.name ? manager->parser : cowl_api_get_parser();
+}
+
 static CowlOntology* cowl_parser_ctx_read_stream(CowlParserCtx *ctx, UIStream *stream) {
     if (!stream) goto end;
     ctx->ontology = cowl_ontology_get();
@@ -53,7 +57,7 @@ static CowlOntology* cowl_parser_ctx_read_stream(CowlParserCtx *ctx, UIStream *s
         goto end;
     }
 
-    CowlParser parser = ctx->manager->parser.name ? ctx->manager->parser : cowl_api_get_parser();
+    CowlParser parser = cowl_manager_get_parser(ctx->manager);
 
     if (parser.alloc && !(ctx->state = parser.alloc())) {
         cowl_parser_ctx_handle_error_type(ctx, COWL_ERR_MEM);

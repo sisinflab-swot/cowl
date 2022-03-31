@@ -23,6 +23,8 @@ struct CowlManager {
     CowlImportLoader loader;
 };
 
+CowlParser cowl_manager_get_parser(CowlManager *manager);
+
 COWL_END_DECLS
 
 #endif // COWL_MANAGER_PRIVATE_H

@@ -81,11 +81,12 @@ void cowl_parser_ctx_handle_error(CowlParserCtx *ctx, cowl_ret code, UString des
     UString temp = ustring_is_null(ctx->description) ? ustring_empty : ctx->description;
     CowlString source = cowl_string_init(temp);
     CowlString descr = cowl_string_init(description);
+    CowlParser parser = cowl_manager_get_parser(manager);
 
     CowlError error = {
         .code = code,
         .location = {
-            .line = manager->parser.get_line ? manager->parser.get_line(ctx->state) : 0,
+            .line = parser.get_line ? parser.get_line(ctx->state) : 0,
             .source = cowl_string_get_length(&source) ? &source : NULL,
             .iri = ctx->ontology ? cowl_ontology_get_id(ctx->ontology).ontology_iri : NULL,
         },
