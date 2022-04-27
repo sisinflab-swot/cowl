@@ -2,7 +2,7 @@ name: Build and test
 
 on:
   push:
-    branches: [master, dev]
+    branches: [dev]
 
 env:
   build_dir: build
