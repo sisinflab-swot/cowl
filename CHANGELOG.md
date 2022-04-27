@@ -5,6 +5,32 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.3] - 2022-04-27
+### Added
+- `cowl_string_get_raw`.
+- `cowl_ret_to_string`.
+- `cowl_annot_prop_from_string`, `cowl_class_from_string`, `cowl_data_prop_from_string`,
+  `cowl_datatype_from_string`, `cowl_iri_from_string`, `cowl_named_ind_from_string`,
+  `cowl_obj_prop_from_string`.
+
+### Changed
+- Signature of `cowl_string_get`, `cowl_manager_read_path`, `cowl_manager_read_string`,
+  `cowl_parser_ctx_handle_error`.
+- Replaced most `CowlObjectTable` objects in the API to `CowlObjectVec`.
+- Updated `uLib` to the latest version.
+
+### Removed
+- `cowl_ret_to_cstring`.
+- `cowl_annot_prop_from_cstring`, `cowl_class_from_cstring`, `cowl_data_prop_from_cstring`,
+  `cowl_datatype_from_cstring`, `cowl_iri_from_cstring`, `cowl_named_ind_from_cstring`,
+  `cowl_obj_prop_from_cstring`.
+- `cowl_struct` and `cowl_enum`.
+
+### Fixed
+- `COWL_LTO` and `COWL_EMBEDDED` CMake options are now correctly propagated to uLib.
+- DataExactCardinality incorrectly parsed as DataMaxCardinality.
+- Error location not reported when using the default parser.
+
 ## [0.5.2] - 2021-12-17
 ### Added
 - `cowl_ontology_has_entity`.
@@ -197,6 +223,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.5.3]: https://github.com/sisinflab-swot/cowl/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/sisinflab-swot/cowl/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/sisinflab-swot/cowl/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/sisinflab-swot/cowl/compare/v0.4.1...v0.5.0
