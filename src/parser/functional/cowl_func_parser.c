@@ -30,21 +30,12 @@ CowlParser cowl_parser_get_functional(void) {
 
 void* cowl_func_parser_alloc(void) {
     CowlFuncParser *parser = ulib_alloc(parser);
-    UHash(CowlObjectTable) *prefix_ns_map = cowl_string_map_alloc();
-    UHash(CowlObjectTable) *anon_ind_map = cowl_string_map_alloc();
-
-    if (!(parser && anon_ind_map && prefix_ns_map)) {
-        ulib_free(parser);
-        uhash_free(CowlObjectTable, prefix_ns_map);
-        uhash_free(CowlObjectTable, anon_ind_map);
-        return NULL;
+    if (parser) {
+        *parser = (CowlFuncParser) {
+            .prefix_ns_map = cowl_string_map_init(),
+            .anon_ind_map = cowl_string_map_init()
+        };
     }
-
-    *parser = (CowlFuncParser) {
-        .prefix_ns_map = prefix_ns_map,
-        .anon_ind_map = anon_ind_map
-    };
-
     return parser;
 }
 
@@ -53,17 +44,17 @@ void cowl_func_parser_free(void *state) {
 
     CowlFuncParser *parser = state;
 
-    uhash_foreach(CowlObjectTable, parser->prefix_ns_map, prefix, ns, {
-        cowl_string_release(prefix);
-        cowl_string_release(ns);
-    });
-    uhash_free(CowlObjectTable, parser->prefix_ns_map);
+    uhash_foreach(CowlObjectTable, &parser->prefix_ns_map, prefix) {
+        cowl_string_release(*prefix.key);
+        cowl_string_release(*prefix.val);
+    }
+    uhash_deinit(CowlObjectTable, &parser->prefix_ns_map);
 
-    uhash_foreach(CowlObjectTable, parser->anon_ind_map, id, ind, {
-        cowl_string_release(id);
-        cowl_anon_ind_release(ind);
-    });
-    uhash_free(CowlObjectTable, parser->anon_ind_map);
+    uhash_foreach(CowlObjectTable, &parser->anon_ind_map, ind) {
+        cowl_string_release(*ind.key);
+        cowl_anon_ind_release(*ind.val);
+    }
+    uhash_deinit(CowlObjectTable, &parser->anon_ind_map);
 
     ulib_free(parser);
 }
@@ -92,7 +83,7 @@ ulib_uint cowl_func_parser_get_line(void *state) {
 }
 
 cowl_ret cowl_func_parser_register_ns(CowlFuncParser *parser, CowlString *prefix, CowlString *ns) {
-    uhash_ret ret = uhmap_add(CowlObjectTable, parser->prefix_ns_map, prefix, ns, NULL);
+    uhash_ret ret = uhmap_add(CowlObjectTable, &parser->prefix_ns_map, prefix, ns, NULL);
 
     if (ret == UHASH_ERR) {
         cowl_parser_ctx_handle_error_type(parser->ctx, COWL_ERR_MEM);
@@ -131,7 +122,7 @@ CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
 
     if (!rem) return NULL;
 
-    CowlString *ns = uhmap_get(CowlObjectTable, parser->prefix_ns_map, &ns_str, NULL);
+    CowlString *ns = uhmap_get(CowlObjectTable, &parser->prefix_ns_map, &ns_str, NULL);
     CowlIRI *iri = NULL;
 
     if (ns) {
@@ -145,7 +136,7 @@ CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
         };
         UString err_str = ustring_concat(comp, ulib_array_count(comp));
         cowl_parser_ctx_handle_error(parser->ctx, COWL_ERR_SYNTAX, err_str);
-        ustring_deinit(err_str);
+        ustring_deinit(&err_str);
     }
 
     cowl_string_release(rem);
@@ -155,7 +146,7 @@ CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
 CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, UString id) {
     ulib_uint idx;
     CowlString id_str = cowl_string_init(id);
-    uhash_ret ret = uhash_put(CowlObjectTable, parser->anon_ind_map, &id_str, &idx);
+    uhash_ret ret = uhash_put(CowlObjectTable, &parser->anon_ind_map, &id_str, &idx);
 
     CowlAnonInd *ind = NULL;
 
@@ -164,16 +155,16 @@ CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, UString id) {
         ind = cowl_anon_ind_get();
 
         if (string && ind) {
-            uhash_key(parser->anon_ind_map, idx) = string;
-            uhash_value(parser->anon_ind_map, idx) = cowl_anon_ind_retain(ind);
+            uhash_key(CowlObjectTable, &parser->anon_ind_map, idx) = string;
+            uhash_value(CowlObjectTable, &parser->anon_ind_map, idx) = cowl_anon_ind_retain(ind);
         } else {
-            uhash_delete(CowlObjectTable, parser->anon_ind_map, idx);
+            uhash_delete(CowlObjectTable, &parser->anon_ind_map, idx);
             cowl_string_release(string);
             cowl_anon_ind_release(ind);
             ind = NULL;
         }
     } else if (ret == UHASH_PRESENT) {
-        ind = uhash_value(parser->anon_ind_map, idx);
+        ind = uhash_value(CowlObjectTable, &parser->anon_ind_map, idx);
         cowl_anon_ind_retain(ind);
     }
 

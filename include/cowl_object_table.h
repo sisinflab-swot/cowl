@@ -31,6 +31,16 @@ cowl_hash_decl(CowlObjectTable);
  */
 
 /**
+ * Deinitializes the specified set, releasing its elements.
+ *
+ * @param set The set.
+ *
+ * @public @memberof CowlObjectTable
+ */
+COWL_PUBLIC
+void cowl_object_set_deinit(CowlObjectTable *set);
+
+/**
  * Deallocates the specified set, releasing its elements.
  *
  * @param set The set.

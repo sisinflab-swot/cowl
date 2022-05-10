@@ -11,7 +11,7 @@
 #include "cowl_nary_data_private.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
-#include "cowl_object_vec.h"
+#include "cowl_object_vec_private.h"
 #include "cowl_template.h"
 
 static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlObjectVec *operands) {

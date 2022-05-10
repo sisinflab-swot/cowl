@@ -12,17 +12,17 @@
 #define COWL_FUNC_PARSER_H
 
 #include "cowl_parser.h"
+#include "cowl_object_table.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlAnonInd);
 cowl_struct_decl(CowlIRI);
-cowl_hash_decl(CowlObjectTable);
 
 typedef struct CowlFuncParser {
     CowlParserCtx *ctx;
-    UHash(CowlObjectTable) *prefix_ns_map;
-    UHash(CowlObjectTable) *anon_ind_map;
+    UHash(CowlObjectTable) prefix_ns_map;
+    UHash(CowlObjectTable) anon_ind_map;
     void *scanner;
 } CowlFuncParser;
 

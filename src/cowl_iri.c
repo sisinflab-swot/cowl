@@ -15,7 +15,7 @@
 #include "cowl_xml_utils.h"
 #include "cowl_template.h"
 
-static UHash(CowlObjectTable) *inst_tbl = NULL;
+static UHash(CowlObjectTable) inst_tbl;
 
 static ulib_uint inst_tbl_hash(void *key) {
     return cowl_hash_2(COWL_HASH_INIT_IRI, uhash_ptr_hash(cowl_iri_get_ns(key)),
@@ -28,12 +28,12 @@ static bool inst_tbl_eq(void *lhs, void *rhs) {
 }
 
 cowl_ret cowl_iri_api_init(void) {
-    inst_tbl = uhset_alloc_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
-    return inst_tbl ? COWL_OK : COWL_ERR_MEM;
+    inst_tbl = uhset_init_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+    return COWL_OK;
 }
 
 void cowl_iri_api_deinit(void) {
-    uhash_free(CowlObjectTable, inst_tbl);
+    uhash_deinit(CowlObjectTable, &inst_tbl);
 }
 
 static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
@@ -75,7 +75,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
         if (ustrbuf_append_ustring(&buf, p_str) ||
             ustrbuf_append_string(&buf, s_cstr, s_ns_len)) {
-            ustrbuf_deinit(buf);
+            ustrbuf_deinit(&buf);
             return NULL;
         }
 
@@ -91,7 +91,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
             if (ustrbuf_append_string(&buf, p_cstr + p_ns_len, ustring_length(p_str) - p_ns_len) ||
                 ustrbuf_append_ustring(&buf, s_str)) {
-                ustrbuf_deinit(buf);
+                ustrbuf_deinit(&buf);
                 return NULL;
             }
 
@@ -122,7 +122,7 @@ CowlIRI* cowl_iri_retain(CowlIRI *iri) {
 
 void cowl_iri_release(CowlIRI *iri) {
     if (iri && !cowl_object_decr_ref(iri)) {
-        uhset_remove(CowlObjectTable, inst_tbl, iri);
+        uhset_remove(CowlObjectTable, &inst_tbl, iri);
         cowl_iri_free(iri);
     }
 }

@@ -12,7 +12,7 @@
 #include "cowl_datatype.h"
 #include "cowl_facet_restr.h"
 #include "cowl_hash_utils.h"
-#include "cowl_object_vec.h"
+#include "cowl_object_vec_private.h"
 #include "cowl_template.h"
 
 static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
@@ -76,9 +76,11 @@ bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimit
                                             CowlIterator *iter) {
     if (!cowl_datatype_iterate_primitives(restr->datatype, flags, iter)) return false;
 
-    uvec_foreach(CowlObjectPtr, restr->restrictions, fr, {
-        if (!cowl_facet_restr_iterate_primitives((CowlFacetRestr *)fr, flags, iter)) return false;
-    });
+    uvec_foreach(CowlObjectPtr, restr->restrictions, fr) {
+        if (!cowl_facet_restr_iterate_primitives((CowlFacetRestr *)*fr.item, flags, iter)) {
+            return false;
+        }
+    }
 
     return true;
 }

@@ -32,6 +32,16 @@ cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
  */
 
 /**
+ * Deinitializes the specified vector, releasing its elements.
+ *
+ * @param vec The vector.
+ *
+ * @public @memberof CowlObjectVec
+ */
+COWL_PUBLIC
+void cowl_object_vec_deinit(CowlObjectVec *vec);
+
+/**
  * Deallocates the specified vector, releasing its elements.
  *
  * @param vec The vector.

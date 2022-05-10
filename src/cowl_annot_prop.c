@@ -14,7 +14,7 @@
 #include "cowl_object_table.h"
 #include "cowl_template.h"
 
-static UHash(CowlObjectTable) *inst_tbl = NULL;
+static UHash(CowlObjectTable) inst_tbl;
 
 static ulib_uint inst_tbl_hash(void *key) {
     return cowl_iri_hash(cowl_annot_prop_get_iri(key));
@@ -25,12 +25,12 @@ static bool inst_tbl_eq(void *lhs, void *rhs) {
 }
 
 cowl_ret cowl_annot_prop_api_init(void) {
-    inst_tbl = uhset_alloc_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
-    return inst_tbl ? COWL_OK : COWL_ERR_MEM;
+    inst_tbl = uhset_init_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+    return COWL_OK;
 }
 
 void cowl_annot_prop_api_deinit(void) {
-    uhash_free(CowlObjectTable, inst_tbl);
+    uhash_deinit(CowlObjectTable, &inst_tbl);
 }
 
 static CowlAnnotProp* cowl_annot_prop_alloc(CowlIRI *iri) {
@@ -61,7 +61,7 @@ CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) {
 
 void cowl_annot_prop_release(CowlAnnotProp *prop) {
     if (prop && !cowl_object_decr_ref(prop)) {
-        uhset_remove(CowlObjectTable, inst_tbl, prop);
+        uhset_remove(CowlObjectTable, &inst_tbl, prop);
         cowl_annot_prop_free(prop);
     }
 }

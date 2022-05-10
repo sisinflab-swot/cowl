@@ -20,19 +20,19 @@ COWL_BEGIN_DECLS
 #define COWL_INST_TBL_GET_IMPL(UC, LC, KEY_INIT, VALUE_ALLOC) {                                     \
     ulib_uint idx;                                                                                  \
     Cowl##UC key = KEY_INIT;                                                                        \
-    uhash_ret ret = uhash_put(CowlObjectTable, inst_tbl, &key, &idx);                               \
+    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);                              \
                                                                                                     \
     Cowl##UC *var = NULL;                                                                           \
                                                                                                     \
     if (ret == UHASH_INSERTED) {                                                                    \
         var = VALUE_ALLOC;                                                                          \
         if (var) {                                                                                  \
-            uhash_key(inst_tbl, idx) = var;                                                         \
+            uhash_key(CowlObjectTable, &inst_tbl, idx) = var;                                       \
         } else {                                                                                    \
-            uhash_delete(CowlObjectTable, inst_tbl, idx);                                           \
+            uhash_delete(CowlObjectTable, &inst_tbl, idx);                                          \
         }                                                                                           \
     } else if (ret == UHASH_PRESENT) {                                                              \
-        var = uhash_key(inst_tbl, idx);                                                             \
+        var = uhash_key(CowlObjectTable, &inst_tbl, idx);                                           \
         (void)cowl_object_incr_ref(var);                                                            \
     }                                                                                               \
                                                                                                     \
@@ -61,7 +61,7 @@ COWL_BEGIN_DECLS
         }                                                                                           \
         uostream_deinit(&stream);                                                                   \
     }                                                                                               \
-    ustrbuf_deinit(buf);                                                                            \
+    ustrbuf_deinit(&buf);                                                                           \
     return string;                                                                                  \
 }
 

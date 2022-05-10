@@ -26,8 +26,8 @@ UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
 #define HASH_GEN(T, TYPE)                                                                           \
     static ulib_uint T##_hash(void *obj) { return cowl_##T##_hash(obj); }                           \
     static bool T##_equals(void *lhs, void *rhs) { return cowl_##T##_equals(lhs, rhs); }            \
-    UHash(CowlObjectTable)* cowl_##T##_##TYPE##_alloc(void) {                                       \
-        return uh##TYPE##_alloc_pi(CowlObjectTable, T##_hash, T##_equals);                          \
+    UHash(CowlObjectTable) cowl_##T##_##TYPE##_init(void) {                                         \
+        return uh##TYPE##_init_pi(CowlObjectTable, T##_hash, T##_equals);                           \
     }
 
 HASH_GEN(annot_prop, map)
@@ -39,9 +39,14 @@ HASH_GEN(named_ind, map)
 HASH_GEN(obj_prop, map)
 HASH_GEN(string, map)
 
+void cowl_object_set_deinit(CowlObjectTable *set) {
+    uhash_foreach(CowlObjectTable, set, obj) { cowl_object_release(*obj.key); }
+    uhash_deinit(CowlObjectTable, (UHash(CowlObjectTable)*)set);
+}
+
 void cowl_object_set_free(CowlObjectTable *set) {
     if (!set) return;
-    uhash_foreach_key(CowlObjectTable, set, obj, cowl_object_release(obj));
+    uhash_foreach(CowlObjectTable, set, obj) { cowl_object_release(*obj.key); }
     uhash_free(CowlObjectTable, (UHash(CowlObjectTable)*)set);
 }
 
@@ -61,8 +66,8 @@ cowl_ret cowl_object_set_insert(UHash(CowlObjectTable) *set, CowlObject *object)
 
 bool cowl_object_set_iterate_primitives(CowlObjectTable *set, CowlPrimitiveFlags flags,
                                         CowlIterator *iter) {
-    uhash_foreach_key(CowlObjectTable, set, obj, {
-        if (!cowl_object_iterate_primitives(obj, flags, iter)) return false;
-    });
+    uhash_foreach(CowlObjectTable, set, obj) {
+        if (!cowl_object_iterate_primitives(*obj.key, flags, iter)) return false;
+    }
     return true;
 }

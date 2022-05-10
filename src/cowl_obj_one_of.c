@@ -10,7 +10,7 @@
 
 #include "cowl_obj_one_of_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_object_vec.h"
+#include "cowl_object_vec_private.h"
 #include "cowl_template.h"
 
 static CowlObjOneOf* cowl_obj_one_of_alloc(CowlObjectVec *inds) {

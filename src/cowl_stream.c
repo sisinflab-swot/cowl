@@ -202,10 +202,10 @@ ustream_ret cowl_stream_write_ontology(UOStream *s, CowlOntology *onto) {
     if (s->state) return s->state;
 
     CowlObjectVec *annotations = cowl_ontology_get_annot(onto);
-    uvec_foreach(CowlObjectPtr, annotations, annot, {
+    uvec_foreach(CowlObjectPtr, annotations, annot) {
         cowl_stream_write_static(s, "\n");
-        cowl_stream_write_annotation(s, annot);
-    });
+        cowl_stream_write_annotation(s, *annot.item);
+    }
 
     cowl_stream_write_static(s, ")");
     cowl_stream_write_static(s, "\n");
@@ -1251,23 +1251,24 @@ ustream_ret cowl_stream_write_annot_prop_range_axiom(UOStream *s, CowlAnnotPropR
 // Collections
 
 ustream_ret cowl_stream_write_object_set(UOStream *s, CowlObjectTable *set) {
-    ulib_uint current = 0, last = uhash_count(set) - 1;
+    ulib_uint current = 0, last = uhash_count(CowlObjectTable, set) - 1;
 
-    uhash_foreach_key(CowlObjectTable, set, obj, {
-        cowl_stream_write_object(s, obj);
+    uhash_foreach(CowlObjectTable, set, obj) {
+        cowl_stream_write_object(s, *obj.key);
         if (current++ < last) cowl_stream_write_static(s, " ");
-    });
+    }
 
     return s->state;
 }
 
 ustream_ret cowl_stream_write_object_vec(UOStream *s, CowlObjectVec *vec) {
-    ulib_uint last = uvec_count(vec);
+    if (!vec) return s->state;
+    ulib_uint last = uvec_count(CowlObjectPtr, vec);
 
-    uvec_iterate(CowlObjectPtr, vec, obj, idx, {
-        cowl_stream_write_object(s, obj);
-        if (idx < last) cowl_stream_write_static(s, " ");
-    });
+    uvec_foreach(CowlObjectPtr, vec, obj) {
+        cowl_stream_write_object(s, *obj.item);
+        if (obj.i < last) cowl_stream_write_static(s, " ");
+    }
 
     return s->state;
 }
