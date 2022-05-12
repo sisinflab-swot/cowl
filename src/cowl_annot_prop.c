@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -11,7 +11,7 @@
 #include "cowl_annot_prop_private.h"
 #include "cowl_iri.h"
 #include "cowl_iterator_private.h"
-#include "cowl_object_table.h"
+#include "cowl_set.h"
 #include "cowl_template.h"
 
 static UHash(CowlObjectTable) inst_tbl;

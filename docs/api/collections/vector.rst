@@ -2,4 +2,4 @@
 Vector
 ======
 
-.. doxygenstruct:: CowlObjectVec
+.. doxygenstruct:: CowlVector

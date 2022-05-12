@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -12,7 +12,7 @@
 #include "cowl_entity.h"
 #include "cowl_template.h"
 
-static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlObjectVec *annot) {
+static CowlDeclAxiom* cowl_decl_axiom_alloc(CowlEntity *entity, CowlVector *annot) {
     CowlDeclAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -29,7 +29,7 @@ static void cowl_decl_axiom_free(CowlDeclAxiom *axiom) {
     cowl_axiom_free(axiom);
 }
 
-CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlObjectVec *annot) {
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlVector *annot) {
     return cowl_decl_axiom_alloc(entity, annot);
 }
 
@@ -47,7 +47,7 @@ CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
     return axiom->entity;
 }
 
-CowlObjectVec* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
+CowlVector* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

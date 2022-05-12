@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -10,18 +10,18 @@
 
 #include "cowl_disj_union_axiom_private.h"
 #include "cowl_class.h"
-#include "cowl_object_vec.h"
 #include "cowl_template.h"
+#include "cowl_vector.h"
 
-static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjectVec *disjoints,
-                                                       CowlObjectVec *annot) {
+static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlVector *disjoints,
+                                                       CowlVector *annot) {
     CowlDisjUnionAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
     cowl_axiom_init(CowlDisjUnionAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_DISJ_UNION, annot),
         .cls = cowl_class_retain(cls),
-        .disjoints = disjoints
+        .disjoints = cowl_vector_retain(disjoints)
     );
 
     return axiom;
@@ -29,12 +29,12 @@ static CowlDisjUnionAxiom* cowl_disj_union_axiom_alloc(CowlClass *cls, CowlObjec
 
 static void cowl_disj_union_axiom_free(CowlDisjUnionAxiom *axiom) {
     cowl_class_release(axiom->cls);
-    cowl_object_vec_free(axiom->disjoints);
+    cowl_vector_release(axiom->disjoints);
     cowl_axiom_free(axiom);
 }
 
-CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlObjectVec *disjoints,
-                                              CowlObjectVec *annot) {
+CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlVector *disjoints,
+                                              CowlVector *annot) {
     if (!(cls && disjoints)) return NULL;
     return cowl_disj_union_axiom_alloc(cls, disjoints, annot);
 }
@@ -53,11 +53,11 @@ CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
     return axiom->cls;
 }
 
-CowlObjectVec* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
+CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
     return axiom->disjoints;
 }
 
-CowlObjectVec* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
+CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
@@ -67,18 +67,18 @@ CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom)
 bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
                                   cowl_class_equals(lhs->cls, rhs->cls) &&
-                                  cowl_object_vec_equals_no_order(lhs->disjoints, rhs->disjoints));
+                                  cowl_vector_equals_no_order(lhs->disjoints, rhs->disjoints));
 }
 
 ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
     return cowl_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM,
                        cowl_class_hash(axiom->cls),
-                       cowl_object_vec_hash_no_order(axiom->disjoints));
+                       cowl_vector_hash_no_order(axiom->disjoints));
 }
 
 bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom, CowlPrimitiveFlags flags,
                                               CowlIterator *iter) {
     return (cowl_class_iterate_primitives(axiom->cls, flags, iter) &&
-            cowl_object_vec_iterate_primitives(axiom->disjoints, flags, iter) &&
+            cowl_vector_iterate_primitives(axiom->disjoints, flags, iter) &&
             cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

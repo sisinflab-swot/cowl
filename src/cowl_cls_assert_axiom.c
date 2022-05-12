@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -14,7 +14,7 @@
 #include "cowl_template.h"
 
 static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, CowlClsExp *exp,
-                                                       CowlObjectVec *annot) {
+                                                       CowlVector *annot) {
     CowlClsAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -34,7 +34,7 @@ static void cowl_cls_assert_axiom_free(CowlClsAssertAxiom *axiom) {
 }
 
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp,
-                                              CowlObjectVec *annot) {
+                                              CowlVector *annot) {
     if (!(ind && exp)) return NULL;
     return cowl_cls_assert_axiom_alloc(ind, exp, annot);
 }
@@ -57,7 +57,7 @@ CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
     return axiom->cls_exp;
 }
 
-CowlObjectVec* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
+CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

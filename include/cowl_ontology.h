@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -33,7 +33,7 @@ cowl_struct_decl(CowlEntity);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlOntology);
 /// @endcond
 
@@ -86,7 +86,7 @@ CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_ontology_get_annot(CowlOntology *onto);
+CowlVector* cowl_ontology_get_annot(CowlOntology *onto);
 
 /**
  * Returns the string representation of the specified ontology.

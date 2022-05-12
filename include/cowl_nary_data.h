@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,6 +20,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlNAryData);
 /// @endcond
 
@@ -43,7 +44,7 @@ cowl_struct_decl(CowlNAryData);
  * @public @memberof CowlNAryData
  */
 COWL_PUBLIC
-CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlObjectVec *operands);
+CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlVector *operands);
 
 /**
  * Retains the specified N-ary data range.
@@ -85,7 +86,7 @@ CowlNAryType cowl_nary_data_get_type(CowlNAryData *range);
  * @public @memberof CowlNAryData
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_nary_data_get_operands(CowlNAryData *range);
+CowlVector* cowl_nary_data_get_operands(CowlNAryData *range);
 
 /**
  * Returns the string representation of the specified N-ary data range.

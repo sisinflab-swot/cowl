@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -19,6 +19,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlObjOneOf);
 /// @endcond
 
@@ -40,7 +41,7 @@ cowl_struct_decl(CowlObjOneOf);
  * @public @memberof CowlObjOneOf
  */
 COWL_PUBLIC
-CowlObjOneOf* cowl_obj_one_of_get(CowlObjectVec *inds);
+CowlObjOneOf* cowl_obj_one_of_get(CowlVector *inds);
 
 /**
  * Retains the specified individual enumeration.
@@ -72,7 +73,7 @@ void cowl_obj_one_of_release(CowlObjOneOf *exp);
  * @public @memberof CowlObjOneOf
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
+CowlVector* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
 
 /**
  * Returns the string representation of the specified individual enumeration.

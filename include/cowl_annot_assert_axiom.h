@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -22,7 +22,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotValue);
 cowl_struct_decl(CowlString);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlAnnotAssertAxiom);
 /// @endcond
 
@@ -48,7 +48,7 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
  */
 COWL_PUBLIC
 CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
-                                                  CowlAnnotValue *value, CowlObjectVec *annot);
+                                                  CowlAnnotValue *value, CowlVector *annot);
 
 /**
  * Retains the specified axiom.
@@ -115,7 +115,7 @@ CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom);
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom);
+CowlVector* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

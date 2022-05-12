@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,7 @@
 
 static CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_alloc(CowlObjPropExp *prop,
                                                               CowlClsExp *range,
-                                                              CowlObjectVec *annot) {
+                                                              CowlVector *annot) {
     CowlObjPropRangeAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -35,7 +35,7 @@ static void cowl_obj_prop_range_axiom_free(CowlObjPropRangeAxiom *axiom) {
 }
 
 CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_get(CowlObjPropExp *prop, CowlClsExp *range,
-                                                     CowlObjectVec *annot) {
+                                                     CowlVector *annot) {
     if (!(prop && range)) return NULL;
     return cowl_obj_prop_range_axiom_alloc(prop, range, annot);
 }
@@ -58,7 +58,7 @@ CowlClsExp* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
     return axiom->range;
 }
 
-CowlObjectVec* cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
+CowlVector* cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

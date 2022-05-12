@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlClass);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlDisjUnionAxiom);
 /// @endcond
 
@@ -44,8 +44,8 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PUBLIC
-CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlObjectVec *disjoints,
-                                              CowlObjectVec *annot);
+CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlVector *disjoints,
+                                              CowlVector *annot);
 
 /**
  * Retains the specified axiom.
@@ -87,7 +87,7 @@ CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom);
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom);
+CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.
@@ -98,7 +98,7 @@ CowlObjectVec* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom);
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom);
+CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

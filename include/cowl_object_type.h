@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -24,6 +24,12 @@ typedef enum CowlObjectType {
 
     /// CowlString - String.
     COWL_OT_STRING = 0,
+
+    /// CowlVector - Vector.
+    COWL_OT_VECTOR,
+
+    /// CowlSet - Set.
+    COWL_OT_SET,
 
     /// CowlIRI - IRI.
     COWL_OT_IRI,

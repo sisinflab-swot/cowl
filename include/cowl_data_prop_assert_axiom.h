@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -22,7 +22,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlLiteral);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlDataPropAssertAxiom);
 /// @endcond
 
@@ -55,7 +55,7 @@ COWL_PUBLIC
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                          CowlDataPropExp *prop,
                                                          CowlLiteral *obj,
-                                                         CowlObjectVec *annot);
+                                                         CowlVector *annot);
 
 /**
  * Returns a retained negative data property assertion axiom.
@@ -72,7 +72,7 @@ COWL_PUBLIC
 CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                              CowlDataPropExp *prop,
                                                              CowlLiteral *obj,
-                                                             CowlObjectVec *annot);
+                                                             CowlVector *annot);
 
 /**
  * Retains the specified axiom.
@@ -148,7 +148,7 @@ CowlDataPropExp* cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *a
  * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom);
+CowlVector* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

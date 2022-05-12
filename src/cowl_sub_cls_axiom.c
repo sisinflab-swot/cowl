@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,7 +13,7 @@
 #include "cowl_template.h"
 
 static CowlSubClsAxiom* cowl_sub_cls_axiom_alloc(CowlClsExp *sub, CowlClsExp *super,
-                                                 CowlObjectVec *annot) {
+                                                 CowlVector *annot) {
     CowlSubClsAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -33,7 +33,7 @@ static void cowl_sub_cls_axiom_free(CowlSubClsAxiom *axiom) {
 }
 
 CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super,
-                                        CowlObjectVec *annot) {
+                                        CowlVector *annot) {
     if (!(sub && super)) return NULL;
     return cowl_sub_cls_axiom_alloc(sub, super, annot);
 }
@@ -56,7 +56,7 @@ CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
     return axiom->sub_class;
 }
 
-CowlObjectVec* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
+CowlVector* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

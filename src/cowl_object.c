@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -23,6 +23,8 @@ void cowl_object_release(CowlObject *object) {
 
     switch (cowl_object_get_type(object)) {
         case COWL_OT_STRING: GEN_RELEASE(String, string);
+        case COWL_OT_VECTOR: GEN_RELEASE(Vector, vector);
+        case COWL_OT_SET: GEN_RELEASE(Set, set);
         case COWL_OT_IRI: GEN_RELEASE(IRI, iri);
         case COWL_OT_LITERAL: GEN_RELEASE(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_RELEASE(FacetRestr, facet_restr);
@@ -158,6 +160,8 @@ bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs) {
 
     switch (type) {
         case COWL_OT_STRING: GEN_EQUALS(String, string);
+        case COWL_OT_VECTOR: GEN_EQUALS(Vector, vector);
+        case COWL_OT_SET: GEN_EQUALS(Set, set);
         case COWL_OT_IRI: GEN_EQUALS(IRI, iri);
         case COWL_OT_LITERAL: GEN_EQUALS(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_EQUALS(FacetRestr, facet_restr);
@@ -241,6 +245,8 @@ ulib_uint cowl_object_hash(CowlObject *object) {
 
     switch (cowl_object_get_type(object)) {
         case COWL_OT_STRING: GEN_HASH(String, string);
+        case COWL_OT_VECTOR: GEN_HASH(Vector, vector);
+        case COWL_OT_SET: GEN_HASH(Set, set);
         case COWL_OT_IRI: GEN_HASH(IRI, iri);
         case COWL_OT_LITERAL: GEN_HASH(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_HASH(FacetRestr, facet_restr);
@@ -326,6 +332,8 @@ bool cowl_object_iterate_primitives(CowlObject *object, CowlPrimitiveFlags flags
         return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, flags, iter)
 
     switch (cowl_object_get_type(object)) {
+        case COWL_OT_VECTOR: GEN_ITER(Vector, vector);
+        case COWL_OT_SET: GEN_ITER(Set, set);
         case COWL_OT_LITERAL: GEN_ITER(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_ITER(FacetRestr, facet_restr);
         case COWL_OT_ONTOLOGY: GEN_ITER(Ontology, ontology);

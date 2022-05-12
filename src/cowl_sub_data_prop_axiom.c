@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -14,7 +14,7 @@
 
 static CowlSubDataPropAxiom* cowl_sub_data_prop_axiom_alloc(CowlDataPropExp *sub,
                                                             CowlDataPropExp *super,
-                                                            CowlObjectVec *annot) {
+                                                            CowlVector *annot) {
     CowlSubDataPropAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -34,7 +34,7 @@ static void cowl_sub_data_prop_axiom_free(CowlSubDataPropAxiom *axiom) {
 }
 
 CowlSubDataPropAxiom* cowl_sub_data_prop_axiom_get(CowlDataPropExp *sub, CowlDataPropExp *super,
-                                                   CowlObjectVec *annot) {
+                                                   CowlVector *annot) {
     if (!(sub && super)) return NULL;
     return cowl_sub_data_prop_axiom_alloc(sub, super, annot);
 }
@@ -57,7 +57,7 @@ CowlDataPropExp* cowl_sub_data_prop_axiom_get_sub(CowlSubDataPropAxiom *axiom) {
     return axiom->sub_prop;
 }
 
-CowlObjectVec* cowl_sub_data_prop_axiom_get_annot(CowlSubDataPropAxiom *axiom) {
+CowlVector* cowl_sub_data_prop_axiom_get_annot(CowlSubDataPropAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

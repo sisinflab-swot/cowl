@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,8 +43,8 @@ CowlOntologyId cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
 }
 
-CowlObjectVec* cowl_ontology_get_annot(CowlOntology *onto) {
-    return &onto->annotations;
+CowlVector* cowl_ontology_get_annot(CowlOntology *onto) {
+    return onto->annotations;
 }
 
 CowlString* cowl_ontology_to_string(CowlOntology *onto)
@@ -107,8 +107,10 @@ static cowl_ret cowl_ontology_add_axiom_to_map(CowlObject *entity, CowlAxiom *ax
     UVec(CowlObjectPtr) *vec = uhash_value(CowlObjectTable, map, idx);
 
     if (ret == UHASH_INSERTED || !vec) {
-        vec = uvec_alloc(CowlObjectPtr);
+        vec = ulib_alloc(vec);
+        if (vec) *vec = uvec_init(CowlObjectPtr);
         uhash_value(CowlObjectTable, map, idx) = vec;
+        if (!vec) return COWL_ERR_MEM;
     }
 
     if (uvec_push(CowlObjectPtr, vec, axiom)) {
@@ -345,10 +347,10 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
 
     uvec_foreach(CowlObjectPtr, axioms, axiom) {
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_EQUIV_CLASSES) continue;
-        CowlObjectVec *eq_classes = ((CowlNAryClsAxiom *)*axiom.item)->classes;
+        CowlVector *eq_classes = ((CowlNAryClsAxiom *)*axiom.item)->classes;
 
-        if (uvec_contains(CowlObjectPtr, eq_classes, owl_class)) {
-            uvec_foreach(CowlObjectPtr, eq_classes, ce) {
+        if (uvec_contains(CowlObjectPtr, &eq_classes->data, owl_class)) {
+            uvec_foreach(CowlObjectPtr, &eq_classes->data, ce) {
                 void *cls_exp = *ce.item;
                 if (cls_exp != owl_class && !cowl_iterate(iter, cls_exp)) return false;
             }
@@ -399,8 +401,8 @@ CowlOntology* cowl_ontology_alloc(void) {
     if (onto) {
         *onto = (CowlOntology) {
             .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY),
+            .annotations = cowl_vector_get_empty(),
             .imports = uvec_init(CowlObjectPtr),
-            .annotations = uvec_init(CowlObjectPtr),
             .annot_prop_refs = cowl_annot_prop_map_init(),
             .class_refs = cowl_class_map_init(),
             .data_prop_refs = cowl_data_prop_map_init(),
@@ -421,11 +423,15 @@ void cowl_ontology_free(CowlOntology *onto) {
     cowl_iri_release(onto->id.ontology_iri);
     cowl_iri_release(onto->id.version_iri);
 
-    cowl_object_vec_deinit_spec(ontology, &onto->imports);
-    cowl_object_vec_deinit_spec(annotation, &onto->annotations);
+    cowl_vector_release(onto->annotations);
+
+    uvec_foreach(CowlObjectPtr, &onto->imports, import) { cowl_ontology_release(*import.item); }
+    uvec_deinit(CowlObjectPtr, &onto->imports);
 
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; type++) {
-        cowl_object_vec_deinit(&onto->axioms_by_type[type]);
+        UVec(CowlObjectPtr) *axioms = &onto->axioms_by_type[type];
+        uvec_foreach(CowlObjectPtr, axioms, axiom) { cowl_axiom_release(*axiom.item); }
+        uvec_deinit(CowlObjectPtr, axioms);
     }
 
     UHash(CowlObjectTable) *tables[] = {
@@ -434,7 +440,12 @@ void cowl_ontology_free(CowlOntology *onto) {
     };
 
     for (ulib_uint i = 0; i < ulib_array_count(tables); ++i) {
-        uhash_foreach(CowlObjectTable, tables[i], vec) { uvec_free(CowlObjectPtr, *vec.val); }
+        uhash_foreach(CowlObjectTable, tables[i], vec) {
+            if (*vec.val) {
+                uvec_deinit(CowlObjectPtr, *vec.val);
+                ulib_free(*vec.val);
+            }
+        }
         uhash_deinit(CowlObjectTable, tables[i]);
     }
 
@@ -452,7 +463,7 @@ void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version) {
 }
 
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
-    if (uvec_push(CowlObjectPtr, &onto->annotations, annot) != UVEC_OK) return COWL_ERR_MEM;
+    if (uvec_push(CowlObjectPtr, &onto->annotations->data, annot) != UVEC_OK) return COWL_ERR_MEM;
     cowl_annotation_retain(annot);
 
     CowlAxiomCtx ctx = { .onto = onto };

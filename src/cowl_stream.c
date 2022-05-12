@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -33,6 +33,8 @@ ustream_ret cowl_stream_write_object(UOStream *s, CowlObject *obj) {
     }
     switch (cowl_object_get_type(obj)) {
         case COWL_OT_STRING: return cowl_stream_write_string(s, (CowlString *)obj);
+        case COWL_OT_VECTOR: return cowl_stream_write_vector(s, (CowlVector *)obj);
+        case COWL_OT_SET: return cowl_stream_write_set(s, (CowlSet *)obj);
         case COWL_OT_IRI: return cowl_stream_write_iri(s, (CowlIRI *)obj);
         case COWL_OT_LITERAL: return cowl_stream_write_literal(s, (CowlLiteral *)obj);
         case COWL_OT_FACET_RESTR: return cowl_stream_write_facet_restr(s, (CowlFacetRestr *)obj);
@@ -47,6 +49,8 @@ static ustream_ret cowl_stream_write_object_type(UOStream *s, CowlObjectType typ
 
     switch (type) {
         GEN_OT_STRING(STRING);
+        GEN_OT_STRING(VECTOR);
+        GEN_OT_STRING(SET);
         GEN_OT_STRING(IRI);
         GEN_OT_STRING(LITERAL);
         GEN_OT_STRING(FACET_RESTR);
@@ -201,8 +205,8 @@ ustream_ret cowl_stream_write_ontology(UOStream *s, CowlOntology *onto) {
     cowl_ontology_iterate_imports(onto, &iter);
     if (s->state) return s->state;
 
-    CowlObjectVec *annotations = cowl_ontology_get_annot(onto);
-    uvec_foreach(CowlObjectPtr, annotations, annot) {
+    CowlVector *annotations = cowl_ontology_get_annot(onto);
+    uvec_foreach(CowlObjectPtr, cowl_vector_get_data(annotations), annot) {
         cowl_stream_write_static(s, "\n");
         cowl_stream_write_annotation(s, *annot.item);
     }
@@ -266,7 +270,7 @@ ustream_ret cowl_stream_write_node_id(UOStream *s, CowlNodeId id) {
 ustream_ret cowl_stream_write_annotation(UOStream *s, CowlAnnotation *annotation) {
     cowl_stream_write_static(s, "Annotation");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, annotation->annot);
+    cowl_stream_write_vector(s, annotation->annot);
     cowl_stream_write_annot_prop(s, annotation->prop);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_annot_value(s, annotation->value);
@@ -645,7 +649,7 @@ ustream_ret cowl_stream_write_nary_bool(UOStream *s, CowlNAryBool *exp) {
 
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, exp->operands);
+    cowl_stream_write_vector(s, exp->operands);
     cowl_stream_write_static(s, ")");
 
     return s->state;
@@ -666,7 +670,7 @@ ustream_ret cowl_stream_write_obj_one_of(UOStream *s, CowlObjOneOf *restr) {
     cowl_stream_write_static(s, "One");
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, restr->inds);
+    cowl_stream_write_vector(s, restr->inds);
     cowl_stream_write_static(s, ")");
     return s->state;
 }
@@ -703,7 +707,7 @@ ustream_ret cowl_stream_write_datatype_restr(UOStream *s, CowlDatatypeRestr *res
     cowl_stream_write_static(s, "(");
     cowl_stream_write_iri(s, restr->datatype->iri);
     cowl_stream_write_static(s, " ");
-    cowl_stream_write_object_vec(s, restr->restrictions);
+    cowl_stream_write_vector(s, restr->restrictions);
     cowl_stream_write_static(s, ")");
     return s->state;
 }
@@ -719,7 +723,7 @@ ustream_ret cowl_stream_write_nary_data(UOStream *s, CowlNAryData *range) {
 
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, range->operands);
+    cowl_stream_write_vector(s, range->operands);
     cowl_stream_write_static(s, ")");
 
     return s->state;
@@ -740,7 +744,7 @@ ustream_ret cowl_stream_write_data_one_of(UOStream *s, CowlDataOneOf *restr) {
     cowl_stream_write_static(s, "One");
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, restr->values);
+    cowl_stream_write_vector(s, restr->values);
     cowl_stream_write_static(s, ")");
     return s->state;
 }
@@ -850,7 +854,7 @@ ustream_ret cowl_stream_write_axiom(UOStream *s, CowlAxiom *axiom) {
 ustream_ret cowl_stream_write_decl_axiom(UOStream *s, CowlDeclAxiom *axiom) {
     cowl_stream_write_static(s, "Declaration");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_entity(s, axiom->entity);
     cowl_stream_write_static(s, ")");
     return s->state;
@@ -860,7 +864,7 @@ ustream_ret cowl_stream_write_datatype_def_axiom(UOStream *s, CowlDatatypeDefAxi
     cowl_stream_write_static(s, "Datatype");
     cowl_stream_write_static(s, "Definition");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_entity(s, (CowlEntity *)axiom->datatype);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_data_range(s, axiom->range);
@@ -873,7 +877,7 @@ ustream_ret cowl_stream_write_sub_cls_axiom(UOStream *s, CowlSubClsAxiom *axiom)
     cowl_stream_write_static(s, "Class");
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_cls_exp(s, axiom->sub_class);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_cls_exp(s, axiom->super_class);
@@ -891,8 +895,8 @@ ustream_ret cowl_stream_write_nary_cls_axiom(UOStream *s, CowlNAryClsAxiom *axio
     cowl_stream_write_static(s, "Class");
     cowl_stream_write_static(s, "es");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
-    cowl_stream_write_object_vec(s, axiom->classes);
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, axiom->classes);
     cowl_stream_write_static(s, ")");
 
     return s->state;
@@ -902,10 +906,10 @@ ustream_ret cowl_stream_write_disj_union_axiom(UOStream *s, CowlDisjUnionAxiom *
     cowl_stream_write_static(s, "Disjoint");
     cowl_stream_write_static(s, "Union");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_cls_exp(s, (CowlClsExp *)axiom->cls);
     cowl_stream_write_static(s, " ");
-    cowl_stream_write_object_vec(s, axiom->disjoints);
+    cowl_stream_write_vector(s, axiom->disjoints);
     cowl_stream_write_static(s, ")");
     return s->state;
 }
@@ -914,7 +918,7 @@ ustream_ret cowl_stream_write_cls_assert(UOStream *s, CowlClsAssertAxiom *axiom)
     cowl_stream_write_static(s, "Class");
     cowl_stream_write_static(s, "Assertion");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_individual(s, axiom->ind);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_cls_exp(s, axiom->cls_exp);
@@ -933,8 +937,8 @@ ustream_ret cowl_stream_write_nary_ind_axiom(UOStream *s, CowlNAryIndAxiom *axio
     }
 
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
-    cowl_stream_write_object_vec(s, axiom->individuals);
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, axiom->individuals);
     cowl_stream_write_static(s, ")");
 
     return s->state;
@@ -949,7 +953,7 @@ ustream_ret cowl_stream_write_obj_prop_assert(UOStream *s, CowlObjPropAssertAxio
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Assertion");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_individual(s, axiom->subject);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_obj_prop_exp(s, axiom->prop_exp);
@@ -969,7 +973,7 @@ ustream_ret cowl_stream_write_data_prop_assert(UOStream *s, CowlDataPropAssertAx
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Assertion");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_individual(s, axiom->subject);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_data_prop_exp(s, axiom->prop);
@@ -986,7 +990,7 @@ ustream_ret cowl_stream_write_sub_obj_prop_axiom(UOStream *s, CowlSubObjPropAxio
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_obj_prop_exp(s, axiom->sub_prop);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_obj_prop_exp(s, axiom->super_prop);
@@ -1004,8 +1008,8 @@ ustream_ret cowl_stream_write_sub_obj_prop_chain_axiom(UOStream *s, CowlSubObjPr
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Chain");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
-    cowl_stream_write_object_vec(s, axiom->sub_props);
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, axiom->sub_props);
     cowl_stream_write_static(s, ") ");
     cowl_stream_write_obj_prop_exp(s, axiom->super_prop);
     cowl_stream_write_static(s, ")");
@@ -1017,7 +1021,7 @@ ustream_ret cowl_stream_write_inv_obj_prop_axiom(UOStream *s, CowlInvObjPropAxio
     cowl_stream_write_static(s, "Object");
     cowl_stream_write_static(s, "Properties");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_obj_prop_exp(s, axiom->first);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_obj_prop_exp(s, axiom->second);
@@ -1035,8 +1039,8 @@ ustream_ret cowl_stream_write_nary_obj_prop_axiom(UOStream *s, CowlNAryObjPropAx
     cowl_stream_write_static(s, "Object");
     cowl_stream_write_static(s, "Properties");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
-    cowl_stream_write_object_vec(s, axiom->props);
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, axiom->props);
     cowl_stream_write_static(s, ")");
 
     return s->state;
@@ -1079,7 +1083,7 @@ ustream_ret cowl_stream_write_obj_prop_char(UOStream *s, CowlObjPropCharAxiom *a
     cowl_stream_write_static(s, "Object");
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_obj_prop_exp(s, axiom->prop_exp);
     cowl_stream_write_static(s, ")");
 
@@ -1091,7 +1095,7 @@ ustream_ret cowl_stream_write_obj_prop_domain(UOStream *s, CowlObjPropDomainAxio
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Domain");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_obj_prop_exp(s, axiom->prop_exp);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_cls_exp(s, axiom->domain);
@@ -1104,7 +1108,7 @@ ustream_ret cowl_stream_write_obj_prop_range(UOStream *s, CowlObjPropRangeAxiom 
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Range");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_obj_prop_exp(s, axiom->prop_exp);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_cls_exp(s, axiom->range);
@@ -1118,7 +1122,7 @@ ustream_ret cowl_stream_write_sub_data_prop_axiom(UOStream *s, CowlSubDataPropAx
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_data_prop_exp(s, axiom->sub_prop);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_data_prop_exp(s, axiom->super_prop);
@@ -1136,8 +1140,8 @@ ustream_ret cowl_stream_write_nary_data_prop_axiom(UOStream *s, CowlNAryDataProp
     cowl_stream_write_static(s, "Data");
     cowl_stream_write_static(s, "Properties");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
-    cowl_stream_write_object_vec(s, axiom->props);
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, axiom->props);
     cowl_stream_write_static(s, ")");
 
     return s->state;
@@ -1148,7 +1152,7 @@ ustream_ret cowl_stream_write_func_data_prop_axiom(UOStream *s, CowlFuncDataProp
     cowl_stream_write_static(s, "Data");
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_data_prop_exp(s, axiom->prop);
     cowl_stream_write_static(s, ")");
     return s->state;
@@ -1159,7 +1163,7 @@ ustream_ret cowl_stream_write_data_prop_domain(UOStream *s, CowlDataPropDomainAx
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Domain");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_data_prop_exp(s, axiom->prop_exp);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_cls_exp(s, axiom->domain);
@@ -1172,7 +1176,7 @@ ustream_ret cowl_stream_write_data_prop_range(UOStream *s, CowlDataPropRangeAxio
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Range");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_data_prop_exp(s, axiom->prop_exp);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_data_range(s, axiom->range);
@@ -1184,12 +1188,12 @@ ustream_ret cowl_stream_write_has_key_axiom(UOStream *s, CowlHasKeyAxiom *axiom)
     cowl_stream_write_static(s, "Has");
     cowl_stream_write_static(s, "Key");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_cls_exp(s, axiom->cls_exp);
     cowl_stream_write_static(s, " ");
-    cowl_stream_write_object_vec(s, axiom->obj_props);
+    cowl_stream_write_vector(s, axiom->obj_props);
     cowl_stream_write_static(s, " ");
-    cowl_stream_write_object_vec(s, axiom->data_props);
+    cowl_stream_write_vector(s, axiom->data_props);
     cowl_stream_write_static(s, ")");
     return s->state;
 }
@@ -1198,7 +1202,7 @@ ustream_ret cowl_stream_write_annot_assert(UOStream *s, CowlAnnotAssertAxiom *ax
     cowl_stream_write_static(s, "Annotation");
     cowl_stream_write_static(s, "Assertion");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_annot_value(s, axiom->subject);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_annot_prop(s, axiom->prop);
@@ -1214,7 +1218,7 @@ ustream_ret cowl_stream_write_sub_annot_prop_axiom(UOStream *s, CowlSubAnnotProp
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Of");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_annot_prop(s, axiom->sub_prop);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_annot_prop(s, axiom->super_prop);
@@ -1227,7 +1231,7 @@ ustream_ret cowl_stream_write_annot_prop_domain_axiom(UOStream *s, CowlAnnotProp
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Domain");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_annot_prop(s, axiom->prop);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_iri(s, axiom->domain);
@@ -1240,7 +1244,7 @@ ustream_ret cowl_stream_write_annot_prop_range_axiom(UOStream *s, CowlAnnotPropR
     cowl_stream_write_static(s, "Property");
     cowl_stream_write_static(s, "Range");
     cowl_stream_write_static(s, "(");
-    cowl_stream_write_object_vec(s, cowl_axiom_get_annot(axiom));
+    cowl_stream_write_vector(s, cowl_axiom_get_annot(axiom));
     cowl_stream_write_annot_prop(s, axiom->prop);
     cowl_stream_write_static(s, " ");
     cowl_stream_write_iri(s, axiom->range);
@@ -1250,10 +1254,12 @@ ustream_ret cowl_stream_write_annot_prop_range_axiom(UOStream *s, CowlAnnotPropR
 
 // Collections
 
-ustream_ret cowl_stream_write_object_set(UOStream *s, CowlObjectTable *set) {
-    ulib_uint current = 0, last = uhash_count(CowlObjectTable, set) - 1;
+ustream_ret cowl_stream_write_set(UOStream *s, CowlSet *set) {
+    if (!set) return s->state;
+    UHash(CowlObjectTable) const *data = cowl_set_get_data(set);
+    ulib_uint current = 0, last = uhash_count(CowlObjectTable, data) - 1;
 
-    uhash_foreach(CowlObjectTable, set, obj) {
+    uhash_foreach(CowlObjectTable, data, obj) {
         cowl_stream_write_object(s, *obj.key);
         if (current++ < last) cowl_stream_write_static(s, " ");
     }
@@ -1261,8 +1267,9 @@ ustream_ret cowl_stream_write_object_set(UOStream *s, CowlObjectTable *set) {
     return s->state;
 }
 
-ustream_ret cowl_stream_write_object_vec(UOStream *s, CowlObjectVec *vec) {
-    if (!vec) return s->state;
+ustream_ret cowl_stream_write_vector(UOStream *s, CowlVector *vector) {
+    if (!vector) return s->state;
+    UVec(CowlObjectPtr) const *vec = cowl_vector_get_data(vector);
     ulib_uint last = uvec_count(CowlObjectPtr, vec);
 
     uvec_foreach(CowlObjectPtr, vec, obj) {

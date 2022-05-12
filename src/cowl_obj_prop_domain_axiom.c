@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,7 @@
 
 static CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_alloc(CowlObjPropExp *prop,
                                                                 CowlClsExp *domain,
-                                                                CowlObjectVec *annot) {
+                                                                CowlVector *annot) {
     CowlObjPropDomainAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -35,7 +35,7 @@ static void cowl_obj_prop_domain_axiom_free(CowlObjPropDomainAxiom *axiom) {
 }
 
 CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, CowlClsExp *domain,
-                                                       CowlObjectVec *annot) {
+                                                       CowlVector *annot) {
     if (!(prop && domain)) return NULL;
     return cowl_obj_prop_domain_axiom_alloc(prop, domain, annot);
 }
@@ -58,7 +58,7 @@ CowlClsExp* cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom *axiom)
     return axiom->domain;
 }
 
-CowlObjectVec* cowl_obj_prop_domain_axiom_get_annot(CowlObjPropDomainAxiom *axiom) {
+CowlVector* cowl_obj_prop_domain_axiom_get_annot(CowlObjPropDomainAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

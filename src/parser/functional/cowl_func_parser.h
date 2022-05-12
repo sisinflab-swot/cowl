@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -12,7 +12,7 @@
 #define COWL_FUNC_PARSER_H
 
 #include "cowl_parser.h"
-#include "cowl_object_table.h"
+#include "cowl_set.h"
 
 COWL_BEGIN_DECLS
 

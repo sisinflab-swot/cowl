@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,7 @@
 
 static CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_alloc(CowlAxiomType type,
                                                             CowlObjPropExp *prop,
-                                                            CowlObjectVec *annot) {
+                                                            CowlVector *annot) {
     CowlObjPropCharAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -34,7 +34,7 @@ static void cowl_obj_prop_char_axiom_free(CowlObjPropCharAxiom *axiom) {
 
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
-                                                   CowlObjectVec *annot) {
+                                                   CowlVector *annot) {
     if (!(prop && cowl_enum_value_is_valid(CAT, type))) return NULL;
     CowlAxiomType axiom_type = (CowlAxiomType)type + COWL_AT_FUNC_OBJ_PROP;
     return cowl_obj_prop_char_axiom_alloc(axiom_type, prop, annot);
@@ -58,7 +58,7 @@ CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
     return axiom->prop_exp;
 }
 
-CowlObjectVec* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
+CowlVector* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

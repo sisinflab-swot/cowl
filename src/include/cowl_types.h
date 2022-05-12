@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -92,15 +92,17 @@ cowl_struct_decl(CowlObjQuant);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlParserCtx);
 cowl_struct_decl(CowlPrimitive);
+cowl_struct_decl(CowlSet);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubAnnotPropAxiom);
 cowl_struct_decl(CowlSubClsAxiom);
 cowl_struct_decl(CowlSubDataPropAxiom);
 cowl_struct_decl(CowlSubObjPropAxiom);
 cowl_struct_decl(CowlSubObjPropChainAxiom);
+cowl_struct_decl(CowlVector);
 
-cowl_hash_decl(CowlObjectTable);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+uvec_decl(CowlObjectPtr);
+uhash_decl(CowlObjectTable);
 
 COWL_END_DECLS
 

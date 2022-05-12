@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlDataRange);
 cowl_struct_decl(CowlDataPropExp);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlDataPropRangeAxiom);
 /// @endcond
 
@@ -46,7 +46,7 @@ cowl_struct_decl(CowlDataPropRangeAxiom);
  */
 COWL_PUBLIC
 CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range,
-                                                       CowlObjectVec *annot);
+                                                       CowlVector *annot);
 
 /**
  * Retains the specified axiom.
@@ -100,7 +100,7 @@ CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axio
  * @public @memberof CowlDataPropRangeAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom);
+CowlVector* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

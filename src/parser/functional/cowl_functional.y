@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -61,7 +61,7 @@
     #define COWL_ERROR_MEM COWL_ERROR(COWL_ERR_MEM)
 
     #define COWL_VEC_PUSH(T, VEC, OBJ) do {                                                         \
-        uvec_ret ret = uvec_push(CowlObjectPtr, VEC, OBJ);                                          \
+        uvec_ret ret = uvec_push(CowlObjectPtr, &(VEC)->data, OBJ);                                 \
         if (ret == UVEC_ERR) {                                                                      \
             cowl_##T##_release(OBJ);                                                                \
             COWL_ERROR_MEM;                                                                         \
@@ -163,17 +163,17 @@
 %type <CowlAxiom *> datatype_definition has_key
 %type <CowlAxiom *> sub_annotation_property_of annotation_property_domain annotation_property_range
 
-%type <UVec(CowlObjectPtr)*> class_expression_list class_expression_2_list
-%type <UVec(CowlObjectPtr)*> data_property_expression_list data_property_expression_2_list
-%type <UVec(CowlObjectPtr)*> data_property_expression_star
-%type <UVec(CowlObjectPtr)*> data_range_list data_range_2_list
-%type <UVec(CowlObjectPtr)*> facet_restriction_list
-%type <UVec(CowlObjectPtr)*> individual_list individual_2_list
-%type <UVec(CowlObjectPtr)*> literal_list
-%type <UVec(CowlObjectPtr)*> object_property_expression_list object_property_expression_2_list
-%type <UVec(CowlObjectPtr)*> object_property_expression_star
-%type <UVec(CowlObjectPtr)*> object_property_expression_ordered_2_list property_expression_chain
-%type <UVec(CowlObjectPtr)*> annotation_star
+%type <CowlVector *> class_expression_list class_expression_2_list
+%type <CowlVector *> data_property_expression_list data_property_expression_2_list
+%type <CowlVector *> data_property_expression_star
+%type <CowlVector *> data_range_list data_range_2_list
+%type <CowlVector *> facet_restriction_list
+%type <CowlVector *> individual_list individual_2_list
+%type <CowlVector *> literal_list
+%type <CowlVector *> object_property_expression_list object_property_expression_2_list
+%type <CowlVector *> object_property_expression_star
+%type <CowlVector *> object_property_expression_ordered_2_list property_expression_chain
+%type <CowlVector *> annotation_star
 
 // Start symbol
 
@@ -200,7 +200,7 @@
 %destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
 %destructor { cowl_string_release($$); } <CowlString *>
-%destructor { cowl_object_vec_free($$); } <UVec(CowlObjectPtr)*>
+%destructor { cowl_vector_release($$); } <CowlVector *>
 
 %%
 
@@ -385,6 +385,7 @@ literal
 declaration
     : DECLARATION L_PAREN annotation_star entity R_PAREN {
         $$ = (CowlAxiom *)cowl_decl_axiom_get($4, $3);
+        cowl_vector_release($3);
         cowl_entity_release($4);
     }
 ;
@@ -444,12 +445,14 @@ data_range
 data_intersection_of
     : DATA_INTERSECTION_OF L_PAREN data_range_2_list R_PAREN {
         $$ = (CowlDataRange *)cowl_nary_data_get(COWL_NT_INTERSECT, $3);
+        cowl_vector_release($3);
     }
 ;
 
 data_union_of
     : DATA_UNION_OF L_PAREN data_range_2_list R_PAREN {
         $$ = (CowlDataRange *)cowl_nary_data_get(COWL_NT_UNION, $3);
+        cowl_vector_release($3);
     }
 ;
 
@@ -463,6 +466,7 @@ data_complement_of
 data_one_of
     : DATA_ONE_OF L_PAREN literal_list R_PAREN {
         $$ = (CowlDataRange *)cowl_data_one_of_get($3);
+        cowl_vector_release($3);
     }
 ;
 
@@ -470,12 +474,13 @@ datatype_restriction
     : DATATYPE_RESTRICTION L_PAREN datatype facet_restriction_list R_PAREN {
         $$ = (CowlDataRange *)cowl_datatype_restr_get($3, $4);
         cowl_datatype_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 facet_restriction_list
     : facet_restriction {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(facet_restr, $$, $1);
     }
@@ -519,12 +524,14 @@ class_expression
 object_intersection_of
     : OBJECT_INTERSECTION_OF L_PAREN class_expression_2_list R_PAREN {
         $$ = (CowlClsExp *)cowl_nary_bool_get(COWL_NT_INTERSECT, $3);
+        cowl_vector_release($3);
     }
 ;
 
 object_union_of
     : OBJECT_UNION_OF L_PAREN class_expression_2_list R_PAREN {
         $$ = (CowlClsExp *)cowl_nary_bool_get(COWL_NT_UNION, $3);
+        cowl_vector_release($3);
     }
 ;
 
@@ -538,6 +545,7 @@ object_complement_of
 object_one_of
     : OBJECT_ONE_OF L_PAREN individual_list R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_one_of_get($3);
+        cowl_vector_release($3);
     }
 ;
 
@@ -703,6 +711,7 @@ class_axiom
 sub_class_of
     : SUB_CLASS_OF L_PAREN annotation_star class_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_cls_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_cls_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -711,19 +720,25 @@ sub_class_of
 equivalent_classes
     : EQUIVALENT_CLASSES L_PAREN annotation_star class_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(COWL_NAT_EQUIV, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 disjoint_classes
     : DISJOINT_CLASSES L_PAREN annotation_star class_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_cls_axiom_get(COWL_NAT_DISJ, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 disjoint_union
     : DISJOINT_UNION L_PAREN annotation_star class class_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_disj_union_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_class_release($4);
+        cowl_vector_release($5);
     }
 ;
 
@@ -748,11 +763,14 @@ object_property_axiom
 sub_object_property_of
     : SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star object_property_expression object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_obj_prop_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
         cowl_obj_prop_exp_release($5);
     }
     | SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star property_expression_chain object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_obj_prop_chain_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
         cowl_obj_prop_exp_release($5);
     }
 ;
@@ -766,18 +784,23 @@ property_expression_chain
 equivalent_object_properties
     : EQUIVALENT_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(COWL_NAT_EQUIV, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 disjoint_object_properties
     : DISJOINT_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_obj_prop_axiom_get(COWL_NAT_DISJ, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 inverse_object_properties
     : INVERSE_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_inv_obj_prop_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
         cowl_obj_prop_exp_release($5);
     }
@@ -786,6 +809,7 @@ inverse_object_properties
 object_property_domain
     : OBJECT_PROPERTY_DOMAIN L_PAREN annotation_star object_property_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_domain_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -794,6 +818,7 @@ object_property_domain
 object_property_range
     : OBJECT_PROPERTY_RANGE L_PAREN annotation_star object_property_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_range_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -802,6 +827,7 @@ object_property_range
 functional_object_property
     : FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_FUNC, $4, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -809,6 +835,7 @@ functional_object_property
 inverse_functional_object_property
     : INVERSE_FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_INV_FUNC, $4, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -816,6 +843,7 @@ inverse_functional_object_property
 reflexive_object_property
     : REFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_REFL, $4, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -823,6 +851,7 @@ reflexive_object_property
 irreflexive_object_property
     : IRREFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_IRREFL, $4, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -830,6 +859,7 @@ irreflexive_object_property
 symmetric_object_property
     : SYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_SYMM, $4, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -837,6 +867,7 @@ symmetric_object_property
 asymmetric_object_property
     : ASYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_ASYMM, $4, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -844,6 +875,7 @@ asymmetric_object_property
 transitive_object_property
     : TRANSITIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom_get(COWL_CAT_TRANS, $4, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
     }
 ;
@@ -862,6 +894,7 @@ data_property_axiom
 sub_data_property_of
     : SUB_DATA_PROPERTY_OF L_PAREN annotation_star data_property_expression data_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_data_prop_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_data_prop_exp_release($4);
         cowl_data_prop_exp_release($5);
     }
@@ -870,18 +903,23 @@ sub_data_property_of
 equivalent_data_properties
     : EQUIVALENT_DATA_PROPERTIES L_PAREN annotation_star data_property_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(COWL_NAT_EQUIV, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 disjoint_data_properties
     : DISJOINT_DATA_PROPERTIES L_PAREN annotation_star data_property_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_data_prop_axiom_get(COWL_NAT_DISJ, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 data_property_domain
     : DATA_PROPERTY_DOMAIN L_PAREN annotation_star data_property_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_data_prop_domain_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_data_prop_exp_release($4);
         cowl_cls_exp_release($5);
     }
@@ -890,6 +928,7 @@ data_property_domain
 data_property_range
     : DATA_PROPERTY_RANGE L_PAREN annotation_star data_property_expression data_range R_PAREN {
         $$ = (CowlAxiom *)cowl_data_prop_range_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_data_prop_exp_release($4);
         cowl_data_range_release($5);
     }
@@ -898,6 +937,7 @@ data_property_range
 functional_data_property
     : FUNCTIONAL_DATA_PROPERTY L_PAREN annotation_star data_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_func_data_prop_axiom_get($4, $3);
+        cowl_vector_release($3);
         cowl_data_prop_exp_release($4);
     }
 ;
@@ -907,6 +947,7 @@ functional_data_property
 datatype_definition
     : DATATYPE_DEFINITION L_PAREN annotation_star datatype data_range R_PAREN {
         $$ = (CowlAxiom *)cowl_datatype_def_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_datatype_release($4);
         cowl_data_range_release($5);
     }
@@ -920,7 +961,10 @@ has_key
             L_PAREN data_property_expression_star R_PAREN
         R_PAREN {
         $$ = (CowlAxiom *)cowl_has_key_axiom_get($4, $6, $9, $3);
+        cowl_vector_release($3);
         cowl_cls_exp_release($4);
+        cowl_vector_release($6);
+        cowl_vector_release($9);
     }
 ;
 
@@ -939,18 +983,23 @@ assertion
 same_individual
     : SAME_INDIVIDUAL L_PAREN annotation_star individual_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(COWL_NAT_SAME, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 different_individuals
     : DIFFERENT_INDIVIDUALS L_PAREN annotation_star individual_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_nary_ind_axiom_get(COWL_NAT_DIFF, $4, $3);
+        cowl_vector_release($3);
+        cowl_vector_release($4);
     }
 ;
 
 class_assertion
     : CLASS_ASSERTION L_PAREN annotation_star class_expression individual R_PAREN {
         $$ = (CowlAxiom *)cowl_cls_assert_axiom_get($5, $4, $3);
+        cowl_vector_release($3);
         cowl_cls_exp_release($4);
         cowl_individual_release($5);
     }
@@ -959,6 +1008,7 @@ class_assertion
 object_property_assertion
     : OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom_get($5, $4, $6, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_individual_release($6);
@@ -968,6 +1018,7 @@ object_property_assertion
 negative_object_property_assertion
     : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
         $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom_get($5, $4, $6, $3);
+        cowl_vector_release($3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_individual_release($6);
@@ -977,6 +1028,7 @@ negative_object_property_assertion
 data_property_assertion
     : DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
         $$ = (CowlAxiom *)cowl_data_prop_assert_axiom_get($5, $4, $6, $3);
+        cowl_vector_release($3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_literal_release($6);
@@ -986,6 +1038,7 @@ data_property_assertion
 negative_data_property_assertion
     : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
         $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom_get($5, $4, $6, $3);
+        cowl_vector_release($3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
         cowl_literal_release($6);
@@ -997,6 +1050,7 @@ negative_data_property_assertion
 annotation
     : ANNOTATION L_PAREN annotation_star annotation_property annotation_value R_PAREN {
         $$ = cowl_annotation_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_annot_prop_release($4);
         cowl_annot_value_release($5);
     }
@@ -1026,6 +1080,7 @@ annotation_axiom
 annotation_assertion
     : ANNOTATION_ASSERTION L_PAREN annotation_star annotation_property annotation_subject annotation_value R_PAREN {
         $$ = (CowlAxiom *)cowl_annot_assert_axiom_get($5, $4, $6, $3);
+        cowl_vector_release($3);
         cowl_annot_prop_release($4);
         cowl_annot_value_release($5);
         cowl_annot_value_release($6);
@@ -1044,6 +1099,7 @@ annotation_subject
 sub_annotation_property_of
     : SUB_ANNOTATION_PROPERTY_OF L_PAREN annotation_star annotation_property annotation_property R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_annot_prop_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_annot_prop_release($4);
         cowl_annot_prop_release($5);
     }
@@ -1052,6 +1108,7 @@ sub_annotation_property_of
 annotation_property_domain
     : ANNOTATION_PROPERTY_DOMAIN L_PAREN annotation_star annotation_property iri R_PAREN {
         $$ = (CowlAxiom *)cowl_annot_prop_domain_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_annot_prop_release($4);
         cowl_iri_release($5);
     }
@@ -1060,6 +1117,7 @@ annotation_property_domain
 annotation_property_range
     : ANNOTATION_PROPERTY_RANGE L_PAREN annotation_star annotation_property iri R_PAREN {
         $$ = (CowlAxiom *)cowl_annot_prop_range_axiom_get($4, $5, $3);
+        cowl_vector_release($3);
         cowl_annot_prop_release($4);
         cowl_iri_release($5);
     }
@@ -1075,7 +1133,7 @@ annotation_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = uvec_alloc(CowlObjectPtr);
+            $$ = cowl_vector_get_empty();
             if (!$$) COWL_ERROR_MEM;
         }
         COWL_VEC_PUSH(annotation, $$, $2);
@@ -1084,7 +1142,7 @@ annotation_star
 
 class_expression_list
     : class_expression {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(cls_exp, $$, $1);
     }
@@ -1103,7 +1161,7 @@ class_expression_2_list
 
 data_property_expression_list
     : data_property_expression {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(data_prop_exp, $$, $1);
     }
@@ -1128,7 +1186,7 @@ data_property_expression_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = uvec_alloc(CowlObjectPtr);
+            $$ = cowl_vector_get_empty();
             if (!$$) COWL_ERROR_MEM;
         }
         COWL_VEC_PUSH(data_prop_exp, $$, $2);
@@ -1137,7 +1195,7 @@ data_property_expression_star
 
 data_range_list
     : data_range {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(data_range, $$, $1);
     }
@@ -1156,7 +1214,7 @@ data_range_2_list
 
 individual_list
     : individual {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(individual, $$, $1);
     }
@@ -1175,7 +1233,7 @@ individual_2_list
 
 literal_list
     : literal {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(literal, $$, $1);
     }
@@ -1187,7 +1245,7 @@ literal_list
 
 object_property_expression_list
     : object_property_expression {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(obj_prop_exp, $$, $1);
     }
@@ -1206,7 +1264,7 @@ object_property_expression_2_list
 
 object_property_expression_ordered_2_list
     : object_property_expression object_property_expression {
-        $$ = uvec_alloc(CowlObjectPtr);
+        $$ = cowl_vector_get_empty();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(obj_prop_exp, $$, $1);
         COWL_VEC_PUSH(obj_prop_exp, $$, $2);
@@ -1225,7 +1283,7 @@ object_property_expression_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = uvec_alloc(CowlObjectPtr);
+            $$ = cowl_vector_get_empty();
             if (!$$) COWL_ERROR_MEM;
         }
         COWL_VEC_PUSH(obj_prop_exp, $$, $2);

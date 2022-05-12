@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -10,20 +10,20 @@
 
 #include "cowl_has_key_axiom_private.h"
 #include "cowl_cls_exp.h"
-#include "cowl_object_vec.h"
 #include "cowl_template.h"
+#include "cowl_vector.h"
 
-static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObjectVec *obj_props,
-                                                 CowlObjectVec *data_props,
-                                                 CowlObjectVec *annot) {
+static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlVector *obj_props,
+                                                 CowlVector *data_props,
+                                                 CowlVector *annot) {
     CowlHasKeyAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
     cowl_axiom_init(CowlHasKeyAxiom, axiom, annot,
         .super = COWL_AXIOM_INIT(COWL_AT_HAS_KEY, annot),
         .cls_exp = cowl_cls_exp_retain(cls_exp),
-        .obj_props = obj_props,
-        .data_props = data_props
+        .obj_props = cowl_vector_retain(obj_props),
+        .data_props = cowl_vector_retain(data_props)
     );
 
     return axiom;
@@ -31,13 +31,13 @@ static CowlHasKeyAxiom* cowl_has_key_axiom_alloc(CowlClsExp *cls_exp, CowlObject
 
 static void cowl_has_key_axiom_free(CowlHasKeyAxiom *axiom) {
     cowl_cls_exp_release(axiom->cls_exp);
-    cowl_object_vec_free(axiom->obj_props);
-    cowl_object_vec_free(axiom->data_props);
+    cowl_vector_release(axiom->obj_props);
+    cowl_vector_release(axiom->data_props);
     cowl_axiom_free(axiom);
 }
 
-CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlObjectVec *obj_props,
-                                        CowlObjectVec *data_props, CowlObjectVec *annot) {
+CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlVector *obj_props,
+                                        CowlVector *data_props, CowlVector *annot) {
     if (!cls_exp) return NULL;
     return cowl_has_key_axiom_alloc(cls_exp, obj_props, data_props, annot);
 }
@@ -56,15 +56,15 @@ CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
     return axiom->cls_exp;
 }
 
-CowlObjectVec* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
+CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
     return axiom->obj_props;
 }
 
-CowlObjectVec* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
+CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
     return axiom->data_props;
 }
 
-CowlObjectVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
+CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 
@@ -74,13 +74,13 @@ CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom)
 bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
                                   cowl_cls_exp_equals(lhs->cls_exp, rhs->cls_exp) &&
-                                  cowl_object_vec_equals_no_order(lhs->obj_props, rhs->obj_props) &&
-                                  cowl_object_vec_equals_no_order(lhs->data_props, rhs->data_props));
+                                  cowl_vector_equals_no_order(lhs->obj_props, rhs->obj_props) &&
+                                  cowl_vector_equals_no_order(lhs->data_props, rhs->data_props));
 }
 
 ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
-    ulib_uint obj_props_hash = axiom->obj_props ? cowl_object_vec_hash_no_order(axiom->obj_props) : 0;
-    ulib_uint data_props_hash = axiom->data_props ? cowl_object_vec_hash_no_order(axiom->data_props) : 0;
+    ulib_uint obj_props_hash = axiom->obj_props ? cowl_vector_hash_no_order(axiom->obj_props) : 0;
+    ulib_uint data_props_hash = axiom->data_props ? cowl_vector_hash_no_order(axiom->data_props) : 0;
     return cowl_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM,
                        cowl_cls_exp_hash(axiom->cls_exp),
                        obj_props_hash, data_props_hash);
@@ -89,7 +89,7 @@ ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
 bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveFlags flags,
                                            CowlIterator *iter) {
     return (cowl_cls_exp_iterate_primitives(axiom->cls_exp, flags, iter) &&
-            cowl_object_vec_iterate_primitives(axiom->obj_props, flags, iter) &&
-            cowl_object_vec_iterate_primitives(axiom->data_props, flags, iter) &&
+            cowl_vector_iterate_primitives(axiom->obj_props, flags, iter) &&
+            cowl_vector_iterate_primitives(axiom->data_props, flags, iter) &&
             cowl_axiom_annot_iterate_primitives(axiom, flags, iter));
 }

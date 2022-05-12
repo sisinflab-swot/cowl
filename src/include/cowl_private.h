@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -72,13 +72,12 @@
 #include "cowl_obj_prop_range_axiom_private.h"
 #include "cowl_obj_quant_private.h"
 #include "cowl_object_private.h"
-#include "cowl_object_table.h"
-#include "cowl_object_vec_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_owl_vocab_private.h"
 #include "cowl_parser_ctx_private.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
+#include "cowl_set_private.h"
 #include "cowl_stream.h"
 #include "cowl_string_private.h"
 #include "cowl_sub_annot_prop_axiom_private.h"
@@ -87,6 +86,7 @@
 #include "cowl_sub_obj_prop_axiom_private.h"
 #include "cowl_sub_obj_prop_chain_axiom_private.h"
 #include "cowl_template.h"
+#include "cowl_vector_private.h"
 #include "cowl_vocab_utils.h"
 #include "cowl_xml_utils.h"
 #include "cowl_xsd_vocab_private.h"

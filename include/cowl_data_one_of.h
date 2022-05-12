@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -19,6 +19,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlDataOneOf);
 /// @endcond
 
@@ -40,7 +41,7 @@ cowl_struct_decl(CowlDataOneOf);
  * @public @memberof CowlDataOneOf
  */
 COWL_PUBLIC
-CowlDataOneOf* cowl_data_one_of_get(CowlObjectVec *values);
+CowlDataOneOf* cowl_data_one_of_get(CowlVector *values);
 
 /**
  * Retains the specified literal enumeration.
@@ -72,7 +73,7 @@ void cowl_data_one_of_release(CowlDataOneOf *range);
  * @public @memberof CowlDataOneOf
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_data_one_of_get_values(CowlDataOneOf *range);
+CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range);
 
 /**
  * Returns the string representation of the specified literal enumeration.

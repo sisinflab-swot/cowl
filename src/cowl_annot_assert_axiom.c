@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -16,7 +16,7 @@
 static CowlAnnotAssertAxiom* cowl_annot_assert_axiom_alloc(CowlAnnotValue *subject,
                                                            CowlAnnotProp *prop,
                                                            CowlAnnotValue *value,
-                                                           CowlObjectVec *annot) {
+                                                           CowlVector *annot) {
     CowlAnnotAssertAxiom *axiom = cowl_axiom_alloc(axiom, annot);
     if (!axiom) return NULL;
 
@@ -38,7 +38,7 @@ static void cowl_annot_assert_axiom_free(CowlAnnotAssertAxiom *axiom) {
 }
 
 CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
-                                                  CowlAnnotValue *value, CowlObjectVec *annot) {
+                                                  CowlAnnotValue *value, CowlVector *annot) {
     if (!(prop && subject && value)) return NULL;
     return cowl_annot_assert_axiom_alloc(subject, prop, value, annot);
 }
@@ -65,7 +65,7 @@ CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
     return axiom->prop;
 }
 
-CowlObjectVec* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
+CowlVector* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
     return cowl_axiom_get_annot(axiom);
 }
 

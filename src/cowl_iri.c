@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -10,7 +10,7 @@
 
 #include "cowl_iri_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_object_table.h"
+#include "cowl_set.h"
 #include "cowl_string_private.h"
 #include "cowl_xml_utils.h"
 #include "cowl_template.h"

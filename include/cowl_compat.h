@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -84,24 +84,5 @@
  * @param NAME Name of the struct type.
  */
 #define cowl_struct_decl(NAME) typedef struct NAME NAME
-
-/**
- * Vector type forward declaration.
- *
- * @param T Type of the vector elements.
- * @param NAME Name of the vector type.
- */
-#define cowl_vector_decl(T, NAME)                                                                   \
-    uvec_decl(T);                                                                                   \
-    typedef struct UVec(T) const NAME
-
-/**
- * Hash table type forward declaration.
- *
- * @param NAME Name of the hash table type.
- */
-#define cowl_hash_decl(NAME)                                                                        \
-    uhash_decl(NAME);                                                                               \
-    typedef struct UHash(NAME) const NAME
 
 #endif // COWL_COMPAT_H

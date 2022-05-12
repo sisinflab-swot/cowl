@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,6 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlDatatype);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlDatatypeRestr);
 /// @endcond
 
@@ -42,7 +43,7 @@ cowl_struct_decl(CowlDatatypeRestr);
  * @public @memberof CowlDatatypeRestr
  */
 COWL_PUBLIC
-CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlObjectVec *restrictions);
+CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlVector *restrictions);
 
 /**
  * Retains the specified datatype restriction.
@@ -85,7 +86,7 @@ CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr);
  * @public @memberof CowlDatatypeRestr
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr);
+CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr);
 
 /**
  * Returns the string representation of the specified datatype restriction.

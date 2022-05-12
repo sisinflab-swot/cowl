@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlClsExp);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlHasKeyAxiom);
 /// @endcond
 
@@ -45,8 +45,8 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlObjectVec *obj_props,
-                                        CowlObjectVec *data_props, CowlObjectVec *annot);
+CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlVector *obj_props,
+                                        CowlVector *data_props, CowlVector *annot);
 
 /**
  * Retains the specified axiom.
@@ -89,7 +89,7 @@ CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
+CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
 
 /**
  * Gets the set of data property expressions that make up the key.
@@ -100,7 +100,7 @@ CowlObjectVec* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
+CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.
@@ -111,7 +111,7 @@ CowlObjectVec* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
+CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

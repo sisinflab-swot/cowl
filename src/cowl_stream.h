@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://sisinflab.poliba.it/swottools>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -112,8 +112,8 @@ ustream_ret cowl_stream_write_annot_prop_range_axiom(UOStream *s, CowlAnnotPropR
 
 // Collections
 
-ustream_ret cowl_stream_write_object_set(UOStream *s, CowlObjectTable *set);
-ustream_ret cowl_stream_write_object_vec(UOStream *s, CowlObjectVec *vec);
+ustream_ret cowl_stream_write_set(UOStream *s, CowlSet *set);
+ustream_ret cowl_stream_write_vector(UOStream *s, CowlVector *vec);
 
 COWL_END_DECLS
 

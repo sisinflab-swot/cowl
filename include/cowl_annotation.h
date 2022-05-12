@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotValue);
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlAnnotation);
 /// @endcond
 
@@ -44,8 +44,7 @@ cowl_struct_decl(CowlAnnotation);
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value,
-                                    CowlObjectVec *annot);
+CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value, CowlVector *annot);
 
 /**
  * Retains the specified annotation.
@@ -100,7 +99,7 @@ CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot);
  * @public @memberof CowlAnnotation
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_annotation_get_annot(CowlAnnotation *annot);
+CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot);
 
 /**
  * Returns the string representation of the specified annotation.

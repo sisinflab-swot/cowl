@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -14,16 +14,16 @@
 #include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
 #include "cowl_object_private.h"
-#include "cowl_object_vec_private.h"
-#include "cowl_object_table_private.h"
+#include "cowl_set.h"
 #include "cowl_ontology_id.h"
+#include "cowl_vector.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlOntology {
     CowlObject super;
+    CowlVector *annotations;
     UVec(CowlObjectPtr) imports;
-    UVec(CowlObjectPtr) annotations;
     UVec(CowlObjectPtr) axioms_by_type[COWL_AT_COUNT];
     UHash(CowlObjectTable) annot_prop_refs;
     UHash(CowlObjectTable) class_refs;

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,24 +9,29 @@
  */
 
 #include "cowl_iterator_private.h"
-#include "cowl_object.h"
-#include "cowl_object_table.h"
-#include "cowl_object_vec.h"
+#include "cowl_set.h"
+#include "cowl_vector.h"
 
 static bool cowl_store_vec(void *vec, void *obj) {
-    return cowl_object_vec_push(vec, obj) == COWL_OK;
+    return uvec_push(CowlObjectPtr, vec, obj) != UVEC_ERR;
 }
 
 static bool cowl_store_set(void *set, void *obj) {
-    return cowl_object_set_insert(set, obj) == COWL_OK;
+    return uhset_insert(CowlObjectTable, set, obj) != UHASH_ERR;
 }
 
 CowlIterator cowl_iterator_vec_init(UVec(CowlObjectPtr) *vec) {
-    if (!vec) vec = uvec_alloc(CowlObjectPtr);
+    if (!vec) {
+        vec = ulib_alloc(vec);
+        *vec = uvec_init(CowlObjectPtr);
+    }
     return (CowlIterator) { .ctx = vec, .for_each = cowl_store_vec };
 }
 
 CowlIterator cowl_iterator_set_init(UHash(CowlObjectTable) *set) {
-    if (!set) set = uhset_alloc(CowlObjectTable);
+    if (!set) {
+        set = ulib_alloc(set);
+        *set = uhset_init(CowlObjectTable);
+    }
     return (CowlIterator) { .ctx = set, .for_each = cowl_store_set };
 }

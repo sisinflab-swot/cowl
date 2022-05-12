@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_vector_decl(CowlObjectPtr, CowlObjectVec);
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlNAryClsAxiom);
 /// @endcond
 
@@ -45,8 +45,8 @@ cowl_struct_decl(CowlNAryClsAxiom);
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_PUBLIC
-CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlObjectVec *classes,
-                                          CowlObjectVec *annot);
+CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlVector *classes,
+                                          CowlVector *annot);
 
 /**
  * Retains the specified axiom.
@@ -89,7 +89,7 @@ CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom);
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom);
+CowlVector* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom);
 
 /**
  * Gets the annotations of the specified axiom.
@@ -100,7 +100,7 @@ CowlObjectVec* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom);
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_PUBLIC
-CowlObjectVec* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom);
+CowlVector* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom);
 
 /**
  * Returns the string representation of the specified axiom.

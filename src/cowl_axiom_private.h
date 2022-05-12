@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,7 @@
 #include "cowl_annotation.h"
 #include "cowl_hash_utils.h"
 #include "cowl_object_private.h"
-#include "cowl_object_vec_private.h"
+#include "cowl_vector.h"
 
 COWL_BEGIN_DECLS
 
@@ -27,23 +27,23 @@ struct CowlAxiom {
     struct T {                                                                                      \
         CowlAxiom super;                                                                            \
         FIELDS                                                                                      \
-        CowlObjectVec *annot[];                                                                     \
+        CowlVector *annot[];                                                                        \
     }
 
 #define cowl_axiom_alloc(AXIOM, ANNOT) \
-    ulib_malloc(sizeof(*(AXIOM)) + ((ANNOT) ? sizeof(CowlObjectVec*) : 0))
+    ulib_malloc(sizeof(*(AXIOM)) + ((ANNOT) ? sizeof(CowlVector*) : 0))
 
 #define cowl_axiom_init(T, AXIOM, ANNOT, ...) do {                                                  \
     *(AXIOM) = (T){__VA_ARGS__};                                                                    \
-    if (ANNOT) (AXIOM)->annot[0] = (ANNOT);                                                         \
-} while (0)
+    if (ANNOT) (AXIOM)->annot[0] = cowl_vector_retain(ANNOT);                                       \
+} while(0)
 
 #define COWL_AXIOM_INIT(T, A) {                                                                     \
     .super = COWL_OBJECT_BIT_INIT((CowlObjectType)(T) + COWL_OT_A_DECL, A)                          \
 }
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \
-    if (cowl_axiom_has_annot(AXIOM)) cowl_object_vec_free_spec(annotation, (AXIOM)->annot[0]);      \
+    if (cowl_axiom_has_annot(AXIOM)) cowl_vector_release((AXIOM)->annot[0]);                        \
     ulib_free(AXIOM);                                                                               \
 } while(0)
 
@@ -52,12 +52,13 @@ struct CowlAxiom {
 
 #define cowl_axiom_equals_impl(LHS, RHS, EXP) (                                                     \
     (EXP) &&                                                                                        \
-    (!cowl_axiom_has_annot(LHS) || cowl_object_vec_equals((LHS)->annot[0], (RHS)->annot[0]))        \
+    (!(cowl_axiom_has_annot(LHS) && cowl_axiom_has_annot(RHS)) ||                                   \
+     cowl_vector_equals((LHS)->annot[0], (RHS)->annot[0]))                                          \
 )
 
 #define cowl_axiom_annot_iterate_primitives(AXIOM, FLAGS, ITER)                                     \
     (!cowl_axiom_has_annot(AXIOM) ||                                                                \
-     cowl_object_vec_iterate_primitives((AXIOM)->annot[0], FLAGS, ITER))
+     cowl_vector_iterate_primitives((AXIOM)->annot[0], FLAGS, ITER))
 
 COWL_END_DECLS
 
