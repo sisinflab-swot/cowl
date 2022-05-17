@@ -38,7 +38,7 @@ static CowlObjProp* cowl_obj_prop_alloc(CowlIRI *iri) {
     if (!prop) return NULL;
 
     *prop = (CowlObjProp) {
-        .super = COWL_OBJ_PROP_EXP_INIT(false),
+        .super = COWL_OBJECT_INIT(COWL_OT_OPE_OBJ_PROP),
         .iri = cowl_iri_retain(iri)
     };
 

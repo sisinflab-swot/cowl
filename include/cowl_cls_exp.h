@@ -14,8 +14,7 @@
 #define COWL_CLS_EXP_H
 
 #include "cowl_cls_exp_type.h"
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -39,8 +38,8 @@ cowl_struct_decl(CowlClsExp);
  *
  * @public @memberof CowlClsExp
  */
-COWL_PUBLIC
-CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp);
+COWL_INLINE
+CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) { return cowl_retain(exp); }
 
 /**
  * Releases the specified class expression.
@@ -49,8 +48,8 @@ CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp);
  *
  * @public @memberof CowlClsExp
  */
-COWL_PUBLIC
-void cowl_cls_exp_release(CowlClsExp *exp);
+COWL_INLINE
+void cowl_cls_exp_release(CowlClsExp *exp) { cowl_release(exp); }
 
 /**
  * Gets the type of the specified class expression.
@@ -60,8 +59,10 @@ void cowl_cls_exp_release(CowlClsExp *exp);
  *
  * @public @memberof CowlClsExp
  */
-COWL_PUBLIC
-CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp);
+COWL_INLINE
+CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
+    return (CowlClsExpType)cowl_get_type(exp) - COWL_OT_CE_CLASS;
+}
 
 /**
  * Returns the string representation of the specified class expression.
@@ -73,8 +74,8 @@ CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp);
  *
  * @public @memberof CowlClsExp
  */
-COWL_PUBLIC
-CowlString* cowl_cls_exp_to_string(CowlClsExp *exp);
+COWL_INLINE
+CowlString* cowl_cls_exp_to_string(CowlClsExp *exp) { return cowl_to_string(exp); }
 
 /**
  * Equality function.
@@ -85,8 +86,8 @@ CowlString* cowl_cls_exp_to_string(CowlClsExp *exp);
  *
  * @public @memberof CowlClsExp
  */
-COWL_PUBLIC
-bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs);
+COWL_INLINE
+bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) { return cowl_equals(lhs, rhs); }
 
 /**
  * Hash function.
@@ -96,8 +97,8 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs);
  *
  * @public @memberof CowlClsExp
  */
-COWL_PUBLIC
-ulib_uint cowl_cls_exp_hash(CowlClsExp *exp);
+COWL_INLINE
+ulib_uint cowl_cls_exp_hash(CowlClsExp *exp) { return cowl_hash(exp); }
 
 /**
  * Iterates over the primitives referenced by the specified class expression.
@@ -109,8 +110,11 @@ ulib_uint cowl_cls_exp_hash(CowlClsExp *exp);
  *
  * @public @memberof CowlClsExp
  */
-COWL_PUBLIC
-bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlPrimitiveFlags flags, CowlIterator *iter);
+COWL_INLINE
+bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlPrimitiveFlags flags,
+                                     CowlIterator *iter) {
+    return cowl_iterate_primitives(exp, flags, iter);
+}
 
 COWL_END_DECLS
 

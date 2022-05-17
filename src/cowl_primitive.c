@@ -9,16 +9,6 @@
  */
 
 #include "cowl_primitive.h"
-#include "cowl_object_private.h"
-#include "cowl_template.h"
-
-CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) {
-    return cowl_object_incr_ref(primitive);
-}
-
-void cowl_primitive_release(CowlPrimitive *primitive) {
-    cowl_object_release((CowlObject *)primitive);
-}
 
 CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive) {
     switch(cowl_get_type(primitive)) {
@@ -34,20 +24,4 @@ CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive) {
 
 bool cowl_primitive_is_entity(CowlPrimitive *primitive) {
     return cowl_primitive_get_type(primitive) != COWL_PT_ANON_IND;
-}
-
-CowlString* cowl_primitive_to_string(CowlPrimitive *primitive)
-    COWL_TO_STRING_IMPL(primitive, primitive)
-
-bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) {
-    return lhs == rhs;
-}
-
-ulib_uint cowl_primitive_hash(CowlPrimitive *primitive) {
-    return uhash_ptr_hash(primitive);
-}
-
-bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter) {
-    return cowl_object_iterate_primitives((CowlObject *)primitive, flags, iter);
 }

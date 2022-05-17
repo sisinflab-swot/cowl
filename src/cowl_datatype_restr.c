@@ -21,7 +21,7 @@ static CowlDatatypeRestr* cowl_datatype_restr_alloc(CowlDatatype *datatype,
     if (!restr) return NULL;
 
     *restr = (CowlDatatypeRestr) {
-        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE_RESTR),
+        .super = COWL_OBJECT_INIT(COWL_OT_DR_DATATYPE_RESTR),
         .datatype = cowl_datatype_retain(datatype),
         .restrictions = cowl_vector_retain(restrictions)
     };

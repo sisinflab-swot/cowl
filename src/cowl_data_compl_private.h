@@ -12,12 +12,12 @@
 #define COWL_DATA_COMPL_PRIVATE_H
 
 #include "cowl_data_compl.h"
-#include "cowl_data_range_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlDataCompl {
-    CowlDataRange super;
+    CowlObject super;
     CowlDataRange *operand;
 };
 

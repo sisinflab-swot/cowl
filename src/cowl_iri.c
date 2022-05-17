@@ -155,11 +155,3 @@ CowlString* cowl_iri_to_string(CowlIRI *iri)
 
 CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri)
     COWL_TO_STRING_IMPL(iri_no_brackets, iri)
-
-bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
-    return lhs == rhs;
-}
-
-ulib_uint cowl_iri_hash(CowlIRI *iri) {
-    return uhash_ptr_hash(iri);
-}

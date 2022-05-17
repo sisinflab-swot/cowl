@@ -18,7 +18,7 @@ static CowlObjHasSelf* cowl_obj_has_self_alloc(CowlObjPropExp *prop) {
     if (!exp) return NULL;
 
     *exp = (CowlObjHasSelf) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_HAS_SELF),
+        .super = COWL_OBJECT_INIT(COWL_OT_CE_OBJ_HAS_SELF),
         .prop = cowl_obj_prop_exp_retain(prop)
     };
 

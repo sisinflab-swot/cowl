@@ -9,6 +9,7 @@
  */
 
 #include "cowl_data_compl_private.h"
+#include "cowl_data_range.h"
 #include "cowl_hash_utils.h"
 #include "cowl_template.h"
 
@@ -17,7 +18,7 @@ static CowlDataCompl* cowl_data_compl_alloc(CowlDataRange *operand) {
     if (!range) return NULL;
 
     *range = (CowlDataCompl) {
-        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_COMPL),
+        .super = COWL_OBJECT_INIT(COWL_OT_DR_DATA_COMPL),
         .operand = cowl_data_range_retain(operand)
     };
 

@@ -12,12 +12,12 @@
 #define COWL_OBJ_QUANT_PRIVATE_H
 
 #include "cowl_obj_quant.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlObjQuant {
-    CowlClsExp super;
+    CowlObject super;
     CowlObjPropExp *prop;
     CowlClsExp *filler;
 };

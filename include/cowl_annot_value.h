@@ -14,17 +14,12 @@
 #define COWL_ANNOT_VALUE_H
 
 #include "cowl_annot_value_type.h"
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotValue);
-cowl_struct_decl(CowlAnonInd);
-cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlLiteral);
-cowl_struct_decl(CowlString);
 /// @endcond
 
 /**
@@ -43,8 +38,8 @@ cowl_struct_decl(CowlString);
  *
  * @public @memberof CowlAnnotValue
  */
-COWL_PUBLIC
-CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value);
+COWL_INLINE
+CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) { return cowl_retain(value); }
 
 /**
  * Releases the annotation value.
@@ -53,8 +48,8 @@ CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value);
  *
  * @public @memberof CowlAnnotValue
  */
-COWL_PUBLIC
-void cowl_annot_value_release(CowlAnnotValue *value);
+COWL_INLINE
+void cowl_annot_value_release(CowlAnnotValue *value) { cowl_release(value); }
 
 /**
  * Gets the type of the specified annotation value.
@@ -77,8 +72,8 @@ CowlAnnotValueType cowl_annot_value_get_type(CowlAnnotValue *value);
  *
  * @public @memberof CowlAnnotValue
  */
-COWL_PUBLIC
-CowlString* cowl_annot_value_to_string(CowlAnnotValue *value);
+COWL_INLINE
+CowlString* cowl_annot_value_to_string(CowlAnnotValue *value) { return cowl_to_string(value); }
 
 /**
  * Equality function.
@@ -89,8 +84,10 @@ CowlString* cowl_annot_value_to_string(CowlAnnotValue *value);
  *
  * @public @memberof CowlAnnotValue
  */
-COWL_PUBLIC
-bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs);
+COWL_INLINE
+bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs) {
+    return cowl_equals(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -100,8 +97,8 @@ bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs);
  *
  * @public @memberof CowlAnnotValue
  */
-COWL_PUBLIC
-ulib_uint cowl_annot_value_hash(CowlAnnotValue *value);
+COWL_INLINE
+ulib_uint cowl_annot_value_hash(CowlAnnotValue *value) { return cowl_hash(value); }
 
 /**
  * Iterates over the primitives referenced by the specified annotation value.
@@ -113,9 +110,11 @@ ulib_uint cowl_annot_value_hash(CowlAnnotValue *value);
  *
  * @public @memberof CowlAnnotValue
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annot_value_iterate_primitives(CowlAnnotValue *value, CowlPrimitiveFlags flags,
-                                         CowlIterator *iter);
+                                         CowlIterator *iter) {
+    return cowl_iterate_primitives(value, flags, iter);
+}
 
 COWL_END_DECLS
 

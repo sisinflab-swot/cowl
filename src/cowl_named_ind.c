@@ -38,7 +38,7 @@ static CowlNamedInd* cowl_named_ind_alloc(CowlIRI *iri) {
     if (!ind) return NULL;
 
     *ind = (CowlNamedInd) {
-        .super = COWL_INDIVIDUAL_INIT(true),
+        .super = COWL_OBJECT_INIT(COWL_OT_I_NAMED),
         .iri = cowl_iri_retain(iri)
     };
 

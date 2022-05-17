@@ -13,8 +13,7 @@
 #ifndef COWL_DATA_PROP_EXP_H
 #define COWL_DATA_PROP_EXP_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_data_prop.h"
 
 COWL_BEGIN_DECLS
 
@@ -39,8 +38,10 @@ cowl_struct_decl(CowlDataPropExp);
  *
  * @public @memberof CowlDataPropExp
  */
-COWL_PUBLIC
-CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp);
+COWL_INLINE
+CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp) {
+    return (CowlDataPropExp *)cowl_data_prop_retain((CowlDataProp *)exp);
+}
 
 /**
  * Releases the specified data property expression.
@@ -49,8 +50,10 @@ CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp);
  *
  * @public @memberof CowlDataPropExp
  */
-COWL_PUBLIC
-void cowl_data_prop_exp_release(CowlDataPropExp *exp);
+COWL_INLINE
+void cowl_data_prop_exp_release(CowlDataPropExp *exp) {
+    cowl_data_prop_release((CowlDataProp *)exp);
+}
 
 /**
  * Gets the underlying data property.
@@ -60,8 +63,10 @@ void cowl_data_prop_exp_release(CowlDataPropExp *exp);
  *
  * @public @memberof CowlDataPropExp
  */
-COWL_PUBLIC
-CowlDataProp* cowl_data_prop_exp_get_prop(CowlDataPropExp *exp);
+COWL_INLINE
+CowlDataProp* cowl_data_prop_exp_get_prop(CowlDataPropExp *exp) {
+    return (CowlDataProp *)exp;
+}
 
 /**
  * Returns the string representation of the specified data property expression.
@@ -73,8 +78,10 @@ CowlDataProp* cowl_data_prop_exp_get_prop(CowlDataPropExp *exp);
  *
  * @public @memberof CowlDataPropExp
  */
-COWL_PUBLIC
-CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp);
+COWL_INLINE
+CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp) {
+    return cowl_data_prop_to_string((CowlDataProp *)exp);
+}
 
 /**
  * Equality function.
@@ -85,8 +92,8 @@ CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp);
  *
  * @public @memberof CowlDataPropExp
  */
-COWL_PUBLIC
-bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs);
+COWL_INLINE
+bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -96,8 +103,8 @@ bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs);
  *
  * @public @memberof CowlDataPropExp
  */
-COWL_PUBLIC
-ulib_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp);
+COWL_INLINE
+ulib_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp) { return uhash_ptr_hash(exp); }
 
 /**
  * Iterates over the primitives referenced by the specified data property expression.
@@ -109,9 +116,11 @@ ulib_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp);
  *
  * @public @memberof CowlDataPropExp
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_prop_exp_iterate_primitives(CowlDataPropExp *exp, CowlPrimitiveFlags flags,
-                                           CowlIterator *iter);
+                                           CowlIterator *iter) {
+    return cowl_data_prop_iterate_primitives((CowlDataProp*)exp, flags, iter);
+}
 
 COWL_END_DECLS
 

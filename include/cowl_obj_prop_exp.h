@@ -13,8 +13,7 @@
 #ifndef COWL_OBJ_PROP_EXP_H
 #define COWL_OBJ_PROP_EXP_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -34,23 +33,23 @@ cowl_struct_decl(CowlObjPropExp);
 /**
  * Retains the specified object property expression.
  *
- * @param prop The object property expression.
+ * @param exp The object property expression.
  * @return Retained object property expression.
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *prop);
+COWL_INLINE
+CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *exp) { return cowl_retain(exp); }
 
 /**
  * Releases the specified object property expression.
  *
- * @param prop The object property expression.
+ * @param exp The object property expression.
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
-void cowl_obj_prop_exp_release(CowlObjPropExp *prop);
+COWL_INLINE
+void cowl_obj_prop_exp_release(CowlObjPropExp *exp) { cowl_release(exp); }
 
 /**
  * Returns true if the object property expression is inverse.
@@ -60,8 +59,10 @@ void cowl_obj_prop_exp_release(CowlObjPropExp *prop);
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
-bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp);
+COWL_INLINE
+bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
+    return cowl_get_type(exp) == COWL_OT_OPE_INV_OBJ_PROP;
+}
 
 /**
  * Gets the underlying object property.
@@ -84,8 +85,8 @@ CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
-CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp);
+COWL_INLINE
+CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp) { return cowl_to_string(exp); }
 
 /**
  * Equality function.
@@ -96,8 +97,10 @@ CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp);
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
-bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs);
+COWL_INLINE
+bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
+    return cowl_equals(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -107,8 +110,8 @@ bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs);
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp);
+COWL_INLINE
+ulib_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp) { return cowl_hash(exp); }
 
 /**
  * Iterates over the primitives referenced by the specified object property expression.
@@ -120,9 +123,11 @@ ulib_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp);
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_prop_exp_iterate_primitives(CowlObjPropExp *exp, CowlPrimitiveFlags flags,
-                                          CowlIterator *iter);
+                                          CowlIterator *iter) {
+    return cowl_iterate_primitives(exp, flags, iter);
+}
 
 COWL_END_DECLS
 

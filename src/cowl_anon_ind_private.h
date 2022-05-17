@@ -12,12 +12,12 @@
 #define COWL_ANON_IND_PRIVATE_H
 
 #include "cowl_anon_ind.h"
-#include "cowl_individual_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlAnonInd {
-    CowlIndividual super;
+    CowlObject super;
 };
 
 COWL_END_DECLS

@@ -14,15 +14,13 @@
 #define COWL_ENTITY_H
 
 #include "cowl_entity_type.h"
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlEntity);
-cowl_struct_decl(CowlString);
 /// @endcond
 
 /**
@@ -41,8 +39,8 @@ cowl_struct_decl(CowlString);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
-CowlEntity* cowl_entity_retain(CowlEntity *entity);
+COWL_INLINE
+CowlEntity* cowl_entity_retain(CowlEntity *entity) { return cowl_retain(entity); }
 
 /**
  * Releases the entity.
@@ -51,8 +49,8 @@ CowlEntity* cowl_entity_retain(CowlEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
-void cowl_entity_release(CowlEntity *entity);
+COWL_INLINE
+void cowl_entity_release(CowlEntity *entity) { cowl_release(entity); }
 
 /**
  * Gets the type of the entity.
@@ -86,8 +84,8 @@ CowlIRI* cowl_entity_get_iri(CowlEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
-CowlString* cowl_entity_to_string(CowlEntity *entity);
+COWL_INLINE
+CowlString* cowl_entity_to_string(CowlEntity *entity) { return cowl_to_string(entity); }
 
 /**
  * Equality function.
@@ -98,8 +96,8 @@ CowlString* cowl_entity_to_string(CowlEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
-bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs);
+COWL_INLINE
+bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) { return cowl_equals(lhs, rhs); }
 
 /**
  * Hash function.
@@ -109,8 +107,8 @@ bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
-ulib_uint cowl_entity_hash(CowlEntity *entity);
+COWL_INLINE
+ulib_uint cowl_entity_hash(CowlEntity *entity) { return cowl_hash(entity); }
 
 /**
  * Iterates over this entity.
@@ -122,9 +120,11 @@ ulib_uint cowl_entity_hash(CowlEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlPrimitiveFlags flags,
-                                    CowlIterator *iter);
+                                    CowlIterator *iter) {
+    return cowl_iterate_primitives(entity, flags, iter);
+}
 
 COWL_END_DECLS
 

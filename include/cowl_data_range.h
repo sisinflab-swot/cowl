@@ -14,8 +14,7 @@
 #define COWL_DATA_RANGE_H
 
 #include "cowl_data_range_type.h"
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -40,8 +39,8 @@ cowl_struct_decl(CowlDataRange);
  *
  * @public @memberof CowlDataRange
  */
-COWL_PUBLIC
-CowlDataRange* cowl_data_range_retain(CowlDataRange *range);
+COWL_INLINE
+CowlDataRange* cowl_data_range_retain(CowlDataRange *range) { return cowl_retain(range); }
 
 /**
  * Releases the specified data range.
@@ -50,8 +49,8 @@ CowlDataRange* cowl_data_range_retain(CowlDataRange *range);
  *
  * @public @memberof CowlDataRange
  */
-COWL_PUBLIC
-void cowl_data_range_release(CowlDataRange *range);
+COWL_INLINE
+void cowl_data_range_release(CowlDataRange *range) { cowl_release(range); }
 
 /**
  * Gets the type of the specified data range.
@@ -61,8 +60,10 @@ void cowl_data_range_release(CowlDataRange *range);
  *
  * @public @memberof CowlDataRange
  */
-COWL_PUBLIC
-CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range);
+COWL_INLINE
+CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
+    return (CowlDataRangeType)cowl_get_type(range) - COWL_OT_DR_DATATYPE;
+}
 
 /**
  * Returns the string representation of the specified data range.
@@ -74,8 +75,8 @@ CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range);
  *
  * @public @memberof CowlDataRange
  */
-COWL_PUBLIC
-CowlString* cowl_data_range_to_string(CowlDataRange *range);
+COWL_INLINE
+CowlString* cowl_data_range_to_string(CowlDataRange *range) { return cowl_to_string(range); }
 
 /**
  * Equality function.
@@ -86,8 +87,10 @@ CowlString* cowl_data_range_to_string(CowlDataRange *range);
  *
  * @public @memberof CowlDataRange
  */
-COWL_PUBLIC
-bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs);
+COWL_INLINE
+bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
+    return cowl_equals(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -97,8 +100,8 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs);
  *
  * @public @memberof CowlDataRange
  */
-COWL_PUBLIC
-ulib_uint cowl_data_range_hash(CowlDataRange *range);
+COWL_INLINE
+ulib_uint cowl_data_range_hash(CowlDataRange *range) { return cowl_hash(range); }
 
 /**
  * Iterates over the primitives referenced by the specified data range.
@@ -110,9 +113,11 @@ ulib_uint cowl_data_range_hash(CowlDataRange *range);
  *
  * @public @memberof CowlDataRange
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_range_iterate_primitives(CowlDataRange *range, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_iterate_primitives(range, flags, iter);
+}
 
 COWL_END_DECLS
 

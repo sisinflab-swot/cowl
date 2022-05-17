@@ -38,7 +38,7 @@ static CowlDatatype* cowl_datatype_alloc(CowlIRI *iri) {
     if (!dt) return NULL;
 
     *dt = (CowlDatatype) {
-        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATATYPE),
+        .super = COWL_OBJECT_INIT(COWL_OT_DR_DATATYPE),
         .iri = cowl_iri_retain(iri)
     };
 

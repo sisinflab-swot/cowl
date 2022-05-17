@@ -14,12 +14,12 @@
 #include "cowl_template.h"
 #include "cowl_vector.h"
 
-static CowlNAryBool* cowl_nary_bool_alloc(CowlClsExpType type, CowlVector *operands) {
+static CowlNAryBool* cowl_nary_bool_alloc(CowlObjectType type, CowlVector *operands) {
     CowlNAryBool *exp = ulib_alloc(exp);
     if (!exp) return NULL;
 
     *exp = (CowlNAryBool) {
-        .super = COWL_CLS_EXP_INIT(type),
+        .super = COWL_OBJECT_INIT(type),
         .operands = cowl_vector_retain(operands)
     };
 
@@ -33,7 +33,7 @@ static void cowl_nary_bool_free(CowlNAryBool *exp) {
 
 CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlVector *operands) {
     if (!(operands && cowl_enum_value_is_valid(NT, type))) return NULL;
-    return cowl_nary_bool_alloc((CowlClsExpType)type + COWL_CET_OBJ_INTERSECT, operands);
+    return cowl_nary_bool_alloc(COWL_OT_CE_OBJ_INTERSECT + type, operands);
 }
 
 CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp) {

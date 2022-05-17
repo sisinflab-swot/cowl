@@ -9,8 +9,8 @@
  */
 
 #include "cowl_cls_assert_axiom_private.h"
-#include "cowl_cls_exp_private.h"
-#include "cowl_individual_private.h"
+#include "cowl_cls_exp.h"
+#include "cowl_individual.h"
 #include "cowl_template.h"
 
 static CowlClsAssertAxiom* cowl_cls_assert_axiom_alloc(CowlIndividual *ind, CowlClsExp *exp,

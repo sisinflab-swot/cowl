@@ -142,8 +142,8 @@ CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri);
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
-bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
+COWL_INLINE
+bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -153,8 +153,8 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs);
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
-ulib_uint cowl_iri_hash(CowlIRI *iri);
+COWL_INLINE
+ulib_uint cowl_iri_hash(CowlIRI *iri) { return uhash_ptr_hash(iri); }
 
 COWL_END_DECLS
 

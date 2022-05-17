@@ -38,7 +38,7 @@ static CowlDataProp* cowl_data_prop_alloc(CowlIRI *iri) {
     if (!prop) return NULL;
 
     *prop = (CowlDataProp) {
-        .super = COWL_DATA_PROP_EXP_INIT,
+        .super = COWL_OBJECT_INIT(COWL_OT_DPE_DATA_PROP),
         .iri = cowl_iri_retain(iri)
     };
 

@@ -9,21 +9,12 @@
  */
 
 #include "cowl_entity.h"
-#include "cowl_annot_prop_private.h"
-#include "cowl_class_private.h"
-#include "cowl_data_prop_private.h"
-#include "cowl_datatype_private.h"
-#include "cowl_named_ind_private.h"
-#include "cowl_obj_prop_private.h"
-#include "cowl_template.h"
-
-CowlEntity* cowl_entity_retain(CowlEntity *entity) {
-    return cowl_object_incr_ref(entity);
-}
-
-void cowl_entity_release(CowlEntity *entity) {
-    cowl_object_release((CowlObject *)entity);
-}
+#include "cowl_annot_prop.h"
+#include "cowl_class.h"
+#include "cowl_data_prop.h"
+#include "cowl_datatype.h"
+#include "cowl_named_ind.h"
+#include "cowl_obj_prop.h"
 
 CowlEntityType cowl_entity_get_type(CowlEntity *entity) {
     switch(cowl_get_type(entity)) {
@@ -49,20 +40,4 @@ CowlIRI* cowl_entity_get_iri(CowlEntity *entity) {
         case COWL_ET_ANNOT_PROP: GEN_IRI(AnnotProp, annot_prop);
         default: return NULL;
     }
-}
-
-CowlString* cowl_entity_to_string(CowlEntity *entity)
-    COWL_TO_STRING_IMPL(entity, entity)
-
-bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) {
-    return lhs == rhs;
-}
-
-ulib_uint cowl_entity_hash(CowlEntity *entity) {
-    return uhash_ptr_hash(entity);
-}
-
-bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlPrimitiveFlags flags,
-                                    CowlIterator *iter) {
-    return cowl_object_iterate_primitives((CowlObject *)entity, flags, iter);
 }

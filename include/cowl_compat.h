@@ -69,6 +69,9 @@
     #endif
 #endif
 
+/// Marks inline function definitions.
+#define COWL_INLINE static inline
+
 /// Suppresses unused variable warnings.
 #ifndef cowl_unused
     #if (defined __clang__ && __clang_major__ >= 3) || (defined __GNUC__ && __GNUC__ >= 3)

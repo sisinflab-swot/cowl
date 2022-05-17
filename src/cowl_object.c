@@ -11,17 +11,17 @@
 #include "cowl_object_private.h"
 #include "cowl_private.h"
 
-CowlObject* cowl_object_retain(CowlObject *object) {
+void* cowl_retain(void *object) {
     return cowl_object_incr_ref(object);
 }
 
-void cowl_object_release(CowlObject *object) {
+void cowl_release(void *object) {
     if (!object) return;
 
     #define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)object); break
     #define GEN_RELEASE_AXIOM(UC, LC) cowl_##LC##_axiom_release((Cowl##UC##Axiom *)object); break
 
-    switch (cowl_object_get_type(object)) {
+    switch (cowl_get_type(object)) {
         case COWL_OT_STRING: GEN_RELEASE(String, string);
         case COWL_OT_VECTOR: GEN_RELEASE(Vector, vector);
         case COWL_OT_SET: GEN_RELEASE(Set, set);
@@ -103,55 +103,55 @@ void cowl_object_release(CowlObject *object) {
     }
 }
 
-CowlObjectType cowl_object_get_type(CowlObject *object) {
-    return cowl_object_flags_get_type(object->flags);
+CowlObjectType cowl_get_type(void *object) {
+    return cowl_object_flags_get_type(((CowlObject *)object)->flags);
 }
 
-bool cowl_object_is_entity(CowlObject *object) {
-    CowlObjectType type = cowl_object_get_type(object);
+bool cowl_is_entity(void *object) {
+    CowlObjectType type = cowl_get_type(object);
     return (type == COWL_OT_CE_CLASS || type == COWL_OT_DR_DATATYPE ||
             type == COWL_OT_OPE_OBJ_PROP || type == COWL_OT_DPE_DATA_PROP ||
             type == COWL_OT_ANNOT_PROP || type == COWL_OT_I_NAMED);
 }
 
-bool cowl_object_is_axiom(CowlObject *object) {
-    CowlObjectType type = cowl_object_get_type(object);
+bool cowl_is_axiom(void *object) {
+    CowlObjectType type = cowl_get_type(object);
     return type >= COWL_OT_FIRST_A && type <= COWL_OT_LAST_A;
 }
 
-bool cowl_object_is_cls_exp(CowlObject *object) {
-    CowlObjectType type = cowl_object_get_type(object);
+bool cowl_is_cls_exp(void *object) {
+    CowlObjectType type = cowl_get_type(object);
     return type >= COWL_OT_FIRST_CE && type <= COWL_OT_LAST_CE;
 }
 
-bool cowl_object_is_obj_prop_exp(CowlObject *object) {
-    CowlObjectType type = cowl_object_get_type(object);
+bool cowl_is_obj_prop_exp(void *object) {
+    CowlObjectType type = cowl_get_type(object);
     return type >= COWL_OT_FIRST_OPE && type <= COWL_OT_LAST_OPE;
 }
 
-bool cowl_object_is_data_prop_exp(CowlObject *object) {
-    return cowl_object_get_type(object) == COWL_OT_DPE_DATA_PROP;
+bool cowl_is_data_prop_exp(void *object) {
+    return cowl_get_type(object) == COWL_OT_DPE_DATA_PROP;
 }
 
-bool cowl_object_is_individual(CowlObject *object) {
-    CowlObjectType type = cowl_object_get_type(object);
+bool cowl_is_individual(void *object) {
+    CowlObjectType type = cowl_get_type(object);
     return type >= COWL_OT_FIRST_I && type <= COWL_OT_LAST_I;
 }
 
-bool cowl_object_is_data_range(CowlObject *object) {
-    CowlObjectType type = cowl_object_get_type(object);
+bool cowl_is_data_range(void *object) {
+    CowlObjectType type = cowl_get_type(object);
     return type >= COWL_OT_FIRST_DR && type <= COWL_OT_LAST_DR;
 }
 
-CowlString* cowl_object_to_string(CowlObject *object)
+CowlString* cowl_to_string(void *object)
     COWL_TO_STRING_IMPL(object, object)
 
-CowlString* cowl_object_to_debug_string(CowlObject *object)
+CowlString* cowl_to_debug_string(void *object)
     COWL_TO_STRING_IMPL(object_debug, object)
 
-bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs) {
-    CowlObjectType type = cowl_object_get_type(lhs);
-    if (type != cowl_object_get_type(rhs)) return false;
+bool cowl_equals(void *lhs, void *rhs) {
+    CowlObjectType type = cowl_get_type(lhs);
+    if (type != cowl_get_type(rhs)) return false;
 
     #define GEN_EQUALS(UC, LC) \
         return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
@@ -239,11 +239,11 @@ bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs) {
     }
 }
 
-ulib_uint cowl_object_hash(CowlObject *object) {
+ulib_uint cowl_hash(void *object) {
     #define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)object)
     #define GEN_HASH_AXIOM(UC, LC) return cowl_##LC##_axiom_hash((Cowl##UC##Axiom *)object)
 
-    switch (cowl_object_get_type(object)) {
+    switch (cowl_get_type(object)) {
         case COWL_OT_STRING: GEN_HASH(String, string);
         case COWL_OT_VECTOR: GEN_HASH(Vector, vector);
         case COWL_OT_SET: GEN_HASH(Set, set);
@@ -324,14 +324,13 @@ ulib_uint cowl_object_hash(CowlObject *object) {
     }
 }
 
-bool cowl_object_iterate_primitives(CowlObject *object, CowlPrimitiveFlags flags,
-                                    CowlIterator *iter) {
+bool cowl_iterate_primitives(void *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
     #define GEN_ITER(UC, LC) \
         return cowl_##LC##_iterate_primitives((Cowl##UC *)object, flags, iter)
     #define GEN_ITER_AXIOM(UC, LC) \
         return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, flags, iter)
 
-    switch (cowl_object_get_type(object)) {
+    switch (cowl_get_type(object)) {
         case COWL_OT_VECTOR: GEN_ITER(Vector, vector);
         case COWL_OT_SET: GEN_ITER(Set, set);
         case COWL_OT_LITERAL: GEN_ITER(Literal, literal);

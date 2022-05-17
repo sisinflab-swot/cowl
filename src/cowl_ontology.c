@@ -483,7 +483,7 @@ cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlOntology *import) {
 }
 
 cowl_ret cowl_ontology_add_primitive(CowlOntology *onto, CowlObject *obj) {
-    switch (cowl_object_get_type(obj)) {
+    switch (cowl_get_type(obj)) {
         case COWL_OT_CE_CLASS: return cowl_ontology_add_primitive_to_map(obj, &onto->class_refs);
         case COWL_OT_DPE_DATA_PROP: return cowl_ontology_add_primitive_to_map(obj, &onto->data_prop_refs);
         case COWL_OT_DR_DATATYPE: return cowl_ontology_add_primitive_to_map(obj, &onto->datatype_refs);
@@ -510,7 +510,7 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
 
 cowl_ret cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *axiom,
                                                CowlObject *obj) {
-    switch (cowl_object_get_type(obj)) {
+    switch (cowl_get_type(obj)) {
 
         case COWL_OT_CE_CLASS:
             return cowl_ontology_add_axiom_to_map(obj, axiom, &onto->class_refs);

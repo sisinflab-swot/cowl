@@ -31,7 +31,7 @@ COWL_BEGIN_DECLS
     cowl_iri_unvalidated_get((NS_STR), cowl_string_vocab_get(REM_CSTR))
 
 #define cowl_iri_vocab_free(IRI) do {                                                               \
-    cowl_string_vocab_free((IRI)->rem);                                                             \
+    cowl_string_vocab_free(cowl_iri_get_rem(IRI));                                                  \
     ulib_free(IRI);                                                                                 \
 } while(0)
 

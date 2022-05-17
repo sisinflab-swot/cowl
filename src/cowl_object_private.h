@@ -38,8 +38,6 @@ typedef struct CowlObject {
     (((CowlObject *)(RHS))->flags & COWL_OBJECT_FLAGS_BIT_TYPE_MASK)                                \
 )
 
-#define cowl_get_type(object) cowl_object_get_type((CowlObject *)(object))
-
 COWL_END_DECLS
 
 #endif // COWL_OBJECT_PRIVATE_H

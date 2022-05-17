@@ -12,12 +12,12 @@
 #define COWL_DATATYPE_RESTR_PRIVATE_H
 
 #include "cowl_datatype_restr.h"
-#include "cowl_data_range_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlDatatypeRestr {
-    CowlDataRange super;
+    CowlObject super;
     CowlDatatype *datatype;
     CowlVector *restrictions;
 };

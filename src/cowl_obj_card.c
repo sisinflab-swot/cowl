@@ -9,18 +9,19 @@
  */
 
 #include "cowl_obj_card_private.h"
-#include "cowl_obj_prop_exp.h"
+#include "cowl_cls_exp.h"
 #include "cowl_hash_utils.h"
 #include "cowl_macros.h"
+#include "cowl_obj_prop_exp.h"
 #include "cowl_template.h"
 
-static CowlObjCard* cowl_obj_card_alloc(CowlClsExpType type, CowlObjPropExp *prop,
+static CowlObjCard* cowl_obj_card_alloc(CowlObjectType type, CowlObjPropExp *prop,
                                         CowlClsExp *filler, ulib_uint cardinality) {
     CowlObjCard *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
     *restr = (CowlObjCard) {
-        .super = COWL_CLS_EXP_INIT(type),
+        .super = COWL_OBJECT_INIT(type),
         .prop = cowl_obj_prop_exp_retain(prop),
         .filler = filler ? cowl_cls_exp_retain(filler) : NULL,
         .cardinality = cardinality
@@ -38,7 +39,7 @@ static void cowl_obj_card_free(CowlObjCard *restr) {
 CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
                                CowlClsExp *filler, ulib_uint cardinality) {
     if (!(prop && cowl_enum_value_is_valid(CT, type))) return NULL;
-    return cowl_obj_card_alloc(COWL_CET_OBJ_MIN_CARD + type, prop, filler, cardinality);
+    return cowl_obj_card_alloc(COWL_OT_CE_OBJ_MIN_CARD + type, prop, filler, cardinality);
 }
 
 CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr) {

@@ -15,13 +15,13 @@
 #include "cowl_macros.h"
 #include "cowl_template.h"
 
-static CowlDataQuant* cowl_data_quant_alloc(CowlClsExpType type, CowlDataPropExp *prop,
+static CowlDataQuant* cowl_data_quant_alloc(CowlObjectType type, CowlDataPropExp *prop,
                                             CowlDataRange *range) {
     CowlDataQuant *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
     *restr = (CowlDataQuant) {
-        .super = COWL_CLS_EXP_INIT(type),
+        .super = COWL_OBJECT_INIT(type),
         .prop = cowl_data_prop_exp_retain(prop),
         .range = cowl_data_range_retain(range)
     };
@@ -38,7 +38,7 @@ static void cowl_data_quant_free(CowlDataQuant *restr) {
 CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,
                                    CowlDataRange *range) {
     if (!(prop && range && cowl_enum_value_is_valid(QT, type))) return NULL;
-    return cowl_data_quant_alloc(COWL_CET_DATA_SOME + type, prop, range);
+    return cowl_data_quant_alloc(COWL_OT_CE_DATA_SOME + type, prop, range);
 }
 
 CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) {

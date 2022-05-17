@@ -39,7 +39,7 @@ static CowlClass* cowl_class_alloc(CowlIRI *iri) {
     if (!cls) return NULL;
 
     (*cls) = (CowlClass) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_CLASS),
+        .super = COWL_OBJECT_INIT(COWL_OT_CE_CLASS),
         .iri = cowl_iri_retain(iri)
     };
 

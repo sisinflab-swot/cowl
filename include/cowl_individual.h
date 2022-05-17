@@ -13,8 +13,7 @@
 #ifndef COWL_INDIVIDUAL_H
 #define COWL_INDIVIDUAL_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -38,8 +37,8 @@ cowl_struct_decl(CowlIndividual);
  *
  * @public @memberof CowlIndividual
  */
-COWL_PUBLIC
-CowlIndividual* cowl_individual_retain(CowlIndividual *ind);
+COWL_INLINE
+CowlIndividual* cowl_individual_retain(CowlIndividual *ind) { return cowl_retain(ind); }
 
 /**
  * Releases the specified individual.
@@ -47,8 +46,8 @@ CowlIndividual* cowl_individual_retain(CowlIndividual *ind);
  *
  * @public @memberof CowlIndividual
  */
-COWL_PUBLIC
-void cowl_individual_release(CowlIndividual *ind);
+COWL_INLINE
+void cowl_individual_release(CowlIndividual *ind) { cowl_release(ind); }
 
 /**
  * Returns true if the underlying individual is named.
@@ -58,8 +57,10 @@ void cowl_individual_release(CowlIndividual *ind);
  *
  * @public @memberof CowlIndividual
  */
-COWL_PUBLIC
-bool cowl_individual_is_named(CowlIndividual *ind);
+COWL_INLINE
+bool cowl_individual_is_named(CowlIndividual *ind) {
+    return cowl_get_type(ind) == COWL_OT_I_NAMED;
+}
 
 /**
  * Returns the string representation of the specified individual.
@@ -71,8 +72,8 @@ bool cowl_individual_is_named(CowlIndividual *ind);
  *
  * @public @memberof CowlIndividual
  */
-COWL_PUBLIC
-CowlString* cowl_individual_to_string(CowlIndividual *ind);
+COWL_INLINE
+CowlString* cowl_individual_to_string(CowlIndividual *ind) { return cowl_to_string(ind); }
 
 /**
  * Equality function.
@@ -83,8 +84,8 @@ CowlString* cowl_individual_to_string(CowlIndividual *ind);
  *
  * @public @memberof CowlIndividual
  */
-COWL_PUBLIC
-bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs);
+COWL_INLINE
+bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -94,8 +95,8 @@ bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs);
  *
  * @public @memberof CowlIndividual
  */
-COWL_PUBLIC
-ulib_uint cowl_individual_hash(CowlIndividual *ind);
+COWL_INLINE
+ulib_uint cowl_individual_hash(CowlIndividual *ind) { return uhash_ptr_hash(ind); }
 
 /**
  * Iterates over this individual.
@@ -107,9 +108,11 @@ ulib_uint cowl_individual_hash(CowlIndividual *ind);
  *
  * @public @memberof CowlIndividual
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_iterate_primitives(ind, flags, iter);
+}
 
 COWL_END_DECLS
 

@@ -9,6 +9,7 @@
  */
 
 #include "cowl_obj_compl_private.h"
+#include "cowl_cls_exp.h"
 #include "cowl_hash_utils.h"
 #include "cowl_template.h"
 
@@ -17,7 +18,7 @@ static CowlObjCompl* cowl_obj_compl_alloc(CowlClsExp *operand) {
     if (!exp) return NULL;
 
     *exp = (CowlObjCompl) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_COMPL),
+        .super = COWL_OBJECT_INIT(COWL_OT_CE_OBJ_COMPL),
         .operand = cowl_cls_exp_retain(operand)
     };
 

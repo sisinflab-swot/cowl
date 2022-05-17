@@ -38,7 +38,7 @@ cowl_struct_decl(CowlObject);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlObject* cowl_object_retain(CowlObject *object);
+void* cowl_retain(void *object);
 
 /**
  * Releases the specified object.
@@ -48,7 +48,7 @@ CowlObject* cowl_object_retain(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-void cowl_object_release(CowlObject *object);
+void cowl_release(void *object);
 
 /**
  * Gets the type of the specified object.
@@ -59,7 +59,7 @@ void cowl_object_release(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlObjectType cowl_object_get_type(CowlObject *object);
+CowlObjectType cowl_get_type(void *object);
 
 /**
  * Checks whether the specified object is an entity.
@@ -70,7 +70,7 @@ CowlObjectType cowl_object_get_type(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_is_entity(CowlObject *object);
+bool cowl_is_entity(void *object);
 
 /**
  * Checks whether the specified object is an axiom.
@@ -81,7 +81,7 @@ bool cowl_object_is_entity(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_is_axiom(CowlObject *object);
+bool cowl_is_axiom(void *object);
 
 /**
  * Checks whether the specified object is a class expression.
@@ -92,7 +92,7 @@ bool cowl_object_is_axiom(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_is_cls_exp(CowlObject *object);
+bool cowl_is_cls_exp(void *object);
 
 /**
  * Checks whether the specified object is an object property expression.
@@ -103,7 +103,7 @@ bool cowl_object_is_cls_exp(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_is_obj_prop_exp(CowlObject *object);
+bool cowl_is_obj_prop_exp(void *object);
 
 /**
  * Checks whether the specified object is a data property expression.
@@ -114,7 +114,7 @@ bool cowl_object_is_obj_prop_exp(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_is_data_prop_exp(CowlObject *object);
+bool cowl_is_data_prop_exp(void *object);
 
 /**
  * Checks whether the specified object is an individual.
@@ -125,7 +125,7 @@ bool cowl_object_is_data_prop_exp(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_is_individual(CowlObject *object);
+bool cowl_is_individual(void *object);
 
 /**
  * Checks whether the specified object is a data range.
@@ -136,7 +136,7 @@ bool cowl_object_is_individual(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_is_data_range(CowlObject *object);
+bool cowl_is_data_range(void *object);
 
 /**
  * Returns the string representation of the specified object.
@@ -149,7 +149,7 @@ bool cowl_object_is_data_range(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlString* cowl_object_to_string(CowlObject *object);
+CowlString* cowl_to_string(void *object);
 
 /**
  * Returns a debug string representation of the specified object.
@@ -165,7 +165,7 @@ CowlString* cowl_object_to_string(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlString* cowl_object_to_debug_string(CowlObject *object);
+CowlString* cowl_to_debug_string(void *object);
 
 /**
  * Equality function.
@@ -177,7 +177,7 @@ CowlString* cowl_object_to_debug_string(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs);
+bool cowl_equals(void *lhs, void *rhs);
 
 /**
  * Hash function.
@@ -188,7 +188,7 @@ bool cowl_object_equals(CowlObject *lhs, CowlObject *rhs);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-ulib_uint cowl_object_hash(CowlObject *object);
+ulib_uint cowl_hash(void *object);
 
 /**
  * Iterates over the primitives referenced by the specified object.
@@ -201,8 +201,7 @@ ulib_uint cowl_object_hash(CowlObject *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_object_iterate_primitives(CowlObject *object, CowlPrimitiveFlags flags,
-                                    CowlIterator *iter);
+bool cowl_iterate_primitives(void *object, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

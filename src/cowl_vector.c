@@ -11,7 +11,7 @@
 #include "cowl_vector_private.h"
 #include "cowl_hash_utils.h"
 
-UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_object_equals)
+UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
 static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data) {
     CowlVector *vec = ulib_alloc(vec);
@@ -23,14 +23,14 @@ static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data) {
     };
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {
-        cowl_object_retain(*obj.item);
+        cowl_retain(*obj.item);
     }
 
     return vec;
 }
 
 static void cowl_vector_free(CowlVector *vec) {
-    uvec_foreach(CowlObjectPtr, &vec->data, obj) { cowl_object_release(*obj.item); }
+    uvec_foreach(CowlObjectPtr, &vec->data, obj) { cowl_release(*obj.item); }
     uvec_deinit(CowlObjectPtr, &vec->data);
     ulib_free(vec);
 }
@@ -70,7 +70,7 @@ ulib_uint cowl_vector_hash(CowlVector *vec) {
     ulib_uint hash = 0;
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {
-        hash = cowl_hash_1(hash, cowl_object_hash(*obj.item));
+        hash = cowl_hash_1(hash, cowl_hash(*obj.item));
     }
 
     return hash;
@@ -80,7 +80,7 @@ ulib_uint cowl_vector_hash_no_order(CowlVector *vec) {
     ulib_uint hash = 0;
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {
-        hash ^= cowl_object_hash(*obj.item);
+        hash ^= cowl_hash(*obj.item);
     }
 
     return hash;
@@ -90,13 +90,13 @@ bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, C
     if (!vec) return true;
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {
-        if (!cowl_object_iterate_primitives(*obj.item, flags, iter)) return false;
+        if (!cowl_iterate_primitives(*obj.item, flags, iter)) return false;
     }
 
     return true;
 }
 
 void cowl_object_vec_deinit(UVec(CowlObjectPtr) *vec) {
-    uvec_foreach(CowlObjectPtr, vec, obj) { cowl_object_release(*obj.item); }
+    uvec_foreach(CowlObjectPtr, vec, obj) { cowl_release(*obj.item); }
     uvec_deinit(CowlObjectPtr, (UVec(CowlObjectPtr) * )vec);
 }

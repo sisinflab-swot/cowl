@@ -10,7 +10,6 @@
 
 #include "cowl_data_one_of_private.h"
 #include "cowl_hash_utils.h"
-#include "cowl_literal.h"
 #include "cowl_template.h"
 #include "cowl_vector.h"
 
@@ -19,7 +18,7 @@ static CowlDataOneOf* cowl_data_one_of_alloc(CowlVector *values) {
     if (!range) return NULL;
 
     *range = (CowlDataOneOf) {
-        .super = COWL_DATA_RANGE_INIT(COWL_DRT_DATA_ONE_OF),
+        .super = COWL_OBJECT_INIT(COWL_OT_DR_DATA_ONE_OF),
         .values = cowl_vector_retain(values)
     };
 

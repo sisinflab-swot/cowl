@@ -12,12 +12,12 @@
 #define COWL_OBJ_COMPL_PRIVATE_H
 
 #include "cowl_obj_compl.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlObjCompl {
-    CowlClsExp super;
+    CowlObject super;
     CowlClsExp *operand;
 };
 

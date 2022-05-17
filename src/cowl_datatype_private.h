@@ -12,12 +12,12 @@
 #define COWL_DATATYPE_PRIVATE_H
 
 #include "cowl_datatype.h"
-#include "cowl_data_range_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlDatatype {
-    CowlDataRange super;
+    CowlObject super;
     CowlIRI *iri;
 };
 

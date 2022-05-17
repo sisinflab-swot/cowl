@@ -19,8 +19,8 @@
 #include "cowl_object.h"
 #include "cowl_string.h"
 
-static ulib_uint cowl_object_table_hash(void *k) { return cowl_object_hash(k); }
-static bool cowl_object_table_equals(void *a, void *b) { return cowl_object_equals(a, b); }
+static ulib_uint cowl_object_table_hash(void *k) { return cowl_hash(k); }
+static bool cowl_object_table_equals(void *a, void *b) { return cowl_equals(a, b); }
 UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
 
 #define HASH_GEN(T, TYPE)                                                                           \
@@ -49,14 +49,14 @@ static CowlSet* cowl_set_alloc(UHash(CowlObjectTable) *data) {
     };
 
     uhash_foreach(CowlObjectTable, &set->data, obj) {
-        cowl_object_retain(*obj.key);
+        cowl_retain(*obj.key);
     }
 
     return set;
 }
 
 static void cowl_set_free(CowlSet *set) {
-    uhash_foreach(CowlObjectTable, &set->data, obj) { cowl_object_release(*obj.key); }
+    uhash_foreach(CowlObjectTable, &set->data, obj) { cowl_release(*obj.key); }
     uhash_deinit(CowlObjectTable, &set->data);
     ulib_free(set);
 }
@@ -89,7 +89,7 @@ ulib_uint cowl_set_hash(CowlSet *set) {
 
 bool cowl_set_iterate_primitives(CowlSet *set, CowlPrimitiveFlags flags, CowlIterator *iter) {
     uhash_foreach(CowlObjectTable, &set->data, obj) {
-        if (!cowl_object_iterate_primitives(*obj.key, flags, iter)) return false;
+        if (!cowl_iterate_primitives(*obj.key, flags, iter)) return false;
     }
     return true;
 }

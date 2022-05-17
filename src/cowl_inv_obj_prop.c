@@ -18,7 +18,7 @@ static CowlInvObjProp* cowl_inv_obj_prop_alloc(CowlObjProp *prop) {
     if (!inv) return NULL;
 
     *inv = (CowlInvObjProp) {
-        .super = COWL_OBJ_PROP_EXP_INIT(true),
+        .super = COWL_OBJECT_INIT(COWL_OT_OPE_INV_OBJ_PROP),
         .prop = cowl_obj_prop_retain(prop)
     };
 

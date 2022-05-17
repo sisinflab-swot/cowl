@@ -14,15 +14,12 @@
 #define COWL_PRIMITIVE_H
 
 #include "cowl_primitive_type.h"
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlPrimitive);
-cowl_struct_decl(CowlString);
 /// @endcond
 
 /**
@@ -39,8 +36,8 @@ cowl_struct_decl(CowlString);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
-CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive);
+COWL_INLINE
+CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) { return cowl_retain(primitive); }
 
 /**
  * Releases the primitive.
@@ -49,8 +46,8 @@ CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
-void cowl_primitive_release(CowlPrimitive *primitive);
+COWL_INLINE
+void cowl_primitive_release(CowlPrimitive *primitive) { cowl_release(primitive); }
 
 /**
  * Gets the type of the primitive.
@@ -84,8 +81,8 @@ bool cowl_primitive_is_entity(CowlPrimitive *primitive);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
-CowlString* cowl_primitive_to_string(CowlPrimitive *primitive);
+COWL_INLINE
+CowlString* cowl_primitive_to_string(CowlPrimitive *primitive) { return cowl_to_string(primitive); }
 
 /**
  * Equality function.
@@ -96,8 +93,8 @@ CowlString* cowl_primitive_to_string(CowlPrimitive *primitive);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
-bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs);
+COWL_INLINE
+bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -107,8 +104,8 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
-ulib_uint cowl_primitive_hash(CowlPrimitive *primitive);
+COWL_INLINE
+ulib_uint cowl_primitive_hash(CowlPrimitive *primitive) { return uhash_ptr_hash(primitive); }
 
 /**
  * Iterates over this primitive.
@@ -120,9 +117,11 @@ ulib_uint cowl_primitive_hash(CowlPrimitive *primitive);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter);
+                                       CowlIterator *iter) {
+    return cowl_iterate_primitives(primitive, flags, iter);
+}
 
 COWL_END_DECLS
 

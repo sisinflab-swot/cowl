@@ -14,8 +14,7 @@
 #define COWL_AXIOM_H
 
 #include "cowl_axiom_type.h"
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -39,8 +38,8 @@ cowl_struct_decl(CowlAxiom);
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
-CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom);
+COWL_INLINE
+CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) { return cowl_retain(axiom); }
 
 /**
  * Releases the specified axiom.
@@ -49,8 +48,8 @@ CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom);
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
-void cowl_axiom_release(CowlAxiom *axiom);
+COWL_INLINE
+void cowl_axiom_release(CowlAxiom *axiom) { cowl_release(axiom); }
 
 /**
  * Gets the type of the specified axiom.
@@ -60,8 +59,10 @@ void cowl_axiom_release(CowlAxiom *axiom);
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
-CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom);
+COWL_INLINE
+CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
+    return (CowlAxiomType)(cowl_get_type(axiom) - COWL_OT_A_DECL);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -73,8 +74,8 @@ CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom);
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_axiom_to_string(CowlAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_axiom_to_string(CowlAxiom *axiom) { return cowl_to_string(axiom); }
 
 /**
  * Equality function.
@@ -85,8 +86,8 @@ CowlString* cowl_axiom_to_string(CowlAxiom *axiom);
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
-bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs);
+COWL_INLINE
+bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) { return cowl_equals(lhs, rhs); }
 
 /**
  * Hash function.
@@ -96,8 +97,8 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs);
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_axiom_hash(CowlAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_axiom_hash(CowlAxiom *axiom) { return cowl_hash(axiom); }
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -109,8 +110,10 @@ ulib_uint cowl_axiom_hash(CowlAxiom *axiom);
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
-bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlPrimitiveFlags flags, CowlIterator *iter);
+COWL_INLINE
+bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

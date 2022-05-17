@@ -12,12 +12,12 @@
 #define COWL_NARY_BOOL_PRIVATE_H
 
 #include "cowl_nary_bool.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlNAryBool {
-    CowlClsExp super;
+    CowlObject super;
     CowlVector *operands;
 };
 

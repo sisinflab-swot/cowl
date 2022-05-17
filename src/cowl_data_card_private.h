@@ -12,12 +12,12 @@
 #define COWL_DATA_CARD_PRIVATE_H
 
 #include "cowl_data_card.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlDataCard {
-    CowlClsExp super;
+    CowlObject super;
     ulib_uint cardinality;
     CowlDataPropExp *prop;
     CowlDataRange *range;

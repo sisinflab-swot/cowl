@@ -18,7 +18,7 @@ static CowlObjOneOf* cowl_obj_one_of_alloc(CowlVector *inds) {
     if (!exp) return NULL;
 
     *exp = (CowlObjOneOf) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_OBJ_ONE_OF),
+        .super = COWL_OBJECT_INIT(COWL_OT_CE_OBJ_ONE_OF),
         .inds = cowl_vector_retain(inds)
     };
 

@@ -15,13 +15,13 @@
 #include "cowl_macros.h"
 #include "cowl_template.h"
 
-static CowlDataCard* cowl_data_card_alloc(CowlClsExpType type, CowlDataPropExp *prop,
+static CowlDataCard* cowl_data_card_alloc(CowlObjectType type, CowlDataPropExp *prop,
                                           CowlDataRange *range, ulib_uint cardinality) {
     CowlDataCard *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
     *restr = (CowlDataCard) {
-        .super = COWL_CLS_EXP_INIT(type),
+        .super = COWL_OBJECT_INIT(type),
         .prop = cowl_data_prop_exp_retain(prop),
         .range = range ? cowl_data_range_retain(range) : NULL,
         .cardinality = cardinality
@@ -39,7 +39,7 @@ static void cowl_data_card_free(CowlDataCard *restr) {
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
                                  CowlDataRange *range, ulib_uint cardinality) {
     if (!(prop && cowl_enum_value_is_valid(CT, type))) return NULL;
-    return cowl_data_card_alloc(COWL_CET_DATA_MIN_CARD + type, prop, range, cardinality);
+    return cowl_data_card_alloc(COWL_OT_CE_DATA_MIN_CARD + type, prop, range, cardinality);
 }
 
 CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) {

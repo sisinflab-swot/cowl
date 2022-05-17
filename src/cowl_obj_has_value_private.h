@@ -12,12 +12,12 @@
 #define COWL_OBJ_HAS_VALUE_PRIVATE_H
 
 #include "cowl_obj_has_value.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlObjHasValue {
-    CowlClsExp super;
+    CowlObject super;
     CowlObjPropExp *prop;
     CowlIndividual *ind;
 };

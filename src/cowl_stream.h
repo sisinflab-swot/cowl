@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 
 #define cowl_stream_write_static(stream, literal) uostream_write_literal(stream, literal, NULL)
 
-ustream_ret cowl_stream_write_object(UOStream *s, CowlObject *obj);
+ustream_ret cowl_stream_write_object(UOStream *s, void *obj);
 ustream_ret cowl_stream_write_object_debug(UOStream *s, CowlObject *obj);
 ustream_ret cowl_stream_write_string(UOStream *stream, CowlString *string);
 ustream_ret cowl_stream_write_ustring(UOStream *stream, UString string);

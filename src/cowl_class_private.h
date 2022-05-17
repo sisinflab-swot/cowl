@@ -12,12 +12,12 @@
 #define COWL_CLASS_PRIVATE_H
 
 #include "cowl_class.h"
-#include "cowl_cls_exp_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlClass {
-    CowlClsExp super;
+    CowlObject super;
     CowlIRI *iri;
 };
 

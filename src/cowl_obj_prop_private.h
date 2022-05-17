@@ -12,12 +12,12 @@
 #define COWL_OBJ_PROP_PRIVATE_H
 
 #include "cowl_obj_prop.h"
-#include "cowl_obj_prop_exp_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlObjProp {
-    CowlObjPropExp super;
+    CowlObject super;
     CowlIRI *iri;
 };
 

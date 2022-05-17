@@ -12,12 +12,12 @@
 #define COWL_DATA_ONE_OF_PRIVATE_H
 
 #include "cowl_data_one_of.h"
-#include "cowl_data_range_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlDataOneOf {
-    CowlDataRange super;
+    CowlObject super;
     CowlVector *values;
 };
 

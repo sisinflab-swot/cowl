@@ -14,11 +14,7 @@
 static CowlAnonInd* cowl_anon_ind_alloc(void) {
     CowlAnonInd *ind = ulib_alloc(ind);
     if (!ind) return NULL;
-
-    (*ind) = (CowlAnonInd) {
-        .super = COWL_INDIVIDUAL_INIT(false)
-    };
-
+    (*ind) = (CowlAnonInd) { .super = COWL_OBJECT_INIT(COWL_OT_I_ANONYMOUS) };
     return ind;
 }
 

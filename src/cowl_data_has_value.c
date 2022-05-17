@@ -19,7 +19,7 @@ static CowlDataHasValue* cowl_data_has_value_alloc(CowlDataPropExp *prop, CowlLi
     if (!restr) return NULL;
 
     *restr = (CowlDataHasValue) {
-        .super = COWL_CLS_EXP_INIT(COWL_CET_DATA_HAS_VALUE),
+        .super = COWL_OBJECT_INIT(COWL_OT_CE_DATA_HAS_VALUE),
         .prop = cowl_data_prop_exp_retain(prop),
         .value = cowl_literal_retain(value)
     };

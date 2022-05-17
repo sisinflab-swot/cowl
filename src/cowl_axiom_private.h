@@ -19,13 +19,9 @@
 
 COWL_BEGIN_DECLS
 
-struct CowlAxiom {
-    CowlObject super;
-};
-
 #define cowl_axiom_struct(T, FIELDS)                                                                \
     struct T {                                                                                      \
-        CowlAxiom super;                                                                            \
+        CowlObject super;                                                                           \
         FIELDS                                                                                      \
         CowlVector *annot[];                                                                        \
     }
@@ -38,9 +34,7 @@ struct CowlAxiom {
     if (ANNOT) (AXIOM)->annot[0] = cowl_vector_retain(ANNOT);                                       \
 } while(0)
 
-#define COWL_AXIOM_INIT(T, A) {                                                                     \
-    .super = COWL_OBJECT_BIT_INIT((CowlObjectType)(T) + COWL_OT_A_DECL, A)                          \
-}
+#define COWL_AXIOM_INIT(T, A) COWL_OBJECT_BIT_INIT(COWL_OT_A_DECL + (T), A)
 
 #define cowl_axiom_free(AXIOM) do {                                                                 \
     if (cowl_axiom_has_annot(AXIOM)) cowl_vector_release((AXIOM)->annot[0]);                        \

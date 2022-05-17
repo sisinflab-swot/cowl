@@ -12,12 +12,12 @@
 #define COWL_NAMED_IND_PRIVATE_H
 
 #include "cowl_named_ind.h"
-#include "cowl_individual_private.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 struct CowlNamedInd {
-    CowlIndividual super;
+    CowlObject super;
     CowlIRI *iri;
 };
 

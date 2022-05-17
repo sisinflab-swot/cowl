@@ -14,12 +14,12 @@
 #include "cowl_template.h"
 #include "cowl_vector.h"
 
-static CowlNAryData* cowl_nary_data_alloc(CowlDataRangeType type, CowlVector *operands) {
+static CowlNAryData* cowl_nary_data_alloc(CowlObjectType type, CowlVector *operands) {
     CowlNAryData *range = ulib_alloc(range);
     if (!range) return NULL;
 
     *range = (CowlNAryData) {
-        .super = COWL_DATA_RANGE_INIT(type),
+        .super = COWL_OBJECT_INIT(type),
         .operands = cowl_vector_retain(operands)
     };
 
@@ -33,7 +33,7 @@ static void cowl_nary_data_free(CowlNAryData *range) {
 
 CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlVector *operands) {
     if (!(operands && cowl_enum_value_is_valid(NT, type))) return NULL;
-    return cowl_nary_data_alloc((CowlDataRangeType)type + COWL_DRT_DATA_INTERSECT, operands);
+    return cowl_nary_data_alloc(COWL_OT_DR_DATA_INTERSECT + type, operands);
 }
 
 CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) {
