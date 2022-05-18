@@ -33,6 +33,7 @@ cowl_struct_decl(CowlVector);
 
 /**
  * Returns a retained vector.
+ * The equality and hash functions of the vector do not account for the order of its elements.
  *
  * @param vec Underlying raw vector.
  * @return Retained vector, or NULL on error.
@@ -45,13 +46,37 @@ COWL_PUBLIC
 CowlVector* cowl_vector_get(UVec(CowlObjectPtr) *vec);
 
 /**
+ * Returns a retained vector.
+ * The equality and hash functions of the vector account for the order of its elements.
+ *
+ * @param vec Underlying raw vector.
+ * @return Retained vector, or NULL on error.
+ *
+ * @note You must not use the raw vector after passing it to this function.
+ *
+ * @public @memberof CowlVector
+ */
+COWL_PUBLIC
+CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec);
+
+/**
  * Returns a retained vector with no elements.
  *
  * @return [CowlVector*] Retained vector, or NULL on error.
  *
  * @public @related CowlVector
  */
-#define cowl_vector_get_empty() cowl_vector_get(NULL)
+#define cowl_vector_empty_get() cowl_vector_get(NULL)
+
+/**
+ * Returns a retained vector with no elements.
+ * The equality and hash functions of the vector account for the order of its elements.
+ *
+ * @return [CowlVector*] Retained vector, or NULL on error.
+ *
+ * @public @related CowlVector
+ */
+#define cowl_vector_ordered_empty_get() cowl_vector_ordered_get(NULL)
 
 /**
  * Retains the specified vector.
@@ -98,18 +123,6 @@ COWL_PUBLIC
 bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs);
 
 /**
- * Equality function that does not account for the order of elements.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlVector
- */
-COWL_PUBLIC
-bool cowl_vector_equals_no_order(CowlVector *lhs, CowlVector *rhs);
-
-/**
  * Hash function.
  *
  * @param vec The vector.
@@ -119,17 +132,6 @@ bool cowl_vector_equals_no_order(CowlVector *lhs, CowlVector *rhs);
  */
 COWL_PUBLIC
 ulib_uint cowl_vector_hash(CowlVector *vec);
-
-/**
- * Hash function that does not account for the order of elements.
- *
- * @param vec The vector.
- * @return The hash value.
- *
- * @public @memberof CowlVector
- */
-COWL_PUBLIC
-ulib_uint cowl_vector_hash_no_order(CowlVector *vec);
 
 /**
  * Iterates over the primitives referenced by the specified vector.

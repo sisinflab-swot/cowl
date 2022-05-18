@@ -67,13 +67,13 @@ CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom)
 bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
                                   cowl_class_equals(lhs->cls, rhs->cls) &&
-                                  cowl_vector_equals_no_order(lhs->disjoints, rhs->disjoints));
+                                  cowl_vector_equals(lhs->disjoints, rhs->disjoints));
 }
 
 ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
     return cowl_hash_2(COWL_HASH_INIT_DISJ_UNION_AXIOM,
                        cowl_class_hash(axiom->cls),
-                       cowl_vector_hash_no_order(axiom->disjoints));
+                       cowl_vector_hash(axiom->disjoints));
 }
 
 bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom, CowlPrimitiveFlags flags,

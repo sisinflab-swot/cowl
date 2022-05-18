@@ -13,12 +13,12 @@
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
-static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data) {
+static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
     CowlVector *vec = ulib_alloc(vec);
     if (!vec) return NULL;
 
     *vec = (CowlVector) {
-        .super = COWL_OBJECT_INIT(COWL_OT_VECTOR),
+        .super = COWL_OBJECT_BIT_INIT(COWL_OT_VECTOR, ordered),
         .data = data ? uvec_move(CowlObjectPtr, data) : uvec_init(CowlObjectPtr)
     };
 
@@ -36,7 +36,11 @@ static void cowl_vector_free(CowlVector *vec) {
 }
 
 CowlVector* cowl_vector_get(UVec(CowlObjectPtr) *vec) {
-    return cowl_vector_alloc(vec);
+    return cowl_vector_alloc(vec, false);
+}
+
+CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec) {
+    return cowl_vector_alloc(vec, true);
 }
 
 CowlVector* cowl_vector_retain(CowlVector *vec) {
@@ -53,11 +57,11 @@ UVec(CowlObjectPtr) const* cowl_vector_get_data(CowlVector *vec) {
     return &vec->data;
 }
 
-bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs) {
+static bool cowl_vector_equals_order(CowlVector *lhs, CowlVector *rhs) {
     return uvec_equals(CowlObjectPtr, &lhs->data, &rhs->data);
 }
 
-bool cowl_vector_equals_no_order(CowlVector *lhs, CowlVector *rhs) {
+static bool cowl_vector_equals_no_order(CowlVector *lhs, CowlVector *rhs) {
     if (lhs == rhs) return true;
     if (uvec_count(CowlObjectPtr, &lhs->data) != uvec_count(CowlObjectPtr, &rhs->data)) return false;
     uvec_foreach(CowlObjectPtr, &lhs->data, obj) {
@@ -66,7 +70,12 @@ bool cowl_vector_equals_no_order(CowlVector *lhs, CowlVector *rhs) {
     return true;
 }
 
-ulib_uint cowl_vector_hash(CowlVector *vec) {
+bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs) {
+    if (cowl_object_bit_get(lhs)) return cowl_vector_equals_order(lhs, rhs);
+    return cowl_vector_equals_no_order(lhs, rhs);
+}
+
+static ulib_uint cowl_vector_hash_order(CowlVector *vec) {
     ulib_uint hash = 0;
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {
@@ -76,7 +85,7 @@ ulib_uint cowl_vector_hash(CowlVector *vec) {
     return hash;
 }
 
-ulib_uint cowl_vector_hash_no_order(CowlVector *vec) {
+static ulib_uint cowl_vector_hash_no_order(CowlVector *vec) {
     ulib_uint hash = 0;
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {
@@ -84,6 +93,11 @@ ulib_uint cowl_vector_hash_no_order(CowlVector *vec) {
     }
 
     return hash;
+}
+
+ulib_uint cowl_vector_hash(CowlVector *vec) {
+    if (cowl_object_bit_get(vec)) return cowl_vector_hash_order(vec);
+    return cowl_vector_hash_no_order(vec);
 }
 
 bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter) {

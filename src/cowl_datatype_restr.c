@@ -63,13 +63,13 @@ CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr)
 
 bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {
     return cowl_datatype_equals(lhs->datatype, rhs->datatype) &&
-           cowl_vector_equals_no_order(lhs->restrictions, rhs->restrictions);
+           cowl_vector_equals(lhs->restrictions, rhs->restrictions);
 }
 
 ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
     return cowl_hash_2(COWL_HASH_INIT_DATA_RESTR,
                        cowl_datatype_hash(restr->datatype),
-                       cowl_vector_hash_no_order(restr->restrictions));
+                       cowl_vector_hash(restr->restrictions));
 }
 
 bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimitiveFlags flags,

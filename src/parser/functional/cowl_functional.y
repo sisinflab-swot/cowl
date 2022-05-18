@@ -480,7 +480,7 @@ datatype_restriction
 
 facet_restriction_list
     : facet_restriction {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(facet_restr, $$, $1);
     }
@@ -1133,7 +1133,7 @@ annotation_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = cowl_vector_get_empty();
+            $$ = cowl_vector_empty_get();
             if (!$$) COWL_ERROR_MEM;
         }
         COWL_VEC_PUSH(annotation, $$, $2);
@@ -1142,7 +1142,7 @@ annotation_star
 
 class_expression_list
     : class_expression {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(cls_exp, $$, $1);
     }
@@ -1161,7 +1161,7 @@ class_expression_2_list
 
 data_property_expression_list
     : data_property_expression {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(data_prop_exp, $$, $1);
     }
@@ -1186,7 +1186,7 @@ data_property_expression_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = cowl_vector_get_empty();
+            $$ = cowl_vector_empty_get();
             if (!$$) COWL_ERROR_MEM;
         }
         COWL_VEC_PUSH(data_prop_exp, $$, $2);
@@ -1195,7 +1195,7 @@ data_property_expression_star
 
 data_range_list
     : data_range {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(data_range, $$, $1);
     }
@@ -1214,7 +1214,7 @@ data_range_2_list
 
 individual_list
     : individual {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(individual, $$, $1);
     }
@@ -1233,7 +1233,7 @@ individual_2_list
 
 literal_list
     : literal {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(literal, $$, $1);
     }
@@ -1245,7 +1245,7 @@ literal_list
 
 object_property_expression_list
     : object_property_expression {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(obj_prop_exp, $$, $1);
     }
@@ -1264,7 +1264,7 @@ object_property_expression_2_list
 
 object_property_expression_ordered_2_list
     : object_property_expression object_property_expression {
-        $$ = cowl_vector_get_empty();
+        $$ = cowl_vector_ordered_empty_get();
         if (!$$) COWL_ERROR_MEM;
         COWL_VEC_PUSH(obj_prop_exp, $$, $1);
         COWL_VEC_PUSH(obj_prop_exp, $$, $2);
@@ -1283,7 +1283,7 @@ object_property_expression_star
         if ($1) {
             $$ = $1;
         } else {
-            $$ = cowl_vector_get_empty();
+            $$ = cowl_vector_empty_get();
             if (!$$) COWL_ERROR_MEM;
         }
         COWL_VEC_PUSH(obj_prop_exp, $$, $2);

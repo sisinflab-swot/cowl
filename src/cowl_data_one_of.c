@@ -53,11 +53,11 @@ CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range)
     COWL_TO_STRING_IMPL(data_one_of, range)
 
 bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {
-    return cowl_vector_equals_no_order(lhs->values, rhs->values);
+    return cowl_vector_equals(lhs->values, rhs->values);
 }
 
 ulib_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
-    return cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_vector_hash_no_order(range->values));
+    return cowl_hash_1(COWL_HASH_INIT_DATA_ONE_OF, cowl_vector_hash(range->values));
 }
 
 bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlPrimitiveFlags flags,

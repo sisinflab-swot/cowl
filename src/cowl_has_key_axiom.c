@@ -74,13 +74,13 @@ CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom)
 bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
     return cowl_axiom_equals_impl(lhs, rhs,
                                   cowl_cls_exp_equals(lhs->cls_exp, rhs->cls_exp) &&
-                                  cowl_vector_equals_no_order(lhs->obj_props, rhs->obj_props) &&
-                                  cowl_vector_equals_no_order(lhs->data_props, rhs->data_props));
+                                  cowl_vector_equals(lhs->obj_props, rhs->obj_props) &&
+                                  cowl_vector_equals(lhs->data_props, rhs->data_props));
 }
 
 ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
-    ulib_uint obj_props_hash = axiom->obj_props ? cowl_vector_hash_no_order(axiom->obj_props) : 0;
-    ulib_uint data_props_hash = axiom->data_props ? cowl_vector_hash_no_order(axiom->data_props) : 0;
+    ulib_uint obj_props_hash = axiom->obj_props ? cowl_vector_hash(axiom->obj_props) : 0;
+    ulib_uint data_props_hash = axiom->data_props ? cowl_vector_hash(axiom->data_props) : 0;
     return cowl_hash_3(COWL_HASH_INIT_HAS_KEY_AXIOM,
                        cowl_cls_exp_hash(axiom->cls_exp),
                        obj_props_hash, data_props_hash);

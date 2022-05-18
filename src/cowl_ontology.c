@@ -401,7 +401,7 @@ CowlOntology* cowl_ontology_alloc(void) {
     if (onto) {
         *onto = (CowlOntology) {
             .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY),
-            .annotations = cowl_vector_get_empty(),
+            .annotations = cowl_vector_empty_get(),
             .imports = uvec_init(CowlObjectPtr),
             .annot_prop_refs = cowl_annot_prop_map_init(),
             .class_refs = cowl_class_map_init(),

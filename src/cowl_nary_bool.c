@@ -59,13 +59,13 @@ CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp)
 
 bool cowl_nary_bool_equals(CowlNAryBool *lhs, CowlNAryBool *rhs) {
     return cowl_object_type_equals(lhs, rhs) &&
-           cowl_vector_equals_no_order(lhs->operands, rhs->operands);
+           cowl_vector_equals(lhs->operands, rhs->operands);
 }
 
 ulib_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_hash_2(COWL_HASH_INIT_NARY_BOOL,
                        cowl_nary_bool_get_type(exp),
-                       cowl_vector_hash_no_order(exp->operands));
+                       cowl_vector_hash(exp->operands));
 }
 
 bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlPrimitiveFlags flags,
