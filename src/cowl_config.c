@@ -14,7 +14,6 @@
 #include "cowl_data_prop_private.h"
 #include "cowl_datatype_private.h"
 #include "cowl_error_handler_private.h"
-#include "cowl_facet_private.h"
 #include "cowl_import_loader_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_named_ind_private.h"
@@ -58,8 +57,7 @@ cowl_ret cowl_api_init(void) {
         cowl_owl_vocab_init() ||
         cowl_rdf_vocab_init() ||
         cowl_rdfs_vocab_init() ||
-        cowl_xsd_vocab_init() ||
-        cowl_facet_init()) {
+        cowl_xsd_vocab_init()) {
         return COWL_ERR_MEM;
     }
 
@@ -68,7 +66,6 @@ cowl_ret cowl_api_init(void) {
 
 void cowl_api_deinit(void) {
     if (!cowl_api_initialized) return;
-    cowl_facet_deinit();
     cowl_owl_vocab_deinit();
     cowl_rdf_vocab_deinit();
     cowl_rdfs_vocab_deinit();

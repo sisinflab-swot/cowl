@@ -18,7 +18,7 @@ COWL_BEGIN_DECLS
 
 struct CowlFacetRestr {
     CowlObject super;
-    CowlFacet facet;
+    CowlIRI *facet;
     CowlLiteral *value;
 };
 

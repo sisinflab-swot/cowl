@@ -492,7 +492,7 @@ facet_restriction_list
 
 facet_restriction
     : iri literal {
-        $$ = cowl_facet_restr_get(cowl_facet_from_iri($1), $2);
+        $$ = cowl_facet_restr_get($1, $2);
         cowl_iri_release($1);
         cowl_literal_release($2);
     }

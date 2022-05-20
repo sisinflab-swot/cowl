@@ -10,17 +10,17 @@
 
 #include "cowl_facet_restr_private.h"
 #include "cowl_hash_utils.h"
+#include "cowl_iri.h"
 #include "cowl_literal.h"
-#include "cowl_macros.h"
 #include "cowl_template.h"
 
-static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *value) {
+static CowlFacetRestr* cowl_facet_restr_alloc(CowlIRI *facet, CowlLiteral *value) {
     CowlFacetRestr *restr = ulib_alloc(restr);
     if (!restr) return NULL;
 
     *restr = (CowlFacetRestr) {
         .super = COWL_OBJECT_INIT(COWL_OT_FACET_RESTR),
-        .facet = facet,
+        .facet = cowl_iri_retain(facet),
         .value = cowl_literal_retain(value)
     };
 
@@ -28,12 +28,13 @@ static CowlFacetRestr* cowl_facet_restr_alloc(CowlFacet facet, CowlLiteral *valu
 }
 
 static void cowl_facet_restr_free(CowlFacetRestr *restr) {
+    cowl_iri_release(restr->facet);
     cowl_literal_release(restr->value);
     ulib_free(restr);
 }
 
-CowlFacetRestr* cowl_facet_restr_get(CowlFacet facet, CowlLiteral *value) {
-    if (!(value && cowl_enum_value_is_valid(FACET, facet))) return NULL;
+CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value) {
+    if (!(facet && value)) return NULL;
     return cowl_facet_restr_alloc(facet, value);
 }
 
@@ -47,7 +48,7 @@ void cowl_facet_restr_release(CowlFacetRestr *restr) {
     }
 }
 
-CowlFacet cowl_facet_restr_get_facet(CowlFacetRestr *restr) {
+CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr) {
     return restr->facet;
 }
 
@@ -59,12 +60,13 @@ CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr)
     COWL_TO_STRING_IMPL(facet_restr, restr)
 
 bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs) {
-    return lhs->facet == rhs->facet &&
+    return cowl_iri_equals(lhs->facet, rhs->facet) &&
            cowl_literal_equals(lhs->value, rhs->value);
 }
 
 ulib_uint cowl_facet_restr_hash(CowlFacetRestr *restr) {
-    return cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, restr->facet, cowl_literal_hash(restr->value));
+    return cowl_hash_2(COWL_HASH_INIT_FACET_RESTR, cowl_iri_hash(restr->facet),
+                       cowl_literal_hash(restr->value));
 }
 
 bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlPrimitiveFlags flags,

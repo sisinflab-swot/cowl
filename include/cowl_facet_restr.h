@@ -13,13 +13,13 @@
 #ifndef COWL_FACET_RESTR_H
 #define COWL_FACET_RESTR_H
 
-#include "cowl_facet.h"
 #include "cowl_iterator.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlFacetRestr);
 /// @endcond
@@ -42,7 +42,7 @@ cowl_struct_decl(CowlFacetRestr);
  * @public @memberof CowlFacetRestr
  */
 COWL_PUBLIC
-CowlFacetRestr* cowl_facet_restr_get(CowlFacet facet, CowlLiteral *value);
+CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value);
 
 /**
  * Retains the specified facet restriction.
@@ -74,7 +74,7 @@ void cowl_facet_restr_release(CowlFacetRestr *restr);
  * @public @memberof CowlFacetRestr
  */
 COWL_PUBLIC
-CowlFacet cowl_facet_restr_get_facet(CowlFacetRestr *restr);
+CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr);
 
 /**
  * Gets the restriction value.

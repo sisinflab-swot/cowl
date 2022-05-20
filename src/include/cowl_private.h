@@ -36,7 +36,6 @@
 #include "cowl_datatype_restr_private.h"
 #include "cowl_decl_axiom_private.h"
 #include "cowl_disj_union_axiom_private.h"
-#include "cowl_facet_private.h"
 #include "cowl_facet_restr_private.h"
 #include "cowl_func_data_prop_axiom_private.h"
 #include "cowl_has_key_axiom_private.h"

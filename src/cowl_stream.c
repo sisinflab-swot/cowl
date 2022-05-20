@@ -303,9 +303,8 @@ ustream_ret cowl_stream_write_literal(UOStream *s, CowlLiteral *literal) {
 }
 
 ustream_ret cowl_stream_write_facet_restr(UOStream *s, CowlFacetRestr *restr) {
-    CowlIRI *iri = cowl_facet_get_iri(restr->facet);
+    CowlIRI *iri = restr->facet;
     cowl_stream_write_iri(s, iri);
-    cowl_iri_release(iri);
 
     cowl_stream_write_static(s, " ");
     cowl_stream_write_literal(s, restr->value);

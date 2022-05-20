@@ -51,7 +51,6 @@
 #include "cowl_entity_type.h"
 #include "cowl_error.h"
 #include "cowl_error_handler.h"
-#include "cowl_facet.h"
 #include "cowl_facet_restr.h"
 #include "cowl_func_data_prop_axiom.h"
 #include "cowl_has_key_axiom.h"
