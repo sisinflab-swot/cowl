@@ -13,8 +13,7 @@
 #ifndef COWL_DATATYPE_RESTR_H
 #define COWL_DATATYPE_RESTR_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -42,8 +41,10 @@ cowl_struct_decl(CowlDatatypeRestr);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlVector *restrictions);
+COWL_INLINE
+CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlVector *restrictions) {
+    return cowl_get_impl_2(COWL_OT_DR_DATATYPE_RESTR, datatype, restrictions, NULL);
+}
 
 /**
  * Retains the specified datatype restriction.
@@ -53,8 +54,10 @@ CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlVector *r
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-CowlDatatypeRestr* cowl_datatype_restr_retain(CowlDatatypeRestr *restr);
+COWL_INLINE
+CowlDatatypeRestr* cowl_datatype_restr_retain(CowlDatatypeRestr *restr) {
+    return cowl_retain(restr);
+}
 
 /**
  * Releases the specified datatype restriction.
@@ -63,8 +66,10 @@ CowlDatatypeRestr* cowl_datatype_restr_retain(CowlDatatypeRestr *restr);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-void cowl_datatype_restr_release(CowlDatatypeRestr *restr);
+COWL_INLINE
+void cowl_datatype_restr_release(CowlDatatypeRestr *restr) {
+    cowl_release_impl(restr);
+}
 
 /**
  * Gets the datatype that this data range restricts.
@@ -74,8 +79,10 @@ void cowl_datatype_restr_release(CowlDatatypeRestr *restr);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr);
+COWL_INLINE
+CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
+    return cowl_get_field(restr, 0);
+}
 
 /**
  * Gets the facet restrictions.
@@ -85,8 +92,10 @@ CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr);
+COWL_INLINE
+CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
+    return cowl_get_field(restr, 1);
+}
 
 /**
  * Returns the string representation of the specified datatype restriction.
@@ -98,8 +107,10 @@ CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr);
+COWL_INLINE
+CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr) {
+    return cowl_to_string_impl(restr);
+}
 
 /**
  * Equality function.
@@ -110,8 +121,10 @@ CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs);
+COWL_INLINE
+bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -121,8 +134,10 @@ bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
-ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr);
+COWL_INLINE
+ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
+    return cowl_hash_impl(restr);
+}
 
 /**
  * Iterates over the primitives referenced by the specified datatype restriction.
@@ -134,9 +149,11 @@ ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr);
  *
  * @public @memberof CowlDatatypeRestr
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimitiveFlags flags,
-                                            CowlIterator *iter);
+                                            CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(restr, flags, iter);
+}
 
 COWL_END_DECLS
 

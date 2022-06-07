@@ -9,7 +9,6 @@
  */
 
 #include "cowl_vector_private.h"
-#include "cowl_hash_utils.h"
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
@@ -79,7 +78,8 @@ static ulib_uint cowl_vector_hash_order(CowlVector *vec) {
     ulib_uint hash = 0;
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {
-        hash = cowl_hash_1(hash, cowl_hash(*obj.item));
+        ulib_uint h = cowl_hash(*obj.item);
+        hash = uhash_combine_hash(hash, h);
     }
 
     return hash;
@@ -108,9 +108,4 @@ bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, C
     }
 
     return true;
-}
-
-void cowl_object_vec_deinit(UVec(CowlObjectPtr) *vec) {
-    uvec_foreach(CowlObjectPtr, vec, obj) { cowl_release(*obj.item); }
-    uvec_deinit(CowlObjectPtr, (UVec(CowlObjectPtr) * )vec);
 }

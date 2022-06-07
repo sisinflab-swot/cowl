@@ -13,14 +13,12 @@
 #ifndef COWL_ANON_IND_H
 #define COWL_ANON_IND_H
 
-#include "cowl_iterator.h"
+#include "cowl_object.h"
 #include "cowl_node_id.h"
-#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlAnonInd);
 /// @endcond
 
@@ -51,8 +49,8 @@ CowlAnonInd* cowl_anon_ind_get(void);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
-CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind);
+COWL_INLINE
+CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind) { return cowl_retain(ind); }
 
 /**
  * Releases the specified anonymous individual.

@@ -9,15 +9,10 @@
  */
 
 #include "cowl_config_private.h"
-#include "cowl_annot_prop_private.h"
-#include "cowl_class_private.h"
-#include "cowl_data_prop_private.h"
-#include "cowl_datatype_private.h"
+#include "cowl_entity_private.h"
 #include "cowl_error_handler_private.h"
 #include "cowl_import_loader_private.h"
 #include "cowl_iri_private.h"
-#include "cowl_named_ind_private.h"
-#include "cowl_obj_prop_private.h"
 #include "cowl_owl_vocab_private.h"
 #include "cowl_parser.h"
 #include "cowl_rdf_vocab_private.h"
@@ -46,13 +41,9 @@ cowl_ret cowl_api_init(void) {
     cowl_api_initialized = true;
     cowl_api_config_init();
 
-    if (cowl_annot_prop_api_init() ||
-        cowl_class_api_init() ||
-        cowl_data_prop_api_init() ||
-        cowl_datatype_api_init() ||
+    if (cowl_object_api_init() ||
         cowl_iri_api_init() ||
-        cowl_named_ind_api_init() ||
-        cowl_obj_prop_api_init() ||
+        cowl_entity_api_init() ||
         cowl_string_api_init() ||
         cowl_owl_vocab_init() ||
         cowl_rdf_vocab_init() ||
@@ -70,14 +61,10 @@ void cowl_api_deinit(void) {
     cowl_rdf_vocab_deinit();
     cowl_rdfs_vocab_deinit();
     cowl_xsd_vocab_deinit();
-    cowl_annot_prop_api_deinit();
-    cowl_class_api_deinit();
-    cowl_data_prop_api_deinit();
-    cowl_datatype_api_deinit();
+    cowl_entity_api_deinit();
     cowl_iri_api_deinit();
-    cowl_named_ind_api_deinit();
-    cowl_obj_prop_api_deinit();
     cowl_string_api_deinit();
+    cowl_object_api_deinit();
     cowl_api_config_deinit();
     cowl_api_initialized = false;
 }

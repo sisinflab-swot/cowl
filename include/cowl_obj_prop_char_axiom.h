@@ -13,9 +13,8 @@
 #ifndef COWL_OBJ_PROP_CHAR_AXIOM_H
 #define COWL_OBJ_PROP_CHAR_AXIOM_H
 
+#include "cowl_object_impl.h"
 #include "cowl_char_axiom_type.h"
-#include "cowl_iterator.h"
-#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
@@ -65,10 +64,13 @@ cowl_struct_decl(CowlObjPropCharAxiom);
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
-                                                   CowlVector *annot);
+                                                   CowlVector *annot) {
+    if (!cowl_enum_value_is_valid(CAT, type)) return NULL;
+    return cowl_get_impl_1(COWL_OT_A_FUNC_OBJ_PROP + type, prop, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -78,8 +80,10 @@ CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom);
+COWL_INLINE
+CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -88,8 +92,10 @@ CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axio
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom);
+COWL_INLINE
+void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the type of the specified object property characteristic axiom.
@@ -99,8 +105,10 @@ void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom);
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom);
+COWL_INLINE
+CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom) {
+    return (CowlCharAxiomType)(cowl_get_type(axiom) - COWL_OT_A_FUNC_OBJ_PROP);
+}
 
 /**
  * Gets the object property expression of the specified characteristic axiom.
@@ -110,8 +118,10 @@ CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom)
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom);
+COWL_INLINE
+CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -121,8 +131,10 @@ CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom);
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -134,8 +146,10 @@ CowlVector* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom);
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -146,8 +160,10 @@ CowlString* cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom);
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharAxiom *rhs);
+COWL_INLINE
+bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -157,8 +173,10 @@ bool cowl_obj_prop_char_axiom_equals(CowlObjPropCharAxiom *lhs, CowlObjPropCharA
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -170,9 +188,11 @@ ulib_uint cowl_obj_prop_char_axiom_hash(CowlObjPropCharAxiom *axiom);
  *
  * @public @memberof CowlObjPropCharAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_prop_char_axiom_iterate_primitives(CowlObjPropCharAxiom *axiom,
-                                                 CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                 CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

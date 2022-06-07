@@ -13,8 +13,7 @@
 #ifndef COWL_OBJ_ONE_OF_H
 #define COWL_OBJ_ONE_OF_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -40,8 +39,10 @@ cowl_struct_decl(CowlObjOneOf);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
-CowlObjOneOf* cowl_obj_one_of_get(CowlVector *inds);
+COWL_INLINE
+CowlObjOneOf* cowl_obj_one_of_get(CowlVector *inds) {
+    return cowl_get_impl_1(COWL_OT_CE_OBJ_ONE_OF, inds, NULL);
+}
 
 /**
  * Retains the specified individual enumeration.
@@ -51,8 +52,8 @@ CowlObjOneOf* cowl_obj_one_of_get(CowlVector *inds);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
-CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp);
+COWL_INLINE
+CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp) { return cowl_retain(exp); }
 
 /**
  * Releases the specified individual enumeration.
@@ -61,8 +62,8 @@ CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
-void cowl_obj_one_of_release(CowlObjOneOf *exp);
+COWL_INLINE
+void cowl_obj_one_of_release(CowlObjOneOf *exp) { cowl_release_impl(exp); }
 
 /**
  * Gets the individuals of the specified enumeration.
@@ -72,8 +73,8 @@ void cowl_obj_one_of_release(CowlObjOneOf *exp);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
-CowlVector* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
+COWL_INLINE
+CowlVector* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) { return cowl_get_field(exp, 0); }
 
 /**
  * Returns the string representation of the specified individual enumeration.
@@ -85,8 +86,10 @@ CowlVector* cowl_obj_one_of_get_inds(CowlObjOneOf *exp);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
-CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp);
+COWL_INLINE
+CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp) {
+    return cowl_to_string_impl(exp);
+}
 
 /**
  * Equality function.
@@ -97,8 +100,10 @@ CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
-bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs);
+COWL_INLINE
+bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -108,8 +113,10 @@ bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_one_of_hash(CowlObjOneOf *exp);
+COWL_INLINE
+ulib_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
+    return cowl_hash_impl(exp);
+}
 
 /**
  * Iterates over the primitives referenced by the specified individual enumeration.
@@ -121,9 +128,11 @@ ulib_uint cowl_obj_one_of_hash(CowlObjOneOf *exp);
  *
  * @public @memberof CowlObjOneOf
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(exp, flags, iter);
+}
 
 COWL_END_DECLS
 

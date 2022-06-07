@@ -1,38 +1,28 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
  */
 
-#include "cowl_anon_ind_private.h"
-#include "cowl_template.h"
-
-static CowlAnonInd* cowl_anon_ind_alloc(void) {
-    CowlAnonInd *ind = ulib_alloc(ind);
-    if (!ind) return NULL;
-    (*ind) = (CowlAnonInd) { .super = COWL_OBJECT_INIT(COWL_OT_I_ANONYMOUS) };
-    return ind;
-}
-
-static void cowl_anon_ind_free(CowlAnonInd *ind) {
-    ulib_free(ind);
-}
+#include "cowl_anon_ind.h"
+#include "cowl_iterator_private.h"
+#include "cowl_object_private.h"
+#include "cowl_primitive.h"
 
 CowlAnonInd* cowl_anon_ind_get(void) {
-    return cowl_anon_ind_alloc();
-}
-
-CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind) {
-    return cowl_object_incr_ref(ind);
+    CowlObject *ind = ulib_alloc(ind);
+    if (!ind) return NULL;
+    *ind = COWL_OBJECT_INIT(COWL_OT_I_ANONYMOUS);
+    return (CowlAnonInd*)ind;
 }
 
 void cowl_anon_ind_release(CowlAnonInd *ind) {
     if (ind && !cowl_object_decr_ref(ind)) {
-        cowl_anon_ind_free(ind);
+        ulib_free(ind);
     }
 }
 
@@ -40,8 +30,9 @@ CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind) {
     return (CowlNodeId)ind;
 }
 
-CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind)
-    COWL_TO_STRING_IMPL(anon_ind, ind)
+CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind) {
+    return cowl_primitive_to_string((CowlPrimitive *)ind);
+}
 
 bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {
     return lhs == rhs;

@@ -13,8 +13,7 @@
 #ifndef COWL_DECL_AXIOM_H
 #define COWL_DECL_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -42,8 +41,10 @@ cowl_struct_decl(CowlDeclAxiom);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlVector *annot);
+COWL_INLINE
+CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlVector *annot) {
+    return cowl_get_impl_1(COWL_OT_A_DECL, entity, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -53,8 +54,8 @@ CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlVector *annot);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom);
+COWL_INLINE
+CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) { return cowl_retain(axiom); }
 
 /**
  * Releases the specified axiom.
@@ -63,8 +64,8 @@ CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-void cowl_decl_axiom_release(CowlDeclAxiom *axiom);
+COWL_INLINE
+void cowl_decl_axiom_release(CowlDeclAxiom *axiom) { cowl_release_impl(axiom); }
 
 /**
  * Gets the declared entity.
@@ -74,8 +75,8 @@ void cowl_decl_axiom_release(CowlDeclAxiom *axiom);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
+COWL_INLINE
+CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) { return cowl_get_field(axiom, 0); }
 
 /**
  * Gets the annotations of the specified axiom.
@@ -85,8 +86,8 @@ CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) { return cowl_get_opt_field(axiom); }
 
 /**
  * Returns the string representation of the specified axiom.
@@ -98,8 +99,10 @@ CowlVector* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_decl_axiom_to_string(CowlDeclAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_decl_axiom_to_string(CowlDeclAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -110,8 +113,10 @@ CowlString* cowl_decl_axiom_to_string(CowlDeclAxiom *axiom);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
+COWL_INLINE
+bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -121,8 +126,10 @@ bool cowl_decl_axiom_equals(CowlDeclAxiom *lhs, CowlDeclAxiom *rhs);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_decl_axiom_hash(CowlDeclAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -134,9 +141,11 @@ ulib_uint cowl_decl_axiom_hash(CowlDeclAxiom *axiom);
  *
  * @public @memberof CowlDeclAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_decl_axiom_iterate_primitives(CowlDeclAxiom *axiom, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

@@ -13,8 +13,7 @@
 #ifndef COWL_CLS_ASSERT_AXIOM_H
 #define COWL_CLS_ASSERT_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,9 +43,11 @@ cowl_struct_decl(CowlClsAssertAxiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp,
-                                              CowlVector *annot);
+                                              CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_CLASS_ASSERT, ind, exp, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -56,8 +57,10 @@ CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *e
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom);
+COWL_INLINE
+CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -66,8 +69,10 @@ CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom);
+COWL_INLINE
+void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the individual that is asserted to be an instance of a class expression by this axiom.
@@ -77,8 +82,10 @@ void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom);
+COWL_INLINE
+CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the class expression that is asserted to be a type for an individual by this axiom.
@@ -88,8 +95,10 @@ CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom);
+COWL_INLINE
+CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -99,8 +108,10 @@ CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -112,8 +123,10 @@ CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -124,8 +137,10 @@ CowlString* cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *rhs);
+COWL_INLINE
+bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -135,8 +150,10 @@ bool cowl_cls_assert_axiom_equals(CowlClsAssertAxiom *lhs, CowlClsAssertAxiom *r
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -148,9 +165,11 @@ ulib_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom);
  *
  * @public @memberof CowlClsAssertAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_cls_assert_axiom_iterate_primitives(CowlClsAssertAxiom *axiom, CowlPrimitiveFlags flags,
-                                              CowlIterator *iter);
+                                              CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

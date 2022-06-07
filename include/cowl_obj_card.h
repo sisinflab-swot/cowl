@@ -13,9 +13,8 @@
 #ifndef COWL_OBJ_CARD_H
 #define COWL_OBJ_CARD_H
 
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 #include "cowl_card_type.h"
-#include "cowl_iterator.h"
 
 COWL_BEGIN_DECLS
 
@@ -48,9 +47,12 @@ cowl_struct_decl(CowlObjCard);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
-                               CowlClsExp *filler, ulib_uint cardinality);
+                               CowlClsExp *filler, ulib_uint cardinality) {
+    if (!cowl_enum_value_is_valid(CT, type)) return NULL;
+    return cowl_uint_get_impl_1(COWL_OT_CE_OBJ_MIN_CARD + type, prop, cardinality, filler);
+}
 
 /**
  * Retains the specified object property cardinality restriction.
@@ -60,8 +62,8 @@ CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr);
+COWL_INLINE
+CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr) { return cowl_retain(restr); }
 
 /**
  * Releases the specified object property cardinality restriction.
@@ -70,8 +72,8 @@ CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-void cowl_obj_card_release(CowlObjCard *restr);
+COWL_INLINE
+void cowl_obj_card_release(CowlObjCard *restr) { cowl_release_impl(restr); }
 
 /**
  * Gets the type of the specified object property cardinality restriction.
@@ -81,8 +83,10 @@ void cowl_obj_card_release(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-CowlCardType cowl_obj_card_get_type(CowlObjCard *restr);
+COWL_INLINE
+CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
+    return (CowlCardType)(cowl_get_type(restr) - COWL_OT_CE_OBJ_MIN_CARD);
+}
 
 /**
  * Gets the property of the restriction.
@@ -92,8 +96,8 @@ CowlCardType cowl_obj_card_get_type(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr);
+COWL_INLINE
+CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) { return cowl_get_field(restr, 0); }
 
 /**
  * Gets the filler of the restriction.
@@ -103,8 +107,8 @@ CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr);
+COWL_INLINE
+CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) { return cowl_get_opt_field(restr); }
 
 /**
  * Gets the cardinality of the restriction.
@@ -114,8 +118,8 @@ CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr);
+COWL_INLINE
+ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) { return cowl_get_uint_field(restr); }
 
 /**
  * Returns the string representation of the specified restriction.
@@ -127,8 +131,10 @@ ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-CowlString* cowl_obj_card_to_string(CowlObjCard *restr);
+COWL_INLINE
+CowlString* cowl_obj_card_to_string(CowlObjCard *restr) {
+    return cowl_uint_to_string_impl(restr);
+}
 
 /**
  * Equality function.
@@ -139,8 +145,10 @@ CowlString* cowl_obj_card_to_string(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs);
+COWL_INLINE
+bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs) {
+    return cowl_uint_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -150,8 +158,10 @@ bool cowl_obj_card_equals(CowlObjCard *lhs, CowlObjCard *rhs);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_card_hash(CowlObjCard *restr);
+COWL_INLINE
+ulib_uint cowl_obj_card_hash(CowlObjCard *restr) {
+    return cowl_uint_hash_impl(restr);
+}
 
 /**
  * Iterates over the primitives referenced by
@@ -164,9 +174,11 @@ ulib_uint cowl_obj_card_hash(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter);
+                                      CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(restr, flags, iter);
+}
 
 COWL_END_DECLS
 

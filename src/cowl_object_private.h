@@ -11,14 +11,21 @@
 #ifndef COWL_OBJECT_PRIVATE_H
 #define COWL_OBJECT_PRIVATE_H
 
-#include "cowl_object.h"
+#include "cowl_object_impl.h"
 #include "cowl_object_flags.h"
 
 COWL_BEGIN_DECLS
 
+extern ulib_byte composite_fields[];
+
 typedef struct CowlObject {
     CowlObjectFlags flags;
 } CowlObject;
+
+typedef struct CowlComposite {
+    CowlObject super;
+    void *data[];
+} CowlComposite;
 
 #define COWL_OBJECT_BIT_INIT(TYPE, HAS_BIT) \
     ((CowlObject){ .flags = cowl_object_flags_init(TYPE, HAS_BIT) })
@@ -33,10 +40,8 @@ typedef struct CowlObject {
 #define cowl_object_bit_get(o) cowl_object_flags_has_bit(((CowlObject *)(o))->flags)
 #define cowl_object_bit_set(o) cowl_object_flags_set_bit(((CowlObject *)(o))->flags)
 
-#define cowl_object_type_equals(LHS, RHS) (                                                         \
-    (((CowlObject *)(LHS))->flags & COWL_OBJECT_FLAGS_BIT_TYPE_MASK) ==                             \
-    (((CowlObject *)(RHS))->flags & COWL_OBJECT_FLAGS_BIT_TYPE_MASK)                                \
-)
+cowl_ret cowl_object_api_init(void);
+void cowl_object_api_deinit(void);
 
 COWL_END_DECLS
 

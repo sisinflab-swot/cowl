@@ -13,8 +13,7 @@
 #ifndef COWL_OBJ_PROP_ASSERT_AXIOM_H
 #define COWL_OBJ_PROP_ASSERT_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -50,11 +49,13 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                        CowlObjPropExp *prop,
                                                        CowlIndividual *object,
-                                                       CowlVector *annot);
+                                                       CowlVector *annot) {
+    return cowl_get_impl_3(COWL_OT_A_OBJ_PROP_ASSERT, subject, prop, object, annot);
+}
 
 /**
  * Returns a retained negative object property assertion axiom.
@@ -67,11 +68,13 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *subject,
                                                            CowlObjPropExp *prop,
                                                            CowlIndividual *object,
-                                                           CowlVector *annot);
+                                                           CowlVector *annot) {
+    return cowl_get_impl_3(COWL_OT_A_NEG_OBJ_PROP_ASSERT, subject, prop, object, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -81,8 +84,10 @@ CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *subje
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -91,8 +96,10 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Returns true if the specified object property assertion axiom is negative.
@@ -102,8 +109,10 @@ void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom);
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom) {
+    return cowl_get_type(axiom) == COWL_OT_A_NEG_OBJ_PROP_ASSERT;
+}
 
 /**
  * Gets the assertion subject.
@@ -113,19 +122,10 @@ bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom);
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom);
-
-/**
- * Gets the assertion object.
- *
- * @param axiom The axiom.
- * @return The assertion object.
- *
- * @public @memberof CowlObjPropAssertAxiom
- */
-COWL_PUBLIC
-CowlIndividual* cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the object property expression.
@@ -135,8 +135,23 @@ CowlIndividual* cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *ax
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
+
+/**
+ * Gets the assertion object.
+ *
+ * @param axiom The axiom.
+ * @return The assertion object.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_INLINE
+CowlIndividual* cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 2);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -146,8 +161,10 @@ CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axio
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -159,8 +176,10 @@ CowlVector* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom);
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -171,8 +190,10 @@ CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom);
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs);
+COWL_INLINE
+bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropAssertAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -182,8 +203,10 @@ bool cowl_obj_prop_assert_axiom_equals(CowlObjPropAssertAxiom *lhs, CowlObjPropA
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -195,9 +218,11 @@ ulib_uint cowl_obj_prop_assert_axiom_hash(CowlObjPropAssertAxiom *axiom);
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_prop_assert_axiom_iterate_primitives(CowlObjPropAssertAxiom *axiom,
-                                                   CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                   CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

@@ -13,8 +13,7 @@
 #ifndef COWL_FUNC_DATA_PROP_AXIOM_H
 #define COWL_FUNC_DATA_PROP_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -42,9 +41,10 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop,
-                                                     CowlVector *annot);
+COWL_INLINE
+CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop, CowlVector *annot) {
+    return cowl_get_impl_1(COWL_OT_A_FUNC_DATA_PROP, prop, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -54,8 +54,10 @@ CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop,
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom);
+COWL_INLINE
+CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -64,8 +66,10 @@ CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *a
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom);
+COWL_INLINE
+void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the data property.
@@ -75,8 +79,10 @@ void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom);
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom);
+COWL_INLINE
+CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -86,8 +92,10 @@ CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -99,8 +107,10 @@ CowlVector* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom);
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_func_data_prop_axiom_to_string(CowlFuncDataPropAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_func_data_prop_axiom_to_string(CowlFuncDataPropAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -111,8 +121,10 @@ CowlString* cowl_func_data_prop_axiom_to_string(CowlFuncDataPropAxiom *axiom);
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPropAxiom *rhs);
+COWL_INLINE
+bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPropAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -122,8 +134,10 @@ bool cowl_func_data_prop_axiom_equals(CowlFuncDataPropAxiom *lhs, CowlFuncDataPr
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -135,9 +149,11 @@ ulib_uint cowl_func_data_prop_axiom_hash(CowlFuncDataPropAxiom *axiom);
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_func_data_prop_axiom_iterate_primitives(CowlFuncDataPropAxiom *axiom,
-                                                  CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                  CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

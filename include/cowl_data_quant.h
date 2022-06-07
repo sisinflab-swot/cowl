@@ -13,8 +13,7 @@
 #ifndef COWL_DATA_QUANT_H
 #define COWL_DATA_QUANT_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 #include "cowl_quant_type.h"
 
 COWL_BEGIN_DECLS
@@ -45,9 +44,11 @@ cowl_struct_decl(CowlDataQuant);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,
-                                   CowlDataRange *range);
+COWL_INLINE
+CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop, CowlDataRange *range) {
+    if (!cowl_enum_value_is_valid(QT, type)) return NULL;
+    return cowl_get_impl_2(COWL_OT_CE_DATA_SOME + type, prop, range, NULL);
+}
 
 /**
  * Retains the specified data quantifier.
@@ -57,8 +58,8 @@ CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop,
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr);
+COWL_INLINE
+CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) { return cowl_retain(restr); }
 
 /**
  * Releases the specified data quantifier.
@@ -67,8 +68,8 @@ CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-void cowl_data_quant_release(CowlDataQuant *restr);
+COWL_INLINE
+void cowl_data_quant_release(CowlDataQuant *restr) { cowl_release_impl(restr); }
 
 /**
  * Gets the type of the specified data quantifier.
@@ -78,8 +79,10 @@ void cowl_data_quant_release(CowlDataQuant *restr);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr);
+COWL_INLINE
+CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr) {
+    return (CowlQuantType)(cowl_get_type(restr) - COWL_OT_CE_DATA_SOME);
+}
 
 /**
  * Gets the data property.
@@ -89,8 +92,10 @@ CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr);
+COWL_INLINE
+CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
+    return cowl_get_field(restr, 0);
+}
 
 /**
  * Gets the range of the specified data quantifier.
@@ -100,8 +105,10 @@ CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr);
+COWL_INLINE
+CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr) {
+    return cowl_get_field(restr, 1);
+}
 
 /**
  * Returns the string representation of the specified data quantifier.
@@ -113,8 +120,10 @@ CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-CowlString* cowl_data_quant_to_string(CowlDataQuant *restr);
+COWL_INLINE
+CowlString* cowl_data_quant_to_string(CowlDataQuant *restr) {
+    return cowl_to_string_impl(restr);
+}
 
 /**
  * Equality function.
@@ -125,8 +134,10 @@ CowlString* cowl_data_quant_to_string(CowlDataQuant *restr);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs);
+COWL_INLINE
+bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -136,8 +147,10 @@ bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
-ulib_uint cowl_data_quant_hash(CowlDataQuant *restr);
+COWL_INLINE
+ulib_uint cowl_data_quant_hash(CowlDataQuant *restr) {
+    return cowl_hash_impl(restr);
+}
 
 /**
  * Iterates over the primitives referenced by the specified data quantifier.
@@ -149,9 +162,11 @@ ulib_uint cowl_data_quant_hash(CowlDataQuant *restr);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(restr, flags, iter);
+}
 
 COWL_END_DECLS
 

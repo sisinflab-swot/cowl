@@ -13,8 +13,7 @@
 #ifndef COWL_OBJ_QUANT_H
 #define COWL_OBJ_QUANT_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 #include "cowl_quant_type.h"
 
 COWL_BEGIN_DECLS
@@ -57,8 +56,8 @@ CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlC
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
-CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr);
+COWL_INLINE
+CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) { return cowl_retain(restr); }
 
 /**
  * Releases the specified object quantifier.
@@ -67,8 +66,8 @@ CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
-void cowl_obj_quant_release(CowlObjQuant *restr);
+COWL_INLINE
+void cowl_obj_quant_release(CowlObjQuant *restr) { cowl_release_impl(restr); }
 
 /**
  * Gets the type of the specified object quantifier.
@@ -78,8 +77,10 @@ void cowl_obj_quant_release(CowlObjQuant *restr);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
-CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr);
+COWL_INLINE
+CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
+    return (CowlQuantType)(cowl_get_type(restr) - COWL_OT_CE_OBJ_SOME);
+}
 
 /**
  * Gets the object property.
@@ -89,8 +90,8 @@ CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr);
+COWL_INLINE
+CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) { return cowl_get_field(restr, 0); }
 
 /**
  * Gets the filler of the specified object quantifier.
@@ -113,8 +114,10 @@ CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
-CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr);
+COWL_INLINE
+CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr) {
+    return cowl_to_string_impl(restr);
+}
 
 /**
  * Equality function.
@@ -125,8 +128,10 @@ CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
-bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs);
+COWL_INLINE
+bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -136,8 +141,10 @@ bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_quant_hash(CowlObjQuant *restr);
+COWL_INLINE
+ulib_uint cowl_obj_quant_hash(CowlObjQuant *restr) {
+    return cowl_hash_impl(restr);
+}
 
 /**
  * Iterates over the primitives referenced by the specified object quantifier.
@@ -149,9 +156,11 @@ ulib_uint cowl_obj_quant_hash(CowlObjQuant *restr);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter);
+                                       CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(restr, flags, iter);
+}
 
 COWL_END_DECLS
 

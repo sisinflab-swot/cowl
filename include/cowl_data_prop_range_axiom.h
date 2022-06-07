@@ -13,8 +13,7 @@
 #ifndef COWL_DATA_PROP_RANGE_AXIOM_H
 #define COWL_DATA_PROP_RANGE_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,9 +43,11 @@ cowl_struct_decl(CowlDataPropRangeAxiom);
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, CowlDataRange *range,
-                                                       CowlVector *annot);
+                                                       CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_DATA_PROP_RANGE, prop, range, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -56,8 +57,10 @@ CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_get(CowlDataPropExp *prop, Co
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_retain(CowlDataPropRangeAxiom *axiom);
+COWL_INLINE
+CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_retain(CowlDataPropRangeAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -66,8 +69,10 @@ CowlDataPropRangeAxiom* cowl_data_prop_range_axiom_retain(CowlDataPropRangeAxiom
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-void cowl_data_prop_range_axiom_release(CowlDataPropRangeAxiom *axiom);
+COWL_INLINE
+void cowl_data_prop_range_axiom_release(CowlDataPropRangeAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the data property.
@@ -77,8 +82,10 @@ void cowl_data_prop_range_axiom_release(CowlDataPropRangeAxiom *axiom);
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-CowlDataPropExp* cowl_data_prop_range_axiom_get_prop(CowlDataPropRangeAxiom *axiom);
+COWL_INLINE
+CowlDataPropExp* cowl_data_prop_range_axiom_get_prop(CowlDataPropRangeAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the range of the data property.
@@ -88,8 +95,10 @@ CowlDataPropExp* cowl_data_prop_range_axiom_get_prop(CowlDataPropRangeAxiom *axi
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axiom);
+COWL_INLINE
+CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -99,8 +108,10 @@ CowlDataRange* cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axio
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -112,8 +123,10 @@ CowlVector* cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom);
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_data_prop_range_axiom_to_string(CowlDataPropRangeAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_data_prop_range_axiom_to_string(CowlDataPropRangeAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -124,8 +137,10 @@ CowlString* cowl_data_prop_range_axiom_to_string(CowlDataPropRangeAxiom *axiom);
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataPropRangeAxiom *rhs);
+COWL_INLINE
+bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataPropRangeAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -135,8 +150,10 @@ bool cowl_data_prop_range_axiom_equals(CowlDataPropRangeAxiom *lhs, CowlDataProp
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -148,9 +165,11 @@ ulib_uint cowl_data_prop_range_axiom_hash(CowlDataPropRangeAxiom *axiom);
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_prop_range_axiom_iterate_primitives(CowlDataPropRangeAxiom *axiom,
-                                                   CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                   CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

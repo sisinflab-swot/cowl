@@ -13,14 +13,11 @@
 #ifndef COWL_CLASS_H
 #define COWL_CLASS_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_entity.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlClass);
 /// @endcond
 
@@ -73,8 +70,8 @@ CowlClass* cowl_class_from_string(UString string);
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-CowlClass* cowl_class_retain(CowlClass *cls);
+COWL_INLINE
+CowlClass* cowl_class_retain(CowlClass *cls) { return cowl_retain(cls); }
 
 /**
  * Releases the specified class.
@@ -119,8 +116,8 @@ CowlString* cowl_class_to_string(CowlClass *cls);
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs);
+COWL_INLINE
+bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -130,8 +127,8 @@ bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs);
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-ulib_uint cowl_class_hash(CowlClass *cls);
+COWL_INLINE
+ulib_uint cowl_class_hash(CowlClass *cls) { return uhash_ptr_hash(cls); }
 
 /**
  * Iterates over this class.

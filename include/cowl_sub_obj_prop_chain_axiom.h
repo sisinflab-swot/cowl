@@ -13,8 +13,7 @@
 #ifndef COWL_SUB_OBJ_PROP_CHAIN_AXIOM_H
 #define COWL_SUB_OBJ_PROP_CHAIN_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,10 +43,12 @@ cowl_struct_decl(CowlSubObjPropChainAxiom);
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlVector *sub,
                                                             CowlObjPropExp *super,
-                                                            CowlVector *annot);
+                                                            CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_SUB_OBJ_PROP_CHAIN, sub, super, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -57,8 +58,10 @@ CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlVector *sub,
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
-CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_retain(CowlSubObjPropChainAxiom *axiom);
+COWL_INLINE
+CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_retain(CowlSubObjPropChainAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -67,8 +70,10 @@ CowlSubObjPropChainAxiom* cowl_sub_obj_prop_chain_axiom_retain(CowlSubObjPropCha
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
-void cowl_sub_obj_prop_chain_axiom_release(CowlSubObjPropChainAxiom *axiom);
+COWL_INLINE
+void cowl_sub_obj_prop_chain_axiom_release(CowlSubObjPropChainAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the chain of properties that represents the subproperty.
@@ -78,8 +83,10 @@ void cowl_sub_obj_prop_chain_axiom_release(CowlSubObjPropChainAxiom *axiom);
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_sub_obj_prop_chain_axiom_get_sub_props(CowlSubObjPropChainAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_sub_obj_prop_chain_axiom_get_sub_props(CowlSubObjPropChainAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the superproperty.
@@ -89,8 +96,10 @@ CowlVector* cowl_sub_obj_prop_chain_axiom_get_sub_props(CowlSubObjPropChainAxiom
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_sub_obj_prop_chain_axiom_get_super_prop(CowlSubObjPropChainAxiom *axiom);
+COWL_INLINE
+CowlObjPropExp* cowl_sub_obj_prop_chain_axiom_get_super_prop(CowlSubObjPropChainAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -100,8 +109,10 @@ CowlObjPropExp* cowl_sub_obj_prop_chain_axiom_get_super_prop(CowlSubObjPropChain
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_sub_obj_prop_chain_axiom_get_annot(CowlSubObjPropChainAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_sub_obj_prop_chain_axiom_get_annot(CowlSubObjPropChainAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -113,8 +124,10 @@ CowlVector* cowl_sub_obj_prop_chain_axiom_get_annot(CowlSubObjPropChainAxiom *ax
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_sub_obj_prop_chain_axiom_to_string(CowlSubObjPropChainAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_sub_obj_prop_chain_axiom_to_string(CowlSubObjPropChainAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -125,9 +138,11 @@ CowlString* cowl_sub_obj_prop_chain_axiom_to_string(CowlSubObjPropChainAxiom *ax
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_sub_obj_prop_chain_axiom_equals(CowlSubObjPropChainAxiom *lhs,
-                                          CowlSubObjPropChainAxiom *rhs);
+                                          CowlSubObjPropChainAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -137,8 +152,10 @@ bool cowl_sub_obj_prop_chain_axiom_equals(CowlSubObjPropChainAxiom *lhs,
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_sub_obj_prop_chain_axiom_hash(CowlSubObjPropChainAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_sub_obj_prop_chain_axiom_hash(CowlSubObjPropChainAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -150,9 +167,11 @@ ulib_uint cowl_sub_obj_prop_chain_axiom_hash(CowlSubObjPropChainAxiom *axiom);
  *
  * @public @memberof CowlSubObjPropChainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_sub_obj_prop_chain_axiom_iterate_primitives(CowlSubObjPropChainAxiom *axiom,
-                                                      CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                      CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

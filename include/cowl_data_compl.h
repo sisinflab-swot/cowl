@@ -13,8 +13,7 @@
 #ifndef COWL_DATA_COMPL_H
 #define COWL_DATA_COMPL_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -40,8 +39,10 @@ cowl_struct_decl(CowlDataCompl);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
-CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand);
+COWL_INLINE
+CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand) {
+    return cowl_get_impl_1(COWL_OT_DR_DATA_COMPL, operand, NULL);
+}
 
 /**
  * Retains the specified data range complement.
@@ -51,8 +52,8 @@ CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
-CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range);
+COWL_INLINE
+CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range) { return cowl_retain(range); }
 
 /**
  * Releases the specified data range complement.
@@ -61,8 +62,8 @@ CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
-void cowl_data_compl_release(CowlDataCompl *range);
+COWL_INLINE
+void cowl_data_compl_release(CowlDataCompl *range) { cowl_release_impl(range); }
 
 /**
  * Gets the data range which this data range is a complement of.
@@ -72,8 +73,10 @@ void cowl_data_compl_release(CowlDataCompl *range);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
-CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *range);
+COWL_INLINE
+CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *range) {
+    return cowl_get_field(range, 0);
+}
 
 /**
  * Returns the string representation of the specified data range complement.
@@ -85,8 +88,10 @@ CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *range);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
-CowlString* cowl_data_compl_to_string(CowlDataCompl *range);
+COWL_INLINE
+CowlString* cowl_data_compl_to_string(CowlDataCompl *range) {
+    return cowl_to_string_impl(range);
+}
 
 /**
  * Equality function.
@@ -97,8 +102,10 @@ CowlString* cowl_data_compl_to_string(CowlDataCompl *range);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
-bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs);
+COWL_INLINE
+bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -108,8 +115,10 @@ bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
-ulib_uint cowl_data_compl_hash(CowlDataCompl *range);
+COWL_INLINE
+ulib_uint cowl_data_compl_hash(CowlDataCompl *range) {
+    return cowl_hash_impl(range);
+}
 
 /**
  * Iterates over the primitives referenced by the specified data range complement.
@@ -121,9 +130,11 @@ ulib_uint cowl_data_compl_hash(CowlDataCompl *range);
  *
  * @public @memberof CowlDataCompl
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_compl_iterate_primitives(CowlDataCompl *range, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(range, flags, iter);
+}
 
 COWL_END_DECLS
 

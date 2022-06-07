@@ -13,15 +13,13 @@
 #ifndef COWL_ANNOT_PROP_RANGE_AXIOM_H
 #define COWL_ANNOT_PROP_RANGE_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlAnnotPropRangeAxiom);
 /// @endcond
 
@@ -44,9 +42,11 @@ cowl_struct_decl(CowlAnnotPropRangeAxiom);
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_get(CowlAnnotProp *prop, CowlIRI *range,
-                                                         CowlVector *annot);
+                                                         CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_ANNOT_PROP_RANGE, prop, range, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -56,8 +56,10 @@ CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_get(CowlAnnotProp *prop, Co
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
-CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_retain(CowlAnnotPropRangeAxiom *axiom);
+COWL_INLINE
+CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_retain(CowlAnnotPropRangeAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -66,8 +68,10 @@ CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom_retain(CowlAnnotPropRangeAx
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
-void cowl_annot_prop_range_axiom_release(CowlAnnotPropRangeAxiom *axiom);
+COWL_INLINE
+void cowl_annot_prop_range_axiom_release(CowlAnnotPropRangeAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the annotation property.
@@ -77,8 +81,10 @@ void cowl_annot_prop_range_axiom_release(CowlAnnotPropRangeAxiom *axiom);
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
-CowlAnnotProp* cowl_annot_prop_range_axiom_get_prop(CowlAnnotPropRangeAxiom *axiom);
+COWL_INLINE
+CowlAnnotProp* cowl_annot_prop_range_axiom_get_prop(CowlAnnotPropRangeAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the range of the annotation property.
@@ -88,8 +94,10 @@ CowlAnnotProp* cowl_annot_prop_range_axiom_get_prop(CowlAnnotPropRangeAxiom *axi
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
-CowlIRI* cowl_annot_prop_range_axiom_get_range(CowlAnnotPropRangeAxiom *axiom);
+COWL_INLINE
+CowlIRI* cowl_annot_prop_range_axiom_get_range(CowlAnnotPropRangeAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -99,8 +107,10 @@ CowlIRI* cowl_annot_prop_range_axiom_get_range(CowlAnnotPropRangeAxiom *axiom);
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -112,8 +122,10 @@ CowlVector* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_annot_prop_range_axiom_to_string(CowlAnnotPropRangeAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_annot_prop_range_axiom_to_string(CowlAnnotPropRangeAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -124,9 +136,11 @@ CowlString* cowl_annot_prop_range_axiom_to_string(CowlAnnotPropRangeAxiom *axiom
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annot_prop_range_axiom_equals(CowlAnnotPropRangeAxiom *lhs,
-                                        CowlAnnotPropRangeAxiom *rhs);
+                                        CowlAnnotPropRangeAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -136,8 +150,10 @@ bool cowl_annot_prop_range_axiom_equals(CowlAnnotPropRangeAxiom *lhs,
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -149,9 +165,11 @@ ulib_uint cowl_annot_prop_range_axiom_hash(CowlAnnotPropRangeAxiom *axiom);
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annot_prop_range_axiom_iterate_primitives(CowlAnnotPropRangeAxiom *axiom,
-                                                    CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                    CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

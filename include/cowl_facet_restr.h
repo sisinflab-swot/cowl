@@ -13,8 +13,7 @@
 #ifndef COWL_FACET_RESTR_H
 #define COWL_FACET_RESTR_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -41,8 +40,10 @@ cowl_struct_decl(CowlFacetRestr);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value);
+COWL_INLINE
+CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value) {
+    return cowl_get_impl_2(COWL_OT_FACET_RESTR, facet, value, NULL);
+}
 
 /**
  * Retains the specified facet restriction.
@@ -52,8 +53,8 @@ CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-CowlFacetRestr* cowl_facet_restr_retain(CowlFacetRestr *restr);
+COWL_INLINE
+CowlFacetRestr* cowl_facet_restr_retain(CowlFacetRestr *restr) { return cowl_retain(restr); }
 
 /**
  * Releases the specified facet restriction.
@@ -62,8 +63,8 @@ CowlFacetRestr* cowl_facet_restr_retain(CowlFacetRestr *restr);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-void cowl_facet_restr_release(CowlFacetRestr *restr);
+COWL_INLINE
+void cowl_facet_restr_release(CowlFacetRestr *restr) { cowl_release_impl(restr); }
 
 /**
  * Gets the facet.
@@ -73,8 +74,8 @@ void cowl_facet_restr_release(CowlFacetRestr *restr);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr);
+COWL_INLINE
+CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr) { return cowl_get_field(restr, 0); }
 
 /**
  * Gets the restriction value.
@@ -84,8 +85,8 @@ CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr);
+COWL_INLINE
+CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr) { return cowl_get_field(restr, 1); }
 
 /**
  * Returns the string representation of the specified facet restriction.
@@ -97,8 +98,10 @@ CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr);
+COWL_INLINE
+CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr) {
+    return cowl_to_string_impl(restr);
+}
 
 /**
  * Equality function.
@@ -109,8 +112,10 @@ CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs);
+COWL_INLINE
+bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -120,8 +125,10 @@ bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
-ulib_uint cowl_facet_restr_hash(CowlFacetRestr *restr);
+COWL_INLINE
+ulib_uint cowl_facet_restr_hash(CowlFacetRestr *restr) {
+    return cowl_hash_impl(restr);
+}
 
 /**
  * Iterates over the primitives referenced by specified facet restriction.
@@ -133,9 +140,11 @@ ulib_uint cowl_facet_restr_hash(CowlFacetRestr *restr);
  *
  * @public @memberof CowlFacetRestr
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlPrimitiveFlags flags,
-                                         CowlIterator *iter);
+                                         CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(restr, flags, iter);
+}
 
 COWL_END_DECLS
 

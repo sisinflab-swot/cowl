@@ -19,6 +19,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlAxiom);
 /// @endcond
 
@@ -63,6 +64,12 @@ COWL_INLINE
 CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
     return (CowlAxiomType)(cowl_get_type(axiom) - COWL_OT_A_DECL);
 }
+
+COWL_INLINE
+bool cowl_axiom_has_annot(CowlAxiom *axiom) { return cowl_has_opt_field(axiom); }
+
+COWL_INLINE
+CowlVector* cowl_axiom_get_annot_ex(CowlAxiom *axiom) { return cowl_get_opt_field(axiom); }
 
 /**
  * Returns the string representation of the specified axiom.

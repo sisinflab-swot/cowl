@@ -13,14 +13,11 @@
 #ifndef COWL_OBJ_PROP_H
 #define COWL_OBJ_PROP_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_entity.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlObjProp);
 /// @endcond
 
@@ -73,8 +70,8 @@ CowlObjProp* cowl_obj_prop_from_string(UString string);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-CowlObjProp* cowl_obj_prop_retain(CowlObjProp *prop);
+COWL_INLINE
+CowlObjProp* cowl_obj_prop_retain(CowlObjProp *prop) { return cowl_retain(prop); }
 
 /**
  * Releases the specified object property.
@@ -119,8 +116,8 @@ CowlString* cowl_obj_prop_to_string(CowlObjProp *prop);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs);
+COWL_INLINE
+bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -130,8 +127,8 @@ bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_prop_hash(CowlObjProp *prop);
+COWL_INLINE
+ulib_uint cowl_obj_prop_hash(CowlObjProp *prop) { return uhash_ptr_hash(prop); }
 
 /**
  * Iterates over this object property.

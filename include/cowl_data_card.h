@@ -13,9 +13,8 @@
 #ifndef COWL_DATA_CARD_H
 #define COWL_DATA_CARD_H
 
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 #include "cowl_card_type.h"
-#include "cowl_iterator.h"
 
 COWL_BEGIN_DECLS
 
@@ -48,9 +47,12 @@ cowl_struct_decl(CowlDataCard);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
-                                 CowlDataRange *range, ulib_uint cardinality);
+                                 CowlDataRange *range, ulib_uint cardinality) {
+    if (!cowl_enum_value_is_valid(CT, type)) return NULL;
+    return cowl_uint_get_impl_1(COWL_OT_CE_DATA_MIN_CARD + type, prop, cardinality, range);
+}
 
 /**
  * Retains the specified data property cardinality restriction.
@@ -60,8 +62,8 @@ CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-CowlDataCard* cowl_data_card_retain(CowlDataCard *restr);
+COWL_INLINE
+CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) { return cowl_retain(restr); }
 
 /**
  * Releases the specified data property cardinality restriction.
@@ -70,8 +72,8 @@ CowlDataCard* cowl_data_card_retain(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-void cowl_data_card_release(CowlDataCard *restr);
+COWL_INLINE
+void cowl_data_card_release(CowlDataCard *restr) { cowl_release_impl(restr); }
 
 /**
  * Gets the type of the specified data property cardinality restriction.
@@ -81,8 +83,10 @@ void cowl_data_card_release(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-CowlCardType cowl_data_card_get_type(CowlDataCard *restr);
+COWL_INLINE
+CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
+    return (CowlCardType)(cowl_get_type(restr) - COWL_OT_CE_DATA_MIN_CARD);
+}
 
 /**
  * Gets the property of the restriction.
@@ -92,8 +96,10 @@ CowlCardType cowl_data_card_get_type(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr);
+COWL_INLINE
+CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {
+    return cowl_get_field(restr, 0);
+}
 
 /**
  * Gets the range of the restriction.
@@ -103,8 +109,10 @@ CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr);
+COWL_INLINE
+CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr) {
+    return cowl_get_opt_field(restr);
+}
 
 /**
  * Gets the cardinality of the restriction.
@@ -114,8 +122,10 @@ CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr);
+COWL_INLINE
+ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr) {
+    return cowl_get_uint_field(restr);
+}
 
 /**
  * Returns the string representation of the specified restriction.
@@ -127,8 +137,10 @@ ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-CowlString* cowl_data_card_to_string(CowlDataCard *restr);
+COWL_INLINE
+CowlString* cowl_data_card_to_string(CowlDataCard *restr) {
+    return cowl_uint_to_string_impl(restr);
+}
 
 /**
  * Equality function.
@@ -139,8 +151,10 @@ CowlString* cowl_data_card_to_string(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs);
+COWL_INLINE
+bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {
+    return cowl_uint_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -150,8 +164,10 @@ bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
-ulib_uint cowl_data_card_hash(CowlDataCard *restr);
+COWL_INLINE
+ulib_uint cowl_data_card_hash(CowlDataCard *restr) {
+    return cowl_uint_hash_impl(restr);
+}
 
 /**
  * Iterates over the primitives referenced by the specified data property cardinality restriction.
@@ -163,9 +179,11 @@ ulib_uint cowl_data_card_hash(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_card_iterate_primitives(CowlDataCard *restr, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter);
+                                       CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(restr, flags, iter);
+}
 
 COWL_END_DECLS
 

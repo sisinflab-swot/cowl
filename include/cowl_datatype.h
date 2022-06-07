@@ -13,13 +13,11 @@
 #ifndef COWL_DATATYPE_H
 #define COWL_DATATYPE_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_entity.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlDatatype);
 /// @endcond
 
@@ -72,8 +70,8 @@ CowlDatatype* cowl_datatype_from_string(UString string);
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-CowlDatatype* cowl_datatype_retain(CowlDatatype *dt);
+COWL_INLINE
+CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) { return cowl_retain(dt); }
 
 /**
  * Releases the specified datatype.
@@ -118,8 +116,8 @@ CowlString* cowl_datatype_to_string(CowlDatatype *dt);
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs);
+COWL_INLINE
+bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -129,8 +127,8 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs);
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-ulib_uint cowl_datatype_hash(CowlDatatype *dt);
+COWL_INLINE
+ulib_uint cowl_datatype_hash(CowlDatatype *dt) { return uhash_ptr_hash(dt); }
 
 /**
  * Iterates over this datatype.

@@ -8,81 +8,28 @@
  * @file
  */
 
-#include "cowl_class_private.h"
-#include "cowl_iri.h"
+#include "cowl_class.h"
+#include "cowl_entity_private.h"
 #include "cowl_iterator_private.h"
-#include "cowl_set.h"
-#include "cowl_template.h"
-
-static UHash(CowlObjectTable) inst_tbl;
-
-static ulib_uint inst_tbl_hash(void *key) {
-    return cowl_iri_hash(cowl_class_get_iri(key));
-}
-
-static bool inst_tbl_eq(void *lhs, void *rhs) {
-    return cowl_iri_equals(cowl_class_get_iri(lhs), cowl_class_get_iri(rhs));
-}
-
-
-cowl_ret cowl_class_api_init(void) {
-    inst_tbl = uhset_init_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
-    return COWL_OK;
-}
-
-void cowl_class_api_deinit(void) {
-    uhash_deinit(CowlObjectTable, &inst_tbl);
-}
-
-static CowlClass* cowl_class_alloc(CowlIRI *iri) {
-    CowlClass *cls = ulib_alloc(cls);
-    if (!cls) return NULL;
-
-    (*cls) = (CowlClass) {
-        .super = COWL_OBJECT_INIT(COWL_OT_CE_CLASS),
-        .iri = cowl_iri_retain(iri)
-    };
-
-    return cls;
-}
-
-static void cowl_class_free(CowlClass *cls) {
-    cowl_iri_release(cls->iri);
-    ulib_free(cls);
-}
 
 CowlClass* cowl_class_get(CowlIRI *iri) {
-    if (!iri) return NULL;
-    COWL_INST_TBL_GET_IMPL(Class, class, { .iri = iri }, cowl_class_alloc(iri))
-}
-
-CowlClass* cowl_class_retain(CowlClass *cls) {
-    return cowl_object_incr_ref(cls);
+    return cowl_entity_get(COWL_OT_CE_CLASS, iri);
 }
 
 void cowl_class_release(CowlClass *cls) {
-    if (cls && !cowl_object_decr_ref(cls)) {
-        uhset_remove(CowlObjectTable, &inst_tbl, cls);
-        cowl_class_free(cls);
-    }
+    cowl_entity_release((CowlEntity *)cls);
 }
 
-CowlClass* cowl_class_from_string(UString string)
-    COWL_ENTITY_FROM_STRING_IMPL(Class, class)
+CowlClass* cowl_class_from_string(UString string) {
+    return cowl_entity_from_string(COWL_OT_CE_CLASS, string);
+}
+
+CowlString* cowl_class_to_string(CowlClass *cls) {
+    return cowl_entity_to_string((CowlEntity *)cls);
+}
 
 CowlIRI* cowl_class_get_iri(CowlClass *cls) {
-    return cls->iri;
-}
-
-CowlString* cowl_class_to_string(CowlClass *cls)
-    COWL_TO_STRING_IMPL(class, cls)
-
-bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
-    return lhs == rhs;
-}
-
-ulib_uint cowl_class_hash(CowlClass *cls) {
-    return uhash_ptr_hash(cls);
+    return cowl_entity_get_iri((CowlEntity *)cls);
 }
 
 bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveFlags flags, CowlIterator *iter) {

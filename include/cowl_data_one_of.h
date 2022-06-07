@@ -13,8 +13,7 @@
 #ifndef COWL_COWL_DATA_ONE_OF_H
 #define COWL_COWL_DATA_ONE_OF_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -40,8 +39,10 @@ cowl_struct_decl(CowlDataOneOf);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
-CowlDataOneOf* cowl_data_one_of_get(CowlVector *values);
+COWL_INLINE
+CowlDataOneOf* cowl_data_one_of_get(CowlVector *values) {
+    return cowl_get_impl_1(COWL_OT_DR_DATA_ONE_OF, values, NULL);
+}
 
 /**
  * Retains the specified literal enumeration.
@@ -51,8 +52,8 @@ CowlDataOneOf* cowl_data_one_of_get(CowlVector *values);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
-CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range);
+COWL_INLINE
+CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range) { return cowl_retain(range); }
 
 /**
  * Releases the specified literal enumeration.
@@ -61,8 +62,10 @@ CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
-void cowl_data_one_of_release(CowlDataOneOf *range);
+COWL_INLINE
+void cowl_data_one_of_release(CowlDataOneOf *range) {
+    cowl_release_impl(range);
+}
 
 /**
  * Gets the values of the specified literal enumeration.
@@ -72,8 +75,10 @@ void cowl_data_one_of_release(CowlDataOneOf *range);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
-CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range);
+COWL_INLINE
+CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range) {
+    return cowl_get_field(range, 0);
+}
 
 /**
  * Returns the string representation of the specified literal enumeration.
@@ -85,8 +90,10 @@ CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
-CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range);
+COWL_INLINE
+CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range) {
+    return cowl_to_string_impl(range);
+}
 
 /**
  * Equality function.
@@ -97,8 +104,10 @@ CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
-bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs);
+COWL_INLINE
+bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -108,8 +117,10 @@ bool cowl_data_one_of_equals(CowlDataOneOf *lhs, CowlDataOneOf *rhs);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
-ulib_uint cowl_data_one_of_hash(CowlDataOneOf *range);
+COWL_INLINE
+ulib_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
+    return cowl_hash_impl(range);
+}
 
 /**
  * Iterates over the primitives referenced by the specified literal enumeration.
@@ -121,9 +132,11 @@ ulib_uint cowl_data_one_of_hash(CowlDataOneOf *range);
  *
  * @public @memberof CowlDataOneOf
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlPrimitiveFlags flags,
-                                         CowlIterator *iter);
+                                         CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(range, flags, iter);
+}
 
 COWL_END_DECLS
 

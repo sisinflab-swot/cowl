@@ -13,15 +13,13 @@
 #ifndef COWL_ANNOTATION_H
 #define COWL_ANNOTATION_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotValue);
-cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlAnnotation);
 /// @endcond
 
@@ -43,8 +41,10 @@ cowl_struct_decl(CowlAnnotation);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value, CowlVector *annot);
+COWL_INLINE
+CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value, CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_ANNOTATION, prop, value, annot);
+}
 
 /**
  * Retains the specified annotation.
@@ -54,8 +54,8 @@ CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value, 
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-CowlAnnotation* cowl_annotation_retain(CowlAnnotation *annot);
+COWL_INLINE
+CowlAnnotation* cowl_annotation_retain(CowlAnnotation *annot) { return cowl_retain(annot); }
 
 /**
  * Releases the specified annotation.
@@ -64,8 +64,10 @@ CowlAnnotation* cowl_annotation_retain(CowlAnnotation *annot);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-void cowl_annotation_release(CowlAnnotation *annot);
+COWL_INLINE
+void cowl_annotation_release(CowlAnnotation *annot) {
+    cowl_release_impl(annot);
+}
 
 /**
  * Gets the annotation property.
@@ -75,8 +77,10 @@ void cowl_annotation_release(CowlAnnotation *annot);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot);
+COWL_INLINE
+CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot) {
+    return cowl_get_field(annot, 0);
+}
 
 
 /**
@@ -87,8 +91,10 @@ CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot);
+COWL_INLINE
+CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot) {
+    return cowl_get_field(annot, 1);
+}
 
 /**
  * Gets the annotations of the specified annotation.
@@ -98,8 +104,10 @@ CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot);
+COWL_INLINE
+CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot) {
+    return cowl_get_opt_field(annot);
+}
 
 /**
  * Returns the string representation of the specified annotation.
@@ -111,8 +119,10 @@ CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-CowlString* cowl_annotation_to_string(CowlAnnotation *annot);
+COWL_INLINE
+CowlString* cowl_annotation_to_string(CowlAnnotation *annot) {
+    return cowl_to_string_impl(annot);
+}
 
 /**
  * Equality function.
@@ -123,8 +133,10 @@ CowlString* cowl_annotation_to_string(CowlAnnotation *annot);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs);
+COWL_INLINE
+bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -134,8 +146,10 @@ bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
-ulib_uint cowl_annotation_hash(CowlAnnotation *annot);
+COWL_INLINE
+ulib_uint cowl_annotation_hash(CowlAnnotation *annot) {
+    return cowl_hash_impl(annot);
+}
 
 /**
  * Iterates over the primitives referenced by the specified annotation.
@@ -147,9 +161,11 @@ ulib_uint cowl_annotation_hash(CowlAnnotation *annot);
  *
  * @public @memberof CowlAnnotation
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annotation_iterate_primitives(CowlAnnotation *annot, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(annot, flags, iter);
+}
 
 COWL_END_DECLS
 

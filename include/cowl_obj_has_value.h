@@ -13,8 +13,7 @@
 #ifndef COWL_OBJ_HAS_VALUE_H
 #define COWL_OBJ_HAS_VALUE_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -42,8 +41,10 @@ cowl_struct_decl(CowlObjHasValue);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *individual);
+COWL_INLINE
+CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *individual) {
+    return cowl_get_impl_2(COWL_OT_CE_OBJ_HAS_VALUE, prop, individual, NULL);
+}
 
 /**
  * Retains the specified individual value restriction.
@@ -53,8 +54,8 @@ CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *in
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp);
+COWL_INLINE
+CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp) { return cowl_retain(exp); }
 
 /**
  * Releases the specified individual value restriction.
@@ -63,8 +64,8 @@ CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-void cowl_obj_has_value_release(CowlObjHasValue *exp);
+COWL_INLINE
+void cowl_obj_has_value_release(CowlObjHasValue *exp) { cowl_release_impl(exp); }
 
 /**
  * Gets the object property expression of the specified individual value restriction.
@@ -74,8 +75,8 @@ void cowl_obj_has_value_release(CowlObjHasValue *exp);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp);
+COWL_INLINE
+CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp) { return cowl_get_field(exp, 0); }
 
 /**
  * Gets the individual of the specified individual value restriction.
@@ -85,8 +86,8 @@ CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp);
+COWL_INLINE
+CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp) { return cowl_get_field(exp, 1); }
 
 /**
  * Returns the string representation of the specified value restriction.
@@ -98,8 +99,10 @@ CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp);
+COWL_INLINE
+CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp) {
+    return cowl_to_string_impl(exp);
+}
 
 /**
  * Equality function.
@@ -110,8 +113,10 @@ CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs);
+COWL_INLINE
+bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -121,8 +126,10 @@ bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_has_value_hash(CowlObjHasValue *exp);
+COWL_INLINE
+ulib_uint cowl_obj_has_value_hash(CowlObjHasValue *exp) {
+    return cowl_hash_impl(exp);
+}
 
 /**
  * Iterates over the primitives referenced by
@@ -135,9 +142,11 @@ ulib_uint cowl_obj_has_value_hash(CowlObjHasValue *exp);
  *
  * @public @memberof CowlObjHasValue
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_has_value_iterate_primitives(CowlObjHasValue *exp, CowlPrimitiveFlags flags,
-                                           CowlIterator *iter);
+                                           CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(exp, flags, iter);
+}
 
 COWL_END_DECLS
 

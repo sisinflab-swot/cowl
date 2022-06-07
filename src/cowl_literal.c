@@ -10,33 +10,38 @@
 
 #include "cowl_literal_private.h"
 #include "cowl_datatype.h"
-#include "cowl_hash_utils.h"
+#include "cowl_object_impl.h"
 #include "cowl_rdf_vocab.h"
-#include "cowl_string_private.h"
 #include "cowl_template.h"
 
+static inline bool cowl_literal_has_dt(CowlLiteral *literal) {
+    return cowl_object_bit_get(literal);
+}
+
 static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    CowlLiteral *literal = ulib_alloc(literal);
+    CowlComposite *literal = ulib_malloc(sizeof(*literal) + 2 * sizeof(*literal->data));
     if (!literal) return NULL;
+    if (!dt && !lang) dt = cowl_rdf_vocab_get()->dt.plain_literal;
 
-    dt = cowl_datatype_retain(dt ? dt : cowl_rdf_vocab_get()->dt.plain_literal);
-    value = value ? cowl_string_retain(value) : cowl_string_get_empty();
-    lang = lang ? cowl_string_retain(lang) : cowl_string_get_empty();
+    literal->super = COWL_OBJECT_BIT_INIT(COWL_OT_LITERAL, dt);
+    literal->data[0] = cowl_string_retain(value);
 
-    *literal = (CowlLiteral) {
-        .super = COWL_OBJECT_INIT(COWL_OT_LITERAL),
-        .dt = dt,
-        .value = value,
-        .lang = lang
-    };
+    if (dt) {
+        literal->data[1] = cowl_datatype_retain(dt);
+    } else {
+        literal->data[1] = cowl_string_retain(lang);
+    }
 
-    return literal;
+    return (CowlLiteral *)literal;
 }
 
 static void cowl_literal_free(CowlLiteral *literal) {
-    cowl_datatype_release(literal->dt);
-    cowl_string_release(literal->value);
-    cowl_string_release(literal->lang);
+    cowl_string_release(cowl_literal_get_value(literal));
+    if (cowl_literal_has_dt(literal)) {
+        cowl_datatype_release(cowl_literal_get_datatype(literal));
+    } else {
+        cowl_string_release(cowl_literal_get_lang(literal));
+    }
     ulib_free(literal);
 }
 
@@ -60,7 +65,7 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang)
         }
     }
 
-    CowlString *val_s = val_len ? cowl_string_get(ustring_copy(val_str, val_len)) : NULL;
+    CowlString *val_s = val_len ? cowl_string_get(ustring_copy(val_str, val_len)) : cowl_string_get_empty();
     CowlString *lang_s = lang_len ? cowl_string_get(ustring_copy(lang_str, lang_len)) : NULL;
     CowlLiteral *literal = cowl_literal_alloc(dt, val_s, cowl_string_intern(lang_s));
 
@@ -81,34 +86,35 @@ void cowl_literal_release(CowlLiteral *literal) {
 }
 
 CowlDatatype* cowl_literal_get_datatype(CowlLiteral *literal) {
-    return literal->dt;
+    if (cowl_literal_has_dt(literal)) return cowl_get_field(literal, 1);
+    return cowl_rdf_vocab_get()->dt.plain_literal;
 }
 
 CowlString* cowl_literal_get_value(CowlLiteral *literal) {
-    return literal->value;
+    return cowl_get_field(literal, 0);
 }
 
 CowlString* cowl_literal_get_lang(CowlLiteral *literal) {
-    return literal->lang;
+    if (cowl_literal_has_dt(literal)) return NULL;
+    return cowl_get_field(literal, 1);
 }
 
 CowlString* cowl_literal_to_string(CowlLiteral *literal)
     COWL_TO_STRING_IMPL(literal, literal)
 
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
-    return lhs->lang == rhs->lang &&
-           cowl_datatype_equals(lhs->dt, rhs->dt) &&
-           cowl_string_equals(lhs->value, rhs->value);
+    return cowl_get_field(lhs, 1) == cowl_get_field(rhs, 1) &&
+           cowl_string_equals(cowl_literal_get_value(lhs), cowl_literal_get_value(rhs));
 }
 
 ulib_uint cowl_literal_hash(CowlLiteral *literal) {
-    return cowl_hash_3(COWL_HASH_INIT_LITERAL,
-                       cowl_datatype_hash(literal->dt),
-                       cowl_string_hash(literal->value),
-                       uhash_ptr_hash(literal->lang));
+    ulib_uint hash = uhash_combine_hash(6151U, COWL_OT_LITERAL);
+    hash = uhash_combine_hash(hash, cowl_string_hash(cowl_literal_get_value(literal)));
+    hash = uhash_combine_hash(hash, uhash_ptr_hash(cowl_get_field(literal, 1)));
+    return hash;
 }
 
 bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,
                                      CowlIterator *iter) {
-    return cowl_datatype_iterate_primitives(literal->dt, flags, iter);
+    return cowl_datatype_iterate_primitives(cowl_literal_get_datatype(literal), flags, iter);
 }

@@ -13,8 +13,7 @@
 #ifndef COWL_OBJ_HAS_SELF_H
 #define COWL_OBJ_HAS_SELF_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -40,8 +39,10 @@ cowl_struct_decl(CowlObjHasSelf);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
-CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop);
+COWL_INLINE
+CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop) {
+    return cowl_get_impl_1(COWL_OT_CE_OBJ_HAS_SELF, prop, NULL);
+}
 
 /**
  * Retains the specified self-restriction.
@@ -51,8 +52,8 @@ CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
-CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp);
+COWL_INLINE
+CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp) { return cowl_retain(exp); }
 
 /**
  * Releases the specified self-restriction.
@@ -61,8 +62,8 @@ CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
-void cowl_obj_has_self_release(CowlObjHasSelf *exp);
+COWL_INLINE
+void cowl_obj_has_self_release(CowlObjHasSelf *exp) { cowl_release_impl(exp); }
 
 /**
  * Gets the object property expression of the specified self-restriction.
@@ -72,8 +73,8 @@ void cowl_obj_has_self_release(CowlObjHasSelf *exp);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
-CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp);
+COWL_INLINE
+CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) { return cowl_get_field(exp, 0); }
 
 /**
  * Returns the string representation of the specified self-restriction.
@@ -85,8 +86,10 @@ CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
-CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp);
+COWL_INLINE
+CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp) {
+    return cowl_to_string_impl(exp);
+}
 
 /**
  * Equality function.
@@ -97,8 +100,10 @@ CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
-bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs);
+COWL_INLINE
+bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -108,8 +113,10 @@ bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp);
+COWL_INLINE
+ulib_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
+    return cowl_hash_impl(exp);
+}
 
 /**
  * Iterates over the primitives referenced by the specified self-restriction.
@@ -121,9 +128,11 @@ ulib_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp);
  *
  * @public @memberof CowlObjHasSelf
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_has_self_iterate_primitives(CowlObjHasSelf *exp, CowlPrimitiveFlags flags,
-                                          CowlIterator *iter);
+                                          CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(exp, flags, iter);
+}
 
 COWL_END_DECLS
 

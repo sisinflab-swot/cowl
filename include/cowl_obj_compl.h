@@ -13,8 +13,7 @@
 #ifndef COWL_OBJ_COMPL_H
 #define COWL_OBJ_COMPL_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -40,8 +39,10 @@ cowl_struct_decl(CowlObjCompl);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
-CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand);
+COWL_INLINE
+CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
+    return cowl_get_impl_1(COWL_OT_CE_OBJ_COMPL, operand, NULL);
+}
 
 /**
  * Retains the specified class expression complement.
@@ -51,8 +52,8 @@ CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
-CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp);
+COWL_INLINE
+CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp) { return cowl_retain(exp); }
 
 /**
  * Releases the specified class expression complement.
@@ -61,8 +62,8 @@ CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
-void cowl_obj_compl_release(CowlObjCompl *exp);
+COWL_INLINE
+void cowl_obj_compl_release(CowlObjCompl *exp) { cowl_release_impl(exp); }
 
 /**
  * Gets the operand of the specified class expression complement.
@@ -72,8 +73,8 @@ void cowl_obj_compl_release(CowlObjCompl *exp);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
-CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp);
+COWL_INLINE
+CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp) { return cowl_get_field(exp, 0); }
 
 /**
  * Returns the string representation of the specified class expression complement.
@@ -85,8 +86,10 @@ CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
-CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp);
+COWL_INLINE
+CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp) {
+    return cowl_to_string_impl(exp);
+}
 
 /**
  * Equality function.
@@ -97,8 +100,10 @@ CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
-bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs);
+COWL_INLINE
+bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -108,8 +113,10 @@ bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
-ulib_uint cowl_obj_compl_hash(CowlObjCompl *exp);
+COWL_INLINE
+ulib_uint cowl_obj_compl_hash(CowlObjCompl *exp) {
+    return cowl_hash_impl(exp);
+}
 
 /**
  * Iterates over the primitives referenced by
@@ -122,9 +129,11 @@ ulib_uint cowl_obj_compl_hash(CowlObjCompl *exp);
  *
  * @public @memberof CowlObjCompl
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter);
+                                       CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(exp, flags, iter);
+}
 
 COWL_END_DECLS
 

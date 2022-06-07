@@ -13,8 +13,7 @@
 #ifndef COWL_HAS_KEY_AXIOM_H
 #define COWL_HAS_KEY_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,9 +43,11 @@ cowl_struct_decl(CowlHasKeyAxiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlVector *obj_props,
-                                        CowlVector *data_props, CowlVector *annot);
+                                        CowlVector *data_props, CowlVector *annot) {
+    return cowl_get_impl_3(COWL_OT_A_HAS_KEY, cls_exp, obj_props, data_props, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -56,8 +57,8 @@ CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlVector *obj_pro
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) { return cowl_retain(axiom); }
 
 /**
  * Releases the specified axiom.
@@ -66,8 +67,8 @@ CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom) { cowl_release_impl(axiom); }
 
 /**
  * Gets the class expression, instances of which this axiom acts as the key for.
@@ -77,8 +78,10 @@ void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the set of object property expressions that make up the key.
@@ -88,8 +91,10 @@ CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the set of data property expressions that make up the key.
@@ -99,8 +104,10 @@ CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
+    return cowl_get_field(axiom, 2);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -110,8 +117,10 @@ CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -123,8 +132,10 @@ CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -135,8 +146,10 @@ CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs);
+COWL_INLINE
+bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -146,8 +159,10 @@ bool cowl_has_key_axiom_equals(CowlHasKeyAxiom *lhs, CowlHasKeyAxiom *rhs);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -159,9 +174,11 @@ ulib_uint cowl_has_key_axiom_hash(CowlHasKeyAxiom *axiom);
  *
  * @public @memberof CowlHasKeyAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_has_key_axiom_iterate_primitives(CowlHasKeyAxiom *axiom, CowlPrimitiveFlags flags,
-                                           CowlIterator *iter);
+                                           CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

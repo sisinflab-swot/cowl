@@ -13,14 +13,11 @@
 #ifndef COWL_NAMED_IND_H
 #define COWL_NAMED_IND_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_entity.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlNamedInd);
 /// @endcond
 
@@ -73,8 +70,8 @@ CowlNamedInd* cowl_named_ind_from_string(UString string);
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind);
+COWL_INLINE
+CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind) { return cowl_retain(ind); }
 
 /**
  * Releases the specified named individual.
@@ -119,8 +116,8 @@ CowlString* cowl_named_ind_to_string(CowlNamedInd *ind);
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs);
+COWL_INLINE
+bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) { return lhs == rhs; }
 
 /**
  * Hash function.
@@ -130,8 +127,8 @@ bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs);
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-ulib_uint cowl_named_ind_hash(CowlNamedInd *ind);
+COWL_INLINE
+ulib_uint cowl_named_ind_hash(CowlNamedInd *ind) { return uhash_ptr_hash(ind); }
 
 /**
  * Iterates over this named individual.

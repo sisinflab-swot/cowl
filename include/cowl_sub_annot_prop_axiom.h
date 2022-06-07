@@ -13,8 +13,7 @@
 #ifndef COWL_SUB_ANNOT_PROP_AXIOM_H
 #define COWL_SUB_ANNOT_PROP_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,9 +42,11 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_get(CowlAnnotProp *sub, CowlAnnotProp *super,
-                                                     CowlVector *annot);
+                                                     CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_SUB_ANNOT_PROP, sub, super, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -55,8 +56,10 @@ CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_get(CowlAnnotProp *sub, CowlAnn
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
-CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_retain(CowlSubAnnotPropAxiom *axiom);
+COWL_INLINE
+CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_retain(CowlSubAnnotPropAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -65,19 +68,10 @@ CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_retain(CowlSubAnnotPropAxiom *a
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
-void cowl_sub_annot_prop_axiom_release(CowlSubAnnotPropAxiom *axiom);
-
-/**
- * Gets the superproperty.
- *
- * @param axiom The axiom.
- * @return The superproperty.
- *
- * @public @memberof CowlSubAnnotPropAxiom
- */
-COWL_PUBLIC
-CowlAnnotProp* cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom);
+COWL_INLINE
+void cowl_sub_annot_prop_axiom_release(CowlSubAnnotPropAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the subproperty.
@@ -87,8 +81,23 @@ CowlAnnotProp* cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom)
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
-CowlAnnotProp* cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom);
+COWL_INLINE
+CowlAnnotProp* cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
+
+/**
+ * Gets the superproperty.
+ *
+ * @param axiom The axiom.
+ * @return The superproperty.
+ *
+ * @public @memberof CowlSubAnnotPropAxiom
+ */
+COWL_INLINE
+CowlAnnotProp* cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -98,8 +107,10 @@ CowlAnnotProp* cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom);
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -111,8 +122,10 @@ CowlVector* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom);
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_sub_annot_prop_axiom_to_string(CowlSubAnnotPropAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_sub_annot_prop_axiom_to_string(CowlSubAnnotPropAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -123,8 +136,10 @@ CowlString* cowl_sub_annot_prop_axiom_to_string(CowlSubAnnotPropAxiom *axiom);
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
-bool cowl_sub_annot_prop_axiom_equals(CowlSubAnnotPropAxiom *lhs, CowlSubAnnotPropAxiom *rhs);
+COWL_INLINE
+bool cowl_sub_annot_prop_axiom_equals(CowlSubAnnotPropAxiom *lhs, CowlSubAnnotPropAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -134,8 +149,10 @@ bool cowl_sub_annot_prop_axiom_equals(CowlSubAnnotPropAxiom *lhs, CowlSubAnnotPr
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -147,9 +164,11 @@ ulib_uint cowl_sub_annot_prop_axiom_hash(CowlSubAnnotPropAxiom *axiom);
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_sub_annot_prop_axiom_iterate_primitives(CowlSubAnnotPropAxiom *axiom,
-                                                  CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                  CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

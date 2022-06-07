@@ -13,8 +13,7 @@
 #ifndef COWL_DATATYPE_DEF_AXIOM_H
 #define COWL_DATATYPE_DEF_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,9 +43,11 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRange *range,
-                                                  CowlVector *annot);
+                                                  CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_DATATYPE_DEF, dt, range, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -56,8 +57,10 @@ CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRang
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-CowlDatatypeDefAxiom* cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom);
+COWL_INLINE
+CowlDatatypeDefAxiom* cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -66,8 +69,10 @@ CowlDatatypeDefAxiom* cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-void cowl_datatype_def_axiom_release(CowlDatatypeDefAxiom *axiom);
+COWL_INLINE
+void cowl_datatype_def_axiom_release(CowlDatatypeDefAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the defined datatype.
@@ -77,8 +82,10 @@ void cowl_datatype_def_axiom_release(CowlDatatypeDefAxiom *axiom);
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-CowlDatatype* cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom);
+COWL_INLINE
+CowlDatatype* cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the range of the defined datatype.
@@ -87,8 +94,10 @@ CowlDatatype* cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom);
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom);
+COWL_INLINE
+CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -98,8 +107,10 @@ CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom);
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -111,8 +122,10 @@ CowlVector* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom);
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -123,8 +136,10 @@ CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom);
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAxiom *rhs);
+COWL_INLINE
+bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -134,8 +149,10 @@ bool cowl_datatype_def_axiom_equals(CowlDatatypeDefAxiom *lhs, CowlDatatypeDefAx
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -147,9 +164,11 @@ ulib_uint cowl_datatype_def_axiom_hash(CowlDatatypeDefAxiom *axiom);
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_datatype_def_axiom_iterate_primitives(CowlDatatypeDefAxiom *axiom,
-                                                CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

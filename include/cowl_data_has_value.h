@@ -13,8 +13,7 @@
 #ifndef COWL_DATA_HAS_VALUE_H
 #define COWL_DATA_HAS_VALUE_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -42,8 +41,10 @@ cowl_struct_decl(CowlDataHasValue);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value);
+COWL_INLINE
+CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value) {
+    return cowl_get_impl_2(COWL_OT_CE_DATA_HAS_VALUE, prop, value, NULL);
+}
 
 /**
  * Retains the specified literal value restriction.
@@ -53,8 +54,8 @@ CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *va
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr);
+COWL_INLINE
+CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr) { return cowl_retain(restr); }
 
 /**
  * Releases the specified literal value restriction.
@@ -63,8 +64,10 @@ CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-void cowl_data_has_value_release(CowlDataHasValue *restr);
+COWL_INLINE
+void cowl_data_has_value_release(CowlDataHasValue *restr) {
+    cowl_release_impl(restr);
+}
 
 /**
  * Gets the property of the restriction.
@@ -74,8 +77,10 @@ void cowl_data_has_value_release(CowlDataHasValue *restr);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr);
+COWL_INLINE
+CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
+    return cowl_get_field(restr, 0);
+}
 
 /**
  * Gets the value of the restriction.
@@ -85,8 +90,10 @@ CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr);
+COWL_INLINE
+CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr) {
+    return cowl_get_field(restr, 1);
+}
 
 /**
  * Returns the string representation of the specified restriction.
@@ -98,8 +105,10 @@ CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr);
+COWL_INLINE
+CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr) {
+    return cowl_to_string_impl(restr);
+}
 
 /**
  * Equality function.
@@ -110,8 +119,10 @@ CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs);
+COWL_INLINE
+bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -121,8 +132,10 @@ bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
-ulib_uint cowl_data_has_value_hash(CowlDataHasValue *restr);
+COWL_INLINE
+ulib_uint cowl_data_has_value_hash(CowlDataHasValue *restr) {
+    return cowl_hash_impl(restr);
+}
 
 /**
  * Iterates over the primitives referenced by the specified literal value restriction.
@@ -134,9 +147,11 @@ ulib_uint cowl_data_has_value_hash(CowlDataHasValue *restr);
  *
  * @public @memberof CowlDataHasValue
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_has_value_iterate_primitives(CowlDataHasValue *restr, CowlPrimitiveFlags flags,
-                                            CowlIterator *iter);
+                                            CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(restr, flags, iter);
+}
 
 COWL_END_DECLS
 

@@ -13,15 +13,13 @@
 #ifndef COWL_ANNOT_ASSERT_AXIOM_H
 #define COWL_ANNOT_ASSERT_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotValue);
-cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlAnnotAssertAxiom);
 /// @endcond
@@ -46,9 +44,11 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
-                                                  CowlAnnotValue *value, CowlVector *annot);
+                                                  CowlAnnotValue *value, CowlVector *annot) {
+    return cowl_get_impl_3(COWL_OT_A_ANNOT_ASSERT, subject, prop, value, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -58,8 +58,10 @@ CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlA
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-CowlAnnotAssertAxiom* cowl_annot_assert_axiom_retain(CowlAnnotAssertAxiom *axiom);
+COWL_INLINE
+CowlAnnotAssertAxiom* cowl_annot_assert_axiom_retain(CowlAnnotAssertAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -68,8 +70,10 @@ CowlAnnotAssertAxiom* cowl_annot_assert_axiom_retain(CowlAnnotAssertAxiom *axiom
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom);
+COWL_INLINE
+void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the annotation subject.
@@ -81,19 +85,10 @@ void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom);
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-CowlAnnotValue* cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom);
-
-/**
- * Gets the annotation value.
- *
- * @param axiom The axiom.
- * @return The annotation value.
- *
- * @public @memberof CowlAnnotAssertAxiom
- */
-COWL_PUBLIC
-CowlAnnotValue* cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom);
+COWL_INLINE
+CowlAnnotValue* cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the annotation property.
@@ -103,8 +98,23 @@ CowlAnnotValue* cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom);
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom);
+COWL_INLINE
+CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
+
+/**
+ * Gets the annotation value.
+ *
+ * @param axiom The axiom.
+ * @return The annotation value.
+ *
+ * @public @memberof CowlAnnotAssertAxiom
+ */
+COWL_INLINE
+CowlAnnotValue* cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
+    return cowl_get_field(axiom, 2);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -114,8 +124,10 @@ CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom);
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -127,8 +139,10 @@ CowlVector* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom);
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_annot_assert_axiom_to_string(CowlAnnotAssertAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_annot_assert_axiom_to_string(CowlAnnotAssertAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -139,8 +153,10 @@ CowlString* cowl_annot_assert_axiom_to_string(CowlAnnotAssertAxiom *axiom);
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-bool cowl_annot_assert_axiom_equals(CowlAnnotAssertAxiom *lhs, CowlAnnotAssertAxiom *rhs);
+COWL_INLINE
+bool cowl_annot_assert_axiom_equals(CowlAnnotAssertAxiom *lhs, CowlAnnotAssertAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -150,8 +166,10 @@ bool cowl_annot_assert_axiom_equals(CowlAnnotAssertAxiom *lhs, CowlAnnotAssertAx
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -163,9 +181,11 @@ ulib_uint cowl_annot_assert_axiom_hash(CowlAnnotAssertAxiom *axiom);
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annot_assert_axiom_iterate_primitives(CowlAnnotAssertAxiom *axiom,
-                                                CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

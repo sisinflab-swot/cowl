@@ -13,8 +13,7 @@
 #ifndef COWL_SUB_CLS_AXIOM_H
 #define COWL_SUB_CLS_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,9 +42,10 @@ cowl_struct_decl(CowlSubClsAxiom);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super,
-                                        CowlVector *annot);
+COWL_INLINE
+CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super, CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_SUB_CLASS, sub, super, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -55,8 +55,10 @@ CowlSubClsAxiom* cowl_sub_cls_axiom_get(CowlClsExp *sub, CowlClsExp *super,
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom);
+COWL_INLINE
+CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -65,19 +67,10 @@ CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom);
-
-/**
- * Gets the superclass.
- *
- * @param axiom The axiom.
- * @return The superclass.
- *
- * @public @memberof CowlSubClsAxiom
- */
-COWL_PUBLIC
-CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom);
+COWL_INLINE
+void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the subclass.
@@ -87,8 +80,23 @@ CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom);
+COWL_INLINE
+CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
+
+/**
+ * Gets the superclass.
+ *
+ * @param axiom The axiom.
+ * @return The superclass.
+ *
+ * @public @memberof CowlSubClsAxiom
+ */
+COWL_INLINE
+CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -98,8 +106,10 @@ CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -111,8 +121,10 @@ CowlVector* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -123,8 +135,10 @@ CowlString* cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs);
+COWL_INLINE
+bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -134,8 +148,10 @@ bool cowl_sub_cls_axiom_equals(CowlSubClsAxiom *lhs, CowlSubClsAxiom *rhs);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -147,9 +163,11 @@ ulib_uint cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom);
  *
  * @public @memberof CowlSubClsAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_sub_cls_axiom_iterate_primitives(CowlSubClsAxiom *axiom, CowlPrimitiveFlags flags,
-                                           CowlIterator *iter);
+                                           CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

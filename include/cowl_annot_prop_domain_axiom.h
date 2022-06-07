@@ -13,16 +13,13 @@
 #ifndef COWL_ANNOT_PROP_DOMAIN_AXIOM_H
 #define COWL_ANNOT_PROP_DOMAIN_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlString);
-cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlAnnotPropDomainAxiom);
 /// @endcond
 
@@ -45,9 +42,11 @@ cowl_struct_decl(CowlAnnotPropDomainAxiom);
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_get(CowlAnnotProp *prop, CowlIRI *domain,
-                                                           CowlVector *annot);
+                                                           CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_ANNOT_PROP_DOMAIN, prop, domain, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -57,8 +56,10 @@ CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_get(CowlAnnotProp *prop, 
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
-CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_retain(CowlAnnotPropDomainAxiom *axiom);
+COWL_INLINE
+CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_retain(CowlAnnotPropDomainAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -67,8 +68,10 @@ CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom_retain(CowlAnnotPropDomai
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
-void cowl_annot_prop_domain_axiom_release(CowlAnnotPropDomainAxiom *axiom);
+COWL_INLINE
+void cowl_annot_prop_domain_axiom_release(CowlAnnotPropDomainAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the annotation property.
@@ -78,8 +81,10 @@ void cowl_annot_prop_domain_axiom_release(CowlAnnotPropDomainAxiom *axiom);
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
-CowlAnnotProp* cowl_annot_prop_domain_axiom_get_prop(CowlAnnotPropDomainAxiom *axiom);
+COWL_INLINE
+CowlAnnotProp* cowl_annot_prop_domain_axiom_get_prop(CowlAnnotPropDomainAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the domain of the annotation property.
@@ -89,8 +94,10 @@ CowlAnnotProp* cowl_annot_prop_domain_axiom_get_prop(CowlAnnotPropDomainAxiom *a
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
-CowlIRI* cowl_annot_prop_domain_axiom_get_domain(CowlAnnotPropDomainAxiom *axiom);
+COWL_INLINE
+CowlIRI* cowl_annot_prop_domain_axiom_get_domain(CowlAnnotPropDomainAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -100,8 +107,10 @@ CowlIRI* cowl_annot_prop_domain_axiom_get_domain(CowlAnnotPropDomainAxiom *axiom
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -113,8 +122,10 @@ CowlVector* cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axi
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_annot_prop_domain_axiom_to_string(CowlAnnotPropDomainAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_annot_prop_domain_axiom_to_string(CowlAnnotPropDomainAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -125,9 +136,11 @@ CowlString* cowl_annot_prop_domain_axiom_to_string(CowlAnnotPropDomainAxiom *axi
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annot_prop_domain_axiom_equals(CowlAnnotPropDomainAxiom *lhs,
-                                         CowlAnnotPropDomainAxiom *rhs);
+                                         CowlAnnotPropDomainAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -137,8 +150,10 @@ bool cowl_annot_prop_domain_axiom_equals(CowlAnnotPropDomainAxiom *lhs,
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -150,9 +165,11 @@ ulib_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom);
  *
  * @public @memberof CowlAnnotPropDomainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annot_prop_domain_axiom_iterate_primitives(CowlAnnotPropDomainAxiom *axiom,
-                                                     CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                     CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

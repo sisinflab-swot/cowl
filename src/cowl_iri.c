@@ -9,7 +9,6 @@
  */
 
 #include "cowl_iri_private.h"
-#include "cowl_hash_utils.h"
 #include "cowl_set.h"
 #include "cowl_string_private.h"
 #include "cowl_xml_utils.h"
@@ -18,8 +17,9 @@
 static UHash(CowlObjectTable) inst_tbl;
 
 static ulib_uint inst_tbl_hash(void *key) {
-    return cowl_hash_2(COWL_HASH_INIT_IRI, uhash_ptr_hash(cowl_iri_get_ns(key)),
-                       cowl_string_hash(cowl_iri_get_rem(key)));
+    ulib_uint h1 = uhash_ptr_hash(cowl_iri_get_ns(key));
+    ulib_uint h2 = cowl_string_hash(cowl_iri_get_rem(key));
+    return uhash_combine_hash(h1, h2);
 }
 
 static bool inst_tbl_eq(void *lhs, void *rhs) {
@@ -57,7 +57,26 @@ static void cowl_iri_free(CowlIRI *iri) {
 
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
     if (!(ns && (ns = cowl_string_intern(ns)))) return NULL;
-    COWL_INST_TBL_GET_IMPL(IRI, iri, ((CowlIRI){ .ns = ns, .rem = rem }), cowl_iri_alloc(ns, rem))
+
+    ulib_uint idx;
+    CowlIRI key = { .ns = ns, .rem = rem };
+    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+
+    CowlIRI *val = NULL;
+
+    if (ret == UHASH_INSERTED) {
+        val = cowl_iri_alloc(ns, rem);
+        if (val) {
+            uhash_key(CowlObjectTable, &inst_tbl, idx) = val;
+        } else {
+            uhash_delete(CowlObjectTable, &inst_tbl, idx);
+        }
+    } else if (ret == UHASH_PRESENT) {
+        val = uhash_key(CowlObjectTable, &inst_tbl, idx);
+        (void)cowl_object_incr_ref(val);
+    }
+
+    return val;
 }
 
 CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {

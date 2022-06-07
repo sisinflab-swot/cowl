@@ -13,8 +13,7 @@
 #ifndef COWL_INV_OBJ_PROP_H
 #define COWL_INV_OBJ_PROP_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -40,8 +39,10 @@ cowl_struct_decl(CowlInvObjProp);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
-CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop);
+COWL_INLINE
+CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
+    return cowl_get_impl_1(COWL_OT_OPE_INV_OBJ_PROP, prop, NULL);
+}
 
 /**
  * Retains the specified inverse object property.
@@ -51,8 +52,8 @@ CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
-CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv);
+COWL_INLINE
+CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) { return cowl_retain(inv); }
 
 /**
  * Releases the specified inverse object property.
@@ -61,8 +62,8 @@ CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
-void cowl_inv_obj_prop_release(CowlInvObjProp *inv);
+COWL_INLINE
+void cowl_inv_obj_prop_release(CowlInvObjProp *inv) { cowl_release_impl(inv); }
 
 /**
  * Gets the property of which the expression is the inverse of.
@@ -72,8 +73,8 @@ void cowl_inv_obj_prop_release(CowlInvObjProp *inv);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
-CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv);
+COWL_INLINE
+CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) { return cowl_get_field(inv, 0); }
 
 /**
  * Returns the string representation of the specified inverse object property.
@@ -85,8 +86,10 @@ CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
-CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv);
+COWL_INLINE
+CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv) {
+    return cowl_to_string_impl(inv);
+}
 
 /**
  * Equality function.
@@ -97,8 +100,10 @@ CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
-bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs);
+COWL_INLINE
+bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -108,8 +113,10 @@ bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
-ulib_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv);
+COWL_INLINE
+ulib_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv) {
+    return cowl_hash_impl(inv);
+}
 
 /**
  * Iterates over the primitives referenced by the specified inverse object property.
@@ -121,9 +128,11 @@ ulib_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv);
  *
  * @public @memberof CowlInvObjProp
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_inv_obj_prop_iterate_primitives(CowlInvObjProp *inv, CowlPrimitiveFlags flags,
-                                          CowlIterator *iter);
+                                          CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(inv, flags, iter);
+}
 
 COWL_END_DECLS
 

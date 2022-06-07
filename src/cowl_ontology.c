@@ -61,7 +61,7 @@ bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
 }
 
 ulib_uint cowl_ontology_hash(CowlOntology *onto) {
-    return cowl_hash_1(COWL_HASH_INIT_ONTO, cowl_ontology_id_hash(onto->id));
+    return cowl_ontology_id_hash(onto->id);
 }
 
 ulib_uint cowl_ontology_axiom_count(CowlOntology *onto) {
@@ -303,8 +303,8 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
         CowlSubClsAxiom *sub_axiom = *axiom.item;
 
-        if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->super_class)) {
-            if (!cowl_iterate(iter, sub_axiom->sub_class)) return false;
+        if (cowl_cls_exp_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_super(sub_axiom))) {
+            if (!cowl_iterate(iter, cowl_sub_cls_axiom_get_sub(sub_axiom))) return false;
         }
     }
 
@@ -326,8 +326,8 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
         CowlSubClsAxiom *sub_axiom = *axiom.item;
 
-        if (cowl_cls_exp_equals((CowlClsExp *)owl_class, sub_axiom->sub_class)) {
-            if (!cowl_iterate(iter, sub_axiom->super_class)) return false;
+        if (cowl_cls_exp_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_sub(sub_axiom))) {
+            if (!cowl_iterate(iter, cowl_sub_cls_axiom_get_super(sub_axiom))) return false;
         }
     }
 
@@ -347,7 +347,7 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
 
     uvec_foreach(CowlObjectPtr, axioms, axiom) {
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_EQUIV_CLASSES) continue;
-        CowlVector *eq_classes = ((CowlNAryClsAxiom *)*axiom.item)->classes;
+        CowlVector *eq_classes = cowl_nary_cls_axiom_get_classes((CowlNAryClsAxiom *)*axiom.item);
 
         if (uvec_contains(CowlObjectPtr, &eq_classes->data, owl_class)) {
             uvec_foreach(CowlObjectPtr, &eq_classes->data, ce) {
@@ -380,7 +380,7 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlIt
     uvec_foreach(CowlObjectPtr, axioms, axiom) {
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_CLASS_ASSERT) continue;
         CowlClsAssertAxiom *assert_axiom = *axiom.item;
-        if (!cowl_iterate(iter, assert_axiom->cls_exp)) return false;
+        if (!cowl_iterate(iter, cowl_cls_assert_axiom_get_cls_exp(assert_axiom))) return false;
     }
 
     uvec_foreach(CowlObjectPtr, &onto->imports, import) {

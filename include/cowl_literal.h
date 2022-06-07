@@ -13,8 +13,7 @@
 #ifndef COWL_LITERAL_H
 #define COWL_LITERAL_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 

@@ -88,4 +88,13 @@
  */
 #define cowl_struct_decl(NAME) typedef struct NAME NAME
 
+/**
+ * Checks whether the specified enum value is valid.
+ *
+ * @param T Enumeration name.
+ * @param VAL Enumeration value.
+ * @return True if the value is valid, false otherwise.
+ */
+#define cowl_enum_value_is_valid(T, VAL) ((VAL) >= COWL_##T##_FIRST && (VAL) < COWL_##T##_COUNT)
+
 #endif // COWL_COMPAT_H

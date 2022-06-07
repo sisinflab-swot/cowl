@@ -13,8 +13,7 @@
 #ifndef COWL_DATA_PROP_DOMAIN_AXIOM_H
 #define COWL_DATA_PROP_DOMAIN_AXIOM_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,9 +43,11 @@ cowl_struct_decl(CowlDataPropDomainAxiom);
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_get(CowlDataPropExp *prop, CowlClsExp *domain,
-                                                         CowlVector *annot);
+                                                         CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_DATA_PROP_DOMAIN, prop, domain, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -56,8 +57,10 @@ CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_get(CowlDataPropExp *prop, 
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_retain(CowlDataPropDomainAxiom *axiom);
+COWL_INLINE
+CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_retain(CowlDataPropDomainAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -66,8 +69,10 @@ CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_retain(CowlDataPropDomainAx
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-void cowl_data_prop_domain_axiom_release(CowlDataPropDomainAxiom *axiom);
+COWL_INLINE
+void cowl_data_prop_domain_axiom_release(CowlDataPropDomainAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the data property.
@@ -77,8 +82,10 @@ void cowl_data_prop_domain_axiom_release(CowlDataPropDomainAxiom *axiom);
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-CowlDataPropExp* cowl_data_prop_domain_axiom_get_prop(CowlDataPropDomainAxiom *axiom);
+COWL_INLINE
+CowlDataPropExp* cowl_data_prop_domain_axiom_get_prop(CowlDataPropDomainAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the domain of the data property.
@@ -88,8 +95,10 @@ CowlDataPropExp* cowl_data_prop_domain_axiom_get_prop(CowlDataPropDomainAxiom *a
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-CowlClsExp* cowl_data_prop_domain_axiom_get_domain(CowlDataPropDomainAxiom *axiom);
+COWL_INLINE
+CowlClsExp* cowl_data_prop_domain_axiom_get_domain(CowlDataPropDomainAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -99,8 +108,10 @@ CowlClsExp* cowl_data_prop_domain_axiom_get_domain(CowlDataPropDomainAxiom *axio
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_data_prop_domain_axiom_get_annot(CowlDataPropDomainAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_data_prop_domain_axiom_get_annot(CowlDataPropDomainAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -112,8 +123,10 @@ CowlVector* cowl_data_prop_domain_axiom_get_annot(CowlDataPropDomainAxiom *axiom
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_data_prop_domain_axiom_to_string(CowlDataPropDomainAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_data_prop_domain_axiom_to_string(CowlDataPropDomainAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -124,8 +137,10 @@ CowlString* cowl_data_prop_domain_axiom_to_string(CowlDataPropDomainAxiom *axiom
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-bool cowl_data_prop_domain_axiom_equals(CowlDataPropDomainAxiom *lhs, CowlDataPropDomainAxiom *rhs);
+COWL_INLINE
+bool cowl_data_prop_domain_axiom_equals(CowlDataPropDomainAxiom *lhs, CowlDataPropDomainAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -135,8 +150,10 @@ bool cowl_data_prop_domain_axiom_equals(CowlDataPropDomainAxiom *lhs, CowlDataPr
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_data_prop_domain_axiom_hash(CowlDataPropDomainAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_data_prop_domain_axiom_hash(CowlDataPropDomainAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -148,9 +165,11 @@ ulib_uint cowl_data_prop_domain_axiom_hash(CowlDataPropDomainAxiom *axiom);
  *
  * @public @memberof CowlDataPropDomainAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_data_prop_domain_axiom_iterate_primitives(CowlDataPropDomainAxiom *axiom,
-                                                    CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                    CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

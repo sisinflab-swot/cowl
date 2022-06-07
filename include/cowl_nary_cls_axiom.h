@@ -13,9 +13,8 @@
 #ifndef COWL_NARY_CLS_AXIOM_H
 #define COWL_NARY_CLS_AXIOM_H
 
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 #include "cowl_nary_axiom_type.h"
-#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,9 +43,12 @@ cowl_struct_decl(CowlNAryClsAxiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlVector *classes,
-                                          CowlVector *annot);
+                                          CowlVector *annot) {
+    if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
+    return cowl_get_impl_1(COWL_OT_A_EQUIV_CLASSES + type, classes, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -56,8 +58,8 @@ CowlNAryClsAxiom* cowl_nary_cls_axiom_get(CowlNAryAxiomType type, CowlVector *cl
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-CowlNAryClsAxiom* cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom);
+COWL_INLINE
+CowlNAryClsAxiom* cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom) { return cowl_retain(axiom); }
 
 /**
  * Releases the specified axiom.
@@ -66,8 +68,8 @@ CowlNAryClsAxiom* cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-void cowl_nary_cls_axiom_release(CowlNAryClsAxiom *axiom);
+COWL_INLINE
+void cowl_nary_cls_axiom_release(CowlNAryClsAxiom *axiom) { cowl_release_impl(axiom); }
 
 /**
  * Gets the type of the specified N-ary class expression axiom.
@@ -77,8 +79,10 @@ void cowl_nary_cls_axiom_release(CowlNAryClsAxiom *axiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom);
+COWL_INLINE
+CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom) {
+    return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_EQUIV_CLASSES);
+}
 
 /**
  * Gets the classes of the specified N-ary class expression axiom.
@@ -88,8 +92,10 @@ CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -99,8 +105,10 @@ CowlVector* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -112,8 +120,10 @@ CowlVector* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -124,8 +134,10 @@ CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs);
+COWL_INLINE
+bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -135,8 +147,10 @@ bool cowl_nary_cls_axiom_equals(CowlNAryClsAxiom *lhs, CowlNAryClsAxiom *rhs);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -148,9 +162,11 @@ ulib_uint cowl_nary_cls_axiom_hash(CowlNAryClsAxiom *axiom);
  *
  * @public @memberof CowlNAryClsAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_nary_cls_axiom_iterate_primitives(CowlNAryClsAxiom *axiom, CowlPrimitiveFlags flags,
-                                            CowlIterator *iter);
+                                            CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

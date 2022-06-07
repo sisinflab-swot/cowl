@@ -13,8 +13,7 @@
 #ifndef COWL_DISJ_UNION_AXIOM_H
 #define COWL_DISJ_UNION_AXIOM_H
 
-#include "cowl_std.h"
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,9 +42,11 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlVector *disjoints,
-                                              CowlVector *annot);
+                                              CowlVector *annot) {
+    return cowl_get_impl_2(COWL_OT_A_DISJ_UNION, cls, disjoints, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -55,8 +56,10 @@ CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlVector *disjoi
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-CowlDisjUnionAxiom* cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom);
+COWL_INLINE
+CowlDisjUnionAxiom* cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -65,8 +68,8 @@ CowlDisjUnionAxiom* cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom);
+COWL_INLINE
+void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom) { cowl_release_impl(axiom); }
 
 /**
  * Gets the class which is equivalent to the disjoint union.
@@ -76,8 +79,10 @@ void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom);
+COWL_INLINE
+CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the class expressions which are operands of the disjoint union.
@@ -86,8 +91,10 @@ CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
+    return cowl_get_field(axiom, 1);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -97,8 +104,10 @@ CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -110,8 +119,10 @@ CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -122,8 +133,10 @@ CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs);
+COWL_INLINE
+bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -133,8 +146,10 @@ bool cowl_disj_union_axiom_equals(CowlDisjUnionAxiom *lhs, CowlDisjUnionAxiom *r
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -146,9 +161,11 @@ ulib_uint cowl_disj_union_axiom_hash(CowlDisjUnionAxiom *axiom);
  *
  * @public @memberof CowlDisjUnionAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_disj_union_axiom_iterate_primitives(CowlDisjUnionAxiom *axiom, CowlPrimitiveFlags flags,
-                                              CowlIterator *iter);
+                                              CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

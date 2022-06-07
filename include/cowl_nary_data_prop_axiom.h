@@ -13,9 +13,8 @@
 #ifndef COWL_NARY_DATA_PROP_AXIOM_H
 #define COWL_NARY_DATA_PROP_AXIOM_H
 
-#include "cowl_iterator.h"
+#include "cowl_object_impl.h"
 #include "cowl_nary_axiom_type.h"
-#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
@@ -45,10 +44,13 @@ cowl_struct_decl(CowlNAryDataPropAxiom);
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_get(CowlNAryAxiomType type,
                                                      CowlVector *props,
-                                                     CowlVector *annot);
+                                                     CowlVector *annot) {
+    if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
+    return cowl_get_impl_1(COWL_OT_A_EQUIV_DATA_PROP + type, props, annot);
+}
 
 /**
  * Retains the specified axiom.
@@ -58,8 +60,10 @@ CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_get(CowlNAryAxiomType type,
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_retain(CowlNAryDataPropAxiom *axiom);
+COWL_INLINE
+CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_retain(CowlNAryDataPropAxiom *axiom) {
+    return cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -68,8 +72,10 @@ CowlNAryDataPropAxiom* cowl_nary_data_prop_axiom_retain(CowlNAryDataPropAxiom *a
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-void cowl_nary_data_prop_axiom_release(CowlNAryDataPropAxiom *axiom);
+COWL_INLINE
+void cowl_nary_data_prop_axiom_release(CowlNAryDataPropAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the type of the specified N-ary data property axiom.
@@ -79,8 +85,10 @@ void cowl_nary_data_prop_axiom_release(CowlNAryDataPropAxiom *axiom);
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-CowlNAryAxiomType cowl_nary_data_prop_axiom_get_type(CowlNAryDataPropAxiom *axiom);
+COWL_INLINE
+CowlNAryAxiomType cowl_nary_data_prop_axiom_get_type(CowlNAryDataPropAxiom *axiom) {
+    return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_EQUIV_DATA_PROP);
+}
 
 /**
  * Gets the data properties of the specified N-ary data property axiom.
@@ -90,8 +98,10 @@ CowlNAryAxiomType cowl_nary_data_prop_axiom_get_type(CowlNAryDataPropAxiom *axio
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_nary_data_prop_axiom_get_props(CowlNAryDataPropAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_nary_data_prop_axiom_get_props(CowlNAryDataPropAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -101,8 +111,10 @@ CowlVector* cowl_nary_data_prop_axiom_get_props(CowlNAryDataPropAxiom *axiom);
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-CowlVector* cowl_nary_data_prop_axiom_get_annot(CowlNAryDataPropAxiom *axiom);
+COWL_INLINE
+CowlVector* cowl_nary_data_prop_axiom_get_annot(CowlNAryDataPropAxiom *axiom) {
+    return cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -114,8 +126,10 @@ CowlVector* cowl_nary_data_prop_axiom_get_annot(CowlNAryDataPropAxiom *axiom);
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-CowlString* cowl_nary_data_prop_axiom_to_string(CowlNAryDataPropAxiom *axiom);
+COWL_INLINE
+CowlString* cowl_nary_data_prop_axiom_to_string(CowlNAryDataPropAxiom *axiom) {
+    return cowl_to_string_impl(axiom);
+}
 
 /**
  * Equality function.
@@ -126,8 +140,10 @@ CowlString* cowl_nary_data_prop_axiom_to_string(CowlNAryDataPropAxiom *axiom);
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-bool cowl_nary_data_prop_axiom_equals(CowlNAryDataPropAxiom *lhs, CowlNAryDataPropAxiom *rhs);
+COWL_INLINE
+bool cowl_nary_data_prop_axiom_equals(CowlNAryDataPropAxiom *lhs, CowlNAryDataPropAxiom *rhs) {
+    return cowl_equals_impl(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -137,8 +153,10 @@ bool cowl_nary_data_prop_axiom_equals(CowlNAryDataPropAxiom *lhs, CowlNAryDataPr
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
-ulib_uint cowl_nary_data_prop_axiom_hash(CowlNAryDataPropAxiom *axiom);
+COWL_INLINE
+ulib_uint cowl_nary_data_prop_axiom_hash(CowlNAryDataPropAxiom *axiom) {
+    return cowl_hash_impl(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.
@@ -150,9 +168,11 @@ ulib_uint cowl_nary_data_prop_axiom_hash(CowlNAryDataPropAxiom *axiom);
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_nary_data_prop_axiom_iterate_primitives(CowlNAryDataPropAxiom *axiom,
-                                                  CowlPrimitiveFlags flags, CowlIterator *iter);
+                                                  CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_iterate_primitives_impl(axiom, flags, iter);
+}
 
 COWL_END_DECLS
 

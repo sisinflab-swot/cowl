@@ -9,7 +9,6 @@
  */
 
 #include "cowl_ontology_id.h"
-#include "cowl_hash_utils.h"
 #include "cowl_iri.h"
 #include "cowl_template.h"
 
@@ -31,10 +30,17 @@ bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs) {
 }
 
 ulib_uint cowl_ontology_id_hash(CowlOntologyId id) {
-    ulib_uint hash = COWL_HASH_INIT_ONTO_ID;
+    ulib_uint hash = 0, h;
 
-    if (id.ontology_iri) hash = cowl_hash_1(hash, cowl_iri_hash(id.ontology_iri));
-    if (id.version_iri) hash = cowl_hash_1(hash, cowl_iri_hash(id.version_iri));
+    if (id.ontology_iri) {
+        h = cowl_iri_hash(id.ontology_iri);
+        hash = uhash_combine_hash(hash, h);
+    }
+
+    if (id.version_iri) {
+        h = cowl_iri_hash(id.version_iri);
+        hash = uhash_combine_hash(hash, h);
+    }
 
     return hash;
 }
