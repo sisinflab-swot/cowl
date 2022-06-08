@@ -11,7 +11,7 @@
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_vocab_utils.h"
 
-static struct CowlRDFSVocab vocab;
+static CowlRDFSVocab vocab;
 
 static inline cowl_ret cowl_rdfs_vocab_validate(void) {
     if (vocab.ns && vocab.iri.comment && vocab.iri.defined_by && vocab.iri.label &&
@@ -68,6 +68,6 @@ void cowl_rdfs_vocab_deinit(void) {
     cowl_annot_prop_vocab_free(vocab.annot_prop.see_also);
 }
 
-CowlRDFSVocab* cowl_rdfs_vocab_get(void) {
+CowlRDFSVocab const* cowl_rdfs_vocab_get(void) {
     return &vocab;
 }

@@ -11,7 +11,7 @@
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_vocab_utils.h"
 
-static struct CowlRDFVocab vocab;
+static CowlRDFVocab vocab;
 
 static inline cowl_ret cowl_rdf_vocab_validate(void) {
     if (vocab.ns && vocab.iri.plain_literal && vocab.iri.xml_literal &&
@@ -51,6 +51,6 @@ void cowl_rdf_vocab_deinit(void) {
     cowl_datatype_vocab_free(vocab.dt.xml_literal);
 }
 
-CowlRDFVocab* cowl_rdf_vocab_get(void) {
+CowlRDFVocab const* cowl_rdf_vocab_get(void) {
     return &vocab;
 }

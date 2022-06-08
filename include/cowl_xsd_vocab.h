@@ -379,7 +379,7 @@ typedef struct CowlXSDVocab {
     /// Datatypes sub-vocabulary.
     CowlXSDDatatypeVocab dt;
 
-} const CowlXSDVocab;
+} CowlXSDVocab;
 
 /**
  * Gets the XSD vocabulary.
@@ -389,7 +389,7 @@ typedef struct CowlXSDVocab {
  * @public @memberof CowlXSDVocab
  */
 COWL_PUBLIC
-CowlXSDVocab* cowl_xsd_vocab_get(void);
+CowlXSDVocab const* cowl_xsd_vocab_get(void);
 
 COWL_END_DECLS
 

@@ -84,7 +84,7 @@ typedef struct CowlRDFSVocab {
     /// Annotation properties sub-vocabulary.
     CowlRDFSAnnotPropVocab annot_prop;
 
-} const CowlRDFSVocab;
+} CowlRDFSVocab;
 
 /**
  * Gets the RDFS vocabulary.
@@ -94,7 +94,7 @@ typedef struct CowlRDFSVocab {
  * @public @memberof CowlRDFSVocab
  */
 COWL_PUBLIC
-CowlRDFSVocab* cowl_rdfs_vocab_get(void);
+CowlRDFSVocab const* cowl_rdfs_vocab_get(void);
 
 COWL_END_DECLS
 

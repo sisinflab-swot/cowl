@@ -60,7 +60,7 @@ typedef struct CowlRDFVocab {
     /// Datatypes sub-vocabulary.
     CowlRDFDatatypeVocab dt;
 
-} const CowlRDFVocab;
+} CowlRDFVocab;
 
 /**
  * Gets the RDF vocabulary.
@@ -70,7 +70,7 @@ typedef struct CowlRDFVocab {
  * @public @memberof CowlRDFVocab
  */
 COWL_PUBLIC
-CowlRDFVocab* cowl_rdf_vocab_get(void);
+CowlRDFVocab const* cowl_rdf_vocab_get(void);
 
 COWL_END_DECLS
 

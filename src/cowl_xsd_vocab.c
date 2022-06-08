@@ -11,7 +11,7 @@
 #include "cowl_xsd_vocab_private.h"
 #include "cowl_vocab_utils.h"
 
-static struct CowlXSDVocab vocab;
+static CowlXSDVocab vocab;
 
 static inline cowl_ret cowl_xsd_vocab_validate(void) {
     if (!vocab.ns) return COWL_ERR_MEM;
@@ -165,6 +165,6 @@ void cowl_xsd_vocab_deinit(void) {
     for (size_t i = 0; i < count; ++i) cowl_datatype_vocab_free(dts[i]);
 }
 
-CowlXSDVocab* cowl_xsd_vocab_get(void) {
+CowlXSDVocab const* cowl_xsd_vocab_get(void) {
     return &vocab;
 }

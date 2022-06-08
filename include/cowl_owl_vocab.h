@@ -159,7 +159,7 @@ typedef struct CowlOWLVocab {
     /// Annotation properties sub-vocabulary.
     CowlOWLAnnotPropVocab annot_prop;
 
-} const CowlOWLVocab;
+} CowlOWLVocab;
 
 /**
  * Gets the OWL 2 vocabulary.
@@ -169,7 +169,7 @@ typedef struct CowlOWLVocab {
  * @public @memberof CowlOWLVocab
  */
 COWL_PUBLIC
-CowlOWLVocab* cowl_owl_vocab_get(void);
+CowlOWLVocab const * cowl_owl_vocab_get(void);
 
 COWL_END_DECLS
 
