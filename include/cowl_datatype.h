@@ -38,8 +38,10 @@ cowl_struct_decl(CowlDatatype);
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-CowlDatatype* cowl_datatype_get(CowlIRI *iri);
+COWL_INLINE
+CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
+    return (CowlDatatype *)cowl_entity_get_impl(COWL_OT_DR_DATATYPE, iri);
+}
 
 /**
  * Returns a retained datatype given the string representation of its IRI.
@@ -49,8 +51,10 @@ CowlDatatype* cowl_datatype_get(CowlIRI *iri);
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-CowlDatatype* cowl_datatype_from_string(UString string);
+COWL_INLINE
+CowlDatatype* cowl_datatype_from_string(UString string) {
+    return (CowlDatatype *)cowl_entity_from_string_impl(COWL_OT_DR_DATATYPE, string);
+}
 
 /**
  * Returns a retained datatype given the static string representation of its IRI.
@@ -71,7 +75,9 @@ CowlDatatype* cowl_datatype_from_string(UString string);
  * @public @memberof CowlDatatype
  */
 COWL_INLINE
-CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) { return cowl_retain(dt); }
+CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) {
+    return (CowlDatatype *)cowl_retain(dt);
+}
 
 /**
  * Releases the specified datatype.
@@ -80,8 +86,10 @@ CowlDatatype* cowl_datatype_retain(CowlDatatype *dt) { return cowl_retain(dt); }
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-void cowl_datatype_release(CowlDatatype *dt);
+COWL_INLINE
+void cowl_datatype_release(CowlDatatype *dt) {
+    cowl_entity_release((CowlEntity *)dt);
+}
 
 /**
  * Gets the IRI of the specified datatype.
@@ -91,8 +99,10 @@ void cowl_datatype_release(CowlDatatype *dt);
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-CowlIRI* cowl_datatype_get_iri(CowlDatatype *dt);
+COWL_INLINE
+CowlIRI* cowl_datatype_get_iri(CowlDatatype *dt) {
+    return cowl_entity_get_iri((CowlEntity *)dt);
+}
 
 /**
  * Returns the string representation of the specified datatype.
@@ -104,8 +114,10 @@ CowlIRI* cowl_datatype_get_iri(CowlDatatype *dt);
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
-CowlString* cowl_datatype_to_string(CowlDatatype *dt);
+COWL_INLINE
+CowlString* cowl_datatype_to_string(CowlDatatype *dt) {
+    return cowl_entity_to_string((CowlEntity *)dt);
+}
 
 /**
  * Equality function.
@@ -117,7 +129,9 @@ CowlString* cowl_datatype_to_string(CowlDatatype *dt);
  * @public @memberof CowlDatatype
  */
 COWL_INLINE
-bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) { return lhs == rhs; }
+bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -128,7 +142,9 @@ bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) { return lhs == 
  * @public @memberof CowlDatatype
  */
 COWL_INLINE
-ulib_uint cowl_datatype_hash(CowlDatatype *dt) { return uhash_ptr_hash(dt); }
+ulib_uint cowl_datatype_hash(CowlDatatype *dt) {
+    return uhash_ptr_hash(dt);
+}
 
 /**
  * Iterates over this datatype.
@@ -140,9 +156,11 @@ ulib_uint cowl_datatype_hash(CowlDatatype *dt) { return uhash_ptr_hash(dt); }
  *
  * @public @memberof CowlDatatype
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_datatype_iterate_primitives(CowlDatatype *dt, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter);
+                                      CowlIterator *iter) {
+    return cowl_entity_iterate_primitives((CowlEntity *)dt, flags, iter);
+}
 
 COWL_END_DECLS
 

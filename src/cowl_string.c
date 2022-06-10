@@ -142,10 +142,6 @@ CowlString* cowl_string_get_empty(void) {
     return cowl_string_retain(empty);
 }
 
-CowlString* cowl_string_retain(CowlString *string) {
-    return cowl_object_incr_ref(string);
-}
-
 void cowl_string_release(CowlString *string) {
     if (string && !cowl_object_decr_ref(string)) {
         // If the string was interned, it must also be removed from the hash set.

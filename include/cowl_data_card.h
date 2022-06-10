@@ -13,7 +13,7 @@
 #ifndef COWL_DATA_CARD_H
 #define COWL_DATA_CARD_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_card_type.h"
 
 COWL_BEGIN_DECLS
@@ -51,7 +51,8 @@ COWL_INLINE
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
                                  CowlDataRange *range, ulib_uint cardinality) {
     if (!cowl_enum_value_is_valid(CT, type)) return NULL;
-    return cowl_uint_get_impl_1(COWL_OT_CE_DATA_MIN_CARD + type, prop, cardinality, range);
+    return (CowlDataCard *)cowl_get_impl_1_uint_opt((CowlObjectType)(COWL_OT_CE_DATA_MIN_CARD + type),
+                                                    prop, cardinality, range);
 }
 
 /**
@@ -63,7 +64,9 @@ CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
  * @public @memberof CowlDataCard
  */
 COWL_INLINE
-CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) { return cowl_retain(restr); }
+CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) {
+    return (CowlDataCard *)cowl_retain(restr);
+}
 
 /**
  * Releases the specified data property cardinality restriction.
@@ -73,7 +76,9 @@ CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) { return cowl_retain(re
  * @public @memberof CowlDataCard
  */
 COWL_INLINE
-void cowl_data_card_release(CowlDataCard *restr) { cowl_release_impl(restr); }
+void cowl_data_card_release(CowlDataCard *restr) {
+    cowl_release_impl(restr);
+}
 
 /**
  * Gets the type of the specified data property cardinality restriction.
@@ -98,7 +103,7 @@ CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
  */
 COWL_INLINE
 CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {
-    return cowl_get_field(restr, 0);
+    return (CowlDataPropExp *)cowl_get_field(restr, 0);
 }
 
 /**
@@ -111,7 +116,7 @@ CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {
  */
 COWL_INLINE
 CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr) {
-    return cowl_get_opt_field(restr);
+    return (CowlDataRange *)cowl_get_opt_field(restr);
 }
 
 /**

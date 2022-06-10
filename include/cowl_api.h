@@ -86,7 +86,6 @@
 #include "cowl_obj_prop_range_axiom.h"
 #include "cowl_obj_quant.h"
 #include "cowl_object.h"
-#include "cowl_object_impl.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology.h"
 #include "cowl_ontology_id.h"

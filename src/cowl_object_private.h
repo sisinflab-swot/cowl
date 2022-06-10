@@ -11,7 +11,7 @@
 #ifndef COWL_OBJECT_PRIVATE_H
 #define COWL_OBJECT_PRIVATE_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_object_flags.h"
 
 COWL_BEGIN_DECLS

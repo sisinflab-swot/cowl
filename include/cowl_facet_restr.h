@@ -13,7 +13,7 @@
 #ifndef COWL_FACET_RESTR_H
 #define COWL_FACET_RESTR_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -42,7 +42,7 @@ cowl_struct_decl(CowlFacetRestr);
  */
 COWL_INLINE
 CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value) {
-    return cowl_get_impl_2(COWL_OT_FACET_RESTR, facet, value, NULL);
+    return (CowlFacetRestr *)cowl_get_impl_2(COWL_OT_FACET_RESTR, facet, value);
 }
 
 /**
@@ -54,7 +54,9 @@ CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value) {
  * @public @memberof CowlFacetRestr
  */
 COWL_INLINE
-CowlFacetRestr* cowl_facet_restr_retain(CowlFacetRestr *restr) { return cowl_retain(restr); }
+CowlFacetRestr* cowl_facet_restr_retain(CowlFacetRestr *restr) {
+    return (CowlFacetRestr *)cowl_retain(restr);
+}
 
 /**
  * Releases the specified facet restriction.
@@ -64,7 +66,9 @@ CowlFacetRestr* cowl_facet_restr_retain(CowlFacetRestr *restr) { return cowl_ret
  * @public @memberof CowlFacetRestr
  */
 COWL_INLINE
-void cowl_facet_restr_release(CowlFacetRestr *restr) { cowl_release_impl(restr); }
+void cowl_facet_restr_release(CowlFacetRestr *restr) {
+    cowl_release_impl(restr);
+}
 
 /**
  * Gets the facet.
@@ -75,7 +79,9 @@ void cowl_facet_restr_release(CowlFacetRestr *restr) { cowl_release_impl(restr);
  * @public @memberof CowlFacetRestr
  */
 COWL_INLINE
-CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr) { return cowl_get_field(restr, 0); }
+CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr) {
+    return (CowlIRI *)cowl_get_field(restr, 0);
+}
 
 /**
  * Gets the restriction value.
@@ -86,7 +92,9 @@ CowlIRI* cowl_facet_restr_get_facet(CowlFacetRestr *restr) { return cowl_get_fie
  * @public @memberof CowlFacetRestr
  */
 COWL_INLINE
-CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr) { return cowl_get_field(restr, 1); }
+CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr) {
+    return (CowlLiteral *)cowl_get_field(restr, 1);
+}
 
 /**
  * Returns the string representation of the specified facet restriction.

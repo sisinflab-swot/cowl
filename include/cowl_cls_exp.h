@@ -39,7 +39,9 @@ cowl_struct_decl(CowlClsExp);
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) { return cowl_retain(exp); }
+CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
+    return (CowlClsExp *)cowl_retain(exp);
+}
 
 /**
  * Releases the specified class expression.
@@ -49,7 +51,9 @@ CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) { return cowl_retain(exp); }
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-void cowl_cls_exp_release(CowlClsExp *exp) { cowl_release(exp); }
+void cowl_cls_exp_release(CowlClsExp *exp) {
+    cowl_release(exp);
+}
 
 /**
  * Gets the type of the specified class expression.
@@ -61,7 +65,7 @@ void cowl_cls_exp_release(CowlClsExp *exp) { cowl_release(exp); }
  */
 COWL_INLINE
 CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
-    return (CowlClsExpType)cowl_get_type(exp) - COWL_OT_CE_CLASS;
+    return (CowlClsExpType)(cowl_get_type(exp) - COWL_OT_CE_CLASS);
 }
 
 /**
@@ -75,7 +79,9 @@ CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-CowlString* cowl_cls_exp_to_string(CowlClsExp *exp) { return cowl_to_string(exp); }
+CowlString* cowl_cls_exp_to_string(CowlClsExp *exp) {
+    return cowl_to_string(exp);
+}
 
 /**
  * Equality function.
@@ -87,7 +93,9 @@ CowlString* cowl_cls_exp_to_string(CowlClsExp *exp) { return cowl_to_string(exp)
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) { return cowl_equals(lhs, rhs); }
+bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
+    return cowl_equals(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -98,7 +106,9 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) { return cowl_equals(
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-ulib_uint cowl_cls_exp_hash(CowlClsExp *exp) { return cowl_hash(exp); }
+ulib_uint cowl_cls_exp_hash(CowlClsExp *exp) {
+    return cowl_hash(exp);
+}
 
 /**
  * Iterates over the primitives referenced by the specified class expression.

@@ -13,7 +13,7 @@
 #ifndef COWL_OBJ_HAS_SELF_H
 #define COWL_OBJ_HAS_SELF_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlObjHasSelf);
  */
 COWL_INLINE
 CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop) {
-    return cowl_get_impl_1(COWL_OT_CE_OBJ_HAS_SELF, prop, NULL);
+    return (CowlObjHasSelf *)cowl_get_impl_1(COWL_OT_CE_OBJ_HAS_SELF, prop);
 }
 
 /**
@@ -53,7 +53,9 @@ CowlObjHasSelf* cowl_obj_has_self_get(CowlObjPropExp *prop) {
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp) { return cowl_retain(exp); }
+CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp) {
+    return (CowlObjHasSelf *)cowl_retain(exp);
+}
 
 /**
  * Releases the specified self-restriction.
@@ -63,7 +65,9 @@ CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp) { return cowl_reta
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-void cowl_obj_has_self_release(CowlObjHasSelf *exp) { cowl_release_impl(exp); }
+void cowl_obj_has_self_release(CowlObjHasSelf *exp) {
+    cowl_release_impl(exp);
+}
 
 /**
  * Gets the object property expression of the specified self-restriction.
@@ -74,7 +78,9 @@ void cowl_obj_has_self_release(CowlObjHasSelf *exp) { cowl_release_impl(exp); }
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) { return cowl_get_field(exp, 0); }
+CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
+    return (CowlObjPropExp *)cowl_get_field(exp, 0);
+}
 
 /**
  * Returns the string representation of the specified self-restriction.

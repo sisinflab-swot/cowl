@@ -13,7 +13,7 @@
 #ifndef COWL_OBJ_PROP_CHAR_AXIOM_H
 #define COWL_OBJ_PROP_CHAR_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_char_axiom_type.h"
 
 COWL_BEGIN_DECLS
@@ -69,7 +69,8 @@ CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
                                                    CowlObjPropExp *prop,
                                                    CowlVector *annot) {
     if (!cowl_enum_value_is_valid(CAT, type)) return NULL;
-    return cowl_get_impl_1(COWL_OT_A_FUNC_OBJ_PROP + type, prop, annot);
+    return (CowlObjPropCharAxiom *)cowl_get_impl_1_opt((CowlObjectType)(COWL_OT_A_FUNC_OBJ_PROP + type),
+                                                       prop, annot);
 }
 
 /**
@@ -82,7 +83,7 @@ CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_get(CowlCharAxiomType type,
  */
 COWL_INLINE
 CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlObjPropCharAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -120,7 +121,7 @@ CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom)
  */
 COWL_INLINE
 CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlObjPropExp *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -133,7 +134,7 @@ CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

@@ -28,12 +28,6 @@ static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
     return vec;
 }
 
-static void cowl_vector_free(CowlVector *vec) {
-    uvec_foreach(CowlObjectPtr, &vec->data, obj) { cowl_release(*obj.item); }
-    uvec_deinit(CowlObjectPtr, &vec->data);
-    ulib_free(vec);
-}
-
 CowlVector* cowl_vector_get(UVec(CowlObjectPtr) *vec) {
     return cowl_vector_alloc(vec, false);
 }
@@ -42,13 +36,11 @@ CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec) {
     return cowl_vector_alloc(vec, true);
 }
 
-CowlVector* cowl_vector_retain(CowlVector *vec) {
-    return cowl_object_incr_ref(vec);
-}
-
 void cowl_vector_release(CowlVector *vec) {
     if (vec && !cowl_object_decr_ref(vec)) {
-        cowl_vector_free(vec);
+        uvec_foreach(CowlObjectPtr, &vec->data, obj) { cowl_release(*obj.item); }
+        uvec_deinit(CowlObjectPtr, &vec->data);
+        ulib_free(vec);
     }
 }
 

@@ -13,9 +13,8 @@
 #ifndef COWL_OBJECT_H
 #define COWL_OBJECT_H
 
-#include "cowl_iterator.h"
 #include "cowl_std.h"
-#include "cowl_object_type.h"
+#include "cowl_impl.h"
 
 COWL_BEGIN_DECLS
 

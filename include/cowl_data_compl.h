@@ -13,7 +13,7 @@
 #ifndef COWL_DATA_COMPL_H
 #define COWL_DATA_COMPL_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlDataCompl);
  */
 COWL_INLINE
 CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand) {
-    return cowl_get_impl_1(COWL_OT_DR_DATA_COMPL, operand, NULL);
+    return (CowlDataCompl *)cowl_get_impl_1(COWL_OT_DR_DATA_COMPL, operand);
 }
 
 /**
@@ -53,7 +53,9 @@ CowlDataCompl* cowl_data_compl_get(CowlDataRange *operand) {
  * @public @memberof CowlDataCompl
  */
 COWL_INLINE
-CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range) { return cowl_retain(range); }
+CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range) {
+    return (CowlDataCompl *)cowl_retain(range);
+}
 
 /**
  * Releases the specified data range complement.
@@ -63,7 +65,9 @@ CowlDataCompl* cowl_data_compl_retain(CowlDataCompl *range) { return cowl_retain
  * @public @memberof CowlDataCompl
  */
 COWL_INLINE
-void cowl_data_compl_release(CowlDataCompl *range) { cowl_release_impl(range); }
+void cowl_data_compl_release(CowlDataCompl *range) {
+    cowl_release_impl(range);
+}
 
 /**
  * Gets the data range which this data range is a complement of.
@@ -75,7 +79,7 @@ void cowl_data_compl_release(CowlDataCompl *range) { cowl_release_impl(range); }
  */
 COWL_INLINE
 CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *range) {
-    return cowl_get_field(range, 0);
+    return (CowlDataRange *)cowl_get_field(range, 0);
 }
 
 /**

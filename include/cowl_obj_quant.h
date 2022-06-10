@@ -13,7 +13,7 @@
 #ifndef COWL_OBJ_QUANT_H
 #define COWL_OBJ_QUANT_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_quant_type.h"
 
 COWL_BEGIN_DECLS
@@ -57,7 +57,9 @@ CowlObjQuant* cowl_obj_quant_get(CowlQuantType type, CowlObjPropExp *prop, CowlC
  * @public @memberof CowlObjQuant
  */
 COWL_INLINE
-CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) { return cowl_retain(restr); }
+CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) {
+    return (CowlObjQuant *)cowl_retain(restr);
+}
 
 /**
  * Releases the specified object quantifier.
@@ -67,7 +69,9 @@ CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) { return cowl_retain(re
  * @public @memberof CowlObjQuant
  */
 COWL_INLINE
-void cowl_obj_quant_release(CowlObjQuant *restr) { cowl_release_impl(restr); }
+void cowl_obj_quant_release(CowlObjQuant *restr) {
+    cowl_release_impl(restr);
+}
 
 /**
  * Gets the type of the specified object quantifier.
@@ -91,7 +95,9 @@ CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
  * @public @memberof CowlObjQuant
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) { return cowl_get_field(restr, 0); }
+CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) {
+    return (CowlObjPropExp *)cowl_get_field(restr, 0);
+}
 
 /**
  * Gets the filler of the specified object quantifier.

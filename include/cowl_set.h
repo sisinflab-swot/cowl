@@ -13,8 +13,7 @@
 #ifndef COWL_SET_H
 #define COWL_SET_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -60,8 +59,10 @@ CowlSet* cowl_set_get(UHash(CowlObjectTable) *set);
  *
  * @public @memberof CowlSet
  */
-COWL_PUBLIC
-CowlSet* cowl_set_retain(CowlSet *set);
+COWL_INLINE
+CowlSet* cowl_set_retain(CowlSet *set) {
+    return (CowlSet *)cowl_retain(set);
+}
 
 /**
  * Releases the specified set.

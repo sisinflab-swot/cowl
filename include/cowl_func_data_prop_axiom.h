@@ -13,7 +13,7 @@
 #ifndef COWL_FUNC_DATA_PROP_AXIOM_H
 #define COWL_FUNC_DATA_PROP_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
  */
 COWL_INLINE
 CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop, CowlVector *annot) {
-    return cowl_get_impl_1(COWL_OT_A_FUNC_DATA_PROP, prop, annot);
+    return (CowlFuncDataPropAxiom *)cowl_get_impl_1_opt(COWL_OT_A_FUNC_DATA_PROP, prop, annot);
 }
 
 /**
@@ -56,7 +56,7 @@ CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop, Cowl
  */
 COWL_INLINE
 CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlFuncDataPropAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -81,7 +81,7 @@ void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom) {
  */
 COWL_INLINE
 CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlDataPropExp *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -94,7 +94,7 @@ CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom
  */
 COWL_INLINE
 CowlVector* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

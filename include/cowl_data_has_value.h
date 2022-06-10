@@ -13,7 +13,7 @@
 #ifndef COWL_DATA_HAS_VALUE_H
 #define COWL_DATA_HAS_VALUE_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlDataHasValue);
  */
 COWL_INLINE
 CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *value) {
-    return cowl_get_impl_2(COWL_OT_CE_DATA_HAS_VALUE, prop, value, NULL);
+    return (CowlDataHasValue *)cowl_get_impl_2(COWL_OT_CE_DATA_HAS_VALUE, prop, value);
 }
 
 /**
@@ -55,7 +55,9 @@ CowlDataHasValue* cowl_data_has_value_get(CowlDataPropExp *prop, CowlLiteral *va
  * @public @memberof CowlDataHasValue
  */
 COWL_INLINE
-CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr) { return cowl_retain(restr); }
+CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr) {
+    return (CowlDataHasValue *)cowl_retain(restr);
+}
 
 /**
  * Releases the specified literal value restriction.
@@ -79,7 +81,7 @@ void cowl_data_has_value_release(CowlDataHasValue *restr) {
  */
 COWL_INLINE
 CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
-    return cowl_get_field(restr, 0);
+    return (CowlDataPropExp *)cowl_get_field(restr, 0);
 }
 
 /**
@@ -92,7 +94,7 @@ CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
  */
 COWL_INLINE
 CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr) {
-    return cowl_get_field(restr, 1);
+    return (CowlLiteral *)cowl_get_field(restr, 1);
 }
 
 /**

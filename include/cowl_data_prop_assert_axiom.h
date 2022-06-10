@@ -13,7 +13,7 @@
 #ifndef COWL_DATA_PROP_ASSERT_AXIOM_H
 #define COWL_DATA_PROP_ASSERT_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -55,7 +55,8 @@ CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlIndividual *subj,
                                                          CowlDataPropExp *prop,
                                                          CowlLiteral *obj,
                                                          CowlVector *annot) {
-    return cowl_get_impl_3(COWL_OT_A_DATA_PROP_ASSERT, subj, prop, obj, annot);
+    return (CowlDataPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_DATA_PROP_ASSERT,
+                                                          subj, prop, obj, annot);
 }
 
 /**
@@ -74,7 +75,8 @@ CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *sub
                                                              CowlDataPropExp *prop,
                                                              CowlLiteral *obj,
                                                              CowlVector *annot) {
-    return cowl_get_impl_3(COWL_OT_A_NEG_DATA_PROP_ASSERT, subj, prop, obj, annot);
+    return (CowlDataPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_NEG_DATA_PROP_ASSERT,
+                                                          subj, prop, obj, annot);
 }
 
 /**
@@ -87,7 +89,7 @@ CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlIndividual *sub
  */
 COWL_INLINE
 CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_retain(CowlDataPropAssertAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlDataPropAssertAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -125,7 +127,7 @@ bool cowl_data_prop_assert_axiom_is_negative(CowlDataPropAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlIndividual* cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlIndividual *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -138,7 +140,7 @@ CowlIndividual* cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom 
  */
 COWL_INLINE
 CowlDataPropExp* cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlDataPropExp *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -151,7 +153,7 @@ CowlDataPropExp* cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *a
  */
 COWL_INLINE
 CowlLiteral* cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 2);
+    return (CowlLiteral *)cowl_get_field(axiom, 2);
 }
 
 /**
@@ -164,7 +166,7 @@ CowlLiteral* cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axi
  */
 COWL_INLINE
 CowlVector* cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

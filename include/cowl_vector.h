@@ -13,8 +13,7 @@
 #ifndef COWL_VECTOR_H
 #define COWL_VECTOR_H
 
-#include "cowl_iterator.h"
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -86,8 +85,10 @@ CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec);
  *
  * @public @memberof CowlVector
  */
-COWL_PUBLIC
-CowlVector* cowl_vector_retain(CowlVector *vec);
+COWL_INLINE
+CowlVector* cowl_vector_retain(CowlVector *vec) {
+    return (CowlVector *)cowl_retain(vec);
+}
 
 /**
  * Releases the specified vector.

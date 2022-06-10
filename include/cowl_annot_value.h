@@ -39,7 +39,9 @@ cowl_struct_decl(CowlAnnotValue);
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) { return cowl_retain(value); }
+CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) {
+    return (CowlAnnotValue *)cowl_retain(value);
+}
 
 /**
  * Releases the annotation value.
@@ -49,7 +51,9 @@ CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) { return cowl_ret
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-void cowl_annot_value_release(CowlAnnotValue *value) { cowl_release(value); }
+void cowl_annot_value_release(CowlAnnotValue *value) {
+    cowl_release(value);
+}
 
 /**
  * Gets the type of the specified annotation value.
@@ -73,7 +77,9 @@ CowlAnnotValueType cowl_annot_value_get_type(CowlAnnotValue *value);
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-CowlString* cowl_annot_value_to_string(CowlAnnotValue *value) { return cowl_to_string(value); }
+CowlString* cowl_annot_value_to_string(CowlAnnotValue *value) {
+    return cowl_to_string(value);
+}
 
 /**
  * Equality function.
@@ -98,7 +104,9 @@ bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs) {
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-ulib_uint cowl_annot_value_hash(CowlAnnotValue *value) { return cowl_hash(value); }
+ulib_uint cowl_annot_value_hash(CowlAnnotValue *value) {
+    return cowl_hash(value);
+}
 
 /**
  * Iterates over the primitives referenced by the specified annotation value.

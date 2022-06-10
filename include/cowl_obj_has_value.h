@@ -13,7 +13,7 @@
 #ifndef COWL_OBJ_HAS_VALUE_H
 #define COWL_OBJ_HAS_VALUE_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlObjHasValue);
  */
 COWL_INLINE
 CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *individual) {
-    return cowl_get_impl_2(COWL_OT_CE_OBJ_HAS_VALUE, prop, individual, NULL);
+    return (CowlObjHasValue *)cowl_get_impl_2(COWL_OT_CE_OBJ_HAS_VALUE, prop, individual);
 }
 
 /**
@@ -55,7 +55,9 @@ CowlObjHasValue* cowl_obj_has_value_get(CowlObjPropExp *prop, CowlIndividual *in
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp) { return cowl_retain(exp); }
+CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp) {
+    return (CowlObjHasValue *)cowl_retain(exp);
+}
 
 /**
  * Releases the specified individual value restriction.
@@ -65,7 +67,9 @@ CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp) { return cowl_r
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-void cowl_obj_has_value_release(CowlObjHasValue *exp) { cowl_release_impl(exp); }
+void cowl_obj_has_value_release(CowlObjHasValue *exp) {
+    cowl_release_impl(exp);
+}
 
 /**
  * Gets the object property expression of the specified individual value restriction.
@@ -76,7 +80,9 @@ void cowl_obj_has_value_release(CowlObjHasValue *exp) { cowl_release_impl(exp); 
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp) { return cowl_get_field(exp, 0); }
+CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
+    return (CowlObjPropExp *)cowl_get_field(exp, 0);
+}
 
 /**
  * Gets the individual of the specified individual value restriction.
@@ -87,7 +93,9 @@ CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp) { return cowl_
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp) { return cowl_get_field(exp, 1); }
+CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
+    return (CowlIndividual *)cowl_get_field(exp, 1);
+}
 
 /**
  * Returns the string representation of the specified value restriction.

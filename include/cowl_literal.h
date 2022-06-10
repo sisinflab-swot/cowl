@@ -53,8 +53,10 @@ CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *l
  *
  * @public @memberof CowlLiteral
  */
-COWL_PUBLIC
-CowlLiteral* cowl_literal_retain(CowlLiteral *literal);
+COWL_INLINE
+CowlLiteral* cowl_literal_retain(CowlLiteral *literal) {
+    return (CowlLiteral *)cowl_retain(literal);
+}
 
 /**
  * Releases the specified literal.

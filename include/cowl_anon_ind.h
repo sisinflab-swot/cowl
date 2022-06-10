@@ -13,7 +13,7 @@
 #ifndef COWL_ANON_IND_H
 #define COWL_ANON_IND_H
 
-#include "cowl_object.h"
+#include "cowl_primitive.h"
 #include "cowl_node_id.h"
 
 COWL_BEGIN_DECLS
@@ -50,7 +50,9 @@ CowlAnonInd* cowl_anon_ind_get(void);
  * @public @memberof CowlAnonInd
  */
 COWL_INLINE
-CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind) { return cowl_retain(ind); }
+CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind) {
+    return (CowlAnonInd *)cowl_retain(ind);
+}
 
 /**
  * Releases the specified anonymous individual.
@@ -70,8 +72,10 @@ void cowl_anon_ind_release(CowlAnonInd *ind);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
-CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind);
+COWL_INLINE
+CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind) {
+    return (CowlNodeId)ind;
+}
 
 /**
  * Returns the string representation of the specified anonymous individual.
@@ -83,8 +87,10 @@ CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
-CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind);
+COWL_INLINE
+CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind) {
+    return cowl_primitive_to_string((CowlPrimitive *)ind);
+}
 
 /**
  * Equality function.
@@ -95,8 +101,10 @@ CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
-bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs);
+COWL_INLINE
+bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -106,8 +114,10 @@ bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
-ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind);
+COWL_INLINE
+ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
+    return uhash_ptr_hash(ind);
+}
 
 /**
  * Iterates over the primitives referenced by this anonymous individual.
@@ -119,9 +129,11 @@ ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter);
+                                      CowlIterator *iter) {
+    return cowl_iterate_primitives(ind, flags, iter);
+}
 
 COWL_END_DECLS
 

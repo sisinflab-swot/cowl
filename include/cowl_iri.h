@@ -13,7 +13,7 @@
 #ifndef COWL_IRI_H
 #define COWL_IRI_H
 
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -72,8 +72,10 @@ CowlIRI* cowl_iri_from_string(UString string);
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
-CowlIRI* cowl_iri_retain(CowlIRI *iri);
+COWL_INLINE
+CowlIRI* cowl_iri_retain(CowlIRI *iri) {
+    return (CowlIRI *)cowl_retain(iri);
+}
 
 /**
  * Releases the specified IRI.
@@ -143,7 +145,9 @@ CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri);
  * @public @memberof CowlIRI
  */
 COWL_INLINE
-bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) { return lhs == rhs; }
+bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -154,7 +158,9 @@ bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) { return lhs == rhs; }
  * @public @memberof CowlIRI
  */
 COWL_INLINE
-ulib_uint cowl_iri_hash(CowlIRI *iri) { return uhash_ptr_hash(iri); }
+ulib_uint cowl_iri_hash(CowlIRI *iri) {
+    return uhash_ptr_hash(iri);
+}
 
 COWL_END_DECLS
 

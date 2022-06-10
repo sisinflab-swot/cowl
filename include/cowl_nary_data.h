@@ -13,7 +13,7 @@
 #ifndef COWL_NARY_DATA_H
 #define COWL_NARY_DATA_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_nary_type.h"
 
 COWL_BEGIN_DECLS
@@ -45,7 +45,8 @@ cowl_struct_decl(CowlNAryData);
 COWL_INLINE
 CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlVector *operands) {
     if (!cowl_enum_value_is_valid(NT, type)) return NULL;
-    return cowl_get_impl_1(COWL_OT_DR_DATA_INTERSECT + type, operands, NULL);
+    return (CowlNAryData *)cowl_get_impl_1((CowlObjectType)(COWL_OT_DR_DATA_INTERSECT + type),
+                                           operands);
 }
 
 /**
@@ -57,7 +58,9 @@ CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlVector *operands) {
  * @public @memberof CowlNAryData
  */
 COWL_INLINE
-CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) { return cowl_retain(range); }
+CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) {
+    return (CowlNAryData *)cowl_retain(range);
+}
 
 /**
  * Releases the specified N-ary data range.
@@ -67,7 +70,9 @@ CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) { return cowl_retain(ra
  * @public @memberof CowlNAryData
  */
 COWL_INLINE
-void cowl_nary_data_release(CowlNAryData *range) { cowl_release_impl(range); }
+void cowl_nary_data_release(CowlNAryData *range) {
+    cowl_release_impl(range);
+}
 
 /**
  * Gets the type of the specified N-ary data range.
@@ -90,7 +95,9 @@ CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
  * @public @memberof CowlNAryData
  */
 COWL_INLINE
-CowlVector* cowl_nary_data_get_operands(CowlNAryData *range) { return cowl_get_field(range, 0); }
+CowlVector* cowl_nary_data_get_operands(CowlNAryData *range) {
+    return (CowlVector *)cowl_get_field(range, 0);
+}
 
 /**
  * Returns the string representation of the specified N-ary data range.

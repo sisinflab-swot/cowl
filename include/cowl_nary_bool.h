@@ -13,7 +13,7 @@
 #ifndef COWL_NARY_BOOL_H
 #define COWL_NARY_BOOL_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_nary_type.h"
 
 COWL_BEGIN_DECLS
@@ -46,7 +46,8 @@ cowl_struct_decl(CowlNAryBool);
 COWL_INLINE
 CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlVector *operands) {
     if (!cowl_enum_value_is_valid(NT, type)) return NULL;
-    return cowl_get_impl_1(COWL_OT_CE_OBJ_INTERSECT + type, operands, NULL);
+    return (CowlNAryBool *)cowl_get_impl_1((CowlObjectType)(COWL_OT_CE_OBJ_INTERSECT + type),
+                                           operands);
 }
 
 /**
@@ -58,7 +59,9 @@ CowlNAryBool* cowl_nary_bool_get(CowlNAryType type, CowlVector *operands) {
  * @public @memberof CowlNAryBool
  */
 COWL_INLINE
-CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp) { return cowl_retain(exp); }
+CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp) {
+    return (CowlNAryBool *)cowl_retain(exp);
+}
 
 /**
  * Releases the specified N-ary boolean class expression.
@@ -68,7 +71,9 @@ CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp) { return cowl_retain(exp)
  * @public @memberof CowlNAryBool
  */
 COWL_INLINE
-void cowl_nary_bool_release(CowlNAryBool *exp) { cowl_release_impl(exp); }
+void cowl_nary_bool_release(CowlNAryBool *exp) {
+    cowl_release_impl(exp);
+}
 
 /**
  * Gets the type of the specified N-ary boolean class expression.
@@ -92,7 +97,9 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
  * @public @memberof CowlNAryBool
  */
 COWL_INLINE
-CowlVector* cowl_nary_bool_get_operands(CowlNAryBool *exp) { return cowl_get_field(exp, 0); }
+CowlVector* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
+    return (CowlVector *)cowl_get_field(exp, 0);
+}
 
 /**
  * Returns the string representation of the specified N-ary boolean class expression.

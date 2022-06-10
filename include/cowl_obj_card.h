@@ -13,7 +13,7 @@
 #ifndef COWL_OBJ_CARD_H
 #define COWL_OBJ_CARD_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_card_type.h"
 
 COWL_BEGIN_DECLS
@@ -51,7 +51,8 @@ COWL_INLINE
 CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
                                CowlClsExp *filler, ulib_uint cardinality) {
     if (!cowl_enum_value_is_valid(CT, type)) return NULL;
-    return cowl_uint_get_impl_1(COWL_OT_CE_OBJ_MIN_CARD + type, prop, cardinality, filler);
+    return (CowlObjCard *)cowl_get_impl_1_uint_opt((CowlObjectType)(COWL_OT_CE_OBJ_MIN_CARD + type),
+                                                   prop, cardinality, filler);
 }
 
 /**
@@ -63,7 +64,9 @@ CowlObjCard* cowl_obj_card_get(CowlCardType type, CowlObjPropExp *prop,
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr) { return cowl_retain(restr); }
+CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr) {
+    return (CowlObjCard *)cowl_retain(restr);
+}
 
 /**
  * Releases the specified object property cardinality restriction.
@@ -73,7 +76,9 @@ CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr) { return cowl_retain(restr
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-void cowl_obj_card_release(CowlObjCard *restr) { cowl_release_impl(restr); }
+void cowl_obj_card_release(CowlObjCard *restr) {
+    cowl_release_impl(restr);
+}
 
 /**
  * Gets the type of the specified object property cardinality restriction.
@@ -97,7 +102,9 @@ CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) { return cowl_get_field(restr, 0); }
+CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) {
+    return (CowlObjPropExp *)cowl_get_field(restr, 0);
+}
 
 /**
  * Gets the filler of the restriction.
@@ -108,7 +115,9 @@ CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) { return cowl_get_fie
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) { return cowl_get_opt_field(restr); }
+CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) {
+    return (CowlClsExp *)cowl_get_opt_field(restr);
+}
 
 /**
  * Gets the cardinality of the restriction.
@@ -119,7 +128,9 @@ CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) { return cowl_get_opt_f
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) { return cowl_get_uint_field(restr); }
+ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) {
+    return cowl_get_uint_field(restr);
+}
 
 /**
  * Returns the string representation of the specified restriction.

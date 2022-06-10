@@ -13,7 +13,7 @@
 #ifndef COWL_DISJ_UNION_AXIOM_H
 #define COWL_DISJ_UNION_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -45,7 +45,7 @@ cowl_struct_decl(CowlDisjUnionAxiom);
 COWL_INLINE
 CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlVector *disjoints,
                                               CowlVector *annot) {
-    return cowl_get_impl_2(COWL_OT_A_DISJ_UNION, cls, disjoints, annot);
+    return (CowlDisjUnionAxiom *)cowl_get_impl_2_opt(COWL_OT_A_DISJ_UNION, cls, disjoints, annot);
 }
 
 /**
@@ -58,7 +58,7 @@ CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlVector *disjoi
  */
 COWL_INLINE
 CowlDisjUnionAxiom* cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlDisjUnionAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -69,7 +69,9 @@ CowlDisjUnionAxiom* cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom) {
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom) { cowl_release_impl(axiom); }
+void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the class which is equivalent to the disjoint union.
@@ -81,7 +83,7 @@ void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom) { cowl_release_imp
  */
 COWL_INLINE
 CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlClass *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -93,7 +95,7 @@ CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlVector *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -106,7 +108,7 @@ CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

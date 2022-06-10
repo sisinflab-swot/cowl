@@ -40,7 +40,9 @@ cowl_struct_decl(CowlAxiom);
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) { return cowl_retain(axiom); }
+CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
+    return (CowlAxiom *)cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -50,7 +52,9 @@ CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) { return cowl_retain(axiom); }
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-void cowl_axiom_release(CowlAxiom *axiom) { cowl_release(axiom); }
+void cowl_axiom_release(CowlAxiom *axiom) {
+    cowl_release(axiom);
+}
 
 /**
  * Gets the type of the specified axiom.
@@ -65,11 +69,18 @@ CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
     return (CowlAxiomType)(cowl_get_type(axiom) - COWL_OT_A_DECL);
 }
 
+/**
+ * Gets the annotations of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @return The annotations.
+ *
+ * @public @memberof CowlAxiom
+ */
 COWL_INLINE
-bool cowl_axiom_has_annot(CowlAxiom *axiom) { return cowl_has_opt_field(axiom); }
-
-COWL_INLINE
-CowlVector* cowl_axiom_get_annot_ex(CowlAxiom *axiom) { return cowl_get_opt_field(axiom); }
+CowlVector* cowl_axiom_get_annot(CowlAxiom *axiom) {
+    return (CowlVector *)cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.
@@ -82,7 +93,9 @@ CowlVector* cowl_axiom_get_annot_ex(CowlAxiom *axiom) { return cowl_get_opt_fiel
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlString* cowl_axiom_to_string(CowlAxiom *axiom) { return cowl_to_string(axiom); }
+CowlString* cowl_axiom_to_string(CowlAxiom *axiom) {
+    return cowl_to_string(axiom);
+}
 
 /**
  * Equality function.
@@ -94,7 +107,9 @@ CowlString* cowl_axiom_to_string(CowlAxiom *axiom) { return cowl_to_string(axiom
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) { return cowl_equals(lhs, rhs); }
+bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
+    return cowl_equals(lhs, rhs);
+}
 
 /**
  * Hash function.
@@ -105,7 +120,9 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) { return cowl_equals(lhs,
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-ulib_uint cowl_axiom_hash(CowlAxiom *axiom) { return cowl_hash(axiom); }
+ulib_uint cowl_axiom_hash(CowlAxiom *axiom) {
+    return cowl_hash(axiom);
+}
 
 /**
  * Iterates over the primitives referenced by the specified axiom.

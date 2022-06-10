@@ -10,6 +10,7 @@ env:
   cflags_gnuc: -Werror
   cflags_msvc: /WX
   test_target: cowl-test
+  cpp_test_target: cowl-cpp-test
   bench_target: cowl-bench
   examples_target: cowl-examples
   docs_target: cowl-docs
@@ -58,7 +59,8 @@ jobs:
       run: >
         cmake --build ${{env.build_dir}}
         --config ${{env.build_config}}
-        --target ${{env.test_target}} ${{env.bench_target}} ${{env.examples_target}}
+        --target ${{env.test_target}} ${{env.cpp_test_target}}
+        ${{env.bench_target}} ${{env.examples_target}}
 
     - name: Run examples
       working-directory: ${{env.build_dir}}/examples
@@ -72,6 +74,10 @@ jobs:
     - name: Run tests
       working-directory: ${{env.build_dir}}/test
       run: ${{env.config_subdir}}/${{env.test_target}}
+
+    - name: Run tests (C++)
+      working-directory: ${{env.build_dir}}/test
+      run: ${{env.config_subdir}}/${{env.cpp_test_target}}
 
   docs:
     name: Generate the documentation

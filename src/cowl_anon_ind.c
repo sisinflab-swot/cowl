@@ -25,24 +25,3 @@ void cowl_anon_ind_release(CowlAnonInd *ind) {
         ulib_free(ind);
     }
 }
-
-CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind) {
-    return (CowlNodeId)ind;
-}
-
-CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind) {
-    return cowl_primitive_to_string((CowlPrimitive *)ind);
-}
-
-bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {
-    return lhs == rhs;
-}
-
-ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
-    return uhash_ptr_hash(ind);
-}
-
-bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter) {
-    return uflags_is_set(COWL_PF, flags, COWL_PF_ANON_IND) ? cowl_iterate(iter, ind) : true;
-}

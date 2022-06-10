@@ -13,7 +13,7 @@
 #ifndef COWL_OBJ_ONE_OF_H
 #define COWL_OBJ_ONE_OF_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlObjOneOf);
  */
 COWL_INLINE
 CowlObjOneOf* cowl_obj_one_of_get(CowlVector *inds) {
-    return cowl_get_impl_1(COWL_OT_CE_OBJ_ONE_OF, inds, NULL);
+    return (CowlObjOneOf *)cowl_get_impl_1(COWL_OT_CE_OBJ_ONE_OF, inds);
 }
 
 /**
@@ -53,7 +53,9 @@ CowlObjOneOf* cowl_obj_one_of_get(CowlVector *inds) {
  * @public @memberof CowlObjOneOf
  */
 COWL_INLINE
-CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp) { return cowl_retain(exp); }
+CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp) {
+    return (CowlObjOneOf *)cowl_retain(exp);
+}
 
 /**
  * Releases the specified individual enumeration.
@@ -63,7 +65,9 @@ CowlObjOneOf* cowl_obj_one_of_retain(CowlObjOneOf *exp) { return cowl_retain(exp
  * @public @memberof CowlObjOneOf
  */
 COWL_INLINE
-void cowl_obj_one_of_release(CowlObjOneOf *exp) { cowl_release_impl(exp); }
+void cowl_obj_one_of_release(CowlObjOneOf *exp) {
+    cowl_release_impl(exp);
+}
 
 /**
  * Gets the individuals of the specified enumeration.
@@ -74,7 +78,9 @@ void cowl_obj_one_of_release(CowlObjOneOf *exp) { cowl_release_impl(exp); }
  * @public @memberof CowlObjOneOf
  */
 COWL_INLINE
-CowlVector* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) { return cowl_get_field(exp, 0); }
+CowlVector* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
+    return (CowlVector *)cowl_get_field(exp, 0);
+}
 
 /**
  * Returns the string representation of the specified individual enumeration.

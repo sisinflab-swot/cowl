@@ -40,7 +40,9 @@ cowl_struct_decl(CowlEntity);
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-CowlEntity* cowl_entity_retain(CowlEntity *entity) { return cowl_retain(entity); }
+CowlEntity* cowl_entity_retain(CowlEntity *entity) {
+    return (CowlEntity *)cowl_retain(entity);
+}
 
 /**
  * Releases the entity.
@@ -97,7 +99,9 @@ CowlString* cowl_entity_to_string(CowlEntity *entity);
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) { return lhs == rhs; }
+bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -108,7 +112,9 @@ bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) { return lhs == rhs; }
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-ulib_uint cowl_entity_hash(CowlEntity *entity) { return uhash_ptr_hash(entity); }
+ulib_uint cowl_entity_hash(CowlEntity *entity) {
+    return uhash_ptr_hash(entity);
+}
 
 /**
  * Iterates over this entity.
@@ -120,9 +126,11 @@ ulib_uint cowl_entity_hash(CowlEntity *entity) { return uhash_ptr_hash(entity); 
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlPrimitiveFlags flags,
-                                    CowlIterator *iter);
+                                    CowlIterator *iter) {
+    return cowl_iterate_primitives(entity, flags, iter);
+}
 
 COWL_END_DECLS
 

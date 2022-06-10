@@ -13,7 +13,7 @@
 #ifndef COWL_DATATYPE_RESTR_H
 #define COWL_DATATYPE_RESTR_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlDatatypeRestr);
  */
 COWL_INLINE
 CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlVector *restrictions) {
-    return cowl_get_impl_2(COWL_OT_DR_DATATYPE_RESTR, datatype, restrictions, NULL);
+    return (CowlDatatypeRestr *)cowl_get_impl_2(COWL_OT_DR_DATATYPE_RESTR, datatype, restrictions);
 }
 
 /**
@@ -56,7 +56,7 @@ CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlVector *r
  */
 COWL_INLINE
 CowlDatatypeRestr* cowl_datatype_restr_retain(CowlDatatypeRestr *restr) {
-    return cowl_retain(restr);
+    return (CowlDatatypeRestr *)cowl_retain(restr);
 }
 
 /**
@@ -81,7 +81,7 @@ void cowl_datatype_restr_release(CowlDatatypeRestr *restr) {
  */
 COWL_INLINE
 CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
-    return cowl_get_field(restr, 0);
+    return (CowlDatatype *)cowl_get_field(restr, 0);
 }
 
 /**
@@ -94,7 +94,7 @@ CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
  */
 COWL_INLINE
 CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
-    return cowl_get_field(restr, 1);
+    return (CowlVector *)cowl_get_field(restr, 1);
 }
 
 /**

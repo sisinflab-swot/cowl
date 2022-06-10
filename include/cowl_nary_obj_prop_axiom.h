@@ -13,7 +13,7 @@
 #ifndef COWL_NARY_OBJ_PROP_AXIOM_H
 #define COWL_NARY_OBJ_PROP_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_nary_axiom_type.h"
 
 COWL_BEGIN_DECLS
@@ -49,7 +49,8 @@ CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_get(CowlNAryAxiomType type,
                                                    CowlVector *props,
                                                    CowlVector *annot) {
     if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
-    return cowl_get_impl_1(COWL_OT_A_EQUIV_OBJ_PROP + type, props, annot);
+    return (CowlNAryObjPropAxiom *)cowl_get_impl_1_opt((CowlObjectType)(COWL_OT_A_EQUIV_OBJ_PROP + type),
+                                                       props, annot);
 }
 
 /**
@@ -62,7 +63,7 @@ CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_get(CowlNAryAxiomType type,
  */
 COWL_INLINE
 CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_retain(CowlNAryObjPropAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlNAryObjPropAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -100,7 +101,7 @@ CowlNAryAxiomType cowl_nary_obj_prop_axiom_get_type(CowlNAryObjPropAxiom *axiom)
  */
 COWL_INLINE
 CowlVector* cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlVector *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -113,7 +114,7 @@ CowlVector* cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_nary_obj_prop_axiom_get_annot(CowlNAryObjPropAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

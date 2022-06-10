@@ -38,8 +38,10 @@ cowl_struct_decl(CowlNamedInd);
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-CowlNamedInd* cowl_named_ind_get(CowlIRI *iri);
+COWL_INLINE
+CowlNamedInd* cowl_named_ind_get(CowlIRI *iri) {
+    return (CowlNamedInd *)cowl_entity_get_impl(COWL_OT_I_NAMED, iri);
+}
 
 /**
  * Returns a retained named individual given the string representation of its IRI.
@@ -49,8 +51,10 @@ CowlNamedInd* cowl_named_ind_get(CowlIRI *iri);
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-CowlNamedInd* cowl_named_ind_from_string(UString string);
+COWL_INLINE
+CowlNamedInd* cowl_named_ind_from_string(UString string) {
+    return (CowlNamedInd *)cowl_entity_from_string_impl(COWL_OT_I_NAMED, string);
+}
 
 /**
  * Returns a retained named individual given the static string representation of its IRI.
@@ -71,7 +75,9 @@ CowlNamedInd* cowl_named_ind_from_string(UString string);
  * @public @memberof CowlNamedInd
  */
 COWL_INLINE
-CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind) { return cowl_retain(ind); }
+CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind) {
+    return (CowlNamedInd *)cowl_retain(ind);
+}
 
 /**
  * Releases the specified named individual.
@@ -80,8 +86,10 @@ CowlNamedInd* cowl_named_ind_retain(CowlNamedInd *ind) { return cowl_retain(ind)
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-void cowl_named_ind_release(CowlNamedInd *ind);
+COWL_INLINE
+void cowl_named_ind_release(CowlNamedInd *ind) {
+    cowl_entity_release((CowlEntity *)ind);
+}
 
 /**
  * Gets the IRI of the named individual.
@@ -91,8 +99,10 @@ void cowl_named_ind_release(CowlNamedInd *ind);
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind);
+COWL_INLINE
+CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind) {
+    return cowl_entity_get_iri((CowlEntity *)ind);
+}
 
 /**
  * Returns the string representation of the specified named individual.
@@ -104,8 +114,10 @@ CowlIRI* cowl_named_ind_get_iri(CowlNamedInd *ind);
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
-CowlString* cowl_named_ind_to_string(CowlNamedInd *ind);
+COWL_INLINE
+CowlString* cowl_named_ind_to_string(CowlNamedInd *ind) {
+    return cowl_entity_to_string((CowlEntity *)ind);
+}
 
 /**
  * Equality function.
@@ -117,7 +129,9 @@ CowlString* cowl_named_ind_to_string(CowlNamedInd *ind);
  * @public @memberof CowlNamedInd
  */
 COWL_INLINE
-bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) { return lhs == rhs; }
+bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -128,7 +142,9 @@ bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) { return lhs ==
  * @public @memberof CowlNamedInd
  */
 COWL_INLINE
-ulib_uint cowl_named_ind_hash(CowlNamedInd *ind) { return uhash_ptr_hash(ind); }
+ulib_uint cowl_named_ind_hash(CowlNamedInd *ind) {
+    return uhash_ptr_hash(ind);
+}
 
 /**
  * Iterates over this named individual.
@@ -140,9 +156,11 @@ ulib_uint cowl_named_ind_hash(CowlNamedInd *ind) { return uhash_ptr_hash(ind); }
  *
  * @public @memberof CowlNamedInd
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_named_ind_iterate_primitives(CowlNamedInd *ind, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter);
+                                       CowlIterator *iter) {
+    return cowl_entity_iterate_primitives((CowlEntity *)ind, flags, iter);
+}
 
 COWL_END_DECLS
 

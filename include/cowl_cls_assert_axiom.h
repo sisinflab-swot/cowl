@@ -13,7 +13,7 @@
 #ifndef COWL_CLS_ASSERT_AXIOM_H
 #define COWL_CLS_ASSERT_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -46,7 +46,7 @@ cowl_struct_decl(CowlClsAssertAxiom);
 COWL_INLINE
 CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp,
                                               CowlVector *annot) {
-    return cowl_get_impl_2(COWL_OT_A_CLASS_ASSERT, ind, exp, annot);
+    return (CowlClsAssertAxiom *)cowl_get_impl_2_opt(COWL_OT_A_CLASS_ASSERT, ind, exp, annot);
 }
 
 /**
@@ -59,7 +59,7 @@ CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *e
  */
 COWL_INLINE
 CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlClsAssertAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -84,7 +84,7 @@ void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlIndividual *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -97,7 +97,7 @@ CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlClsExp *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -110,7 +110,7 @@ CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

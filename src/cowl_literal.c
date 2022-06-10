@@ -10,7 +10,6 @@
 
 #include "cowl_literal_private.h"
 #include "cowl_datatype.h"
-#include "cowl_object_impl.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_template.h"
 
@@ -73,10 +72,6 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang)
     cowl_string_release(val_s);
 
     return literal;
-}
-
-CowlLiteral* cowl_literal_retain(CowlLiteral *literal) {
-    return cowl_object_incr_ref(literal);
 }
 
 void cowl_literal_release(CowlLiteral *literal) {

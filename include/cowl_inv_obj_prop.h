@@ -13,7 +13,7 @@
 #ifndef COWL_INV_OBJ_PROP_H
 #define COWL_INV_OBJ_PROP_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlInvObjProp);
  */
 COWL_INLINE
 CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
-    return cowl_get_impl_1(COWL_OT_OPE_INV_OBJ_PROP, prop, NULL);
+    return (CowlInvObjProp *)cowl_get_impl_1(COWL_OT_OPE_INV_OBJ_PROP, prop);
 }
 
 /**
@@ -53,7 +53,9 @@ CowlInvObjProp* cowl_inv_obj_prop_get(CowlObjProp *prop) {
  * @public @memberof CowlInvObjProp
  */
 COWL_INLINE
-CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) { return cowl_retain(inv); }
+CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) {
+    return (CowlInvObjProp *)cowl_retain(inv);
+}
 
 /**
  * Releases the specified inverse object property.
@@ -63,7 +65,9 @@ CowlInvObjProp* cowl_inv_obj_prop_retain(CowlInvObjProp *inv) { return cowl_reta
  * @public @memberof CowlInvObjProp
  */
 COWL_INLINE
-void cowl_inv_obj_prop_release(CowlInvObjProp *inv) { cowl_release_impl(inv); }
+void cowl_inv_obj_prop_release(CowlInvObjProp *inv) {
+    cowl_release_impl(inv);
+}
 
 /**
  * Gets the property of which the expression is the inverse of.
@@ -74,7 +78,9 @@ void cowl_inv_obj_prop_release(CowlInvObjProp *inv) { cowl_release_impl(inv); }
  * @public @memberof CowlInvObjProp
  */
 COWL_INLINE
-CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) { return cowl_get_field(inv, 0); }
+CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) {
+    return (CowlObjProp *)cowl_get_field(inv, 0);
+}
 
 /**
  * Returns the string representation of the specified inverse object property.

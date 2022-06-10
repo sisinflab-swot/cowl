@@ -13,7 +13,7 @@
 #ifndef COWL_ANNOT_ASSERT_AXIOM_H
 #define COWL_ANNOT_ASSERT_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -47,7 +47,8 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
 COWL_INLINE
 CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
                                                   CowlAnnotValue *value, CowlVector *annot) {
-    return cowl_get_impl_3(COWL_OT_A_ANNOT_ASSERT, subject, prop, value, annot);
+    return (CowlAnnotAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_ANNOT_ASSERT,
+                                                       subject, prop, value, annot);
 }
 
 /**
@@ -60,7 +61,7 @@ CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlA
  */
 COWL_INLINE
 CowlAnnotAssertAxiom* cowl_annot_assert_axiom_retain(CowlAnnotAssertAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlAnnotAssertAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -87,7 +88,7 @@ void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlAnnotValue* cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlAnnotValue *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -100,7 +101,7 @@ CowlAnnotValue* cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom)
  */
 COWL_INLINE
 CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlAnnotProp *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -113,7 +114,7 @@ CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlAnnotValue* cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
-    return cowl_get_field(axiom, 2);
+    return (CowlAnnotValue *)cowl_get_field(axiom, 2);
 }
 
 /**
@@ -126,7 +127,7 @@ CowlAnnotValue* cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

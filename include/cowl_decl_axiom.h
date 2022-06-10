@@ -13,7 +13,7 @@
 #ifndef COWL_DECL_AXIOM_H
 #define COWL_DECL_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlDeclAxiom);
  */
 COWL_INLINE
 CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlVector *annot) {
-    return cowl_get_impl_1(COWL_OT_A_DECL, entity, annot);
+    return (CowlDeclAxiom *)cowl_get_impl_1_opt(COWL_OT_A_DECL, entity, annot);
 }
 
 /**
@@ -55,7 +55,9 @@ CowlDeclAxiom* cowl_decl_axiom_get(CowlEntity *entity, CowlVector *annot) {
  * @public @memberof CowlDeclAxiom
  */
 COWL_INLINE
-CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) { return cowl_retain(axiom); }
+CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) {
+    return (CowlDeclAxiom *)cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -65,7 +67,9 @@ CowlDeclAxiom* cowl_decl_axiom_retain(CowlDeclAxiom *axiom) { return cowl_retain
  * @public @memberof CowlDeclAxiom
  */
 COWL_INLINE
-void cowl_decl_axiom_release(CowlDeclAxiom *axiom) { cowl_release_impl(axiom); }
+void cowl_decl_axiom_release(CowlDeclAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the declared entity.
@@ -76,7 +80,9 @@ void cowl_decl_axiom_release(CowlDeclAxiom *axiom) { cowl_release_impl(axiom); }
  * @public @memberof CowlDeclAxiom
  */
 COWL_INLINE
-CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) { return cowl_get_field(axiom, 0); }
+CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
+    return (CowlEntity *)cowl_get_field(axiom, 0);
+}
 
 /**
  * Gets the annotations of the specified axiom.
@@ -87,7 +93,9 @@ CowlEntity* cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) { return cowl_get_f
  * @public @memberof CowlDeclAxiom
  */
 COWL_INLINE
-CowlVector* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) { return cowl_get_opt_field(axiom); }
+CowlVector* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
+    return (CowlVector *)cowl_get_opt_field(axiom);
+}
 
 /**
  * Returns the string representation of the specified axiom.

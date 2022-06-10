@@ -13,7 +13,7 @@
 #ifndef COWL_DATA_PROP_DOMAIN_AXIOM_H
 #define COWL_DATA_PROP_DOMAIN_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -46,7 +46,8 @@ cowl_struct_decl(CowlDataPropDomainAxiom);
 COWL_INLINE
 CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_get(CowlDataPropExp *prop, CowlClsExp *domain,
                                                          CowlVector *annot) {
-    return cowl_get_impl_2(COWL_OT_A_DATA_PROP_DOMAIN, prop, domain, annot);
+    return (CowlDataPropDomainAxiom *)cowl_get_impl_2_opt(COWL_OT_A_DATA_PROP_DOMAIN,
+                                                          prop, domain, annot);
 }
 
 /**
@@ -59,7 +60,7 @@ CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_get(CowlDataPropExp *prop, 
  */
 COWL_INLINE
 CowlDataPropDomainAxiom* cowl_data_prop_domain_axiom_retain(CowlDataPropDomainAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlDataPropDomainAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -84,7 +85,7 @@ void cowl_data_prop_domain_axiom_release(CowlDataPropDomainAxiom *axiom) {
  */
 COWL_INLINE
 CowlDataPropExp* cowl_data_prop_domain_axiom_get_prop(CowlDataPropDomainAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlDataPropExp *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -97,7 +98,7 @@ CowlDataPropExp* cowl_data_prop_domain_axiom_get_prop(CowlDataPropDomainAxiom *a
  */
 COWL_INLINE
 CowlClsExp* cowl_data_prop_domain_axiom_get_domain(CowlDataPropDomainAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlClsExp *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -110,7 +111,7 @@ CowlClsExp* cowl_data_prop_domain_axiom_get_domain(CowlDataPropDomainAxiom *axio
  */
 COWL_INLINE
 CowlVector* cowl_data_prop_domain_axiom_get_annot(CowlDataPropDomainAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

@@ -39,7 +39,7 @@ HASH_GEN(named_ind, map)
 HASH_GEN(obj_prop, map)
 HASH_GEN(string, map)
 
-static CowlSet* cowl_set_alloc(UHash(CowlObjectTable) *data) {
+CowlSet* cowl_set_get(UHash(CowlObjectTable) *data) {
     CowlSet *set = ulib_alloc(set);
     if (!set) return NULL;
 
@@ -55,23 +55,11 @@ static CowlSet* cowl_set_alloc(UHash(CowlObjectTable) *data) {
     return set;
 }
 
-static void cowl_set_free(CowlSet *set) {
-    uhash_foreach(CowlObjectTable, &set->data, obj) { cowl_release(*obj.key); }
-    uhash_deinit(CowlObjectTable, &set->data);
-    ulib_free(set);
-}
-
-CowlSet* cowl_set_get(UHash(CowlObjectTable) *set) {
-    return cowl_set_alloc(set);
-}
-
-CowlSet* cowl_set_retain(CowlSet *vec) {
-    return cowl_object_incr_ref(vec);
-}
-
-void cowl_set_release(CowlSet *vec) {
-    if (vec && !cowl_object_decr_ref(vec)) {
-        cowl_set_free(vec);
+void cowl_set_release(CowlSet *set) {
+    if (set && !cowl_object_decr_ref(set)) {
+        uhash_foreach(CowlObjectTable, &set->data, obj) { cowl_release(*obj.key); }
+        uhash_deinit(CowlObjectTable, &set->data);
+        ulib_free(set);
     }
 }
 

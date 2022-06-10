@@ -23,5 +23,5 @@ CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive) {
 }
 
 bool cowl_primitive_is_entity(CowlPrimitive *primitive) {
-    return cowl_primitive_get_type(primitive) != COWL_PT_ANON_IND;
+    return cowl_get_type(primitive) != COWL_OT_I_ANONYMOUS;
 }

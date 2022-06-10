@@ -38,8 +38,10 @@ cowl_struct_decl(CowlObjProp);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-CowlObjProp* cowl_obj_prop_get(CowlIRI *iri);
+COWL_INLINE
+CowlObjProp* cowl_obj_prop_get(CowlIRI *iri) {
+    return (CowlObjProp *)cowl_entity_get_impl(COWL_OT_OPE_OBJ_PROP, iri);
+}
 
 /**
  * Returns a retained object property given the string representation of its IRI.
@@ -49,8 +51,10 @@ CowlObjProp* cowl_obj_prop_get(CowlIRI *iri);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-CowlObjProp* cowl_obj_prop_from_string(UString string);
+COWL_INLINE
+CowlObjProp* cowl_obj_prop_from_string(UString string) {
+    return (CowlObjProp *)cowl_entity_from_string_impl(COWL_OT_OPE_OBJ_PROP, string);
+}
 
 /**
  * Returns a retained object property given the static string representation of its IRI.
@@ -71,7 +75,9 @@ CowlObjProp* cowl_obj_prop_from_string(UString string);
  * @public @memberof CowlObjProp
  */
 COWL_INLINE
-CowlObjProp* cowl_obj_prop_retain(CowlObjProp *prop) { return cowl_retain(prop); }
+CowlObjProp* cowl_obj_prop_retain(CowlObjProp *prop) {
+    return (CowlObjProp *)cowl_retain(prop);
+}
 
 /**
  * Releases the specified object property.
@@ -80,8 +86,10 @@ CowlObjProp* cowl_obj_prop_retain(CowlObjProp *prop) { return cowl_retain(prop);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-void cowl_obj_prop_release(CowlObjProp *prop);
+COWL_INLINE
+void cowl_obj_prop_release(CowlObjProp *prop) {
+    cowl_entity_release((CowlEntity *)prop);
+}
 
 /**
  * Gets the IRI of the specified object property.
@@ -91,8 +99,10 @@ void cowl_obj_prop_release(CowlObjProp *prop);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-CowlIRI* cowl_obj_prop_get_iri(CowlObjProp *prop);
+COWL_INLINE
+CowlIRI* cowl_obj_prop_get_iri(CowlObjProp *prop) {
+    return cowl_entity_get_iri((CowlEntity *)prop);
+}
 
 /**
  * Returns the string representation of the specified object property.
@@ -104,8 +114,10 @@ CowlIRI* cowl_obj_prop_get_iri(CowlObjProp *prop);
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
-CowlString* cowl_obj_prop_to_string(CowlObjProp *prop);
+COWL_INLINE
+CowlString* cowl_obj_prop_to_string(CowlObjProp *prop) {
+    return cowl_entity_to_string((CowlEntity *)prop);
+}
 
 /**
  * Equality function.
@@ -117,7 +129,9 @@ CowlString* cowl_obj_prop_to_string(CowlObjProp *prop);
  * @public @memberof CowlObjProp
  */
 COWL_INLINE
-bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) { return lhs == rhs; }
+bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -128,7 +142,9 @@ bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) { return lhs == rh
  * @public @memberof CowlObjProp
  */
 COWL_INLINE
-ulib_uint cowl_obj_prop_hash(CowlObjProp *prop) { return uhash_ptr_hash(prop); }
+ulib_uint cowl_obj_prop_hash(CowlObjProp *prop) {
+    return uhash_ptr_hash(prop);
+}
 
 /**
  * Iterates over this object property.
@@ -140,9 +156,11 @@ ulib_uint cowl_obj_prop_hash(CowlObjProp *prop) { return uhash_ptr_hash(prop); }
  *
  * @public @memberof CowlObjProp
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_obj_prop_iterate_primitives(CowlObjProp *prop, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter);
+                                      CowlIterator *iter) {
+    return cowl_entity_iterate_primitives((CowlEntity *)prop, flags, iter);
+}
 
 COWL_END_DECLS
 

@@ -38,8 +38,10 @@ cowl_struct_decl(CowlClass);
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-CowlClass* cowl_class_get(CowlIRI *iri);
+COWL_INLINE
+CowlClass* cowl_class_get(CowlIRI *iri) {
+    return (CowlClass *)cowl_entity_get_impl(COWL_OT_CE_CLASS, iri);
+}
 
 /**
  * Returns a retained class given the string representation of its IRI.
@@ -49,8 +51,10 @@ CowlClass* cowl_class_get(CowlIRI *iri);
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-CowlClass* cowl_class_from_string(UString string);
+COWL_INLINE
+CowlClass* cowl_class_from_string(UString string) {
+    return (CowlClass *)cowl_entity_from_string_impl(COWL_OT_CE_CLASS, string);
+}
 
 /**
  * Returns a retained class given the static string representation of its IRI.
@@ -71,7 +75,9 @@ CowlClass* cowl_class_from_string(UString string);
  * @public @memberof CowlClass
  */
 COWL_INLINE
-CowlClass* cowl_class_retain(CowlClass *cls) { return cowl_retain(cls); }
+CowlClass* cowl_class_retain(CowlClass *cls) {
+    return (CowlClass *)cowl_retain(cls);
+}
 
 /**
  * Releases the specified class.
@@ -80,8 +86,10 @@ CowlClass* cowl_class_retain(CowlClass *cls) { return cowl_retain(cls); }
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-void cowl_class_release(CowlClass *cls);
+COWL_INLINE
+void cowl_class_release(CowlClass *cls) {
+    cowl_entity_release((CowlEntity *)cls);
+}
 
 /**
  * Gets the IRI of the specified class.
@@ -91,8 +99,10 @@ void cowl_class_release(CowlClass *cls);
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-CowlIRI* cowl_class_get_iri(CowlClass *cls);
+COWL_INLINE
+CowlIRI* cowl_class_get_iri(CowlClass *cls) {
+    return cowl_entity_get_iri((CowlEntity *)cls);
+}
 
 /**
  * Returns the string representation of the specified class.
@@ -104,8 +114,10 @@ CowlIRI* cowl_class_get_iri(CowlClass *cls);
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-CowlString* cowl_class_to_string(CowlClass *cls);
+COWL_INLINE
+CowlString* cowl_class_to_string(CowlClass *cls) {
+    return cowl_entity_to_string((CowlEntity *)cls);
+}
 
 /**
  * Equality function.
@@ -117,7 +129,9 @@ CowlString* cowl_class_to_string(CowlClass *cls);
  * @public @memberof CowlClass
  */
 COWL_INLINE
-bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) { return lhs == rhs; }
+bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -128,7 +142,9 @@ bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) { return lhs == rhs; }
  * @public @memberof CowlClass
  */
 COWL_INLINE
-ulib_uint cowl_class_hash(CowlClass *cls) { return uhash_ptr_hash(cls); }
+ulib_uint cowl_class_hash(CowlClass *cls) {
+    return uhash_ptr_hash(cls);
+}
 
 /**
  * Iterates over this class.
@@ -140,8 +156,10 @@ ulib_uint cowl_class_hash(CowlClass *cls) { return uhash_ptr_hash(cls); }
  *
  * @public @memberof CowlClass
  */
-COWL_PUBLIC
-bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveFlags flags, CowlIterator *iter);
+COWL_INLINE
+bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return cowl_entity_iterate_primitives((CowlEntity *)cls, flags, iter);
+}
 
 COWL_END_DECLS
 

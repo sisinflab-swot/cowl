@@ -13,7 +13,7 @@
 #ifndef COWL_NARY_IND_AXIOM_H
 #define COWL_NARY_IND_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_nary_axiom_type.h"
 
 COWL_BEGIN_DECLS
@@ -48,7 +48,8 @@ COWL_INLINE
 CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlVector *individuals,
                                           CowlVector *annot) {
     if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
-    return cowl_get_impl_1(COWL_OT_A_SAME_IND + type, individuals, annot);
+    return (CowlNAryIndAxiom *)cowl_get_impl_1_opt((CowlObjectType)(COWL_OT_A_SAME_IND + type),
+                                                   individuals, annot);
 }
 
 /**
@@ -60,7 +61,9 @@ CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlVector *in
  * @public @memberof CowlNAryIndAxiom
  */
 COWL_INLINE
-CowlNAryIndAxiom* cowl_nary_ind_axiom_retain(CowlNAryIndAxiom *axiom) { return cowl_retain(axiom); }
+CowlNAryIndAxiom* cowl_nary_ind_axiom_retain(CowlNAryIndAxiom *axiom) {
+    return (CowlNAryIndAxiom *)cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -70,7 +73,9 @@ CowlNAryIndAxiom* cowl_nary_ind_axiom_retain(CowlNAryIndAxiom *axiom) { return c
  * @public @memberof CowlNAryIndAxiom
  */
 COWL_INLINE
-void cowl_nary_ind_axiom_release(CowlNAryIndAxiom *axiom) { cowl_release_impl(axiom); }
+void cowl_nary_ind_axiom_release(CowlNAryIndAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the type of the specified N-ary individual axiom.
@@ -95,7 +100,7 @@ CowlNAryAxiomType cowl_nary_ind_axiom_get_type(CowlNAryIndAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlVector *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -108,7 +113,7 @@ CowlVector* cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

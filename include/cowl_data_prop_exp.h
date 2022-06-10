@@ -93,7 +93,9 @@ CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) { return lhs == rhs; }
+bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -104,7 +106,9 @@ bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) { ret
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-ulib_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp) { return uhash_ptr_hash(exp); }
+ulib_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp) {
+    return uhash_ptr_hash(exp);
+}
 
 /**
  * Iterates over the primitives referenced by the specified data property expression.

@@ -38,7 +38,9 @@ cowl_struct_decl(CowlIndividual);
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-CowlIndividual* cowl_individual_retain(CowlIndividual *ind) { return cowl_retain(ind); }
+CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
+    return (CowlIndividual *)cowl_retain(ind);
+}
 
 /**
  * Releases the specified individual.
@@ -47,7 +49,9 @@ CowlIndividual* cowl_individual_retain(CowlIndividual *ind) { return cowl_retain
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-void cowl_individual_release(CowlIndividual *ind) { cowl_release(ind); }
+void cowl_individual_release(CowlIndividual *ind) {
+    cowl_release(ind);
+}
 
 /**
  * Returns true if the underlying individual is named.
@@ -73,7 +77,9 @@ bool cowl_individual_is_named(CowlIndividual *ind) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-CowlString* cowl_individual_to_string(CowlIndividual *ind) { return cowl_to_string(ind); }
+CowlString* cowl_individual_to_string(CowlIndividual *ind) {
+    return cowl_to_string(ind);
+}
 
 /**
  * Equality function.
@@ -85,7 +91,9 @@ CowlString* cowl_individual_to_string(CowlIndividual *ind) { return cowl_to_stri
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) { return lhs == rhs; }
+bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -96,7 +104,9 @@ bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) { return l
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-ulib_uint cowl_individual_hash(CowlIndividual *ind) { return uhash_ptr_hash(ind); }
+ulib_uint cowl_individual_hash(CowlIndividual *ind) {
+    return uhash_ptr_hash(ind);
+}
 
 /**
  * Iterates over this individual.

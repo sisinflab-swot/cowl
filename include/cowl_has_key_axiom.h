@@ -13,7 +13,7 @@
 #ifndef COWL_HAS_KEY_AXIOM_H
 #define COWL_HAS_KEY_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -46,7 +46,8 @@ cowl_struct_decl(CowlHasKeyAxiom);
 COWL_INLINE
 CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlVector *obj_props,
                                         CowlVector *data_props, CowlVector *annot) {
-    return cowl_get_impl_3(COWL_OT_A_HAS_KEY, cls_exp, obj_props, data_props, annot);
+    return (CowlHasKeyAxiom *)cowl_get_impl_3_opt(COWL_OT_A_HAS_KEY,
+                                                  cls_exp, obj_props, data_props, annot);
 }
 
 /**
@@ -58,7 +59,9 @@ CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlVector *obj_pro
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) { return cowl_retain(axiom); }
+CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) {
+    return (CowlHasKeyAxiom *)cowl_retain(axiom);
+}
 
 /**
  * Releases the specified axiom.
@@ -68,7 +71,9 @@ CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) { return cowl
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom) { cowl_release_impl(axiom); }
+void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom) {
+    cowl_release_impl(axiom);
+}
 
 /**
  * Gets the class expression, instances of which this axiom acts as the key for.
@@ -80,7 +85,7 @@ void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom) { cowl_release_impl(axio
  */
 COWL_INLINE
 CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlClsExp *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -93,7 +98,7 @@ CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlVector *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -106,7 +111,7 @@ CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
-    return cowl_get_field(axiom, 2);
+    return (CowlVector *)cowl_get_field(axiom, 2);
 }
 
 /**
@@ -119,7 +124,7 @@ CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

@@ -13,7 +13,7 @@
 #ifndef COWL_SUB_OBJ_PROP_AXIOM_H
 #define COWL_SUB_OBJ_PROP_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -45,7 +45,7 @@ cowl_struct_decl(CowlSubObjPropAxiom);
 COWL_INLINE
 CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_get(CowlObjPropExp *sub, CowlObjPropExp *super,
                                                  CowlVector *annot) {
-    return cowl_get_impl_2(COWL_OT_A_SUB_OBJ_PROP, sub, super, annot);
+    return (CowlSubObjPropAxiom *)cowl_get_impl_2_opt(COWL_OT_A_SUB_OBJ_PROP, sub, super, annot);
 }
 
 /**
@@ -58,7 +58,7 @@ CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_get(CowlObjPropExp *sub, CowlObjPro
  */
 COWL_INLINE
 CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_retain(CowlSubObjPropAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlSubObjPropAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -83,7 +83,7 @@ void cowl_sub_obj_prop_axiom_release(CowlSubObjPropAxiom *axiom) {
  */
 COWL_INLINE
 CowlObjPropExp* cowl_sub_obj_prop_axiom_get_sub(CowlSubObjPropAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlObjPropExp *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -96,7 +96,7 @@ CowlObjPropExp* cowl_sub_obj_prop_axiom_get_sub(CowlSubObjPropAxiom *axiom) {
  */
 COWL_INLINE
 CowlObjPropExp* cowl_sub_obj_prop_axiom_get_super(CowlSubObjPropAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlObjPropExp *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -109,7 +109,7 @@ CowlObjPropExp* cowl_sub_obj_prop_axiom_get_super(CowlSubObjPropAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_sub_obj_prop_axiom_get_annot(CowlSubObjPropAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**

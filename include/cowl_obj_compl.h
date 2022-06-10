@@ -13,7 +13,7 @@
 #ifndef COWL_OBJ_COMPL_H
 #define COWL_OBJ_COMPL_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlObjCompl);
  */
 COWL_INLINE
 CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
-    return cowl_get_impl_1(COWL_OT_CE_OBJ_COMPL, operand, NULL);
+    return (CowlObjCompl *)cowl_get_impl_1(COWL_OT_CE_OBJ_COMPL, operand);
 }
 
 /**
@@ -53,7 +53,9 @@ CowlObjCompl* cowl_obj_compl_get(CowlClsExp *operand) {
  * @public @memberof CowlObjCompl
  */
 COWL_INLINE
-CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp) { return cowl_retain(exp); }
+CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp) {
+    return (CowlObjCompl *)cowl_retain(exp);
+}
 
 /**
  * Releases the specified class expression complement.
@@ -63,7 +65,9 @@ CowlObjCompl* cowl_obj_compl_retain(CowlObjCompl *exp) { return cowl_retain(exp)
  * @public @memberof CowlObjCompl
  */
 COWL_INLINE
-void cowl_obj_compl_release(CowlObjCompl *exp) { cowl_release_impl(exp); }
+void cowl_obj_compl_release(CowlObjCompl *exp) {
+    cowl_release_impl(exp);
+}
 
 /**
  * Gets the operand of the specified class expression complement.
@@ -74,7 +78,9 @@ void cowl_obj_compl_release(CowlObjCompl *exp) { cowl_release_impl(exp); }
  * @public @memberof CowlObjCompl
  */
 COWL_INLINE
-CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp) { return cowl_get_field(exp, 0); }
+CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp) {
+    return (CowlClsExp *)cowl_get_field(exp, 0);
+}
 
 /**
  * Returns the string representation of the specified class expression complement.

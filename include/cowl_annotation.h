@@ -13,7 +13,7 @@
 #ifndef COWL_ANNOTATION_H
 #define COWL_ANNOTATION_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlAnnotation);
  */
 COWL_INLINE
 CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value, CowlVector *annot) {
-    return cowl_get_impl_2(COWL_OT_ANNOTATION, prop, value, annot);
+    return (CowlAnnotation *)cowl_get_impl_2_opt(COWL_OT_ANNOTATION, prop, value, annot);
 }
 
 /**
@@ -55,7 +55,9 @@ CowlAnnotation* cowl_annotation_get(CowlAnnotProp *prop, CowlAnnotValue *value, 
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlAnnotation* cowl_annotation_retain(CowlAnnotation *annot) { return cowl_retain(annot); }
+CowlAnnotation* cowl_annotation_retain(CowlAnnotation *annot) {
+    return (CowlAnnotation *)cowl_retain(annot);
+}
 
 /**
  * Releases the specified annotation.
@@ -79,7 +81,7 @@ void cowl_annotation_release(CowlAnnotation *annot) {
  */
 COWL_INLINE
 CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot) {
-    return cowl_get_field(annot, 0);
+    return (CowlAnnotProp *)cowl_get_field(annot, 0);
 }
 
 
@@ -93,7 +95,7 @@ CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot) {
  */
 COWL_INLINE
 CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot) {
-    return cowl_get_field(annot, 1);
+    return (CowlAnnotValue *)cowl_get_field(annot, 1);
 }
 
 /**
@@ -106,7 +108,7 @@ CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot) {
  */
 COWL_INLINE
 CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot) {
-    return cowl_get_opt_field(annot);
+    return (CowlVector *)cowl_get_opt_field(annot);
 }
 
 /**

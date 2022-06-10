@@ -40,7 +40,9 @@ cowl_struct_decl(CowlDataRange);
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-CowlDataRange* cowl_data_range_retain(CowlDataRange *range) { return cowl_retain(range); }
+CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
+    return (CowlDataRange *)cowl_retain(range);
+}
 
 /**
  * Releases the specified data range.
@@ -62,7 +64,7 @@ void cowl_data_range_release(CowlDataRange *range) { cowl_release(range); }
  */
 COWL_INLINE
 CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
-    return (CowlDataRangeType)cowl_get_type(range) - COWL_OT_DR_DATATYPE;
+    return (CowlDataRangeType)(cowl_get_type(range) - COWL_OT_DR_DATATYPE);
 }
 
 /**
@@ -76,7 +78,9 @@ CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-CowlString* cowl_data_range_to_string(CowlDataRange *range) { return cowl_to_string(range); }
+CowlString* cowl_data_range_to_string(CowlDataRange *range) {
+    return cowl_to_string(range);
+}
 
 /**
  * Equality function.
@@ -101,7 +105,9 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-ulib_uint cowl_data_range_hash(CowlDataRange *range) { return cowl_hash(range); }
+ulib_uint cowl_data_range_hash(CowlDataRange *range) {
+    return cowl_hash(range);
+}
 
 /**
  * Iterates over the primitives referenced by the specified data range.

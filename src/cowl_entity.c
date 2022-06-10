@@ -53,7 +53,7 @@ static void cowl_entity_free(CowlEntity *entity) {
     ulib_free(entity);
 }
 
-void* cowl_entity_get(CowlObjectType type, CowlIRI *iri) {
+void* cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     if (!iri) return NULL;
     ulib_uint idx;
     CowlEntity key = { .super = COWL_OBJECT_INIT(type), .iri = iri };
@@ -83,12 +83,12 @@ void cowl_entity_release(CowlEntity *entity) {
     }
 }
 
-void* cowl_entity_from_string(CowlObjectType type, UString string) {
+void* cowl_entity_from_string_impl(CowlObjectType type, UString string) {
     CowlEntity *entity = NULL;
     CowlIRI *iri = cowl_iri_from_string(string);
 
     if (iri) {
-        entity = cowl_entity_get(type, iri);
+        entity = cowl_entity_get_impl(type, iri);
         cowl_iri_release(iri);
     }
 
@@ -112,21 +112,4 @@ CowlEntityType cowl_entity_get_type(CowlEntity *entity) {
         case COWL_OT_DR_DATATYPE: return COWL_ET_DATATYPE;
         default: return COWL_ET_ANNOT_PROP;
     }
-}
-
-static inline CowlPrimitiveFlags cowl_pf_from_type(CowlObjectType type) {
-    switch(type) {
-        case COWL_OT_CE_CLASS: return COWL_PF_CLASS;
-        case COWL_OT_OPE_OBJ_PROP: return COWL_PF_OBJ_PROP;
-        case COWL_OT_I_NAMED: return COWL_PF_NAMED_IND;
-        case COWL_OT_DPE_DATA_PROP: return COWL_PF_DATA_PROP;
-        case COWL_OT_DR_DATATYPE: return COWL_PF_DATATYPE;
-        default: return COWL_PF_ANNOT_PROP;
-    }
-}
-
-bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlPrimitiveFlags flags,
-                                    CowlIterator *iter) {
-    CowlPrimitiveFlags f = cowl_pf_from_type(cowl_get_type(entity));
-    return uflags_is_set(COWL_PF, flags, f) ? cowl_iterate(iter, entity) : true;
 }

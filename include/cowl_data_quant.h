@@ -13,7 +13,7 @@
 #ifndef COWL_DATA_QUANT_H
 #define COWL_DATA_QUANT_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 #include "cowl_quant_type.h"
 
 COWL_BEGIN_DECLS
@@ -47,7 +47,8 @@ cowl_struct_decl(CowlDataQuant);
 COWL_INLINE
 CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop, CowlDataRange *range) {
     if (!cowl_enum_value_is_valid(QT, type)) return NULL;
-    return cowl_get_impl_2(COWL_OT_CE_DATA_SOME + type, prop, range, NULL);
+    return (CowlDataQuant *)cowl_get_impl_2((CowlObjectType)(COWL_OT_CE_DATA_SOME + type),
+                                            prop, range);
 }
 
 /**
@@ -59,7 +60,9 @@ CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop, Co
  * @public @memberof CowlDataQuant
  */
 COWL_INLINE
-CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) { return cowl_retain(restr); }
+CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) {
+    return (CowlDataQuant *)cowl_retain(restr);
+}
 
 /**
  * Releases the specified data quantifier.
@@ -69,7 +72,9 @@ CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) { return cowl_retain
  * @public @memberof CowlDataQuant
  */
 COWL_INLINE
-void cowl_data_quant_release(CowlDataQuant *restr) { cowl_release_impl(restr); }
+void cowl_data_quant_release(CowlDataQuant *restr) {
+    cowl_release_impl(restr);
+}
 
 /**
  * Gets the type of the specified data quantifier.
@@ -94,7 +99,7 @@ CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr) {
  */
 COWL_INLINE
 CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
-    return cowl_get_field(restr, 0);
+    return (CowlDataPropExp *)cowl_get_field(restr, 0);
 }
 
 /**
@@ -107,7 +112,7 @@ CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
  */
 COWL_INLINE
 CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr) {
-    return cowl_get_field(restr, 1);
+    return (CowlDataRange *)cowl_get_field(restr, 1);
 }
 
 /**

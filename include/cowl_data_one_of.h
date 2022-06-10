@@ -13,7 +13,7 @@
 #ifndef COWL_COWL_DATA_ONE_OF_H
 #define COWL_COWL_DATA_ONE_OF_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlDataOneOf);
  */
 COWL_INLINE
 CowlDataOneOf* cowl_data_one_of_get(CowlVector *values) {
-    return cowl_get_impl_1(COWL_OT_DR_DATA_ONE_OF, values, NULL);
+    return (CowlDataOneOf *)cowl_get_impl_1(COWL_OT_DR_DATA_ONE_OF, values);
 }
 
 /**
@@ -53,7 +53,9 @@ CowlDataOneOf* cowl_data_one_of_get(CowlVector *values) {
  * @public @memberof CowlDataOneOf
  */
 COWL_INLINE
-CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range) { return cowl_retain(range); }
+CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range) {
+    return (CowlDataOneOf *)cowl_retain(range);
+}
 
 /**
  * Releases the specified literal enumeration.
@@ -77,7 +79,7 @@ void cowl_data_one_of_release(CowlDataOneOf *range) {
  */
 COWL_INLINE
 CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range) {
-    return cowl_get_field(range, 0);
+    return (CowlVector *)cowl_get_field(range, 0);
 }
 
 /**

@@ -39,7 +39,9 @@ cowl_struct_decl(CowlObjPropExp);
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *exp) { return cowl_retain(exp); }
+CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *exp) {
+    return (CowlObjPropExp *)cowl_retain(exp);
+}
 
 /**
  * Releases the specified object property expression.
@@ -49,7 +51,9 @@ CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *exp) { return cowl_reta
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-void cowl_obj_prop_exp_release(CowlObjPropExp *exp) { cowl_release(exp); }
+void cowl_obj_prop_exp_release(CowlObjPropExp *exp) {
+    cowl_release(exp);
+}
 
 /**
  * Returns true if the object property expression is inverse.
@@ -86,7 +90,9 @@ CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp) { return cowl_to_string(exp); }
+CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp) {
+    return cowl_to_string(exp);
+}
 
 /**
  * Equality function.
@@ -111,7 +117,9 @@ bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-ulib_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp) { return cowl_hash(exp); }
+ulib_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
+    return cowl_hash(exp);
+}
 
 /**
  * Iterates over the primitives referenced by the specified object property expression.

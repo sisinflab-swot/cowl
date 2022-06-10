@@ -13,7 +13,7 @@
 #ifndef COWL_STRING_H
 #define COWL_STRING_H
 
-#include "cowl_std.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -66,8 +66,10 @@ CowlString* cowl_string_get_empty(void);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
-CowlString* cowl_string_retain(CowlString *string);
+COWL_INLINE
+CowlString* cowl_string_retain(CowlString *string) {
+    return (CowlString *)cowl_retain(string);
+}
 
 /**
  * Releases the specified string.

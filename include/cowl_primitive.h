@@ -37,7 +37,9 @@ cowl_struct_decl(CowlPrimitive);
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) { return cowl_retain(primitive); }
+CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) {
+    return (CowlPrimitive *)cowl_retain(primitive);
+}
 
 /**
  * Releases the primitive.
@@ -47,7 +49,9 @@ CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) { return cowl_ret
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-void cowl_primitive_release(CowlPrimitive *primitive) { cowl_release(primitive); }
+void cowl_primitive_release(CowlPrimitive *primitive) {
+    cowl_release(primitive);
+}
 
 /**
  * Gets the type of the primitive.
@@ -82,7 +86,9 @@ bool cowl_primitive_is_entity(CowlPrimitive *primitive);
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-CowlString* cowl_primitive_to_string(CowlPrimitive *primitive) { return cowl_to_string(primitive); }
+CowlString* cowl_primitive_to_string(CowlPrimitive *primitive) {
+    return cowl_to_string(primitive);
+}
 
 /**
  * Equality function.
@@ -94,7 +100,9 @@ CowlString* cowl_primitive_to_string(CowlPrimitive *primitive) { return cowl_to_
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) { return lhs == rhs; }
+bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -105,7 +113,9 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) { return lhs 
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-ulib_uint cowl_primitive_hash(CowlPrimitive *primitive) { return uhash_ptr_hash(primitive); }
+ulib_uint cowl_primitive_hash(CowlPrimitive *primitive) {
+    return uhash_ptr_hash(primitive);
+}
 
 /**
  * Iterates over this primitive.

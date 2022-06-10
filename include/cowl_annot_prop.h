@@ -13,12 +13,11 @@
 #ifndef COWL_ANNOT_PROP_H
 #define COWL_ANNOT_PROP_H
 
-#include "cowl_object.h"
+#include "cowl_entity.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlAnnotProp);
 /// @endcond
 
@@ -38,8 +37,10 @@ cowl_struct_decl(CowlAnnotProp);
  *
  * @public @memberof CowlAnnotProp
  */
-COWL_PUBLIC
-CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri);
+COWL_INLINE
+CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
+    return (CowlAnnotProp *)cowl_entity_get_impl(COWL_OT_ANNOT_PROP, iri);
+}
 
 /**
  * Returns a retained annotation property given the string representation of its IRI.
@@ -49,8 +50,10 @@ CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri);
  *
  * @public @memberof CowlAnnotProp
  */
-COWL_PUBLIC
-CowlAnnotProp* cowl_annot_prop_from_string(UString string);
+COWL_INLINE
+CowlAnnotProp* cowl_annot_prop_from_string(UString string) {
+    return (CowlAnnotProp *)cowl_entity_from_string_impl(COWL_OT_ANNOT_PROP, string);
+}
 
 /**
  * Returns a retained annotation property given the static string representation of its IRI.
@@ -71,7 +74,9 @@ CowlAnnotProp* cowl_annot_prop_from_string(UString string);
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) { return cowl_retain(prop); }
+CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) {
+    return (CowlAnnotProp *)cowl_retain(prop);
+}
 
 /**
  * Releases the specified annotation property.
@@ -80,8 +85,10 @@ CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) { return cowl_retain(
  *
  * @public @memberof CowlAnnotProp
  */
-COWL_PUBLIC
-void cowl_annot_prop_release(CowlAnnotProp *prop);
+COWL_INLINE
+void cowl_annot_prop_release(CowlAnnotProp *prop) {
+    cowl_entity_release((CowlEntity *)prop);
+}
 
 /**
  * Gets the IRI of the specified annotation property.
@@ -91,8 +98,10 @@ void cowl_annot_prop_release(CowlAnnotProp *prop);
  *
  * @public @memberof CowlAnnotProp
  */
-COWL_PUBLIC
-CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop);
+COWL_INLINE
+CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
+    return cowl_entity_get_iri((CowlEntity *)prop);
+}
 
 /**
  * Returns the string representation of the specified annotation property.
@@ -104,8 +113,10 @@ CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop);
  *
  * @public @memberof CowlAnnotProp
  */
-COWL_PUBLIC
-CowlString* cowl_annot_prop_to_string(CowlAnnotProp *prop);
+COWL_INLINE
+CowlString* cowl_annot_prop_to_string(CowlAnnotProp *prop) {
+    return cowl_entity_to_string((CowlEntity *)prop);
+}
 
 /**
  * Equality function.
@@ -117,7 +128,9 @@ CowlString* cowl_annot_prop_to_string(CowlAnnotProp *prop);
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs) { return lhs == rhs; }
+bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs) {
+    return lhs == rhs;
+}
 
 /**
  * Hash function.
@@ -128,7 +141,9 @@ bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs) { return lhs
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-ulib_uint cowl_annot_prop_hash(CowlAnnotProp *prop) { return uhash_ptr_hash(prop); }
+ulib_uint cowl_annot_prop_hash(CowlAnnotProp *prop) {
+    return uhash_ptr_hash(prop);
+}
 
 /**
  * Iterates over this annotation property.
@@ -140,9 +155,11 @@ ulib_uint cowl_annot_prop_hash(CowlAnnotProp *prop) { return uhash_ptr_hash(prop
  *
  * @public @memberof CowlAnnotProp
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_annot_prop_iterate_primitives(CowlAnnotProp *prop, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+                                        CowlIterator *iter) {
+    return cowl_entity_iterate_primitives((CowlEntity *)prop, flags, iter);
+}
 
 COWL_END_DECLS
 

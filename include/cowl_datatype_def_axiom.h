@@ -13,7 +13,7 @@
 #ifndef COWL_DATATYPE_DEF_AXIOM_H
 #define COWL_DATATYPE_DEF_AXIOM_H
 
-#include "cowl_object_impl.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -46,7 +46,7 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
 COWL_INLINE
 CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRange *range,
                                                   CowlVector *annot) {
-    return cowl_get_impl_2(COWL_OT_A_DATATYPE_DEF, dt, range, annot);
+    return (CowlDatatypeDefAxiom *)cowl_get_impl_2_opt(COWL_OT_A_DATATYPE_DEF, dt, range, annot);
 }
 
 /**
@@ -59,7 +59,7 @@ CowlDatatypeDefAxiom* cowl_datatype_def_axiom_get(CowlDatatype *dt, CowlDataRang
  */
 COWL_INLINE
 CowlDatatypeDefAxiom* cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom) {
-    return cowl_retain(axiom);
+    return (CowlDatatypeDefAxiom *)cowl_retain(axiom);
 }
 
 /**
@@ -84,7 +84,7 @@ void cowl_datatype_def_axiom_release(CowlDatatypeDefAxiom *axiom) {
  */
 COWL_INLINE
 CowlDatatype* cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) {
-    return cowl_get_field(axiom, 0);
+    return (CowlDatatype *)cowl_get_field(axiom, 0);
 }
 
 /**
@@ -96,7 +96,7 @@ CowlDatatype* cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) 
  */
 COWL_INLINE
 CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
-    return cowl_get_field(axiom, 1);
+    return (CowlDataRange *)cowl_get_field(axiom, 1);
 }
 
 /**
@@ -109,7 +109,7 @@ CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
  */
 COWL_INLINE
 CowlVector* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
-    return cowl_get_opt_field(axiom);
+    return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
 /**
