@@ -538,6 +538,28 @@ cowl_ret cowl_ontology_add_axiom_for_primitive(CowlOntology *onto, CowlAxiom *ax
     }
 }
 
+cowl_ret cowl_ontology_finalize(CowlOntology *onto) {
+    if (uvec_shrink(CowlObjectPtr, &onto->imports)) return COWL_ERR_MEM;
+    if (uvec_shrink(CowlObjectPtr, &onto->annotations->data)) return COWL_ERR_MEM;
+
+    for (CowlAxiomType i = COWL_AT_FIRST; i < COWL_AT_COUNT; ++i) {
+        if (uvec_shrink(CowlObjectPtr, &onto->axioms_by_type[i])) return COWL_ERR_MEM;
+    }
+
+    UHash(CowlObjectTable) *tables[] = {
+        &onto->annot_prop_refs, &onto->class_refs, &onto->data_prop_refs, &onto->datatype_refs,
+        &onto->obj_prop_refs, &onto->named_ind_refs, &onto->anon_ind_refs
+    };
+
+    for (ulib_uint i = 0; i < ulib_array_count(tables); ++i) {
+        uhash_foreach(CowlObjectTable, tables[i], item) {
+            if (*item.val && uvec_shrink(CowlObjectPtr, *item.val)) return COWL_ERR_MEM;
+        }
+    }
+
+    return COWL_OK;
+}
+
 // Iterator functions
 
 bool cowl_ontology_primitive_axiom_adder(void *ctx, void *obj) {

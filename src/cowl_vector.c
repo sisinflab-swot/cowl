@@ -13,6 +13,8 @@
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
 static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
+    if (data && uvec_shrink(CowlObjectPtr, data) != UVEC_OK) return NULL;
+
     CowlVector *vec = ulib_alloc(vec);
     if (!vec) return NULL;
 

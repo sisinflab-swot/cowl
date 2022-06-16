@@ -41,6 +41,7 @@ void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlOntology *import);
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
+cowl_ret cowl_ontology_finalize(CowlOntology *onto);
 
 COWL_END_DECLS
 

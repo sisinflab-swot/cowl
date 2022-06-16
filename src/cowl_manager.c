@@ -71,6 +71,12 @@ static CowlOntology* cowl_parser_ctx_read_stream(CowlParserCtx *ctx, UIStream *s
         ctx->ontology = NULL;
     }
 
+    if (ctx->ontology && cowl_ontology_finalize(ctx->ontology)) {
+        cowl_parser_ctx_handle_error_type(ctx, COWL_ERR_MEM);
+        cowl_ontology_release(ctx->ontology);
+        ctx->ontology = NULL;
+    }
+
     if (parser.free) parser.free(ctx->state);
 
 end:
