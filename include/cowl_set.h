@@ -121,6 +121,28 @@ ulib_uint cowl_set_hash(CowlSet *set);
 COWL_PUBLIC
 bool cowl_set_iterate_primitives(CowlSet *set, CowlPrimitiveFlags flags, CowlIterator *iter);
 
+/**
+ * Returns the number of elements in the set.
+ *
+ * @param set [CowlSet *] The set.
+ * @return [ulib_uint] Number of elements in the set.
+ *
+ * @public @related CowlSet
+ */
+#define cowl_set_count(set) uhash_count(CowlObjectTable, cowl_set_get_data(set))
+
+/**
+ * Iterates over the entries in the set.
+ *
+ * @param set [CowlSet *] The set.
+ * @param obj [symbol] Name of the variable holding the current index, key and value.
+ *
+ * @note Since this data structure is a set, the 'val' field is always NULL.
+ *
+ * @public @related CowlSet
+ */
+#define cowl_set_foreach(set, obj) uhash_foreach(CowlObjectTable, cowl_set_get_data(set), obj)
+
 COWL_END_DECLS
 
 #endif // COWL_SET_H

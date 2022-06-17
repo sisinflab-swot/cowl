@@ -147,6 +147,26 @@ ulib_uint cowl_vector_hash(CowlVector *vec);
 COWL_PUBLIC
 bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter);
 
+/**
+ * Returns the number of elements in the vector.
+ *
+ * @param vec [CowlVector *] The vector.
+ * @return [ulib_uint] Number of elements in the vector.
+ *
+ * @public @related CowlVector
+ */
+#define cowl_vector_count(vec) uvec_count(CowlObjectPtr, cowl_vector_get_data(vec))
+
+/**
+ * Iterates over the vector, executing the specified code block for each element.
+ *
+ * @param vec [CowlVector *] The vector.
+ * @param obj [symbol] Name of the variable holding the current item and its index.
+ *
+ * @public @related CowlVector
+ */
+#define cowl_vector_foreach(vec, obj) uvec_foreach(CowlObjectPtr, cowl_vector_get_data(vec), obj)
+
 COWL_END_DECLS
 
 #endif // COWL_VECTOR_H

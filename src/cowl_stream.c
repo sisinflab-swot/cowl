@@ -237,7 +237,7 @@ ustream_ret cowl_stream_write_ontology(UOStream *s, CowlOntology *onto) {
     if (s->state) return s->state;
 
     CowlVector *annotations = cowl_ontology_get_annot(onto);
-    uvec_foreach(CowlObjectPtr, cowl_vector_get_data(annotations), annot) {
+    cowl_vector_foreach(annotations, annot) {
         cowl_stream_write_static(s, "\n");
         cowl_stream_write_object(s, *annot.item);
     }
@@ -376,10 +376,9 @@ ustream_ret cowl_stream_write_set(UOStream *s, CowlSet *set) {
 
 ustream_ret cowl_stream_write_vector(UOStream *s, CowlVector *vector) {
     if (!vector) return s->state;
-    UVec(CowlObjectPtr) const *vec = cowl_vector_get_data(vector);
-    ulib_uint last = uvec_count(CowlObjectPtr, vec);
+    ulib_uint last = cowl_vector_count(vector) - 1;
 
-    uvec_foreach(CowlObjectPtr, vec, obj) {
+    cowl_vector_foreach(vector, obj) {
         cowl_stream_write_object(s, *obj.item);
         if (obj.i < last) cowl_stream_write_static(s, " ");
     }
