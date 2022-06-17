@@ -132,6 +132,16 @@ bool cowl_set_iterate_primitives(CowlSet *set, CowlPrimitiveFlags flags, CowlIte
 #define cowl_set_count(set) uhash_count(CowlObjectTable, cowl_set_get_data(set))
 
 /**
+ * Returns one of the elements in the set.
+ *
+ * @param set [CowlSet *] The set.
+ * @return [CowlObject *] One of the elements in the set.
+ *
+ * @public @related CowlSet
+ */
+#define cowl_set_get_any(set) uhset_get_any(CowlObjectTable, cowl_set_get_data(set), NULL)
+
+/**
  * Iterates over the entries in the set.
  *
  * @param set [CowlSet *] The set.

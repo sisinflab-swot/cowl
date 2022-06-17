@@ -158,6 +158,17 @@ bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, C
 #define cowl_vector_count(vec) uvec_count(CowlObjectPtr, cowl_vector_get_data(vec))
 
 /**
+ * Returns the element at the specified index.
+ *
+ * @param vec [CowlVector *] The vector.
+ * @param idx [ulib_uint] The index.
+ * @return [CowlObject *] The element at the specified index.
+ *
+ * @public @related CowlVector
+ */
+#define cowl_vector_get_item(vec, idx) uvec_get(CowlObjectPtr, cowl_vector_get_data(vec), idx)
+
+/**
  * Iterates over the vector, executing the specified code block for each element.
  *
  * @param vec [CowlVector *] The vector.
