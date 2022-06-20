@@ -17,6 +17,8 @@ typedef struct CowlAxiomCtx {
     CowlAxiom *axiom;
 } CowlAxiomCtx;
 
+static UVec(CowlObjectPtr) const empty_vec = {0};
+
 // Private prototypes
 
 static CowlOntology* cowl_ontology_alloc(void);
@@ -148,8 +150,7 @@ bool cowl_ontology_iterate_##PLURAL(CowlOntology *onto, CowlIterator *iter) {   
                                                                                                     \
 ulib_uint cowl_ontology_axiom_count_for_##SINGULAR(CowlOntology *onto, T *entity) {                 \
     UHash(CowlObjectTable) *map = &onto->SINGULAR##_refs;                                           \
-    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, entity, NULL);                    \
-    if (!axioms) return 0;                                                                          \
+    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, entity, (void *)&empty_vec);      \
     ulib_uint count = uvec_count(CowlObjectPtr, axioms);                                            \
                                                                                                     \
     uvec_foreach(CowlObjectPtr, &onto->imports, import) {                                           \
@@ -162,7 +163,7 @@ ulib_uint cowl_ontology_axiom_count_for_##SINGULAR(CowlOntology *onto, T *entity
 bool cowl_ontology_iterate_axioms_for_##SINGULAR(CowlOntology *onto, T *entity,                     \
                                                  CowlIterator *iter) {                              \
     UHash(CowlObjectTable) *map = &onto->SINGULAR##_refs;                                           \
-    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, entity, NULL);                    \
+    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, entity, (void *)&empty_vec);      \
                                                                                                     \
     uvec_foreach(CowlObjectPtr, axioms, axiom) {                                                    \
         if (!cowl_iterate(iter, *axiom.item)) return false;                                         \
@@ -297,7 +298,7 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
 bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
                                        CowlIterator *iter) {
     UHash(CowlObjectTable) *map = &onto->class_refs;
-    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, owl_class, NULL);
+    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, owl_class, (void *)&empty_vec);
 
     uvec_foreach(CowlObjectPtr, axioms, axiom) {
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
@@ -320,7 +321,7 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
 bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
                                          CowlIterator *iter) {
     UHash(CowlObjectTable) *map = &onto->class_refs;
-    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, owl_class, NULL);
+    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, owl_class, (void *)&empty_vec);
 
     uvec_foreach(CowlObjectPtr, axioms, axiom) {
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
@@ -343,7 +344,7 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
 bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
                                       CowlIterator *iter) {
     UHash(CowlObjectTable) *map = &onto->class_refs;
-    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, owl_class, NULL);
+    UVec(CowlObjectPtr) *axioms = uhmap_get(CowlObjectTable, map, owl_class, (void *)&empty_vec);
 
     uvec_foreach(CowlObjectPtr, axioms, axiom) {
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_EQUIV_CLASSES) continue;
@@ -371,10 +372,10 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlIt
 
     if (cowl_individual_is_named(ind)) {
         UHash(CowlObjectTable) *map = &onto->named_ind_refs;
-        axioms = uhmap_get(CowlObjectTable, map, ind, NULL);
+        axioms = uhmap_get(CowlObjectTable, map, ind, (void *)&empty_vec);
     } else {
         UHash(CowlObjectTable) *map = &onto->anon_ind_refs;
-        axioms = uhmap_get(CowlObjectTable, map, ind, NULL);
+        axioms = uhmap_get(CowlObjectTable, map, ind, (void *)&empty_vec);
     }
 
     uvec_foreach(CowlObjectPtr, axioms, axiom) {
