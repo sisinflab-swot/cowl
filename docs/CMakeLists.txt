@@ -4,7 +4,7 @@ set(DOCS_IMAGES_DIRECTORY "${COWL_DOCS_DIR}/img")
 set(DOCS_OUTPUT_DIRECTORY "${COWL_OUTPUT_DIR}/docs")
 set(SPHINX_INPUT_DIRECTORY "${COWL_DOCS_DIR}")
 set(COWL_ICON "${DOCS_IMAGES_DIRECTORY}/cowl_logo.png")
-get_target_property(ULIB_DIRS ulib-static INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(ULIB_DIRS ulib INTERFACE_INCLUDE_DIRECTORIES)
 
 # Doxygen configuration
 

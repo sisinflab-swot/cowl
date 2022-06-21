@@ -86,6 +86,7 @@ bool cowl_test_string_concat(void) {
 }
 
 bool cowl_test_string_intern(void) {
+#ifndef COWL_SHARED
     CowlString *a = cowl_string_from_static(COWL_TEST_STRING);
     utest_assert_uint(cowl_object_bit_get(a), ==, 0);
 
@@ -99,6 +100,6 @@ bool cowl_test_string_intern(void) {
 
     cowl_string_release(a);
     cowl_string_release(b);
-
+#endif
     return true;
 }

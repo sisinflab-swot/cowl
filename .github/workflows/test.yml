@@ -23,10 +23,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        lib_type: [STATIC, SHARED]
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: recursive
 
@@ -34,11 +35,9 @@ jobs:
       run: |
         if [ $RUNNER_OS == 'Windows' ]; then
           echo 'cflags="${{env.cflags_msvc}}"' >> $GITHUB_ENV
-          echo 'config_subdir=./${{env.build_config}}' >> $GITHUB_ENV
           choco install winflexbison3
         else
           echo 'cflags="${{env.cflags_gnuc}}"' >> $GITHUB_ENV
-          echo 'config_subdir=.' >> $GITHUB_ENV
           if [ $RUNNER_OS == 'macOS' ]; then
             brew install flex bison
             echo '/usr/local/opt/bison/bin' >> $GITHUB_PATH
@@ -51,9 +50,12 @@ jobs:
       run: >
         cmake -B ${{env.build_dir}}
         -DULIB_LEAKS=ON
+        -DULIB_LIBRARY_TYPE=${{matrix.lib_type}}
+        -DCOWL_LIBRARY_TYPE=${{matrix.lib_type}}
         -DCMAKE_SYSTEM_VERSION=''
         -DCMAKE_BUILD_TYPE=${{env.build_config}}
         -DCMAKE_C_FLAGS=${{env.cflags}}
+        -DCMAKE_CXX_FLAGS=${{env.cflags}}
 
     - name: Build
       run: >
@@ -62,22 +64,34 @@ jobs:
         --target ${{env.test_target}} ${{env.cpp_test_target}}
         ${{env.bench_target}} ${{env.examples_target}}
 
+    - name: Configure tests
+      working-directory: ${{env.build_dir}}
+      if: matrix.os == 'windows-latest'
+      run: |
+        mv test/${{env.build_config}}/*.exe test
+        mv examples/${{env.build_config}}/*.exe examples
+        if [ ${{matrix.lib_type}} == 'SHARED' ]; then
+          find . -name '*.dll' -exec cp -t test {} + -exec cp -t examples {} +
+        fi
+      shell: bash
+
     - name: Run examples
       working-directory: ${{env.build_dir}}/examples
-      run: ${{env.config_subdir}}/*-example*
+      run: >
+        [ $RUNNER_OS == 'Windows' ] && ./*-example.exe || ./*-example
       shell: bash
 
     - name: Run benchmark
       working-directory: ${{env.build_dir}}/test
-      run: ${{env.config_subdir}}/${{env.bench_target}}
+      run: ./${{env.bench_target}}
 
     - name: Run tests
       working-directory: ${{env.build_dir}}/test
-      run: ${{env.config_subdir}}/${{env.test_target}}
+      run: ./${{env.test_target}}
 
     - name: Run tests (C++)
       working-directory: ${{env.build_dir}}/test
-      run: ${{env.config_subdir}}/${{env.cpp_test_target}}
+      run: ./${{env.cpp_test_target}}
 
   docs:
     name: Generate the documentation
@@ -85,7 +99,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
 
