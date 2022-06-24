@@ -31,11 +31,6 @@ option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
 set(COWL_LIBRARY_TYPE "STATIC" CACHE STRING "Type of library to build.")
 set(COWL_PARSERS "functional" CACHE STRING "List of enabled built-in parsers (semicolon-separated")
-set(COWL_USER_HEADERS "" CACHE STRING "User-specified header files")
-set(COWL_USER_SOURCES "" CACHE STRING "User-specified source files")
-set(COWL_MALLOC "malloc" CACHE STRING "malloc function override")
-set(COWL_REALLOC "realloc" CACHE STRING "realloc function override")
-set(COWL_FREE "free" CACHE STRING "free function override")
 
 # Directories
 
@@ -104,8 +99,6 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
      "${COWL_SRC_DIR}/*.c"
      "${COWL_PARSER_DIR}/*.c")
 
-list(APPEND COWL_SOURCES ${COWL_USER_SOURCES})
-
 ###############
 ### Targets ###
 ###############
@@ -149,7 +142,6 @@ target_compile_definitions(cowl
 target_include_directories(cowl
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
-target_precompile_headers(cowl PUBLIC ${COWL_USER_HEADERS})
 target_link_libraries(cowl PUBLIC ulib)
 add_dependencies(cowl cowl-parsers cowl-headers)
 
