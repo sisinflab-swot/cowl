@@ -84,8 +84,7 @@ set(COWL_PUBLIC_HEADERS_DIRS "${COWL_PUBLIC_HEADERS_DIR}")
 
 set(COWL_PRIVATE_HEADERS_DIRS
     "${COWL_PRIVATE_HEADERS_DIR}"
-    "${COWL_SRC_DIR}"
-    "${COWL_PARSER_DIR}")
+    "${COWL_SRC_DIR}")
 
 # Header files
 
@@ -95,9 +94,7 @@ list(APPEND COWL_PUBLIC_HEADERS ${COWL_ULIB_HEADERS})
 
 # Sources
 
-file(GLOB COWL_SOURCES CONFIGURE_DEPENDS
-     "${COWL_SRC_DIR}/*.c"
-     "${COWL_PARSER_DIR}/*.c")
+file(GLOB COWL_SOURCES CONFIGURE_DEPENDS  "${COWL_SRC_DIR}/*.c")
 
 ###############
 ### Targets ###

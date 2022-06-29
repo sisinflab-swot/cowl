@@ -13,6 +13,7 @@
 
 #include "cowl_manager.h"
 #include "cowl_object_private.h"
+#include "cowl_vector.h"
 
 COWL_BEGIN_DECLS
 
@@ -21,6 +22,7 @@ struct CowlManager {
     CowlParser parser;
     CowlErrorHandler handler;
     CowlImportLoader loader;
+    UVec(ulib_ptr) editors;
 };
 
 CowlParser cowl_manager_get_parser(CowlManager *manager);

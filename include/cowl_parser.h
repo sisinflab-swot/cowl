@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlParserCtx);
+cowl_struct_decl(CowlEditor);
 /// @endcond
 
 /// Defines a parser.
@@ -50,12 +50,12 @@ typedef struct CowlParser {
      *
      * @param state Parser state.
      * @param stream Input stream.
-     * @param ctx Parser context.
+     * @param editor Ontology editor.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*parse)(void *state, UIStream *stream, CowlParserCtx *ctx);
+    cowl_ret (*parse)(void *state, UIStream *stream, CowlEditor *editor);
 
     /**
      * Pointer to a function that returns the current line in the input stream, if applicable.

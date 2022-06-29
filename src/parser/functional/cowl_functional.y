@@ -50,11 +50,11 @@
                                   cowl_unused yyscan_t scanner,
                                   CowlFuncParser *parser, const char *s) {
         cowl_ret code = strcmp(s, "memory exhausted") ? COWL_ERR_SYNTAX : COWL_ERR_MEM;
-        cowl_parser_ctx_handle_error(parser->ctx, code, ustring_wrap(s, strlen(s)));
+        cowl_editor_handle_error(parser->editor, code, ustring_wrap(s, strlen(s)));
     }
 
     #define COWL_ERROR(CODE) do {                                                                   \
-        cowl_parser_ctx_handle_error_type(parser->ctx, (CODE));                                     \
+        cowl_editor_handle_error_type(parser->editor, (CODE));                                      \
         YYERROR;                                                                                    \
     } while (0)
 
@@ -230,7 +230,7 @@ prefix_name
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_func_parser_get_full_iri(parser, $1);
+        $$ = cowl_editor_parse_full_iri(parser->editor, $1);
     }
 ;
 
@@ -252,7 +252,7 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
-        cowl_ret ret = cowl_func_parser_register_ns(parser, $3, cowl_iri_get_ns($5));
+        cowl_ret ret = cowl_editor_register_ns(parser->editor, $3, cowl_iri_get_ns($5));
         cowl_string_release($3);
         cowl_iri_release($5);
         if (ret) YYERROR;
@@ -266,12 +266,12 @@ ontology
 ontology_id
     : %empty
     | iri {
-        cowl_parser_ctx_set_iri(parser->ctx, $1);
+        cowl_editor_set_iri(parser->editor, $1);
         cowl_iri_release($1);
     }
     | iri iri {
-        cowl_parser_ctx_set_iri(parser->ctx, $1);
-        cowl_parser_ctx_set_version(parser->ctx, $2);
+        cowl_editor_set_iri(parser->editor, $1);
+        cowl_editor_set_version(parser->editor, $2);
         cowl_iri_release($1);
         cowl_iri_release($2);
     }
@@ -284,7 +284,7 @@ ontology_imports
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret ret = cowl_parser_ctx_add_import(parser->ctx, $3);
+        cowl_ret ret = cowl_editor_add_import(parser->editor, $3);
         cowl_iri_release($3);
         if (ret) YYERROR;
     }
@@ -293,7 +293,7 @@ import
 ontology_annotations
     : %empty
     | ontology_annotations annotation {
-        cowl_ret ret = cowl_parser_ctx_add_annot(parser->ctx, $2);
+        cowl_ret ret = cowl_editor_add_annot(parser->editor, $2);
         cowl_annotation_release($2);
         if (ret) YYERROR;
     }
@@ -301,7 +301,7 @@ ontology_annotations
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret ret = cowl_parser_ctx_add_axiom(parser->ctx, $2);
+        cowl_ret ret = cowl_editor_add_axiom(parser->editor, $2);
         cowl_axiom_release($2);
         if (ret) YYERROR;
     }
@@ -368,7 +368,7 @@ named_individual
 
 anonymous_individual
     : BLANK_NODE_LABEL {
-        $$ = (CowlIndividual *)cowl_func_parser_get_anon_ind(parser, $1);
+        $$ = (CowlIndividual *)cowl_editor_get_anon_ind(parser->editor, $1);
     }
 ;
 

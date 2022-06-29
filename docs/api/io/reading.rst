@@ -26,11 +26,11 @@ is used in a number of ways:
   via `CowlManager::cowl_manager_set_parser()`.
 
 You can integrate additional parsers by providing suitably populated `CowlParser` instances.
-When implementing one, use the provided `CowlParserCtx` instance for common parser tasks,
+When implementing one, use the provided `CowlEditor` instance for common parser tasks,
 such as ontology population and error handling. Refer to the built-in parsers if you need guidance.
 
 .. doxygenstruct:: CowlParser
-.. doxygenstruct:: CowlParserCtx
+.. doxygenstruct:: CowlEditor
 
 .. _import:
 

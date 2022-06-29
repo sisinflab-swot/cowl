@@ -17,10 +17,12 @@ COWL_BEGIN_DECLS
 
 bool cowl_test_manager_lifecycle(void);
 bool cowl_test_manager_read_ontology(void);
+bool cowl_test_manager_edit_ontology(void);
 
 #define COWL_MANAGER_TESTS                                                                          \
     cowl_test_manager_lifecycle,                                                                    \
-    cowl_test_manager_read_ontology
+    cowl_test_manager_read_ontology,                                                                \
+    cowl_test_manager_edit_ontology
 
 COWL_END_DECLS
 

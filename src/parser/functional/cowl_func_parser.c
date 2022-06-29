@@ -9,12 +9,8 @@
  */
 
 #include "cowl_func_parser.h"
-#include "cowl_anon_ind.h"
+#include "cowl_editor.h"
 #include "cowl_func_yylexer.h"
-#include "cowl_iri.h"
-#include "cowl_set_private.h"
-#include "cowl_parser_ctx.h"
-#include "cowl_string_private.h"
 
 static CowlParser const cowl_func_parser = {
     .name = "functional",
@@ -30,41 +26,20 @@ CowlParser cowl_parser_get_functional(void) {
 
 void* cowl_func_parser_alloc(void) {
     CowlFuncParser *parser = ulib_alloc(parser);
-    if (parser) {
-        *parser = (CowlFuncParser) {
-            .prefix_ns_map = cowl_string_map_init(),
-            .anon_ind_map = cowl_string_map_init()
-        };
-    }
+    if (parser) *parser = (CowlFuncParser) {0};
     return parser;
 }
 
 void cowl_func_parser_free(void *state) {
-    if (!state) return;
-
-    CowlFuncParser *parser = state;
-
-    uhash_foreach(CowlObjectTable, &parser->prefix_ns_map, prefix) {
-        cowl_string_release(*prefix.key);
-        cowl_string_release(*prefix.val);
-    }
-    uhash_deinit(CowlObjectTable, &parser->prefix_ns_map);
-
-    uhash_foreach(CowlObjectTable, &parser->anon_ind_map, ind) {
-        cowl_string_release(*ind.key);
-        cowl_anon_ind_release(*ind.val);
-    }
-    uhash_deinit(CowlObjectTable, &parser->anon_ind_map);
-
-    ulib_free(parser);
+    ulib_free(state);
 }
 
-cowl_ret cowl_func_parser_parse(void *state, UIStream *stream, CowlParserCtx *ctx) {
+cowl_ret cowl_func_parser_parse(void *state, UIStream *stream, CowlEditor *editor) {
     CowlFuncParser *parser = state;
-    parser->ctx = ctx;
+    parser->editor = editor;
 
     if (cowl_func_yylex_init(&parser->scanner)) {
-        cowl_parser_ctx_handle_error_type(ctx, COWL_ERR_MEM);
+        cowl_editor_handle_error_type(editor, COWL_ERR_MEM);
         return COWL_ERR_MEM;
     }
 
@@ -80,93 +55,4 @@ ulib_uint cowl_func_parser_get_line(void *state) {
     CowlFuncParser *parser = state;
     if (!(parser->scanner && cowl_func_yyget_lloc(parser->scanner))) return 0;
     return (ulib_uint)cowl_func_yyget_lloc(parser->scanner)->last_line;
-}
-
-cowl_ret cowl_func_parser_register_ns(CowlFuncParser *parser, CowlString *prefix, CowlString *ns) {
-    uhash_ret ret = uhmap_add(CowlObjectTable, &parser->prefix_ns_map, prefix, ns, NULL);
-
-    if (ret == UHASH_ERR) {
-        cowl_parser_ctx_handle_error_type(parser->ctx, COWL_ERR_MEM);
-        return COWL_ERR_MEM;
-    }
-
-    if (ret == UHASH_INSERTED) {
-        cowl_string_retain(prefix);
-        cowl_string_retain(ns);
-    }
-
-    return COWL_OK;
-}
-
-CowlIRI* cowl_func_parser_get_full_iri(CowlFuncParser *parser, UString string) {
-    ulib_uint ns_length = ustring_index_of(string, ':') + 1;
-    char const *str = ustring_data(string);
-    ulib_uint str_length = ustring_length(string);
-
-    // We might use 'cowl_string_get_ns_rem' to obtain a prefix/suffix split, though
-    // this involves two allocations: one for the prefix, and one for the suffix.
-    // Since we only need the prefix for a hash table lookup, we can avoid its allocation
-    // on the heap and keep it on the stack instead.
-    UString raw_ns = ustring_wrap(str, ns_length);
-    CowlString ns_str = cowl_string_init(raw_ns);
-
-    // If the remainder is empty, another slight optimization involves
-    // using a shared empty string instance.
-    CowlString *rem;
-
-    if (ns_length < str_length) {
-        rem = cowl_string_get(ustring_copy(str + ns_length, str_length - ns_length));
-    } else {
-        rem = cowl_string_get_empty();
-    }
-
-    if (!rem) return NULL;
-
-    CowlString *ns = uhmap_get(CowlObjectTable, &parser->prefix_ns_map, &ns_str, NULL);
-    CowlIRI *iri = NULL;
-
-    if (ns) {
-        iri = cowl_iri_get(ns, rem);
-    } else {
-        // We couldn't find a namespace mapping for the specified short namespace.
-        iri = NULL;
-        UString comp[] = {
-            ustring_literal("no namespace mapping for "),
-            raw_ns
-        };
-        UString err_str = ustring_concat(comp, ulib_array_count(comp));
-        cowl_parser_ctx_handle_error(parser->ctx, COWL_ERR_SYNTAX, err_str);
-        ustring_deinit(&err_str);
-    }
-
-    cowl_string_release(rem);
-    return iri;
-}
-
-CowlAnonInd* cowl_func_parser_get_anon_ind(CowlFuncParser *parser, UString id) {
-    ulib_uint idx;
-    CowlString id_str = cowl_string_init(id);
-    uhash_ret ret = uhash_put(CowlObjectTable, &parser->anon_ind_map, &id_str, &idx);
-
-    CowlAnonInd *ind = NULL;
-
-    if (ret == UHASH_INSERTED) {
-        CowlString *string = cowl_string_copy(&id_str);
-        ind = cowl_anon_ind_get();
-
-        if (string && ind) {
-            uhash_key(CowlObjectTable, &parser->anon_ind_map, idx) = string;
-            uhash_value(CowlObjectTable, &parser->anon_ind_map, idx) = cowl_anon_ind_retain(ind);
-        } else {
-            uhash_delete(CowlObjectTable, &parser->anon_ind_map, idx);
-            cowl_string_release(string);
-            cowl_anon_ind_release(ind);
-            ind = NULL;
-        }
-    } else if (ret == UHASH_PRESENT) {
-        ind = uhash_value(CowlObjectTable, &parser->anon_ind_map, idx);
-        cowl_anon_ind_retain(ind);
-    }
-
-    return ind;
 }

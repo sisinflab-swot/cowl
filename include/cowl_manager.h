@@ -15,12 +15,14 @@
 
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
+#include "cowl_object.h"
 #include "cowl_parser.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlOntology);
+cowl_struct_decl(CowlOntologyId);
 cowl_struct_decl(CowlManager);
 /// @endcond
 
@@ -55,8 +57,10 @@ CowlManager* cowl_manager_get(void);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
-CowlManager* cowl_manager_retain(CowlManager *manager);
+COWL_INLINE
+CowlManager* cowl_manager_retain(CowlManager *manager) {
+    return (CowlManager *)cowl_retain(manager);
+}
 
 /**
  * Releases the specified manager.
@@ -100,6 +104,33 @@ void cowl_manager_set_import_loader(CowlManager *manager, CowlImportLoader loade
  */
 COWL_PUBLIC
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler);
+
+/**
+ * Gets the ontology with the specified identifier.
+ * If no existing ontology has the specified identifier, a new ontology is returned.
+ *
+ * @param manager The manager.
+ * @param id The ontology identifier.
+ * @return Ontology with the specified identifier.
+ *
+ * @note The returned ontology is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
+
+/**
+ * Returns the editor associated with the specified ontology.
+ *
+ * @param manager The manager.
+ * @param ontology The ontology.
+ * @return Ontology editor.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlEditor* cowl_manager_get_editor(CowlManager *manager, CowlOntology *ontology);
 
 /**
  * Reads an ontology from the file at the specified path.

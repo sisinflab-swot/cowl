@@ -305,7 +305,7 @@ ustream_ret cowl_stream_write_error(UOStream *s, CowlError const *error) {
         cowl_stream_write_static(s, " - triggered by ");
 
         if (cowl_get_type(error->origin) == COWL_OT_MANAGER) {
-            CowlParser parser = ((CowlManager *)error->origin)->parser;
+            CowlParser parser = cowl_manager_get_parser((CowlManager *)error->origin);
             char const *name = parser.name ? parser.name : "unnamed";
             uostream_write(s, name, strlen(name), NULL);
             cowl_stream_write_static(s, " parser ");
