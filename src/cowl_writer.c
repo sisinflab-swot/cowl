@@ -13,7 +13,7 @@
 #include "cowl_cstring.h"
 #include "cowl_iri.h"
 #include "cowl_manager_private.h"
-#include "cowl_parser.h"
+#include "cowl_reader.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_string_private.h"
 
@@ -148,10 +148,10 @@ ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
         cowl_write_static(s, " - triggered by ");
 
         if (cowl_get_type(error->origin) == COWL_OT_MANAGER) {
-            CowlParser parser = cowl_manager_get_parser((CowlManager *)error->origin);
-            char const *name = parser.name ? parser.name : "unnamed";
+            CowlReader reader = cowl_manager_get_reader((CowlManager *)error->origin);
+            char const *name = reader.name ? reader.name : "unnamed";
             uostream_write(s, name, strlen(name), NULL);
-            cowl_write_static(s, " parser ");
+            cowl_write_static(s, " reader ");
         } else {
             cowl_write_debug(s, error->origin);
         }

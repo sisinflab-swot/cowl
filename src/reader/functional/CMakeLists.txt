@@ -22,14 +22,11 @@ list(JOIN COWL_FUNC_FLEX_FLAGS " " COWL_FUNC_FLEX_FLAGS)
 
 # Header dirs
 
-list(APPEND COWL_PRIVATE_HEADERS_DIRS
-     "${COWL_PARSER_SRC_DIR}"
-     "${COWL_PARSER_OUT_DIR}")
+list(APPEND COWL_PRIVATE_HEADERS_DIRS "${COWL_PARSER_OUT_DIR}")
 
 # Sources
 
-file(GLOB COWL_FUNC_PARSER_SOURCES CONFIGURE_DEPENDS
-     "${COWL_PARSER_SRC_DIR}/*.c")
+file(GLOB COWL_FUNC_PARSER_SOURCES CONFIGURE_DEPENDS "${COWL_PARSER_SRC_DIR}/*.c")
 list(APPEND COWL_SOURCES ${COWL_FUNC_PARSER_SOURCES})
 
 set(COWL_FUNC_LEXER_IN "${COWL_PARSER_SRC_DIR}/cowl_functional.l")
@@ -53,12 +50,12 @@ flex_target(COWL_FUNC_LEXER "${COWL_FUNC_LEXER_IN}" "${COWL_FUNC_LEXER_OUT}"
             DEFINES_FILE "${COWL_FUNC_LEXER_HEADER}")
 add_flex_bison_dependency(COWL_FUNC_LEXER COWL_FUNC_PARSER)
 
-add_custom_target(cowl-functional-parser
+add_custom_target(cowl-functional-reader
                   DEPENDS
                   ${FLEX_COWL_FUNC_LEXER_OUTPUTS}
                   ${BISON_COWL_FUNC_PARSER_OUTPUT_SOURCE}
-                  COMMENT "Generate the functional syntax parser.")
-add_dependencies(cowl-parsers cowl-functional-parser)
+                  COMMENT "Generate the functional syntax reader.")
+add_dependencies(cowl-readers cowl-functional-reader)
 
 # Propagate changes in the parent project
 

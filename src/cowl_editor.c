@@ -284,12 +284,12 @@ void cowl_editor_handle_error(CowlEditor *editor, cowl_ret code, UString descrip
     UString temp = ustring_is_null(editor->description) ? ustring_empty : editor->description;
     CowlString source = cowl_string_init(temp);
     CowlString descr = cowl_string_init(description);
-    CowlParser parser = cowl_manager_get_parser(manager);
+    CowlReader reader = cowl_manager_get_reader(manager);
 
     CowlError error = {
         .code = code,
         .location = {
-            .line = parser.get_line ? parser.get_line(editor->state) : 0,
+            .line = reader.get_line ? reader.get_line(editor->state) : 0,
             .source = cowl_string_get_length(&source) ? &source : NULL,
             .iri = editor->ontology ? cowl_ontology_get_id(editor->ontology).ontology_iri : NULL,
         },

@@ -16,7 +16,7 @@
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
 #include "cowl_object.h"
-#include "cowl_parser.h"
+#include "cowl_reader.h"
 #include "cowl_writer.h"
 
 COWL_BEGIN_DECLS
@@ -31,19 +31,19 @@ cowl_struct_decl(CowlManager);
  * Manages ontology documents.
  *
  * CowlManager supports multiple input sources, such as files, memory buffers, or
- * buffered streams. It also supports multiple parsers, either built-in or provided by the user.
+ * buffered streams. It also supports multiple readers, either built-in or provided by the user.
  *
- * @see CowlParser
+ * @see CowlReader
  *
  * @struct CowlManager
  */
 
 /**
- * Returns a retained manager that uses the default parser.
+ * Returns a retained manager that uses the default reader.
  *
  * @return Retained manager, or NULL on error.
  *
- * @note You can specify the default parser via `cowl_api_set_parser()`.
+ * @note You can specify the default reader via `cowl_api_set_reader()`.
  *
  * @public @memberof CowlManager
  */
@@ -74,15 +74,15 @@ COWL_PUBLIC
 void cowl_manager_release(CowlManager *manager);
 
 /**
- * Sets the parser.
+ * Sets the reader.
  *
  * @param manager The manager.
- * @param parser The parser.
+ * @param reader The reader.
  *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-void cowl_manager_set_parser(CowlManager *manager, CowlParser parser);
+void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
 
 /**
  * Sets the writer.

@@ -30,7 +30,7 @@ project(Cowl
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
 set(COWL_LIBRARY_TYPE "STATIC" CACHE STRING "Type of library to build.")
-set(COWL_PARSERS "functional" CACHE STRING "List of enabled built-in parsers (semicolon-separated)")
+set(COWL_READERS "functional" CACHE STRING "List of enabled built-in readers (semicolon-separated)")
 set(COWL_WRITERS "debug" CACHE STRING "List of enabled built-in writers (semicolon-separated)")
 
 # Directories
@@ -41,7 +41,7 @@ set(COWL_PUBLIC_HEADERS_DIR "${COWL_PROJECT_DIR}/include")
 set(COWL_LIB_DIR "${COWL_PROJECT_DIR}/lib")
 set(COWL_SRC_DIR "${COWL_PROJECT_DIR}/src")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
-set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
+set(COWL_READER_DIR "${COWL_SRC_DIR}/reader")
 set(COWL_WRITER_DIR "${COWL_SRC_DIR}/writer")
 
 set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
@@ -102,25 +102,25 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS  "${COWL_SRC_DIR}/*.c")
 ### Targets ###
 ###############
 
-# Parsers
+# Readers
 
-add_custom_target(cowl-parsers COMMENT "Generate builtin parsers.")
+add_custom_target(cowl-readers COMMENT "Generate builtin readers.")
 
-if(COWL_PARSERS)
-    foreach(PARSER IN LISTS COWL_PARSERS)
-        string(TOUPPER "${PARSER}" PARSER_OPT)
-        set(PARSER_OPT "COWL_PARSER_${PARSER_OPT}")
-        string(TOLOWER "${PARSER}" PARSER)
+if(COWL_READERS)
+    foreach(READER IN LISTS COWL_READERS)
+        string(TOUPPER "${READER}" READER_OPT)
+        set(READER_OPT "COWL_READER_${READER_OPT}")
+        string(TOLOWER "${READER}" READER)
 
-        add_subdirectory("${COWL_PARSER_DIR}/${PARSER}")
-        list(APPEND COWL_PARSER_DEFINES "${PARSER_OPT}")
+        add_subdirectory("${COWL_READER_DIR}/${READER}")
+        list(APPEND COWL_READER_DEFINES "${READER_OPT}")
     endforeach()
 
-    list(APPEND COWL_PUBLIC_DEFINES ${COWL_PARSER_DEFINES})
+    list(APPEND COWL_PUBLIC_DEFINES ${COWL_READER_DEFINES})
 
-    list(GET COWL_PARSERS 0 COWL_DEFAULT_PARSER)
-    if(DEFINED COWL_DEFAULT_PARSER)
-        list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_PARSER=${COWL_DEFAULT_PARSER})
+    list(GET COWL_READERS 0 COWL_DEFAULT_READER)
+    if(DEFINED COWL_DEFAULT_READER)
+        list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_READER=${COWL_DEFAULT_READER})
     endif()
 endif()
 
@@ -169,7 +169,7 @@ target_include_directories(cowl
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_link_libraries(cowl PUBLIC ulib)
-add_dependencies(cowl cowl-parsers cowl-headers)
+add_dependencies(cowl cowl-readers cowl-headers)
 
 if(COWL_LIBRARY_TYPE STREQUAL "SHARED")
     target_compile_definitions(cowl PUBLIC COWL_SHARED)

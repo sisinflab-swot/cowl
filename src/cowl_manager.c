@@ -20,7 +20,7 @@ CowlManager* cowl_manager_get(void) {
     if (!manager) return NULL;
     *manager = (CowlManager){
         .super = COWL_OBJECT_INIT(COWL_OT_MANAGER),
-        .parser = {0},
+        .reader = {0},
         .editors = uvec_init(ulib_ptr)
     };
     return manager;
@@ -85,8 +85,8 @@ err:
     }
 }
 
-CowlParser cowl_manager_get_parser(CowlManager *manager) {
-    return manager->parser.name ? manager->parser : cowl_api_get_parser();
+CowlReader cowl_manager_get_reader(CowlManager *manager) {
+    return manager->reader.name ? manager->reader : cowl_api_get_reader();
 }
 
 CowlWriter cowl_manager_get_writer(CowlManager *manager) {
@@ -100,16 +100,16 @@ static CowlEditor* cowl_read_stream(CowlManager *manager, UIStream *stream, UStr
     if (!editor) return NULL;
     editor->description = desc;
 
-    CowlParser parser = cowl_manager_get_parser(manager);
+    CowlReader reader = cowl_manager_get_reader(manager);
 
-    if (parser.alloc && !(editor->state = parser.alloc())) {
+    if (reader.alloc && !(editor->state = reader.alloc())) {
         cowl_editor_handle_error_type(editor, COWL_ERR_MEM);
         return NULL;
     }
 
     bool success = true;
 
-    if (parser.parse(editor->state, stream, editor)) {
+    if (reader.read(editor->state, stream, editor)) {
         success = false;
         goto err;
     }
@@ -121,7 +121,7 @@ static CowlEditor* cowl_read_stream(CowlManager *manager, UIStream *stream, UStr
     }
 
 err:
-    if (parser.free) parser.free(editor->state);
+    if (reader.free) reader.free(editor->state);
     editor->state = NULL;
     editor->description = ustring_empty;
 
@@ -227,8 +227,8 @@ cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology,
     return cowl_write_stream(manager, ontology, stream, ustring_empty) ? COWL_OK : COWL_ERR;
 }
 
-void cowl_manager_set_parser(CowlManager *manager, CowlParser parser) {
-    manager->parser = parser;
+void cowl_manager_set_reader(CowlManager *manager, CowlReader reader) {
+    manager->reader = reader;
 }
 
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer) {

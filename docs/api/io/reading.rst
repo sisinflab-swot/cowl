@@ -10,26 +10,26 @@ or input streams (see :class:`UIStream`).
 
 .. doxygenstruct:: CowlManager
 
-.. _parsers:
+.. _readers:
 
-Parsers
+Readers
 =======
 
-Cowl can attempt ontology deserialization via multiple parsers. You can control which parser
+Cowl can attempt ontology deserialization via multiple readers. You can control which reader
 is used in a number of ways:
 
-- **At compile-time:** parsers included in the compiled library can be selected
-  by toggling ``COWL_PARSER_*`` CMake variables. Built-in parsers are exposed through
-  ``cowl_parser_*_get()`` functions.
-- **At run-time, globally:** you can set the default parser by calling `cowl_api_set_parser()`.
-- **At run-time, locally:** you can specify which parser you want `CowlManager` to use
-  via `CowlManager::cowl_manager_set_parser()`.
+- **At compile-time:** readers included in the compiled library can be selected
+  by toggling ``COWL_READER_*`` CMake variables. Built-in readers are exposed through
+  ``cowl_reader_*_get()`` functions.
+- **At run-time, globally:** you can set the default reader by calling `cowl_api_set_reader()`.
+- **At run-time, locally:** you can specify which reader you want `CowlManager` to use
+  via `CowlManager::cowl_manager_set_reader()`.
 
-You can integrate additional parsers by providing suitably populated `CowlParser` instances.
-When implementing one, use the provided `CowlEditor` instance for common parser tasks,
-such as ontology population and error handling. Refer to the built-in parsers if you need guidance.
+You can integrate additional readers by providing suitably populated `CowlReader` instances.
+When implementing one, use the provided `CowlEditor` instance for common reader tasks,
+such as ontology population and error handling. Refer to the built-in readers if you need guidance.
 
-.. doxygenstruct:: CowlParser
+.. doxygenstruct:: CowlReader
 .. doxygenstruct:: CowlEditor
 
 .. _import:

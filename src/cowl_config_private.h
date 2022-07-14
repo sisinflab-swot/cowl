@@ -17,7 +17,7 @@ COWL_BEGIN_DECLS
 
 CowlErrorHandler cowl_api_get_error_handler(void);
 CowlImportLoader cowl_api_get_import_loader(void);
-CowlParser cowl_api_get_parser(void);
+CowlReader cowl_api_get_reader(void);
 CowlWriter cowl_api_get_writer(void);
 
 COWL_END_DECLS

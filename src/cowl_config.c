@@ -14,9 +14,9 @@
 #include "cowl_import_loader_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_owl_vocab_private.h"
-#include "cowl_parser.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
+#include "cowl_reader.h"
 #include "cowl_string_private.h"
 #include "cowl_writer.h"
 #include "cowl_xsd_vocab_private.h"
@@ -24,13 +24,13 @@
 static bool cowl_api_initialized = false;
 static CowlErrorHandler global_error_handler;
 static CowlImportLoader global_import_loader;
-static CowlParser global_parser;
+static CowlReader global_reader;
 static CowlWriter global_writer;
 
-#ifdef COWL_DEFAULT_PARSER
-    #define cowl_api_default_parser() P_ULIB_MACRO_CONCAT(cowl_parser_get_, COWL_DEFAULT_PARSER)()
+#ifdef COWL_DEFAULT_READER
+    #define cowl_api_default_reader() P_ULIB_MACRO_CONCAT(cowl_reader_get_, COWL_DEFAULT_READER)()
 #else
-    #define cowl_api_default_parser() ((CowlParser){0})
+    #define cowl_api_default_reader() ((CowlReader){0})
 #endif
 
 #ifdef COWL_DEFAULT_WRITER
@@ -42,7 +42,7 @@ static CowlWriter global_writer;
 static void cowl_api_config_init(void) {
     global_error_handler = (CowlErrorHandler){0};
     global_import_loader = (CowlImportLoader){0};
-    global_parser = cowl_api_default_parser();
+    global_reader = cowl_api_default_reader();
     global_writer = cowl_api_default_writer();
 
     ulib_int seed = (ulib_int)utime_get_ns();
@@ -109,16 +109,16 @@ void cowl_api_set_import_loader(CowlImportLoader loader) {
     global_import_loader = loader;
 }
 
-CowlParser cowl_api_get_parser(void) {
-    return global_parser;
+CowlReader cowl_api_get_reader(void) {
+    return global_reader;
 }
 
 CowlWriter cowl_api_get_writer(void) {
     return global_writer;
 }
 
-void cowl_api_set_parser(CowlParser parser) {
-    global_parser = parser;
+void cowl_api_set_reader(CowlReader reader) {
+    global_reader = reader;
 }
 
 void cowl_api_set_writer(CowlWriter writer) {

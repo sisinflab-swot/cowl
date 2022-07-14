@@ -22,9 +22,9 @@ In order to compile the library, you will need at a minimum:
 - CMake_ version 3.18 or later.
 
 There are additional requirements depending on which additional components
-you would like to build or compile (e.g. :ref:`parsers <parsers>`).
+you would like to build or compile (e.g. :ref:`readers <readers>`).
 
-**Functional parser:**
+**Functional reader:**
 
 - Flex_ version 2.6.4 or later.
 - Bison_ version 3.0 or later.
@@ -84,7 +84,7 @@ Ontology deserialization
 ------------------------
 
 In order to query an ontology you must first deserialize it, which can be done via
-:class:`CowlManager`. Cowl can use multiple parsers, either built-in or provided by the user.
+:class:`CowlManager`. Cowl can use multiple readers, either built-in or provided by the user.
 For further information, refer to :ref:`the related documentation <reading>`.
 
 OWL ontologies may `import <owl imports_>`_ other ontologies, which may involve loading them

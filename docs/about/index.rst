@@ -29,14 +29,14 @@ Features
 ========
 
 Cowl is a complete implementation of the `OWL 2 specification`_.
-As of right now it allows you to parse OWL 2 ontologies and query them
+As of right now it allows you to read OWL 2 ontologies and query them
 for axioms and other constructs.
 
 Limitations
 ===========
 
-While Cowl's architecture allows for multiple parsers, the library currently only provides
-a **functional syntax** built-in parser. Furthermore, it does not yet provide ontology editing
+While Cowl's architecture allows for multiple readers, the library currently only provides
+a **functional syntax** built-in reader. Furthermore, it does not yet provide ontology editing
 and serialization capabilities. We plan to address these shortcomings soon.
 
 Finally, it is important to note that the library is in **early development**, as denoted by

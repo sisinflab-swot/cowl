@@ -110,5 +110,5 @@ jobs:
 
       - name: Build docs
         run: |
-          cmake -B ${{env.build_dir}} -DCOWL_PARSERS=''
+          cmake -B ${{env.build_dir}} -DCOWL_READERS=''
           cmake --build ${{env.build_dir}} --target ${{env.docs_target}}

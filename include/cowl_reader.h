@@ -1,5 +1,5 @@
 /**
- * Defines CowlParser and declares its API.
+ * Defines CowlReader and declares its API.
  *
  * @author Ivano Bilenchi
  *
@@ -10,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_PARSER_H
-#define COWL_PARSER_H
+#ifndef COWL_READER_H
+#define COWL_READER_H
 
 #include "cowl_std.h"
 
@@ -21,68 +21,68 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlEditor);
 /// @endcond
 
-/// Defines a parser.
-typedef struct CowlParser {
+/// Defines a reader.
+typedef struct CowlReader {
 
-    /// Name of the parser.
+    /// Name of the reader.
     char const *name;
 
     /**
-     * Pointer to a function that allocates the parser's state and reserves any needed resource.
+     * Pointer to a function that allocates the reader's state and reserves any needed resource.
      *
-     * @return Parser state.
+     * @return Reader state.
      *
      * @note This member is optional.
      */
     void* (*alloc)(void);
 
     /**
-     * Pointer to a function that deallocates the parser's state and releases reserved resources.
+     * Pointer to a function that deallocates the reader's state and releases reserved resources.
      *
-     * @param state Parser state.
+     * @param state Reader state.
      *
      * @note This member is optional.
      */
     void (*free)(void *state);
 
     /**
-     * Pointer to a function that parses an ontology from an input stream.
+     * Pointer to a function that reads an ontology from an input stream.
      *
-     * @param state Parser state.
+     * @param state Reader state.
      * @param stream Input stream.
      * @param editor Ontology editor.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*parse)(void *state, UIStream *stream, CowlEditor *editor);
+    cowl_ret (*read)(void *state, UIStream *stream, CowlEditor *editor);
 
     /**
      * Pointer to a function that returns the current line in the input stream, if applicable.
      *
-     * @param state Parser state.
+     * @param state Reader state.
      * @return Current line.
      *
      * @note This member is optional.
      */
     ulib_uint (*get_line)(void *state);
 
-} CowlParser;
+} CowlReader;
 
-#ifdef COWL_PARSER_FUNCTIONAL
+#ifdef COWL_READER_FUNCTIONAL
 
 /**
- * Returns the functional syntax parser.
+ * Returns the functional syntax reader.
  *
- * @return Functional syntax parser.
+ * @return Functional syntax reader.
  *
- * @public @related CowlParser
+ * @public @related CowlReader
  */
 COWL_PUBLIC
-CowlParser cowl_parser_get_functional(void);
+CowlReader cowl_reader_get_functional(void);
 
-#endif // COWL_PARSER_FUNCTIONAL
+#endif // COWL_READER_FUNCTIONAL
 
 COWL_END_DECLS
 
-#endif // COWL_PARSER_H
+#endif // COWL_READER_H

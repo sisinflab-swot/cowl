@@ -8,7 +8,7 @@
  * @file
  */
 
-#include "cowl_debug_writer.h"
+#include "cowl_writer.h"
 #include "cowl_anon_ind.h"
 #include "cowl_datatype.h"
 #include "cowl_editor.h"
@@ -21,6 +21,16 @@
 #include "cowl_vector.h"
 
 static ustream_ret cowl_debug_write_obj(UOStream *s, void *obj, CowlEditor *ed);
+static ustream_ret cowl_debug_write_onto(UOStream *s, CowlOntology *onto, CowlEditor *ed);
+
+static cowl_ret cowl_debug_write(UOStream *stream, void *object) {
+    return cowl_ret_from_ustream(cowl_debug_write_obj(stream, object, NULL));
+}
+
+static cowl_ret cowl_debug_write_ontology(cowl_unused void *state, UOStream *stream, CowlEditor *editor) {
+    ustream_ret ret = cowl_debug_write_onto(stream, cowl_editor_get_ontology(editor), editor);
+    return cowl_ret_from_ustream(ret);
+}
 
 static CowlWriter const cowl_debug_writer = {
     .name = "debug",
@@ -261,13 +271,4 @@ static ustream_ret cowl_debug_write_obj(UOStream *s, void *obj, CowlEditor *ed) 
         case COWL_OT_ONTOLOGY: return cowl_debug_write_onto(s, obj, ed);
         default: return cowl_debug_write_composite(s, obj, ed);
     }
-}
-
-cowl_ret cowl_debug_write(UOStream *stream, void *object) {
-    return cowl_ret_from_ustream(cowl_debug_write_obj(stream, object, NULL));
-}
-
-cowl_ret cowl_debug_write_ontology(cowl_unused void *state, UOStream *stream, CowlEditor *editor) {
-    ustream_ret ret = cowl_debug_write_onto(stream, cowl_editor_get_ontology(editor), editor);
-    return cowl_ret_from_ustream(ret);
 }
