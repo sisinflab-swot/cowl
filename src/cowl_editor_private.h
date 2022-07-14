@@ -22,17 +22,17 @@ typedef struct CowlEditor {
     CowlManager *manager;
     CowlOntology *ontology;
     void *state;
-    UHash(CowlObjectTable) prefix_ns_map;
-    UHash(CowlObjectTable) anon_ind_map;
     UString description;
+    UHash(CowlObjectTable) prefix_ns_map;
+    UHash(CowlObjectTable) ns_prefix_map;
+    UHash(CowlObjectTable) id_anon_map;
+    UHash(CowlObjectTable) anon_id_map;
 } CowlEditor;
 
 CowlEditor* cowl_editor_alloc(CowlManager *manager);
 void cowl_editor_free(CowlEditor *editor);
 
-CowlOntology* cowl_editor_get_ontology(CowlEditor *editor);
 void cowl_editor_set_ontology(CowlEditor *editor, CowlOntology *ontology);
-
 void cowl_editor_handle_stream_error(CowlEditor *editor, ustream_ret code);
 
 COWL_END_DECLS

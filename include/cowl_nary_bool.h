@@ -113,7 +113,7 @@ CowlVector* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
  */
 COWL_INLINE
 CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp) {
-    return cowl_to_string_impl(exp);
+    return cowl_to_string(exp);
 }
 
 /**

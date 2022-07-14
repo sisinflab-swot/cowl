@@ -12,7 +12,6 @@
 #include "cowl_set.h"
 #include "cowl_string_private.h"
 #include "cowl_xml_utils.h"
-#include "cowl_template.h"
 
 static UHash(CowlObjectTable) inst_tbl;
 
@@ -164,9 +163,3 @@ CowlString* cowl_iri_get_ns(CowlIRI *iri) {
 CowlString* cowl_iri_get_rem(CowlIRI *iri) {
     return iri->rem;
 }
-
-CowlString* cowl_iri_to_string(CowlIRI *iri)
-    COWL_TO_STRING_IMPL(iri, iri)
-
-CowlString* cowl_iri_to_string_no_brackets(CowlIRI *iri)
-    COWL_TO_STRING_IMPL(iri_no_brackets, iri)

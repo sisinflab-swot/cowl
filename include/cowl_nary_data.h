@@ -111,7 +111,7 @@ CowlVector* cowl_nary_data_get_operands(CowlNAryData *range) {
  */
 COWL_INLINE
 CowlString* cowl_nary_data_to_string(CowlNAryData *range) {
-    return cowl_to_string_impl(range);
+    return cowl_to_string(range);
 }
 
 /**

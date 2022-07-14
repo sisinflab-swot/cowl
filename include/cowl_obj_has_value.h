@@ -109,7 +109,7 @@ CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
  */
 COWL_INLINE
 CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp) {
-    return cowl_to_string_impl(exp);
+    return cowl_to_string(exp);
 }
 
 /**

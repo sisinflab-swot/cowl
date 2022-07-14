@@ -108,12 +108,6 @@ COWL_PUBLIC
 ulib_uint cowl_uint_hash_impl(void *object);
 
 COWL_PUBLIC
-CowlString* cowl_to_string_impl(void *object);
-
-COWL_PUBLIC
-CowlString* cowl_uint_to_string_impl(void *object);
-
-COWL_PUBLIC
 bool cowl_iterate_primitives_impl(void *object, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_PUBLIC

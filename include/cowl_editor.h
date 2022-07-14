@@ -13,7 +13,7 @@
 #ifndef COWL_EDITOR_H
 #define COWL_EDITOR_H
 
-#include "cowl_std.h"
+#include "cowl_set.h"
 
 COWL_BEGIN_DECLS
 
@@ -31,6 +31,17 @@ cowl_struct_decl(CowlEditor);
  *
  * @struct CowlEditor
  */
+
+/**
+ * Gets the ontology managed by this editor.
+ *
+ * @param editor The editor.
+ * @return Ontology.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlOntology* cowl_editor_get_ontology(CowlEditor *editor);
 
 /**
  * Sets the IRI of the ontology.
@@ -91,6 +102,30 @@ COWL_PUBLIC
 cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom);
 
 /**
+ * Returns the namespace associated with the specified prefix.
+ *
+ * @param editor The editor.
+ * @param prefix The prefix.
+ * @return Namespace associated with the prefix.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlString* cowl_editor_get_ns(CowlEditor *editor, CowlString *prefix);
+
+/**
+ * Returns the prefix associated with the specified namespace.
+ *
+ * @param editor The editor.
+ * @param ns The namespace.
+ * @return Prefix associated with the namespace.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlString* cowl_editor_get_prefix(CowlEditor *editor, CowlString *ns);
+
+/**
  * Registers the specified prefix-namespace mapping.
  * 
  * @param editor The editor. 
@@ -101,7 +136,7 @@ cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom);
  * @public @memberof CowlEditor
  */
 COWL_PUBLIC
-cowl_ret cowl_editor_register_ns(CowlEditor *editor, CowlString *prefix, CowlString *ns);
+cowl_ret cowl_editor_register_prefix(CowlEditor *editor, CowlString *prefix, CowlString *ns);
 
 /**
  * Retrieves the full IRI associated with the specified short IRI.
@@ -139,6 +174,18 @@ CowlIRI* cowl_editor_parse_full_iri(CowlEditor *editor, UString short_iri);
  */
 COWL_PUBLIC
 CowlAnonInd* cowl_editor_get_anon_ind(CowlEditor *editor, UString id);
+
+/**
+ * Returns the identifier associated with the specified anonymous individual.
+ *
+ * @param editor The editor.
+ * @param ind The anonymous individual.
+ * @return Identifier, or NULL on error.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlString* cowl_editor_get_id_for_anon_ind(CowlEditor *editor, CowlAnonInd *ind);
 
 /**
  * Handles the specified error through the user-provided error handler.

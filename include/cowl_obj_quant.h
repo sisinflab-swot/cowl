@@ -122,7 +122,7 @@ CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
  */
 COWL_INLINE
 CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr) {
-    return cowl_to_string_impl(restr);
+    return cowl_to_string(restr);
 }
 
 /**

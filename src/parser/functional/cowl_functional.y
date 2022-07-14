@@ -252,7 +252,7 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
-        cowl_ret ret = cowl_editor_register_ns(parser->editor, $3, cowl_iri_get_ns($5));
+        cowl_ret ret = cowl_editor_register_prefix(parser->editor, $3, cowl_iri_get_ns($5));
         cowl_string_release($3);
         cowl_iri_release($5);
         if (ret) YYERROR;

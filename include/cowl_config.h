@@ -17,6 +17,7 @@
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
 #include "cowl_parser.h"
+#include "cowl_writer.h"
 
 COWL_BEGIN_DECLS
 
@@ -69,6 +70,16 @@ void cowl_api_set_import_loader(CowlImportLoader loader);
  */
 COWL_PUBLIC
 void cowl_api_set_parser(CowlParser parser);
+
+/**
+ * Sets the default writer.
+ *
+ * @param writer The writer.
+ *
+ * @note This function must be called again if you reinitialize the API after deinitializing it.
+ */
+COWL_PUBLIC
+void cowl_api_set_writer(CowlWriter writer);
 
 COWL_END_DECLS
 

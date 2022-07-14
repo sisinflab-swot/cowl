@@ -12,6 +12,8 @@
 #define COWL_PRIVATE_H
 
 #include "cowl_api.h"
+#include "cowl_anon_ind_private.h"
+#include "cowl_config_private.h"
 #include "cowl_cstring.h"
 #include "cowl_editor_private.h"
 #include "cowl_iri_private.h"
@@ -24,9 +26,7 @@
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_set_private.h"
-#include "cowl_stream.h"
 #include "cowl_string_private.h"
-#include "cowl_template.h"
 #include "cowl_vector_private.h"
 #include "cowl_vocab_utils.h"
 #include "cowl_xml_utils.h"

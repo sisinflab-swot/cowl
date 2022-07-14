@@ -108,7 +108,7 @@ CowlLiteral* cowl_facet_restr_get_value(CowlFacetRestr *restr) {
  */
 COWL_INLINE
 CowlString* cowl_facet_restr_to_string(CowlFacetRestr *restr) {
-    return cowl_to_string_impl(restr);
+    return cowl_to_string(restr);
 }
 
 /**

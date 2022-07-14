@@ -215,11 +215,27 @@ bool cowl_is_data_range(void *object) {
     return type >= COWL_OT_FIRST_DR && type <= COWL_OT_LAST_DR;
 }
 
-CowlString* cowl_to_string(void *object)
-    COWL_TO_STRING_IMPL(object, object)
+static CowlString* cowl_to_string_impl(void *object, cowl_ret (*fun)(UOStream *, void *)) {
+    CowlString *string = NULL;
+    UOStream stream;
+    UStrBuf buf = ustrbuf_init();
+    if (uostream_to_strbuf(&stream, &buf) == USTREAM_OK) {
+        if (fun(&stream, object) == COWL_OK) {
+            string = cowl_string_alloc(ustrbuf_to_ustring(&buf));
+        }
+        uostream_deinit(&stream);
+    }
+    ustrbuf_deinit(&buf);
+    return string;
+}
 
-CowlString* cowl_to_debug_string(void *object)
-    COWL_TO_STRING_IMPL(object_debug, object)
+CowlString* cowl_to_string(void *object) {
+    return cowl_to_string_impl(object, cowl_write);
+}
+
+CowlString* cowl_to_debug_string(void *object) {
+    return cowl_to_string_impl(object, cowl_write_debug);
+}
 
 bool cowl_equals(void *lhs, void *rhs) {
     CowlObjectType type = cowl_get_type(lhs);
@@ -529,12 +545,6 @@ void cowl_release_impl(void *object) {
     for (ulib_byte i = 0; i < count; ++i) { cowl_release(cowl_get_field(object, i)); }
     ulib_free(object);
 }
-
-CowlString* cowl_to_string_impl(void *object)
-COWL_TO_STRING_IMPL(composite, object)
-
-CowlString* cowl_uint_to_string_impl(void *object)
-COWL_TO_STRING_IMPL(composite_uint, object)
 
 bool cowl_equals_impl(void *lhs, void *rhs) {
     if (lhs == rhs) return true;

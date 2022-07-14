@@ -125,7 +125,7 @@ CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

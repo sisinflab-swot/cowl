@@ -62,17 +62,6 @@ bool cowl_test_iri_get_rem(void) {
     return true;
 }
 
-bool cowl_test_iri_to_string_no_brackets(void) {
-    CowlIRI *iri = cowl_iri_from_static(COWL_TEST_IRI);
-    CowlString *str = cowl_iri_to_string_no_brackets(iri);
-
-    utest_assert_string(cowl_string_get_cstring(str), ==, COWL_TEST_IRI);
-    cowl_string_release(str);
-    cowl_iri_release(iri);
-
-    return true;
-}
-
 bool cowl_test_iri_equals(void) {
     CowlIRI *expected = cowl_iri_from_static(COWL_TEST_IRI);
 

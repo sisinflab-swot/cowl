@@ -123,7 +123,7 @@ CowlVector* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

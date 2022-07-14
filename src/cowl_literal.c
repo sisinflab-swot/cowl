@@ -10,8 +10,9 @@
 
 #include "cowl_literal_private.h"
 #include "cowl_datatype.h"
+#include "cowl_object_private.h"
+#include "cowl_string_private.h"
 #include "cowl_rdf_vocab.h"
-#include "cowl_template.h"
 
 static inline bool cowl_literal_has_dt(CowlLiteral *literal) {
     return cowl_object_bit_get(literal);
@@ -93,9 +94,6 @@ CowlString* cowl_literal_get_lang(CowlLiteral *literal) {
     if (cowl_literal_has_dt(literal)) return NULL;
     return cowl_get_field(literal, 1);
 }
-
-CowlString* cowl_literal_to_string(CowlLiteral *literal)
-    COWL_TO_STRING_IMPL(literal, literal)
 
 bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
     return cowl_get_field(lhs, 1) == cowl_get_field(rhs, 1) &&

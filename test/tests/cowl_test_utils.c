@@ -17,9 +17,6 @@
 
 // Import loader
 
-CowlOntology* cowl_test_load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
-    CowlManager *manager = cowl_manager_get();
-    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
-    cowl_manager_release(manager);
-    return onto;
+CowlOntology* cowl_test_load_import(void *ctx, cowl_unused CowlIRI *iri) {
+    return cowl_manager_read_path(ctx, ustring_literal(COWL_TEST_IMPORT));
 }

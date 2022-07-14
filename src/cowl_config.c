@@ -18,17 +18,35 @@
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_string_private.h"
+#include "cowl_writer.h"
 #include "cowl_xsd_vocab_private.h"
 
 static bool cowl_api_initialized = false;
 static CowlErrorHandler global_error_handler;
 static CowlImportLoader global_import_loader;
 static CowlParser global_parser;
+static CowlWriter global_writer;
+
+#ifdef COWL_DEFAULT_PARSER
+    #define cowl_api_default_parser() P_ULIB_MACRO_CONCAT(cowl_parser_get_, COWL_DEFAULT_PARSER)()
+#else
+    #define cowl_api_default_parser() ((CowlParser){0})
+#endif
+
+#ifdef COWL_DEFAULT_WRITER
+    #define cowl_api_default_writer() P_ULIB_MACRO_CONCAT(cowl_writer_get_, COWL_DEFAULT_WRITER)()
+#else
+    #define cowl_api_default_writer() ((CowlWriter){0})
+#endif
 
 static void cowl_api_config_init(void) {
     global_error_handler = (CowlErrorHandler){0};
     global_import_loader = (CowlImportLoader){0};
     global_parser = cowl_api_default_parser();
+    global_writer = cowl_api_default_writer();
+
+    ulib_int seed = (ulib_int)utime_get_ns();
+    urand_set_seed(seed ? seed : 12345);
 }
 
 static void cowl_api_config_deinit(void) {
@@ -95,14 +113,14 @@ CowlParser cowl_api_get_parser(void) {
     return global_parser;
 }
 
+CowlWriter cowl_api_get_writer(void) {
+    return global_writer;
+}
+
 void cowl_api_set_parser(CowlParser parser) {
     global_parser = parser;
 }
 
-CowlParser cowl_api_default_parser(void) {
-#ifdef COWL_PARSER_FUNCTIONAL
-    return cowl_parser_get_functional();
-#else
-    return (CowlParser){};
-#endif
+void cowl_api_set_writer(CowlWriter writer) {
+    global_writer = writer;
 }

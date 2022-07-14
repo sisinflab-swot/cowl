@@ -94,7 +94,7 @@ CowlVector* cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
  */
 COWL_INLINE
 CowlString* cowl_obj_one_of_to_string(CowlObjOneOf *exp) {
-    return cowl_to_string_impl(exp);
+    return cowl_to_string(exp);
 }
 
 /**

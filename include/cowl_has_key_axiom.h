@@ -139,7 +139,7 @@ CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

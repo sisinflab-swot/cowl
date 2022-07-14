@@ -123,7 +123,7 @@ CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot) {
  */
 COWL_INLINE
 CowlString* cowl_annotation_to_string(CowlAnnotation *annot) {
-    return cowl_to_string_impl(annot);
+    return cowl_to_string(annot);
 }
 
 /**

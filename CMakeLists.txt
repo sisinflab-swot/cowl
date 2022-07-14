@@ -30,7 +30,8 @@ project(Cowl
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
 set(COWL_LIBRARY_TYPE "STATIC" CACHE STRING "Type of library to build.")
-set(COWL_PARSERS "functional" CACHE STRING "List of enabled built-in parsers (semicolon-separated")
+set(COWL_PARSERS "functional" CACHE STRING "List of enabled built-in parsers (semicolon-separated)")
+set(COWL_WRITERS "debug" CACHE STRING "List of enabled built-in writers (semicolon-separated)")
 
 # Directories
 
@@ -41,6 +42,7 @@ set(COWL_LIB_DIR "${COWL_PROJECT_DIR}/lib")
 set(COWL_SRC_DIR "${COWL_PROJECT_DIR}/src")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}/include")
 set(COWL_PARSER_DIR "${COWL_SRC_DIR}/parser")
+set(COWL_WRITER_DIR "${COWL_SRC_DIR}/writer")
 
 set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
 set(COWL_DOCS_DIR "${COWL_PROJECT_DIR}/docs")
@@ -104,16 +106,43 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS  "${COWL_SRC_DIR}/*.c")
 
 add_custom_target(cowl-parsers COMMENT "Generate builtin parsers.")
 
-foreach(PARSER IN LISTS COWL_PARSERS)
-    string(TOUPPER "${PARSER}" PARSER_OPT)
-    set(PARSER_OPT "COWL_PARSER_${PARSER_OPT}")
-    string(TOLOWER "${PARSER}" PARSER)
+if(COWL_PARSERS)
+    foreach(PARSER IN LISTS COWL_PARSERS)
+        string(TOUPPER "${PARSER}" PARSER_OPT)
+        set(PARSER_OPT "COWL_PARSER_${PARSER_OPT}")
+        string(TOLOWER "${PARSER}" PARSER)
 
-    add_subdirectory("${COWL_PARSER_DIR}/${PARSER}")
-    list(APPEND COWL_PARSER_DEFINES "${PARSER_OPT}")
-endforeach()
+        add_subdirectory("${COWL_PARSER_DIR}/${PARSER}")
+        list(APPEND COWL_PARSER_DEFINES "${PARSER_OPT}")
+    endforeach()
 
-list(APPEND COWL_PUBLIC_DEFINES ${COWL_PARSER_DEFINES})
+    list(APPEND COWL_PUBLIC_DEFINES ${COWL_PARSER_DEFINES})
+
+    list(GET COWL_PARSERS 0 COWL_DEFAULT_PARSER)
+    if(DEFINED COWL_DEFAULT_PARSER)
+        list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_PARSER=${COWL_DEFAULT_PARSER})
+    endif()
+endif()
+
+# Writers
+
+if(COWL_WRITERS)
+    foreach(WRITER IN LISTS COWL_WRITERS)
+        string(TOUPPER "${WRITER}" WRITER_OPT)
+        set(WRITER_OPT "COWL_WRITER_${WRITER_OPT}")
+        string(TOLOWER "${WRITER}" WRITER)
+
+        add_subdirectory("${COWL_WRITER_DIR}/${WRITER}")
+        list(APPEND COWL_WRITER_DEFINES "${WRITER_OPT}")
+    endforeach()
+
+    list(APPEND COWL_PUBLIC_DEFINES ${COWL_WRITER_DEFINES})
+
+    list(GET COWL_WRITERS 0 COWL_DEFAULT_WRITER)
+    if(DEFINED COWL_DEFAULT_WRITER)
+        list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_WRITER=${COWL_DEFAULT_WRITER})
+    endif()
+endif()
 
 # Copy headers
 

@@ -94,7 +94,7 @@ CowlObjProp* cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) {
  */
 COWL_INLINE
 CowlString* cowl_inv_obj_prop_to_string(CowlInvObjProp *inv) {
-    return cowl_to_string_impl(inv);
+    return cowl_to_string(inv);
 }
 
 /**

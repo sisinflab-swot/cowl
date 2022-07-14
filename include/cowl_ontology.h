@@ -15,6 +15,7 @@
 
 #include "cowl_axiom_type.h"
 #include "cowl_iterator.h"
+#include "cowl_object.h"
 #include "cowl_ontology_id.h"
 #include "cowl_std.h"
 
@@ -98,8 +99,10 @@ CowlVector* cowl_ontology_get_annot(CowlOntology *onto);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
-CowlString* cowl_ontology_to_string(CowlOntology *onto);
+COWL_INLINE
+CowlString* cowl_ontology_to_string(CowlOntology *onto) {
+    return cowl_to_string(onto);
+}
 
 /**
  * Equality function.

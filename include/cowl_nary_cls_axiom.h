@@ -127,7 +127,7 @@ CowlVector* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

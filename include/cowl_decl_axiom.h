@@ -109,7 +109,7 @@ CowlVector* cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_decl_axiom_to_string(CowlDeclAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

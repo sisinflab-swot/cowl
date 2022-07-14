@@ -125,7 +125,7 @@ CowlVector* cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom
  */
 COWL_INLINE
 CowlString* cowl_annot_prop_range_axiom_to_string(CowlAnnotPropRangeAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

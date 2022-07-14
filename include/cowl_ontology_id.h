@@ -40,19 +40,6 @@ typedef struct CowlOntologyId {
 } CowlOntologyId;
 
 /**
- * Returns the string representation of the specified ontology ID.
- *
- * @param id The ontology ID.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlOntologyId
- */
-COWL_PUBLIC
-CowlString* cowl_ontology_id_to_string(CowlOntologyId id);
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

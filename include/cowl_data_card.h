@@ -144,7 +144,7 @@ ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr) {
  */
 COWL_INLINE
 CowlString* cowl_data_card_to_string(CowlDataCard *restr) {
-    return cowl_uint_to_string_impl(restr);
+    return cowl_to_string(restr);
 }
 
 /**

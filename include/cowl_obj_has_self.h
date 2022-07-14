@@ -94,7 +94,7 @@ CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
  */
 COWL_INLINE
 CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp) {
-    return cowl_to_string_impl(exp);
+    return cowl_to_string(exp);
 }
 
 /**

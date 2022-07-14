@@ -127,7 +127,7 @@ CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr) {
  */
 COWL_INLINE
 CowlString* cowl_data_quant_to_string(CowlDataQuant *restr) {
-    return cowl_to_string_impl(restr);
+    return cowl_to_string(restr);
 }
 
 /**

@@ -10,10 +10,6 @@
 
 #include "cowl_ontology_id.h"
 #include "cowl_iri.h"
-#include "cowl_template.h"
-
-CowlString* cowl_ontology_id_to_string(CowlOntologyId id)
-    COWL_TO_STRING_IMPL(ontology_id, &id)
 
 bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs) {
     if (lhs.ontology_iri != rhs.ontology_iri &&

@@ -20,12 +20,14 @@ COWL_BEGIN_DECLS
 struct CowlManager {
     CowlObject super;
     CowlParser parser;
+    CowlWriter writer;
     CowlErrorHandler handler;
     CowlImportLoader loader;
     UVec(ulib_ptr) editors;
 };
 
 CowlParser cowl_manager_get_parser(CowlManager *manager);
+CowlWriter cowl_manager_get_writer(CowlManager *manager);
 
 COWL_END_DECLS
 

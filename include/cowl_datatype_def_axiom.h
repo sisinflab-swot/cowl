@@ -124,7 +124,7 @@ CowlVector* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

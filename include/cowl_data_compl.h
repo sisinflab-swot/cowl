@@ -94,7 +94,7 @@ CowlDataRange* cowl_data_compl_get_operand(CowlDataCompl *range) {
  */
 COWL_INLINE
 CowlString* cowl_data_compl_to_string(CowlDataCompl *range) {
-    return cowl_to_string_impl(range);
+    return cowl_to_string(range);
 }
 
 /**

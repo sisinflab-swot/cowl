@@ -49,7 +49,9 @@ static bool for_each_cls(cowl_unused void *ctx, void *cls) {
     if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
 
     // Log the IRI remainder.
-    puts(cowl_string_get_cstring(cowl_iri_get_rem(cowl_class_get_iri(cls))));
+    UOStream *std_out = uostream_std();
+    cowl_write_string(std_out, cowl_iri_get_rem(cowl_class_get_iri(cls)));
+    cowl_write_static(std_out, "\n");
 
     return true;
 }

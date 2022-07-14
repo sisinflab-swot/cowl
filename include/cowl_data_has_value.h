@@ -109,7 +109,7 @@ CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr) {
  */
 COWL_INLINE
 CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr) {
-    return cowl_to_string_impl(restr);
+    return cowl_to_string(restr);
 }
 
 /**

@@ -17,6 +17,7 @@
 #include "cowl_import_loader.h"
 #include "cowl_object.h"
 #include "cowl_parser.h"
+#include "cowl_writer.h"
 
 COWL_BEGIN_DECLS
 
@@ -84,6 +85,17 @@ COWL_PUBLIC
 void cowl_manager_set_parser(CowlManager *manager, CowlParser parser);
 
 /**
+ * Sets the writer.
+ *
+ * @param manager The manager.
+ * @param writer The writer.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
+
+/**
  * Sets the import loader.
  *
  * @param manager The manager.
@@ -139,6 +151,8 @@ CowlEditor* cowl_manager_get_editor(CowlManager *manager, CowlOntology *ontology
  * @param path The file path.
  * @return The read ontology, or NULL on error.
  *
+ * @note The returned ontology is retained, so you are responsible for releasing it.
+ *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
@@ -151,6 +165,8 @@ CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path);
  * @param file The input file.
  * @return The read ontology, or NULL on error.
  *
+ * @note The returned ontology is retained, so you are responsible for releasing it.
+ *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
@@ -162,6 +178,8 @@ CowlOntology* cowl_manager_read_file(CowlManager *manager, FILE *file);
  * @param manager The manager.
  * @param string The input string.
  * @return The read ontology, or NULL on error.
+ *
+ * @note The returned ontology is retained, so you are responsible for releasing it.
  *
  * @public @memberof CowlManager
  */
@@ -176,11 +194,66 @@ CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *stri
  * @return The read ontology, or NULL on error.
  *
  * @note The stream is not released by the manager, you must do it yourself.
+ * @note The returned ontology is retained, so you are responsible for releasing it.
  *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
 CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
+
+/**
+ * Writes the ontology to the file at the specified path.
+ *
+ * @param manager The manager.
+ * @param ontology The ontology.
+ * @param path The file path.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, UString path);
+
+/**
+ * Writes the ontology to the specified file.
+ *
+ * @param manager The manager.
+ * @param ontology The ontology.
+ * @param file The output file.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *ontology, FILE *file);
+
+/**
+ * Writes the ontology to the specified string buffer.
+ *
+ * @param manager The manager.
+ * @param ontology The ontology.
+ * @param buf The string buffer.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology, UStrBuf *buf);
+
+/**
+ * Writes the ontology to the specified output stream.
+ *
+ * @param manager The manager.
+ * @param ontology The ontology.
+ * @param stream The output stream.
+ * @return Return code.
+ *
+ * @note The stream is not released by the manager, you must do it yourself.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream);
 
 COWL_END_DECLS
 

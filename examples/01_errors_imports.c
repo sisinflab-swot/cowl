@@ -35,20 +35,18 @@ int main(void) {
     cowl_api_set_error_handler(cowl_error_handler_init(&stream, handle_error, NULL));
 
     // Read the ontology from file.
-    CowlOntology *ontology = NULL;
     CowlManager *manager = cowl_manager_get();
 
     if (manager) {
-        ontology = cowl_manager_read_path(manager, ustring_literal(ONTO_PATH));
-        cowl_manager_release(manager);
-    }
+        CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO_PATH));
 
-    // Log the ontology.
-    if (ontology) {
-        CowlString *string = cowl_ontology_to_string(ontology);
-        puts(cowl_string_get_cstring(string));
-        cowl_string_release(string);
-        cowl_ontology_release(ontology);
+        // Do stuff with the ontology.
+        if (ontology) {
+            cowl_manager_write_file(manager, ontology, stdout);
+            cowl_ontology_release(ontology);
+        }
+
+        cowl_manager_release(manager);
     }
 
     uostream_deinit(&stream);
@@ -80,7 +78,5 @@ static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
  * more fine-grained error handling. In this example, errors are logged to file.
  */
 static void handle_error(void *ctx, CowlError const *error) {
-    CowlString *string = cowl_error_to_string(error);
-    uostream_write_string(ctx, cowl_string_get_raw(string), NULL);
-    cowl_string_release(string);
+    cowl_write_error(ctx, error);
 }

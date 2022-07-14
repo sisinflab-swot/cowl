@@ -94,7 +94,7 @@ CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range) {
  */
 COWL_INLINE
 CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range) {
-    return cowl_to_string_impl(range);
+    return cowl_to_string(range);
 }
 
 /**

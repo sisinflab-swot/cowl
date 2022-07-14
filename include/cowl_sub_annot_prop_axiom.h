@@ -125,7 +125,7 @@ CowlVector* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_sub_annot_prop_axiom_to_string(CowlSubAnnotPropAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

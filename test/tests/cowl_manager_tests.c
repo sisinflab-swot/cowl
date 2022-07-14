@@ -21,6 +21,7 @@
 // Utils
 
 #define ONTO_NS "http://onto.owl#"
+#define COWL_ONTOLOGY_LOG COWL_TEST_ONTOLOGY ".log"
 
 static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
     CowlString *string = cowl_error_to_string(error);
@@ -40,11 +41,11 @@ bool cowl_test_manager_lifecycle(void) {
 bool cowl_test_manager_read_ontology(void) {
     CowlManager *manager = cowl_manager_get();
 
-    CowlImportLoader loader = cowl_import_loader_init(NULL, cowl_test_load_import, NULL);
+    CowlImportLoader loader = cowl_import_loader_init(manager, cowl_test_load_import, NULL);
     cowl_manager_set_import_loader(manager, loader);
 
     UOStream stream;
-    utest_assert_critical(uostream_to_path(&stream, COWL_TEST_ONTOLOGY ".log") == USTREAM_OK);
+    utest_assert_critical(uostream_to_path(&stream, COWL_ONTOLOGY_LOG) == USTREAM_OK);
 
     CowlErrorHandler handler = cowl_error_handler_init(&stream, cowl_test_manager_write_error, NULL);
     cowl_manager_set_error_handler(manager, handler);
@@ -52,9 +53,8 @@ bool cowl_test_manager_read_ontology(void) {
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_not_null(onto);
 
-    CowlString *string = cowl_ontology_to_string(onto);
-    uostream_write_string(&stream, cowl_string_get_raw(string), NULL);
-    cowl_string_release(string);
+    cowl_ret ret = cowl_manager_write_path(manager, onto, ustring_literal(COWL_ONTOLOGY_LOG));
+    utest_assert_uint(ret, ==, COWL_OK);
 
     cowl_ontology_release(onto);
     cowl_manager_release(manager);

@@ -36,19 +36,6 @@ typedef uintptr_t CowlNodeId;
 #define COWL_NODE_ID_NULL ((CowlNodeId)NULL)
 
 /**
- * Returns the string representation of the specified node ID.
- *
- * @param id The node ID.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @related CowlAnonInd
- */
-COWL_PUBLIC
-CowlString* cowl_node_id_to_string(CowlNodeId id);
-
-/**
  * Equality function.
  *
  * @param LHS [CowlNodeId] LHS of the equality relation.

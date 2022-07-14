@@ -49,9 +49,6 @@ CowlVector* cowl_ontology_get_annot(CowlOntology *onto) {
     return onto->annotations;
 }
 
-CowlString* cowl_ontology_to_string(CowlOntology *onto)
-    COWL_TO_STRING_IMPL(ontology, onto)
-
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
     if (lhs == rhs) return true;
 

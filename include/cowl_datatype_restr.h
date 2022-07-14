@@ -109,7 +109,7 @@ CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
  */
 COWL_INLINE
 CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr) {
-    return cowl_to_string_impl(restr);
+    return cowl_to_string(restr);
 }
 
 /**

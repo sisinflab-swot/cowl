@@ -129,7 +129,7 @@ CowlVector* cowl_nary_data_prop_axiom_get_annot(CowlNAryDataPropAxiom *axiom) {
  */
 COWL_INLINE
 CowlString* cowl_nary_data_prop_axiom_to_string(CowlNAryDataPropAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**

@@ -158,7 +158,7 @@ NON_NEGATIVE_INTEGER                    {DIGIT}+
 }
 
 {PNAME_NS} {
-    yylval->PNAME_NS = ustring_wrap(yytext, (ulib_uint)yyleng);
+    yylval->PNAME_NS = ustring_wrap(yytext, (ulib_uint)(yyleng - 1));
     return PNAME_NS;
 }
 

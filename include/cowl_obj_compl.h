@@ -94,7 +94,7 @@ CowlClsExp* cowl_obj_compl_get_operand(CowlObjCompl *exp) {
  */
 COWL_INLINE
 CowlString* cowl_obj_compl_to_string(CowlObjCompl *exp) {
-    return cowl_to_string_impl(exp);
+    return cowl_to_string(exp);
 }
 
 /**

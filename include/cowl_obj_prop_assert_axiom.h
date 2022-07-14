@@ -180,7 +180,7 @@ CowlVector* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom) 
  */
 COWL_INLINE
 CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom) {
-    return cowl_to_string_impl(axiom);
+    return cowl_to_string(axiom);
 }
 
 /**
