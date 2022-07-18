@@ -60,18 +60,13 @@
     #define COWL_ERROR_MEM COWL_ERROR(COWL_ERR_MEM)
 
     #define COWL_VEC_PUSH(T, VEC, OBJ) do {                                                         \
-        uvec_ret ret = uvec_push(CowlObjectPtr, &(VEC)->data, OBJ);                                 \
-        if (ret != UVEC_OK) {                                                                       \
-            cowl_##T##_release(OBJ);                                                                \
-            COWL_ERROR_MEM;                                                                         \
-        }                                                                                           \
+        if (cowl_vector_push(VEC, OBJ)) COWL_ERROR_MEM;                                             \
     } while (0)
 
     #define COWL_VEC_FINALIZE(VEC) do {                                                             \
         if (VEC) {                                                                                  \
             cowl_vector_release(VEC);                                                               \
-            uvec_ret ret = uvec_shrink(CowlObjectPtr, &(VEC)->data);                                \
-            if (ret != UVEC_OK) COWL_ERROR_MEM;                                                     \
+            if (cowl_vector_shrink(VEC)) COWL_ERROR_MEM;                                            \
         }                                                                                           \
     } while (0)
 }

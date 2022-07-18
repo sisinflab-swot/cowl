@@ -23,8 +23,8 @@ COWL_BEGIN_DECLS
 struct CowlOntology {
     CowlObject super;
     CowlVector *annotations;
-    UVec(CowlObjectPtr) imports;
-    UVec(CowlObjectPtr) axioms_by_type[COWL_AT_COUNT];
+    CowlVector *imports;
+    CowlVector *axioms_by_type[COWL_AT_COUNT];
     UHash(CowlObjectTable) annot_prop_refs;
     UHash(CowlObjectTable) class_refs;
     UHash(CowlObjectTable) data_prop_refs;

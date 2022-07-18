@@ -39,15 +39,22 @@ CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec) {
 }
 
 void cowl_vector_release(CowlVector *vec) {
+    cowl_vector_release_ex(vec, true);
+}
+
+void cowl_vector_release_ex(CowlVector *vec, bool release_elements) {
     if (vec && !cowl_object_decr_ref(vec)) {
-        uvec_foreach(CowlObjectPtr, &vec->data, obj) { cowl_release(*obj.item); }
+        if (release_elements) {
+            uvec_foreach(CowlObjectPtr, &vec->data, obj) { cowl_release(*obj.item); }
+        }
         uvec_deinit(CowlObjectPtr, &vec->data);
         ulib_free(vec);
     }
 }
 
 UVec(CowlObjectPtr) const* cowl_vector_get_data(CowlVector *vec) {
-    return &vec->data;
+    static UVec(CowlObjectPtr) const empty_data = {0};
+    return vec ? &vec->data : &empty_data;
 }
 
 static bool cowl_vector_equals_order(CowlVector *lhs, CowlVector *rhs) {
@@ -102,4 +109,20 @@ bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, C
     }
 
     return true;
+}
+
+cowl_ret cowl_vector_add(CowlVector *vec, void *object) {
+    if (uvec_push(CowlObjectPtr, &vec->data, object)) return COWL_ERR_MEM;
+    cowl_retain(object);
+    return COWL_OK;
+}
+
+cowl_ret cowl_vector_push(CowlVector *vec, void *object) {
+    if (uvec_push(CowlObjectPtr, &vec->data, object) == UVEC_OK) return COWL_OK;
+    cowl_release(object);
+    return COWL_ERR_MEM;
+}
+
+cowl_ret cowl_vector_shrink(CowlVector *vec) {
+    return vec && uvec_shrink(CowlObjectPtr, &vec->data) ? COWL_ERR_MEM : COWL_OK;
 }

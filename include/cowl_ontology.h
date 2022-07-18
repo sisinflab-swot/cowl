@@ -54,8 +54,10 @@ cowl_struct_decl(CowlOntology);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
-CowlOntology* cowl_ontology_retain(CowlOntology *onto);
+COWL_INLINE
+CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
+    return (CowlOntology *)cowl_retain(onto);
+}
 
 /**
  * Releases the specified ontology.
