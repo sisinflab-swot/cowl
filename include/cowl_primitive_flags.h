@@ -21,10 +21,10 @@ COWL_BEGIN_DECLS
 /// These flags are used to control iteration over primitives.
 typedef UFlags(COWL_PF) CowlPrimitiveFlags;
 
-/// Iterate over all primitives.
+/// Iterate over no primitives.
 #define COWL_PF_NONE        uflags_none(COWL_PF)
 
-/// Iterate over no primitives.
+/// Iterate over all primitives.
 #define COWL_PF_ALL         uflags_all(COWL_PF)
 
 /// Iterate over classes.

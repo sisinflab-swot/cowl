@@ -91,6 +91,20 @@ CowlIterator cowl_iterator_vec_init(UVec(CowlObjectPtr) *vec);
 COWL_PUBLIC
 CowlIterator cowl_iterator_set_init(UHash(CowlObjectTable) *set);
 
+/**
+ * Initializes an iterator that counts the objects it iterates on.
+ *
+ * @param count Object count.
+ * @return Initialized iterator.
+ *
+ * @note If count is NULL, a new unsigned integer is allocated and assigned to the iterator context.
+ *       You are responsible for deallocating it.
+ *
+ * @public @related CowlIterator
+ */
+COWL_PUBLIC
+CowlIterator cowl_iterator_count_init(ulib_uint *count);
+
 COWL_END_DECLS
 
 #endif // COWL_ITERATOR_H
