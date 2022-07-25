@@ -91,13 +91,13 @@ cowl_struct_decl(CowlObjPropRangeAxiom);
 cowl_struct_decl(CowlObjQuant);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlPrimitive);
-cowl_struct_decl(CowlSet);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubAnnotPropAxiom);
 cowl_struct_decl(CowlSubClsAxiom);
 cowl_struct_decl(CowlSubDataPropAxiom);
 cowl_struct_decl(CowlSubObjPropAxiom);
 cowl_struct_decl(CowlSubObjPropChainAxiom);
+cowl_struct_decl(CowlTable);
 cowl_struct_decl(CowlVector);
 
 uvec_decl(CowlObjectPtr);

@@ -15,37 +15,49 @@
 #include "cowl_manager_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_string_private.h"
+#include "cowl_table_private.h"
+
+static ulib_uint string_hash(void *string) { return cowl_string_hash(string); }
+static bool string_equals(void *lhs, void *rhs) { return cowl_string_equals(lhs, rhs); }
+
+static ulib_uint anon_hash(void *anon) { return cowl_anon_ind_hash(anon); }
+static bool anon_equals(void *lhs, void *rhs) { return cowl_anon_ind_equals(lhs, rhs); }
 
 CowlEditor* cowl_editor_alloc(CowlManager *manager) {
     CowlEditor *editor = ulib_alloc(editor);
-    if (!editor) return NULL;
-    *editor = (CowlEditor) {
-        .manager = manager,
-        .prefix_ns_map = uhmap_init(CowlObjectTable),
-        .ns_prefix_map = uhmap_init(CowlObjectTable),
-        .id_anon_map = uhmap_init(CowlObjectTable),
-        .anon_id_map = uhmap_init(CowlObjectTable)
-    };
+    if (!editor) goto err;
+
+    *editor = (CowlEditor) { .manager = manager };
+
+    UHash(CowlObjectTable) temp = uhmap_init_pi(CowlObjectTable, string_hash, string_equals);
+    editor->prefix_ns_map = cowl_table_get(&temp);
+    if (!editor->prefix_ns_map) goto err;
+
+    temp = uhmap_init_pi(CowlObjectTable, string_hash, string_equals);
+    editor->ns_prefix_map = cowl_table_get(&temp);
+    if (!editor->ns_prefix_map) goto err;
+
+    temp = uhmap_init_pi(CowlObjectTable, string_hash, string_equals);
+    editor->id_anon_map = cowl_table_get(&temp);
+    if (!editor->id_anon_map) goto err;
+
+    temp = uhmap_init_pi(CowlObjectTable, anon_hash, anon_equals);
+    editor->anon_id_map = cowl_table_get(&temp);
+    if (!editor->anon_id_map) goto err;
+
     return editor;
+
+err:
+    cowl_editor_free(editor);
+    return NULL;
 }
 
 void cowl_editor_free(CowlEditor *editor) {
     if (!editor) return;
-
-    uhash_foreach(CowlObjectTable, &editor->prefix_ns_map, prefix) {
-        cowl_string_release(*prefix.key);
-        cowl_string_release(*prefix.val);
-    }
-    uhash_deinit(CowlObjectTable, &editor->prefix_ns_map);
-    uhash_deinit(CowlObjectTable, &editor->ns_prefix_map);
-
-    uhash_foreach(CowlObjectTable, &editor->id_anon_map, ind) {
-        cowl_string_release(*ind.key);
-        cowl_anon_ind_release(*ind.val);
-    }
-    uhash_deinit(CowlObjectTable, &editor->id_anon_map);
-    uhash_deinit(CowlObjectTable, &editor->anon_id_map);
-
+    cowl_table_release(editor->prefix_ns_map);
+    cowl_table_release_ex(editor->ns_prefix_map, false);
+    cowl_table_release(editor->id_anon_map);
+    cowl_table_release_ex(editor->anon_id_map, false);
     cowl_ontology_release(editor->ontology);
     ulib_free(editor);
 }
@@ -117,12 +129,11 @@ cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom) {
     return COWL_OK;
 }
 
-static cowl_ret cowl_update_reverse_map(UHash(CowlObjectTable) const *h1,
-                                        UHash(CowlObjectTable) *h2) {
-    if (uhash_count(CowlObjectTable, h1) == uhash_count(CowlObjectTable, h2)) return COWL_OK;
+static cowl_ret cowl_update_reverse_map(CowlTable *h1, CowlTable *h2) {
+    if (cowl_table_count(h1) == cowl_table_count(h2)) return COWL_OK;
 
-    uhash_foreach(CowlObjectTable, h1, e) {
-        if (uhmap_add(CowlObjectTable, h2, *e.val, *e.key, NULL) == UHASH_ERR) {
+    cowl_table_foreach(h1, e) {
+        if (uhmap_add(CowlObjectTable, &h2->data, *e.val, *e.key, NULL) == UHASH_ERR) {
             return COWL_ERR_MEM;
         }
     }
@@ -130,20 +141,28 @@ static cowl_ret cowl_update_reverse_map(UHash(CowlObjectTable) const *h1,
     return COWL_OK;
 }
 
+CowlTable* cowl_editor_get_prefix_ns_map(CowlEditor *editor) {
+    return editor->prefix_ns_map;
+}
+
+CowlTable* cowl_editor_get_ns_prefix_map(CowlEditor *editor) {
+    return editor->ns_prefix_map;
+}
+
 CowlString* cowl_editor_get_ns(CowlEditor *editor, CowlString *prefix) {
-    return uhmap_get(CowlObjectTable, &editor->prefix_ns_map, prefix, NULL);
+    return cowl_table_get_value(editor->prefix_ns_map, prefix);
 }
 
 CowlString* cowl_editor_get_prefix(CowlEditor *editor, CowlString *ns) {
-    if (cowl_update_reverse_map(&editor->prefix_ns_map, &editor->ns_prefix_map)) {
+    if (cowl_update_reverse_map(editor->prefix_ns_map, editor->ns_prefix_map)) {
         cowl_editor_handle_error_type(editor, COWL_ERR_MEM);
         return NULL;
     }
-    return uhmap_get(CowlObjectTable, &editor->ns_prefix_map, ns, NULL);
+    return cowl_table_get_value(editor->ns_prefix_map, ns);
 }
 
 cowl_ret cowl_editor_register_prefix(CowlEditor *editor, CowlString *prefix, CowlString *ns) {
-    uhash_ret ret = uhmap_add(CowlObjectTable, &editor->prefix_ns_map, prefix, ns, NULL);
+    uhash_ret ret = uhmap_add(CowlObjectTable, &editor->prefix_ns_map->data, prefix, ns, NULL);
 
     if (ret == UHASH_ERR) {
         cowl_editor_handle_error_type(editor, COWL_ERR_MEM);
@@ -160,7 +179,7 @@ cowl_ret cowl_editor_register_prefix(CowlEditor *editor, CowlString *prefix, Cow
 
 CowlIRI* cowl_editor_get_full_iri(CowlEditor *editor, UString ns, UString rem) {
     CowlString ns_local = cowl_string_init(ns);
-    CowlString *ns_str = uhmap_get(CowlObjectTable, &editor->prefix_ns_map, &ns_local, NULL);
+    CowlString *ns_str = cowl_table_get_value(editor->prefix_ns_map, &ns_local);
 
     if (!ns_str) {
         // We couldn't find a namespace mapping for the specified short namespace.
@@ -190,10 +209,19 @@ CowlIRI* cowl_editor_parse_full_iri(CowlEditor *editor, UString short_iri) {
     return cowl_editor_get_full_iri(editor, ns, rem);
 }
 
+CowlTable* cowl_editor_get_name_anon_ind_map(CowlEditor *editor) {
+    return editor->id_anon_map;
+}
+
+CowlTable* cowl_editor_get_anon_ind_name_map(CowlEditor *editor) {
+    return editor->anon_id_map;
+}
+
 CowlAnonInd* cowl_editor_get_anon_ind(CowlEditor *editor, UString id) {
     ulib_uint idx;
     CowlString id_str = cowl_string_init(id);
-    uhash_ret ret = uhash_put(CowlObjectTable, &editor->id_anon_map, &id_str, &idx);
+    UHash(CowlObjectTable) *id_anon_map = &editor->id_anon_map->data;
+    uhash_ret ret = uhash_put(CowlObjectTable, id_anon_map, &id_str, &idx);
 
     CowlAnonInd *ind = NULL;
 
@@ -202,16 +230,16 @@ CowlAnonInd* cowl_editor_get_anon_ind(CowlEditor *editor, UString id) {
         ind = cowl_anon_ind_get();
 
         if (string && ind) {
-            uhash_key(CowlObjectTable, &editor->id_anon_map, idx) = string;
-            uhash_value(CowlObjectTable, &editor->id_anon_map, idx) = cowl_anon_ind_retain(ind);
+            uhash_key(CowlObjectTable, id_anon_map, idx) = string;
+            uhash_value(CowlObjectTable, id_anon_map, idx) = cowl_anon_ind_retain(ind);
         } else {
-            uhash_delete(CowlObjectTable, &editor->id_anon_map, idx);
+            uhash_delete(CowlObjectTable, id_anon_map, idx);
             cowl_string_release(string);
             cowl_anon_ind_release(ind);
             ind = NULL;
         }
     } else if (ret == UHASH_PRESENT) {
-        ind = uhash_value(CowlObjectTable, &editor->id_anon_map, idx);
+        ind = uhash_value(CowlObjectTable, id_anon_map, idx);
         cowl_anon_ind_retain(ind);
     }
 
@@ -223,10 +251,11 @@ static CowlString* cowl_editor_generate_id(CowlEditor *editor, CowlAnonInd *ind)
     if (ustring_is_null(id)) return NULL;
     CowlString id_str = cowl_string_init(id);
 
+    UHash(CowlObjectTable) *id_anon_map = &editor->id_anon_map->data;
     ulib_uint i;
     uhash_ret ret;
 
-    while ((ret = uhash_put(CowlObjectTable, &editor->id_anon_map, &id_str, &i)) == UHASH_PRESENT) {
+    while ((ret = uhash_put(CowlObjectTable, id_anon_map, &id_str, &i)) == UHASH_PRESENT) {
         ustring_deinit(&id);
         id = cowl_anon_ind_generate_id();
         if (ustring_is_null(id)) return NULL;
@@ -241,32 +270,34 @@ static CowlString* cowl_editor_generate_id(CowlEditor *editor, CowlAnonInd *ind)
 
     CowlString *key = cowl_string_get(id);
     if (!key) {
-        uhash_delete(CowlObjectTable, &editor->id_anon_map, i);
+        uhash_delete(CowlObjectTable, id_anon_map, i);
         return NULL;
     }
 
-    uhash_key(CowlObjectTable, &editor->id_anon_map, i) = key;
-    uhash_value(CowlObjectTable, &editor->id_anon_map, i) = ind;
+    uhash_key(CowlObjectTable, id_anon_map, i) = key;
+    uhash_value(CowlObjectTable, id_anon_map, i) = ind;
 
     return key;
 }
 
 CowlString* cowl_editor_get_id_for_anon_ind(CowlEditor *editor, CowlAnonInd *ind) {
-    if (cowl_update_reverse_map(&editor->id_anon_map, &editor->anon_id_map)) goto err;
+    if (cowl_update_reverse_map(editor->id_anon_map, editor->anon_id_map)) goto err;
 
+    UHash(CowlObjectTable) *anon_id_map = &editor->anon_id_map->data;
     ulib_uint i;
-    uhash_ret ret = uhash_put(CowlObjectTable, &editor->anon_id_map, ind, &i);
+    uhash_ret ret = uhash_put(CowlObjectTable, anon_id_map, ind, &i);
+
     if (ret == UHASH_ERR) goto err;
-    if (ret == UHASH_PRESENT) return uhash_value(CowlObjectTable, &editor->anon_id_map, i);
+    if (ret == UHASH_PRESENT) return uhash_value(CowlObjectTable, anon_id_map, i);
 
     CowlString *id = cowl_editor_generate_id(editor, ind);
 
     if (!id) {
-        uhash_delete(CowlObjectTable, &editor->anon_id_map, i);
+        uhash_delete(CowlObjectTable, anon_id_map, i);
         goto err;
     }
 
-    uhash_value(CowlObjectTable, &editor->anon_id_map, i) = id;
+    uhash_value(CowlObjectTable, anon_id_map, i) = id;
     cowl_anon_ind_retain(ind);
     return id;
 

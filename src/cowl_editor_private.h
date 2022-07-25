@@ -12,21 +12,21 @@
 #define COWL_EDITOR_PRIVATE_H
 
 #include "cowl_editor.h"
-#include "cowl_set.h"
+#include "cowl_table.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlManager);
 
 typedef struct CowlEditor {
+    UString description;
     CowlManager *manager;
     CowlOntology *ontology;
+    CowlTable *prefix_ns_map;
+    CowlTable *ns_prefix_map;
+    CowlTable *id_anon_map;
+    CowlTable *anon_id_map;
     void *state;
-    UString description;
-    UHash(CowlObjectTable) prefix_ns_map;
-    UHash(CowlObjectTable) ns_prefix_map;
-    UHash(CowlObjectTable) id_anon_map;
-    UHash(CowlObjectTable) anon_id_map;
 } CowlEditor;
 
 CowlEditor* cowl_editor_alloc(CowlManager *manager);

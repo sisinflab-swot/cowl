@@ -12,7 +12,7 @@
 #include "cowl_iri.h"
 #include "cowl_iterator_private.h"
 #include "cowl_primitive.h"
-#include "cowl_set.h"
+#include "cowl_table.h"
 
 static UHash(CowlObjectTable) inst_tbl;
 

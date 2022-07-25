@@ -9,7 +9,7 @@
  */
 
 #include "cowl_string_private.h"
-#include "cowl_set_private.h"
+#include "cowl_table_private.h"
 #include <stdarg.h>
 
 static UHash(CowlObjectTable) inst_tbl;

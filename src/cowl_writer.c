@@ -55,7 +55,7 @@ ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
     switch (type) {
         GEN_OT_STRING(STRING, "String");
         GEN_OT_STRING(VECTOR, "Vector");
-        GEN_OT_STRING(SET, "Set");
+        GEN_OT_STRING(TABLE, "Table");
         GEN_OT_STRING(IRI, "IRI");
         GEN_OT_STRING(LITERAL, "Literal");
         GEN_OT_STRING(FACET_RESTR, "FacetRestriction");

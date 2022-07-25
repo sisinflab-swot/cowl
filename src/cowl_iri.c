@@ -9,7 +9,7 @@
  */
 
 #include "cowl_iri_private.h"
-#include "cowl_set.h"
+#include "cowl_table.h"
 #include "cowl_string_private.h"
 #include "cowl_xml_utils.h"
 

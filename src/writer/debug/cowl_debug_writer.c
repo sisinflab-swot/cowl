@@ -17,7 +17,7 @@
 #include "cowl_object_private.h"
 #include "cowl_ontology.h"
 #include "cowl_rdf_vocab.h"
-#include "cowl_set.h"
+#include "cowl_table.h"
 #include "cowl_vector.h"
 
 static ustream_ret cowl_debug_write_obj(UOStream *s, void *obj, CowlEditor *ed);
@@ -54,13 +54,16 @@ static ustream_ret cowl_debug_write_vector(UOStream *s, CowlVector *vec, CowlEdi
     return s->state;
 }
 
-static ustream_ret cowl_debug_write_set(UOStream *s, CowlSet *set, CowlEditor *ed) {
-    if (!set) return s->state;
-    UHash(CowlObjectTable) const *data = cowl_set_get_data(set);
-    ulib_uint current = 0, last = uhash_count(CowlObjectTable, data) - 1;
+static ustream_ret cowl_debug_write_table(UOStream *s, CowlTable *table, CowlEditor *ed) {
+    if (!table) return s->state;
+    ulib_uint current = 0, last = cowl_table_count(table) - 1;
 
-    uhash_foreach(CowlObjectTable, data, obj) {
+    cowl_table_foreach(table, obj) {
         cowl_debug_write_obj(s, *obj.key, ed);
+        if (obj.val && *obj.val) {
+            cowl_write_static(s, ":");
+            cowl_debug_write_obj(s, *obj.val, ed);
+        }
         if (current++ < last) cowl_write_static(s, " ");
     }
 
@@ -252,7 +255,7 @@ static ustream_ret cowl_debug_write_obj(UOStream *s, void *obj, CowlEditor *ed) 
     switch (cowl_get_type(obj)) {
         case COWL_OT_STRING: return cowl_write_string(s, obj);
         case COWL_OT_VECTOR: return cowl_debug_write_vector(s, obj, ed);
-        case COWL_OT_SET: return cowl_debug_write_set(s, obj, ed);
+        case COWL_OT_TABLE: return cowl_debug_write_table(s, obj, ed);
         case COWL_OT_IRI: return cowl_debug_write_iri(s, obj, ed);
         case COWL_OT_LITERAL: return cowl_debug_write_literal(s, obj, ed);
         case COWL_OT_ANNOT_PROP:

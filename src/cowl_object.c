@@ -96,7 +96,7 @@ void cowl_release(void *object) {
     switch (cowl_get_type(object)) {
         case COWL_OT_STRING: GEN_RELEASE(String, string);
         case COWL_OT_VECTOR: GEN_RELEASE(Vector, vector);
-        case COWL_OT_SET: GEN_RELEASE(Set, set);
+        case COWL_OT_TABLE: GEN_RELEASE(Table, table);
         case COWL_OT_IRI: GEN_RELEASE(IRI, iri);
         case COWL_OT_LITERAL: GEN_RELEASE(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_RELEASE(FacetRestr, facet_restr);
@@ -249,7 +249,7 @@ bool cowl_equals(void *lhs, void *rhs) {
     switch (type) {
         case COWL_OT_STRING: GEN_EQUALS(String, string);
         case COWL_OT_VECTOR: GEN_EQUALS(Vector, vector);
-        case COWL_OT_SET: GEN_EQUALS(Set, set);
+        case COWL_OT_TABLE: GEN_EQUALS(Table, table);
         case COWL_OT_IRI: GEN_EQUALS(IRI, iri);
         case COWL_OT_LITERAL: GEN_EQUALS(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_EQUALS(FacetRestr, facet_restr);
@@ -334,7 +334,7 @@ ulib_uint cowl_hash(void *object) {
     switch (cowl_get_type(object)) {
         case COWL_OT_STRING: GEN_HASH(String, string);
         case COWL_OT_VECTOR: GEN_HASH(Vector, vector);
-        case COWL_OT_SET: GEN_HASH(Set, set);
+        case COWL_OT_TABLE: GEN_HASH(Table, table);
         case COWL_OT_IRI: GEN_HASH(IRI, iri);
         case COWL_OT_LITERAL: GEN_HASH(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_HASH(FacetRestr, facet_restr);
@@ -422,7 +422,7 @@ bool cowl_iterate_primitives(void *object, CowlPrimitiveFlags flags, CowlIterato
 
     switch (cowl_get_type(object)) {
         case COWL_OT_VECTOR: GEN_ITER(Vector, vector);
-        case COWL_OT_SET: GEN_ITER(Set, set);
+        case COWL_OT_TABLE: GEN_ITER(Table, table);
         case COWL_OT_LITERAL: GEN_ITER(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_ITER(FacetRestr, facet_restr);
         case COWL_OT_ONTOLOGY: GEN_ITER(Ontology, ontology);

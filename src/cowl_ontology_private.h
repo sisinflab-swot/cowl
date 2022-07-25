@@ -14,7 +14,7 @@
 #include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
 #include "cowl_object_private.h"
-#include "cowl_set.h"
+#include "cowl_table.h"
 #include "cowl_ontology_id.h"
 #include "cowl_vector.h"
 

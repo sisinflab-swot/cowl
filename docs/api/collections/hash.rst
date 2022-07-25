@@ -1,5 +1,5 @@
-========
-Hash set
-========
+==========
+Hash table
+==========
 
-.. doxygenstruct:: CowlSet
+.. doxygenstruct:: CowlTable

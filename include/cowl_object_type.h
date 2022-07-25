@@ -28,8 +28,8 @@ typedef enum CowlObjectType {
     /// CowlVector - Vector.
     COWL_OT_VECTOR,
 
-    /// CowlSet - Set.
-    COWL_OT_SET,
+    /// CowlTable - Hash table.
+    COWL_OT_TABLE,
 
     /// CowlIRI - IRI.
     COWL_OT_IRI,

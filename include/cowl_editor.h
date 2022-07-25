@@ -13,7 +13,7 @@
 #ifndef COWL_EDITOR_H
 #define COWL_EDITOR_H
 
-#include "cowl_set.h"
+#include "cowl_table.h"
 
 COWL_BEGIN_DECLS
 
@@ -102,6 +102,28 @@ COWL_PUBLIC
 cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom);
 
 /**
+ * Gets the map that associates prefixes to namespaces.
+ *
+ * @param editor The editor.
+ * @return Prefix to namespace map.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlTable* cowl_editor_get_prefix_ns_map(CowlEditor *editor);
+
+/**
+ * Gets the map that associates namespaces to prefixes.
+ *
+ * @param editor The editor.
+ * @return Namespace to prefix map.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlTable* cowl_editor_get_ns_prefix_map(CowlEditor *editor);
+
+/**
  * Returns the namespace associated with the specified prefix.
  *
  * @param editor The editor.
@@ -162,6 +184,28 @@ CowlIRI* cowl_editor_get_full_iri(CowlEditor *editor, UString ns, UString rem);
  */
 COWL_PUBLIC
 CowlIRI* cowl_editor_parse_full_iri(CowlEditor *editor, UString short_iri);
+
+/**
+ * Gets the map that associates local names to anonymous individuals.
+ *
+ * @param editor The editor.
+ * @return Local name to anonymous individual map.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlTable* cowl_editor_get_name_anon_ind_map(CowlEditor *editor);
+
+/**
+ * Gets the map that associates anonymous individuals to local names.
+ *
+ * @param editor The editor.
+ * @return Anonymous individual to local name map.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlTable* cowl_editor_get_anon_ind_name_map(CowlEditor *editor);
 
 /**
  * Returns the anonymous individual associated with the specified identifier.

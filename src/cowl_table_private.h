@@ -8,15 +8,15 @@
  * @file
  */
 
-#ifndef COWL_SET_PRIVATE_H
-#define COWL_SET_PRIVATE_H
+#ifndef COWL_TABLE_PRIVATE_H
+#define COWL_TABLE_PRIVATE_H
 
-#include "cowl_set.h"
+#include "cowl_table.h"
 #include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
-struct CowlSet {
+struct CowlTable {
     CowlObject super;
     UHash(CowlObjectTable) data;
 };
@@ -30,6 +30,8 @@ UHash(CowlObjectTable) cowl_named_ind_map_init(void);
 UHash(CowlObjectTable) cowl_obj_prop_map_init(void);
 UHash(CowlObjectTable) cowl_string_map_init(void);
 
+void cowl_table_release_ex(CowlTable *table, bool release_elements);
+
 COWL_END_DECLS
 
-#endif // COWL_SET_PRIVATE_H
+#endif // COWL_TABLE_PRIVATE_H

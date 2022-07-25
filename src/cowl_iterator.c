@@ -9,7 +9,7 @@
  */
 
 #include "cowl_iterator_private.h"
-#include "cowl_set.h"
+#include "cowl_table.h"
 #include "cowl_vector.h"
 
 static bool cowl_store_vec(void *vec, void *obj) {
