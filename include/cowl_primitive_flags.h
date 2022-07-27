@@ -12,6 +12,7 @@
 #define COWL_PRIMITIVE_FLAGS_H
 
 #include "cowl_std.h"
+#include "cowl_primitive_type.h"
 
 COWL_BEGIN_DECLS
 
@@ -51,6 +52,33 @@ typedef UFlags(COWL_PF) CowlPrimitiveFlags;
 /// Iterate over entities.
 #define COWL_PF_ENTITY      (COWL_PF_CLASS | COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP | \
                              COWL_PF_ANNOT_PROP | COWL_PF_NAMED_IND | COWL_PF_DATATYPE)
+
+/**
+ * Returns a bitmask with a bit set for the specified primitive type.
+ *
+ * @param type Primitive type.
+ * @return Flags.
+ *
+ * @public
+ */
+COWL_INLINE
+CowlPrimitiveFlags cowl_primitive_flags_from_type(CowlPrimitiveType type) {
+    return uflags_bit(COWL_PF, type);
+}
+
+/**
+ * Checks whether the specified type is included in the flags.
+ *
+ * @param flags Primitive flags.
+ * @param type Primitive type.
+ * @return True if the type is included in the flags, false otherwise.
+ *
+ * @public
+ */
+COWL_INLINE
+bool cowl_primitive_flags_has_type(CowlPrimitiveFlags flags, CowlPrimitiveType type) {
+    return uflags_is_set(COWL_PF, flags, uflags_bit(COWL_PF, type));
+}
 
 COWL_END_DECLS
 

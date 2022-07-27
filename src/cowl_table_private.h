@@ -21,13 +21,7 @@ struct CowlTable {
     UHash(CowlObjectTable) data;
 };
 
-UHash(CowlObjectTable) cowl_annot_prop_map_init(void);
-UHash(CowlObjectTable) cowl_anon_ind_map_init(void);
-UHash(CowlObjectTable) cowl_class_map_init(void);
-UHash(CowlObjectTable) cowl_data_prop_map_init(void);
-UHash(CowlObjectTable) cowl_datatype_map_init(void);
-UHash(CowlObjectTable) cowl_named_ind_map_init(void);
-UHash(CowlObjectTable) cowl_obj_prop_map_init(void);
+UHash(CowlObjectTable) cowl_primitive_map_init(void);
 UHash(CowlObjectTable) cowl_string_map_init(void);
 
 void cowl_table_release_ex(CowlTable *table, bool release_elements);

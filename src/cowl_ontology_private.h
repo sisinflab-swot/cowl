@@ -25,13 +25,7 @@ struct CowlOntology {
     CowlVector *annotations;
     CowlVector *imports;
     CowlVector *axioms_by_type[COWL_AT_COUNT];
-    UHash(CowlObjectTable) annot_prop_refs;
-    UHash(CowlObjectTable) class_refs;
-    UHash(CowlObjectTable) data_prop_refs;
-    UHash(CowlObjectTable) datatype_refs;
-    UHash(CowlObjectTable) obj_prop_refs;
-    UHash(CowlObjectTable) named_ind_refs;
-    UHash(CowlObjectTable) anon_ind_refs;
+    UHash(CowlObjectTable) refs[COWL_PT_COUNT];
     CowlOntologyId id;
 };
 

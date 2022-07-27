@@ -9,13 +9,7 @@
  */
 
 #include "cowl_table_private.h"
-#include "cowl_annot_prop.h"
-#include "cowl_anon_ind.h"
-#include "cowl_class.h"
-#include "cowl_data_prop.h"
-#include "cowl_datatype.h"
-#include "cowl_named_ind.h"
-#include "cowl_obj_prop.h"
+#include "cowl_primitive.h"
 #include "cowl_string.h"
 
 static ulib_uint cowl_object_table_hash(void *k) { return cowl_hash(k); }
@@ -29,13 +23,7 @@ UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
         return uh##TYPE##_init_pi(CowlObjectTable, T##_hash, T##_equals);                           \
     }
 
-HASH_GEN(annot_prop, map)
-HASH_GEN(anon_ind, map)
-HASH_GEN(class, map)
-HASH_GEN(data_prop, map)
-HASH_GEN(datatype, map)
-HASH_GEN(named_ind, map)
-HASH_GEN(obj_prop, map)
+HASH_GEN(primitive, map)
 HASH_GEN(string, map)
 
 CowlTable* cowl_table_get(UHash(CowlObjectTable) *table) {

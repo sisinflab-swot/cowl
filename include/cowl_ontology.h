@@ -159,182 +159,47 @@ ulib_uint cowl_ontology_imports_count(CowlOntology *onto);
  * @param onto The ontology.
  * @param type The axiom type.
  * @return Number of axioms.
+ *
+ * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type);
 
 /**
- * Gets the number of axioms referencing the specified annotation property.
+ * Gets the number of axioms referencing the specified primitive.
  *
  * @param onto The ontology.
- * @param prop The annotation property.
+ * @param primitive The primitive.
  * @return Number of axioms.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop);
+ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, void *primitive);
 
 /**
- * Gets the number of axioms referencing the specified class.
+ * Gets the number of primitives.
  *
  * @param onto The ontology.
- * @param owl_class The class.
- * @return Number of axioms.
+ * @param flags Iteration flags.
+ * @return Number of primitives.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_class(CowlOntology *onto, CowlClass *owl_class);
+ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags);
 
 /**
- * Gets the number of axioms referencing the specified data property.
+ * Checks if the specified primitive is referenced by an axiom in the ontology.
  *
  * @param onto The ontology.
- * @param prop The data property.
- * @return Number of axioms.
+ * @param primitive The primitive.
+ * @return True if the primitive is referenced by an axiom, false otherwise.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_data_prop(CowlOntology *onto, CowlDataProp *prop);
-
-/**
- * Gets the number of axioms referencing the specified datatype.
- *
- * @param onto The ontology.
- * @param datatype The datatype.
- * @return Number of axioms.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_datatype(CowlOntology *onto, CowlDatatype *datatype);
-
-/**
- * Gets the number of axioms referencing the specified object property.
- *
- * @param onto The ontology.
- * @param prop The object property.
- * @return Number of axioms.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_obj_prop(CowlOntology *onto, CowlObjProp *prop);
-
-/**
- * Gets the number of axioms referencing the specified named individual.
- *
- * @param onto The ontology.
- * @param ind The individual.
- * @return Number of axioms.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_named_ind(CowlOntology *onto, CowlNamedInd *ind);
-
-/**
- * Gets the number of axioms referencing the specified anonymous individual.
- *
- * @param onto The ontology.
- * @param ind The individual.
- * @return Number of axioms.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_anon_ind(CowlOntology *onto, CowlAnonInd *ind);
-
-/**
- * Gets the number of classes.
- *
- * @param onto The ontology.
- * @return Number of classes.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_classes_count(CowlOntology *onto);
-
-/**
- * Gets the number of datatypes.
- *
- * @param onto The ontology.
- * @return Number of datatypes.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_datatypes_count(CowlOntology *onto);
-
-/**
- * Gets the number of object properties.
- *
- * @param onto The ontology.
- * @return Number of object properties.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_obj_props_count(CowlOntology *onto);
-
-/**
- * Gets the number of data properties.
- *
- * @param onto The ontology.
- * @return Number of data properties.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_data_props_count(CowlOntology *onto);
-
-/**
- * Gets the number of annotation properties.
- *
- * @param onto The ontology.
- * @return Number of annotation properties.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_annot_props_count(CowlOntology *onto);
-
-/**
- * Gets the number of named individuals.
- *
- * @param onto The ontology.
- * @return Number of named individuals.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_named_inds_count(CowlOntology *onto);
-
-/**
- * Gets the number of anonymous individuals.
- *
- * @param onto The ontology.
- * @return Number of anonymous individuals.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_anon_inds_count(CowlOntology *onto);
-
-/**
- * Checks if the specified entity is referenced by an axiom in the ontology.
- *
- * @param onto The ontology.
- * @param entity The entity.
- * @return True if the entity is referenced by an axiom, false otherwise.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_has_entity(CowlOntology *onto, CowlEntity *entity);
+bool cowl_ontology_has_primitive(CowlOntology *onto, void *primitive);
 
 /**
  * Iterates over the primitives referenced by the specified ontology.
@@ -363,89 +228,6 @@ COWL_PUBLIC
 bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter);
 
 /**
- * Iterates over the classes in the ontology.
- *
- * @param onto The ontology.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_classes(CowlOntology *onto, CowlIterator *iter);
-
-/**
- * Iterates over the data properties in the ontology.
- *
- * @param onto The ontology.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_data_props(CowlOntology *onto, CowlIterator *iter);
-
-/**
- * Iterates over the datatypes in the ontology.
- *
- * @param onto The ontology.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_datatypes(CowlOntology *onto, CowlIterator *iter);
-
-/**
- * Iterates over the object properties in the ontology.
- * @param onto The ontology.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_obj_props(CowlOntology *onto, CowlIterator *iter);
-
-/**
- * Iterates over the annotation properties in the ontology.
- *
- * @param onto The ontology.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_annot_props(CowlOntology *onto, CowlIterator *iter);
-
-/**
- * Iterates over the named individuals in the ontology.
- *
- * @param onto The ontology.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_named_inds(CowlOntology *onto, CowlIterator *iter);
-
-/**
- * Iterates over the anonymous individuals in the ontology.
- *
- * @param onto The ontology.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_anon_inds(CowlOntology *onto, CowlIterator *iter);
-
-/**
  * Iterates over the axioms in the ontology.
  *
  * @param onto The ontology.
@@ -472,102 +254,18 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
                                           CowlIterator *iter);
 
 /**
- * Iterates over the axioms referencing the specified annotation property.
+ * Iterates over the axioms referencing the specified primitive.
  *
  * @param onto The ontology.
- * @param prop The annotation property.
+ * @param primitive The primitive.
  * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_annot_prop(CowlOntology *onto, CowlAnnotProp *prop,
-                                                 CowlIterator *iter);
-
-/**
- * Iterates over the axioms referencing the specified class.
- *
- * @param onto The ontology.
- * @param owl_class The class.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_class(CowlOntology *onto, CowlClass *owl_class,
-                                            CowlIterator *iter);
-
-/**
- * Iterates over the axioms referencing the specified data property.
- *
- * @param onto The ontology.
- * @param prop The data property.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_data_prop(CowlOntology *onto, CowlDataProp *prop,
+bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, void *primitive,
                                                 CowlIterator *iter);
-
-/**
- * Iterates over the axioms referencing the specified datatype.
- *
- * @param onto The ontology.
- * @param datatype The datatype.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_datatype(CowlOntology *onto, CowlDatatype *datatype,
-                                               CowlIterator *iter);
-
-/**
- * Iterates over the axioms referencing the specified object property.
- *
- * @param onto The ontology.
- * @param prop The object property.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_obj_prop(CowlOntology *onto, CowlObjProp *prop,
-                                               CowlIterator *iter);
-
-/**
- * Iterates over the axioms referencing the specified named individual.
- *
- * @param onto The ontology.
- * @param ind The named individual.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_named_ind(CowlOntology *onto, CowlNamedInd *ind,
-                                                CowlIterator *iter);
-
-/**
- * Iterates over the axioms referencing the specified anonymous individual.
- *
- * @param onto The ontology.
- * @param ind The anonymous individual.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_anon_ind(CowlOntology *onto, CowlAnonInd *ind,
-                                               CowlIterator *iter);
 
 /**
  * Iterates over the subclasses of the specified class.
