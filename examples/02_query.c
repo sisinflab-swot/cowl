@@ -32,7 +32,7 @@ int main(void) {
 
         // Run the query.
         CowlIterator iter = cowl_iterator_init(NULL, for_each_cls);
-        cowl_ontology_iterate_sub_classes(ontology, cls, &iter);
+        cowl_ontology_iterate_sub_classes(ontology, cls, &iter, false);
 
         // Cleanup.
         cowl_class_release(cls);

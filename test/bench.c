@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 
     t = utime_get_ns();
     CowlIterator iter = cowl_iterator_init(&count, count_axiom_iterator);
-    cowl_ontology_iterate_axioms(onto, &iter);
+    cowl_ontology_iterate_axioms(onto, &iter, false);
     t = utime_get_ns() - t;
 
     printf("%" ULIB_UINT_FMT " axioms iterated in %.2f us\n",

@@ -30,7 +30,7 @@ int main(void) {
         // Since we are going to perform a recursive query,
         // we need the ontology to be part of the context.
         CowlIterator iter = cowl_iterator_init(ontology, for_each_cls);
-        cowl_ontology_iterate_sub_classes(ontology, cls, &iter);
+        cowl_ontology_iterate_sub_classes(ontology, cls, &iter, false);
 
         cowl_class_release(cls);
         cowl_ontology_release(ontology);
@@ -49,5 +49,5 @@ static bool for_each_cls(void *ctx, void *cls) {
 
     // Recurse.
     CowlIterator iter = cowl_iterator_init(ctx, for_each_cls);
-    return cowl_ontology_iterate_sub_classes(ctx, cls, &iter);
+    return cowl_ontology_iterate_sub_classes(ctx, cls, &iter, false);
 }

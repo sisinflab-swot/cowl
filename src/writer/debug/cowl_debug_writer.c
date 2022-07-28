@@ -230,7 +230,7 @@ static ustream_ret cowl_debug_write_onto(UOStream *s, CowlOntology *onto, CowlEd
 
     void *ctx[] = { s, ed };
     CowlIterator iter = cowl_iterator_init(ctx, imports_writer);
-    cowl_ontology_iterate_imports(onto, &iter);
+    cowl_ontology_iterate_imports(onto, &iter, false);
     if (s->state) return s->state;
 
     CowlVector *annotations = cowl_ontology_get_annot(onto);
@@ -246,7 +246,7 @@ static ustream_ret cowl_debug_write_onto(UOStream *s, CowlOntology *onto, CowlEd
     cowl_ontology_iterate_primitives(onto, COWL_PF_ENTITY, &iter);
 
     iter = cowl_iterator_init(ctx, axiom_writer);
-    cowl_ontology_iterate_axioms(onto, &iter);
+    cowl_ontology_iterate_axioms(onto, &iter, false);
 
     return s->state;
 }
