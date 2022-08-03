@@ -41,8 +41,8 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
 /**
  * Returns a retained object property assertion axiom.
  *
- * @param subject The assertion subject.
  * @param prop The object property.
+ * @param subject The assertion subject.
  * @param object The assertion object.
  * @param annot [optional] The annotations.
  * @return Retained axiom, or NULL on error.
@@ -50,19 +50,19 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
-                                                       CowlObjPropExp *prop,
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlObjPropExp *prop,
+                                                       CowlIndividual *subject,
                                                        CowlIndividual *object,
                                                        CowlVector *annot) {
     return (CowlObjPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_OBJ_PROP_ASSERT,
-                                                         subject, prop, object, annot);
+                                                         prop, subject, object, annot);
 }
 
 /**
  * Returns a retained negative object property assertion axiom.
  *
- * @param subject The assertion subject.
  * @param prop The object property.
+ * @param subject The assertion subject.
  * @param object The assertion object.
  * @param annot [optional] The annotations.
  * @return Retained axiom, or NULL on error.
@@ -70,12 +70,12 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlIndividual *subject,
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlIndividual *subject,
-                                                           CowlObjPropExp *prop,
+CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlObjPropExp *prop,
+                                                           CowlIndividual *subject,
                                                            CowlIndividual *object,
                                                            CowlVector *annot) {
     return (CowlObjPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_NEG_OBJ_PROP_ASSERT,
-                                                         subject, prop, object, annot);
+                                                         prop, subject, object, annot);
 }
 
 /**
@@ -117,19 +117,6 @@ bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom) {
 }
 
 /**
- * Gets the assertion subject.
- *
- * @param axiom The axiom.
- * @return The assertion subject.
- *
- * @public @memberof CowlObjPropAssertAxiom
- */
-COWL_INLINE
-CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom) {
-    return (CowlIndividual *)cowl_get_field(axiom, 0);
-}
-
-/**
  * Gets the object property expression.
  *
  * @param axiom The axiom.
@@ -139,7 +126,20 @@ CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *a
  */
 COWL_INLINE
 CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom) {
-    return (CowlObjPropExp *)cowl_get_field(axiom, 1);
+    return (CowlObjPropExp *)cowl_get_field(axiom, 0);
+}
+
+/**
+ * Gets the assertion subject.
+ *
+ * @param axiom The axiom.
+ * @return The assertion subject.
+ *
+ * @public @memberof CowlObjPropAssertAxiom
+ */
+COWL_INLINE
+CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom) {
+    return (CowlIndividual *)cowl_get_field(axiom, 1);
 }
 
 /**

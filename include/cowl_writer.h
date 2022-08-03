@@ -108,6 +108,8 @@ CowlWriter cowl_writer_get_debug(void);
 COWL_PUBLIC
 cowl_ret cowl_write(UOStream *stream, void *object);
 
+// Low-level write functions
+
 /**
  * Writes a debug representation of an object to the specified output stream.
  *
@@ -118,9 +120,7 @@ cowl_ret cowl_write(UOStream *stream, void *object);
  * @public @related CowlWriter
  */
 COWL_PUBLIC
-cowl_ret cowl_write_debug(UOStream *stream, void *object);
-
-// Low-level write functions
+ustream_ret cowl_write_debug(UOStream *stream, void *object);
 
 /**
  * Writes a string to the specified output stream.

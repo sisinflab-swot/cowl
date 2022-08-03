@@ -246,7 +246,9 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
-        cowl_ret ret = cowl_editor_register_prefix(editor, $3, cowl_iri_get_ns($5));
+        CowlString *iri_string = cowl_iri_to_string($5);
+        cowl_ret ret = cowl_editor_register_prefix(editor, $3, iri_string);
+        cowl_string_release(iri_string);
         cowl_string_release($3);
         cowl_iri_release($5);
         if (ret) YYERROR;
@@ -362,7 +364,8 @@ named_individual
 
 anonymous_individual
     : BLANK_NODE_LABEL {
-        $$ = (CowlIndividual *)cowl_editor_get_anon_ind(editor, $1);
+        CowlAnonInd *ind = cowl_editor_get_anon_ind(editor, $1);
+        $$ = (CowlIndividual *)(ind ? cowl_anon_ind_retain(ind) : NULL);
     }
 ;
 
@@ -988,7 +991,7 @@ different_individuals
 
 class_assertion
     : CLASS_ASSERTION L_PAREN annotation_star class_expression individual R_PAREN {
-        $$ = (CowlAxiom *)cowl_cls_assert_axiom_get($5, $4, $3);
+        $$ = (CowlAxiom *)cowl_cls_assert_axiom_get($4, $5, $3);
         COWL_VEC_FINALIZE($3);
         cowl_cls_exp_release($4);
         cowl_individual_release($5);
@@ -997,7 +1000,7 @@ class_assertion
 
 object_property_assertion
     : OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
-        $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom_get($5, $4, $6, $3);
+        $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom_get($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
@@ -1007,7 +1010,7 @@ object_property_assertion
 
 negative_object_property_assertion
     : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
-        $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom_get($5, $4, $6, $3);
+        $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom_get($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
         cowl_obj_prop_exp_release($4);
         cowl_individual_release($5);
@@ -1017,7 +1020,7 @@ negative_object_property_assertion
 
 data_property_assertion
     : DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
-        $$ = (CowlAxiom *)cowl_data_prop_assert_axiom_get($5, $4, $6, $3);
+        $$ = (CowlAxiom *)cowl_data_prop_assert_axiom_get($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
@@ -1027,7 +1030,7 @@ data_property_assertion
 
 negative_data_property_assertion
     : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
-        $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom_get($5, $4, $6, $3);
+        $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom_get($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
         cowl_data_prop_exp_release($4);
         cowl_individual_release($5);
@@ -1069,7 +1072,7 @@ annotation_axiom
 
 annotation_assertion
     : ANNOTATION_ASSERTION L_PAREN annotation_star annotation_property annotation_subject annotation_value R_PAREN {
-        $$ = (CowlAxiom *)cowl_annot_assert_axiom_get($5, $4, $6, $3);
+        $$ = (CowlAxiom *)cowl_annot_assert_axiom_get($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
         cowl_annot_prop_release($4);
         cowl_annot_value_release($5);

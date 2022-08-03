@@ -21,6 +21,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlAnnotValue);
 cowl_struct_decl(CowlAnnotation);
+cowl_struct_decl(CowlVector);
 /// @endcond
 
 /**

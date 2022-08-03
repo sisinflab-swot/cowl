@@ -31,7 +31,6 @@ cowl_ret cowl_object_api_init(void) {
     composite_fields[COWL_OT_A_DATA_PROP_ASSERT] = 3;
     composite_fields[COWL_OT_A_NEG_DATA_PROP_ASSERT] = 3;
     composite_fields[COWL_OT_A_SUB_OBJ_PROP] = 2;
-    composite_fields[COWL_OT_A_SUB_OBJ_PROP_CHAIN] = 2;
     composite_fields[COWL_OT_A_INV_OBJ_PROP] = 2;
     composite_fields[COWL_OT_A_EQUIV_OBJ_PROP] = 1;
     composite_fields[COWL_OT_A_DISJ_OBJ_PROP] = 1;
@@ -118,7 +117,6 @@ void cowl_release(void *object) {
         case COWL_OT_A_DATA_PROP_ASSERT:
         case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_RELEASE_AXIOM(DataPropAssert, data_prop_assert);
         case COWL_OT_A_SUB_OBJ_PROP: GEN_RELEASE_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_SUB_OBJ_PROP_CHAIN: GEN_RELEASE_AXIOM(SubObjPropChain, sub_obj_prop_chain);
         case COWL_OT_A_INV_OBJ_PROP: GEN_RELEASE_AXIOM(InvObjProp, inv_obj_prop);
         case COWL_OT_A_EQUIV_OBJ_PROP:
         case COWL_OT_A_DISJ_OBJ_PROP: GEN_RELEASE_AXIOM(NAryObjProp, nary_obj_prop);
@@ -215,6 +213,10 @@ bool cowl_is_data_range(void *object) {
     return type >= COWL_OT_FIRST_DR && type <= COWL_OT_LAST_DR;
 }
 
+static cowl_ret cowl_write_debug_impl(UOStream *stream, void *object) {
+    return cowl_ret_from_ustream(cowl_write_debug(stream, object));
+}
+
 static CowlString* cowl_to_string_impl(void *object, cowl_ret (*fun)(UOStream *, void *)) {
     CowlString *string = NULL;
     UOStream stream;
@@ -234,7 +236,7 @@ CowlString* cowl_to_string(void *object) {
 }
 
 CowlString* cowl_to_debug_string(void *object) {
-    return cowl_to_string_impl(object, cowl_write_debug);
+    return cowl_to_string_impl(object, cowl_write_debug_impl);
 }
 
 bool cowl_equals(void *lhs, void *rhs) {
@@ -270,7 +272,6 @@ bool cowl_equals(void *lhs, void *rhs) {
         case COWL_OT_A_DATA_PROP_ASSERT:
         case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_EQUALS_AXIOM(DataPropAssert, data_prop_assert);
         case COWL_OT_A_SUB_OBJ_PROP: GEN_EQUALS_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_SUB_OBJ_PROP_CHAIN: GEN_EQUALS_AXIOM(SubObjPropChain, sub_obj_prop_chain);
         case COWL_OT_A_INV_OBJ_PROP: GEN_EQUALS_AXIOM(InvObjProp, inv_obj_prop);
         case COWL_OT_A_EQUIV_OBJ_PROP:
         case COWL_OT_A_DISJ_OBJ_PROP: GEN_EQUALS_AXIOM(NAryObjProp, nary_obj_prop);
@@ -355,7 +356,6 @@ ulib_uint cowl_hash(void *object) {
         case COWL_OT_A_DATA_PROP_ASSERT:
         case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_HASH_AXIOM(DataPropAssert, data_prop_assert);
         case COWL_OT_A_SUB_OBJ_PROP: GEN_HASH_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_SUB_OBJ_PROP_CHAIN: GEN_HASH_AXIOM(SubObjPropChain, sub_obj_prop_chain);
         case COWL_OT_A_INV_OBJ_PROP: GEN_HASH_AXIOM(InvObjProp, inv_obj_prop);
         case COWL_OT_A_EQUIV_OBJ_PROP:
         case COWL_OT_A_DISJ_OBJ_PROP: GEN_HASH_AXIOM(NAryObjProp, nary_obj_prop);
@@ -442,7 +442,6 @@ bool cowl_iterate_primitives(void *object, CowlPrimitiveFlags flags, CowlIterato
         case COWL_OT_A_DATA_PROP_ASSERT:
         case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_ITER_AXIOM(DataPropAssert, data_prop_assert);
         case COWL_OT_A_SUB_OBJ_PROP: GEN_ITER_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_SUB_OBJ_PROP_CHAIN: GEN_ITER_AXIOM(SubObjPropChain, sub_obj_prop_chain);
         case COWL_OT_A_INV_OBJ_PROP: GEN_ITER_AXIOM(InvObjProp, inv_obj_prop);
         case COWL_OT_A_EQUIV_OBJ_PROP:
         case COWL_OT_A_DISJ_OBJ_PROP: GEN_ITER_AXIOM(NAryObjProp, nary_obj_prop);

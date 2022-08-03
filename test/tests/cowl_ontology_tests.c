@@ -56,8 +56,7 @@ static ulib_uint* test_onto_axiom_counts(void) {
     counts[COWL_AT_NEG_OBJ_PROP_ASSERT] = 1;
     counts[COWL_AT_DATA_PROP_ASSERT] = 1;
     counts[COWL_AT_NEG_DATA_PROP_ASSERT] = 1;
-    counts[COWL_AT_SUB_OBJ_PROP] = 1;
-    counts[COWL_AT_SUB_OBJ_PROP_CHAIN] = 1;
+    counts[COWL_AT_SUB_OBJ_PROP] = 2;
     counts[COWL_AT_INV_OBJ_PROP] = 1;
     counts[COWL_AT_EQUIV_OBJ_PROP] = 1;
     counts[COWL_AT_DISJ_OBJ_PROP] = 2;

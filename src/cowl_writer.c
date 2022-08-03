@@ -21,16 +21,17 @@
 
 cowl_ret cowl_write(UOStream *stream, void *object) {
     CowlWriter writer = cowl_api_get_writer();
-    return writer.name ? writer.write(stream, object) : cowl_write_debug(stream, object);
+    if (writer.name) return writer.write(stream, object);
+    return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
 
-cowl_ret cowl_write_debug(UOStream *s, void *obj) {
+ustream_ret cowl_write_debug(UOStream *s, void *obj) {
     uostream_writef(s, NULL, "<CowlObject %p, type ", obj);
     cowl_write_object_type(s, cowl_get_type(obj));
     cowl_write_static(s, ", ref ");
     cowl_write_uint(s, cowl_object_get_ref(obj));
     cowl_write_static(s, ">");
-    return cowl_ret_from_ustream(s->state);
+    return s->state;
 }
 
 ustream_ret cowl_write_string(UOStream *stream, CowlString *string) {
@@ -70,14 +71,13 @@ ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
         GEN_OT_STRING(A_DISJ_CLASSES, "DisjointClasses");
         GEN_OT_STRING(A_DISJ_UNION, "DisjointUnion");
         GEN_OT_STRING(A_CLASS_ASSERT, "ClassAssertion");
-        GEN_OT_STRING(A_SAME_IND, "SameIndividuals");
+        GEN_OT_STRING(A_SAME_IND, "SameIndividual");
         GEN_OT_STRING(A_DIFF_IND, "DifferentIndividuals");
         GEN_OT_STRING(A_OBJ_PROP_ASSERT, "ObjectPropertyAssertion");
         GEN_OT_STRING(A_NEG_OBJ_PROP_ASSERT, "NegativeObjectPropertyAssertion");
         GEN_OT_STRING(A_DATA_PROP_ASSERT, "DataPropertyAssertion");
         GEN_OT_STRING(A_NEG_DATA_PROP_ASSERT, "NegativeDataPropertyAssertion");
         GEN_OT_STRING(A_SUB_OBJ_PROP, "SubObjectPropertyOf");
-        GEN_OT_STRING(A_SUB_OBJ_PROP_CHAIN, "SubObjectPropertyChain");
         GEN_OT_STRING(A_INV_OBJ_PROP, "InverseObjectProperties");
         GEN_OT_STRING(A_EQUIV_OBJ_PROP, "EquivalentObjectProperties");
         GEN_OT_STRING(A_DISJ_OBJ_PROP, "DisjointObjectProperties");

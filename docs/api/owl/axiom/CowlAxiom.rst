@@ -22,7 +22,6 @@ Axioms
    :caption: Object property axioms
 
    CowlSubObjPropAxiom
-   CowlSubObjPropChainAxiom
    CowlNAryObjPropAxiom
    CowlInvObjPropAxiom
    CowlObjPropDomainAxiom

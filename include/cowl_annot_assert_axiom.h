@@ -36,8 +36,8 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
 /**
  * Returns a retained annotation assertion axiom.
  *
- * @param subject The annotation subject.
  * @param prop The annotation property.
+ * @param subject The annotation subject.
  * @param value The annotation value.
  * @param annot [optional] The annotations.
  * @return Retained axiom, or NULL on error.
@@ -45,10 +45,10 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_INLINE
-CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotValue *subject, CowlAnnotProp *prop,
+CowlAnnotAssertAxiom* cowl_annot_assert_axiom_get(CowlAnnotProp *prop, CowlAnnotValue *subject,
                                                   CowlAnnotValue *value, CowlVector *annot) {
     return (CowlAnnotAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_ANNOT_ASSERT,
-                                                       subject, prop, value, annot);
+                                                       prop, subject, value, annot);
 }
 
 /**
@@ -77,6 +77,19 @@ void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom) {
 }
 
 /**
+ * Gets the annotation property.
+ *
+ * @param axiom The axiom.
+ * @return The annotation property.
+ *
+ * @public @memberof CowlAnnotAssertAxiom
+ */
+COWL_INLINE
+CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
+    return (CowlAnnotProp *)cowl_get_field(axiom, 0);
+}
+
+/**
  * Gets the annotation subject.
  *
  * @param axiom The axiom.
@@ -88,20 +101,7 @@ void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlAnnotValue* cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom) {
-    return (CowlAnnotValue *)cowl_get_field(axiom, 0);
-}
-
-/**
- * Gets the annotation property.
- *
- * @param axiom The axiom.
- * @return The annotation property.
- *
- * @public @memberof CowlAnnotAssertAxiom
- */
-COWL_INLINE
-CowlAnnotProp* cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
-    return (CowlAnnotProp *)cowl_get_field(axiom, 1);
+    return (CowlAnnotValue *)cowl_get_field(axiom, 1);
 }
 
 /**

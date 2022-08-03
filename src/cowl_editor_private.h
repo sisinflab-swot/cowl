@@ -22,6 +22,8 @@ typedef struct CowlEditor {
     UString description;
     CowlManager *manager;
     CowlOntology *ontology;
+    CowlTable *onto_import_map;
+    CowlTable *import_onto_map;
     CowlTable *prefix_ns_map;
     CowlTable *ns_prefix_map;
     CowlTable *id_anon_map;

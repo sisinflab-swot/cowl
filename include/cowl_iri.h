@@ -14,6 +14,7 @@
 #define COWL_IRI_H
 
 #include "cowl_object.h"
+#include "cowl_string.h"
 
 COWL_BEGIN_DECLS
 
@@ -110,6 +111,20 @@ COWL_PUBLIC
 CowlString* cowl_iri_get_rem(CowlIRI *iri);
 
 /**
+ * Checks whether the IRI has a remainder.
+ *
+ * @param iri The IRI.
+ * @return True if the IRI has a remainder, false otherwise.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_INLINE
+bool cowl_iri_has_rem(CowlIRI *iri) {
+    CowlString *rem = cowl_iri_get_rem(iri);
+    return rem && cowl_string_get_length(rem) > 0;
+}
+
+/**
  * Returns the string representation of the specified IRI.
  *
  * @param iri The IRI.
@@ -121,7 +136,7 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri);
  */
 COWL_INLINE
 CowlString* cowl_iri_to_string(CowlIRI *iri) {
-    return cowl_to_string(iri);
+    return cowl_iri_has_rem(iri) ? cowl_to_string(iri) : cowl_string_retain(cowl_iri_get_ns(iri));
 }
 
 /**

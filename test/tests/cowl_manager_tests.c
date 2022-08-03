@@ -24,9 +24,8 @@
 #define COWL_ONTOLOGY_LOG COWL_TEST_ONTOLOGY ".log"
 
 static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
-    CowlString *string = cowl_error_to_string(error);
-    uostream_write_string(ctx, cowl_string_get_raw(string), NULL);
-    cowl_string_release(string);
+    cowl_write_error(ctx, error);
+    cowl_write_static(ctx, "\n");
 }
 
 // Tests

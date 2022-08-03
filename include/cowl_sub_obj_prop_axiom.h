@@ -49,6 +49,22 @@ CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_get(CowlObjPropExp *sub, CowlObjPro
 }
 
 /**
+ * Returns a retained object subproperty axiom where the subproperty is a chain of properties.
+ *
+ * @param sub The chain of properties.
+ * @param super The superproperty.
+ * @param annot [optional] The annotations.
+ * @return Retained axiom, or NULL on error.
+ *
+ * @public @memberof CowlSubObjPropAxiom
+ */
+COWL_INLINE
+CowlSubObjPropAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlVector *sub, CowlObjPropExp *super,
+                                                       CowlVector *annot) {
+    return (CowlSubObjPropAxiom *)cowl_get_impl_2_opt(COWL_OT_A_SUB_OBJ_PROP, sub, super, annot);
+}
+
+/**
  * Retains the specified axiom.
  *
  * @param axiom The axiom.
@@ -79,11 +95,13 @@ void cowl_sub_obj_prop_axiom_release(CowlSubObjPropAxiom *axiom) {
  * @param axiom The axiom.
  * @return The subproperty.
  *
+ * @note The subproperty can be either an object property expression or a property expression chain.
+ *
  * @public @memberof CowlSubObjPropAxiom
  */
 COWL_INLINE
-CowlObjPropExp* cowl_sub_obj_prop_axiom_get_sub(CowlSubObjPropAxiom *axiom) {
-    return (CowlObjPropExp *)cowl_get_field(axiom, 0);
+void* cowl_sub_obj_prop_axiom_get_sub(CowlSubObjPropAxiom *axiom) {
+    return cowl_get_field(axiom, 0);
 }
 
 /**

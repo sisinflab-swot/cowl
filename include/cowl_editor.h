@@ -105,23 +105,13 @@ cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom);
  * Gets the map that associates prefixes to namespaces.
  *
  * @param editor The editor.
+ * @param reverse If true, the reversed map (namespaces to prefixes) is returned.
  * @return Prefix to namespace map.
  *
  * @public @memberof CowlEditor
  */
 COWL_PUBLIC
-CowlTable* cowl_editor_get_prefix_ns_map(CowlEditor *editor);
-
-/**
- * Gets the map that associates namespaces to prefixes.
- *
- * @param editor The editor.
- * @return Namespace to prefix map.
- *
- * @public @memberof CowlEditor
- */
-COWL_PUBLIC
-CowlTable* cowl_editor_get_ns_prefix_map(CowlEditor *editor);
+CowlTable* cowl_editor_get_prefix_ns_map(CowlEditor *editor, bool reverse);
 
 /**
  * Returns the namespace associated with the specified prefix.
@@ -186,26 +176,52 @@ COWL_PUBLIC
 CowlIRI* cowl_editor_parse_full_iri(CowlEditor *editor, UString short_iri);
 
 /**
+ * Gets the map that associates ontologies to import IRIs.
+ *
+ * @param editor The editor.
+ * @param reverse If true, the reversed map (IRIs to ontologies) is returned.
+ * @return Ontologies to import IRIs map.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlTable* cowl_editor_get_onto_import_iri_map(CowlEditor *editor, bool reverse);
+
+/**
+ * Gets the import IRI for the specified ontology.
+ *
+ * @param editor The editor.
+ * @param ontology The ontology.
+ * @return Import IRI.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlIRI* cowl_editor_get_import_iri(CowlEditor *editor, CowlOntology *ontology);
+
+/**
+ * Gets the ontology associated with the specified import IRI.
+ *
+ * @param editor The editor.
+ * @param iri The import IRI.
+ * @return Ontology associated with the import IRI.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+CowlOntology* cowl_editor_get_onto_for_import_iri(CowlEditor *editor, CowlIRI *iri);
+
+/**
  * Gets the map that associates local names to anonymous individuals.
  *
  * @param editor The editor.
+ * @param reverse If true, the reversed map (anonymous individuals to local names) is returned.
  * @return Local name to anonymous individual map.
  *
  * @public @memberof CowlEditor
  */
 COWL_PUBLIC
-CowlTable* cowl_editor_get_name_anon_ind_map(CowlEditor *editor);
-
-/**
- * Gets the map that associates anonymous individuals to local names.
- *
- * @param editor The editor.
- * @return Anonymous individual to local name map.
- *
- * @public @memberof CowlEditor
- */
-COWL_PUBLIC
-CowlTable* cowl_editor_get_anon_ind_name_map(CowlEditor *editor);
+CowlTable* cowl_editor_get_name_anon_ind_map(CowlEditor *editor, bool reverse);
 
 /**
  * Returns the anonymous individual associated with the specified identifier.
@@ -229,7 +245,7 @@ CowlAnonInd* cowl_editor_get_anon_ind(CowlEditor *editor, UString id);
  * @public @memberof CowlEditor
  */
 COWL_PUBLIC
-CowlString* cowl_editor_get_id_for_anon_ind(CowlEditor *editor, CowlAnonInd *ind);
+CowlString* cowl_editor_get_name_for_anon_ind(CowlEditor *editor, CowlAnonInd *ind);
 
 /**
  * Handles the specified error through the user-provided error handler.

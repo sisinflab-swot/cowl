@@ -36,17 +36,17 @@ cowl_struct_decl(CowlClsAssertAxiom);
 /**
  * Returns a retained class assertion axiom.
  *
- * @param ind The assertion individual.
  * @param exp The asserted class expression.
+ * @param ind The assertion individual.
  * @param annot [optional] The annotations.
  * @return Retained axiom, or NULL on error.
  *
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_INLINE
-CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlIndividual *ind, CowlClsExp *exp,
+CowlClsAssertAxiom* cowl_cls_assert_axiom_get(CowlClsExp *exp, CowlIndividual *ind,
                                               CowlVector *annot) {
-    return (CowlClsAssertAxiom *)cowl_get_impl_2_opt(COWL_OT_A_CLASS_ASSERT, ind, exp, annot);
+    return (CowlClsAssertAxiom *)cowl_get_impl_2_opt(COWL_OT_A_CLASS_ASSERT, exp, ind, annot);
 }
 
 /**
@@ -75,19 +75,6 @@ void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom) {
 }
 
 /**
- * Gets the individual that is asserted to be an instance of a class expression by this axiom.
- *
- * @param axiom The axiom.
- * @return The individual.
- *
- * @public @memberof CowlClsAssertAxiom
- */
-COWL_INLINE
-CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
-    return (CowlIndividual *)cowl_get_field(axiom, 0);
-}
-
-/**
  * Gets the class expression that is asserted to be a type for an individual by this axiom.
  *
  * @param axiom The axiom.
@@ -97,7 +84,20 @@ CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
  */
 COWL_INLINE
 CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
-    return (CowlClsExp *)cowl_get_field(axiom, 1);
+    return (CowlClsExp *)cowl_get_field(axiom, 0);
+}
+
+/**
+ * Gets the individual that is asserted to be an instance of a class expression by this axiom.
+ *
+ * @param axiom The axiom.
+ * @return The individual.
+ *
+ * @public @memberof CowlClsAssertAxiom
+ */
+COWL_INLINE
+CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
+    return (CowlIndividual *)cowl_get_field(axiom, 1);
 }
 
 /**

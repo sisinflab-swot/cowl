@@ -70,9 +70,6 @@ typedef enum CowlAxiomType {
     /// CowlSubObjPropAxiom - Object subproperty.
     COWL_AT_SUB_OBJ_PROP,
 
-    /// CowlSubObjPropChainAxiom - Object subproperty chain.
-    COWL_AT_SUB_OBJ_PROP_CHAIN,
-
     /// CowlInvObjPropAxiom - Inverse object properties.
     COWL_AT_INV_OBJ_PROP,
 
