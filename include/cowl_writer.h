@@ -78,19 +78,19 @@ typedef struct CowlWriter {
 
 } CowlWriter;
 
-#ifdef COWL_WRITER_DEBUG
+#ifdef COWL_WRITER_FUNCTIONAL
 
 /**
- * Returns the debug writer.
+ * Returns the functional syntax writer.
  *
- * @return Debug writer.
+ * @return Functional syntax writer.
  *
  * @public @related CowlWriter
  */
 COWL_PUBLIC
-CowlWriter cowl_writer_get_debug(void);
+CowlWriter cowl_writer_get_functional(void);
 
-#endif // COWL_WRITER_DEBUG
+#endif // COWL_WRITER_FUNCTIONAL
 
 // High-level write functions
 

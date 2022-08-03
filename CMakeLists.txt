@@ -31,7 +31,7 @@ option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
 set(COWL_LIBRARY_TYPE "STATIC" CACHE STRING "Type of library to build.")
 set(COWL_READERS "functional" CACHE STRING "List of enabled built-in readers (semicolon-separated)")
-set(COWL_WRITERS "debug" CACHE STRING "List of enabled built-in writers (semicolon-separated)")
+set(COWL_WRITERS "functional" CACHE STRING "List of enabled built-in writers (semicolon-separated)")
 
 # Directories
 

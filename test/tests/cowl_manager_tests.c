@@ -14,7 +14,6 @@
 #include "cowl_editor.h"
 #include "cowl_manager.h"
 #include "cowl_ontology.h"
-#include "cowl_string.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_test_utils.h"
 
