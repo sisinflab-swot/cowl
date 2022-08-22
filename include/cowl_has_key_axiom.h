@@ -14,6 +14,7 @@
 #define COWL_HAS_KEY_AXIOM_H
 
 #include "cowl_object.h"
+#include "cowl_vector.h"
 
 COWL_BEGIN_DECLS
 
@@ -46,6 +47,8 @@ cowl_struct_decl(CowlHasKeyAxiom);
 COWL_INLINE
 CowlHasKeyAxiom* cowl_has_key_axiom_get(CowlClsExp *cls_exp, CowlVector *obj_props,
                                         CowlVector *data_props, CowlVector *annot) {
+    if (!obj_props) obj_props = cowl_vector_empty_get();
+    if (!data_props) data_props = cowl_vector_empty_get();
     return (CowlHasKeyAxiom *)cowl_get_impl_3_opt(COWL_OT_A_HAS_KEY,
                                                   cls_exp, obj_props, data_props, annot);
 }
