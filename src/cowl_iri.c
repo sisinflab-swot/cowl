@@ -48,12 +48,6 @@ static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     return iri;
 }
 
-static void cowl_iri_free(CowlIRI *iri) {
-    cowl_string_release(iri->ns);
-    cowl_string_release(iri->rem);
-    ulib_free(iri);
-}
-
 CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
     if (!(ns && (ns = cowl_string_intern(ns)))) return NULL;
 
@@ -114,7 +108,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
             }
 
             prefix = cowl_string_get(ustring_copy(p_cstr, p_ns_len));
-            suffix = cowl_string_alloc(ustrbuf_to_ustring(&buf));
+            suffix = cowl_string_get(ustrbuf_to_ustring(&buf));
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
             cowl_string_retain(prefix);
@@ -137,7 +131,9 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 void cowl_iri_release(CowlIRI *iri) {
     if (iri && !cowl_object_decr_ref(iri)) {
         uhset_remove(CowlObjectTable, &inst_tbl, iri);
-        cowl_iri_free(iri);
+        cowl_string_release(iri->ns);
+        cowl_string_release(iri->rem);
+        ulib_free(iri);
     }
 }
 

@@ -48,11 +48,6 @@ static CowlEntity* cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
     return entity;
 }
 
-static void cowl_entity_free(CowlEntity *entity) {
-    cowl_iri_release(entity->iri);
-    ulib_free(entity);
-}
-
 void* cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     if (!iri) return NULL;
     ulib_uint idx;
@@ -79,7 +74,8 @@ void* cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
 void cowl_entity_release(CowlEntity *entity) {
     if (entity && !cowl_object_decr_ref(entity)) {
         uhset_remove(CowlObjectTable, &inst_tbl, entity);
-        cowl_entity_free(entity);
+        cowl_iri_release(entity->iri);
+        ulib_free(entity);
     }
 }
 

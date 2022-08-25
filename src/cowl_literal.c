@@ -18,7 +18,10 @@ static inline bool cowl_literal_has_dt(CowlLiteral *literal) {
     return cowl_object_bit_get(literal);
 }
 
-static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
+CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {
+    if (!value) return NULL;
+    if (lang && !(lang = cowl_string_intern(lang))) return NULL;
+
     CowlComposite *literal = ulib_malloc(sizeof(*literal) + 2 * sizeof(*literal->data));
     if (!literal) return NULL;
     if (!dt && !lang) dt = cowl_rdf_vocab_get()->dt.plain_literal;
@@ -33,21 +36,6 @@ static CowlLiteral* cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
     }
 
     return (CowlLiteral *)literal;
-}
-
-static void cowl_literal_free(CowlLiteral *literal) {
-    cowl_string_release(cowl_literal_get_value(literal));
-    if (cowl_literal_has_dt(literal)) {
-        cowl_datatype_release(cowl_literal_get_datatype(literal));
-    } else {
-        cowl_string_release(cowl_literal_get_lang(literal));
-    }
-    ulib_free(literal);
-}
-
-CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    if (!value) return NULL;
-    return cowl_literal_alloc(dt, value, cowl_string_intern(lang));
 }
 
 CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang) {
@@ -67,7 +55,7 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang)
 
     CowlString *val_s = val_len ? cowl_string_get(ustring_copy(val_str, val_len)) : cowl_string_get_empty();
     CowlString *lang_s = lang_len ? cowl_string_get(ustring_copy(lang_str, lang_len)) : NULL;
-    CowlLiteral *literal = cowl_literal_alloc(dt, val_s, cowl_string_intern(lang_s));
+    CowlLiteral *literal = cowl_literal_get(dt, val_s, lang_s);
 
     cowl_string_release(lang_s);
     cowl_string_release(val_s);
@@ -77,7 +65,13 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang)
 
 void cowl_literal_release(CowlLiteral *literal) {
     if (literal && !cowl_object_decr_ref(literal)) {
-        cowl_literal_free(literal);
+        cowl_string_release(cowl_literal_get_value(literal));
+        if (cowl_literal_has_dt(literal)) {
+            cowl_datatype_release(cowl_literal_get_datatype(literal));
+        } else {
+            cowl_string_release(cowl_literal_get_lang(literal));
+        }
+        ulib_free(literal);
     }
 }
 
