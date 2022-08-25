@@ -298,7 +298,7 @@ static bool imports_writer(void *ctx, void *import) {
     CowlIRI *iri = cowl_editor_get_import_iri(ed, import);
 
     if (!iri) {
-        iri = cowl_ontology_get_id(import).ontology_iri;
+        iri = cowl_ontology_get_id(import).iri;
         CowlString *iri_str = cowl_iri_to_string(iri);
 
         UString comp[] = {
@@ -322,11 +322,11 @@ static bool imports_writer(void *ctx, void *import) {
 }
 
 static ustream_ret cowl_func_write_onto_id(UOStream *s, CowlOntologyId *id) {
-    if (id->ontology_iri) cowl_func_write_full_iri(s, id->ontology_iri);
+    if (id->iri) cowl_func_write_full_iri(s, id->iri);
 
-    if (id->version_iri) {
-        if (id->ontology_iri) cowl_write_static(s, " ");
-        cowl_func_write_full_iri(s, id->version_iri);
+    if (id->version) {
+        if (id->iri) cowl_write_static(s, " ");
+        cowl_func_write_full_iri(s, id->version);
     }
 
     return s->state;

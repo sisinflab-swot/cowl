@@ -391,7 +391,7 @@ void cowl_editor_handle_error(CowlEditor *editor, cowl_ret code, UString descrip
         .location = {
             .line = reader.get_line ? reader.get_line(editor->state) : 0,
             .source = cowl_string_get_length(&source) ? &source : NULL,
-            .iri = editor->ontology ? cowl_ontology_get_id(editor->ontology).ontology_iri : NULL,
+            .iri = editor->ontology ? cowl_ontology_get_id(editor->ontology).iri : NULL,
         },
         .origin = (CowlObject *)manager,
         .description = cowl_string_get_length(&descr) ? &descr : NULL

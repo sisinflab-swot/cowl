@@ -25,8 +25,8 @@ static inline cowl_ret cowl_vector_ptr_add(CowlVector **vec, void *obj) {
 void cowl_ontology_release(CowlOntology *onto) {
     if (!onto || cowl_object_decr_ref(onto)) return;
 
-    cowl_iri_release(onto->id.ontology_iri);
-    cowl_iri_release(onto->id.version_iri);
+    cowl_iri_release(onto->id.iri);
+    cowl_iri_release(onto->id.version);
 
     cowl_vector_release(onto->annotations);
     cowl_vector_release(onto->imports);
@@ -58,7 +58,7 @@ bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
 
     // If the ontology IRIs are both NULL, then both ontologies are anonymous.
     // If they were equal, they would have passed the pointer equality check.
-    if (!(lhs->id.ontology_iri || rhs->id.ontology_iri)) return false;
+    if (!(lhs->id.iri || rhs->id.iri)) return false;
 
     return cowl_ontology_id_equals(lhs->id, rhs->id);
 }
@@ -332,13 +332,13 @@ CowlOntology* cowl_ontology_get(void) {
 }
 
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {
-    cowl_iri_release(onto->id.ontology_iri);
-    onto->id.ontology_iri = cowl_iri_retain(iri);
+    cowl_iri_release(onto->id.iri);
+    onto->id.iri = cowl_iri_retain(iri);
 }
 
 void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version) {
-    cowl_iri_release(onto->id.version_iri);
-    onto->id.version_iri = cowl_iri_retain(version);
+    cowl_iri_release(onto->id.version);
+    onto->id.version = cowl_iri_retain(version);
 }
 
 static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjectTable) *map) {

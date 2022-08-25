@@ -64,8 +64,8 @@ static CowlEditor* cowl_ensure_editor(CowlManager *manager, CowlOntology *onto,
         if (!onto) goto err;
 
         if (id) {
-            if (id->ontology_iri) cowl_editor_set_iri(editor, id->ontology_iri);
-            if (id->version_iri) cowl_editor_set_version(editor, id->version_iri);
+            if (id->iri) cowl_editor_set_iri(editor, id->iri);
+            if (id->version) cowl_editor_set_version(editor, id->version);
         }
 
         cowl_editor_set_ontology(editor, onto);

@@ -32,10 +32,10 @@ cowl_struct_decl(CowlString);
 typedef struct CowlOntologyId {
 
     /// The ontology IRI.
-    CowlIRI *ontology_iri;
+    CowlIRI *iri;
 
     /// The version IRI.
-    CowlIRI *version_iri;
+    CowlIRI *version;
 
 } CowlOntologyId;
 
