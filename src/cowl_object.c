@@ -425,7 +425,7 @@ bool cowl_iterate_primitives(void *object, CowlPrimitiveFlags flags, CowlIterato
         case COWL_OT_TABLE: GEN_ITER(Table, table);
         case COWL_OT_LITERAL: GEN_ITER(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_ITER(FacetRestr, facet_restr);
-        case COWL_OT_ONTOLOGY: GEN_ITER(Ontology, ontology);
+        case COWL_OT_ONTOLOGY: return cowl_ontology_iterate_primitives(object, flags, iter, false);
         case COWL_OT_ANNOTATION: GEN_ITER(Annotation, annotation);
         case COWL_OT_ANNOT_PROP: GEN_ITER_PRIMITIVE(ANNOT_PROP);
         case COWL_OT_A_DECL: GEN_ITER_AXIOM(Decl, decl);

@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 
     t = utime_get_ns();
     iter = cowl_iterator_init(&count, count_primitive_iterator);
-    cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter);
+    cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter, false);
     t = utime_get_ns() - t;
 
     printf("%" ULIB_UINT_FMT " primitives iterated in %.2f us\n",

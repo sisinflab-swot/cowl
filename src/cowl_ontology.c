@@ -121,7 +121,8 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, void *prim
     return count;
 }
 
-ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags) {
+ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags,
+                                         bool imports) {
     ulib_uint count = 0;
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
@@ -130,20 +131,40 @@ ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags 
         }
     }
 
+    if (imports) {
+        cowl_vector_foreach(onto->imports, import) {
+            count += cowl_ontology_primitives_count(*import.item, flags, true);
+        }
+    }
+
     return count;
 }
 
-bool cowl_ontology_has_primitive(CowlOntology *onto, void *primitive) {
-    return uhash_contains(CowlObjectTable,
-                          &onto->refs[cowl_primitive_get_type(primitive)], primitive);
+bool cowl_ontology_has_primitive(CowlOntology *onto, void *primitive, bool imports) {
+    UHash(CowlObjectTable) *refs = &onto->refs[cowl_primitive_get_type(primitive)];
+    if (uhash_contains(CowlObjectTable, refs, primitive)) return true;
+
+    if (imports) {
+        cowl_vector_foreach(onto->imports, import) {
+            if (cowl_ontology_has_primitive(*import.item, primitive, true)) return true;
+        }
+    }
+
+    return false;
 }
 
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter) {
+                                      CowlIterator *iter, bool imports) {
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         if (!cowl_primitive_flags_has_type(flags, i)) continue;
         uhash_foreach(CowlObjectTable, &onto->refs[i], p) {
             if (!cowl_class_iterate_primitives(*p.key, flags, iter)) return false;
+        }
+    }
+
+    if (imports) {
+        cowl_vector_foreach(onto->imports, import) {
+            if (!cowl_ontology_iterate_primitives(*import.item, flags, iter, true)) return false;
         }
     }
 
@@ -370,11 +391,7 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
 }
 
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlOntology *import) {
-    if (cowl_vector_ptr_add(&onto->imports, import)) return COWL_ERR_MEM;
-    CowlAxiomCtx ctx = { .onto = onto };
-    CowlIterator iter = cowl_iterator_init(&ctx, cowl_ontology_primitive_adder);
-    cowl_ontology_iterate_primitives(import, COWL_PF_ALL, &iter);
-    return ctx.ret;
+    return cowl_vector_ptr_add(&onto->imports, import);
 }
 
 static cowl_ret cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom,

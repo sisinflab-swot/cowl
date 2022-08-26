@@ -186,39 +186,43 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, void *prim
  * Gets the number of primitives.
  *
  * @param onto The ontology.
- * @param flags Iteration flags.
+ * @param flags Primitive flags.
+ * @param imports If true, the query recurses over imported ontologies.
  * @return Number of primitives.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags);
+ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags,
+                                         bool imports);
 
 /**
  * Checks if the specified primitive is referenced by an axiom in the ontology.
  *
  * @param onto The ontology.
  * @param primitive The primitive.
+ * @param imports If true, the query recurses over imported ontologies.
  * @return True if the primitive is referenced by an axiom, false otherwise.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_has_primitive(CowlOntology *onto, void *primitive);
+bool cowl_ontology_has_primitive(CowlOntology *onto, void *primitive, bool imports);
 
 /**
  * Iterates over the primitives referenced by the specified ontology.
  *
  * @param onto The ontology.
- * @param flags Iteration flags.
+ * @param flags Primitive flags.
  * @param iter The iterator.
+ * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter);
+                                      CowlIterator *iter, bool imports);
 
 /**
  * Iterates over the imported ontologies.

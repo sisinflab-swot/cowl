@@ -37,7 +37,7 @@ static CowlOntology *onto = NULL;
 static ulib_uint const test_onto_imports_count = 1;
 static ulib_uint const test_onto_axiom_count = 565;
 
-static ulib_uint const test_primitives_count[] = { 104, 47, 72, 25, 18, 1, 43 };
+static ulib_uint const test_primitives_count[] = { 104, 47, 72, 27, 18, 1, 45 };
 static ulib_uint const test_primitive_axiom_count[] = { 16, 4, 4, 2, 2, 1, 2 };
 
 static ulib_uint* test_onto_axiom_counts(void) {
@@ -140,8 +140,8 @@ bool cowl_test_ontology_axiom_count_for_type(void) {
 
 bool cowl_test_ontology_primitives_count(void) {
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
-        ulib_uint count = cowl_ontology_primitives_count(onto, cowl_primitive_flags_from_type(i));
-        utest_assert_uint(count, ==, test_primitives_count[i]);
+        ulib_uint c = cowl_ontology_primitives_count(onto, cowl_primitive_flags_from_type(i), true);
+        utest_assert_uint(c, ==, test_primitives_count[i]);
     }
     return true;
 }
@@ -183,7 +183,7 @@ bool cowl_test_ontology_axiom_count_for_primitive(void) {
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_NAMED_IND]);
 
     CowlIterator iter = cowl_iterator_init(&primitive, cowl_test_get_first_anon_ind);
-    cowl_ontology_iterate_primitives(onto, COWL_PF_ANON_IND, &iter);
+    cowl_ontology_iterate_primitives(onto, COWL_PF_ANON_IND, &iter, true);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_ANON_IND]);
 
@@ -192,10 +192,10 @@ bool cowl_test_ontology_axiom_count_for_primitive(void) {
 
 #define cowl_test_has_primitive(TYPE) do {                                                          \
     CowlEntity *entity = (CowlEntity *)cowl_##TYPE##_from_static(test_onto_iri test_##TYPE);        \
-    utest_assert(cowl_ontology_has_primitive(onto, entity));                                        \
+    utest_assert(cowl_ontology_has_primitive(onto, entity, true));                                  \
     cowl_entity_release(entity);                                                                    \
     entity = (CowlEntity *)cowl_##TYPE##_from_static(test_onto_iri test_##TYPE "_not_present");     \
-    utest_assert_false(cowl_ontology_has_primitive(onto, entity));                                  \
+    utest_assert_false(cowl_ontology_has_primitive(onto, entity, true));                            \
     cowl_entity_release(entity);                                                                    \
 } while (0)
 
