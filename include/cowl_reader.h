@@ -57,16 +57,6 @@ typedef struct CowlReader {
      */
     cowl_ret (*read)(void *state, UIStream *stream, CowlEditor *editor);
 
-    /**
-     * Pointer to a function that returns the current line in the input stream, if applicable.
-     *
-     * @param state Reader state.
-     * @return Current line.
-     *
-     * @note This member is optional.
-     */
-    ulib_uint (*get_line)(void *state);
-
 } CowlReader;
 
 #ifdef COWL_READER_FUNCTIONAL

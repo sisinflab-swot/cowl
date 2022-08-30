@@ -27,17 +27,11 @@ static cowl_ret cowl_func_reader_read(void *scanner, UIStream *stream, CowlEdito
     return cowl_func_yyparse(scanner, editor) == 0 ? COWL_OK : COWL_ERR;
 }
 
-static ulib_uint cowl_func_reader_get_line(void *scanner) {
-    if (!(scanner && cowl_func_yyget_lloc(scanner))) return 0;
-    return (ulib_uint)cowl_func_yyget_lloc(scanner)->last_line;
-}
-
 static CowlReader const cowl_func_reader = {
     .name = "functional",
     .alloc = cowl_func_reader_alloc,
     .free = cowl_func_reader_free,
     .read = cowl_func_reader_read,
-    .get_line = cowl_func_reader_get_line
 };
 
 CowlReader cowl_reader_get_functional(void) {

@@ -306,6 +306,18 @@ void cowl_editor_handle_error(CowlEditor *editor, cowl_ret code, UString descrip
 COWL_PUBLIC
 void cowl_editor_handle_error_type(CowlEditor *editor, cowl_ret code);
 
+/**
+ * Handles a syntax error.
+ *
+ * @param editor The editor.
+ * @param line Line where the error occurred.
+ * @param description Error description.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+void cowl_editor_handle_syntax_error(CowlEditor *editor, ulib_uint line, UString description);
+
 COWL_END_DECLS
 
 #endif // COWL_EDITOR_H

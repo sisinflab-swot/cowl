@@ -48,8 +48,12 @@
     static void cowl_func_yyerror(cowl_unused COWL_FUNC_YYLTYPE *yylloc,
                                   cowl_unused yyscan_t scanner,
                                   CowlEditor *editor, const char *s) {
-        cowl_ret code = strcmp(s, "memory exhausted") ? COWL_ERR_SYNTAX : COWL_ERR_MEM;
-        cowl_editor_handle_error(editor, code, ustring_wrap(s, strlen(s)));
+        UString desc = ustring_wrap(s, strlen(s));
+        if (strcmp(s, "memory exhausted") == 0) {
+            cowl_editor_handle_error(editor, COWL_ERR_MEM, desc);
+        } else {
+            cowl_editor_handle_syntax_error(editor, yylloc->last_line, desc);
+        }
     }
 
     #define COWL_ERROR(CODE) do {                                                                   \

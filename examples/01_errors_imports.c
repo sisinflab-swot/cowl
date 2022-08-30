@@ -73,7 +73,7 @@ static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
 }
 
 /*
- * In general it is very reasonable to just check that the ontology returned by the manager
+ * In general, it is very reasonable to just check that the ontology returned by the manager
  * is not NULL. The error handler mechanism is only needed if you wish to implement
  * more fine-grained error handling. In this example, errors are logged to file.
  */

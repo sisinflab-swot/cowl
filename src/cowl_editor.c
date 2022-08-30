@@ -69,9 +69,8 @@ cowl_ret cowl_editor_add_annot(CowlEditor *editor, CowlAnnotation *annot) {
 }
 
 cowl_ret cowl_editor_remove_annot(CowlEditor *editor, CowlAnnotation *annot) {
-    cowl_ret ret = cowl_ontology_remove_annot(editor->ontology, annot);
-    if (ret) cowl_editor_handle_error_type(editor, ret);
-    return ret;
+    cowl_ontology_remove_annot(editor->ontology, annot);
+    return COWL_OK;
 }
 
 cowl_ret cowl_editor_add_import(CowlEditor *editor, CowlIRI *iri) {
@@ -128,6 +127,7 @@ cowl_ret cowl_editor_remove_import(CowlEditor *editor, CowlIRI *iri) {
     if (!import) return COWL_OK;
 
     uhmap_remove(CowlObjectTable, &editor->onto_import_map->data, import);
+    cowl_ontology_remove_import(editor->ontology, import);
     cowl_ontology_release(import);
 
     return COWL_OK;
@@ -150,13 +150,7 @@ cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom) {
 }
 
 cowl_ret cowl_editor_remove_axiom(CowlEditor *editor, CowlAxiom *axiom) {
-    cowl_ret ret = cowl_ontology_remove_axiom(editor->ontology, axiom);
-
-    if (ret) {
-        cowl_editor_handle_error_type(editor, ret);
-        return ret;
-    }
-
+    cowl_ontology_remove_axiom(editor->ontology, axiom);
     return COWL_OK;
 }
 
@@ -265,7 +259,7 @@ CowlIRI* cowl_editor_get_full_iri(CowlEditor *editor, UString ns, UString rem) {
             ustring_literal("no namespace mapping for \""), ns , ustring_literal("\"")
         };
         UString err_str = ustring_concat(comp, ulib_array_count(comp));
-        cowl_editor_handle_error(editor, COWL_ERR_SYNTAX, err_str);
+        cowl_editor_handle_error(editor, COWL_ERR, err_str);
         ustring_deinit(&err_str);
         return NULL;
     }
@@ -406,7 +400,7 @@ err:
     return NULL;
 }
 
-void cowl_editor_handle_error(CowlEditor *editor, cowl_ret code, UString description) {
+static void cowl_handle_error(CowlEditor *editor, cowl_ret code, ulib_uint line, UString desc) {
     CowlManager *manager = editor->manager;
     CowlErrorHandler handler = manager->handler;
     if (!handler.handle_error) handler = cowl_api_get_error_handler();
@@ -414,25 +408,33 @@ void cowl_editor_handle_error(CowlEditor *editor, cowl_ret code, UString descrip
 
     UString temp = ustring_is_null(editor->description) ? ustring_empty : editor->description;
     CowlString source = cowl_string_init(temp);
-    CowlString descr = cowl_string_init(description);
-    CowlReader reader = cowl_manager_get_reader(manager);
+    CowlString description = cowl_string_init(desc);
 
     CowlError error = {
         .code = code,
         .location = {
-            .line = reader.get_line ? reader.get_line(editor->state) : 0,
+            .line = line,
             .source = cowl_string_get_length(&source) ? &source : NULL,
             .iri = editor->ontology ? cowl_ontology_get_id(editor->ontology).iri : NULL,
         },
         .origin = (CowlObject *)manager,
-        .description = cowl_string_get_length(&descr) ? &descr : NULL
+        .description = cowl_string_get_length(&description) ? &description : NULL
     };
 
     handler.handle_error(handler.ctx, &error);
 }
 
+void cowl_editor_handle_error(CowlEditor *editor, cowl_ret code, UString description) {
+    cowl_handle_error(editor, code, 0, description);
+}
+
 void cowl_editor_handle_error_type(CowlEditor *editor, cowl_ret code) {
     cowl_editor_handle_error(editor, code, cowl_ret_to_ustring(code));
+}
+
+void cowl_editor_handle_syntax_error(CowlEditor *editor, ulib_uint line, UString description) {
+    if (ustring_is_empty(description)) description = cowl_ret_to_ustring(COWL_ERR_SYNTAX);
+    cowl_handle_error(editor, COWL_ERR_SYNTAX, line, description);
 }
 
 void cowl_editor_handle_stream_error(CowlEditor *editor, ustream_ret code) {

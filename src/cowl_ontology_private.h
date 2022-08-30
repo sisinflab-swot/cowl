@@ -35,13 +35,13 @@ void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
 void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
 
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
-cowl_ret cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
+void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
 
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlOntology *import);
-cowl_ret cowl_ontology_remove_import(CowlOntology *onto, CowlOntology *import);
+void cowl_ontology_remove_import(CowlOntology *onto, CowlOntology *import);
 
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
-cowl_ret cowl_ontology_remove_axiom(CowlOntology *onto, CowlAxiom *axiom);
+void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAxiom *axiom);
 
 cowl_ret cowl_ontology_finalize(CowlOntology *onto);
 
