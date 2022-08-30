@@ -78,6 +78,18 @@ COWL_PUBLIC
 cowl_ret cowl_editor_add_annot(CowlEditor *editor, CowlAnnotation *annot);
 
 /**
+ * Removes an annotation from the ontology.
+ *
+ * @param editor The editor.
+ * @param annot Annotation.
+ * @return Return code.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+cowl_ret cowl_editor_remove_annot(CowlEditor *editor, CowlAnnotation *annot);
+
+/**
  * Adds an import to the ontology.
  *
  * @param editor The editor.
@@ -90,6 +102,18 @@ COWL_PUBLIC
 cowl_ret cowl_editor_add_import(CowlEditor *editor, CowlIRI *iri);
 
 /**
+ * Removes an import from the ontology.
+ *
+ * @param editor The editor.
+ * @param iri IRI of the imported ontology.
+ * @return Return code.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+cowl_ret cowl_editor_remove_import(CowlEditor *editor, CowlIRI *iri);
+
+/**
  * Adds an axiom to the ontology.
  *
  * @param editor The editor.
@@ -100,6 +124,18 @@ cowl_ret cowl_editor_add_import(CowlEditor *editor, CowlIRI *iri);
  */
 COWL_PUBLIC
 cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom);
+
+/**
+ * Removes an axiom from the ontology.
+ *
+ * @param editor The editor.
+ * @param axiom Axiom.
+ * @return Return code.
+ *
+ * @public @memberof CowlEditor
+ */
+COWL_PUBLIC
+cowl_ret cowl_editor_remove_axiom(CowlEditor *editor, CowlAxiom *axiom);
 
 /**
  * Gets the map that associates prefixes to namespaces.

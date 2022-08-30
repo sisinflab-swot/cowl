@@ -62,55 +62,75 @@ void cowl_editor_set_version(CowlEditor *editor, CowlIRI *version) {
     cowl_ontology_set_version(editor->ontology, version);
 }
 
-cowl_ret cowl_editor_add_import(CowlEditor *editor, CowlIRI *iri) {
-    CowlOntology *import = NULL;
-    cowl_ret ret;
-
-    if (!iri) {
-        ret = COWL_ERR_MEM;
-        goto err;
-    }
-
-    CowlImportLoader loader = editor->manager->loader;
-    if (!loader.load_ontology) loader = cowl_api_get_import_loader();
-    if (!loader.load_ontology) return COWL_OK;
-
-    import = loader.load_ontology(loader.ctx, iri);
-
-    if (!import) {
-        ret = COWL_ERR_IMPORT;
-        goto err;
-    }
-
-    ret = cowl_ontology_add_import(editor->ontology, import);
-    cowl_ontology_release(import);
-
-    if (ret == COWL_OK) {
-        CowlTable *table = cowl_editor_get_onto_import_iri_map(editor, false);
-
-        if (table) {
-            uhash_ret lret = uhmap_add(CowlObjectTable, &table->data, import, iri, NULL);
-
-            if (lret == UHASH_ERR) {
-                ret = COWL_ERR_MEM;
-            } else if (lret == UHASH_INSERTED) {
-                cowl_ontology_retain(import);
-                cowl_iri_retain(iri);
-            }
-        } else {
-            ret = COWL_ERR_MEM;
-        }
-    }
-
-err:
-    if (ret) cowl_editor_handle_error_type(editor, ret);
-    return ret;
-}
-
 cowl_ret cowl_editor_add_annot(CowlEditor *editor, CowlAnnotation *annot) {
     cowl_ret ret = cowl_ontology_add_annot(editor->ontology, annot);
     if (ret) cowl_editor_handle_error_type(editor, ret);
     return ret;
+}
+
+cowl_ret cowl_editor_remove_annot(CowlEditor *editor, CowlAnnotation *annot) {
+    cowl_ret ret = cowl_ontology_remove_annot(editor->ontology, annot);
+    if (ret) cowl_editor_handle_error_type(editor, ret);
+    return ret;
+}
+
+cowl_ret cowl_editor_add_import(CowlEditor *editor, CowlIRI *iri) {
+    cowl_ret ret = COWL_OK;
+
+    if (!iri) {
+        ret = COWL_ERR_MEM;
+        goto end;
+    }
+
+    CowlOntology *import = NULL;
+    CowlImportLoader loader = editor->manager->loader;
+    if (!loader.load_ontology) loader = cowl_api_get_import_loader();
+
+    if (loader.load_ontology) {
+        if ((import = loader.load_ontology(loader.ctx, iri))) {
+            ret = cowl_ontology_add_import(editor->ontology, import);
+            cowl_ontology_release(import);
+        } else {
+            ret = COWL_ERR_IMPORT;
+        }
+    }
+
+    if (!import) goto end;
+
+    CowlTable *table = cowl_editor_get_onto_import_iri_map(editor, false);
+    if (!table) {
+        ret = COWL_ERR_MEM;
+        goto end;
+    }
+
+    uhash_ret lret = uhmap_add(CowlObjectTable, &table->data, import, iri, NULL);
+    if (lret == UHASH_ERR) {
+        ret = COWL_ERR_MEM;
+    } else if (lret == UHASH_INSERTED) {
+        cowl_ontology_retain(import);
+        cowl_iri_retain(iri);
+    }
+
+end:
+    if (ret) cowl_editor_handle_error_type(editor, ret);
+    return ret;
+}
+
+cowl_ret cowl_editor_remove_import(CowlEditor *editor, CowlIRI *iri) {
+    if (!editor->onto_import_map) return COWL_OK;
+
+    CowlTable *table = cowl_editor_get_onto_import_iri_map(editor, true);
+    if (!table) return COWL_ERR_MEM;
+
+    void *import = NULL;
+    uhmap_pop(CowlObjectTable, &table->data, iri, NULL, &import);
+    cowl_iri_release(iri);
+    if (!import) return COWL_OK;
+
+    uhmap_remove(CowlObjectTable, &editor->onto_import_map->data, import);
+    cowl_ontology_release(import);
+
+    return COWL_OK;
 }
 
 cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom) {
@@ -120,6 +140,17 @@ cowl_ret cowl_editor_add_axiom(CowlEditor *editor, CowlAxiom *axiom) {
     }
 
     cowl_ret ret = cowl_ontology_add_axiom(editor->ontology, axiom);
+
+    if (ret) {
+        cowl_editor_handle_error_type(editor, ret);
+        return ret;
+    }
+
+    return COWL_OK;
+}
+
+cowl_ret cowl_editor_remove_axiom(CowlEditor *editor, CowlAxiom *axiom) {
+    cowl_ret ret = cowl_ontology_remove_axiom(editor->ontology, axiom);
 
     if (ret) {
         cowl_editor_handle_error_type(editor, ret);

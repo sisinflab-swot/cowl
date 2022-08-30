@@ -123,6 +123,14 @@ cowl_ret cowl_vector_push(CowlVector *vec, void *object) {
     return COWL_ERR_MEM;
 }
 
+bool cowl_vector_remove(CowlVector *vec, void *object) {
+    if (uvec_remove(CowlObjectPtr, &vec->data, object)) {
+        cowl_release(object);
+        return true;
+    }
+    return false;
+}
+
 cowl_ret cowl_vector_shrink(CowlVector *vec) {
     return vec && uvec_shrink(CowlObjectPtr, &vec->data) ? COWL_ERR_MEM : COWL_OK;
 }

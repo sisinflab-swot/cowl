@@ -90,10 +90,14 @@ bool cowl_test_manager_edit_ontology(void) {
     cowl_class_release(b);
 
     ret = cowl_editor_add_axiom(editor, (CowlAxiom *)sub_axiom);
-    cowl_sub_cls_axiom_release(sub_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 3);
 
+    ret = cowl_editor_remove_axiom(editor, (CowlAxiom *)sub_axiom);
+    utest_assert_uint(ret, ==, COWL_OK);
+    utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
+
+    cowl_sub_cls_axiom_release(sub_axiom);
     cowl_ontology_release(onto);
     cowl_manager_release(manager);
     return true;

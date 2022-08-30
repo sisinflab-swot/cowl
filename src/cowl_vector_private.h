@@ -24,6 +24,7 @@ struct CowlVector {
 void cowl_vector_release_ex(CowlVector *vec, bool release_elements);
 cowl_ret cowl_vector_add(CowlVector *vec, void *object);
 cowl_ret cowl_vector_push(CowlVector *vec, void *object);
+bool cowl_vector_remove(CowlVector *vec, void *object);
 cowl_ret cowl_vector_shrink(CowlVector *vec);
 
 COWL_END_DECLS
