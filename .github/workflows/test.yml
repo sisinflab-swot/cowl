@@ -14,6 +14,7 @@ env:
   bench_target: cowl-bench
   examples_target: cowl-examples
   docs_target: cowl-docs
+  doxygen_version: ${{secrets.doxygen_version}}
 
 jobs:
   build:
@@ -105,7 +106,13 @@ jobs:
 
       - name: Configure runner
         run: |
-          brew install doxygen
+          if [ -z ${{env.doxygen_version}} ]; then
+            brew install doxygen
+          else
+            brew tap-new cowl/doxygen
+            brew extract --version=${{env.doxygen_version}} doxygen cowl/doxygen
+            brew install doxygen@${{env.doxygen_version}}
+          fi
           pip3 install -U Sphinx sphinx-rtd-theme breathe
 
       - name: Build docs
