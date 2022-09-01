@@ -29,6 +29,8 @@ cowl_struct_decl(CowlAnonInd);
  *
  * @struct CowlAnonInd
  * @extends CowlIndividual
+ * @extends CowlPrimitive
+ * @extends CowlAnnotValue
  */
 
 /**

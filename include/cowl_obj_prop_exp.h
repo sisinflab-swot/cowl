@@ -28,6 +28,7 @@ cowl_struct_decl(CowlObjPropExp);
  * [ObjectPropertyExpression]: https://www.w3.org/TR/owl2-syntax/#Object_Property_Expressions
  *
  * @struct CowlObjPropExp
+ * @extends CowlObject
  */
 
 /**

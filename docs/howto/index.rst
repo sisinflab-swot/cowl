@@ -22,7 +22,7 @@ In order to compile the library, you will need at a minimum:
 - CMake_ version 3.18 or later.
 
 There are additional requirements depending on which additional components
-you would like to build or compile (e.g. :ref:`readers <readers>`).
+you would like to build or compile (e.g. :ref:`readers <reading>`).
 
 **Functional reader:**
 
@@ -32,9 +32,9 @@ you would like to build or compile (e.g. :ref:`readers <readers>`).
 **Documentation:**
 
 - Doxygen_ version 1.8 or later.
-- Sphinx_ version 2.0 or later, Breathe_ and the `Read The Docs Theme`_.
+- *(optional)* Sphinx_ version 2.0 or later, Breathe_ and the `Read The Docs Theme`_.
 
-Sphinx is optional: Doxygen will already generate some form of HTML docs,
+Sphinx is optional as Doxygen will already generate some form of HTML docs,
 though not as fancy as the ones you are viewing.
 
 Downloading the sources
@@ -103,11 +103,25 @@ member functions, which generally accept :class:`CowlIterator` instances.
 by the query. By providing a generic context pointer, you can plug any custom data structure
 (loggers, collections, etc.), which allows for arbitrarily complex queries.
 
+Ontology editing and writing
+----------------------------
+
+Ontologies can be created from scratch, or existing ontologies can be edited by adding
+or removing axioms, annotations and other constructs, as allowed by the :class:`CowlEditor` API.
+Edited ontologies can then be written in any supported syntax
+(see :ref:`the related documentation <writing>`).
+
+Under the hood
+==============
+
+This section illustrates a few important low-level details
+that you need to know in order to correctly use the library.
+
 Memory management
 -----------------
 
 Cowl uses `reference counting`_ for memory management.
-You increase and decrease the reference count via `retain` and `release` member functions
+Reference counts are increased and decreased via `retain` and `release` member functions
 available for every data structure. The API docs are very explicit about which functions
 return already retained instances, which you must release. If nothing is specified,
 then the returned instance is not retained, meaning its lifetime is generally tied
@@ -119,11 +133,11 @@ Pseudo-inheritance
 
 Since the `OWL 2 specification`_ is highly hierarchical, the API makes extensive use
 of pseudo-inheritance for structs. Every data structure pseudo-inherits from :class:`CowlObject`,
-whose concrete type can be queried via :func:`cowl_get_type()`.
+whose concrete type can be queried via :func:`CowlObject::cowl_get_type()`.
 Pseudo-inheritance allows you, as an example, to cast a :class:`CowlClass` to :class:`CowlClsExp`
 or :class:`CowlObject` and back. Of course, if the API returns a base pseudo-class
 such as :class:`CowlClsExp` or :class:`CowlObject`, and you are unsure about its concrete subclass,
-you can check its type via `get_type` functions (e.g. :func:`cowl_cls_exp_get_type()`)
+you can check its type via `get_type` functions (e.g. :func:`CowlClsExp::cowl_cls_exp_get_type()`)
 and cast accordingly. The API docs for type enumerations explicitly state the concrete type
 associated with every enumeration value.
 

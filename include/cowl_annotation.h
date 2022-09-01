@@ -30,6 +30,7 @@ cowl_struct_decl(CowlVector);
  * [Annotation]: https://www.w3.org/TR/owl2-syntax/#Annotations
  *
  * @struct CowlAnnotation
+ * @extends CowlObject
  */
 
 /**

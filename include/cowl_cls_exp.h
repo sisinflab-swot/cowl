@@ -28,6 +28,7 @@ cowl_struct_decl(CowlClsExp);
  * [ClassExpression]: https://www.w3.org/TR/owl2-syntax/#Class_Expressions
  *
  * @struct CowlClsExp
+ * @extends CowlObject
  */
 
 /**

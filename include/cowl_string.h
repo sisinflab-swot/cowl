@@ -25,6 +25,7 @@ cowl_struct_decl(CowlString);
  * The string type.
  *
  * @struct CowlString
+ * @extends CowlObject
  */
 
 /**

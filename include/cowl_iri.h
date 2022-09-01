@@ -29,6 +29,7 @@ cowl_struct_decl(CowlIRI);
  * [International Resource Identifiers]: https://www.w3.org/TR/owl2-syntax/#IRIs
  *
  * @struct CowlIRI
+ * @extends CowlAnnotValue
  */
 
 /**

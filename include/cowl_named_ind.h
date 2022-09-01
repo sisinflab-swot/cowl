@@ -28,6 +28,7 @@ cowl_struct_decl(CowlNamedInd);
  *
  * @struct CowlNamedInd
  * @extends CowlIndividual
+ * @extends CowlEntity
  */
 
 /**

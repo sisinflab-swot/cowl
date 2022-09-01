@@ -4,5 +4,5 @@ Input / Output
 
 .. toctree::
 
-   reading
+   crud
    error

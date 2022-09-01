@@ -4,7 +4,7 @@
 What is this?
 =============
 
-*Cowl* is a lightweight C API for working with OWL 2 ontologies, developed by
+*Cowl* is a lightweight C/C++ API for working with OWL 2 ontologies, developed by
 `SisInf Lab <swot_url_>`_ at the `Polytechnic University of Bari <poliba_url_>`_.
 
 Motivation
@@ -28,20 +28,20 @@ to some key principles which make it very portable:
 Features
 ========
 
-Cowl is a complete implementation of the `OWL 2 specification`_.
-As of right now it allows you to read OWL 2 ontologies and query them
-for axioms and other constructs.
+Cowl is a complete implementation of the `OWL 2 specification`_. Currently supported features:
+
+- Deserialization of ontologies into an optimized in-memory store.
+- Arbitrarily complex ontology queries.
+- Ontology editing (addition and removal of axioms, annotations, imports, etc.).
+- Ontology serialization to files, memory buffers or custom streams.
+
+.. _limitations:
 
 Limitations
 ===========
 
-While Cowl's architecture allows for multiple readers, the library currently only provides
-a **functional syntax** built-in reader. Furthermore, it does not yet provide ontology editing
-and serialization capabilities. We plan to address these shortcomings soon.
-
-Finally, it is important to note that the library is in **early development**, as denoted by
-the `0.x version number <semver_>`_, so expect its API to change between minor releases.
-We will bump it to 1.0.0 once we are confident enough to make the public API stable.
+While Cowl's architecture allows for multiple readers and writers, the library currently only
+supports reading and writing OWL ontologies in **functional syntax**.
 
 License
 =======

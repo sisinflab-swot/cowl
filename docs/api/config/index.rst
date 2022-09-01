@@ -25,6 +25,7 @@ still be able to provide local overrides for specific objects.
 .. doxygenfunction:: cowl_api_set_error_handler
 .. doxygenfunction:: cowl_api_set_import_loader
 .. doxygenfunction:: cowl_api_set_reader
+.. doxygenfunction:: cowl_api_set_writer
 
 Library version
 ===============

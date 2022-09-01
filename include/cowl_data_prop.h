@@ -28,6 +28,7 @@ cowl_struct_decl(CowlDataProp);
  *
  * @struct CowlDataProp
  * @extends CowlDataPropExp
+ * @extends CowlEntity
  */
 
 /**

@@ -29,6 +29,7 @@ cowl_struct_decl(CowlDataRange);
  * [DataRange]: https://www.w3.org/TR/owl2-syntax/#Data_Ranges
  *
  * @struct CowlDataRange
+ * @extends CowlObject
  */
 
 /**

@@ -29,6 +29,7 @@ cowl_struct_decl(CowlAxiom);
  * [Axiom]: https://www.w3.org/TR/owl2-syntax/#Axioms
  *
  * @struct CowlAxiom
+ * @extends CowlObject
  */
 
 /**

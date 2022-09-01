@@ -30,6 +30,7 @@ cowl_struct_decl(CowlLiteral);
  * [Literal]: https://www.w3.org/TR/owl2-syntax/#Literals
  *
  * @struct CowlLiteral
+ * @extends CowlAnnotValue
  */
 
 /**

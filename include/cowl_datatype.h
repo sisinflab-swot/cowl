@@ -28,6 +28,7 @@ cowl_struct_decl(CowlDatatype);
  *
  * @struct CowlDatatype
  * @extends CowlDataRange
+ * @extends CowlEntity
  */
 
 /**

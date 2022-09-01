@@ -28,6 +28,7 @@ cowl_struct_decl(CowlClass);
  *
  * @struct CowlClass
  * @extends CowlClsExp
+ * @extends CowlEntity
  */
 
 /**

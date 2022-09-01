@@ -44,6 +44,7 @@ cowl_struct_decl(CowlOntology);
  * [Ontology]: https://www.w3.org/TR/owl2-syntax/#Ontologies
  *
  * @struct CowlOntology
+ * @extends CowlObject
  */
 
 /**

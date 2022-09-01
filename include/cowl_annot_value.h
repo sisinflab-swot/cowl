@@ -28,6 +28,7 @@ cowl_struct_decl(CowlAnnotValue);
  * @see CowlAnnotation
  *
  * @struct CowlAnnotValue
+ * @extends CowlObject
  */
 
 /**

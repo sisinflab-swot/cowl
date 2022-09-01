@@ -142,7 +142,7 @@ cowl_ret cowl_editor_remove_axiom(CowlEditor *editor, CowlAxiom *axiom);
  *
  * @param editor The editor.
  * @param reverse If true, the reversed map (namespaces to prefixes) is returned.
- * @return Prefix to namespace map.
+ * @return Prefix to namespace map, or NULL on error.
  *
  * @public @memberof CowlEditor
  */
@@ -154,7 +154,7 @@ CowlTable* cowl_editor_get_prefix_ns_map(CowlEditor *editor, bool reverse);
  *
  * @param editor The editor.
  * @param prefix The prefix.
- * @return Namespace associated with the prefix.
+ * @return Namespace associated with the prefix, or NULL if the prefix cannot be found.
  *
  * @public @memberof CowlEditor
  */
@@ -166,7 +166,7 @@ CowlString* cowl_editor_get_ns(CowlEditor *editor, CowlString *prefix);
  *
  * @param editor The editor.
  * @param ns The namespace.
- * @return Prefix associated with the namespace.
+ * @return Prefix associated with the namespace, or NULL if the prefix cannot be found.
  *
  * @public @memberof CowlEditor
  */
@@ -216,7 +216,7 @@ CowlIRI* cowl_editor_parse_full_iri(CowlEditor *editor, UString short_iri);
  *
  * @param editor The editor.
  * @param reverse If true, the reversed map (IRIs to ontologies) is returned.
- * @return Ontologies to import IRIs map.
+ * @return Ontologies to import IRIs map, or NULL on error.
  *
  * @public @memberof CowlEditor
  */
@@ -228,7 +228,7 @@ CowlTable* cowl_editor_get_onto_import_iri_map(CowlEditor *editor, bool reverse)
  *
  * @param editor The editor.
  * @param ontology The ontology.
- * @return Import IRI.
+ * @return Import IRI, or NULL if the ontology has no associated import IRI.
  *
  * @public @memberof CowlEditor
  */
@@ -240,7 +240,7 @@ CowlIRI* cowl_editor_get_import_iri(CowlEditor *editor, CowlOntology *ontology);
  *
  * @param editor The editor.
  * @param iri The import IRI.
- * @return Ontology associated with the import IRI.
+ * @return Ontology associated with the import IRI, or NULL if the IRI has no associated ontology.
  *
  * @public @memberof CowlEditor
  */
@@ -252,7 +252,7 @@ CowlOntology* cowl_editor_get_onto_for_import_iri(CowlEditor *editor, CowlIRI *i
  *
  * @param editor The editor.
  * @param reverse If true, the reversed map (anonymous individuals to local names) is returned.
- * @return Local name to anonymous individual map.
+ * @return Local name to anonymous individual map, or NULL on error.
  *
  * @public @memberof CowlEditor
  */

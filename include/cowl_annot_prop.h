@@ -27,6 +27,7 @@ cowl_struct_decl(CowlAnnotProp);
  * [AnnotationProperty]: https://www.w3.org/TR/owl2-syntax/#Annotation_Properties
  *
  * @struct CowlAnnotProp
+ * @extends CowlEntity
  */
 
 /**

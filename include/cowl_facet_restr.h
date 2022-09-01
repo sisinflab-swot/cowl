@@ -29,6 +29,7 @@ cowl_struct_decl(CowlFacetRestr);
  * @see https://www.w3.org/TR/owl2-syntax/#Datatype_Maps
  *
  * @struct CowlFacetRestr
+ * @extends CowlObject
  */
 
 /**

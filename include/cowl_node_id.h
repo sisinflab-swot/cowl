@@ -1,5 +1,5 @@
 /**
- * Defines #CowlNodeId and its API.
+ * Defines CowlNodeId and its API.
  *
  * @author Ivano Bilenchi
  *

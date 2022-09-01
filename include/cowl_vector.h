@@ -24,7 +24,7 @@ cowl_struct_decl(CowlVector);
 /// @endcond
 
 /**
- * Vector of CowlObject* elements.
+ * Vector of #CowlObject elements.
  *
  * @struct CowlVector
  * @extends CowlObject

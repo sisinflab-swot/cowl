@@ -29,6 +29,7 @@ cowl_struct_decl(CowlEntity);
  * [Entity]: https://www.w3.org/TR/owl2-syntax/#Entities.2C_Literals.2C_and_Anonymous_Individuals
  *
  * @struct CowlEntity
+ * @extends CowlPrimitive
  */
 
 /**

@@ -36,6 +36,7 @@ cowl_struct_decl(CowlManager);
  * @see CowlReader
  *
  * @struct CowlManager
+ * @extends CowlObject
  */
 
 /**
@@ -137,7 +138,7 @@ CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
  *
  * @param manager The manager.
  * @param ontology The ontology.
- * @return Ontology editor.
+ * @return Ontology editor, or NULL if the ontology is unknown to the manager.
  *
  * @public @memberof CowlEditor
  */

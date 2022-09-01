@@ -27,6 +27,7 @@ cowl_struct_decl(CowlIndividual);
  * [Individual]: https://www.w3.org/TR/owl2-syntax/#Individuals
  *
  * @struct CowlIndividual
+ * @extends CowlPrimitive
  */
 
 /**

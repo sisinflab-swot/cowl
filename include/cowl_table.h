@@ -23,7 +23,7 @@ cowl_struct_decl(CowlTable);
 /// @endcond
 
 /**
- * Hash table of CowlObject * elements.
+ * Hash table of #CowlObject elements.
  *
  * @struct CowlTable
  * @extends CowlObject

@@ -26,6 +26,7 @@ cowl_struct_decl(CowlPrimitive);
  * Represents a primitive, a collective term for entities and anonymous individuals.
  *
  * @struct CowlPrimitive
+ * @extends CowlObject
  */
 
 /**
