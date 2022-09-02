@@ -31,3 +31,8 @@ Recursive ontology querying
 ===========================
 
 .. literalinclude:: ../../examples/03_recursive_query.c
+
+Ontology editing and serialization
+==================================
+
+.. literalinclude:: ../../examples/04_editing.c
