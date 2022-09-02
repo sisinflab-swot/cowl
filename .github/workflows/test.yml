@@ -78,8 +78,15 @@ jobs:
 
     - name: Run examples
       working-directory: ${{env.build_dir}}/examples
-      run: >
-        [ $RUNNER_OS == 'Windows' ] && ./*-example.exe || ./*-example
+      run: |
+        if [ $RUNNER_OS == 'Windows' ]; then
+          EXAMPLES=(./*-example.exe)
+        else
+          EXAMPLES=(./*-example)
+        fi
+        for EXAMPLE in "${EXAMPLES[@]}"; do
+          "${EXAMPLE}"
+        done
       shell: bash
 
     - name: Run benchmark
