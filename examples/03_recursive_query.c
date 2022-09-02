@@ -10,8 +10,8 @@
  */
 #include "cowl_api.h"
 
-#define ONTO_PATH "example_pizza.owl"
-#define ONTO_NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
+#define ONTO "example_pizza.owl"
+#define NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
 static bool for_each_cls(void *ctx, void *cls);
@@ -20,11 +20,11 @@ int main(void) {
     cowl_api_init();
 
     CowlManager *manager = cowl_manager_get();
-    CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO_PATH));
+    CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO));
     cowl_manager_release(manager);
 
     if (ontology) {
-        CowlClass *cls = cowl_class_from_static(ONTO_NS CLASS_NAME);
+        CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
         puts("Recursive atomic subclasses of " CLASS_NAME ":\n");
 
         // Since we are going to perform a recursive query,

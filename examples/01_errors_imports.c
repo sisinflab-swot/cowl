@@ -10,9 +10,9 @@
  */
 #include "cowl_api.h"
 
-#define ONTO_PATH "example_pizza.owl"
-#define IMPORT_PATH "import.owl"
-#define ERROR_LOG_PATH "errors.log"
+#define ONTO "example_pizza.owl"
+#define IMPORT "import.owl"
+#define LOG "errors.log"
 
 static CowlOntology* load_import(void *ctx, CowlIRI *iri);
 static void handle_error(void *ctx, CowlError const *error);
@@ -28,7 +28,7 @@ int main(void) {
     cowl_api_set_import_loader(cowl_import_loader_init(NULL, load_import, NULL));
 
     UOStream stream;
-    if (uostream_to_path(&stream, ERROR_LOG_PATH)) {
+    if (uostream_to_path(&stream, LOG)) {
         return EXIT_FAILURE;
     }
 
@@ -38,12 +38,12 @@ int main(void) {
     CowlManager *manager = cowl_manager_get();
 
     if (manager) {
-        CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO_PATH));
+        CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
 
         // Do stuff with the ontology.
-        if (ontology) {
-            cowl_manager_write_file(manager, ontology, stdout);
-            cowl_ontology_release(ontology);
+        if (onto) {
+            cowl_manager_write_file(manager, onto, stdout);
+            cowl_ontology_release(onto);
         }
 
         cowl_manager_release(manager);
@@ -65,7 +65,7 @@ static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
     CowlManager *manager = cowl_manager_get();
 
     if (manager) {
-        import = cowl_manager_read_path(manager, ustring_literal(IMPORT_PATH));
+        import = cowl_manager_read_path(manager, ustring_literal(IMPORT));
         cowl_manager_release(manager);
     }
 
@@ -73,9 +73,9 @@ static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
 }
 
 /*
- * In general, it is very reasonable to just check that the ontology returned by the manager
- * is not NULL. The error handler mechanism is only needed if you wish to implement
- * more fine-grained error handling. In this example, errors are logged to file.
+ * In general, it is very reasonable to just check that the ontology returned
+ * by the manager is not NULL. The error handler mechanism is only needed if you wish
+ * to implement more fine-grained error handling. In this example, errors are logged.
  */
 static void handle_error(void *ctx, CowlError const *error) {
     cowl_write_error(ctx, error);

@@ -11,7 +11,7 @@
  */
 #include "cowl_api.h"
 
-#define ONTO_PATH "example_pizza.owl"
+#define ONTO "example_pizza.owl"
 
 int main(void) {
 
@@ -20,11 +20,11 @@ int main(void) {
 
     // Instantiate a manager and deserialize an ontology from file.
     CowlManager *manager = cowl_manager_get();
-    CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO_PATH));
+    CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO));
 
     if (ontology) {
-        // Do stuff with the ontology.
-        // In this case we are just logging it to standard output using the default writer.
+        // Do stuff with the ontology. In this case we are just logging it
+        // to the standard output using the default writer.
         cowl_manager_write_file(manager, ontology, stdout);
 
         // Release the ontology.
