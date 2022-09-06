@@ -557,7 +557,7 @@ bool cowl_equals_impl(void *lhs, void *rhs) {
     }
 
     void *lhs_opt = cowl_get_opt_field(lhs), *rhs_opt = cowl_get_opt_field(rhs);
-    if (lhs == rhs) return true;
+    if (lhs_opt == rhs_opt) return true;
 
     return cowl_equals(lhs_opt, rhs_opt);
 }
