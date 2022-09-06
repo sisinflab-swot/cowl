@@ -8,6 +8,7 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 Ontology(<http://swot.sisinflab.poliba.it/test_import>
 
+Declaration(Class(:ClassA))
 Declaration(ObjectProperty(:ObjectPropertyA))
 Declaration(DataProperty(:DataPropertyA))
 Declaration(AnnotationProperty(:AnnotationPropertyA))
@@ -28,6 +29,16 @@ ObjectPropertyAssertion(:ObjectPropertyA :IndividualA :IndividualB)
 # Individual: :IndividualB (:IndividualB)
 
 DataPropertyAssertion(:DataPropertyA :IndividualB "true"^^xsd:boolean)
+
+
+
+############################
+#   Anonymous Individuals
+############################
+
+# Individual: _:genid2147483648 (_:genid2147483648)
+
+ClassAssertion(:ClassA _:genid2147483648)
 
 
 

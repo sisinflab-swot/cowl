@@ -15,12 +15,15 @@
 #include "cowl_manager.h"
 #include "cowl_ontology.h"
 #include "cowl_sub_cls_axiom.h"
+#include "cowl_string.h"
 #include "cowl_test_utils.h"
+#include "cowl_vector.h"
 
 // Utils
 
 #define ONTO_NS "http://onto.owl#"
 #define COWL_ONTOLOGY_LOG COWL_TEST_ONTOLOGY ".log"
+#define COWL_ONTOLOGY_OUT "test_onto_out.owl"
 
 static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
     cowl_write_error(ctx, error);
@@ -38,6 +41,7 @@ bool cowl_test_manager_lifecycle(void) {
 
 bool cowl_test_manager_read_ontology(void) {
     CowlManager *manager = cowl_manager_get();
+    utest_assert_not_null(manager);
 
     CowlImportLoader loader = cowl_import_loader_init(manager, cowl_test_load_import, NULL);
     cowl_manager_set_import_loader(manager, loader);
@@ -55,6 +59,45 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_uint(ret, ==, COWL_OK);
 
     cowl_ontology_release(onto);
+    cowl_manager_release(manager);
+
+    return true;
+}
+
+bool cowl_test_manager_write_ontology(void) {
+    CowlManager *manager = cowl_manager_get();
+    utest_assert_not_null(manager);
+
+    CowlOntology *onto_in = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
+    utest_assert_not_null(onto_in);
+
+    cowl_ret ret = cowl_manager_write_path(manager, onto_in, ustring_literal(COWL_ONTOLOGY_OUT));
+    utest_assert_uint(ret, ==, COWL_OK);
+
+    CowlOntology *onto_out = cowl_manager_read_path(manager, ustring_literal(COWL_ONTOLOGY_OUT));
+    utest_assert_not_null(onto_out);
+
+    // Check that the written ontology is syntactically equal to the test ontology.
+    cowl_assert_equal(ontology, onto_in, onto_out);
+
+    CowlVector *annot_in = cowl_ontology_get_annot(onto_in);
+    CowlVector *annot_out = cowl_ontology_get_annot(onto_out);
+    cowl_assert_equal(vector, annot_in, annot_out);
+
+    UHash(CowlObjectTable) axioms_in = uhset_init(CowlObjectTable);
+    CowlIterator iter = cowl_iterator_set_init(&axioms_in);
+    cowl_ontology_iterate_axioms(onto_in, &iter, false);
+
+    UHash(CowlObjectTable) axioms_out = uhset_init(CowlObjectTable);
+    iter = cowl_iterator_set_init(&axioms_out);
+    cowl_ontology_iterate_axioms(onto_out, &iter, false);
+
+    utest_assert(uhset_equals(CowlObjectTable, &axioms_in, &axioms_out));
+
+    uhash_deinit(CowlObjectTable, &axioms_in);
+    uhash_deinit(CowlObjectTable, &axioms_out);
+    cowl_ontology_release(onto_in);
+    cowl_ontology_release(onto_out);
     cowl_manager_release(manager);
 
     return true;
