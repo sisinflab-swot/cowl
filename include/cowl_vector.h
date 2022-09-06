@@ -112,6 +112,21 @@ COWL_PUBLIC
 UVec(CowlObjectPtr) const* cowl_vector_get_data(CowlVector *vec);
 
 /**
+ * Returns the string representation of the specified vector.
+ *
+ * @param vec The vector.
+ * @return String representation, or NULL on error.
+ *
+ * @note The returned string is retained, so you are responsible for releasing it.
+ *
+ * @public @memberof CowlVector
+ */
+COWL_INLINE
+CowlString* cowl_vector_to_string(CowlVector *vec) {
+    return cowl_to_string(vec);
+}
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.
