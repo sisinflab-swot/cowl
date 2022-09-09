@@ -50,14 +50,17 @@ typedef struct CowlIterator {
 /**
  * Initializes an iterator.
  *
- * @param CTX Iterator context, can be anything.
- * @param FOR_EACH Pointer to a function called by the iterator for every element.
+ * @param ctx Iterator context, can be anything.
+ * @param for_each Pointer to a function called by the iterator for every element.
  * @return Initialized iterator.
  *
- * @public @related CowlIterator
+ * @public @memberof CowlIterator
  */
-#define cowl_iterator_init(CTX, FOR_EACH) \
-    ((CowlIterator){ .ctx = (void *)(CTX), .for_each = (FOR_EACH) })
+COWL_INLINE
+CowlIterator cowl_iterator_init(void *ctx, bool (*for_each)(void *, void *)) {
+    CowlIterator i = { .ctx = ctx, .for_each = for_each };
+    return i;
+}
 
 /**
  * Initializes an iterator that stores objects in the specified vector.

@@ -18,5 +18,5 @@
 // Import loader
 
 CowlOntology* cowl_test_load_import(void *ctx, cowl_unused CowlIRI *iri) {
-    return cowl_manager_read_path(ctx, ustring_literal(COWL_TEST_IMPORT));
+    return cowl_manager_read_path((CowlManager *)ctx, ustring_literal(COWL_TEST_IMPORT));
 }

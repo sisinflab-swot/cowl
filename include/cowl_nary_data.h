@@ -45,8 +45,8 @@ cowl_struct_decl(CowlNAryData);
 COWL_INLINE
 CowlNAryData* cowl_nary_data_get(CowlNAryType type, CowlVector *operands) {
     if (!cowl_enum_value_is_valid(NT, type)) return NULL;
-    return (CowlNAryData *)cowl_get_impl_1((CowlObjectType)(COWL_OT_DR_DATA_INTERSECT + type),
-                                           operands);
+    CowlObjectType t = (CowlObjectType)(COWL_OT_DR_DATA_INTERSECT + (CowlObjectType)type);
+    return (CowlNAryData *)cowl_get_impl_1(t, operands);
 }
 
 /**

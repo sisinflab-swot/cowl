@@ -129,9 +129,9 @@ bool cowl_test_ontology_imports_count(void) {
 bool cowl_test_ontology_axiom_count_for_type(void) {
     ulib_uint *expected_axiom_counts = test_onto_axiom_counts();
 
-    for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
+    for (ulib_uint type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
         ulib_uint expected_count = expected_axiom_counts[type];
-        ulib_uint count = cowl_ontology_axiom_count_for_type(onto, type, true);
+        ulib_uint count = cowl_ontology_axiom_count_for_type(onto, (CowlAxiomType)type, true);
         utest_assert_uint(count, ==, expected_count);
     }
 
@@ -139,47 +139,48 @@ bool cowl_test_ontology_axiom_count_for_type(void) {
 }
 
 bool cowl_test_ontology_primitives_count(void) {
-    for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
-        ulib_uint c = cowl_ontology_primitives_count(onto, cowl_primitive_flags_from_type(i), true);
+    for (ulib_uint i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
+        CowlPrimitiveFlags flags = cowl_primitive_flags_from_type((CowlPrimitiveType)i);
+        ulib_uint c = cowl_ontology_primitives_count(onto, flags, true);
         utest_assert_uint(c, ==, test_primitives_count[i]);
     }
     return true;
 }
 
 static bool cowl_test_get_first_anon_ind(void *ctx, void *obj) {
-    *((CowlAnonInd**)ctx) = obj;
+    *((CowlAnonInd**)ctx) = (CowlAnonInd *)obj;
     return false;
 }
 
 bool cowl_test_ontology_axiom_count_for_primitive(void) {
     void *primitive = cowl_class_from_static(test_onto_iri test_class);
     ulib_uint count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
-    cowl_class_release(primitive);
+    cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_CLASS]);
 
     primitive = cowl_datatype_from_static(test_onto_iri test_datatype);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
-    cowl_datatype_release(primitive);
+    cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_DATATYPE]);
 
     primitive = cowl_obj_prop_from_static(test_onto_iri test_obj_prop);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
-    cowl_obj_prop_release(primitive);
+    cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_OBJ_PROP]);
 
     primitive = cowl_data_prop_from_static(test_onto_iri test_data_prop);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
-    cowl_data_prop_release(primitive);
+    cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_DATA_PROP]);
 
     primitive = cowl_annot_prop_from_static(test_onto_iri test_annot_prop);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
-    cowl_annot_prop_release(primitive);
+    cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_ANNOT_PROP]);
 
     primitive = cowl_named_ind_from_static(test_onto_iri test_named_ind);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
-    cowl_named_ind_release(primitive);
+    cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_NAMED_IND]);
 
     CowlIterator iter = cowl_iterator_init(&primitive, cowl_test_get_first_anon_ind);

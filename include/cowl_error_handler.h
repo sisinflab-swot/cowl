@@ -49,15 +49,20 @@ typedef struct CowlErrorHandler {
 /**
  * Initializes a new error handler.
  *
- * @param CTX Error handler context.
- * @param HANDLER_FUNC Pointer to an error handling function.
- * @param FREE_FUNC Pointer to a resource deallocator function for the context.
+ * @param ctx Error handler context.
+ * @param handler_func Pointer to an error handling function.
+ * @param free_func Pointer to a resource deallocator function for the context.
  * @return Error handler instance.
  *
- * @public @related CowlErrorHandler
+ * @public @memberof CowlErrorHandler
  */
-#define cowl_error_handler_init(CTX, HANDLER_FUNC, FREE_FUNC) \
-    ((CowlErrorHandler){ .ctx = (CTX), .handle_error = (HANDLER_FUNC), .free = (FREE_FUNC)})
+COWL_INLINE
+CowlErrorHandler cowl_error_handler_init(void *ctx,
+                                         void (*handler_func)(void *, CowlError const *),
+                                         void (*free_func)(void *)) {
+    CowlErrorHandler h = { .ctx = ctx, .handle_error = handler_func, .free = free_func };
+    return h;
+}
 
 COWL_END_DECLS
 

@@ -26,8 +26,9 @@
 #define COWL_ONTOLOGY_OUT "test_onto_out.owl"
 
 static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
-    cowl_write_error(ctx, error);
-    cowl_write_static(ctx, "\n");
+    UOStream *stream = (UOStream *)ctx;
+    cowl_write_error(stream, error);
+    cowl_write_static(stream, "\n");
 }
 
 // Tests

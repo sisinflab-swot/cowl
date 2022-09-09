@@ -51,8 +51,8 @@ COWL_INLINE
 CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
                                  CowlDataRange *range, ulib_uint cardinality) {
     if (!cowl_enum_value_is_valid(CT, type)) return NULL;
-    return (CowlDataCard *)cowl_get_impl_1_uint_opt((CowlObjectType)(COWL_OT_CE_DATA_MIN_CARD + type),
-                                                    prop, cardinality, range);
+    CowlObjectType t = (CowlObjectType)(COWL_OT_CE_DATA_MIN_CARD + (CowlObjectType)type);
+    return (CowlDataCard *)cowl_get_impl_1_uint_opt(t, prop, cardinality, range);
 }
 
 /**
