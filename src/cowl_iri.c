@@ -48,7 +48,7 @@ static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     return iri;
 }
 
-CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
+CowlIRI* cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
     if (!(ns && (ns = cowl_string_intern(ns)))) return NULL;
 
     ulib_uint idx;
@@ -72,7 +72,7 @@ CowlIRI* cowl_iri_unvalidated_get(CowlString *ns, CowlString *rem) {
     return val;
 }
 
-CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
+CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix) {
     if (!(prefix && suffix)) return NULL;
 
     UString p_str = prefix->raw_string;
@@ -91,8 +91,8 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
             return NULL;
         }
 
-        prefix = cowl_string_get(ustrbuf_to_ustring(&buf));
-        suffix = cowl_string_get(ustring_copy(s_cstr + s_ns_len, ustring_length(s_str) - s_ns_len));
+        prefix = cowl_string(ustrbuf_to_ustring(&buf));
+        suffix = cowl_string(ustring_copy(s_cstr + s_ns_len, ustring_length(s_str) - s_ns_len));
     } else {
         ulib_uint p_ns_len = cowl_xml_ns_length(p_str);
 
@@ -107,8 +107,8 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
                 return NULL;
             }
 
-            prefix = cowl_string_get(ustring_copy(p_cstr, p_ns_len));
-            suffix = cowl_string_get(ustrbuf_to_ustring(&buf));
+            prefix = cowl_string(ustring_copy(p_cstr, p_ns_len));
+            suffix = cowl_string(ustrbuf_to_ustring(&buf));
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
             cowl_string_retain(prefix);
@@ -119,7 +119,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
     CowlIRI *iri = NULL;
 
     if (prefix && suffix) {
-        iri = cowl_iri_unvalidated_get(prefix, suffix);
+        iri = cowl_iri_unvalidated(prefix, suffix);
     }
 
     cowl_string_release(prefix);
@@ -144,7 +144,7 @@ CowlIRI* cowl_iri_from_string(UString string) {
     CowlString *parts[2] = { NULL };
     if (cowl_string_get_ns_rem(string, ns_length, parts)) return NULL;
 
-    CowlIRI *iri = cowl_iri_unvalidated_get(parts[0], parts[1]);
+    CowlIRI *iri = cowl_iri_unvalidated(parts[0], parts[1]);
 
     cowl_string_release(parts[0]);
     cowl_string_release(parts[1]);

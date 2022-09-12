@@ -41,7 +41,7 @@ cowl_struct_decl(CowlAnonInd);
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-CowlAnonInd* cowl_anon_ind_get(void);
+CowlAnonInd* cowl_anon_ind(void);
 
 /**
  * Retains the specified anonymous individual.

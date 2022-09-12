@@ -15,7 +15,7 @@
 
 static ulib_uint const rand_id_len = P_USTRING_SMALL_SIZE - 1;
 
-CowlAnonInd* cowl_anon_ind_get(void) {
+CowlAnonInd* cowl_anon_ind(void) {
     CowlObject *ind = ulib_alloc(ind);
     if (!ind) return NULL;
     *ind = COWL_OBJECT_INIT(COWL_OT_I_ANONYMOUS);

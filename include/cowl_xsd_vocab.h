@@ -382,14 +382,14 @@ typedef struct CowlXSDVocab {
 } CowlXSDVocab;
 
 /**
- * Gets the XSD vocabulary.
+ * Returns the XSD vocabulary.
  *
  * @return The XSD vocabulary.
  *
  * @public @memberof CowlXSDVocab
  */
 COWL_PUBLIC
-CowlXSDVocab const* cowl_xsd_vocab_get(void);
+CowlXSDVocab const* cowl_xsd_vocab(void);
 
 COWL_END_DECLS
 

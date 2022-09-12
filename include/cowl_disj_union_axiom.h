@@ -43,8 +43,7 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-CowlDisjUnionAxiom* cowl_disj_union_axiom_get(CowlClass *cls, CowlVector *disjoints,
-                                              CowlVector *annot) {
+CowlDisjUnionAxiom* cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) {
     return (CowlDisjUnionAxiom *)cowl_get_impl_2_opt(COWL_OT_A_DISJ_UNION, cls, disjoints, annot);
 }
 

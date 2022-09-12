@@ -40,7 +40,7 @@ cowl_struct_decl(CowlObjOneOf);
  * @public @memberof CowlObjOneOf
  */
 COWL_INLINE
-CowlObjOneOf* cowl_obj_one_of_get(CowlVector *inds) {
+CowlObjOneOf* cowl_obj_one_of(CowlVector *inds) {
     return (CowlObjOneOf *)cowl_get_impl_1(COWL_OT_CE_OBJ_ONE_OF, inds);
 }
 

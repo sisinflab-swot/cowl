@@ -50,10 +50,8 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlObjPropExp *prop,
-                                                       CowlIndividual *subject,
-                                                       CowlIndividual *object,
-                                                       CowlVector *annot) {
+CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom(CowlObjPropExp *prop, CowlIndividual *subject,
+                                                   CowlIndividual *object, CowlVector *annot) {
     return (CowlObjPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_OBJ_PROP_ASSERT,
                                                          prop, subject, object, annot);
 }
@@ -70,10 +68,8 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_get(CowlObjPropExp *prop,
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom_get(CowlObjPropExp *prop,
-                                                           CowlIndividual *subject,
-                                                           CowlIndividual *object,
-                                                           CowlVector *annot) {
+CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom(CowlObjPropExp *prop, CowlIndividual *subject,
+                                                       CowlIndividual *object, CowlVector *annot) {
     return (CowlObjPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_NEG_OBJ_PROP_ASSERT,
                                                          prop, subject, object, annot);
 }

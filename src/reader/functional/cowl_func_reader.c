@@ -34,6 +34,6 @@ static CowlReader const cowl_func_reader = {
     .read = cowl_func_reader_read,
 };
 
-CowlReader cowl_reader_get_functional(void) {
+CowlReader cowl_reader_functional(void) {
     return cowl_func_reader;
 }

@@ -22,20 +22,20 @@ static inline cowl_ret cowl_rdf_vocab_validate(void) {
 }
 
 cowl_ret cowl_rdf_vocab_init(void) {
-    CowlString *ns = cowl_string_vocab_get("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+    CowlString *ns = cowl_string_vocab("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 
     CowlRDFIRIVocab v = {
-        .plain_literal = cowl_iri_vocab_get(ns, "PlainLiteral"),
-        .xml_literal = cowl_iri_vocab_get(ns, "XMLLiteral"),
-        .lang_range = cowl_iri_vocab_get(ns, "langRange")
+        .plain_literal = cowl_iri_vocab(ns, "PlainLiteral"),
+        .xml_literal = cowl_iri_vocab(ns, "XMLLiteral"),
+        .lang_range = cowl_iri_vocab(ns, "langRange")
     };
 
     vocab = (struct CowlRDFVocab) {
         .ns = ns,
         .iri = v,
         .dt = {
-            .plain_literal = cowl_datatype_vocab_get(v.plain_literal),
-            .xml_literal = cowl_datatype_vocab_get(v.xml_literal)
+            .plain_literal = cowl_datatype_vocab(v.plain_literal),
+            .xml_literal = cowl_datatype_vocab(v.xml_literal)
         }
     };
 
@@ -51,6 +51,6 @@ void cowl_rdf_vocab_deinit(void) {
     cowl_datatype_vocab_free(vocab.dt.xml_literal);
 }
 
-CowlRDFVocab const* cowl_rdf_vocab_get(void) {
+CowlRDFVocab const* cowl_rdf_vocab(void) {
     return &vocab;
 }

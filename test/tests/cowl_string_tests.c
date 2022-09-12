@@ -22,10 +22,10 @@ bool cowl_test_string_lifecycle(void) {
 }
 
 bool cowl_test_string_get_empty(void) {
-    CowlString *string = cowl_string_get_empty();
+    CowlString *string = cowl_string_empty();
     utest_assert_ustring(*cowl_string_get_raw(string), ==, ustring_empty);
 
-    CowlString *other = cowl_string_get_empty();
+    CowlString *other = cowl_string_empty();
     utest_assert_ptr(string, ==, other);
 
     cowl_string_release(string);

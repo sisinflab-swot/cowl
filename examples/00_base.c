@@ -18,7 +18,7 @@ int main(void) {
     cowl_init();
 
     // Instantiate a manager and deserialize an ontology from file.
-    CowlManager *manager = cowl_manager_get();
+    CowlManager *manager = cowl_manager();
     CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO));
 
     if (ontology) {

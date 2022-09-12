@@ -26,7 +26,7 @@ UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
 HASH_GEN(primitive, map)
 HASH_GEN(string, map)
 
-CowlTable* cowl_table_get(UHash(CowlObjectTable) *table) {
+CowlTable* cowl_table(UHash(CowlObjectTable) *table) {
     CowlTable *tbl = ulib_alloc(tbl);
 
     if (!tbl) {

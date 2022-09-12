@@ -29,7 +29,7 @@ struct CowlOntology {
     CowlOntologyId id;
 };
 
-CowlOntology* cowl_ontology_get(void);
+CowlOntology* cowl_ontology(void);
 
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
 void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);

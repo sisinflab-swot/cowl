@@ -43,7 +43,7 @@ static CowlWriter const cowl_func_writer = {
     .write = cowl_func_write
 };
 
-CowlWriter cowl_writer_get_functional(void) {
+CowlWriter cowl_writer_functional(void) {
     return cowl_func_writer;
 }
 
@@ -172,7 +172,7 @@ static ustream_ret cowl_func_write_literal(UOStream *s, CowlLiteral *literal, Co
     cowl_write_static(s, "\"");
 
     CowlDatatype *dt = cowl_literal_get_datatype(literal);
-    if (cowl_datatype_equals(dt, cowl_rdf_vocab_get()->dt.plain_literal)) {
+    if (cowl_datatype_equals(dt, cowl_rdf_vocab()->dt.plain_literal)) {
         CowlString *lang = cowl_literal_get_lang(literal);
         if (lang) {
             cowl_write_static(s, "@");

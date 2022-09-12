@@ -43,7 +43,7 @@ cowl_struct_decl(CowlIRI);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix);
+CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix);
 
 /**
  * Returns a retained IRI given its string representation.

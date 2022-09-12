@@ -48,8 +48,8 @@ cowl_struct_decl(CowlDataCard);
  * @public @memberof CowlDataCard
  */
 COWL_INLINE
-CowlDataCard* cowl_data_card_get(CowlCardType type, CowlDataPropExp *prop,
-                                 CowlDataRange *range, ulib_uint cardinality) {
+CowlDataCard* cowl_data_card(CowlCardType type, CowlDataPropExp *prop,
+                             CowlDataRange *range, ulib_uint cardinality) {
     if (!cowl_enum_value_is_valid(CT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_CE_DATA_MIN_CARD + (CowlObjectType)type);
     return (CowlDataCard *)cowl_get_impl_1_uint_opt(t, prop, cardinality, range);

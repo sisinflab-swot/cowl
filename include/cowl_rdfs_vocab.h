@@ -87,14 +87,14 @@ typedef struct CowlRDFSVocab {
 } CowlRDFSVocab;
 
 /**
- * Gets the RDFS vocabulary.
+ * Returns the RDFS vocabulary.
  *
  * @return The RDFS vocabulary.
  *
  * @public @memberof CowlRDFSVocab
  */
 COWL_PUBLIC
-CowlRDFSVocab const* cowl_rdfs_vocab_get(void);
+CowlRDFSVocab const* cowl_rdfs_vocab(void);
 
 COWL_END_DECLS
 

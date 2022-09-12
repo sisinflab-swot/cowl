@@ -44,8 +44,8 @@ cowl_struct_decl(CowlObjPropDomainAxiom);
  * @public @memberof CowlObjPropDomainAxiom
  */
 COWL_INLINE
-CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom_get(CowlObjPropExp *prop, CowlClsExp *domain,
-                                                       CowlVector *annot) {
+CowlObjPropDomainAxiom* cowl_obj_prop_domain_axiom(CowlObjPropExp *prop, CowlClsExp *domain,
+                                                   CowlVector *annot) {
     return (CowlObjPropDomainAxiom *)cowl_get_impl_2_opt(COWL_OT_A_OBJ_PROP_DOMAIN,
                                                          prop, domain, annot);
 }

@@ -40,7 +40,7 @@ cowl_struct_decl(CowlClass);
  * @public @memberof CowlClass
  */
 COWL_INLINE
-CowlClass* cowl_class_get(CowlIRI *iri) {
+CowlClass* cowl_class(CowlIRI *iri) {
     return (CowlClass *)cowl_entity_get_impl(COWL_OT_CE_CLASS, iri);
 }
 

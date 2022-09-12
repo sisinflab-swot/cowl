@@ -37,7 +37,7 @@ CowlString cowl_string_init(UString raw_string) {
 }
 
 static CowlString* cowl_string_get_intern(UString raw_string) {
-    if (!ustring_length(raw_string)) return cowl_string_get_empty();
+    if (!ustring_length(raw_string)) return cowl_string_empty();
 
     CowlString *string;
     CowlString key = cowl_string_init(raw_string);
@@ -49,7 +49,7 @@ static CowlString* cowl_string_get_intern(UString raw_string) {
         string = uhash_key(CowlObjectTable, &inst_tbl, idx);
         cowl_string_retain(string);
     } else if (ret == UHASH_INSERTED) {
-        string = cowl_string_get(ustring_dup(raw_string));
+        string = cowl_string(ustring_dup(raw_string));
         cowl_object_bit_set(string);
         uhash_key(CowlObjectTable, &inst_tbl, idx) = string;
     } else {
@@ -93,10 +93,10 @@ cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString 
     char const *cstring = ustring_data(string);
 
     if (ns_length < str_len) {
-        rhs = cowl_string_get(ustring_copy(cstring + ns_length, str_len - ns_length));
+        rhs = cowl_string(ustring_copy(cstring + ns_length, str_len - ns_length));
     } else {
         ns_length = str_len;
-        rhs = cowl_string_get_empty();
+        rhs = cowl_string_empty();
     }
 
     UString raw_string = ustring_wrap(cstring, ns_length);
@@ -118,7 +118,7 @@ cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString 
     return ret;
 }
 
-CowlString* cowl_string_get(UString raw_string) {
+CowlString* cowl_string(UString raw_string) {
     if (ustring_is_null(raw_string)) return NULL;
     CowlString *string = ulib_alloc(string);
     if (string) {
@@ -129,7 +129,7 @@ CowlString* cowl_string_get(UString raw_string) {
     return string;
 }
 
-CowlString* cowl_string_get_empty(void) {
+CowlString* cowl_string_empty(void) {
     return cowl_string_retain(empty);
 }
 
@@ -183,11 +183,11 @@ CowlString* cowl_string_with_format(char const *format, ...) {
     va_start(args, format);
     UString raw_string = ustring_with_format_list(format, args);
     va_end(args);
-    return cowl_string_get(raw_string);
+    return cowl_string(raw_string);
 }
 
 CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs) {
     UString comp[] = { lhs->raw_string, rhs->raw_string };
     UString cat = ustring_concat(comp, ulib_array_count(comp));
-    return cowl_string_get(cat);
+    return cowl_string(cat);
 }

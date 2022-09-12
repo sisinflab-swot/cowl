@@ -45,8 +45,8 @@ cowl_struct_decl(CowlNAryIndAxiom);
  * @public @memberof CowlNAryIndAxiom
  */
 COWL_INLINE
-CowlNAryIndAxiom* cowl_nary_ind_axiom_get(CowlNAryAxiomType type, CowlVector *individuals,
-                                          CowlVector *annot) {
+CowlNAryIndAxiom* cowl_nary_ind_axiom(CowlNAryAxiomType type, CowlVector *individuals,
+                                      CowlVector *annot) {
     if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_A_SAME_IND + (CowlObjectType)type);
     return (CowlNAryIndAxiom *)cowl_get_impl_1_opt(t, individuals, annot);

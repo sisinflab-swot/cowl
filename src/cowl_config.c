@@ -28,13 +28,13 @@ static CowlReader global_reader;
 static CowlWriter global_writer;
 
 #ifdef COWL_DEFAULT_READER
-    #define cowl_default_reader() P_ULIB_MACRO_CONCAT(cowl_reader_get_, COWL_DEFAULT_READER)()
+    #define cowl_default_reader() P_ULIB_MACRO_CONCAT(cowl_reader_, COWL_DEFAULT_READER)()
 #else
     #define cowl_default_reader() ((CowlReader){0})
 #endif
 
 #ifdef COWL_DEFAULT_WRITER
-    #define cowl_default_writer() P_ULIB_MACRO_CONCAT(cowl_writer_get_, COWL_DEFAULT_WRITER)()
+    #define cowl_default_writer() P_ULIB_MACRO_CONCAT(cowl_writer_, COWL_DEFAULT_WRITER)()
 #else
     #define cowl_default_writer() ((CowlWriter){0})
 #endif

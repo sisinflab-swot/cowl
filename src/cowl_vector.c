@@ -30,11 +30,11 @@ static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
     return vec;
 }
 
-CowlVector* cowl_vector_get(UVec(CowlObjectPtr) *vec) {
+CowlVector* cowl_vector(UVec(CowlObjectPtr) *vec) {
     return cowl_vector_alloc(vec, false);
 }
 
-CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec) {
+CowlVector* cowl_vector_ordered(UVec(CowlObjectPtr) *vec) {
     return cowl_vector_alloc(vec, true);
 }
 

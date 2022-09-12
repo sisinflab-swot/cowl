@@ -50,7 +50,7 @@ cowl_struct_decl(CowlManager);
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlManager* cowl_manager_get(void);
+CowlManager* cowl_manager(void);
 
 /**
  * Retains the specified manager.

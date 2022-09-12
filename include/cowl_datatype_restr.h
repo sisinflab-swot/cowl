@@ -42,7 +42,7 @@ cowl_struct_decl(CowlDatatypeRestr);
  * @public @memberof CowlDatatypeRestr
  */
 COWL_INLINE
-CowlDatatypeRestr* cowl_datatype_restr_get(CowlDatatype *datatype, CowlVector *restrictions) {
+CowlDatatypeRestr* cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restrictions) {
     return (CowlDatatypeRestr *)cowl_get_impl_2(COWL_OT_DR_DATATYPE_RESTR, datatype, restrictions);
 }
 

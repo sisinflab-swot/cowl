@@ -41,5 +41,5 @@ cowl_ret cowl_ret_from_uhash(uhash_ret ret) {
 }
 
 CowlString* cowl_ret_to_string(cowl_ret ret) {
-    return cowl_string_get(ustring_dup(cowl_ret_to_ustring(ret)));
+    return cowl_string(ustring_dup(cowl_ret_to_ustring(ret)));
 }

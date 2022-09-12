@@ -40,7 +40,7 @@ cowl_struct_decl(CowlObjProp);
  * @public @memberof CowlObjProp
  */
 COWL_INLINE
-CowlObjProp* cowl_obj_prop_get(CowlIRI *iri) {
+CowlObjProp* cowl_obj_prop(CowlIRI *iri) {
     return (CowlObjProp *)cowl_entity_get_impl(COWL_OT_OPE_OBJ_PROP, iri);
 }
 

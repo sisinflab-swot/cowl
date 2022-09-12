@@ -40,7 +40,7 @@ cowl_struct_decl(CowlTable);
  * @public @memberof CowlTable
  */
 COWL_PUBLIC
-CowlTable* cowl_table_get(UHash(CowlObjectTable) *table);
+CowlTable* cowl_table(UHash(CowlObjectTable) *table);
 
 /**
  * Returns a retained hash table with no elements.
@@ -49,7 +49,7 @@ CowlTable* cowl_table_get(UHash(CowlObjectTable) *table);
  *
  * @public @related CowlTable
  */
-#define cowl_table_get_empty() cowl_table_get(NULL)
+#define cowl_table_empty() cowl_table(NULL)
 
 /**
  * Retains the specified hash table.

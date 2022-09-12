@@ -42,7 +42,7 @@ cowl_struct_decl(CowlFacetRestr);
  * @public @memberof CowlFacetRestr
  */
 COWL_INLINE
-CowlFacetRestr* cowl_facet_restr_get(CowlIRI *facet, CowlLiteral *value) {
+CowlFacetRestr* cowl_facet_restr(CowlIRI *facet, CowlLiteral *value) {
     return (CowlFacetRestr *)cowl_get_impl_2(COWL_OT_FACET_RESTR, facet, value);
 }
 

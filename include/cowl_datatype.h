@@ -40,7 +40,7 @@ cowl_struct_decl(CowlDatatype);
  * @public @memberof CowlDatatype
  */
 COWL_INLINE
-CowlDatatype* cowl_datatype_get(CowlIRI *iri) {
+CowlDatatype* cowl_datatype(CowlIRI *iri) {
     return (CowlDatatype *)cowl_entity_get_impl(COWL_OT_DR_DATATYPE, iri);
 }
 

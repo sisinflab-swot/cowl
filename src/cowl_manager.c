@@ -15,7 +15,7 @@
 #include "cowl_import_loader_private.h"
 #include "cowl_ontology_private.h"
 
-CowlManager* cowl_manager_get(void) {
+CowlManager* cowl_manager(void) {
     CowlManager *manager = ulib_alloc(manager);
     if (!manager) return NULL;
     *manager = (CowlManager){
@@ -60,7 +60,7 @@ static CowlEditor* cowl_ensure_editor(CowlManager *manager, CowlOntology *onto,
     if (onto) {
         cowl_editor_set_ontology(editor, onto);
     } else {
-        onto = cowl_ontology_get();
+        onto = cowl_ontology();
         if (!onto) goto err;
 
         if (id) {

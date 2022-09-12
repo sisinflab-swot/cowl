@@ -88,7 +88,7 @@ typedef struct CowlWriter {
  * @public @related CowlWriter
  */
 COWL_PUBLIC
-CowlWriter cowl_writer_get_functional(void);
+CowlWriter cowl_writer_functional(void);
 
 #endif // COWL_WRITER_FUNCTIONAL
 

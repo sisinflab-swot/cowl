@@ -162,14 +162,14 @@ typedef struct CowlOWLVocab {
 } CowlOWLVocab;
 
 /**
- * Gets the OWL 2 vocabulary.
+ * Returns the OWL 2 vocabulary.
  *
  * @return The OWL 2 vocabulary.
  *
  * @public @memberof CowlOWLVocab
  */
 COWL_PUBLIC
-CowlOWLVocab const * cowl_owl_vocab_get(void);
+CowlOWLVocab const * cowl_owl_vocab(void);
 
 COWL_END_DECLS
 

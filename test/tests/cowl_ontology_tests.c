@@ -87,7 +87,7 @@ static ulib_uint* test_onto_axiom_counts(void) {
 // Init/deinit
 
 bool cowl_test_ontology_init(void) {
-    CowlManager *manager = cowl_manager_get();
+    CowlManager *manager = cowl_manager();
     CowlImportLoader loader = cowl_import_loader(manager, cowl_test_load_import, NULL);
     cowl_manager_set_import_loader(manager, loader);
     onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));

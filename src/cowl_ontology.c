@@ -18,7 +18,7 @@ typedef struct CowlAxiomCtx {
 } CowlAxiomCtx;
 
 static inline cowl_ret cowl_vector_ptr_add(CowlVector **vec, void *obj) {
-    if (!(*vec || (*vec = cowl_vector_ordered_empty_get()))) return COWL_ERR_MEM;
+    if (!(*vec || (*vec = cowl_vector_ordered_empty()))) return COWL_ERR_MEM;
     return cowl_vector_add(*vec, obj) ? COWL_ERR_MEM : COWL_OK;
 }
 
@@ -338,7 +338,7 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlIt
     return true;
 }
 
-CowlOntology* cowl_ontology_get(void) {
+CowlOntology* cowl_ontology(void) {
     CowlOntology *onto = ulib_alloc(onto);
     if (!onto) return NULL;
 
@@ -411,7 +411,7 @@ static cowl_ret cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom,
     CowlVector *vec = uhash_value(CowlObjectTable, map, idx);
 
     if (ret == UHASH_INSERTED || !vec) {
-        vec = cowl_vector_ordered_empty_get();
+        vec = cowl_vector_ordered_empty();
         uhash_value(CowlObjectTable, map, idx) = vec;
         if (!vec) return COWL_ERR_MEM;
     }

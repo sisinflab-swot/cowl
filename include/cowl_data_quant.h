@@ -45,7 +45,7 @@ cowl_struct_decl(CowlDataQuant);
  * @public @memberof CowlDataQuant
  */
 COWL_INLINE
-CowlDataQuant* cowl_data_quant_get(CowlQuantType type, CowlDataPropExp *prop, CowlDataRange *range) {
+CowlDataQuant* cowl_data_quant(CowlQuantType type, CowlDataPropExp *prop, CowlDataRange *range) {
     if (!cowl_enum_value_is_valid(QT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_CE_DATA_SOME + (CowlObjectType)type);
     return (CowlDataQuant *)cowl_get_impl_2(t, prop, range);

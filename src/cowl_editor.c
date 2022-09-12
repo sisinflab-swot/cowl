@@ -156,7 +156,7 @@ cowl_ret cowl_editor_remove_axiom(CowlEditor *editor, CowlAxiom *axiom) {
 
 static cowl_ret cowl_editor_create_map(CowlEditor *editor, CowlTable **map,
                                        UHash(CowlObjectTable) *table) {
-    *map = cowl_table_get(table);
+    *map = cowl_table(table);
     if (*map) return COWL_OK;
     cowl_editor_handle_error_type(editor, COWL_ERR_MEM);
     uhash_deinit(CowlObjectTable, table);
@@ -265,10 +265,10 @@ CowlIRI* cowl_editor_get_full_iri(CowlEditor *editor, UString ns, UString rem) {
     }
 
     ulib_uint const rem_length = ustring_length(rem);
-    CowlString *rem_str = rem_length ? cowl_string_get(ustring_dup(rem)) : cowl_string_get_empty();
+    CowlString *rem_str = rem_length ? cowl_string(ustring_dup(rem)) : cowl_string_empty();
     if (!rem_str) return NULL;
 
-    CowlIRI *iri = cowl_iri_get(ns_str, rem_str);
+    CowlIRI *iri = cowl_iri(ns_str, rem_str);
     cowl_string_release(rem_str);
     return iri;
 }
@@ -319,7 +319,7 @@ CowlAnonInd* cowl_editor_get_anon_ind(CowlEditor *editor, UString id) {
 
     if (ret == UHASH_INSERTED) {
         CowlString *string = cowl_string_copy(&id_str);
-        ind = cowl_anon_ind_get();
+        ind = cowl_anon_ind();
 
         if (string && ind) {
             uhash_key(CowlObjectTable, id_anon_map, idx) = string;
@@ -362,7 +362,7 @@ static CowlString* cowl_editor_generate_id(CowlEditor *editor, CowlAnonInd *ind)
     }
 
 
-    CowlString *key = cowl_string_get(id);
+    CowlString *key = cowl_string(id);
     if (!key) {
         uhash_delete(CowlObjectTable, id_anon_map, i);
         return NULL;

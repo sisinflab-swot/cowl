@@ -42,7 +42,7 @@ cowl_struct_decl(CowlVector);
  * @public @memberof CowlVector
  */
 COWL_PUBLIC
-CowlVector* cowl_vector_get(UVec(CowlObjectPtr) *vec);
+CowlVector* cowl_vector(UVec(CowlObjectPtr) *vec);
 
 /**
  * Returns a retained vector.
@@ -56,7 +56,7 @@ CowlVector* cowl_vector_get(UVec(CowlObjectPtr) *vec);
  * @public @memberof CowlVector
  */
 COWL_PUBLIC
-CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec);
+CowlVector* cowl_vector_ordered(UVec(CowlObjectPtr) *vec);
 
 /**
  * Returns a retained vector with no elements.
@@ -65,7 +65,7 @@ CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec);
  *
  * @public @related CowlVector
  */
-#define cowl_vector_empty_get() cowl_vector_get(NULL)
+#define cowl_vector_empty() cowl_vector(NULL)
 
 /**
  * Returns a retained vector with no elements.
@@ -75,7 +75,7 @@ CowlVector* cowl_vector_ordered_get(UVec(CowlObjectPtr) *vec);
  *
  * @public @related CowlVector
  */
-#define cowl_vector_ordered_empty_get() cowl_vector_ordered_get(NULL)
+#define cowl_vector_ordered_empty() cowl_vector_ordered(NULL)
 
 /**
  * Retains the specified vector.

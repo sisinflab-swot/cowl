@@ -44,7 +44,7 @@ cowl_struct_decl(CowlLiteral);
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang);
+CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang);
 
 /**
  * Retains the specified literal.

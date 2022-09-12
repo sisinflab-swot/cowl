@@ -63,14 +63,14 @@ typedef struct CowlRDFVocab {
 } CowlRDFVocab;
 
 /**
- * Gets the RDF vocabulary.
+ * Returns the RDF vocabulary.
  *
  * @return The RDF vocabulary.
  *
  * @public @memberof CowlRDFVocab
  */
 COWL_PUBLIC
-CowlRDFVocab const* cowl_rdf_vocab_get(void);
+CowlRDFVocab const* cowl_rdf_vocab(void);
 
 COWL_END_DECLS
 

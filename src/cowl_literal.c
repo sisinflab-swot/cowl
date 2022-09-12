@@ -18,13 +18,13 @@ static inline bool cowl_literal_has_dt(CowlLiteral *literal) {
     return cowl_object_bit_get(literal);
 }
 
-CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *lang) {
+CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     if (!value) return NULL;
     if (lang && !(lang = cowl_string_intern(lang))) return NULL;
 
     CowlComposite *literal = ulib_malloc(sizeof(*literal) + 2 * sizeof(*literal->data));
     if (!literal) return NULL;
-    if (!dt && !lang) dt = cowl_rdf_vocab_get()->dt.plain_literal;
+    if (!dt && !lang) dt = cowl_rdf_vocab()->dt.plain_literal;
 
     literal->super = COWL_OBJECT_BIT_INIT(COWL_OT_LITERAL, dt);
     literal->data[0] = cowl_string_retain(value);
@@ -38,7 +38,7 @@ CowlLiteral* cowl_literal_get(CowlDatatype *dt, CowlString *value, CowlString *l
     return (CowlLiteral *)literal;
 }
 
-CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang) {
+CowlLiteral* cowl_literal_raw(CowlDatatype *dt, UString value, UString lang) {
     ulib_uint val_len = ustring_length(value), lang_len = ustring_length(lang);
     char const *val_str = ustring_data(value), *lang_str = ustring_data(lang);
 
@@ -53,9 +53,9 @@ CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang)
         }
     }
 
-    CowlString *val_s = val_len ? cowl_string_get(ustring_copy(val_str, val_len)) : cowl_string_get_empty();
-    CowlString *lang_s = lang_len ? cowl_string_get(ustring_copy(lang_str, lang_len)) : NULL;
-    CowlLiteral *literal = cowl_literal_get(dt, val_s, lang_s);
+    CowlString *val_s = val_len ? cowl_string(ustring_copy(val_str, val_len)) : cowl_string_empty();
+    CowlString *lang_s = lang_len ? cowl_string(ustring_copy(lang_str, lang_len)) : NULL;
+    CowlLiteral *literal = cowl_literal(dt, val_s, lang_s);
 
     cowl_string_release(lang_s);
     cowl_string_release(val_s);
@@ -77,7 +77,7 @@ void cowl_literal_release(CowlLiteral *literal) {
 
 CowlDatatype* cowl_literal_get_datatype(CowlLiteral *literal) {
     if (cowl_literal_has_dt(literal)) return cowl_get_field(literal, 1);
-    return cowl_rdf_vocab_get()->dt.plain_literal;
+    return cowl_rdf_vocab()->dt.plain_literal;
 }
 
 CowlString* cowl_literal_get_value(CowlLiteral *literal) {

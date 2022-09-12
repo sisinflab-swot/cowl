@@ -45,9 +45,8 @@ cowl_struct_decl(CowlNAryObjPropAxiom);
  * @public @memberof CowlNAryObjPropAxiom
  */
 COWL_INLINE
-CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom_get(CowlNAryAxiomType type,
-                                                   CowlVector *props,
-                                                   CowlVector *annot) {
+CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom(CowlNAryAxiomType type, CowlVector *props,
+                                               CowlVector *annot) {
     if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_A_EQUIV_OBJ_PROP + (CowlObjectType)type);
     return (CowlNAryObjPropAxiom *)cowl_get_impl_1_opt(t, props, annot);

@@ -40,7 +40,7 @@ cowl_struct_decl(CowlDataProp);
  * @public @memberof CowlDataProp
  */
 COWL_INLINE
-CowlDataProp* cowl_data_prop_get(CowlIRI *iri) {
+CowlDataProp* cowl_data_prop(CowlIRI *iri) {
     return (CowlDataProp *)cowl_entity_get_impl(COWL_OT_DPE_DATA_PROP, iri);
 }
 

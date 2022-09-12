@@ -51,10 +51,8 @@ cowl_struct_decl(CowlDataPropAssertAxiom);
  * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_INLINE
-CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlDataPropExp *prop,
-                                                         CowlIndividual *subj,
-                                                         CowlLiteral *obj,
-                                                         CowlVector *annot) {
+CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom(CowlDataPropExp *prop, CowlIndividual *subj,
+                                                     CowlLiteral *obj, CowlVector *annot) {
     return (CowlDataPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_DATA_PROP_ASSERT,
                                                           prop, subj, obj, annot);
 }
@@ -71,10 +69,8 @@ CowlDataPropAssertAxiom* cowl_data_prop_assert_axiom_get(CowlDataPropExp *prop,
  * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_INLINE
-CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom_get(CowlDataPropExp *prop,
-                                                             CowlIndividual *subj,
-                                                             CowlLiteral *obj,
-                                                             CowlVector *annot) {
+CowlDataPropAssertAxiom* cowl_neg_data_prop_assert_axiom(CowlDataPropExp *prop, CowlIndividual *subj,
+                                                         CowlLiteral *obj, CowlVector *annot) {
     return (CowlDataPropAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_NEG_DATA_PROP_ASSERT,
                                                           prop, subj, obj, annot);
 }

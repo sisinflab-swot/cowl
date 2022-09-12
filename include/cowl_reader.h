@@ -69,7 +69,7 @@ typedef struct CowlReader {
  * @public @related CowlReader
  */
 COWL_PUBLIC
-CowlReader cowl_reader_get_functional(void);
+CowlReader cowl_reader_functional(void);
 
 #endif // COWL_READER_FUNCTIONAL
 

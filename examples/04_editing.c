@@ -18,7 +18,7 @@ int main(void) {
     cowl_init();
 
     // We will be editing the pizza ontology by adding a new type of pizza.
-    CowlManager *manager = cowl_manager_get();
+    CowlManager *manager = cowl_manager();
     CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(IN_PATH));
     if (!ontology) return EXIT_FAILURE;
 
@@ -29,12 +29,12 @@ int main(void) {
     void *pizza = cowl_class_from_static(NS "Pizza");
 
     // We first declare the new class.
-    void *axiom = cowl_decl_axiom_get(my_pizza, NULL);
+    void *axiom = cowl_decl_axiom(my_pizza, NULL);
     cowl_editor_add_axiom(editor, axiom);
     cowl_decl_axiom_release(axiom);
 
     // Then we state that it is a subclass of 'Pizza'.
-    axiom = cowl_sub_cls_axiom_get(my_pizza, pizza, NULL);
+    axiom = cowl_sub_cls_axiom(my_pizza, pizza, NULL);
     cowl_editor_add_axiom(editor, axiom);
     cowl_sub_cls_axiom_release(axiom);
 

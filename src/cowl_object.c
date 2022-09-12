@@ -223,7 +223,7 @@ static CowlString* cowl_to_string_impl(void *object, cowl_ret (*fun)(UOStream *,
     UStrBuf buf = ustrbuf();
     if (uostream_to_strbuf(&stream, &buf) == USTREAM_OK) {
         if (fun(&stream, object) == COWL_OK) {
-            string = cowl_string_get(ustrbuf_to_ustring(&buf));
+            string = cowl_string(ustrbuf_to_ustring(&buf));
         }
         uostream_deinit(&stream);
     }

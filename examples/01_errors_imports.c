@@ -35,7 +35,7 @@ int main(void) {
     cowl_set_error_handler(cowl_error_handler(&stream, handle_error, NULL));
 
     // Read the ontology from file.
-    CowlManager *manager = cowl_manager_get();
+    CowlManager *manager = cowl_manager();
 
     if (manager) {
         CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
@@ -62,7 +62,7 @@ int main(void) {
  */
 static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
     CowlOntology *import = NULL;
-    CowlManager *manager = cowl_manager_get();
+    CowlManager *manager = cowl_manager();
 
     if (manager) {
         import = cowl_manager_read_path(manager, ustring_literal(IMPORT));

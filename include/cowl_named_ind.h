@@ -40,7 +40,7 @@ cowl_struct_decl(CowlNamedInd);
  * @public @memberof CowlNamedInd
  */
 COWL_INLINE
-CowlNamedInd* cowl_named_ind_get(CowlIRI *iri) {
+CowlNamedInd* cowl_named_ind(CowlIRI *iri) {
     return (CowlNamedInd *)cowl_entity_get_impl(COWL_OT_I_NAMED, iri);
 }
 

@@ -37,7 +37,7 @@ cowl_struct_decl(CowlString);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_get(UString string);
+CowlString* cowl_string(UString string);
 
 /**
  * Returns a retained string from the specified static string.
@@ -47,7 +47,7 @@ CowlString* cowl_string_get(UString string);
  *
  * @public @related CowlString
  */
-#define cowl_string_from_static(CSTR) cowl_string_get(ustring_copy_literal(CSTR))
+#define cowl_string_from_static(CSTR) cowl_string(ustring_copy_literal(CSTR))
 
 /**
  * Returns a retained empty string.
@@ -57,7 +57,7 @@ CowlString* cowl_string_get(UString string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_get_empty(void);
+CowlString* cowl_string_empty(void);
 
 /**
  * Retains the specified string.

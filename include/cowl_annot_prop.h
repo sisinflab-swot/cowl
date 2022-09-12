@@ -39,7 +39,7 @@ cowl_struct_decl(CowlAnnotProp);
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-CowlAnnotProp* cowl_annot_prop_get(CowlIRI *iri) {
+CowlAnnotProp* cowl_annot_prop(CowlIRI *iri) {
     return (CowlAnnotProp *)cowl_entity_get_impl(COWL_OT_ANNOT_PROP, iri);
 }
 

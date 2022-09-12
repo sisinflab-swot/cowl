@@ -43,8 +43,8 @@ cowl_struct_decl(CowlSubObjPropAxiom);
  * @public @memberof CowlSubObjPropAxiom
  */
 COWL_INLINE
-CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_get(CowlObjPropExp *sub, CowlObjPropExp *super,
-                                                 CowlVector *annot) {
+CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom(CowlObjPropExp *sub, CowlObjPropExp *super,
+                                             CowlVector *annot) {
     return (CowlSubObjPropAxiom *)cowl_get_impl_2_opt(COWL_OT_A_SUB_OBJ_PROP, sub, super, annot);
 }
 
@@ -59,8 +59,8 @@ CowlSubObjPropAxiom* cowl_sub_obj_prop_axiom_get(CowlObjPropExp *sub, CowlObjPro
  * @public @memberof CowlSubObjPropAxiom
  */
 COWL_INLINE
-CowlSubObjPropAxiom* cowl_sub_obj_prop_chain_axiom_get(CowlVector *sub, CowlObjPropExp *super,
-                                                       CowlVector *annot) {
+CowlSubObjPropAxiom* cowl_sub_obj_prop_chain_axiom(CowlVector *sub, CowlObjPropExp *super,
+                                                   CowlVector *annot) {
     return (CowlSubObjPropAxiom *)cowl_get_impl_2_opt(COWL_OT_A_SUB_OBJ_PROP, sub, super, annot);
 }
 

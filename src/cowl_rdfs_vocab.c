@@ -23,14 +23,14 @@ static inline cowl_ret cowl_rdfs_vocab_validate(void) {
 }
 
 cowl_ret cowl_rdfs_vocab_init(void) {
-    CowlString *ns = cowl_string_vocab_get("http://www.w3.org/2000/01/rdf-schema#");
+    CowlString *ns = cowl_string_vocab("http://www.w3.org/2000/01/rdf-schema#");
 
     CowlRDFSIRIVocab v = {
-        .comment = cowl_iri_vocab_get(ns, "comment"),
-        .defined_by = cowl_iri_vocab_get(ns, "isDefinedBy"),
-        .label = cowl_iri_vocab_get(ns, "label"),
-        .literal = cowl_iri_vocab_get(ns, "Literal"),
-        .see_also = cowl_iri_vocab_get(ns, "seeAlso")
+        .comment = cowl_iri_vocab(ns, "comment"),
+        .defined_by = cowl_iri_vocab(ns, "isDefinedBy"),
+        .label = cowl_iri_vocab(ns, "label"),
+        .literal = cowl_iri_vocab(ns, "Literal"),
+        .see_also = cowl_iri_vocab(ns, "seeAlso")
     };
 
     vocab = (CowlRDFSVocab) {
@@ -38,14 +38,14 @@ cowl_ret cowl_rdfs_vocab_init(void) {
         .iri = v,
 
         .dt = {
-            .literal = cowl_datatype_vocab_get(v.literal)
+            .literal = cowl_datatype_vocab(v.literal)
         },
 
         .annot_prop = {
-            .comment = cowl_annot_prop_vocab_get(v.comment),
-            .defined_by = cowl_annot_prop_vocab_get(v.defined_by),
-            .label = cowl_annot_prop_vocab_get(v.label),
-            .see_also = cowl_annot_prop_vocab_get(v.see_also)
+            .comment = cowl_annot_prop_vocab(v.comment),
+            .defined_by = cowl_annot_prop_vocab(v.defined_by),
+            .label = cowl_annot_prop_vocab(v.label),
+            .see_also = cowl_annot_prop_vocab(v.see_also)
         }
     };
 
@@ -68,6 +68,6 @@ void cowl_rdfs_vocab_deinit(void) {
     cowl_annot_prop_vocab_free(vocab.annot_prop.see_also);
 }
 
-CowlRDFSVocab const* cowl_rdfs_vocab_get(void) {
+CowlRDFSVocab const* cowl_rdfs_vocab(void) {
     return &vocab;
 }

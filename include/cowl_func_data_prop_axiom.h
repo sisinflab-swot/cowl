@@ -42,7 +42,7 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_INLINE
-CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_get(CowlDataPropExp *prop, CowlVector *annot) {
+CowlFuncDataPropAxiom* cowl_func_data_prop_axiom(CowlDataPropExp *prop, CowlVector *annot) {
     return (CowlFuncDataPropAxiom *)cowl_get_impl_1_opt(COWL_OT_A_FUNC_DATA_PROP, prop, annot);
 }
 

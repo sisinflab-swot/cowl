@@ -15,7 +15,7 @@
 
 COWL_BEGIN_DECLS
 
-CowlLiteral* cowl_literal_get_raw(CowlDatatype *dt, UString value, UString lang);
+CowlLiteral* cowl_literal_raw(CowlDatatype *dt, UString value, UString lang);
 
 COWL_END_DECLS
 

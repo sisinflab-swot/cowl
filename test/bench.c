@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     cowl_init();
 
     char const *path = argc > 1 ? argv[1] : "test_onto.owl";
-    CowlManager *manager = cowl_manager_get();
+    CowlManager *manager = cowl_manager();
 
     utime_ns t = utime_get_ns();
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_wrap(path, strlen(path)));
