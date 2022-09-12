@@ -16,7 +16,7 @@ static UHash(CowlObjectTable) inst_tbl;
 static CowlString *empty = NULL;
 
 cowl_ret cowl_string_api_init(void) {
-    inst_tbl = cowl_string_map_init();
+    inst_tbl = cowl_string_map();
     empty = cowl_string_from_static("");
     return empty ? COWL_OK : COWL_ERR_MEM;
 }

@@ -20,7 +20,7 @@ static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
 
     *vec = (CowlVector) {
         .super = COWL_OBJECT_BIT_INIT(COWL_OT_VECTOR, ordered),
-        .data = data ? uvec_move(CowlObjectPtr, data) : uvec_init(CowlObjectPtr)
+        .data = data ? uvec_move(CowlObjectPtr, data) : uvec(CowlObjectPtr)
     };
 
     uvec_foreach(CowlObjectPtr, &vec->data, obj) {

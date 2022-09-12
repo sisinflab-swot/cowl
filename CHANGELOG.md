@@ -51,7 +51,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [0.5.1] - 2021-10-14
 ### Added
 - `cowl_ontology_has_entity`.
-- `cowl_iterator_vec_init` and `cowl_iterator_set_init`.
+- `cowl_iterator_vec` and `cowl_iterator_set`.
 
 ### Changed
 - Renamed `CowlOntologyID` to `CowlOntologyId`.

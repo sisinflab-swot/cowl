@@ -15,7 +15,7 @@
 CowlString* cowl_error_to_string(CowlError const *error) {
     CowlString *string = NULL;
     UOStream stream;
-    UStrBuf buf = ustrbuf_init();
+    UStrBuf buf = ustrbuf();
     if (uostream_to_strbuf(&stream, &buf) == USTREAM_OK) {
         if (cowl_write_error(&stream, error) == USTREAM_OK) {
             string = cowl_string_get(ustrbuf_to_ustring(&buf));

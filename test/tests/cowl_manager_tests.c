@@ -44,13 +44,13 @@ bool cowl_test_manager_read_ontology(void) {
     CowlManager *manager = cowl_manager_get();
     utest_assert_not_null(manager);
 
-    CowlImportLoader loader = cowl_import_loader_init(manager, cowl_test_load_import, NULL);
+    CowlImportLoader loader = cowl_import_loader(manager, cowl_test_load_import, NULL);
     cowl_manager_set_import_loader(manager, loader);
 
     UOStream stream;
     utest_assert_critical(uostream_to_path(&stream, COWL_ONTOLOGY_LOG) == USTREAM_OK);
 
-    CowlErrorHandler handler = cowl_error_handler_init(&stream, cowl_test_manager_write_error, NULL);
+    CowlErrorHandler handler = cowl_error_handler(&stream, cowl_test_manager_write_error, NULL);
     cowl_manager_set_error_handler(manager, handler);
 
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
@@ -85,12 +85,12 @@ bool cowl_test_manager_write_ontology(void) {
     CowlVector *annot_out = cowl_ontology_get_annot(onto_out);
     cowl_assert_equal(vector, annot_in, annot_out);
 
-    UHash(CowlObjectTable) axioms_in = uhset_init(CowlObjectTable);
-    CowlIterator iter = cowl_iterator_set_init(&axioms_in);
+    UHash(CowlObjectTable) axioms_in = uhset(CowlObjectTable);
+    CowlIterator iter = cowl_iterator_set(&axioms_in);
     cowl_ontology_iterate_axioms(onto_in, &iter, false);
 
-    UHash(CowlObjectTable) axioms_out = uhset_init(CowlObjectTable);
-    iter = cowl_iterator_set_init(&axioms_out);
+    UHash(CowlObjectTable) axioms_out = uhset(CowlObjectTable);
+    iter = cowl_iterator_set(&axioms_out);
     cowl_ontology_iterate_axioms(onto_out, &iter, false);
 
     utest_assert(uhset_equals(CowlObjectTable, &axioms_in, &axioms_out));

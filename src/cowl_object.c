@@ -220,7 +220,7 @@ static cowl_ret cowl_write_debug_impl(UOStream *stream, void *object) {
 static CowlString* cowl_to_string_impl(void *object, cowl_ret (*fun)(UOStream *, void *)) {
     CowlString *string = NULL;
     UOStream stream;
-    UStrBuf buf = ustrbuf_init();
+    UStrBuf buf = ustrbuf();
     if (uostream_to_strbuf(&stream, &buf) == USTREAM_OK) {
         if (fun(&stream, object) == COWL_OK) {
             string = cowl_string_get(ustrbuf_to_ustring(&buf));

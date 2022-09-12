@@ -27,7 +27,7 @@ static bool inst_tbl_eq(void *lhs, void *rhs) {
 }
 
 cowl_ret cowl_iri_api_init(void) {
-    inst_tbl = uhset_init_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+    inst_tbl = uhset_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
     return COWL_OK;
 }
 
@@ -82,7 +82,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
     if (s_ns_len > 0) {
         // Part of the suffix should go in the namespace.
-        UStrBuf buf = ustrbuf_init();
+        UStrBuf buf = ustrbuf();
         char const *s_cstr = ustring_data(s_str);
 
         if (ustrbuf_append_ustring(&buf, p_str) ||
@@ -98,7 +98,7 @@ CowlIRI* cowl_iri_get(CowlString *prefix, CowlString *suffix) {
 
         if (p_ns_len < ustring_length(p_str)) {
             // Part of the prefix should go in the remainder.
-            UStrBuf buf = ustrbuf_init();
+            UStrBuf buf = ustrbuf();
             char const *p_cstr = ustring_data(p_str);
 
             if (ustrbuf_append_string(&buf, p_cstr + p_ns_len, ustring_length(p_str) - p_ns_len) ||

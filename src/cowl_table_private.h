@@ -21,8 +21,8 @@ struct CowlTable {
     UHash(CowlObjectTable) data;
 };
 
-UHash(CowlObjectTable) cowl_primitive_map_init(void);
-UHash(CowlObjectTable) cowl_string_map_init(void);
+UHash(CowlObjectTable) cowl_primitive_map(void);
+UHash(CowlObjectTable) cowl_string_map(void);
 
 void cowl_table_release_ex(CowlTable *table, bool release_elements);
 

@@ -28,7 +28,7 @@ typedef struct CowlComposite {
 } CowlComposite;
 
 #define COWL_OBJECT_BIT_INIT(TYPE, HAS_BIT) \
-    ((CowlObject){ .flags = cowl_object_flags_init(TYPE, HAS_BIT) })
+    ((CowlObject){ .flags = cowl_object_flags(TYPE, HAS_BIT) })
 #define COWL_OBJECT_INIT(TYPE) COWL_OBJECT_BIT_INIT(TYPE, 0)
 
 #define cowl_object_get_ref(o) cowl_object_flags_get_ref(((CowlObject *)(o))->flags)

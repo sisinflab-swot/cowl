@@ -28,7 +28,7 @@ static bool inst_tbl_eq(void *lhs, void *rhs) {
 }
 
 cowl_ret cowl_entity_api_init(void) {
-    inst_tbl = uhset_init_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+    inst_tbl = uhset_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
     return COWL_OK;
 }
 

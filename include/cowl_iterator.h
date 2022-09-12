@@ -57,7 +57,7 @@ typedef struct CowlIterator {
  * @public @memberof CowlIterator
  */
 COWL_INLINE
-CowlIterator cowl_iterator_init(void *ctx, bool (*for_each)(void *, void *)) {
+CowlIterator cowl_iterator(void *ctx, bool (*for_each)(void *, void *)) {
     CowlIterator i = { .ctx = ctx, .for_each = for_each };
     return i;
 }
@@ -76,7 +76,7 @@ CowlIterator cowl_iterator_init(void *ctx, bool (*for_each)(void *, void *)) {
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_vec_init(UVec(CowlObjectPtr) *vec);
+CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec);
 
 /**
  * Initializes an iterator that stores objects in the specified set.
@@ -92,7 +92,7 @@ CowlIterator cowl_iterator_vec_init(UVec(CowlObjectPtr) *vec);
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_set_init(UHash(CowlObjectTable) *set);
+CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set);
 
 /**
  * Initializes an iterator that counts the objects it iterates on.
@@ -106,7 +106,7 @@ CowlIterator cowl_iterator_set_init(UHash(CowlObjectTable) *set);
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_count_init(ulib_uint *count);
+CowlIterator cowl_iterator_count(ulib_uint *count);
 
 COWL_END_DECLS
 

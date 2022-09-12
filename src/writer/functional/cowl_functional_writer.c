@@ -368,7 +368,7 @@ static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto, CowlEdi
     cowl_write_static(s, "\n");
 
     void *ctx[] = { s, ed };
-    CowlIterator iter = cowl_iterator_init(ctx, imports_writer);
+    CowlIterator iter = cowl_iterator(ctx, imports_writer);
     if (!cowl_ontology_iterate_imports(onto, &iter, false)) {
         return s->state ? s->state : USTREAM_ERR;
     }
@@ -378,7 +378,7 @@ static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto, CowlEdi
         cowl_write_static(s, "\n");
     }
 
-    iter = cowl_iterator_init(ctx, axiom_writer);
+    iter = cowl_iterator(ctx, axiom_writer);
     cowl_ontology_iterate_axioms(onto, &iter, false);
 
     cowl_write_static(s, ")");

@@ -182,9 +182,9 @@ CowlTable* cowl_editor_get_onto_import_iri_map(CowlEditor *editor, bool reverse)
         UHash(CowlObjectTable) temp;
 
         if (reverse) {
-            temp = uhmap_init_pi(CowlObjectTable, ptr_hash, ptr_equals);
+            temp = uhmap_pi(CowlObjectTable, ptr_hash, ptr_equals);
         } else {
-            temp = uhmap_init_pi(CowlObjectTable, onto_hash, onto_equals);
+            temp = uhmap_pi(CowlObjectTable, onto_hash, onto_equals);
         }
 
         if (cowl_editor_create_map(editor, table, &temp)) return NULL;
@@ -210,7 +210,7 @@ CowlTable* cowl_editor_get_prefix_ns_map(CowlEditor *editor, bool reverse) {
     CowlTable **table = reverse ? &editor->ns_prefix_map : &editor->prefix_ns_map;
 
     if (!*table) {
-        UHash(CowlObjectTable) temp = uhmap_init_pi(CowlObjectTable, string_hash, string_equals);
+        UHash(CowlObjectTable) temp = uhmap_pi(CowlObjectTable, string_hash, string_equals);
         if (cowl_editor_create_map(editor, table, &temp)) return NULL;
     }
 
@@ -290,9 +290,9 @@ CowlTable* cowl_editor_get_name_anon_ind_map(CowlEditor *editor, bool reverse) {
         UHash(CowlObjectTable) temp;
 
         if (reverse) {
-            temp = uhmap_init_pi(CowlObjectTable, ptr_hash, ptr_equals);
+            temp = uhmap_pi(CowlObjectTable, ptr_hash, ptr_equals);
         } else {
-            temp = uhmap_init_pi(CowlObjectTable, string_hash, string_equals);
+            temp = uhmap_pi(CowlObjectTable, string_hash, string_equals);
         }
 
         if (cowl_editor_create_map(editor, table, &temp)) return NULL;

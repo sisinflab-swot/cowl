@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     ulib_uint count = 0;
 
     t = utime_get_ns();
-    CowlIterator iter = cowl_iterator_init(&count, count_axiom_iterator);
+    CowlIterator iter = cowl_iterator(&count, count_axiom_iterator);
     cowl_ontology_iterate_axioms(onto, &iter, false);
     t = utime_get_ns() - t;
 
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     count = 0;
 
     t = utime_get_ns();
-    iter = cowl_iterator_init(&count, count_primitive_iterator);
+    iter = cowl_iterator(&count, count_primitive_iterator);
     cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter, false);
     t = utime_get_ns() - t;
 

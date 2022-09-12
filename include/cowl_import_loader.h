@@ -68,9 +68,9 @@ typedef struct CowlImportLoader {
  * @public @memberof CowlImportLoader
  */
 COWL_INLINE
-CowlImportLoader cowl_import_loader_init(void *ctx,
-                                         CowlOntology* (*load_func)(void *, CowlIRI *),
-                                         void (*free_func)(void *)) {
+CowlImportLoader cowl_import_loader(void *ctx,
+                                    CowlOntology* (*load_func)(void *, CowlIRI *),
+                                    void (*free_func)(void *)) {
     CowlImportLoader l = { .ctx = ctx, .load_ontology = load_func, .free = free_func };
     return l;
 }

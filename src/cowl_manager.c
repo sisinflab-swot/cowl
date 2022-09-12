@@ -21,7 +21,7 @@ CowlManager* cowl_manager_get(void) {
     *manager = (CowlManager){
         .super = COWL_OBJECT_INIT(COWL_OT_MANAGER),
         .reader = {0},
-        .editors = uvec_init(ulib_ptr)
+        .editors = uvec(ulib_ptr)
     };
     return manager;
 }

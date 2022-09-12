@@ -57,9 +57,9 @@ typedef struct CowlErrorHandler {
  * @public @memberof CowlErrorHandler
  */
 COWL_INLINE
-CowlErrorHandler cowl_error_handler_init(void *ctx,
-                                         void (*handler_func)(void *, CowlError const *),
-                                         void (*free_func)(void *)) {
+CowlErrorHandler cowl_error_handler(void *ctx,
+                                    void (*handler_func)(void *, CowlError const *),
+                                    void (*free_func)(void *)) {
     CowlErrorHandler h = { .ctx = ctx, .handle_error = handler_func, .free = free_func };
     return h;
 }

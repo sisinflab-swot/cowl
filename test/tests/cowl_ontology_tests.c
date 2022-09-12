@@ -88,7 +88,7 @@ static ulib_uint* test_onto_axiom_counts(void) {
 
 bool cowl_test_ontology_init(void) {
     CowlManager *manager = cowl_manager_get();
-    CowlImportLoader loader = cowl_import_loader_init(manager, cowl_test_load_import, NULL);
+    CowlImportLoader loader = cowl_import_loader(manager, cowl_test_load_import, NULL);
     cowl_manager_set_import_loader(manager, loader);
     onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     cowl_manager_release(manager);
@@ -183,7 +183,7 @@ bool cowl_test_ontology_axiom_count_for_primitive(void) {
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_NAMED_IND]);
 
-    CowlIterator iter = cowl_iterator_init(&primitive, cowl_test_get_first_anon_ind);
+    CowlIterator iter = cowl_iterator(&primitive, cowl_test_get_first_anon_ind);
     cowl_ontology_iterate_primitives(onto, COWL_PF_ANON_IND, &iter, true);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_ANON_IND]);
