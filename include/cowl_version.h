@@ -23,7 +23,7 @@ COWL_BEGIN_DECLS
  * @return Library version.
  */
 COWL_PUBLIC
-UVersion cowl_api_get_version(void);
+UVersion cowl_get_version(void);
 
 /**
  * Returns the string representation of the library version.
@@ -33,7 +33,7 @@ UVersion cowl_api_get_version(void);
  * @note The returned string is retained, so you are responsible for releasing it.
  */
 COWL_PUBLIC
-CowlString* cowl_api_get_version_string(void);
+CowlString* cowl_get_version_string(void);
 
 COWL_END_DECLS
 

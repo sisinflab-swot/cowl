@@ -40,11 +40,12 @@ cowl_struct_decl(CowlManager);
  */
 
 /**
- * Returns a retained manager that uses the default reader.
+ * Returns a retained manager that uses the default reader and writer.
  *
  * @return Retained manager, or NULL on error.
  *
- * @note You can specify the default reader via `cowl_api_set_reader()`.
+ * @note You can specify the default reader and writer
+ *       via `cowl_set_reader()` and `cowl_set_writer()`.
  *
  * @public @memberof CowlManager
  */

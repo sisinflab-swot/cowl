@@ -8,7 +8,7 @@
  * @file
  */
 
-#include "cowl_api.h"
+#include "cowl.h"
 
 static bool count_axiom_iterator(void *ctx, cowl_unused void *obj) {
     (*((ulib_uint *)ctx))++;
@@ -21,7 +21,7 @@ static bool count_primitive_iterator(void *ctx, cowl_unused void *obj) {
 }
 
 int main(int argc, char *argv[]) {
-    cowl_api_init();
+    cowl_init();
 
     char const *path = argc > 1 ? argv[1] : "test_onto.owl";
     CowlManager *manager = cowl_manager_get();

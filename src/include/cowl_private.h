@@ -11,7 +11,7 @@
 #ifndef COWL_PRIVATE_H
 #define COWL_PRIVATE_H
 
-#include "cowl_api.h"
+#include "cowl.h"
 #include "cowl_anon_ind_private.h"
 #include "cowl_config_private.h"
 #include "cowl_cstring.h"

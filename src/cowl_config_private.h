@@ -15,10 +15,10 @@
 
 COWL_BEGIN_DECLS
 
-CowlErrorHandler cowl_api_get_error_handler(void);
-CowlImportLoader cowl_api_get_import_loader(void);
-CowlReader cowl_api_get_reader(void);
-CowlWriter cowl_api_get_writer(void);
+CowlErrorHandler cowl_get_error_handler(void);
+CowlImportLoader cowl_get_import_loader(void);
+CowlReader cowl_get_reader(void);
+CowlWriter cowl_get_writer(void);
 
 COWL_END_DECLS
 

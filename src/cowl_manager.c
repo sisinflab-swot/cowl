@@ -86,11 +86,11 @@ err:
 }
 
 CowlReader cowl_manager_get_reader(CowlManager *manager) {
-    return manager->reader.name ? manager->reader : cowl_api_get_reader();
+    return manager->reader.name ? manager->reader : cowl_get_reader();
 }
 
 CowlWriter cowl_manager_get_writer(CowlManager *manager) {
-    return manager->writer.name ? manager->writer : cowl_api_get_writer();
+    return manager->writer.name ? manager->writer : cowl_get_writer();
 }
 
 static CowlEditor* cowl_read_stream(CowlManager *manager, UIStream *stream, UString desc) {

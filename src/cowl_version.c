@@ -29,10 +29,10 @@ static UVersion version = {
     .patch = COWL_VERSION_PATCH
 };
 
-UVersion cowl_api_get_version(void) {
+UVersion cowl_get_version(void) {
     return version;
 }
 
-CowlString* cowl_api_get_version_string(void) {
+CowlString* cowl_get_version_string(void) {
     return cowl_string_with_format("%u.%u.%u", version.major, version.minor, version.patch);
 }

@@ -9,7 +9,7 @@
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
-#include "cowl_api.h"
+#include "cowl.h"
 
 #define ONTO "example_pizza.owl"
 #define NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
@@ -18,7 +18,7 @@
 static bool for_each_cls(void *ctx, void *cls);
 
 int main(void) {
-    cowl_api_init();
+    cowl_init();
 
     CowlManager *manager = cowl_manager_get();
     CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO));

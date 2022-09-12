@@ -83,7 +83,7 @@ cowl_ret cowl_editor_add_import(CowlEditor *editor, CowlIRI *iri) {
 
     CowlOntology *import = NULL;
     CowlImportLoader loader = editor->manager->loader;
-    if (!loader.load_ontology) loader = cowl_api_get_import_loader();
+    if (!loader.load_ontology) loader = cowl_get_import_loader();
 
     if (loader.load_ontology) {
         if ((import = loader.load_ontology(loader.ctx, iri))) {
@@ -403,7 +403,7 @@ err:
 static void cowl_handle_error(CowlEditor *editor, cowl_ret code, ulib_uint line, UString desc) {
     CowlManager *manager = editor->manager;
     CowlErrorHandler handler = manager->handler;
-    if (!handler.handle_error) handler = cowl_api_get_error_handler();
+    if (!handler.handle_error) handler = cowl_get_error_handler();
     if (!handler.handle_error) return;
 
     UString temp = ustring_is_null(editor->description) ? ustring_empty : editor->description;

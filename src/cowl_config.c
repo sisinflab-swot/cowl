@@ -21,43 +21,43 @@
 #include "cowl_writer.h"
 #include "cowl_xsd_vocab_private.h"
 
-static bool cowl_api_initialized = false;
+static bool cowl_initialized = false;
 static CowlErrorHandler global_error_handler;
 static CowlImportLoader global_import_loader;
 static CowlReader global_reader;
 static CowlWriter global_writer;
 
 #ifdef COWL_DEFAULT_READER
-    #define cowl_api_default_reader() P_ULIB_MACRO_CONCAT(cowl_reader_get_, COWL_DEFAULT_READER)()
+    #define cowl_default_reader() P_ULIB_MACRO_CONCAT(cowl_reader_get_, COWL_DEFAULT_READER)()
 #else
-    #define cowl_api_default_reader() ((CowlReader){0})
+    #define cowl_default_reader() ((CowlReader){0})
 #endif
 
 #ifdef COWL_DEFAULT_WRITER
-    #define cowl_api_default_writer() P_ULIB_MACRO_CONCAT(cowl_writer_get_, COWL_DEFAULT_WRITER)()
+    #define cowl_default_writer() P_ULIB_MACRO_CONCAT(cowl_writer_get_, COWL_DEFAULT_WRITER)()
 #else
-    #define cowl_api_default_writer() ((CowlWriter){0})
+    #define cowl_default_writer() ((CowlWriter){0})
 #endif
 
-static void cowl_api_config_init(void) {
+static void cowl_config_init(void) {
     global_error_handler = (CowlErrorHandler){0};
     global_import_loader = (CowlImportLoader){0};
-    global_reader = cowl_api_default_reader();
-    global_writer = cowl_api_default_writer();
+    global_reader = cowl_default_reader();
+    global_writer = cowl_default_writer();
 
     ulib_int seed = (ulib_int)utime_get_ns();
     urand_set_seed(seed ? seed : 12345);
 }
 
-static void cowl_api_config_deinit(void) {
+static void cowl_config_deinit(void) {
     cowl_error_handler_deinit(global_error_handler);
     cowl_import_loader_deinit(global_import_loader);
 }
 
-cowl_ret cowl_api_init(void) {
-    if (cowl_api_initialized) return COWL_OK;
-    cowl_api_initialized = true;
-    cowl_api_config_init();
+cowl_ret cowl_init(void) {
+    if (cowl_initialized) return COWL_OK;
+    cowl_initialized = true;
+    cowl_config_init();
 
     if (cowl_object_api_init() ||
         cowl_iri_api_init() ||
@@ -73,8 +73,8 @@ cowl_ret cowl_api_init(void) {
     return COWL_OK;
 }
 
-void cowl_api_deinit(void) {
-    if (!cowl_api_initialized) return;
+void cowl_deinit(void) {
+    if (!cowl_initialized) return;
     cowl_owl_vocab_deinit();
     cowl_rdf_vocab_deinit();
     cowl_rdfs_vocab_deinit();
@@ -83,44 +83,44 @@ void cowl_api_deinit(void) {
     cowl_iri_api_deinit();
     cowl_string_api_deinit();
     cowl_object_api_deinit();
-    cowl_api_config_deinit();
-    cowl_api_initialized = false;
+    cowl_config_deinit();
+    cowl_initialized = false;
 }
 
-CowlErrorHandler cowl_api_get_error_handler(void) {
+CowlErrorHandler cowl_get_error_handler(void) {
     return (CowlErrorHandler){
         .ctx = global_error_handler.ctx,
         .handle_error = global_error_handler.handle_error
     };
 }
 
-void cowl_api_set_error_handler(CowlErrorHandler handler) {
+void cowl_set_error_handler(CowlErrorHandler handler) {
     global_error_handler = handler;
 }
 
-CowlImportLoader cowl_api_get_import_loader(void) {
+CowlImportLoader cowl_get_import_loader(void) {
     return (CowlImportLoader){
         .ctx = global_import_loader.ctx,
         .load_ontology = global_import_loader.load_ontology
     };
 }
 
-void cowl_api_set_import_loader(CowlImportLoader loader) {
+void cowl_set_import_loader(CowlImportLoader loader) {
     global_import_loader = loader;
 }
 
-CowlReader cowl_api_get_reader(void) {
+CowlReader cowl_get_reader(void) {
     return global_reader;
 }
 
-CowlWriter cowl_api_get_writer(void) {
+CowlWriter cowl_get_writer(void) {
     return global_writer;
 }
 
-void cowl_api_set_reader(CowlReader reader) {
+void cowl_set_reader(CowlReader reader) {
     global_reader = reader;
 }
 
-void cowl_api_set_writer(CowlWriter writer) {
+void cowl_set_writer(CowlWriter writer) {
     global_writer = writer;
 }

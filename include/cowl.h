@@ -10,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_API_H
-#define COWL_API_H
+#ifndef COWL_H
+#define COWL_H
 
 #include "cowl_annot_assert_axiom.h"
 #include "cowl_annot_prop.h"
@@ -110,4 +110,4 @@
 #include "cowl_writer.h"
 #include "cowl_xsd_vocab.h"
 
-#endif // COWL_API_H
+#endif // COWL_H

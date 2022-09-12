@@ -9,14 +9,13 @@
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
-#include "cowl_api.h"
+#include "cowl.h"
 
 #define ONTO "example_pizza.owl"
 
 int main(void) {
-
-    // You must always initialize the API before use.
-    cowl_api_init();
+    // You must always initialize the library before use.
+    cowl_init();
 
     // Instantiate a manager and deserialize an ontology from file.
     CowlManager *manager = cowl_manager_get();

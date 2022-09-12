@@ -21,7 +21,7 @@ is used in a number of ways:
 - **At compile-time:** readers included in the compiled library can be selected
   by setting the ``COWL_READERS`` CMake variable. Built-in readers are exposed through
   ``cowl_reader_get_*()`` functions.
-- **At run-time, globally:** you can set the default reader by calling :func:`cowl_api_set_reader()`.
+- **At run-time, globally:** you can set the default reader by calling :func:`cowl_set_reader()`.
 - **At run-time, locally:** you can specify which reader you want :class:`CowlManager` to use
   via :func:`CowlManager::cowl_manager_set_reader()`.
 
@@ -39,7 +39,7 @@ Import handling
 Cowl delegates locating and loading imported ontologies to the end user via the
 :class:`CowlImportLoader` interface. Import loaders can be either provided locally
 to specific objects (such as via :func:`CowlManager::cowl_manager_set_import_loader()`),
-or you can opt to specify a global import loader via :func:`cowl_api_set_import_loader()`.
+or you can opt to specify a global import loader via :func:`cowl_set_import_loader()`.
 If you do both, Cowl prioritizes local loaders, as you would expect.
 
 .. doxygenstruct:: CowlImportLoader
@@ -71,7 +71,7 @@ Similarly to reading, Cowl can write ontologies to files, buffers or custom outp
 - **At compile-time:** writers included in the compiled library can be selected
   by setting the ``COWL_WRITERS`` CMake variable. Built-in writers are exposed through
   ``cowl_writer_get_*()`` functions.
-- **At run-time, globally:** you can set the default writer by calling :func:`cowl_api_set_writer()`.
+- **At run-time, globally:** you can set the default writer by calling :func:`cowl_set_writer()`.
 - **At run-time, locally:** you can specify which writer you want :class:`CowlManager` to use
   via :func:`CowlManager::cowl_manager_set_writer()`.
 

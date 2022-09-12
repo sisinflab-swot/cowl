@@ -76,7 +76,7 @@ this section is strongly recommended.
 API initialization
 ------------------
 
-Before making any API call, you **must** invoke :func:`cowl_api_init()`, which is
+Before making any API call, you **must** invoke :func:`cowl_init()`, which is
 needed in order to initialize the library's internal state.
 Calling API members without initializing the API is undefined behavior.
 

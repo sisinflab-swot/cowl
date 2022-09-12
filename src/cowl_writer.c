@@ -20,7 +20,7 @@
 #define UINT_MAX_DIGITS 20
 
 cowl_ret cowl_write(UOStream *stream, void *object) {
-    CowlWriter writer = cowl_api_get_writer();
+    CowlWriter writer = cowl_get_writer();
     if (writer.name) return writer.write(stream, object);
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }

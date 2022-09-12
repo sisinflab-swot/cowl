@@ -11,7 +11,7 @@ fine-grained control over errors.
 
 Error handlers can be either provided locally to specific objects (such as via
 :func:`CowlManager::cowl_manager_set_error_handler()`), or you can opt to specify a global
-error handler via :func:`cowl_api_set_error_handler()`. If you do both, Cowl prioritizes
+error handler via :func:`cowl_set_error_handler()`. If you do both, Cowl prioritizes
 local error handlers, as you would expect.
 
 .. doxygenstruct:: CowlErrorHandler

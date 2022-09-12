@@ -8,14 +8,14 @@
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
-#include "cowl_api.h"
+#include "cowl.h"
 
 #define IN_PATH "example_pizza.owl"
 #define OUT_PATH "example_pizza_new.owl"
 #define NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 
 int main(void) {
-    cowl_api_init();
+    cowl_init();
 
     // We will be editing the pizza ontology by adding a new type of pizza.
     CowlManager *manager = cowl_manager_get();

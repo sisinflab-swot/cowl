@@ -22,64 +22,64 @@
 COWL_BEGIN_DECLS
 
 /**
- * Initializes the API.
+ * Initializes the library.
  *
  * @return Return code.
  *
- * @note It's mandatory to call this function before making any other Cowl API call.
+ * @note It's mandatory to call this function before making any other function call.
  */
 COWL_PUBLIC
-cowl_ret cowl_api_init(void);
+cowl_ret cowl_init(void);
 
 /**
- * Deinitializes the API.
+ * Deinitializes the library.
  *
- * @note Calling this function releases any resource loaded when the API was initialized.
- *       You **must not** make API calls on objects retrieved before deinitializing the API, even
+ * @note Calling this function releases any resource loaded when the library was initialized.
+ *       You **must not** use objects retrieved before deinitializing the library, even
  *       if you later re-initialize it.
  */
 COWL_PUBLIC
-void cowl_api_deinit(void);
+void cowl_deinit(void);
 
 /**
  * Sets the global error handler.
  *
  * @param handler The error handler.
  *
- * @note This function must be called again if you reinitialize the API after deinitializing it.
+ * @note This function must be called again if you reinitialize the library after deinitializing it.
  */
 COWL_PUBLIC
-void cowl_api_set_error_handler(CowlErrorHandler handler);
+void cowl_set_error_handler(CowlErrorHandler handler);
 
 /**
  * Sets the global import loader.
  *
  * @param loader The import loader.
  *
- * @note This function must be called again if you reinitialize the API after deinitializing it.
+ * @note This function must be called again if you reinitialize the library after deinitializing it.
  */
 COWL_PUBLIC
-void cowl_api_set_import_loader(CowlImportLoader loader);
+void cowl_set_import_loader(CowlImportLoader loader);
 
 /**
  * Sets the default reader.
  *
  * @param reader The reader.
  *
- * @note This function must be called again if you reinitialize the API after deinitializing it.
+ * @note This function must be called again if you reinitialize library API after deinitializing it.
  */
 COWL_PUBLIC
-void cowl_api_set_reader(CowlReader reader);
+void cowl_set_reader(CowlReader reader);
 
 /**
  * Sets the default writer.
  *
  * @param writer The writer.
  *
- * @note This function must be called again if you reinitialize the API after deinitializing it.
+ * @note This function must be called again if you reinitialize the library after deinitializing it.
  */
 COWL_PUBLIC
-void cowl_api_set_writer(CowlWriter writer);
+void cowl_set_writer(CowlWriter writer);
 
 COWL_END_DECLS
 

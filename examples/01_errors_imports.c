@@ -8,7 +8,7 @@
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
-#include "cowl_api.h"
+#include "cowl.h"
 
 #define ONTO "example_pizza.owl"
 #define IMPORT "import.owl"
@@ -20,19 +20,19 @@ static void handle_error(void *ctx, CowlError const *error);
 int main(void) {
 
     // API initialization can fail due to low memory.
-    if (cowl_api_init()) {
+    if (cowl_init()) {
         return EXIT_FAILURE;
     }
 
     // Setup a global error handler and import loader.
-    cowl_api_set_import_loader(cowl_import_loader_init(NULL, load_import, NULL));
+    cowl_set_import_loader(cowl_import_loader_init(NULL, load_import, NULL));
 
     UOStream stream;
     if (uostream_to_path(&stream, LOG)) {
         return EXIT_FAILURE;
     }
 
-    cowl_api_set_error_handler(cowl_error_handler_init(&stream, handle_error, NULL));
+    cowl_set_error_handler(cowl_error_handler_init(&stream, handle_error, NULL));
 
     // Read the ontology from file.
     CowlManager *manager = cowl_manager_get();
