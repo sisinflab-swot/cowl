@@ -23,7 +23,7 @@ int main(void) {
     if (!ontology) return EXIT_FAILURE;
 
     // Note that most of the following function calls can fail due to
-    // memory exhaustion, so you should always check that they do not return NULL.
+    // memory exhaustion, so you should always check their return values.
     CowlEditor *editor = cowl_manager_get_editor(manager, ontology);
     void *my_pizza = cowl_class_from_static(NS "MyPizza");
     void *pizza = cowl_class_from_static(NS "Pizza");
@@ -39,7 +39,6 @@ int main(void) {
     cowl_sub_cls_axiom_release(axiom);
 
     // Finally we serialize the edited ontology to a new file.
-    // Note that this call may fail, so you should check its return value.
     cowl_manager_write_path(manager, ontology, ustring_literal(OUT_PATH));
 
     cowl_release(my_pizza);
