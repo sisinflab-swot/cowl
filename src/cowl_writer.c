@@ -13,8 +13,8 @@
 #include "cowl_cstring.h"
 #include "cowl_iri.h"
 #include "cowl_manager_private.h"
+#include "cowl_ontology.h"
 #include "cowl_reader.h"
-#include "cowl_rdf_vocab.h"
 #include "cowl_string_private.h"
 
 #define UINT_MAX_DIGITS 20
@@ -147,37 +147,48 @@ ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
     if (error->origin) {
         cowl_write_static(s, " - triggered by ");
 
-        if (cowl_get_type(error->origin) == COWL_OT_MANAGER) {
-            CowlReader reader = cowl_manager_get_reader((CowlManager *)error->origin);
-            char const *name = reader.name ? reader.name : "unnamed";
-            uostream_write(s, name, strlen(name), NULL);
-            cowl_write_static(s, " reader ");
-        } else {
-            cowl_write_debug(s, error->origin);
+        switch(cowl_get_type(error->origin)) {
+
+            case COWL_OT_MANAGER: {
+                CowlReader reader = cowl_manager_get_reader((CowlManager *)error->origin);
+                char const *name = reader.name ? reader.name : "unnamed";
+                uostream_write(s, name, strlen(name), NULL);
+                cowl_write_static(s, " reader");
+                break;
+            }
+
+            case COWL_OT_ONTOLOGY: {
+                CowlOntology *onto = error->origin;
+                cowl_write_static(s, "ontology ");
+                cowl_write_iri(s, cowl_ontology_get_id(onto).iri);
+                break;
+            }
+
+            default: {
+                cowl_write_debug(s, error->origin);
+                break;
+            }
         }
     }
 
-    CowlErrorLoc loc = error->location;
+    if (error->code == COWL_ERR_SYNTAX) {
+        CowlSyntaxError const *se = (CowlSyntaxError *)error;
 
-    if (loc.iri || loc.source || loc.line) {
-        cowl_write_static(s, " (");
+        if (se->loc.source || se->loc.line) {
+            cowl_write_static(s, " (");
 
-        if (loc.iri) {
-            cowl_write_iri(s, loc.iri);
-            cowl_write_static(s, ", ");
+            if (se->loc.source) {
+                cowl_write_string(s, se->loc.source);
+                cowl_write_static(s, ", ");
+            }
+
+            if (se->loc.line) {
+                cowl_write_static(s, "line ");
+                cowl_write_uint(s, se->loc.line);
+            }
+
+            cowl_write_static(s, ")");
         }
-
-        if (loc.source) {
-            cowl_write_string(s, loc.source);
-            cowl_write_static(s, ", ");
-        }
-
-        if (loc.line) {
-            cowl_write_static(s, "line ");
-            cowl_write_uint(s, loc.line);
-        }
-
-        cowl_write_static(s, ")");
     }
 
     cowl_write_static(s, " - ");

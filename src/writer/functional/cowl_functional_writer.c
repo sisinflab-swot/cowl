@@ -9,21 +9,19 @@
  */
 
 #include "cowl_writer.h"
-#include "cowl_annotation.h"
 #include "cowl_anon_ind.h"
 #include "cowl_datatype.h"
 #include "cowl_decl_axiom.h"
-#include "cowl_editor.h"
+#include "cowl_editor_private.h"
+#include "cowl_error_handler.h"
 #include "cowl_has_key_axiom.h"
 #include "cowl_iri.h"
 #include "cowl_literal.h"
 #include "cowl_object_private.h"
 #include "cowl_ontology.h"
 #include "cowl_rdf_vocab.h"
-#include "cowl_string.h"
 #include "cowl_sub_obj_prop_axiom.h"
-#include "cowl_table.h"
-#include "cowl_vector.h"
+#include "cowl_sym_table.h"
 
 static ustream_ret cowl_func_write_obj(UOStream *s, void *obj, CowlEditor *ed);
 static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto, CowlEditor *ed);
@@ -159,7 +157,7 @@ static ustream_ret cowl_func_write_iri(UOStream *stream, CowlIRI *iri, CowlEdito
     if (!ed) return cowl_write_iri(stream, iri);
 
     CowlString *pfx;
-    if (cowl_iri_has_rem(iri) && (pfx = cowl_editor_get_prefix(ed, cowl_iri_get_ns(iri)))) {
+    if (cowl_iri_has_rem(iri) && (pfx = cowl_sym_table_get_prefix(&ed->st, cowl_iri_get_ns(iri)))) {
         return cowl_func_write_short_iri(stream, pfx, cowl_iri_get_rem(iri));
     }
 
@@ -194,7 +192,7 @@ static ustream_ret cowl_func_write_anon_ind(UOStream *s, CowlAnonInd *ind, CowlE
         return s->state;
     }
 
-    CowlString *str = cowl_editor_get_name_for_anon_ind(ed, ind);
+    CowlString *str = cowl_sym_table_get_name_for_anon(&ed->st, ind);
     if (!str) return USTREAM_ERR_MEM;
 
     cowl_write_string(s, str);
@@ -295,7 +293,7 @@ static bool imports_writer(void *ctx, void *import) {
     void **array = ctx;
     UOStream *s = array[0];
     CowlEditor *ed = array[1];
-    CowlIRI *iri = cowl_editor_get_import_iri(ed, import);
+    CowlIRI *iri = cowl_sym_table_get_import_iri(&ed->st, import);
 
     if (!iri) {
         iri = cowl_ontology_get_id(import).iri;
@@ -308,7 +306,7 @@ static bool imports_writer(void *ctx, void *import) {
         };
 
         UString desc = ustring_join(comp, ulib_array_count(comp), ustring_empty);
-        cowl_editor_handle_error(ed, COWL_ERR_IMPORT, desc);
+        cowl_handle_error(COWL_ERR_IMPORT, desc, import);
 
         cowl_string_release(iri_str);
         ustring_deinit(&desc);
@@ -353,7 +351,7 @@ static bool axiom_writer(void *ctx, void *obj) {
 }
 
 static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto, CowlEditor *ed) {
-    CowlTable *prefixes = cowl_editor_get_prefix_ns_map(ed, false);
+    CowlTable *prefixes = cowl_sym_table_get_prefix_ns_map(&ed->st, false);
 
     cowl_table_foreach(prefixes, p) {
         cowl_func_write_prefix(s, *p.key, *p.val);

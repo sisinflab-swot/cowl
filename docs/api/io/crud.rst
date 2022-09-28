@@ -26,8 +26,8 @@ is used in a number of ways:
   via :func:`CowlManager::cowl_manager_set_reader()`.
 
 You can integrate additional readers by providing suitably populated :class:`CowlReader` instances.
-When implementing one, use the provided :class:`CowlEditor` instance for common reader tasks,
-such as ontology population and error handling. Refer to the built-in readers if you need guidance.
+When implementing one, use the provided :class:`CowlEditor` instance for CRUD operations over
+the underlying ontology object. Refer to the built-in readers if you need guidance.
 
 .. doxygenstruct:: CowlReader
 
@@ -54,11 +54,12 @@ or a ``NULL`` one (in which case an anonymous ontology is created).
 
 Each ontology document is associated to a :class:`CowlEditor` instance,
 which you can retrieve by calling :func:`CowlManager::cowl_manager_get_editor()`.
-Other than allowing ontology editing, :class:`CowlEditor` stores and provides access
-to syntactical details that are not relevant to logic, such as XML prefixes,
-import IRIs and anonymous individual identifiers.
+Access to syntactical details that are not relevant to logic, such as XML prefixes,
+import IRIs and anonymous individual identifiers is provided by a :class:`CowlSymTable` instance
+retrievable by calling :func:`CowlEditor::cowl_editor_get_sym_table()`.
 
 .. doxygenstruct:: CowlEditor
+.. doxygenstruct:: CowlSymTable
 
 .. _writing:
 

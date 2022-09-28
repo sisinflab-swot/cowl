@@ -104,6 +104,7 @@
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sub_data_prop_axiom.h"
 #include "cowl_sub_obj_prop_axiom.h"
+#include "cowl_sym_table.h"
 #include "cowl_table.h"
 #include "cowl_vector.h"
 #include "cowl_version.h"

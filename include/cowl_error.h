@@ -32,9 +32,6 @@ typedef struct CowlErrorLoc {
     /// Location of the ontology where the error occurred.
     CowlString *source;
 
-    /// IRI of the ontology where the error occurred.
-    CowlIRI *iri;
-
 } CowlErrorLoc;
 
 /// Error data structure.
@@ -47,12 +44,20 @@ typedef struct CowlError {
     CowlString *description;
 
     /// Object that originated the error.
-    CowlObject *origin;
-
-    /// Error location.
-    CowlErrorLoc location;
+    void *origin;
 
 } CowlError;
+
+/// Syntax error.
+typedef struct CowlSyntaxError {
+
+    /// Base error.
+    CowlError super;
+
+    /// Error location.
+    CowlErrorLoc loc;
+
+} CowlSyntaxError;
 
 /**
  * Returns a human-readable string representation of the specified error.

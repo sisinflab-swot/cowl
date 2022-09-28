@@ -45,6 +45,10 @@ void cowl_ontology_release(CowlOntology *onto) {
     ulib_free(onto);
 }
 
+CowlManager* cowl_ontology_get_manager(CowlOntology *onto) {
+     return onto->manager;
+}
+
 CowlOntologyId cowl_ontology_get_id(CowlOntology *onto) {
     return onto->id;
 }
@@ -338,12 +342,13 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlIt
     return true;
 }
 
-CowlOntology* cowl_ontology(void) {
+CowlOntology* cowl_ontology(CowlManager *manager) {
     CowlOntology *onto = ulib_alloc(onto);
     if (!onto) return NULL;
 
     *onto = (CowlOntology){0};
     onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
+    onto->manager = manager;
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         onto->refs[i] = cowl_primitive_map();

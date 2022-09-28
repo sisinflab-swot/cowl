@@ -12,30 +12,21 @@
 #define COWL_EDITOR_PRIVATE_H
 
 #include "cowl_editor.h"
-#include "cowl_table.h"
+#include "cowl_sym_table_private.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlManager);
 
 typedef struct CowlEditor {
-    UString description;
-    CowlManager *manager;
+    CowlSymTable st;
     CowlOntology *ontology;
-    CowlTable *onto_import_map;
-    CowlTable *import_onto_map;
-    CowlTable *prefix_ns_map;
-    CowlTable *ns_prefix_map;
-    CowlTable *id_anon_map;
-    CowlTable *anon_id_map;
     void *state;
 } CowlEditor;
 
-CowlEditor* cowl_editor_alloc(CowlManager *manager);
+CowlEditor* cowl_editor_alloc(void);
 void cowl_editor_free(CowlEditor *editor);
-
 void cowl_editor_set_ontology(CowlEditor *editor, CowlOntology *ontology);
-void cowl_editor_handle_stream_error(CowlEditor *editor, ustream_ret code);
 
 COWL_END_DECLS
 

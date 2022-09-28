@@ -45,23 +45,36 @@
     #include "cowl_func_yylexer.h"
     #include "cowl_private.h"
 
-    static void cowl_func_yyerror(cowl_unused COWL_FUNC_YYLTYPE *yylloc,
+    #define COWL_HANDLE_ERROR(CODE) cowl_handle_error_code((CODE), editor->ontology)
+    #define COWL_HANDLE_MEM_ERROR() cowl_handle_error_code(COWL_ERR_MEM, editor->ontology)
+    #define COWL_HANDLE_SYNTAX_ERROR(DESC)                                                          \
+        cowl_handle_syntax_error((DESC), editor->ontology,                                          \
+                                 (CowlErrorLoc) { .line = yylloc.last_line })
+
+    static void cowl_func_yyerror(COWL_FUNC_YYLTYPE *yylloc,
                                   cowl_unused yyscan_t scanner,
                                   CowlEditor *editor, const char *s) {
-        UString desc = ustring_wrap(s, strlen(s));
         if (strcmp(s, "memory exhausted") == 0) {
-            cowl_editor_handle_error(editor, COWL_ERR_MEM, desc);
+            COWL_HANDLE_MEM_ERROR();
         } else {
-            cowl_editor_handle_syntax_error(editor, yylloc->last_line, desc);
+            cowl_handle_syntax_error(ustring_wrap(s, strlen(s)), editor->ontology,
+                                     (CowlErrorLoc) { .line = yylloc->last_line });
         }
     }
 
+
+
     #define COWL_ERROR(CODE) do {                                                                   \
-        cowl_editor_handle_error_type(editor, (CODE));                                              \
+        COWL_HANDLE_ERROR(CODE);                                                                    \
         YYERROR;                                                                                    \
     } while (0)
 
     #define COWL_ERROR_MEM COWL_ERROR(COWL_ERR_MEM)
+
+    #define COWL_ERROR_SYNTAX(DESC) do {                                                            \
+        COWL_HANDLE_SYNTAX_ERROR(DESC);                                                             \
+        YYERROR;                                                                                    \
+    } while (0)
 
     #define COWL_VEC_PUSH(T, VEC, OBJ) do {                                                         \
         if (cowl_vector_push(VEC, OBJ)) COWL_ERROR_MEM;                                             \
@@ -228,7 +241,14 @@ prefix_name
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_editor_parse_full_iri(editor, $1);
+        $$ = cowl_sym_table_parse_full_iri(&editor->st, $1);
+        if (!$$) {
+            UString comp[] = { ustring_literal("failed to resolve "), $1 };
+            UString err_str = ustring_concat(comp, ulib_array_count(comp));
+            COWL_HANDLE_SYNTAX_ERROR(err_str);
+            ustring_deinit(&err_str);
+            YYERROR;
+        }
     }
 ;
 
@@ -251,7 +271,7 @@ prefix_declarations
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
         CowlString *iri_string = cowl_iri_to_string($5);
-        cowl_ret ret = cowl_editor_register_prefix(editor, $3, iri_string);
+        cowl_ret ret = cowl_sym_table_register_prefix(&editor->st, $3, iri_string);
         cowl_string_release(iri_string);
         cowl_string_release($3);
         cowl_iri_release($5);
@@ -368,7 +388,7 @@ named_individual
 
 anonymous_individual
     : BLANK_NODE_LABEL {
-        CowlAnonInd *ind = cowl_editor_get_anon_ind(editor, $1);
+        CowlAnonInd *ind = cowl_sym_table_get_anon(&editor->st, $1);
         $$ = (CowlIndividual *)(ind ? cowl_anon_ind_retain(ind) : NULL);
     }
 ;

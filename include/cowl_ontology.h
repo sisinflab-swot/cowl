@@ -32,6 +32,7 @@ cowl_struct_decl(CowlDataProp);
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlEntity);
 cowl_struct_decl(CowlIndividual);
+cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlVector);
@@ -69,6 +70,17 @@ CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
  */
 COWL_PUBLIC
 void cowl_ontology_release(CowlOntology *onto);
+
+/**
+ * Gets the manager of this ontology.
+ *
+ * @param onto The ontology.
+ * @return The manager.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+CowlManager* cowl_ontology_get_manager(CowlOntology *onto);
 
 /**
  * Gets the ontology ID.

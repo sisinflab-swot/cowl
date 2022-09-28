@@ -22,6 +22,7 @@ COWL_BEGIN_DECLS
 
 struct CowlOntology {
     CowlObject super;
+    CowlManager *manager;
     CowlVector *annotations;
     CowlVector *imports;
     CowlVector *axioms_by_type[COWL_AT_COUNT];
@@ -29,7 +30,7 @@ struct CowlOntology {
     CowlOntologyId id;
 };
 
-CowlOntology* cowl_ontology(void);
+CowlOntology* cowl_ontology(CowlManager *manager);
 
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
 void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
