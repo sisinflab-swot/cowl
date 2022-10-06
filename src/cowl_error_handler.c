@@ -24,7 +24,7 @@ static CowlErrorHandler cowl_best_error_handler(CowlObject *origin) {
         default: break;
     }
 
-    CowlErrorHandler handler = manager ? manager->handler : cowl_error_handler(NULL, NULL, NULL);
+    CowlErrorHandler handler = manager ? manager->handler : (CowlErrorHandler){0};
     if (!handler.handle_error) handler = cowl_get_error_handler();
 
     return handler;

@@ -44,13 +44,13 @@ bool cowl_test_manager_read_ontology(void) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
 
-    CowlImportLoader loader = cowl_import_loader(manager, cowl_test_load_import, NULL);
+    CowlImportLoader loader = { manager, cowl_test_load_import };
     cowl_manager_set_import_loader(manager, loader);
 
     UOStream stream;
     utest_assert_critical(uostream_to_path(&stream, COWL_ONTOLOGY_LOG) == USTREAM_OK);
 
-    CowlErrorHandler handler = cowl_error_handler(&stream, cowl_test_manager_write_error, NULL);
+    CowlErrorHandler handler = { &stream, cowl_test_manager_write_error };
     cowl_manager_set_error_handler(manager, handler);
 
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));

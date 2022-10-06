@@ -57,24 +57,6 @@ typedef struct CowlImportLoader {
 
 } CowlImportLoader;
 
-/**
- * Initializes a new import loader.
- *
- * @param ctx Loader context.
- * @param load_func Pointer to a function that returns the ontology having the specified IRI.
- * @param free_func Pointer to a resource deallocator function for the context.
- * @return Import loader instance.
- *
- * @public @memberof CowlImportLoader
- */
-COWL_INLINE
-CowlImportLoader cowl_import_loader(void *ctx,
-                                    CowlOntology* (*load_func)(void *, CowlIRI *),
-                                    void (*free_func)(void *)) {
-    CowlImportLoader l = { .ctx = ctx, .load_ontology = load_func, .free = free_func };
-    return l;
-}
-
 COWL_END_DECLS
 
 #endif // COWL_IMPORT_LOADER_H

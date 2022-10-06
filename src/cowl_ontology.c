@@ -395,12 +395,14 @@ static bool cowl_ontology_primitive_adder(void *ctx, void *obj) {
 
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
     cowl_ret ret = COWL_ERR_MEM;
-    if (!annot || cowl_vector_ptr_add(&onto->annotations, annot)) goto end;
+    if (!annot) goto end;
 
     CowlAxiomCtx ctx = { .onto = onto };
-    CowlIterator iter = cowl_iterator(&ctx, cowl_ontology_primitive_adder);
+    CowlIterator iter = { &ctx, cowl_ontology_primitive_adder };
     cowl_annotation_iterate_primitives(annot, COWL_PF_ALL, &iter);
-    ret = ctx.ret;
+    if ((ret = ctx.ret)) goto end;
+
+    ret = cowl_vector_ptr_add(&onto->annotations, annot);
 
 end:
     if (ret) cowl_handle_error_code(ret, onto);
@@ -480,13 +482,12 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     if (!axiom) goto end;
 
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
-    CowlIterator iter = cowl_iterator(&ctx, cowl_ontology_primitive_axiom_adder);
+    CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_adder };
 
     cowl_axiom_iterate_primitives(axiom, COWL_PF_ALL, &iter);
-    ret = ctx.ret;
+    if ((ret = ctx.ret)) goto end;
 
-    CowlAxiomType type = cowl_axiom_get_type(axiom);
-    if (cowl_vector_ptr_add(&onto->axioms_by_type[type], axiom)) goto end;
+    ret = cowl_vector_ptr_add(&onto->axioms_by_type[cowl_axiom_get_type(axiom)], axiom);
 
 end:
     if (ret) cowl_handle_error_code(ret, onto);
@@ -501,7 +502,7 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAxiom *axiom) {
     if (!uvec_remove(CowlObjectPtr, vec, axiom)) return;
 
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
-    CowlIterator iter = cowl_iterator(&ctx, cowl_ontology_primitive_axiom_remover);
+    CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_remover };
     cowl_axiom_iterate_primitives(axiom, COWL_PF_ALL, &iter);
 
     cowl_release(axiom);

@@ -31,7 +31,7 @@ int main(void) {
         printf("Atomic subclasses of " CLASS_NAME ":\n");
 
         // Run the query.
-        CowlIterator iter = cowl_iterator(NULL, for_each_cls);
+        CowlIterator iter = { NULL, for_each_cls };
         cowl_ontology_iterate_sub_classes(ontology, cls, &iter, false);
 
         // Cleanup.

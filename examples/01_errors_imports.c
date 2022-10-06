@@ -25,14 +25,16 @@ int main(void) {
     }
 
     // Setup a global error handler and import loader.
-    cowl_set_import_loader(cowl_import_loader(NULL, load_import, NULL));
+    CowlImportLoader loader = { NULL, load_import };
+    cowl_set_import_loader(loader);
 
     UOStream stream;
     if (uostream_to_path(&stream, LOG)) {
         return EXIT_FAILURE;
     }
 
-    cowl_set_error_handler(cowl_error_handler(&stream, handle_error, NULL));
+    CowlErrorHandler handler = { &stream, handle_error };
+    cowl_set_error_handler(handler);
 
     // Read the ontology from file.
     CowlManager *manager = cowl_manager();
