@@ -15,6 +15,7 @@
 #include "cowl_annot_value_type.h"
 #include "cowl_axiom_type.h"
 #include "cowl_card_type.h"
+#include "cowl_char_axiom_type.h"
 #include "cowl_cls_exp_type.h"
 #include "cowl_data_range_type.h"
 #include "cowl_entity_type.h"
@@ -23,7 +24,10 @@
 #include "cowl_nary_type.h"
 #include "cowl_nary_axiom_type.h"
 #include "cowl_node_id.h"
+#include "cowl_object_type.h"
 #include "cowl_ontology_id.h"
+#include "cowl_primitive_flags.h"
+#include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
 #include "cowl_reader.h"
 #include "cowl_version.h"
@@ -58,7 +62,6 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
 cowl_struct_decl(CowlDatatypeRestr);
 cowl_struct_decl(CowlDeclAxiom);
 cowl_struct_decl(CowlDisjUnionAxiom);
-cowl_struct_decl(CowlEditor);
 cowl_struct_decl(CowlEntity);
 cowl_struct_decl(CowlFacetRestr);
 cowl_struct_decl(CowlFuncDataPropAxiom);
@@ -96,6 +99,7 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
 cowl_struct_decl(CowlSubClsAxiom);
 cowl_struct_decl(CowlSubDataPropAxiom);
 cowl_struct_decl(CowlSubObjPropAxiom);
+cowl_struct_decl(CowlSymTable);
 cowl_struct_decl(CowlTable);
 cowl_struct_decl(CowlVector);
 

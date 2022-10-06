@@ -35,6 +35,7 @@ cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlNamedInd);
 cowl_struct_decl(CowlObjProp);
+cowl_struct_decl(CowlSymTable);
 cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlOntology);
 /// @endcond
@@ -83,6 +84,17 @@ COWL_PUBLIC
 CowlManager* cowl_ontology_get_manager(CowlOntology *onto);
 
 /**
+ * Gets the symbol table of this ontology.
+ *
+ * @param onto The ontology.
+ * @return The symbol table.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+CowlSymTable* cowl_ontology_get_sym_table(CowlOntology *onto);
+
+/**
  * Gets the ontology ID.
  *
  * @param onto The ontology.
@@ -94,6 +106,28 @@ COWL_PUBLIC
 CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
 
 /**
+ * Sets the IRI of the ontology.
+ *
+ * @param onto The ontology.
+ * @param iri The IRI.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
+
+/**
+ * Sets the version IRI of the ontology.
+ *
+ * @param onto The ontology.
+ * @param version The version IRI.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
+
+/**
  * Gets the annotations of the specified ontology.
  *
  * @param onto The ontology.
@@ -103,6 +137,75 @@ CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
  */
 COWL_PUBLIC
 CowlVector* cowl_ontology_get_annot(CowlOntology *onto);
+
+/**
+ * Adds an annotation to the ontology.
+ *
+ * @param onto The ontology.
+ * @param annot The annotation.
+ * @return Return code.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
+
+/**
+ * Removes an annotation from the ontology.
+ *
+ * @param onto The ontology.
+ * @param annot The annotation.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
+
+/**
+ * Adds an import to the ontology.
+ *
+ * @param onto The ontology.
+ * @param import IRI of the imported ontology.
+ * @return Return code.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import);
+
+/**
+ * Removes an import from the ontology.
+ *
+ * @param onto The ontology.
+ * @param import IRI of the imported ontology.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
+
+/**
+ * Adds an axiom to the ontology.
+ *
+ * @param onto The ontology.
+ * @param axiom The axiom.
+ * @return Return code.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
+
+/**
+ * Removes an axiom from the ontology.
+ *
+ * @param onto The ontology.
+ * @param axiom The axiom.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAxiom *axiom);
 
 /**
  * Returns the string representation of the specified ontology.

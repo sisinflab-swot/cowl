@@ -135,18 +135,6 @@ COWL_PUBLIC
 CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
 
 /**
- * Returns the editor associated with the specified ontology.
- *
- * @param manager The manager.
- * @param ontology The ontology.
- * @return Ontology editor, or NULL if the ontology is unknown to the manager.
- *
- * @public @memberof CowlEditor
- */
-COWL_PUBLIC
-CowlEditor* cowl_manager_get_editor(CowlManager *manager, CowlOntology *ontology);
-
-/**
  * Reads an ontology from the file at the specified path.
  *
  * @param manager The manager.

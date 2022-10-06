@@ -21,8 +21,8 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlEditor);
 cowl_struct_decl(CowlLiteral);
+cowl_struct_decl(CowlOntology);
 /// @endcond
 
 /// Defines a writer.
@@ -56,12 +56,12 @@ typedef struct CowlWriter {
      *
      * @param state Writer state.
      * @param stream Output stream.
-     * @param editor Ontology editor.
+     * @param ontology Ontology.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*write_ontology)(void *state, UOStream *stream, CowlEditor *editor);
+    cowl_ret (*write_ontology)(void *state, UOStream *stream, CowlOntology *ontology);
 
     /**
      * Pointer to a function that writes an object to an output stream.

@@ -106,16 +106,16 @@ COWL_PUBLIC
 CowlIRI* cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri);
 
 /**
- * Gets the map that associates ontologies to import IRIs.
+ * Gets the map that associates import IRIs to ontologies.
  *
  * @param st The symbol table.
- * @param reverse If true, the reversed map (IRIs to ontologies) is returned.
- * @return Ontologies to import IRIs map, or NULL on error.
+ * @param reverse If true, the reversed map (ontologies to IRIs) is returned.
+ * @return Import IRI to ontology map, or NULL on error.
  *
  * @public @memberof CowlSymTable
  */
 COWL_PUBLIC
-CowlTable* cowl_sym_table_get_onto_iri_map(CowlSymTable *st, bool reverse);
+CowlTable* cowl_sym_table_get_iri_onto_map(CowlSymTable *st, bool reverse);
 
 /**
  * Gets the import IRI for the specified ontology.

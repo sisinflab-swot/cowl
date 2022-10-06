@@ -41,30 +41,30 @@ CowlSymTable cowl_sym_table_init(void) {
 }
 
 void cowl_sym_table_deinit(CowlSymTable *st) {
-    cowl_table_release(st->onto_import_map);
-    cowl_table_release_ex(st->import_onto_map, false);
+    cowl_table_release(st->import_onto_map);
+    cowl_table_release_ex(st->onto_import_map, false);
     cowl_table_release(st->prefix_ns_map);
     cowl_table_release_ex(st->ns_prefix_map, false);
     cowl_table_release(st->id_anon_map);
     cowl_table_release_ex(st->anon_id_map, false);
 }
 
-CowlTable* cowl_sym_table_get_onto_iri_map(CowlSymTable *st, bool reverse) {
-    CowlTable **table = reverse ? &st->import_onto_map : &st->onto_import_map;
+CowlTable* cowl_sym_table_get_iri_onto_map(CowlSymTable *st, bool reverse) {
+    CowlTable **table = reverse ? &st->onto_import_map : &st->import_onto_map;
 
     if (!*table) {
         UHash(CowlObjectTable) temp;
 
         if (reverse) {
-            temp = uhmap_pi(CowlObjectTable, ptr_hash, ptr_equals);
-        } else {
             temp = uhmap_pi(CowlObjectTable, onto_hash, onto_equals);
+        } else {
+            temp = uhmap_pi(CowlObjectTable, ptr_hash, ptr_equals);
         }
 
         if (!(*table = cowl_table(&temp))) return NULL;
     }
 
-    if (reverse && cowl_update_reverse_map(st->onto_import_map, st->import_onto_map)) {
+    if (reverse && cowl_update_reverse_map(st->import_onto_map, st->onto_import_map)) {
         return NULL;
     }
 
@@ -72,25 +72,42 @@ CowlTable* cowl_sym_table_get_onto_iri_map(CowlSymTable *st, bool reverse) {
 }
 
 CowlIRI* cowl_sym_table_get_import_iri(CowlSymTable *st, CowlOntology *ontology) {
-    return cowl_table_get_value(st->onto_import_map, ontology);
+    return cowl_table_get_value(cowl_sym_table_get_iri_onto_map(st, true), ontology);
 }
 
 CowlOntology* cowl_sym_table_get_onto_for_import_iri(CowlSymTable *st, CowlIRI *import) {
-    return cowl_table_get_value(cowl_sym_table_get_onto_iri_map(st, true), import);
+    return cowl_table_get_value(cowl_sym_table_get_iri_onto_map(st, false), import);
 }
 
-cowl_ret cowl_sym_table_pop_import(CowlSymTable *st, CowlIRI *iri, CowlOntology **import) {
-    if (!st->onto_import_map) return COWL_OK;
-
-    CowlTable *table = cowl_sym_table_get_onto_iri_map(st, true);
+cowl_ret cowl_sym_table_add_import(CowlSymTable *st, CowlIRI *iri, CowlOntology *import) {
+    CowlTable *table = cowl_sym_table_get_iri_onto_map(st, false);
     if (!table) return COWL_ERR_MEM;
 
-    void *temp = NULL;
-    uhmap_pop(CowlObjectTable, &table->data, iri, NULL, &temp);
-    if (import) *import = temp;
+    UHash(CowlObjectTable) *tbl = &table->data;
+    uhash_ret ret = uhmap_add(CowlObjectTable, tbl, iri, import, NULL);
 
+    if (ret == UHASH_PRESENT) return COWL_ERR_IMPORT;
+    if (ret == UHASH_INSERTED) {
+        cowl_iri_retain(iri);
+        if (import) cowl_ontology_retain(import);
+        return COWL_OK;
+    }
+
+    return COWL_ERR_MEM;
+}
+
+cowl_ret cowl_sym_table_remove_import(CowlSymTable *st, CowlIRI *iri) {
+    CowlTable *table = st->import_onto_map;
+    if (!table) return COWL_OK;
+
+    void *import = NULL;
+    if (!uhmap_pop(CowlObjectTable, &table->data, iri, NULL, &import)) return COWL_OK;
     cowl_iri_release(iri);
-    if (temp) uhmap_remove(CowlObjectTable, &st->onto_import_map->data, temp);
+
+    if (import) {
+        if (st->onto_import_map) uhmap_remove(CowlObjectTable, &st->onto_import_map->data, import);
+        cowl_ontology_release(import);
+    }
 
     return COWL_OK;
 }
@@ -111,7 +128,7 @@ CowlTable* cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse) {
 }
 
 CowlString* cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix) {
-    return cowl_table_get_value(st->prefix_ns_map, prefix);
+    return cowl_table_get_value(cowl_sym_table_get_prefix_ns_map(st, false), prefix);
 }
 
 CowlString* cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns) {
@@ -135,7 +152,7 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
 
 CowlIRI* cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) {
     CowlString ns_local = cowl_string_init(ns);
-    CowlString *ns_str = cowl_table_get_value(st->prefix_ns_map, &ns_local);
+    CowlString *ns_str = cowl_sym_table_get_ns(st, &ns_local);
     if (!ns_str) return NULL;
 
     ulib_uint const rem_length = ustring_length(rem);

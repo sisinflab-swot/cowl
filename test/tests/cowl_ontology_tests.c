@@ -22,8 +22,6 @@
 #include "cowl_string.h"
 #include "cowl_test_utils.h"
 
-// Test data
-
 #define test_onto_iri "http://visualdataweb.de/ontobench/ontology/1/"
 #define test_class "Class1"
 #define test_datatype "DataUnionOf_Datatype1"
@@ -84,8 +82,6 @@ static ulib_uint* test_onto_axiom_counts(void) {
     return counts;
 }
 
-// Init/deinit
-
 bool cowl_test_ontology_init(void) {
     CowlManager *manager = cowl_manager();
     CowlImportLoader loader = cowl_import_loader(manager, cowl_test_load_import, NULL);
@@ -100,8 +96,6 @@ bool cowl_test_ontology_deinit(void) {
     cowl_ontology_release(onto);
     return true;
 }
-
-// Tests
 
 bool cowl_test_ontology_get_id(void) {
     CowlOntologyId id = cowl_ontology_get_id(onto);

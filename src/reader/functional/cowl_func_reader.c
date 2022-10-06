@@ -8,7 +8,6 @@
  * @file
  */
 
-#include "cowl_editor.h"
 #include "cowl_reader.h"
 #include "cowl_func_yylexer.h"
 
@@ -21,10 +20,10 @@ static void cowl_func_reader_free(void *scanner) {
     cowl_func_yylex_destroy(scanner);
 }
 
-static cowl_ret cowl_func_reader_read(void *scanner, UIStream *stream, CowlEditor *editor) {
+static cowl_ret cowl_func_reader_read(void *scanner, UIStream *stream, CowlOntology *onto) {
     cowl_func_yyset_in(NULL, scanner);
     cowl_func_yyset_extra(stream, scanner);
-    return cowl_func_yyparse(scanner, editor) == 0 ? COWL_OK : COWL_ERR;
+    return cowl_func_yyparse(scanner, onto) == 0 ? COWL_OK : COWL_ERR;
 }
 
 static CowlReader const cowl_func_reader = {

@@ -47,7 +47,6 @@
 #include "cowl_datatype_restr.h"
 #include "cowl_decl_axiom.h"
 #include "cowl_disj_union_axiom.h"
-#include "cowl_editor.h"
 #include "cowl_entity.h"
 #include "cowl_entity_type.h"
 #include "cowl_error.h"

@@ -14,7 +14,7 @@
 %define api.pure full
 %lex-param {yyscan_t scanner}
 %parse-param {yyscan_t scanner}
-%parse-param {CowlEditor *editor}
+%parse-param {CowlOntology *ontology}
 %locations
 
 // Code
@@ -45,19 +45,18 @@
     #include "cowl_func_yylexer.h"
     #include "cowl_private.h"
 
-    #define COWL_HANDLE_ERROR(CODE) cowl_handle_error_code((CODE), editor->ontology)
-    #define COWL_HANDLE_MEM_ERROR() cowl_handle_error_code(COWL_ERR_MEM, editor->ontology)
-    #define COWL_HANDLE_SYNTAX_ERROR(DESC)                                                          \
-        cowl_handle_syntax_error((DESC), editor->ontology,                                          \
-                                 (CowlErrorLoc) { .line = yylloc.last_line })
+    #define COWL_HANDLE_ERROR(CODE) cowl_handle_error_code((CODE), ontology)
+    #define COWL_HANDLE_MEM_ERROR() cowl_handle_error_code(COWL_ERR_MEM, ontology)
+    #define COWL_HANDLE_SYNTAX_ERROR(DESC) \
+        cowl_handle_syntax_error((DESC), ontology, (CowlErrorLoc) { .line = yylloc.last_line })
 
     static void cowl_func_yyerror(COWL_FUNC_YYLTYPE *yylloc,
                                   cowl_unused yyscan_t scanner,
-                                  CowlEditor *editor, const char *s) {
+                                  CowlOntology *ontology, const char *s) {
         if (strcmp(s, "memory exhausted") == 0) {
             COWL_HANDLE_MEM_ERROR();
         } else {
-            cowl_handle_syntax_error(ustring_wrap(s, strlen(s)), editor->ontology,
+            cowl_handle_syntax_error(ustring_wrap(s, strlen(s)), ontology,
                                      (CowlErrorLoc) { .line = yylloc->last_line });
         }
     }
@@ -241,7 +240,7 @@ prefix_name
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_sym_table_parse_full_iri(&editor->st, $1);
+        $$ = cowl_sym_table_parse_full_iri(&ontology->st, $1);
         if (!$$) {
             UString comp[] = { ustring_literal("failed to resolve "), $1 };
             UString err_str = ustring_concat(comp, ulib_array_count(comp));
@@ -270,12 +269,17 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
+        if (!($3 && $5)) COWL_ERROR_MEM;
+
         CowlString *iri_string = cowl_iri_to_string($5);
-        cowl_ret ret = cowl_sym_table_register_prefix(&editor->st, $3, iri_string);
+        if (!iri_string) COWL_ERROR_MEM;
+
+        cowl_ret ret = cowl_sym_table_register_prefix(&ontology->st, $3, iri_string);
         cowl_string_release(iri_string);
         cowl_string_release($3);
         cowl_iri_release($5);
-        if (ret) YYERROR;
+
+        if (ret) COWL_ERROR(ret);
     }
 ;
 
@@ -286,12 +290,12 @@ ontology
 ontology_id
     : %empty
     | iri {
-        cowl_editor_set_iri(editor, $1);
+        cowl_ontology_set_iri(ontology, $1);
         cowl_iri_release($1);
     }
     | iri iri {
-        cowl_editor_set_iri(editor, $1);
-        cowl_editor_set_version(editor, $2);
+        cowl_ontology_set_iri(ontology, $1);
+        cowl_ontology_set_version(ontology, $2);
         cowl_iri_release($1);
         cowl_iri_release($2);
     }
@@ -304,7 +308,7 @@ ontology_imports
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret ret = cowl_editor_add_import(editor, $3);
+        cowl_ret ret = cowl_ontology_add_import(ontology, $3);
         cowl_iri_release($3);
         if (ret) YYERROR;
     }
@@ -313,7 +317,7 @@ import
 ontology_annotations
     : %empty
     | ontology_annotations annotation {
-        cowl_ret ret = cowl_editor_add_annot(editor, $2);
+        cowl_ret ret = cowl_ontology_add_annot(ontology, $2);
         cowl_annotation_release($2);
         if (ret) YYERROR;
     }
@@ -321,7 +325,7 @@ ontology_annotations
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret ret = cowl_editor_add_axiom(editor, $2);
+        cowl_ret ret = cowl_ontology_add_axiom(ontology, $2);
         cowl_axiom_release($2);
         if (ret) YYERROR;
     }
@@ -388,8 +392,9 @@ named_individual
 
 anonymous_individual
     : BLANK_NODE_LABEL {
-        CowlAnonInd *ind = cowl_sym_table_get_anon(&editor->st, $1);
-        $$ = (CowlIndividual *)(ind ? cowl_anon_ind_retain(ind) : NULL);
+        CowlAnonInd *ind = cowl_sym_table_get_anon(&ontology->st, $1);
+        if (!ind) COWL_ERROR_MEM;
+        $$ = (CowlIndividual *)cowl_anon_ind_retain(ind);
     }
 ;
 

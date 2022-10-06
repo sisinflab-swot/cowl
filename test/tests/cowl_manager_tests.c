@@ -11,11 +11,11 @@
 #include "cowl_manager_tests.h"
 #include "cowl_class.h"
 #include "cowl_decl_axiom.h"
-#include "cowl_editor.h"
 #include "cowl_manager.h"
 #include "cowl_ontology.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_string.h"
+#include "cowl_table.h"
 #include "cowl_test_utils.h"
 #include "cowl_vector.h"
 
@@ -110,19 +110,16 @@ bool cowl_test_manager_edit_ontology(void) {
     utest_assert_not_null(onto);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 0);
 
-    CowlEditor *editor = cowl_manager_get_editor(manager, onto);
-    utest_assert_not_null(editor);
-
     CowlClass *a = cowl_class_from_static(ONTO_NS "A");
     CowlClass *b = cowl_class_from_static(ONTO_NS "B");
 
     CowlDeclAxiom *decl_axiom = cowl_decl_axiom((CowlEntity *)a, NULL);
-    cowl_ret ret = cowl_editor_add_axiom(editor, (CowlAxiom *)decl_axiom);
+    cowl_ret ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)decl_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
     cowl_decl_axiom_release(decl_axiom);
 
     decl_axiom = cowl_decl_axiom((CowlEntity *)b, NULL);
-    ret = cowl_editor_add_axiom(editor, (CowlAxiom *)decl_axiom);
+    ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)decl_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
     cowl_decl_axiom_release(decl_axiom);
 
@@ -133,12 +130,11 @@ bool cowl_test_manager_edit_ontology(void) {
     cowl_class_release(a);
     cowl_class_release(b);
 
-    ret = cowl_editor_add_axiom(editor, (CowlAxiom *)sub_axiom);
+    ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)sub_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 3);
 
-    ret = cowl_editor_remove_axiom(editor, (CowlAxiom *)sub_axiom);
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_ontology_remove_axiom(onto, (CowlAxiom *)sub_axiom);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
 
     cowl_sub_cls_axiom_release(sub_axiom);

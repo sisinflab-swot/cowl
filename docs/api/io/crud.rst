@@ -26,8 +26,8 @@ is used in a number of ways:
   via :func:`CowlManager::cowl_manager_set_reader()`.
 
 You can integrate additional readers by providing suitably populated :class:`CowlReader` instances.
-When implementing one, use the provided :class:`CowlEditor` instance for CRUD operations over
-the underlying ontology object. Refer to the built-in readers if you need guidance.
+When implementing one, use the provided :class:`CowlOntology` instance for CRUD operations over
+the ontology object. Refer to the built-in readers if you need guidance.
 
 .. doxygenstruct:: CowlReader
 
@@ -48,17 +48,14 @@ Editing
 =======
 
 Ontologies can be edited by adding or removing axioms, annotations and other constructs,
-as allowed by the :class:`CowlEditor` API. They can also be created from scratch by calling
+as allowed by the :class:`CowlOntology` API. They can also be created from scratch by calling
 :func:`CowlManager::cowl_manager_get_ontology()` and specifying a unique :class:`CowlOntologyId`
 or a ``NULL`` one (in which case an anonymous ontology is created).
 
-Each ontology document is associated to a :class:`CowlEditor` instance,
-which you can retrieve by calling :func:`CowlManager::cowl_manager_get_editor()`.
 Access to syntactical details that are not relevant to logic, such as XML prefixes,
 import IRIs and anonymous individual identifiers is provided by a :class:`CowlSymTable` instance
-retrievable by calling :func:`CowlEditor::cowl_editor_get_sym_table()`.
+retrievable by calling :func:`CowlOntology::cowl_ontology_get_sym_table()`.
 
-.. doxygenstruct:: CowlEditor
 .. doxygenstruct:: CowlSymTable
 
 .. _writing:

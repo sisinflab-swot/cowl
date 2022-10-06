@@ -107,7 +107,7 @@ Ontology editing and writing
 ----------------------------
 
 Ontologies can be created from scratch, or existing ontologies can be edited by adding
-or removing axioms, annotations and other constructs, as allowed by the :class:`CowlEditor` API.
+or removing axioms, annotations and other constructs, as allowed by the :class:`CowlOntology` API.
 Edited ontologies can then be written in any supported syntax
 (see :ref:`the related documentation <writing>`).
 

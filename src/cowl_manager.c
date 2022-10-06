@@ -10,7 +10,6 @@
 
 #include "cowl_manager_private.h"
 #include "cowl_config_private.h"
-#include "cowl_editor_private.h"
 #include "cowl_error_handler_private.h"
 #include "cowl_import_loader_private.h"
 #include "cowl_ontology_private.h"
@@ -21,67 +20,17 @@ CowlManager* cowl_manager(void) {
     *manager = (CowlManager){
         .super = COWL_OBJECT_INIT(COWL_OT_MANAGER),
         .reader = {0},
-        .editors = uvec(ulib_ptr)
+        .ontos = uvec(ulib_ptr)
     };
     return manager;
 }
 
 void cowl_manager_release(CowlManager *manager) {
-    if (manager && !cowl_object_decr_ref(manager)) {
-        cowl_import_loader_deinit(manager->loader);
-        cowl_error_handler_deinit(manager->handler);
-        uvec_foreach(ulib_ptr, &manager->editors, editor) {
-            cowl_editor_free(*editor.item);
-        }
-        uvec_deinit(ulib_ptr, &manager->editors);
-        ulib_free(manager);
-    }
-}
-
-static CowlEditor* cowl_ensure_editor(CowlManager *manager, CowlOntology *onto,
-                                      CowlOntologyId const *id) {
-    CowlEditor *editor = NULL;
-
-    if (onto) {
-        editor = cowl_manager_get_editor(manager, onto);
-        if (editor) return editor;
-    } else if (id) {
-        uvec_foreach(ulib_ptr, &manager->editors, e) {
-            CowlOntology *o = ((CowlEditor *)*e.item)->ontology;
-            if (cowl_ontology_id_equals(*id, cowl_ontology_get_id(o))) {
-                return *e.item;
-            }
-        }
-    }
-
-    editor = cowl_editor_alloc();
-    if (!editor) goto err;
-
-    if (onto) {
-        cowl_editor_set_ontology(editor, onto);
-    } else {
-        onto = cowl_ontology(manager);
-        if (!onto) goto err;
-
-        if (id) {
-            if (id->iri) cowl_editor_set_iri(editor, id->iri);
-            if (id->version) cowl_editor_set_version(editor, id->version);
-        }
-
-        cowl_editor_set_ontology(editor, onto);
-        cowl_ontology_release(onto);
-    }
-
-    if (uvec_push(ulib_ptr, &manager->editors, editor) != UVEC_OK) goto err;
-
-    return editor;
-
-err:
-    {
-        cowl_handle_error_code(COWL_ERR_MEM, manager);
-        cowl_editor_free(editor);
-        return NULL;
-    }
+    if (!manager || cowl_object_decr_ref(manager)) return;
+    cowl_import_loader_deinit(manager->loader);
+    cowl_error_handler_deinit(manager->handler);
+    uvec_deinit(ulib_ptr, &manager->ontos);
+    ulib_free(manager);
 }
 
 CowlReader cowl_manager_get_reader(CowlManager *manager) {
@@ -92,39 +41,6 @@ CowlWriter cowl_manager_get_writer(CowlManager *manager) {
     return manager->writer.name ? manager->writer : cowl_get_writer();
 }
 
-static CowlEditor* cowl_read_stream(CowlManager *manager, UIStream *stream) {
-    if (!(manager && stream)) return NULL;
-
-    CowlEditor *editor = cowl_ensure_editor(manager, NULL, NULL);
-    if (!editor) return NULL;
-
-    CowlReader reader = cowl_manager_get_reader(manager);
-
-    if (reader.alloc && !(editor->state = reader.alloc())) {
-        cowl_handle_error_code(COWL_ERR_MEM, manager);
-        return NULL;
-    }
-
-    bool success = true;
-
-    if (reader.read(editor->state, stream, editor)) {
-        success = false;
-        goto err;
-    }
-
-    if (cowl_ontology_finalize(editor->ontology)) {
-        cowl_handle_error_code(COWL_ERR_MEM, manager);
-        success = false;
-        goto err;
-    }
-
-err:
-    if (reader.free) reader.free(editor->state);
-    editor->state = NULL;
-
-    return success ? editor : NULL;
-}
-
 static CowlOntology* cowl_read_stream_deinit(CowlManager *manager, UIStream *stream) {
     if (stream->state) {
         cowl_handle_stream_error(stream->state, manager);
@@ -132,32 +48,12 @@ static CowlOntology* cowl_read_stream_deinit(CowlManager *manager, UIStream *str
         return NULL;
     }
 
-    CowlEditor *editor = cowl_read_stream(manager, stream);
+    CowlOntology *onto = cowl_manager_read_stream(manager, stream);
     ustream_ret ret = uistream_deinit(stream);
-    if (!editor) return NULL;
+    if (!onto) return NULL;
 
     if (ret) cowl_handle_stream_error(ret, manager);
-    return cowl_ontology_retain(editor->ontology);
-}
-
-static CowlEditor* cowl_write_stream(CowlManager *manager, CowlOntology *onto, UOStream *stream) {
-    if (!(manager && stream && onto)) return NULL;
-
-    CowlEditor *editor = cowl_ensure_editor(manager, onto, NULL);
-    if (!editor) return NULL;
-
-    CowlWriter writer = cowl_manager_get_writer(manager);
-
-    if (writer.alloc && !(editor->state = writer.alloc())) {
-        cowl_handle_error_code(COWL_ERR_MEM, manager);
-        return NULL;
-    }
-
-    cowl_ret ret = writer.write_ontology(editor->state, stream, editor);
-    if (writer.free) writer.free(editor->state);
-    editor->state = NULL;
-
-    return ret ? NULL : editor;
+    return onto;
 }
 
 static cowl_ret cowl_write_stream_deinit(CowlManager *manager, CowlOntology *onto,
@@ -169,10 +65,13 @@ static cowl_ret cowl_write_stream_deinit(CowlManager *manager, CowlOntology *ont
         return ret;
     }
 
-    CowlEditor *editor = cowl_write_stream(manager, onto, stream);
-    ustream_ret ret = uostream_deinit(stream);
-    if (ret) cowl_handle_stream_error(ret, manager);
-    return !editor || ret ? COWL_ERR : COWL_OK;
+    cowl_ret ret = cowl_manager_write_stream(manager, onto, stream);
+    ustream_ret sret = uostream_deinit(stream);
+
+    if (ret) cowl_handle_error_code(ret, manager);
+    if (sret) cowl_handle_stream_error(sret, manager);
+
+    return ret || sret ? COWL_ERR : COWL_OK;
 }
 
 CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path) {
@@ -204,8 +103,36 @@ CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *stri
 }
 
 CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream) {
-    CowlEditor *editor = cowl_read_stream(manager, stream);
-    return editor && editor->ontology ? cowl_ontology_retain(editor->ontology) : NULL;
+    if (!(manager && stream)) return NULL;
+
+    CowlReader reader = cowl_manager_get_reader(manager);
+
+    void *state = NULL;
+
+    if (reader.alloc && !(state = reader.alloc())) {
+        cowl_handle_error_code(COWL_ERR_MEM, manager);
+        return NULL;
+    }
+
+    bool success = false;
+    CowlOntology *onto = cowl_ontology(manager);
+
+    if (!onto) goto err;
+    if (reader.read(state, stream, onto)) goto err;
+    if (cowl_ontology_finalize(onto)) goto err;
+
+    success = true;
+
+err:
+    if (reader.free) reader.free(state);
+    if (success && uvec_push(ulib_ptr, &manager->ontos, onto)) success = false;
+
+    if (!success) {
+        cowl_ontology_release(onto);
+        onto = NULL;
+    }
+
+    return onto;
 }
 
 cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, UString path) {
@@ -237,7 +164,20 @@ cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology,
 }
 
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream) {
-    return cowl_write_stream(manager, ontology, stream) ? COWL_OK : COWL_ERR;
+    if (!(manager && stream && ontology)) return COWL_ERR;
+
+    CowlWriter writer = cowl_manager_get_writer(manager);
+    void *state = NULL;
+
+    if (writer.alloc && !(state = writer.alloc())) {
+        cowl_handle_error_code(COWL_ERR_MEM, manager);
+        return COWL_ERR_MEM;
+    }
+
+    cowl_ret ret = writer.write_ontology(state, stream, ontology);
+    if (writer.free) writer.free(state);
+
+    return ret;
 }
 
 void cowl_manager_set_reader(CowlManager *manager, CowlReader reader) {
@@ -256,16 +196,35 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
     manager->handler = handler;
 }
 
-CowlEditor* cowl_manager_get_editor(CowlManager *manager, CowlOntology *ontology) {
-    uvec_foreach(ulib_ptr, &manager->editors, editor) {
-        if (cowl_ontology_equals(ontology, ((CowlEditor *)*editor.item)->ontology)) {
-            return *editor.item;
+CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id) {
+    if (id) {
+        uvec_foreach(ulib_ptr, &manager->ontos, onto) {
+            if (cowl_ontology_id_equals(cowl_ontology_get_id(*onto.item), *id)) {
+                return *onto.item;
+            }
         }
     }
-    return NULL;
+
+    CowlOntology *onto = cowl_ontology(manager);
+
+    if (!onto) {
+        cowl_handle_error_code(COWL_ERR_MEM, manager);
+        return NULL;
+    }
+
+    if (id) {
+        cowl_ontology_set_iri(onto, id->iri);
+        cowl_ontology_set_version(onto, id->version);
+    }
+
+    if (uvec_push(ulib_ptr, &manager->ontos, onto)) {
+        cowl_ontology_release(onto);
+        onto = NULL;
+    }
+
+    return onto;
 }
 
-CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id) {
-    CowlEditor *editor = cowl_ensure_editor(manager, NULL, id);
-    return editor && editor->ontology ? cowl_ontology_retain(editor->ontology) : NULL;
+void cowl_manager_remove_ontology(CowlManager *manager, CowlOntology *onto) {
+    uvec_remove(ulib_ptr, &manager->ontos, onto);
 }

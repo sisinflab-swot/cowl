@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlEditor);
+cowl_struct_decl(CowlOntology);
 /// @endcond
 
 /// Defines a reader.
@@ -50,12 +50,12 @@ typedef struct CowlReader {
      *
      * @param state Reader state.
      * @param stream Input stream.
-     * @param editor Ontology editor.
+     * @param ontology Ontology.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*read)(void *state, UIStream *stream, CowlEditor *editor);
+    cowl_ret (*read)(void *state, UIStream *stream, CowlOntology *ontology);
 
 } CowlReader;
 

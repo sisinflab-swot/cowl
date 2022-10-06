@@ -23,11 +23,12 @@ struct CowlManager {
     CowlWriter writer;
     CowlErrorHandler handler;
     CowlImportLoader loader;
-    UVec(ulib_ptr) editors;
+    UVec(ulib_ptr) ontos;
 };
 
 CowlReader cowl_manager_get_reader(CowlManager *manager);
 CowlWriter cowl_manager_get_writer(CowlManager *manager);
+void cowl_manager_remove_ontology(CowlManager *manager, CowlOntology *onto);
 
 COWL_END_DECLS
 
