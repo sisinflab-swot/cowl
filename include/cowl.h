@@ -98,6 +98,8 @@
 #include "cowl_reader.h"
 #include "cowl_ret.h"
 #include "cowl_std.h"
+#include "cowl_stream.h"
+#include "cowl_stream_config.h"
 #include "cowl_string.h"
 #include "cowl_sub_annot_prop_axiom.h"
 #include "cowl_sub_cls_axiom.h"

@@ -137,7 +137,7 @@ CowlString* cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns) {
 
 cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, CowlString *ns) {
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, false);
-    if (!table) return COWL_ERR_MEM;
+    if (!(table && (ns = cowl_string_intern(ns)))) return COWL_ERR_MEM;
 
     uhash_ret ret = uhmap_add(CowlObjectTable, &table->data, prefix, ns, NULL);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;

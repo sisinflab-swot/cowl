@@ -14,7 +14,7 @@
 %define api.pure full
 %lex-param {yyscan_t scanner}
 %parse-param {yyscan_t scanner}
-%parse-param {CowlOntology *ontology}
+%parse-param {CowlStream *stream}
 %locations
 
 // Code
@@ -45,18 +45,18 @@
     #include "cowl_func_yylexer.h"
     #include "cowl_private.h"
 
-    #define COWL_HANDLE_ERROR(CODE) cowl_handle_error_code((CODE), ontology)
-    #define COWL_HANDLE_MEM_ERROR() cowl_handle_error_code(COWL_ERR_MEM, ontology)
+    #define COWL_HANDLE_ERROR(CODE) cowl_handle_error_code((CODE), stream)
+    #define COWL_HANDLE_MEM_ERROR() cowl_handle_error_code(COWL_ERR_MEM, stream)
     #define COWL_HANDLE_SYNTAX_ERROR(DESC) \
-        cowl_handle_syntax_error((DESC), ontology, (CowlErrorLoc) { .line = yylloc.last_line })
+        cowl_handle_syntax_error((DESC), stream, (CowlErrorLoc) { .line = yylloc.last_line })
 
     static void cowl_func_yyerror(COWL_FUNC_YYLTYPE *yylloc,
                                   cowl_unused yyscan_t scanner,
-                                  CowlOntology *ontology, const char *s) {
+                                  CowlStream *stream, const char *s) {
         if (strcmp(s, "memory exhausted") == 0) {
             COWL_HANDLE_MEM_ERROR();
         } else {
-            cowl_handle_syntax_error(ustring_wrap(s, strlen(s)), ontology,
+            cowl_handle_syntax_error(ustring_wrap(s, strlen(s)), stream,
                                      (CowlErrorLoc) { .line = yylloc->last_line });
         }
     }
@@ -132,7 +132,6 @@
 
 // Nonterminals
 
-%type <CowlString *> prefix_name
 %type <CowlIRI *> iri full_iri abbreviated_iri
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue *> annotation_subject annotation_value
@@ -217,7 +216,6 @@
 %destructor { cowl_named_ind_release($$); } <CowlNamedInd *>
 %destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
-%destructor { cowl_string_release($$); } <CowlString *>
 %destructor { cowl_vector_release($$); } <CowlVector *>
 
 %%
@@ -232,15 +230,10 @@ full_iri
     }
 ;
 
-prefix_name
-    : PNAME_NS {
-        $$ = cowl_string(ustring_dup($1));
-    }
-;
-
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_sym_table_parse_full_iri(&ontology->st, $1);
+        CowlSymTable *st = cowl_stream_get_sym_table(stream);
+        $$ = cowl_sym_table_parse_full_iri(st, $1);
         if (!$$) {
             UString comp[] = { ustring_literal("failed to resolve "), $1 };
             UString err_str = ustring_concat(comp, ulib_array_count(comp));
@@ -268,16 +261,15 @@ prefix_declarations
 ;
 
 prefix_declaration
-    : PREFIX L_PAREN prefix_name EQUALS full_iri R_PAREN {
-        if (!($3 && $5)) COWL_ERROR_MEM;
+    : PREFIX L_PAREN PNAME_NS EQUALS IRI_REF R_PAREN {
+        CowlString *prefix = cowl_string(ustring_dup($3));
+        CowlString *ns = cowl_string(ustring_dup($5));
+        if (!(prefix && ns)) COWL_ERROR_MEM;
 
-        CowlString *iri_string = cowl_iri_to_string($5);
-        if (!iri_string) COWL_ERROR_MEM;
-
-        cowl_ret ret = cowl_sym_table_register_prefix(&ontology->st, $3, iri_string);
-        cowl_string_release(iri_string);
-        cowl_string_release($3);
-        cowl_iri_release($5);
+        CowlSymTable *st = cowl_stream_get_sym_table(stream);
+        cowl_ret ret = cowl_sym_table_register_prefix(st, prefix, ns);
+        cowl_string_release(prefix);
+        cowl_string_release(ns);
 
         if (ret) COWL_ERROR(ret);
     }
@@ -290,12 +282,12 @@ ontology
 ontology_id
     : %empty
     | iri {
-        cowl_ontology_set_iri(ontology, $1);
+        cowl_stream_push_iri(stream, $1);
         cowl_iri_release($1);
     }
     | iri iri {
-        cowl_ontology_set_iri(ontology, $1);
-        cowl_ontology_set_version(ontology, $2);
+        cowl_stream_push_iri(stream, $1);
+        cowl_stream_push_version(stream, $2);
         cowl_iri_release($1);
         cowl_iri_release($2);
     }
@@ -308,7 +300,7 @@ ontology_imports
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret ret = cowl_ontology_add_import(ontology, $3);
+        cowl_ret ret = cowl_stream_push_import(stream, $3);
         cowl_iri_release($3);
         if (ret) YYERROR;
     }
@@ -317,7 +309,7 @@ import
 ontology_annotations
     : %empty
     | ontology_annotations annotation {
-        cowl_ret ret = cowl_ontology_add_annot(ontology, $2);
+        cowl_ret ret = cowl_stream_push_annot(stream, $2);
         cowl_annotation_release($2);
         if (ret) YYERROR;
     }
@@ -325,7 +317,7 @@ ontology_annotations
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret ret = cowl_ontology_add_axiom(ontology, $2);
+        cowl_ret ret = cowl_stream_push_axiom(stream, $2);
         cowl_axiom_release($2);
         if (ret) YYERROR;
     }
@@ -392,7 +384,8 @@ named_individual
 
 anonymous_individual
     : BLANK_NODE_LABEL {
-        CowlAnonInd *ind = cowl_sym_table_get_anon(&ontology->st, $1);
+        CowlSymTable *st = cowl_stream_get_sym_table(stream);
+        CowlAnonInd *ind = cowl_sym_table_get_anon(st, $1);
         if (!ind) COWL_ERROR_MEM;
         $$ = (CowlIndividual *)cowl_anon_ind_retain(ind);
     }

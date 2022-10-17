@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlOntology);
+cowl_struct_decl(CowlStream);
 /// @endcond
 
 /// Defines a reader.
@@ -49,13 +49,13 @@ typedef struct CowlReader {
      * Pointer to a function that reads an ontology from an input stream.
      *
      * @param state Reader state.
-     * @param stream Input stream.
-     * @param ontology Ontology.
+     * @param istream Input stream.
+     * @param stream Ontology stream.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*read)(void *state, UIStream *stream, CowlOntology *ontology);
+    cowl_ret (*read)(void *state, UIStream *istream, CowlStream *stream);
 
 } CowlReader;
 

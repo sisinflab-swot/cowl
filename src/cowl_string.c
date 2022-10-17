@@ -32,7 +32,6 @@ CowlString cowl_string_init(UString raw_string) {
         .hash = ustring_is_null(raw_string) ? 0 : ustring_hash(raw_string),
         .raw_string = raw_string
     };
-
     return init;
 }
 
@@ -60,7 +59,9 @@ static CowlString* cowl_string_get_intern(UString raw_string) {
 }
 
 CowlString* cowl_string_intern(CowlString *string) {
-    if (!(string && ustring_length(string->raw_string))) return empty;
+    if (!string) return NULL;
+    if (cowl_object_bit_get(string)) return string;
+    if (!ustring_length(string->raw_string)) return empty;
 
     ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, string, &idx);

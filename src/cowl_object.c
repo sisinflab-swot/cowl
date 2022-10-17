@@ -100,6 +100,7 @@ void cowl_release(void *object) {
         case COWL_OT_LITERAL: GEN_RELEASE(Literal, literal);
         case COWL_OT_FACET_RESTR: GEN_RELEASE(FacetRestr, facet_restr);
         case COWL_OT_ONTOLOGY: GEN_RELEASE(Ontology, ontology);
+        case COWL_OT_STREAM: GEN_RELEASE(Stream, stream);
         case COWL_OT_MANAGER: GEN_RELEASE(Manager, manager);
         case COWL_OT_ANNOTATION: GEN_RELEASE(Annotation, annotation);
         case COWL_OT_ANNOT_PROP: GEN_RELEASE(AnnotProp, annot_prop);
@@ -528,17 +529,17 @@ void* cowl_get_impl_uint(CowlObjectType type, void *fields[], ulib_uint val, voi
     for (ulib_byte i = 0; i < count; ++i) { obj->data[i] = cowl_retain(fields[i]); }
 
     if (opt) {
-        obj->data[1] = cowl_retain(opt);
-        obj->data[2] = (void*)(uintptr_t)val;
+        obj->data[count] = cowl_retain(opt);
+        obj->data[count + 1] = (void*)(uintptr_t)val;
     } else {
-        obj->data[1] = (void*)(uintptr_t)val;
+        obj->data[count] = (void*)(uintptr_t)val;
     }
 
     return obj;
 }
 
 void cowl_release_impl(void *object) {
-    if (cowl_object_decr_ref(object)) return;
+    if (!object || cowl_object_decr_ref(object)) return;
     ulib_byte count = composite_fields[cowl_get_type(object)];
     if (cowl_has_opt_field(object)) ++count;
     for (ulib_byte i = 0; i < count; ++i) { cowl_release(cowl_get_field(object, i)); }

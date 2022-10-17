@@ -46,6 +46,9 @@ typedef enum CowlObjectType {
     /// CowlManager - Ontology manager.
     COWL_OT_MANAGER,
 
+    /// CowlStream - Ontology stream.
+    COWL_OT_STREAM,
+
     /// CowlAnnotation - Annotation.
     COWL_OT_ANNOTATION,
 

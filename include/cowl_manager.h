@@ -17,6 +17,7 @@
 #include "cowl_import_loader.h"
 #include "cowl_object.h"
 #include "cowl_reader.h"
+#include "cowl_stream_config.h"
 #include "cowl_writer.h"
 
 COWL_BEGIN_DECLS
@@ -190,6 +191,54 @@ CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *stri
  */
 COWL_PUBLIC
 CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
+
+/**
+ * Streams through the ontology at the specified path.
+ *
+ * @param manager The manager.
+ * @param config Ontology stream configuration.
+ * @param path The file path.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlStreamConfig config, UString path);
+
+/**
+ * Streams through the ontology from the specified file.
+ *
+ * @param manager The manager.
+ * @param config Ontology stream configuration.
+ * @param file The file.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlStreamConfig config, FILE *file);
+
+/**
+ *
+ * @param manager
+ * @param config
+ * @param string
+ * @return
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config,
+                                    UString const *string);
+
+/**
+ *
+ * @param manager
+ * @param config
+ * @param stream
+ * @return
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config,
+                                    UIStream *stream);
 
 /**
  * Writes the ontology to the file at the specified path.

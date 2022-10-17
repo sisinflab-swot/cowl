@@ -20,10 +20,10 @@ static void cowl_func_reader_free(void *scanner) {
     cowl_func_yylex_destroy(scanner);
 }
 
-static cowl_ret cowl_func_reader_read(void *scanner, UIStream *stream, CowlOntology *onto) {
+static cowl_ret cowl_func_reader_read(void *scanner, UIStream *istream, CowlStream *stream) {
     cowl_func_yyset_in(NULL, scanner);
-    cowl_func_yyset_extra(stream, scanner);
-    return cowl_func_yyparse(scanner, onto) == 0 ? COWL_OK : COWL_ERR;
+    cowl_func_yyset_extra(istream, scanner);
+    return cowl_func_yyparse(scanner, stream) == 0 ? COWL_OK : COWL_ERR;
 }
 
 static CowlReader const cowl_func_reader = {

@@ -24,6 +24,7 @@
 #include "cowl_owl_vocab_private.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
+#include "cowl_stream_private.h"
 #include "cowl_string_private.h"
 #include "cowl_sym_table_private.h"
 #include "cowl_table_private.h"

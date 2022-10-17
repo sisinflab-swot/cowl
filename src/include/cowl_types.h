@@ -30,6 +30,7 @@
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
 #include "cowl_reader.h"
+#include "cowl_stream_config.h"
 #include "cowl_version.h"
 #include "cowl_writer.h"
 
@@ -94,6 +95,7 @@ cowl_struct_decl(CowlObjPropRangeAxiom);
 cowl_struct_decl(CowlObjQuant);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlPrimitive);
+cowl_struct_decl(CowlStream);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubAnnotPropAxiom);
 cowl_struct_decl(CowlSubClsAxiom);
