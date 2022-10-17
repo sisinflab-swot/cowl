@@ -24,8 +24,8 @@ int main(void) {
     cowl_manager_release(manager);
 
     if (ontology) {
+        puts("Recursive atomic subclasses of " CLASS_NAME ":");
         CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
-        puts("Recursive atomic subclasses of " CLASS_NAME ":\n");
 
         // Since we are going to perform a recursive query,
         // we need the ontology to be part of the context.

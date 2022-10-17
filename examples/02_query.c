@@ -27,8 +27,8 @@ int main(void) {
     // Query the ontology
     if (ontology) {
         // Get the class whose atomic subclasses we are interested in.
+        puts("Atomic subclasses of " CLASS_NAME ":");
         CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
-        printf("Atomic subclasses of " CLASS_NAME ":\n");
 
         // Run the query.
         CowlIterator iter = { NULL, for_each_cls };
