@@ -384,10 +384,7 @@ named_individual
 
 anonymous_individual
     : BLANK_NODE_LABEL {
-        CowlSymTable *st = cowl_stream_get_sym_table(stream);
-        CowlAnonInd *ind = cowl_sym_table_get_anon(st, $1);
-        if (!ind) COWL_ERROR_MEM;
-        $$ = (CowlIndividual *)cowl_anon_ind_retain(ind);
+        $$ = (CowlIndividual *)cowl_anon_ind_from_string($1);
     }
 ;
 

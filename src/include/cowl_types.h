@@ -23,7 +23,6 @@
 #include "cowl_iterator_private.h"
 #include "cowl_nary_type.h"
 #include "cowl_nary_axiom_type.h"
-#include "cowl_node_id.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology_id.h"
 #include "cowl_primitive_flags.h"

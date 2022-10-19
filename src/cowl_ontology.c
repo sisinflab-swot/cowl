@@ -12,7 +12,7 @@
 #include "cowl_private.h"
 
 #define cowl_ontology_foreach_import(ONTO, IMPORT, CODE) do {                                       \
-    cowl_table_foreach((ONTO)->st.import_onto_map, p_##IMPORT##_var) {                              \
+    cowl_table_foreach((ONTO)->imports, p_##IMPORT##_var) {                                         \
         if (!*p_##IMPORT##_var.val) continue;                                                       \
         CowlOntology *IMPORT = *p_##IMPORT##_var.val;                                               \
         CODE;                                                                                       \
@@ -30,6 +30,22 @@ static inline cowl_ret cowl_vector_ptr_add(CowlVector **vec, void *obj) {
     return cowl_vector_add(*vec, obj) ? COWL_ERR_MEM : COWL_OK;
 }
 
+CowlOntology* cowl_ontology(CowlManager *manager) {
+    CowlOntology *onto = ulib_alloc(onto);
+    if (!onto) return NULL;
+
+    *onto = (CowlOntology){0};
+    onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
+    onto->st = cowl_sym_table_init();
+    onto->manager = cowl_manager_retain(manager);
+
+    for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
+        onto->refs[i] = cowl_primitive_map();
+    }
+
+    return onto;
+}
+
 void cowl_ontology_release(CowlOntology *onto) {
     if (!onto || cowl_object_decr_ref(onto)) return;
 
@@ -40,6 +56,7 @@ void cowl_ontology_release(CowlOntology *onto) {
     cowl_iri_release(onto->id.iri);
     cowl_iri_release(onto->id.version);
 
+    cowl_table_release(onto->imports);
     cowl_vector_release(onto->annotations);
 
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; type++) {
@@ -103,7 +120,7 @@ ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports) {
 }
 
 ulib_uint cowl_ontology_imports_count(CowlOntology *onto, bool imports) {
-    ulib_uint count = cowl_table_count(onto->st.import_onto_map);
+    ulib_uint count = cowl_table_count(onto->imports);
 
     if (imports) {
         cowl_ontology_foreach_import(onto, import, {
@@ -347,22 +364,6 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlIt
     return true;
 }
 
-CowlOntology* cowl_ontology(CowlManager *manager) {
-    CowlOntology *onto = ulib_alloc(onto);
-    if (!onto) return NULL;
-
-    *onto = (CowlOntology){0};
-    onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
-    onto->st = cowl_sym_table_init();
-    onto->manager = cowl_manager_retain(manager);
-
-    for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
-        onto->refs[i] = cowl_primitive_map();
-    }
-
-    return onto;
-}
-
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {
     cowl_iri_release(onto->id.iri);
     onto->id.iri = iri ? cowl_iri_retain(iri) : NULL;
@@ -413,25 +414,66 @@ void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
     if (onto->annotations) cowl_vector_remove(onto->annotations, annot);
 }
 
+CowlOntology* cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri) {
+    if (!onto->imports) return NULL;
+    return cowl_table_get_value(onto->imports, iri);
+}
+
+CowlIRI* cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import) {
+    if (!onto->imports) return NULL;
+    cowl_table_foreach(onto->imports, e) {
+        if (*e.val && cowl_ontology_equals(import, *e.val)) return *e.key;
+    }
+    return NULL;
+}
+
+static ulib_uint iri_hash(void *iri) { return uhash_ptr_hash(iri); }
+static bool iri_eq(void *lhs, void *rhs) { return lhs == rhs; }
+
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *iri) {
-    cowl_ret ret = COWL_ERR_IMPORT;
-    if (!iri) goto end;
+    ulib_uint idx = UHASH_INDEX_MISSING;
+    if (!iri) goto err;
+
+    UHash(CowlObjectTable) map = uhmap_pi(CowlObjectTable, iri_hash, iri_eq);
+    if (!onto->imports && !(onto->imports = cowl_table(&map))) goto err;
+
+    UHash(CowlObjectTable) *tbl = &onto->imports->data;
+    uhash_ret hret = uhash_put(CowlObjectTable, tbl, iri, &idx);
+
+    if (hret == UHASH_INSERTED) {
+        cowl_iri_retain(iri);
+    } else if (hret == UHASH_PRESENT) {
+        return COWL_OK;
+    } else {
+        goto err;
+    }
 
     CowlOntology *import = NULL;
     CowlImportLoader loader = onto->manager->loader;
     if (!loader.load_ontology) loader = cowl_get_import_loader();
-    if (loader.load_ontology && !(import = loader.load_ontology(loader.ctx, iri))) goto end;
+    if (loader.load_ontology && !(import = loader.load_ontology(loader.ctx, iri))) goto err;
+    uhash_value(CowlObjectTable, tbl, idx) = import;
 
-    ret = cowl_sym_table_add_import(&onto->st, iri, import);
-    cowl_ontology_release(import);
+    return COWL_OK;
 
-end:
-    if (ret) cowl_handle_error_code(ret, onto);
-    return ret;
+err:
+    if (onto->imports && idx < uhash_size(CowlObjectTable, &onto->imports->data)) {
+        uhash_delete(CowlObjectTable, &onto->imports->data, idx);
+    }
+    cowl_handle_error_code(COWL_ERR_IMPORT, onto);
+    return COWL_ERR_IMPORT;
 }
 
 void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
-    cowl_sym_table_remove_import(&onto->st, iri);
+    if (!onto->imports) return;
+
+    UHash(CowlObjectTable) *tbl = &onto->imports->data;
+    ulib_uint idx = uhash_get(CowlObjectTable, tbl, iri);
+    if (idx == UHASH_INDEX_MISSING) return;
+
+    uhash_delete(CowlObjectTable, tbl, idx);
+    cowl_iri_release(iri);
+    cowl_ontology_release(uhash_value(CowlObjectTable, tbl, idx));
 }
 
 static cowl_ret cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom,

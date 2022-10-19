@@ -18,19 +18,12 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlTable);
 
 struct CowlSymTable {
-    CowlTable *onto_import_map;
-    CowlTable *import_onto_map;
     CowlTable *prefix_ns_map;
     CowlTable *ns_prefix_map;
-    CowlTable *id_anon_map;
-    CowlTable *anon_id_map;
 };
 
 CowlSymTable cowl_sym_table_init(void);
 void cowl_sym_table_deinit(CowlSymTable *st);
-
-cowl_ret cowl_sym_table_add_import(CowlSymTable *st, CowlIRI *iri, CowlOntology *import);
-cowl_ret cowl_sym_table_remove_import(CowlSymTable *st, CowlIRI *iri);
 
 COWL_END_DECLS
 

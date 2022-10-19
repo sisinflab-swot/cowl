@@ -14,11 +14,11 @@
 #define COWL_ANON_IND_H
 
 #include "cowl_primitive.h"
-#include "cowl_node_id.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlAnonInd);
 /// @endcond
 
@@ -36,12 +36,26 @@ cowl_struct_decl(CowlAnonInd);
 /**
  * Returns a retained anonymous individual.
  *
+ * @param id Anonymous individual identifier.
+ * @return Retained anonymous individual, or NULL on error.
+ *
+ * @note By passing NULL as the identifier, a new identifier is randomly generated.
+ *
+ * @public @memberof CowlAnonInd
+ */
+COWL_PUBLIC
+CowlAnonInd* cowl_anon_ind(CowlString *id);
+
+/**
+ * Returns a retained anonymous individual.
+ *
+ * @param string Anonymous individual identifier.
  * @return Retained anonymous individual, or NULL on error.
  *
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-CowlAnonInd* cowl_anon_ind(void);
+CowlAnonInd* cowl_anon_ind_from_string(UString string);
 
 /**
  * Retains the specified anonymous individual.
@@ -74,10 +88,8 @@ void cowl_anon_ind_release(CowlAnonInd *ind);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_INLINE
-CowlNodeId cowl_anon_ind_get_id(CowlAnonInd *ind) {
-    return (CowlNodeId)ind;
-}
+COWL_PUBLIC
+CowlString* cowl_anon_ind_get_id(CowlAnonInd *ind);
 
 /**
  * Returns the string representation of the specified anonymous individual.

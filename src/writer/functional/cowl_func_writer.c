@@ -185,18 +185,9 @@ static ustream_ret cowl_func_write_literal(UOStream *s, CowlLiteral *literal, Co
     return s->state;
 }
 
-static ustream_ret cowl_func_write_anon_ind(UOStream *s, CowlAnonInd *ind, CowlSymTable *st) {
+static ustream_ret cowl_func_write_anon_ind(UOStream *s, CowlAnonInd *ind) {
     cowl_write_static(s, "_:");
-
-    if (!st) {
-        cowl_write_uint(s, (ulib_uint)cowl_anon_ind_get_id(ind));
-        return s->state;
-    }
-
-    CowlString *str = cowl_sym_table_get_name_for_anon(st, ind);
-    if (!str) return USTREAM_ERR_MEM;
-
-    cowl_write_string(s, str);
+    cowl_write_string(s, cowl_anon_ind_get_id(ind));
     return s->state;
 }
 
@@ -293,8 +284,8 @@ static ustream_ret cowl_func_write_import(UOStream *s, CowlIRI *iri) {
 static bool imports_writer(void *ctx, void *import) {
     void **array = ctx;
     UOStream *s = array[0];
-    CowlSymTable *st = array[1];
-    CowlIRI *iri = cowl_sym_table_get_import_iri(st, import);
+    CowlOntology *onto = array[1];
+    CowlIRI *iri = cowl_ontology_get_import_iri(onto, import);
 
     if (!iri) {
         iri = cowl_ontology_get_id(import).iri;
@@ -367,7 +358,7 @@ static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto) {
     cowl_func_write_onto_id(s, &id);
     cowl_write_static(s, "\n");
 
-    void *ctx[] = { s, st };
+    void *ctx[] = { s, onto };
     CowlIterator iter = { ctx, imports_writer };
     if (!cowl_ontology_iterate_imports(onto, &iter, false)) {
         return s->state ? s->state : USTREAM_ERR;
@@ -378,6 +369,7 @@ static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto) {
         cowl_write_static(s, "\n");
     }
 
+    ctx[1] = st;
     iter.for_each = axiom_writer;
     cowl_ontology_iterate_axioms(onto, &iter, false);
 
@@ -404,7 +396,7 @@ static ustream_ret cowl_func_write_obj(UOStream *s, void *obj, CowlSymTable *st)
         case COWL_OT_DR_DATATYPE:
         case COWL_OT_I_NAMED:
         case COWL_OT_OPE_OBJ_PROP: return cowl_func_write_entity(s, obj, st);
-        case COWL_OT_I_ANONYMOUS: return cowl_func_write_anon_ind(s, obj, st);
+        case COWL_OT_I_ANONYMOUS: return cowl_func_write_anon_ind(s, obj);
         case COWL_OT_A_DECL: return cowl_func_write_declaration(s, obj, st);
         case COWL_OT_A_SUB_OBJ_PROP: return cowl_func_write_sub_obj_prop(s, obj, st);
         case COWL_OT_A_HAS_KEY: return cowl_func_write_has_key(s, obj, st);

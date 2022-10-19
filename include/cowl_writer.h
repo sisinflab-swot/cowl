@@ -15,7 +15,6 @@
 
 #include "cowl_std.h"
 #include "cowl_error.h"
-#include "cowl_node_id.h"
 #include "cowl_object_type.h"
 
 COWL_BEGIN_DECLS

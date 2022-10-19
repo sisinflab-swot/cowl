@@ -9,6 +9,7 @@
  */
 
 #include "cowl_config_private.h"
+#include "cowl_anon_ind_private.h"
 #include "cowl_entity_private.h"
 #include "cowl_error_handler_private.h"
 #include "cowl_import_loader_private.h"
@@ -62,6 +63,7 @@ cowl_ret cowl_init(void) {
     if (cowl_object_api_init() ||
         cowl_iri_api_init() ||
         cowl_entity_api_init() ||
+        cowl_anon_ind_api_init() ||
         cowl_string_api_init() ||
         cowl_owl_vocab_init() ||
         cowl_rdf_vocab_init() ||
@@ -79,6 +81,7 @@ void cowl_deinit(void) {
     cowl_rdf_vocab_deinit();
     cowl_rdfs_vocab_deinit();
     cowl_xsd_vocab_deinit();
+    cowl_anon_ind_api_deinit();
     cowl_entity_api_deinit();
     cowl_iri_api_deinit();
     cowl_string_api_deinit();

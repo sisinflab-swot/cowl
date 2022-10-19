@@ -26,6 +26,7 @@ struct CowlOntology {
     CowlSymTable st;
     CowlOntologyId id;
     CowlManager *manager;
+    CowlTable *imports;
     CowlVector *annotations;
     CowlVector *axioms_by_type[COWL_AT_COUNT];
     UHash(CowlObjectTable) refs[COWL_PT_COUNT];

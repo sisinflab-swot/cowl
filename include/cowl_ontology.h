@@ -162,6 +162,30 @@ COWL_PUBLIC
 void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
 
 /**
+ * Gets an imported ontology given its import IRI.
+ *
+ * @param onto The ontology.
+ * @param iri Import IRI.
+ * @return Imported ontology.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+CowlOntology* cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
+
+/**
+ * Gets the import IRI of an imported ontology.
+ *
+ * @param onto The ontology.
+ * @param import The imported ontology.
+ * @return Import IRI.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+CowlIRI* cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
+
+/**
  * Adds an import to the ontology.
  *
  * @param onto The ontology.

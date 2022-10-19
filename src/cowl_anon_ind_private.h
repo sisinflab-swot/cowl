@@ -12,10 +12,17 @@
 #define COWL_ANON_IND_PRIVATE_H
 
 #include "cowl_anon_ind.h"
+#include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
-UString cowl_anon_ind_generate_id(void);
+struct CowlAnonInd {
+    CowlObject super;
+    CowlString *id;
+};
+
+cowl_ret cowl_anon_ind_api_init(void);
+void cowl_anon_ind_api_deinit(void);
 
 COWL_END_DECLS
 
