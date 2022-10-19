@@ -92,6 +92,10 @@ static CowlOntology* read_stream_deinit(CowlManager *manager, UIStream *istream)
     if (stream_stream_deinit(manager, cowl_stream_ontology_get(onto), istream)) {
         cowl_ontology_release(onto);
         onto = NULL;
+    } else if (cowl_ontology_finalize(onto)) {
+        cowl_handle_error_code(COWL_ERR_MEM, manager);
+        cowl_ontology_release(onto);
+        onto = NULL;
     }
 
     return onto;
