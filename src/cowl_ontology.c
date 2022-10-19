@@ -388,8 +388,8 @@ static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjec
 
 static bool cowl_ontology_primitive_adder(void *ctx, void *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
-    CowlPrimitiveType type = cowl_primitive_get_type(obj);
-    cowl_ret ret = cowl_add_primitive_to_map(obj, &axiom_ctx->onto->refs[type]);
+    UHash(CowlObjectTable) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
+    cowl_ret ret = cowl_add_primitive_to_map(obj, map);
     axiom_ctx->ret = ret;
     return ret == COWL_OK;
 }
@@ -505,16 +505,16 @@ static void cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom,
 
 static bool cowl_ontology_primitive_axiom_adder(void *ctx, void *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
-    CowlPrimitiveType type = cowl_primitive_get_type(obj);
-    cowl_ret ret = cowl_add_axiom_to_map(obj, axiom_ctx->axiom, &axiom_ctx->onto->refs[type]);
+    UHash(CowlObjectTable) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
+    cowl_ret ret = cowl_add_axiom_to_map(obj, axiom_ctx->axiom, map);
     axiom_ctx->ret = ret;
     return ret == COWL_OK;
 }
 
 static bool cowl_ontology_primitive_axiom_remover(void *ctx, void *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
-    CowlPrimitiveType type = cowl_primitive_get_type(obj);
-    cowl_remove_axiom_from_map(obj, axiom_ctx->axiom, &axiom_ctx->onto->refs[type]);
+    UHash(CowlObjectTable) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
+    cowl_remove_axiom_from_map(obj, axiom_ctx->axiom, map);
     axiom_ctx->ret = COWL_OK;
     return true;
 }
