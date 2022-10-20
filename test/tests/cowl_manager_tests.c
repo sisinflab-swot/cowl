@@ -50,7 +50,8 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_not_null(manager);
 
     ulib_uint axiom_count = 0;
-    CowlStreamConfig cfg = { .ctx = &axiom_count, .handle_axiom = count_axiom };
+    CowlStreamConfig cfg = { &axiom_count };
+    cfg.handle_axiom = count_axiom;
     cowl_ret ret = cowl_manager_stream_path(manager, cfg, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_uint(ret, ==, COWL_OK);
 
