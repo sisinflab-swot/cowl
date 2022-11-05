@@ -5,7 +5,7 @@ What is this?
 =============
 
 *Cowl* is a lightweight C/C++ API for working with OWL 2 ontologies, developed by
-`SisInf Lab <swot_url_>`_ at the `Polytechnic University of Bari <poliba_url_>`_.
+`SisInf Lab <swot_url>`_ at the `Polytechnic University of Bari <poliba_url>`_.
 
 Motivation
 ==========
@@ -43,6 +43,15 @@ Limitations
 While Cowl's architecture allows for multiple readers and writers, the library currently only
 supports reading and writing OWL ontologies in **functional syntax**.
 
+Publications
+============
+
+Additional context about Cowl is provided in the following academic publications:
+
+- Ivano Bilenchi, Floriano Scioscia, Michele Ruta. |sweet2022|_.
+  *First International Workshop on the Semantic Web of EveryThing (SWEET 2022)*, co-located
+  with the *22nd International Conference on Web Engineering (ICWE 2022)*.
+
 License
 =======
 
@@ -54,4 +63,6 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _owl-cpp: http://owl-cpp.sourceforge.net
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
 .. _semver: https://semver.org
+.. |sweet2022| replace:: **Cowl: a lightweight OWL library for the Semantic Web of Everything**
+.. _sweet2022: https://sisinflab.poliba.it/publications/cowl-a-lightweight-owl-library-for-the-semantic-web-of-everything
 .. _uLib: https://github.com/IvanoBilenchi/ulib

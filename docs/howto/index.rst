@@ -40,7 +40,7 @@ though not as fancy as the ones you are viewing.
 Downloading the sources
 -----------------------
 
-You can find Cowl's code on its `git repository <git_url_>`_. Please note that it contains
+You can find Cowl's code on its `git repository <git_url>`_. Please note that it contains
 submodules, so it is recommended that you clone it using the ``--recursive`` flag.
 
 .. code-block:: bash
@@ -87,7 +87,7 @@ In order to query an ontology you must first deserialize it, which can be done v
 :class:`CowlManager`. Cowl can use multiple readers, either built-in or provided by the user.
 For further information, refer to :ref:`the related documentation <reading>`.
 
-OWL ontologies may `import <owl imports_>`_ other ontologies, which may involve loading them
+OWL ontologies may `import <owl imports>`_ other ontologies, which may involve loading them
 from mass storage or retrieving them from the network. Cowl's approach to imports reflects
 its :ref:`focus on portability <about>`, so ontology retrieval
 :ref:`is delegated to the end user <import>`.

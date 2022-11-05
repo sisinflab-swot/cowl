@@ -3,7 +3,7 @@ Welcome to Cowl's documentation!
 ================================
 
 *Cowl* is a lightweight C/C++ API for working with OWL 2 ontologies, developed by
-`SisInf Lab <swot_url_>`_ at the `Polytechnic University of Bari <poliba_url_>`_.
+`SisInf Lab <swot_url>`_ at the `Polytechnic University of Bari <poliba_url>`_.
 
 .. toctree::
    :caption: About
