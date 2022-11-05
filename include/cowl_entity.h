@@ -41,8 +41,8 @@ cowl_struct_decl(CowlEntity);
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-CowlEntity* cowl_entity_retain(CowlEntity *entity) {
-    return (CowlEntity *)cowl_retain(entity);
+CowlAnyEntity* cowl_entity_retain(CowlAnyEntity *entity) {
+    return cowl_retain(entity);
 }
 
 /**
@@ -53,7 +53,7 @@ CowlEntity* cowl_entity_retain(CowlEntity *entity) {
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-void cowl_entity_release(CowlEntity *entity);
+void cowl_entity_release(CowlAnyEntity *entity);
 
 /**
  * Gets the type of the entity.
@@ -64,7 +64,7 @@ void cowl_entity_release(CowlEntity *entity);
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-CowlEntityType cowl_entity_get_type(CowlEntity *entity);
+CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity);
 
 /**
  * Gets the IRI of the entity.
@@ -75,7 +75,7 @@ CowlEntityType cowl_entity_get_type(CowlEntity *entity);
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-CowlIRI* cowl_entity_get_iri(CowlEntity *entity);
+CowlIRI* cowl_entity_get_iri(CowlAnyEntity *entity);
 
 /**
  * Returns the string representation of the specified entity.
@@ -88,7 +88,7 @@ CowlIRI* cowl_entity_get_iri(CowlEntity *entity);
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-CowlString* cowl_entity_to_string(CowlEntity *entity);
+CowlString* cowl_entity_to_string(CowlAnyEntity *entity);
 
 /**
  * Equality function.
@@ -100,7 +100,7 @@ CowlString* cowl_entity_to_string(CowlEntity *entity);
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) {
+bool cowl_entity_equals(CowlAnyEntity *lhs, CowlAnyEntity *rhs) {
     return lhs == rhs;
 }
 
@@ -113,7 +113,7 @@ bool cowl_entity_equals(CowlEntity *lhs, CowlEntity *rhs) {
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-ulib_uint cowl_entity_hash(CowlEntity *entity) {
+ulib_uint cowl_entity_hash(CowlAnyEntity *entity) {
     return uhash_ptr_hash(entity);
 }
 
@@ -128,7 +128,7 @@ ulib_uint cowl_entity_hash(CowlEntity *entity) {
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-bool cowl_entity_iterate_primitives(CowlEntity *entity, CowlPrimitiveFlags flags,
+bool cowl_entity_iterate_primitives(CowlAnyEntity *entity, CowlPrimitiveFlags flags,
                                     CowlIterator *iter) {
     return cowl_iterate_primitives(entity, flags, iter);
 }

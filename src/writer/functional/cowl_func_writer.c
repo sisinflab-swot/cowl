@@ -23,10 +23,10 @@
 #include "cowl_sym_table.h"
 #include "cowl_table.h"
 
-static ustream_ret cowl_func_write_obj(UOStream *s, void *obj, CowlSymTable *st);
+static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *st);
 static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto);
 
-static cowl_ret cowl_func_write(UOStream *stream, void *object) {
+static cowl_ret cowl_func_write(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_func_write_obj(stream, object, NULL));
 }
 
@@ -46,7 +46,7 @@ CowlWriter cowl_writer_functional(void) {
 }
 
 static ustream_ret cowl_func_write_fields(UOStream *s, CowlObjectType type,
-                                          void *obj, CowlSymTable *st) {
+                                          CowlAny *obj, CowlSymTable *st) {
     ulib_byte count = composite_fields[type];
     cowl_func_write_obj(s, cowl_get_field(obj, 0), st);
     for (ulib_byte i = 1; i < count; ++i) {
@@ -57,10 +57,10 @@ static ustream_ret cowl_func_write_fields(UOStream *s, CowlObjectType type,
 }
 
 static ustream_ret cowl_func_write_fields_opt(UOStream *s, CowlObjectType type,
-                                              void *obj, CowlSymTable *st) {
+                                              CowlAny *obj, CowlSymTable *st) {
     cowl_func_write_fields(s, type, obj, st);
+    CowlAny *opt = cowl_get_opt_field(obj);
 
-    void *opt = cowl_get_opt_field(obj);
     if (opt) {
         cowl_write_static(s, " ");
         cowl_func_write_obj(s, opt, st);
@@ -70,8 +70,8 @@ static ustream_ret cowl_func_write_fields_opt(UOStream *s, CowlObjectType type,
 }
 
 static ustream_ret cowl_func_write_opt_fields(UOStream *s, CowlObjectType type,
-                                              void *obj, CowlSymTable *st) {
-    void *opt = cowl_get_opt_field(obj);
+                                              CowlAny *obj, CowlSymTable *st) {
+    CowlAny *opt = cowl_get_opt_field(obj);
 
     if (opt) {
         cowl_func_write_obj(s, opt, st);
@@ -83,7 +83,7 @@ static ustream_ret cowl_func_write_opt_fields(UOStream *s, CowlObjectType type,
     return s->state;
 }
 
-static ustream_ret cowl_func_write_construct(UOStream *s, void *obj, CowlSymTable *st) {
+static ustream_ret cowl_func_write_construct(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     CowlObjectType type = cowl_get_type(obj);
     cowl_write_object_type(s, type);
     cowl_write_static(s, "(");
@@ -92,7 +92,7 @@ static ustream_ret cowl_func_write_construct(UOStream *s, void *obj, CowlSymTabl
     return s->state;
 }
 
-static ustream_ret cowl_func_write_construct_uint(UOStream *s, void *obj, CowlSymTable *st) {
+static ustream_ret cowl_func_write_construct_uint(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     CowlObjectType type = cowl_get_type(obj);
     cowl_write_object_type(s, type);
     cowl_write_static(s, "(");
@@ -103,11 +103,11 @@ static ustream_ret cowl_func_write_construct_uint(UOStream *s, void *obj, CowlSy
     return s->state;
 }
 
-static ustream_ret cowl_func_write_axiom(UOStream *s, void *obj, CowlSymTable *st) {
-    CowlObjectType type = cowl_get_type(obj);
+static ustream_ret cowl_func_write_axiom(UOStream *s, CowlAnyAxiom *axiom, CowlSymTable *st) {
+    CowlObjectType type = cowl_get_type(axiom);
     cowl_write_object_type(s, type);
     cowl_write_static(s, "(");
-    cowl_func_write_opt_fields(s, type, obj, st);
+    cowl_func_write_opt_fields(s, type, axiom, st);
     cowl_write_static(s, ")");
     return s->state;
 }
@@ -191,7 +191,7 @@ static ustream_ret cowl_func_write_anon_ind(UOStream *s, CowlAnonInd *ind) {
     return s->state;
 }
 
-static ustream_ret cowl_func_write_entity(UOStream *s, void *entity, CowlSymTable *st) {
+static ustream_ret cowl_func_write_entity(UOStream *s, CowlAnyEntity *entity, CowlSymTable *st) {
     return cowl_func_write_iri(s, cowl_entity_get_iri(entity), st);
 }
 
@@ -199,7 +199,7 @@ static ustream_ret cowl_func_write_declaration(UOStream *s, CowlDeclAxiom *decl,
     cowl_write_object_type(s, COWL_OT_A_DECL);
     cowl_write_static(s, "(");
 
-    void *annot = cowl_decl_axiom_get_annot(decl);
+    CowlVector *annot = cowl_decl_axiom_get_annot(decl);
     if (annot) {
         cowl_func_write_vector(s, annot, st);
         cowl_write_static(s, " ");
@@ -379,7 +379,7 @@ static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto) {
     return s->state;
 }
 
-static ustream_ret cowl_func_write_obj(UOStream *s, void *obj, CowlSymTable *st) {
+static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     CowlObjectType type = cowl_get_type(obj);
     switch (type) {
         case COWL_OT_STRING: return cowl_write_string(s, obj);

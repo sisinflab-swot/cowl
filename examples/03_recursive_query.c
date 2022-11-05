@@ -14,7 +14,19 @@
 #define NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
-static bool for_each_cls(void *ctx, void *cls);
+// Iterator body, invoked for each class expression matching the query.
+static bool for_each_cls(void *ctx, CowlAny *cls) {
+    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
+
+    // Log the IRI remainder.
+    UOStream *std_out = uostream_std();
+    cowl_write_string(std_out, cowl_iri_get_rem(cowl_class_get_iri(cls)));
+    cowl_write_static(std_out, "\n");
+
+    // Recurse.
+    CowlIterator iter = { ctx, for_each_cls };
+    return cowl_ontology_iterate_sub_classes(ctx, cls, &iter, false);
+}
 
 int main(void) {
     cowl_init();
@@ -37,17 +49,4 @@ int main(void) {
     }
 
     return EXIT_SUCCESS;
-}
-
-static bool for_each_cls(void *ctx, void *cls) {
-    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
-
-    // Log the IRI remainder.
-    UOStream *std_out = uostream_std();
-    cowl_write_string(std_out, cowl_iri_get_rem(cowl_class_get_iri(cls)));
-    cowl_write_static(std_out, "\n");
-
-    // Recurse.
-    CowlIterator iter = { ctx, for_each_cls };
-    return cowl_ontology_iterate_sub_classes(ctx, cls, &iter, false);
 }

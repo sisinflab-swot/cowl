@@ -12,15 +12,15 @@
 #include "cowl_table.h"
 #include "cowl_vector.h"
 
-static bool cowl_store_vec(void *vec, void *obj) {
+static bool cowl_store_vec(void *vec, CowlAny *obj) {
     return uvec_push(CowlObjectPtr, vec, obj) != UVEC_ERR;
 }
 
-static bool cowl_store_set(void *set, void *obj) {
+static bool cowl_store_set(void *set, CowlAny *obj) {
     return uhset_insert(CowlObjectTable, set, obj) != UHASH_ERR;
 }
 
-static bool cowl_count(void *count, cowl_unused void *obj) {
+static bool cowl_count(void *count, cowl_unused CowlAny *obj) {
     (*((ulib_uint *)count))++;
     return true;
 }

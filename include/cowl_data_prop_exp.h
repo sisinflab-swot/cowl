@@ -40,8 +40,8 @@ cowl_struct_decl(CowlDataPropExp);
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp) {
-    return (CowlDataPropExp *)cowl_data_prop_retain((CowlDataProp *)exp);
+CowlAnyDataPropExp* cowl_data_prop_exp_retain(CowlAnyDataPropExp *exp) {
+    return (CowlAnyDataPropExp *)cowl_data_prop_retain((CowlDataProp *)exp);
 }
 
 /**
@@ -52,7 +52,7 @@ CowlDataPropExp* cowl_data_prop_exp_retain(CowlDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-void cowl_data_prop_exp_release(CowlDataPropExp *exp) {
+void cowl_data_prop_exp_release(CowlAnyDataPropExp *exp) {
     cowl_data_prop_release((CowlDataProp *)exp);
 }
 
@@ -65,7 +65,7 @@ void cowl_data_prop_exp_release(CowlDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-CowlDataProp* cowl_data_prop_exp_get_prop(CowlDataPropExp *exp) {
+CowlDataProp* cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
     return (CowlDataProp *)exp;
 }
 
@@ -80,7 +80,7 @@ CowlDataProp* cowl_data_prop_exp_get_prop(CowlDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp) {
+CowlString* cowl_data_prop_exp_to_string(CowlAnyDataPropExp *exp) {
     return cowl_data_prop_to_string((CowlDataProp *)exp);
 }
 
@@ -94,7 +94,7 @@ CowlString* cowl_data_prop_exp_to_string(CowlDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) {
+bool cowl_data_prop_exp_equals(CowlAnyDataPropExp *lhs, CowlAnyDataPropExp *rhs) {
     return lhs == rhs;
 }
 
@@ -107,7 +107,7 @@ bool cowl_data_prop_exp_equals(CowlDataPropExp *lhs, CowlDataPropExp *rhs) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-ulib_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp) {
+ulib_uint cowl_data_prop_exp_hash(CowlAnyDataPropExp *exp) {
     return uhash_ptr_hash(exp);
 }
 
@@ -122,9 +122,9 @@ ulib_uint cowl_data_prop_exp_hash(CowlDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-bool cowl_data_prop_exp_iterate_primitives(CowlDataPropExp *exp, CowlPrimitiveFlags flags,
+bool cowl_data_prop_exp_iterate_primitives(CowlAnyDataPropExp *exp, CowlPrimitiveFlags flags,
                                            CowlIterator *iter) {
-    return cowl_data_prop_iterate_primitives((CowlDataProp*)exp, flags, iter);
+    return cowl_data_prop_iterate_primitives((CowlDataProp *)exp, flags, iter);
 }
 
 COWL_END_DECLS

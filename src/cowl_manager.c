@@ -10,8 +10,6 @@
 
 #include "cowl_manager_private.h"
 #include "cowl_config_private.h"
-#include "cowl_error_handler_private.h"
-#include "cowl_import_loader_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_stream_private.h"
 
@@ -28,8 +26,8 @@ CowlManager* cowl_manager(void) {
 
 void cowl_manager_release(CowlManager *manager) {
     if (!manager || cowl_object_decr_ref(manager)) return;
-    cowl_import_loader_deinit(manager->loader);
-    cowl_error_handler_deinit(manager->handler);
+    if (manager->loader.free) manager->loader.free(manager->loader.ctx);
+    if (manager->handler.free) manager->handler.free(manager->handler.ctx);
     uvec_deinit(ulib_ptr, &manager->ontos);
     ulib_free(manager);
 }

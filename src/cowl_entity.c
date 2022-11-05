@@ -16,13 +16,13 @@
 
 static UHash(CowlObjectTable) inst_tbl;
 
-static ulib_uint inst_tbl_hash(void *key) {
+static ulib_uint inst_tbl_hash(CowlAny *key) {
     ulib_uint h1 = cowl_iri_hash(cowl_entity_get_iri(key));
     ulib_uint h2 = (ulib_uint)cowl_get_type(key);
     return uhash_combine_hash(h1, h2);
 }
 
-static bool inst_tbl_eq(void *lhs, void *rhs) {
+static bool inst_tbl_eq(CowlAny *lhs, CowlAny *rhs) {
     return cowl_iri_equals(cowl_entity_get_iri(lhs), cowl_entity_get_iri(rhs)) &&
            cowl_get_type(lhs) == cowl_get_type(rhs);
 }
@@ -48,7 +48,7 @@ static CowlEntity* cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
     return entity;
 }
 
-void* cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
+CowlAnyEntity* cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     if (!iri) return NULL;
     ulib_uint idx;
     CowlEntity key = { .super = COWL_OBJECT_INIT(type), .iri = iri };
@@ -71,15 +71,15 @@ void* cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     return entity;
 }
 
-void cowl_entity_release(CowlEntity *entity) {
+void cowl_entity_release(CowlAnyEntity *entity) {
     if (entity && !cowl_object_decr_ref(entity)) {
         uhset_remove(CowlObjectTable, &inst_tbl, entity);
-        cowl_iri_release(entity->iri);
+        cowl_iri_release(cowl_entity_get_iri(entity));
         ulib_free(entity);
     }
 }
 
-void* cowl_entity_from_string_impl(CowlObjectType type, UString string) {
+CowlAnyEntity* cowl_entity_from_string_impl(CowlObjectType type, UString string) {
     CowlEntity *entity = NULL;
     CowlIRI *iri = cowl_iri_from_string(string);
 
@@ -91,15 +91,15 @@ void* cowl_entity_from_string_impl(CowlObjectType type, UString string) {
     return entity;
 }
 
-CowlString* cowl_entity_to_string(CowlEntity *entity) {
-    return cowl_primitive_to_string((CowlPrimitive *)entity);
+CowlString* cowl_entity_to_string(CowlAnyEntity *entity) {
+    return cowl_primitive_to_string(entity);
 }
 
-CowlIRI* cowl_entity_get_iri(CowlEntity *entity) {
-    return entity->iri;
+CowlIRI* cowl_entity_get_iri(CowlAnyEntity *entity) {
+    return ((CowlEntity *)entity)->iri;
 }
 
-CowlEntityType cowl_entity_get_type(CowlEntity *entity) {
+CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity) {
     switch(cowl_get_type(entity)) {
         case COWL_OT_CE_CLASS: return COWL_ET_CLASS;
         case COWL_OT_OPE_OBJ_PROP: return COWL_ET_OBJ_PROP;

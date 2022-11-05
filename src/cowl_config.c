@@ -11,8 +11,6 @@
 #include "cowl_config_private.h"
 #include "cowl_anon_ind_private.h"
 #include "cowl_entity_private.h"
-#include "cowl_error_handler_private.h"
-#include "cowl_import_loader_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_owl_vocab_private.h"
 #include "cowl_rdf_vocab_private.h"
@@ -51,8 +49,8 @@ static void cowl_config_init(void) {
 }
 
 static void cowl_config_deinit(void) {
-    cowl_error_handler_deinit(global_error_handler);
-    cowl_import_loader_deinit(global_import_loader);
+    if (global_error_handler.free) global_error_handler.free(global_error_handler.ctx);
+    if (global_import_loader.free) global_import_loader.free(global_import_loader.ctx);
 }
 
 cowl_ret cowl_init(void) {

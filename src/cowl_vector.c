@@ -111,19 +111,19 @@ bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, C
     return true;
 }
 
-cowl_ret cowl_vector_add(CowlVector *vec, void *object) {
+cowl_ret cowl_vector_add(CowlVector *vec, CowlAny *object) {
     if (uvec_push(CowlObjectPtr, &vec->data, object)) return COWL_ERR_MEM;
     cowl_retain(object);
     return COWL_OK;
 }
 
-cowl_ret cowl_vector_push(CowlVector *vec, void *object) {
+cowl_ret cowl_vector_push(CowlVector *vec, CowlAny *object) {
     if (uvec_push(CowlObjectPtr, &vec->data, object) == UVEC_OK) return COWL_OK;
     cowl_release(object);
     return COWL_ERR_MEM;
 }
 
-bool cowl_vector_remove(CowlVector *vec, void *object) {
+bool cowl_vector_remove(CowlVector *vec, CowlAny *object) {
     if (uvec_remove(CowlObjectPtr, &vec->data, object)) {
         cowl_release(object);
         return true;

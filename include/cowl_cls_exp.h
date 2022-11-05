@@ -40,8 +40,8 @@ cowl_struct_decl(CowlClsExp);
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
-    return (CowlClsExp *)cowl_retain(exp);
+CowlAnyClsExp* cowl_cls_exp_retain(CowlAnyClsExp *exp) {
+    return cowl_retain(exp);
 }
 
 /**
@@ -52,7 +52,7 @@ CowlClsExp* cowl_cls_exp_retain(CowlClsExp *exp) {
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-void cowl_cls_exp_release(CowlClsExp *exp) {
+void cowl_cls_exp_release(CowlAnyClsExp *exp) {
     cowl_release(exp);
 }
 
@@ -65,7 +65,7 @@ void cowl_cls_exp_release(CowlClsExp *exp) {
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
+CowlClsExpType cowl_cls_exp_get_type(CowlAnyClsExp *exp) {
     return (CowlClsExpType)(cowl_get_type(exp) - COWL_OT_CE_CLASS);
 }
 
@@ -80,7 +80,7 @@ CowlClsExpType cowl_cls_exp_get_type(CowlClsExp *exp) {
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-CowlString* cowl_cls_exp_to_string(CowlClsExp *exp) {
+CowlString* cowl_cls_exp_to_string(CowlAnyClsExp *exp) {
     return cowl_to_string(exp);
 }
 
@@ -94,7 +94,7 @@ CowlString* cowl_cls_exp_to_string(CowlClsExp *exp) {
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
+bool cowl_cls_exp_equals(CowlAnyClsExp *lhs, CowlAnyClsExp *rhs) {
     return cowl_equals(lhs, rhs);
 }
 
@@ -107,7 +107,7 @@ bool cowl_cls_exp_equals(CowlClsExp *lhs, CowlClsExp *rhs) {
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-ulib_uint cowl_cls_exp_hash(CowlClsExp *exp) {
+ulib_uint cowl_cls_exp_hash(CowlAnyClsExp *exp) {
     return cowl_hash(exp);
 }
 
@@ -122,7 +122,7 @@ ulib_uint cowl_cls_exp_hash(CowlClsExp *exp) {
  * @public @memberof CowlClsExp
  */
 COWL_INLINE
-bool cowl_cls_exp_iterate_primitives(CowlClsExp *exp, CowlPrimitiveFlags flags,
+bool cowl_cls_exp_iterate_primitives(CowlAnyClsExp *exp, CowlPrimitiveFlags flags,
                                      CowlIterator *iter) {
     return cowl_iterate_primitives(exp, flags, iter);
 }

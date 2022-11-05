@@ -73,7 +73,7 @@ typedef struct CowlWriter {
      * @note As denoted by the lack of the state parameter, the writer must be stateless
      *       in order to implement this function.
      */
-    cowl_ret (*write)(UOStream *stream, void *object);
+    cowl_ret (*write)(UOStream *stream, CowlAny *object);
 
 } CowlWriter;
 
@@ -105,7 +105,7 @@ CowlWriter cowl_writer_functional(void);
  * @public @related CowlWriter
  */
 COWL_PUBLIC
-cowl_ret cowl_write(UOStream *stream, void *object);
+cowl_ret cowl_write(UOStream *stream, CowlAny *object);
 
 // Low-level write functions
 
@@ -119,7 +119,7 @@ cowl_ret cowl_write(UOStream *stream, void *object);
  * @public @related CowlWriter
  */
 COWL_PUBLIC
-ustream_ret cowl_write_debug(UOStream *stream, void *object);
+ustream_ret cowl_write_debug(UOStream *stream, CowlAny *object);
 
 /**
  * Writes a string to the specified output stream.
@@ -190,7 +190,10 @@ ustream_ret cowl_write_error(UOStream *stream, CowlError const *error);
  *
  * @public @related CowlWriter
  */
-#define cowl_write_ustring(stream, string) uostream_write_string(stream, string, NULL)
+COWL_INLINE
+ustream_ret cowl_write_ustring(UOStream *stream, UString const *string) {
+    return uostream_write_string(stream, string, NULL);
+}
 
 /**
  * Writes a string literal to the specified output stream.

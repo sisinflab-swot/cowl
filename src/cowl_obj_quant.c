@@ -11,9 +11,9 @@
 #include "cowl_obj_quant.h"
 #include "cowl_owl_vocab.h"
 
-CowlObjQuant* cowl_obj_quant(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler) {
+CowlObjQuant* cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler) {
     if (!cowl_enum_value_is_valid(QT, type)) return NULL;
-    if (filler == (CowlClsExp *)cowl_owl_vocab()->cls.thing) filler = NULL;
+    if (filler == cowl_owl_vocab()->cls.thing) filler = NULL;
     return cowl_get_impl_1_opt(COWL_OT_CE_OBJ_SOME + type, prop, filler);
 }
 

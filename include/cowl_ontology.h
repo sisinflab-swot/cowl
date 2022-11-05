@@ -23,18 +23,8 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotation);
-cowl_struct_decl(CowlAnnotProp);
-cowl_struct_decl(CowlAnonInd);
-cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlClass);
-cowl_struct_decl(CowlClsExp);
-cowl_struct_decl(CowlDataProp);
-cowl_struct_decl(CowlDatatype);
-cowl_struct_decl(CowlEntity);
-cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlManager);
-cowl_struct_decl(CowlNamedInd);
-cowl_struct_decl(CowlObjProp);
 cowl_struct_decl(CowlSymTable);
 cowl_struct_decl(CowlVector);
 cowl_struct_decl(CowlOntology);
@@ -218,7 +208,7 @@ void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
+cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
  * Removes an axiom from the ontology.
@@ -229,7 +219,7 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAxiom *axiom);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAxiom *axiom);
+void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
  * Returns the string representation of the specified ontology.
@@ -319,7 +309,7 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, void *primitive,
+ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                   bool imports);
 
 /**
@@ -347,7 +337,7 @@ ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags 
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_has_primitive(CowlOntology *onto, void *primitive, bool imports);
+bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive, bool imports);
 
 /**
  * Iterates over the primitives referenced by the specified ontology.
@@ -417,7 +407,7 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, void *primitive,
+bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                 CowlIterator *iter, bool imports);
 
 /**
@@ -492,7 +482,7 @@ bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_c
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_types(CowlOntology *onto, CowlIndividual *ind, CowlIterator *iter,
+bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter,
                                  bool imports);
 
 COWL_END_DECLS

@@ -10,12 +10,12 @@
 
 #include "cowl.h"
 
-static bool count_axiom_iterator(void *ctx, cowl_unused void *obj) {
+static bool count_axiom_iterator(void *ctx, cowl_unused CowlAny *obj) {
     (*((ulib_uint *)ctx))++;
     return true;
 }
 
-static bool count_primitive_iterator(void *ctx, cowl_unused void *obj) {
+static bool count_primitive_iterator(void *ctx, cowl_unused CowlAny *obj) {
     (*((ulib_uint *)ctx))++;
     return true;
 }

@@ -44,7 +44,7 @@ cowl_struct_decl(CowlVector);
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlAnnotation* cowl_annotation(CowlAnnotProp *prop, CowlAnnotValue *value, CowlVector *annot) {
+CowlAnnotation* cowl_annotation(CowlAnnotProp *prop, CowlAnyAnnotValue *value, CowlVector *annot) {
     return (CowlAnnotation *)cowl_get_impl_2_opt(COWL_OT_ANNOTATION, prop, value, annot);
 }
 

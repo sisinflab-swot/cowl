@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotation);
-cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlSymTable);
@@ -117,7 +116,7 @@ cowl_ret cowl_stream_push_annot(CowlStream *stream, CowlAnnotation *annot);
  * @public @memberof CowlStream
  */
 COWL_PUBLIC
-cowl_ret cowl_stream_push_axiom(CowlStream *stream, CowlAxiom *axiom);
+cowl_ret cowl_stream_push_axiom(CowlStream *stream, CowlAnyAxiom *axiom);
 
 COWL_END_DECLS
 

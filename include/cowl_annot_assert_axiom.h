@@ -45,8 +45,8 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
  * @public @memberof CowlAnnotAssertAxiom
  */
 COWL_INLINE
-CowlAnnotAssertAxiom* cowl_annot_assert_axiom(CowlAnnotProp *prop, CowlAnnotValue *subject,
-                                              CowlAnnotValue *value, CowlVector *annot) {
+CowlAnnotAssertAxiom* cowl_annot_assert_axiom(CowlAnnotProp *prop, CowlAnyAnnotValue *subject,
+                                              CowlAnyAnnotValue *value, CowlVector *annot) {
     return (CowlAnnotAssertAxiom *)cowl_get_impl_3_opt(COWL_OT_A_ANNOT_ASSERT,
                                                        prop, subject, value, annot);
 }

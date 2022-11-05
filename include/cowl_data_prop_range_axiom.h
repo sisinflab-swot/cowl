@@ -44,7 +44,8 @@ cowl_struct_decl(CowlDataPropRangeAxiom);
  * @public @memberof CowlDataPropRangeAxiom
  */
 COWL_INLINE
-CowlDataPropRangeAxiom* cowl_data_prop_range_axiom(CowlDataPropExp *prop, CowlDataRange *range,
+CowlDataPropRangeAxiom* cowl_data_prop_range_axiom(CowlAnyDataPropExp *prop,
+                                                   CowlAnyDataRange *range,
                                                    CowlVector *annot) {
     return (CowlDataPropRangeAxiom *)cowl_get_impl_2_opt(COWL_OT_A_DATA_PROP_RANGE,
                                                          prop, range, annot);

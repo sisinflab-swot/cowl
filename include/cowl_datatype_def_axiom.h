@@ -44,7 +44,7 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_INLINE
-CowlDatatypeDefAxiom* cowl_datatype_def_axiom(CowlDatatype *dt, CowlDataRange *range,
+CowlDatatypeDefAxiom* cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange *range,
                                               CowlVector *annot) {
     return (CowlDatatypeDefAxiom *)cowl_get_impl_2_opt(COWL_OT_A_DATATYPE_DEF, dt, range, annot);
 }

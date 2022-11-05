@@ -16,11 +16,11 @@ static ulib_uint const rand_id_len = P_USTRING_SMALL_SIZE - 1;
 
 static UHash(CowlObjectTable) inst_tbl;
 
-static ulib_uint inst_tbl_hash(void *key) {
+static ulib_uint inst_tbl_hash(CowlAny *key) {
     return cowl_string_hash(cowl_anon_ind_get_id(key));
 }
 
-static bool inst_tbl_eq(void *lhs, void *rhs) {
+static bool inst_tbl_eq(CowlAny *lhs, CowlAny *rhs) {
     return cowl_string_equals(cowl_anon_ind_get_id(lhs), cowl_anon_ind_get_id(rhs));
 }
 

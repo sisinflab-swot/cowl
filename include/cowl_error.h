@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlObject);
 cowl_struct_decl(CowlString);
 /// @endcond
 
@@ -44,7 +43,7 @@ typedef struct CowlError {
     CowlString *description;
 
     /// Object that originated the error.
-    void *origin;
+    CowlAny *origin;
 
 } CowlError;
 

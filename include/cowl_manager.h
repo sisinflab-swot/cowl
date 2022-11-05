@@ -206,7 +206,7 @@ COWL_PUBLIC
 cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlStreamConfig config, UString path);
 
 /**
- * Streams through the ontology from the specified file.
+ * Streams through the ontology read from the specified file.
  *
  * @param manager The manager.
  * @param config Ontology stream configuration.
@@ -219,22 +219,28 @@ COWL_PUBLIC
 cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlStreamConfig config, FILE *file);
 
 /**
+ * Streams through the ontology read from the specified string.
  *
- * @param manager
- * @param config
- * @param string
- * @return
+ * @param manager The manager.
+ * @param config Ontology stream configuration.
+ * @param string The string.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
  */
 COWL_PUBLIC
 cowl_ret cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config,
                                     UString const *string);
 
 /**
+ * Streams through the ontology read from the specified input stream.
  *
- * @param manager
- * @param config
- * @param stream
- * @return
+ * @param manager The manager.
+ * @param config Ontology stream configuration.
+ * @param stream The input stream.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
  */
 COWL_PUBLIC
 cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config,

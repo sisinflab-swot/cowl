@@ -65,7 +65,7 @@ cowl_struct_decl(CowlObjPropCharAxiom);
  * @public @memberof CowlObjPropCharAxiom
  */
 COWL_INLINE
-CowlObjPropCharAxiom* cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlObjPropExp *prop,
+CowlObjPropCharAxiom* cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop,
                                                CowlVector *annot) {
     if (!cowl_enum_value_is_valid(CAT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_A_FUNC_OBJ_PROP + (CowlObjectType)type);

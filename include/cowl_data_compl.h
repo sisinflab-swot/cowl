@@ -40,7 +40,7 @@ cowl_struct_decl(CowlDataCompl);
  * @public @memberof CowlDataCompl
  */
 COWL_INLINE
-CowlDataCompl* cowl_data_compl(CowlDataRange *operand) {
+CowlDataCompl* cowl_data_compl(CowlAnyDataRange *operand) {
     return (CowlDataCompl *)cowl_get_impl_1(COWL_OT_DR_DATA_COMPL, operand);
 }
 

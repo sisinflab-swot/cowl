@@ -42,7 +42,7 @@ cowl_struct_decl(CowlDeclAxiom);
  * @public @memberof CowlDeclAxiom
  */
 COWL_INLINE
-CowlDeclAxiom* cowl_decl_axiom(CowlEntity *entity, CowlVector *annot) {
+CowlDeclAxiom* cowl_decl_axiom(CowlAnyEntity *entity, CowlVector *annot) {
     return (CowlDeclAxiom *)cowl_get_impl_1_opt(COWL_OT_A_DECL, entity, annot);
 }
 

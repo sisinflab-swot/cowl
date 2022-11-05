@@ -42,7 +42,7 @@ cowl_struct_decl(CowlDataHasValue);
  * @public @memberof CowlDataHasValue
  */
 COWL_INLINE
-CowlDataHasValue* cowl_data_has_value(CowlDataPropExp *prop, CowlLiteral *value) {
+CowlDataHasValue* cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *value) {
     return (CowlDataHasValue *)cowl_get_impl_2(COWL_OT_CE_DATA_HAS_VALUE, prop, value);
 }
 

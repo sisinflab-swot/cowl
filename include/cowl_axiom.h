@@ -41,8 +41,8 @@ cowl_struct_decl(CowlAxiom);
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
-    return (CowlAxiom *)cowl_retain(axiom);
+CowlAnyAxiom* cowl_axiom_retain(CowlAnyAxiom *axiom) {
+    return cowl_retain(axiom);
 }
 
 /**
@@ -53,7 +53,7 @@ CowlAxiom* cowl_axiom_retain(CowlAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-void cowl_axiom_release(CowlAxiom *axiom) {
+void cowl_axiom_release(CowlAnyAxiom *axiom) {
     cowl_release(axiom);
 }
 
@@ -66,7 +66,7 @@ void cowl_axiom_release(CowlAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
+CowlAxiomType cowl_axiom_get_type(CowlAnyAxiom *axiom) {
     return (CowlAxiomType)(cowl_get_type(axiom) - COWL_OT_A_DECL);
 }
 
@@ -79,7 +79,7 @@ CowlAxiomType cowl_axiom_get_type(CowlAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlVector* cowl_axiom_get_annot(CowlAxiom *axiom) {
+CowlVector* cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -94,7 +94,7 @@ CowlVector* cowl_axiom_get_annot(CowlAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlString* cowl_axiom_to_string(CowlAxiom *axiom) {
+CowlString* cowl_axiom_to_string(CowlAnyAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 
@@ -108,7 +108,7 @@ CowlString* cowl_axiom_to_string(CowlAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
+bool cowl_axiom_equals(CowlAnyAxiom *lhs, CowlAnyAxiom *rhs) {
     return cowl_equals(lhs, rhs);
 }
 
@@ -121,7 +121,7 @@ bool cowl_axiom_equals(CowlAxiom *lhs, CowlAxiom *rhs) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-ulib_uint cowl_axiom_hash(CowlAxiom *axiom) {
+ulib_uint cowl_axiom_hash(CowlAnyAxiom *axiom) {
     return cowl_hash(axiom);
 }
 
@@ -136,7 +136,8 @@ ulib_uint cowl_axiom_hash(CowlAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-bool cowl_axiom_iterate_primitives(CowlAxiom *axiom, CowlPrimitiveFlags flags, CowlIterator *iter) {
+bool cowl_axiom_iterate_primitives(CowlAnyAxiom *axiom, CowlPrimitiveFlags flags,
+                                   CowlIterator *iter) {
     return cowl_iterate_primitives(axiom, flags, iter);
 }
 

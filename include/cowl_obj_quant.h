@@ -46,7 +46,7 @@ cowl_struct_decl(CowlObjQuant);
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
-CowlObjQuant* cowl_obj_quant(CowlQuantType type, CowlObjPropExp *prop, CowlClsExp *filler);
+CowlObjQuant* cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler);
 
 /**
  * Retains the specified object quantifier.

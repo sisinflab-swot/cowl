@@ -31,11 +31,11 @@ int main(void) {
 
     // Note that most of the following function calls can fail due to
     // memory exhaustion, so you should always check their return values.
-    void *my_pizza = cowl_class_from_static(NS "MyPizza");
-    void *pizza = cowl_class_from_static(NS "Pizza");
+    CowlClass *my_pizza = cowl_class_from_static(NS "MyPizza");
+    CowlClass *pizza = cowl_class_from_static(NS "Pizza");
 
     // We first declare the new class.
-    void *axiom = cowl_decl_axiom(my_pizza, NULL);
+    CowlAnyAxiom *axiom = cowl_decl_axiom(my_pizza, NULL);
     cowl_ontology_add_axiom(ontology, axiom);
     cowl_decl_axiom_release(axiom);
 

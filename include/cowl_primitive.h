@@ -38,8 +38,8 @@ cowl_struct_decl(CowlPrimitive);
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) {
-    return (CowlPrimitive *)cowl_retain(primitive);
+CowlAnyPrimitive* cowl_primitive_retain(CowlAnyPrimitive *primitive) {
+    return cowl_retain(primitive);
 }
 
 /**
@@ -50,7 +50,7 @@ CowlPrimitive* cowl_primitive_retain(CowlPrimitive *primitive) {
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-void cowl_primitive_release(CowlPrimitive *primitive) {
+void cowl_primitive_release(CowlAnyPrimitive *primitive) {
     cowl_release(primitive);
 }
 
@@ -63,7 +63,7 @@ void cowl_primitive_release(CowlPrimitive *primitive) {
  * @public @memberof CowlPrimitive
  */
 COWL_PUBLIC
-CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive);
+CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive);
 
 /**
  * Checks whether the primitive is an entity.
@@ -74,7 +74,7 @@ CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive);
  * @public @memberof CowlPrimitive
  */
 COWL_PUBLIC
-bool cowl_primitive_is_entity(CowlPrimitive *primitive);
+bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive);
 
 /**
  * Returns the string representation of the specified primitive.
@@ -87,7 +87,7 @@ bool cowl_primitive_is_entity(CowlPrimitive *primitive);
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-CowlString* cowl_primitive_to_string(CowlPrimitive *primitive) {
+CowlString* cowl_primitive_to_string(CowlAnyPrimitive *primitive) {
     return cowl_to_string(primitive);
 }
 
@@ -101,7 +101,7 @@ CowlString* cowl_primitive_to_string(CowlPrimitive *primitive) {
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) {
+bool cowl_primitive_equals(CowlAnyPrimitive *lhs, CowlAnyPrimitive *rhs) {
     return lhs == rhs;
 }
 
@@ -114,7 +114,7 @@ bool cowl_primitive_equals(CowlPrimitive *lhs, CowlPrimitive *rhs) {
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-ulib_uint cowl_primitive_hash(CowlPrimitive *primitive) {
+ulib_uint cowl_primitive_hash(CowlAnyPrimitive *primitive) {
     return uhash_ptr_hash(primitive);
 }
 
@@ -129,7 +129,7 @@ ulib_uint cowl_primitive_hash(CowlPrimitive *primitive) {
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-bool cowl_primitive_iterate_primitives(CowlPrimitive *primitive, CowlPrimitiveFlags flags,
+bool cowl_primitive_iterate_primitives(CowlAnyPrimitive *primitive, CowlPrimitiveFlags flags,
                                        CowlIterator *iter) {
     return cowl_iterate_primitives(primitive, flags, iter);
 }

@@ -15,7 +15,19 @@
 #define NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
-static bool for_each_cls(void *ctx, void *cls);
+// Iterator body, invoked for each class expression matching the query.
+static bool for_each_cls(cowl_unused void *ctx, CowlAny *cls) {
+    // We are only interested in atomic classes. Note that, due to pseudo-inheritance,
+    // this check ensures that the concrete type of 'exp' is CowlClass.
+    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
+
+    // Log the IRI remainder.
+    UOStream *std_out = uostream_std();
+    cowl_write_string(std_out, cowl_iri_get_rem(cowl_class_get_iri(cls)));
+    cowl_write_static(std_out, "\n");
+
+    return true;
+}
 
 int main(void) {
     cowl_init();
@@ -40,18 +52,4 @@ int main(void) {
     }
 
     return EXIT_SUCCESS;
-}
-
-// Iterator body, invoked for each class expression matching the query.
-static bool for_each_cls(cowl_unused void *ctx, void *cls) {
-    // We are only interested in atomic classes. Note that, due to pseudo-inheritance,
-    // this check ensures that the concrete type of 'exp' is CowlClass.
-    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
-
-    // Log the IRI remainder.
-    UOStream *std_out = uostream_std();
-    cowl_write_string(std_out, cowl_iri_get_rem(cowl_class_get_iri(cls)));
-    cowl_write_static(std_out, "\n");
-
-    return true;
 }

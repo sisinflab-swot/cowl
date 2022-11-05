@@ -41,8 +41,8 @@ cowl_struct_decl(CowlDataRange);
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
-    return (CowlDataRange *)cowl_retain(range);
+CowlAnyDataRange* cowl_data_range_retain(CowlAnyDataRange *range) {
+    return cowl_retain(range);
 }
 
 /**
@@ -53,7 +53,7 @@ CowlDataRange* cowl_data_range_retain(CowlDataRange *range) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-void cowl_data_range_release(CowlDataRange *range) { cowl_release(range); }
+void cowl_data_range_release(CowlAnyDataRange *range) { cowl_release(range); }
 
 /**
  * Gets the type of the specified data range.
@@ -64,7 +64,7 @@ void cowl_data_range_release(CowlDataRange *range) { cowl_release(range); }
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
+CowlDataRangeType cowl_data_range_get_type(CowlAnyDataRange *range) {
     return (CowlDataRangeType)(cowl_get_type(range) - COWL_OT_DR_DATATYPE);
 }
 
@@ -79,7 +79,7 @@ CowlDataRangeType cowl_data_range_get_type(CowlDataRange *range) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-CowlString* cowl_data_range_to_string(CowlDataRange *range) {
+CowlString* cowl_data_range_to_string(CowlAnyDataRange *range) {
     return cowl_to_string(range);
 }
 
@@ -93,7 +93,7 @@ CowlString* cowl_data_range_to_string(CowlDataRange *range) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
+bool cowl_data_range_equals(CowlAnyDataRange *lhs, CowlAnyDataRange *rhs) {
     return cowl_equals(lhs, rhs);
 }
 
@@ -106,7 +106,7 @@ bool cowl_data_range_equals(CowlDataRange *lhs, CowlDataRange *rhs) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-ulib_uint cowl_data_range_hash(CowlDataRange *range) {
+ulib_uint cowl_data_range_hash(CowlAnyDataRange *range) {
     return cowl_hash(range);
 }
 
@@ -121,7 +121,7 @@ ulib_uint cowl_data_range_hash(CowlDataRange *range) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-bool cowl_data_range_iterate_primitives(CowlDataRange *range, CowlPrimitiveFlags flags,
+bool cowl_data_range_iterate_primitives(CowlAnyDataRange *range, CowlPrimitiveFlags flags,
                                         CowlIterator *iter) {
     return cowl_iterate_primitives(range, flags, iter);
 }

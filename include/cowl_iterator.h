@@ -19,7 +19,6 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlObject);
 uvec_decl(CowlObjectPtr);
 uhash_decl(CowlObjectTable);
 /// @endcond
@@ -43,7 +42,7 @@ typedef struct CowlIterator {
     void *ctx;
 
     /// Pointer to a function called by the iterator for every element.
-    bool (*for_each)(void *ctx, void *object);
+    bool (*for_each)(void *ctx, CowlAny *object);
 
 } CowlIterator;
 

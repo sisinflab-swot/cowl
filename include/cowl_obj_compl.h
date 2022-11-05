@@ -40,7 +40,7 @@ cowl_struct_decl(CowlObjCompl);
  * @public @memberof CowlObjCompl
  */
 COWL_INLINE
-CowlObjCompl* cowl_obj_compl(CowlClsExp *operand) {
+CowlObjCompl* cowl_obj_compl(CowlAnyClsExp *operand) {
     return (CowlObjCompl *)cowl_get_impl_1(COWL_OT_CE_OBJ_COMPL, operand);
 }
 

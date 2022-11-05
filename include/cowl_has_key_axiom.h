@@ -45,7 +45,7 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlHasKeyAxiom* cowl_has_key_axiom(CowlClsExp *cls_exp, CowlVector *obj_props,
+CowlHasKeyAxiom* cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_props,
                                     CowlVector *data_props, CowlVector *annot) {
     if (!obj_props) obj_props = cowl_vector_empty();
     if (!data_props) data_props = cowl_vector_empty();

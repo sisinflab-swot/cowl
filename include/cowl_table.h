@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-UHASH_DECL_PI_SPEC(CowlObjectTable, void*, void*, COWL_PUBLIC)
+UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny*, CowlAny*, COWL_PUBLIC)
 cowl_struct_decl(CowlTable);
 /// @endcond
 
@@ -123,7 +123,7 @@ ulib_uint cowl_table_count(CowlTable *table) {
  * @public @memberof CowlTable
  */
 COWL_INLINE
-void* cowl_table_get_value(CowlTable *table, void *key) {
+CowlAny* cowl_table_get_value(CowlTable *table, CowlAny *key) {
     return uhmap_get(CowlObjectTable, cowl_table_get_data(table), key, NULL);
 }
 
@@ -136,7 +136,7 @@ void* cowl_table_get_value(CowlTable *table, void *key) {
  * @public @memberof CowlTable
  */
 COWL_INLINE
-void* cowl_table_get_any(CowlTable *table) {
+CowlAny* cowl_table_get_any(CowlTable *table) {
     return uhset_get_any(CowlObjectTable, cowl_table_get_data(table), NULL);
 }
 
@@ -150,7 +150,7 @@ void* cowl_table_get_any(CowlTable *table) {
  * @public @memberof CowlTable
  */
 COWL_INLINE
-bool cowl_table_contains(CowlTable *table, void *key) {
+bool cowl_table_contains(CowlTable *table, CowlAny *key) {
     return uhash_contains(CowlObjectTable, cowl_table_get_data(table), key);
 }
 

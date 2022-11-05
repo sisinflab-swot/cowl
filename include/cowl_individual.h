@@ -39,8 +39,8 @@ cowl_struct_decl(CowlIndividual);
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
-    return (CowlIndividual *)cowl_retain(ind);
+CowlAnyIndividual* cowl_individual_retain(CowlAnyIndividual *ind) {
+    return cowl_retain(ind);
 }
 
 /**
@@ -50,7 +50,7 @@ CowlIndividual* cowl_individual_retain(CowlIndividual *ind) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-void cowl_individual_release(CowlIndividual *ind) {
+void cowl_individual_release(CowlAnyIndividual *ind) {
     cowl_release(ind);
 }
 
@@ -63,7 +63,7 @@ void cowl_individual_release(CowlIndividual *ind) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-bool cowl_individual_is_named(CowlIndividual *ind) {
+bool cowl_individual_is_named(CowlAnyIndividual *ind) {
     return cowl_get_type(ind) == COWL_OT_I_NAMED;
 }
 
@@ -78,7 +78,7 @@ bool cowl_individual_is_named(CowlIndividual *ind) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-CowlString* cowl_individual_to_string(CowlIndividual *ind) {
+CowlString* cowl_individual_to_string(CowlAnyIndividual *ind) {
     return cowl_to_string(ind);
 }
 
@@ -92,7 +92,7 @@ CowlString* cowl_individual_to_string(CowlIndividual *ind) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
+bool cowl_individual_equals(CowlAnyIndividual *lhs, CowlAnyIndividual *rhs) {
     return lhs == rhs;
 }
 
@@ -105,7 +105,7 @@ bool cowl_individual_equals(CowlIndividual *lhs, CowlIndividual *rhs) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-ulib_uint cowl_individual_hash(CowlIndividual *ind) {
+ulib_uint cowl_individual_hash(CowlAnyIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 
@@ -120,7 +120,7 @@ ulib_uint cowl_individual_hash(CowlIndividual *ind) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-bool cowl_individual_iterate_primitives(CowlIndividual *ind, CowlPrimitiveFlags flags,
+bool cowl_individual_iterate_primitives(CowlAnyIndividual *ind, CowlPrimitiveFlags flags,
                                         CowlIterator *iter) {
     return cowl_iterate_primitives(ind, flags, iter);
 }

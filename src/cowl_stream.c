@@ -110,7 +110,7 @@ cowl_ret cowl_stream_push_annot(CowlStream *stream, CowlAnnotation *annot) {
     return stream->config.handle_annot(stream->config.ctx, annot);
 }
 
-cowl_ret cowl_stream_push_axiom(CowlStream *stream, CowlAxiom *axiom) {
+cowl_ret cowl_stream_push_axiom(CowlStream *stream, CowlAnyAxiom *axiom) {
     if (!stream->config.handle_axiom) return COWL_OK;
     return stream->config.handle_axiom(stream->config.ctx, axiom);
 }

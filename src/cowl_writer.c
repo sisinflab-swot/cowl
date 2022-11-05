@@ -19,13 +19,13 @@
 
 #define UINT_MAX_DIGITS 20
 
-cowl_ret cowl_write(UOStream *stream, void *object) {
+cowl_ret cowl_write(UOStream *stream, CowlAny *object) {
     CowlWriter writer = cowl_get_writer();
     if (writer.write) return writer.write(stream, object);
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
 
-ustream_ret cowl_write_debug(UOStream *s, void *obj) {
+ustream_ret cowl_write_debug(UOStream *s, CowlAny *obj) {
     uostream_writef(s, NULL, "<CowlObject %p, type ", obj);
     cowl_write_object_type(s, cowl_get_type(obj));
     cowl_write_static(s, ", ref ");

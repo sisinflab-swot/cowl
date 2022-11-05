@@ -141,13 +141,13 @@ bool cowl_test_ontology_primitives_count(void) {
     return true;
 }
 
-static bool cowl_test_get_first_anon_ind(void *ctx, void *obj) {
-    *((CowlAnonInd**)ctx) = (CowlAnonInd *)obj;
+static bool cowl_test_get_first_anon_ind(void *ctx, CowlAny *obj) {
+    *((CowlAny**)ctx) = obj;
     return false;
 }
 
 bool cowl_test_ontology_axiom_count_for_primitive(void) {
-    void *primitive = cowl_class_from_static(test_onto_iri test_class);
+    CowlAnyPrimitive *primitive = cowl_class_from_static(test_onto_iri test_class);
     ulib_uint count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_CLASS]);

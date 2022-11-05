@@ -10,7 +10,7 @@
 
 #include "cowl_annot_value.h"
 
-CowlAnnotValueType cowl_annot_value_get_type(CowlAnnotValue *value) {
+CowlAnnotValueType cowl_annot_value_get_type(CowlAnyAnnotValue *value) {
     switch (cowl_get_type(value)) {
         case COWL_OT_IRI: return COWL_AVT_IRI;
         case COWL_OT_I_ANONYMOUS: return COWL_AVT_ANON_IND;

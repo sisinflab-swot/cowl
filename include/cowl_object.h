@@ -37,7 +37,7 @@ cowl_struct_decl(CowlObject);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-void* cowl_retain(void *object);
+CowlAny* cowl_retain(CowlAny *object);
 
 /**
  * Releases the specified object.
@@ -47,7 +47,7 @@ void* cowl_retain(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-void cowl_release(void *object);
+void cowl_release(CowlAny *object);
 
 /**
  * Gets the type of the specified object.
@@ -58,7 +58,7 @@ void cowl_release(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlObjectType cowl_get_type(void *object);
+CowlObjectType cowl_get_type(CowlAny *object);
 
 /**
  * Checks whether the specified object is an entity.
@@ -69,7 +69,7 @@ CowlObjectType cowl_get_type(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_is_entity(void *object);
+bool cowl_is_entity(CowlAny *object);
 
 /**
  * Checks whether the specified object is an axiom.
@@ -80,7 +80,7 @@ bool cowl_is_entity(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_is_axiom(void *object);
+bool cowl_is_axiom(CowlAny *object);
 
 /**
  * Checks whether the specified object is a class expression.
@@ -91,7 +91,7 @@ bool cowl_is_axiom(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_is_cls_exp(void *object);
+bool cowl_is_cls_exp(CowlAny *object);
 
 /**
  * Checks whether the specified object is an object property expression.
@@ -102,7 +102,7 @@ bool cowl_is_cls_exp(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_is_obj_prop_exp(void *object);
+bool cowl_is_obj_prop_exp(CowlAny *object);
 
 /**
  * Checks whether the specified object is a data property expression.
@@ -113,7 +113,7 @@ bool cowl_is_obj_prop_exp(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_is_data_prop_exp(void *object);
+bool cowl_is_data_prop_exp(CowlAny *object);
 
 /**
  * Checks whether the specified object is an individual.
@@ -124,7 +124,7 @@ bool cowl_is_data_prop_exp(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_is_individual(void *object);
+bool cowl_is_individual(CowlAny *object);
 
 /**
  * Checks whether the specified object is a data range.
@@ -135,7 +135,7 @@ bool cowl_is_individual(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_is_data_range(void *object);
+bool cowl_is_data_range(CowlAny *object);
 
 /**
  * Returns the string representation of the specified object.
@@ -148,7 +148,7 @@ bool cowl_is_data_range(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlString* cowl_to_string(void *object);
+CowlString* cowl_to_string(CowlAny *object);
 
 /**
  * Returns a debug string representation of the specified object.
@@ -164,7 +164,7 @@ CowlString* cowl_to_string(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlString* cowl_to_debug_string(void *object);
+CowlString* cowl_to_debug_string(CowlAny *object);
 
 /**
  * Equality function.
@@ -176,7 +176,7 @@ CowlString* cowl_to_debug_string(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_equals(void *lhs, void *rhs);
+bool cowl_equals(CowlAny *lhs, CowlAny *rhs);
 
 /**
  * Hash function.
@@ -187,7 +187,7 @@ bool cowl_equals(void *lhs, void *rhs);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-ulib_uint cowl_hash(void *object);
+ulib_uint cowl_hash(CowlAny *object);
 
 /**
  * Iterates over the primitives referenced by the specified object.
@@ -200,7 +200,7 @@ ulib_uint cowl_hash(void *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-bool cowl_iterate_primitives(void *object, CowlPrimitiveFlags flags, CowlIterator *iter);
+bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

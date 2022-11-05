@@ -43,7 +43,7 @@ cowl_struct_decl(CowlInvObjPropAxiom);
  * @public @memberof CowlInvObjPropAxiom
  */
 COWL_INLINE
-CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom(CowlObjPropExp *first, CowlObjPropExp *second,
+CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyObjPropExp *second,
                                              CowlVector *annot) {
     return (CowlInvObjPropAxiom *)cowl_get_impl_2_opt(COWL_OT_A_INV_OBJ_PROP, first, second, annot);
 }

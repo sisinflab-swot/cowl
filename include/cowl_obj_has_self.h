@@ -40,7 +40,7 @@ cowl_struct_decl(CowlObjHasSelf);
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-CowlObjHasSelf* cowl_obj_has_self(CowlObjPropExp *prop) {
+CowlObjHasSelf* cowl_obj_has_self(CowlAnyObjPropExp *prop) {
     return (CowlObjHasSelf *)cowl_get_impl_1(COWL_OT_CE_OBJ_HAS_SELF, prop);
 }
 

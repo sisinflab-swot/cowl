@@ -10,7 +10,7 @@
 
 #include "cowl_primitive.h"
 
-CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive) {
+CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive) {
     switch(cowl_get_type(primitive)) {
         case COWL_OT_CE_CLASS: return COWL_PT_CLASS;
         case COWL_OT_OPE_OBJ_PROP: return COWL_PT_OBJ_PROP;
@@ -22,6 +22,6 @@ CowlPrimitiveType cowl_primitive_get_type(CowlPrimitive *primitive) {
     }
 }
 
-bool cowl_primitive_is_entity(CowlPrimitive *primitive) {
+bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive) {
     return cowl_get_type(primitive) != COWL_OT_I_ANONYMOUS;
 }

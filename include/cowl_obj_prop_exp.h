@@ -40,8 +40,8 @@ cowl_struct_decl(CowlObjPropExp);
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *exp) {
-    return (CowlObjPropExp *)cowl_retain(exp);
+CowlAnyObjPropExp* cowl_obj_prop_exp_retain(CowlAnyObjPropExp *exp) {
+    return cowl_retain(exp);
 }
 
 /**
@@ -52,7 +52,7 @@ CowlObjPropExp* cowl_obj_prop_exp_retain(CowlObjPropExp *exp) {
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-void cowl_obj_prop_exp_release(CowlObjPropExp *exp) {
+void cowl_obj_prop_exp_release(CowlAnyObjPropExp *exp) {
     cowl_release(exp);
 }
 
@@ -65,7 +65,7 @@ void cowl_obj_prop_exp_release(CowlObjPropExp *exp) {
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
+bool cowl_obj_prop_exp_is_inverse(CowlAnyObjPropExp *exp) {
     return cowl_get_type(exp) == COWL_OT_OPE_INV_OBJ_PROP;
 }
 
@@ -78,7 +78,7 @@ bool cowl_obj_prop_exp_is_inverse(CowlObjPropExp *exp) {
  * @public @memberof CowlObjPropExp
  */
 COWL_PUBLIC
-CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
+CowlObjProp* cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
 
 /**
  * Returns the string representation of the specified object property expression.
@@ -91,7 +91,7 @@ CowlObjProp* cowl_obj_prop_exp_get_prop(CowlObjPropExp *exp);
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp) {
+CowlString* cowl_obj_prop_exp_to_string(CowlAnyObjPropExp *exp) {
     return cowl_to_string(exp);
 }
 
@@ -105,7 +105,7 @@ CowlString* cowl_obj_prop_exp_to_string(CowlObjPropExp *exp) {
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
+bool cowl_obj_prop_exp_equals(CowlAnyObjPropExp *lhs, CowlAnyObjPropExp *rhs) {
     return cowl_equals(lhs, rhs);
 }
 
@@ -118,7 +118,7 @@ bool cowl_obj_prop_exp_equals(CowlObjPropExp *lhs, CowlObjPropExp *rhs) {
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-ulib_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
+ulib_uint cowl_obj_prop_exp_hash(CowlAnyObjPropExp *exp) {
     return cowl_hash(exp);
 }
 
@@ -133,7 +133,7 @@ ulib_uint cowl_obj_prop_exp_hash(CowlObjPropExp *exp) {
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-bool cowl_obj_prop_exp_iterate_primitives(CowlObjPropExp *exp, CowlPrimitiveFlags flags,
+bool cowl_obj_prop_exp_iterate_primitives(CowlAnyObjPropExp *exp, CowlPrimitiveFlags flags,
                                           CowlIterator *iter) {
     return cowl_iterate_primitives(exp, flags, iter);
 }

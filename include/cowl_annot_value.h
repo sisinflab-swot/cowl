@@ -40,8 +40,8 @@ cowl_struct_decl(CowlAnnotValue);
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) {
-    return (CowlAnnotValue *)cowl_retain(value);
+CowlAnyAnnotValue* cowl_annot_value_retain(CowlAnyAnnotValue *value) {
+    return cowl_retain(value);
 }
 
 /**
@@ -52,7 +52,7 @@ CowlAnnotValue* cowl_annot_value_retain(CowlAnnotValue *value) {
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-void cowl_annot_value_release(CowlAnnotValue *value) {
+void cowl_annot_value_release(CowlAnyAnnotValue *value) {
     cowl_release(value);
 }
 
@@ -65,7 +65,7 @@ void cowl_annot_value_release(CowlAnnotValue *value) {
  * @public @memberof CowlAnnotValue
  */
 COWL_PUBLIC
-CowlAnnotValueType cowl_annot_value_get_type(CowlAnnotValue *value);
+CowlAnnotValueType cowl_annot_value_get_type(CowlAnyAnnotValue *value);
 
 /**
  * Returns the string representation of the specified annotation value.
@@ -78,7 +78,7 @@ CowlAnnotValueType cowl_annot_value_get_type(CowlAnnotValue *value);
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-CowlString* cowl_annot_value_to_string(CowlAnnotValue *value) {
+CowlString* cowl_annot_value_to_string(CowlAnyAnnotValue *value) {
     return cowl_to_string(value);
 }
 
@@ -92,7 +92,7 @@ CowlString* cowl_annot_value_to_string(CowlAnnotValue *value) {
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs) {
+bool cowl_annot_value_equals(CowlAnyAnnotValue *lhs, CowlAnyAnnotValue *rhs) {
     return cowl_equals(lhs, rhs);
 }
 
@@ -105,7 +105,7 @@ bool cowl_annot_value_equals(CowlAnnotValue *lhs, CowlAnnotValue *rhs) {
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-ulib_uint cowl_annot_value_hash(CowlAnnotValue *value) {
+ulib_uint cowl_annot_value_hash(CowlAnyAnnotValue *value) {
     return cowl_hash(value);
 }
 
@@ -120,7 +120,7 @@ ulib_uint cowl_annot_value_hash(CowlAnnotValue *value) {
  * @public @memberof CowlAnnotValue
  */
 COWL_INLINE
-bool cowl_annot_value_iterate_primitives(CowlAnnotValue *value, CowlPrimitiveFlags flags,
+bool cowl_annot_value_iterate_primitives(CowlAnyAnnotValue *value, CowlPrimitiveFlags flags,
                                          CowlIterator *iter) {
     return cowl_iterate_primitives(value, flags, iter);
 }

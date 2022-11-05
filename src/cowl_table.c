@@ -12,13 +12,13 @@
 #include "cowl_primitive.h"
 #include "cowl_string.h"
 
-static ulib_uint cowl_object_table_hash(void *k) { return cowl_hash(k); }
-static bool cowl_object_table_equals(void *a, void *b) { return cowl_equals(a, b); }
+static ulib_uint cowl_object_table_hash(CowlAny *k) { return cowl_hash(k); }
+static bool cowl_object_table_equals(CowlAny *a, CowlAny *b) { return cowl_equals(a, b); }
 UHASH_IMPL_PI(CowlObjectTable, cowl_object_table_hash, cowl_object_table_equals)
 
 #define HASH_GEN(T, TYPE)                                                                           \
-    static ulib_uint T##_hash(void *obj) { return cowl_##T##_hash(obj); }                           \
-    static bool T##_equals(void *lhs, void *rhs) { return cowl_##T##_equals(lhs, rhs); }            \
+    static ulib_uint T##_hash(CowlAny *obj) { return cowl_##T##_hash(obj); }                        \
+    static bool T##_equals(CowlAny *lhs, CowlAny *rhs) { return cowl_##T##_equals(lhs, rhs); }      \
     UHash(CowlObjectTable) cowl_##T##_##TYPE(void) {                                                \
         return uh##TYPE##_pi(CowlObjectTable, T##_hash, T##_equals);                                \
     }
@@ -79,7 +79,7 @@ bool cowl_table_equals(CowlTable *lhs, CowlTable *rhs) {
     if (!rhs_is_map) return false;
 
     cowl_table_foreach(lhs, e) {
-        void *r_val = cowl_table_get_value(rhs, *e.key);
+        CowlAny *r_val = cowl_table_get_value(rhs, *e.key);
         if (r_val == *e.val) return true;
         if (!(r_val && cowl_equals(*e.val, r_val))) return false;
     }

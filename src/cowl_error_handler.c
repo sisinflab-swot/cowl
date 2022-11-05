@@ -8,7 +8,7 @@
  * @file
  */
 
-#include "cowl_error_handler_private.h"
+#include "cowl_error_handler.h"
 #include "cowl_config_private.h"
 #include "cowl_iri.h"
 #include "cowl_manager_private.h"
@@ -32,7 +32,7 @@ static CowlErrorHandler cowl_best_error_handler(CowlObject *origin) {
     return handler;
 }
 
-void cowl_handle_error(cowl_ret code, UString desc, void *origin) {
+void cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
     if (code == COWL_ERR_SYNTAX) {
         cowl_handle_syntax_error(desc, origin, (CowlErrorLoc){0});
         return;
@@ -53,7 +53,7 @@ void cowl_handle_error(cowl_ret code, UString desc, void *origin) {
     handler.handle_error(handler.ctx, &error);
 }
 
-void cowl_handle_syntax_error(UString desc, void *origin, CowlErrorLoc loc) {
+void cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
     CowlErrorHandler handler = cowl_best_error_handler(origin);
     if (!handler.handle_error) return;
 
@@ -79,10 +79,10 @@ void cowl_handle_syntax_error(UString desc, void *origin, CowlErrorLoc loc) {
     if (release_source) cowl_string_release(loc.source);
 }
 
-void cowl_handle_error_code(cowl_ret code, void *origin) {
+void cowl_handle_error_code(cowl_ret code, CowlAny *origin) {
     cowl_handle_error(code, ustring_empty, origin);
 }
 
-void cowl_handle_stream_error(ustream_ret code, void *origin) {
+void cowl_handle_stream_error(ustream_ret code, CowlAny *origin) {
     cowl_handle_error_code(cowl_ret_from_ustream(code), origin);
 }
