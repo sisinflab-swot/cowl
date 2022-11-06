@@ -5,6 +5,54 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2022-11-06
+### Added
+- Ontology stream parsing (`CowlStream`, `CowlStreamConfig`).
+- Ontology serialization (`CowlWriter`, `CowlSymTable`).
+- Ontology editing (`cowl_ontology_add_*`, `cowl_ontology_remove_*` functions).
+- Support for Arduino boards.
+- `CowlVector` and `CowlTable`.
+- Placeholder types (`CowlAny` and similar).
+- `cowl_ontology_primitives_count`, `cowl_ontology_axiom_count_for_primitive`,
+  `cowl_ontology_has_primitive`, `cowl_ontology_iterate_axioms_for_primitive`.
+- `cowl_primitive_flags_from_type`, `cowl_primitive_flags_has_type`.
+- `cowl_iterator_count`.
+- `COWL_LIBRARY_TYPE` CMake variable.
+
+### Changed
+- Renamed `CowlParser` to `CowlReader`.
+- Renamed `cowl_object_get_type` to `cowl_get_type`.
+- Renamed `CowlOntologyId` struct fields.
+- Signature of `CowlOntology` querying functions by adding an `imports` parameter.
+- Dropped `*_init` and `*_get` suffixes from most of the API.
+- Renamed `cowl_api_*` functions.
+- Significantly reduced code size.
+
+### Removed
+- `CowlFacet`.
+- `cowl_ontology_axiom_count_for_annot_prop`, `cowl_ontology_axiom_count_for_class`,
+  `cowl_ontology_axiom_count_for_data_prop`, `cowl_ontology_axiom_count_for_datatype`,
+  `cowl_ontology_axiom_count_for_obj_prop`, `cowl_ontology_axiom_count_for_named_ind`.
+- `cowl_ontology_classes_count`, `cowl_ontology_datatypes_count`,
+  `cowl_ontology_obj_props_count`, `cowl_ontology_data_props_count`,
+  `cowl_ontology_annot_props_count`, `cowl_ontology_named_inds_count`.
+- `cowl_ontology_iterate_classes`, `cowl_ontology_iterate_datatypes`,
+  `cowl_ontology_iterate_data_props`, `cowl_ontology_iterate_obj_props`,
+  `cowl_ontology_iterate_annot_props`, `cowl_ontology_iterate_named_inds`,
+  `cowl_ontology_iterate_anon_inds`.
+- `cowl_ontology_iterate_axioms_for_annot_prop`, `cowl_ontology_iterate_axioms_for_class`,
+  `cowl_ontology_iterate_axioms_for_data_prop`, `cowl_ontology_iterate_axioms_for_datatype`,
+  `cowl_ontology_iterate_axioms_for_obj_prop`, `cowl_ontology_iterate_axioms_for_named_ind`,
+  `cowl_ontology_iterate_axioms_for_anon_ind`.
+- `cowl_ontology_has_entity`.
+- `get_line` field from `CowlParser`.
+- `COWL_STATIC`, `COWL_SHARED` and `COWL_OBJECT` CMake variables.
+
+### Fixed
+- Compilation in C++ projects.
+- NULL pointer dereference in `CowlOntology` when entities have no associated axioms.
+- HasKey axiom not accepting empty vectors.
+
 ## [0.5.3] - 2022-04-27
 ### Added
 - `cowl_string_get_raw`.
@@ -51,7 +99,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [0.5.1] - 2021-10-14
 ### Added
 - `cowl_ontology_has_entity`.
-- `cowl_iterator_vec` and `cowl_iterator_set`.
+- `cowl_iterator_vec_init` and `cowl_iterator_set_init`.
 
 ### Changed
 - Renamed `CowlOntologyID` to `CowlOntologyId`.
@@ -223,6 +271,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.6.0]: https://github.com/sisinflab-swot/cowl/compare/v0.5.3...v0.6.0
 [0.5.3]: https://github.com/sisinflab-swot/cowl/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/sisinflab-swot/cowl/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/sisinflab-swot/cowl/compare/v0.5.0...v0.5.1
