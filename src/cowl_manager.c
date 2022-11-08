@@ -19,7 +19,7 @@ CowlManager* cowl_manager(void) {
     *manager = (CowlManager){
         .super = COWL_OBJECT_INIT(COWL_OT_MANAGER),
         .reader = {0},
-        .ontos = uvec(ulib_ptr)
+        .ontos = uvec(CowlObjectPtr)
     };
     return manager;
 }
@@ -28,7 +28,7 @@ void cowl_manager_release(CowlManager *manager) {
     if (!manager || cowl_object_decr_ref(manager)) return;
     if (manager->loader.free) manager->loader.free(manager->loader.ctx);
     if (manager->handler.free) manager->handler.free(manager->handler.ctx);
-    uvec_deinit(ulib_ptr, &manager->ontos);
+    uvec_deinit(CowlObjectPtr, &manager->ontos);
     ulib_free(manager);
 }
 
@@ -249,7 +249,7 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
 
 CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id) {
     if (id) {
-        uvec_foreach(ulib_ptr, &manager->ontos, onto) {
+        uvec_foreach(CowlObjectPtr, &manager->ontos, onto) {
             if (cowl_ontology_id_equals(cowl_ontology_get_id(*onto.item), *id)) {
                 return *onto.item;
             }
@@ -264,7 +264,7 @@ CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
         cowl_ontology_set_version(onto, id->version);
     }
 
-    if (uvec_push(ulib_ptr, &manager->ontos, onto)) {
+    if (uvec_push(CowlObjectPtr, &manager->ontos, onto)) {
         cowl_ontology_release(onto);
         onto = NULL;
     }
@@ -273,5 +273,5 @@ CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
 }
 
 void cowl_manager_remove_ontology(CowlManager *manager, CowlOntology *onto) {
-    uvec_remove(ulib_ptr, &manager->ontos, onto);
+    uvec_remove(CowlObjectPtr, &manager->ontos, onto);
 }

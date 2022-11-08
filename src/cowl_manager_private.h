@@ -23,7 +23,7 @@ struct CowlManager {
     CowlWriter writer;
     CowlErrorHandler handler;
     CowlImportLoader loader;
-    UVec(ulib_ptr) ontos;
+    UVec(CowlObjectPtr) ontos;
 };
 
 CowlReader cowl_manager_get_reader(CowlManager *manager);
