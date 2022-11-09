@@ -87,7 +87,7 @@ static CowlOntology* read_stream_deinit(CowlManager *manager, UIStream *istream)
         return NULL;
     }
 
-    if (stream_stream_deinit(manager, cowl_stream_ontology_get(onto), istream)) {
+    if (stream_stream_deinit(manager, cowl_stream_to_ontology(onto), istream)) {
         cowl_ontology_release(onto);
         onto = NULL;
     } else if (cowl_ontology_finalize(onto)) {
@@ -155,7 +155,7 @@ CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream) {
         return NULL;
     }
 
-    if (stream_stream(manager, cowl_stream_ontology_get(onto), stream)) {
+    if (stream_stream(manager, cowl_stream_to_ontology(onto), stream)) {
         cowl_ontology_release(onto);
         return NULL;
     }
@@ -166,7 +166,7 @@ CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream) {
 cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlStreamConfig config, UString path) {
     UIStream stream;
     uistream_from_path(&stream, ustring_data(path));
-    cowl_ret ret = stream_stream_deinit(manager, cowl_stream_get(manager, config), &stream);
+    cowl_ret ret = stream_stream_deinit(manager, cowl_stream(manager, config), &stream);
     if (ret) handle_path_error(manager, path);
     return ret;
 }
@@ -174,19 +174,67 @@ cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlStreamConfig config,
 cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlStreamConfig config, FILE *file) {
     UIStream stream;
     uistream_from_file(&stream, file);
-    return stream_stream_deinit(manager, cowl_stream_get(manager, config), &stream);
+    return stream_stream_deinit(manager, cowl_stream(manager, config), &stream);
 }
 
 cowl_ret cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config,
                                     UString const *string) {
     UIStream stream;
     uistream_from_ustring(&stream, string);
-    return stream_stream_deinit(manager, cowl_stream_get(manager, config), &stream);
+    return stream_stream_deinit(manager, cowl_stream(manager, config), &stream);
 }
 
 cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config,
                                     UIStream *istream) {
-    return stream_stream(manager, cowl_stream_get(manager, config), istream);
+    return stream_stream(manager, cowl_stream(manager, config), istream);
+}
+
+static bool onto_stream_handle_import(void *ctx, CowlAny *import) {
+    void **c = ctx;
+    CowlIRI *iri = cowl_ontology_get_import_iri(c[1], import);
+    return !iri || (*((cowl_ret *)c[0]) = cowl_stream_push_import(c[2], iri)) == COWL_OK;
+}
+
+static bool onto_stream_handle_axiom(void *ctx, CowlAny *axiom) {
+    void **c = ctx;
+    return (*((cowl_ret *)c[0]) = cowl_stream_push_axiom(c[1], axiom)) == COWL_OK;
+}
+
+cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig config,
+                                      CowlOntology *ontology) {
+    CowlStream *stream = cowl_stream(manager, config);
+    if (!stream) return COWL_ERR_MEM;
+
+    cowl_ret ret = COWL_OK;
+
+    if (config.handle_iri || config.handle_version) {
+        CowlOntologyId id = cowl_ontology_get_id(ontology);
+        if ((ret = cowl_stream_push_iri(stream, id.iri)) ||
+            (ret = cowl_stream_push_version(stream, id.version))) goto end;
+    }
+
+    if (config.handle_annot) {
+        CowlVector *annotations = cowl_ontology_get_annot(ontology);
+        cowl_vector_foreach(annotations, annot) {
+            if ((ret = cowl_stream_push_annot(stream, *annot.item))) goto end;
+        }
+    }
+
+    if (config.handle_import) {
+        void *ctx[] = { &ret, ontology, stream };
+        CowlIterator iter = { ctx, onto_stream_handle_import };
+        if (!cowl_ontology_iterate_imports(ontology, &iter, false)) goto end;
+    }
+
+    if (config.handle_axiom) {
+        void *ctx[] = { &ret, stream };
+        CowlIterator iter = { ctx, onto_stream_handle_axiom };
+        if (!cowl_ontology_iterate_axioms(ontology, &iter, false)) goto end;
+    }
+
+end:
+    cowl_stream_release(stream);
+    return ret;
 }
 
 cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, UString path) {

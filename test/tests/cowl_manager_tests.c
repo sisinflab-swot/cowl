@@ -40,7 +40,17 @@ bool cowl_test_manager_lifecycle(void) {
     return true;
 }
 
-static cowl_ret count_axiom(void *ctx, cowl_unused CowlAxiom *axiom) {
+static cowl_ret count_annot(void *ctx, cowl_unused CowlAnnotation *obj) {
+    (*((ulib_uint *)ctx))++;
+    return COWL_OK;
+}
+
+static cowl_ret count_import(void *ctx, cowl_unused CowlIRI *import) {
+    (*((ulib_uint *)ctx))++;
+    return COWL_OK;
+}
+
+static cowl_ret count_axiom(void *ctx, cowl_unused CowlAxiom *obj) {
     (*((ulib_uint *)ctx))++;
     return COWL_OK;
 }
@@ -49,9 +59,15 @@ bool cowl_test_manager_read_ontology(void) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
 
-    ulib_uint axiom_count = 0;
-    CowlStreamConfig cfg = { &axiom_count };
+    CowlImportLoader loader = { manager, cowl_test_load_import };
+    cowl_manager_set_import_loader(manager, loader);
+
+    ulib_uint count = 0;
+    CowlStreamConfig cfg = { &count };
     cfg.handle_axiom = count_axiom;
+    cfg.handle_import = count_import;
+    cfg.handle_annot = count_annot;
+
     cowl_ret ret = cowl_manager_stream_path(manager, cfg, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_uint(ret, ==, COWL_OK);
 
@@ -63,7 +79,15 @@ bool cowl_test_manager_read_ontology(void) {
 
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_not_null(onto);
-    utest_assert_uint(axiom_count, ==, cowl_ontology_axiom_count(onto, false));
+
+    ulib_uint true_count = cowl_vector_count(cowl_ontology_get_annot(onto));
+    true_count += cowl_ontology_imports_count(onto, false) + cowl_ontology_axiom_count(onto, false);
+    utest_assert_uint(count, ==, true_count);
+
+    count = 0;
+    ret = cowl_manager_stream_ontology(manager, cfg, onto);
+    utest_assert_uint(ret, ==, COWL_OK);
+    utest_assert_uint(count, ==, true_count);
 
     ret = cowl_manager_write_path(manager, onto, ustring_literal(COWL_ONTOLOGY_LOG));
     utest_assert_uint(ret, ==, COWL_OK);

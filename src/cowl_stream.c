@@ -34,7 +34,7 @@ static CowlStream* cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, Cow
     return stream;
 }
 
-CowlStream* cowl_stream_get(CowlManager *manager, CowlStreamConfig config) {
+CowlStream* cowl_stream(CowlManager *manager, CowlStreamConfig config) {
     return cowl_stream_alloc(manager, NULL, config);
 }
 
@@ -60,7 +60,7 @@ static cowl_ret store_axiom(void *ctx, CowlAxiom *axiom) {
     return cowl_ontology_add_axiom(ctx, axiom);
 }
 
-CowlStream* cowl_stream_ontology_get(CowlOntology *onto) {
+CowlStream* cowl_stream_to_ontology(CowlOntology *onto) {
     CowlStreamConfig cfg = {
         .ctx = onto,
         .handle_iri = store_iri,

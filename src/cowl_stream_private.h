@@ -28,8 +28,8 @@ struct CowlStream {
     CowlManager *manager;
 };
 
-CowlStream* cowl_stream_get(CowlManager *manager, CowlStreamConfig config);
-CowlStream* cowl_stream_ontology_get(CowlOntology *onto);
+CowlStream* cowl_stream(CowlManager *manager, CowlStreamConfig config);
+CowlStream* cowl_stream_to_ontology(CowlOntology *onto);
 void cowl_stream_release(CowlStream *stream);
 
 COWL_END_DECLS

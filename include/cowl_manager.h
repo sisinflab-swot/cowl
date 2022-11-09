@@ -247,6 +247,20 @@ cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig confi
                                     UIStream *stream);
 
 /**
+ * Streams through the specified ontology.
+ *
+ * @param manager The manager.
+ * @param config Ontology stream configuration.
+ * @param ontology The ontology.
+ * @return Return code.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig config,
+                                      CowlOntology *ontology);
+
+/**
  * Writes the ontology to the file at the specified path.
  *
  * @param manager The manager.
