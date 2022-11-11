@@ -20,7 +20,7 @@ is used in a number of ways:
 
 - **At compile-time:** readers included in the compiled library can be selected
   by setting the ``COWL_READERS`` CMake variable. Built-in readers are exposed through
-  ``cowl_reader_get_*()`` functions.
+  ``cowl_reader_*()`` functions.
 - **At run-time, globally:** you can set the default reader by calling :func:`cowl_set_reader()`.
 - **At run-time, locally:** you can specify which reader you want :class:`CowlManager` to use
   via :func:`CowlManager::cowl_manager_set_reader()`.
@@ -80,7 +80,7 @@ Similarly to reading, Cowl can write ontologies to files, buffers or custom outp
 
 - **At compile-time:** writers included in the compiled library can be selected
   by setting the ``COWL_WRITERS`` CMake variable. Built-in writers are exposed through
-  ``cowl_writer_get_*()`` functions.
+  ``cowl_writer_*()`` functions.
 - **At run-time, globally:** you can set the default writer by calling :func:`cowl_set_writer()`.
 - **At run-time, locally:** you can specify which writer you want :class:`CowlManager` to use
   via :func:`CowlManager::cowl_manager_set_writer()`.
