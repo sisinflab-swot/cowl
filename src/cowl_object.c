@@ -419,7 +419,7 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
     #define GEN_ITER_AXIOM(UC, LC) \
         return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, flags, iter)
     #define GEN_ITER_PRIMITIVE(TYPE) \
-        return uflags_is_set(COWL_PF, flags, COWL_PF_##TYPE) ? cowl_iterate(iter, object) : true
+        return ubit_is_set(COWL_PF, flags, COWL_PF_##TYPE) ? cowl_iterate(iter, object) : true
 
     switch (cowl_get_type(object)) {
         case COWL_OT_VECTOR: GEN_ITER(Vector, vector);

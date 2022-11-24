@@ -39,30 +39,26 @@ COWL_BEGIN_DECLS
 #define COWL_OBJECT_FLAGS_TYPE_SIZE 7
 #define COWL_OBJECT_FLAGS_REF_SIZE (COWL_OBJECT_FLAGS_SIZE - COWL_OBJECT_FLAGS_TYPE_SIZE - 1)
 
-typedef UFlags(COWL_OBJECT_FLAGS_SIZE) CowlObjectFlags;
+#define COWL_OF COWL_OBJECT_FLAGS_SIZE
+typedef UBit(COWL_OF) CowlObjectFlags;
 
-#define COWL_OBJECT_FLAGS_ONE ((CowlObjectFlags)1)
-#define COWL_OBJECT_FLAGS_ZERO ((CowlObjectFlags)0)
-#define COWL_OBJECT_FLAGS_ALL ((CowlObjectFlags)-1)
+#define COWL_OBJECT_FLAGS_BIT_OFFSET COWL_OBJECT_FLAGS_REF_SIZE
+#define COWL_OBJECT_FLAGS_TYPE_OFFSET (COWL_OBJECT_FLAGS_BIT_OFFSET + 1)
 
-#define COWL_OBJECT_FLAGS_BIT_OFFSET ((CowlObjectFlags)COWL_OBJECT_FLAGS_REF_SIZE)
-#define COWL_OBJECT_FLAGS_TYPE_OFFSET (COWL_OBJECT_FLAGS_BIT_OFFSET + COWL_OBJECT_FLAGS_ONE)
-
-#define COWL_OBJECT_FLAGS_BIT_MASK (COWL_OBJECT_FLAGS_ONE << COWL_OBJECT_FLAGS_BIT_OFFSET)
-#define COWL_OBJECT_FLAGS_REF_MASK (COWL_OBJECT_FLAGS_BIT_MASK - COWL_OBJECT_FLAGS_ONE)
-#define COWL_OBJECT_FLAGS_BIT_TYPE_MASK (COWL_OBJECT_FLAGS_ALL & ~COWL_OBJECT_FLAGS_REF_MASK)
+#define COWL_OBJECT_FLAGS_BIT_MASK ubit_bit(COWL_OF, COWL_OBJECT_FLAGS_BIT_OFFSET)
+#define COWL_OBJECT_FLAGS_REF_MASK (COWL_OBJECT_FLAGS_BIT_MASK - 1)
+#define COWL_OBJECT_FLAGS_BIT_TYPE_MASK (ubit_all(COWL_OF) & ~COWL_OBJECT_FLAGS_REF_MASK)
 #define COWL_OBJECT_FLAGS_TYPE_MASK (COWL_OBJECT_FLAGS_BIT_TYPE_MASK & ~COWL_OBJECT_FLAGS_BIT_MASK)
 
 #define cowl_object_flags(TYPE, HAS_BIT) (                                                          \
-     ((CowlObjectFlags)(TYPE) << COWL_OBJECT_FLAGS_TYPE_OFFSET) |                                   \
-     ((HAS_BIT) ? COWL_OBJECT_FLAGS_BIT_MASK : COWL_OBJECT_FLAGS_ZERO) |                            \
-     COWL_OBJECT_FLAGS_ONE                                                                          \
+     ubit_lshift(COWL_OF, TYPE, COWL_OBJECT_FLAGS_TYPE_OFFSET) |                                    \
+     ((HAS_BIT) ? COWL_OBJECT_FLAGS_BIT_MASK : ubit_none(COWL_OF)) | 1                              \
 )
 
 #define cowl_object_flags_has_bit(FLAGS) \
-    uflags_is_set(COWL_OBJECT_FLAGS_SIZE, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
+    ubit_is_set(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
 #define cowl_object_flags_set_bit(FLAGS) \
-    uflags_set(COWL_OBJECT_FLAGS_SIZE, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
+    ((FLAGS) = ubit_set(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK))
 
 #define cowl_object_flags_get_type(FLAGS) \
     ((CowlObjectType)(((FLAGS) & COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))
