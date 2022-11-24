@@ -58,6 +58,16 @@ COWL_PUBLIC
 CowlAnonInd* cowl_anon_ind_from_string(UString string);
 
 /**
+ * Returns a retained anonymous individual given the static string representation of its identifier.
+ *
+ * @param CSTR [char const[]] Static string.
+ * @return [CowlAnonInd *] Retained anonymous individual, or NULL on error.
+ *
+ * @public @related CowlAnonInd
+ */
+#define cowl_anon_ind_from_static(CSTR) cowl_anon_ind_from_string(ustring_literal(CSTR))
+
+/**
  * Retains the specified anonymous individual.
  *
  * @param ind The anonymous individual.
