@@ -35,7 +35,7 @@ CowlString cowl_string_init(UString raw_string) {
     return init;
 }
 
-static CowlString* cowl_string_get_intern(UString raw_string) {
+CowlString* cowl_string_get_intern(UString raw_string) {
     if (!ustring_length(raw_string)) return cowl_string_empty();
 
     CowlString *string;

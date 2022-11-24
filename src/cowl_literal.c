@@ -38,6 +38,17 @@ CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
     return (CowlLiteral *)literal;
 }
 
+CowlLiteral* cowl_literal_from_string(UString dt, UString value, UString lang) {
+    CowlDatatype *cdt = cowl_datatype_from_string(dt);
+    CowlString *cvalue = cowl_string(ustring_dup(value));
+    CowlString *clang = cowl_string_get_intern(lang);
+    CowlLiteral *literal = cowl_literal(cdt, cvalue, clang);
+    cowl_datatype_release(cdt);
+    cowl_string_release(cvalue);
+    cowl_string_release(clang);
+    return literal;
+}
+
 CowlLiteral* cowl_literal_raw(CowlDatatype *dt, UString value, UString lang) {
     ulib_uint val_len = ustring_length(value), lang_len = ustring_length(lang);
     char const *val_str = ustring_data(value), *lang_str = ustring_data(lang);

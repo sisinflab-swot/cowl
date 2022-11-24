@@ -47,6 +47,32 @@ COWL_PUBLIC
 CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang);
 
 /**
+ * Returns a retained literal given the string representations of its components.
+ *
+ * @param dt [optional] The datatype.
+ * @param value The value.
+ * @param lang [optional] The language tag.
+ * @return Retained literal, or NULL on error.
+ *
+ * @public @memberof CowlLiteral
+ */
+COWL_PUBLIC
+CowlLiteral* cowl_literal_from_string(UString dt, UString value, UString lang);
+
+/**
+ * Returns a retained literal given the static string representations of its components.
+ *
+ * @param DT [char const[], optional] The datatype.
+ * @param VALUE [char const[]] The value.
+ * @param LANG [char const[], optional] The language tag.
+ * @return [CowlLiteral *] Retained literal, or NULL on error.
+ *
+ * @public @related CowlLiteral
+ */
+#define cowl_literal_from_static(DT, VALUE, LANG) \
+    cowl_literal_from_string(ustring_literal(DT), ustring_literal(VALUE), ustring_literal(LANG))
+
+/**
  * Retains the specified literal.
  *
  * @param literal The literal.

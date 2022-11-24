@@ -27,6 +27,7 @@ void cowl_string_api_deinit(void);
 
 CowlString cowl_string_init(UString raw_string);
 CowlString* cowl_string_intern(CowlString *string);
+CowlString* cowl_string_get_intern(UString raw_string);
 
 CowlString* cowl_string_copy(CowlString *string);
 cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString **out);
