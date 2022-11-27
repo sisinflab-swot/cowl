@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -29,6 +29,9 @@ typedef struct CowlRDFIRIVocab {
     /// rdf:langRange
     CowlIRI *lang_range;
 
+    /// rdf:langString
+    CowlIRI *lang_string;
+
     /// rdf:PlainLiteral
     CowlIRI *plain_literal;
 
@@ -39,6 +42,9 @@ typedef struct CowlRDFIRIVocab {
 
 /// Vocabulary of RDF datatypes.
 typedef struct CowlRDFDatatypeVocab {
+
+    /// rdf:langString
+    CowlDatatype *lang_string;
 
     /// rdf:PlainLiteral
     CowlDatatype *plain_literal;

@@ -14,7 +14,6 @@
 ulib_byte composite_fields[COWL_OT_COUNT] = {0};
 
 cowl_ret cowl_object_api_init(void) {
-    composite_fields[COWL_OT_LITERAL] = 2;
     composite_fields[COWL_OT_FACET_RESTR] = 2;
     composite_fields[COWL_OT_ANNOTATION] = 2;
     composite_fields[COWL_OT_A_DECL] = 1;
