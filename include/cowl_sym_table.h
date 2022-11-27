@@ -79,6 +79,19 @@ COWL_PUBLIC
 cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, CowlString *ns);
 
 /**
+ * Registers the specified prefix-namespace mapping.
+ *
+ * @param st The symbol table.
+ * @param prefix The prefix.
+ * @param ns The namespace.
+ * @return Return code.
+ *
+ * @public @memberof CowlSymTable
+ */
+COWL_PUBLIC
+cowl_ret cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns);
+
+/**
  * Retrieves the full IRI associated with the specified short IRI.
  *
  * @param st The symbol table.

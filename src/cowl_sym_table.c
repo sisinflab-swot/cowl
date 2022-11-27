@@ -75,6 +75,34 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
     return COWL_OK;
 }
 
+cowl_ret cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns) {
+    CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, false);
+    if (!table) return COWL_ERR_MEM;
+
+    CowlString key = cowl_string_init(prefix);
+
+    ulib_uint i;
+    uhash_ret ret = uhash_put(CowlObjectTable, &table->data, &key, &i);
+
+    if (ret == UHASH_PRESENT) return COWL_OK;
+    if (ret == UHASH_ERR) return COWL_ERR_MEM;
+
+    CowlString *prefix_str = cowl_string(ustring_dup(prefix));
+    CowlString *ns_str = cowl_string_get_intern(ns);
+
+    if (!(prefix_str && ns_str)) {
+        cowl_string_release(prefix_str);
+        cowl_string_release(ns_str);
+        uhash_delete(CowlObjectTable, &table->data, i);
+        return COWL_ERR_MEM;
+    }
+
+    uhash_key(CowlObjectTable, &table->data, i) = prefix_str;
+    uhash_value(CowlObjectTable, &table->data, i) = ns_str;
+
+    return COWL_OK;
+}
+
 CowlIRI* cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) {
     CowlString ns_local = cowl_string_init(ns);
     CowlString *ns_str = cowl_sym_table_get_ns(st, &ns_local);

@@ -262,15 +262,8 @@ prefix_declarations
 
 prefix_declaration
     : PREFIX L_PAREN PNAME_NS EQUALS IRI_REF R_PAREN {
-        CowlString *prefix = cowl_string(ustring_dup($3));
-        CowlString *ns = cowl_string(ustring_dup($5));
-        if (!(prefix && ns)) COWL_ERROR_MEM;
-
         CowlSymTable *st = cowl_stream_get_sym_table(stream);
-        cowl_ret ret = cowl_sym_table_register_prefix(st, prefix, ns);
-        cowl_string_release(prefix);
-        cowl_string_release(ns);
-
+        cowl_ret ret = cowl_sym_table_register_prefix_raw(st, $3, $5);
         if (ret) COWL_ERROR(ret);
     }
 ;
