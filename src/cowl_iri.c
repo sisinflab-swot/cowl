@@ -107,7 +107,7 @@ CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix) {
                 return NULL;
             }
 
-            prefix = cowl_string(ustring_copy(p_cstr, p_ns_len));
+            prefix = cowl_string_get_intern(ustring_wrap(p_cstr, p_ns_len));
             suffix = cowl_string(ustrbuf_to_ustring(&buf));
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
