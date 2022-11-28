@@ -221,6 +221,20 @@ bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter, bool 
     return true;
 }
 
+bool cowl_ontology_iterate_import_iris(CowlOntology *onto, CowlIterator *iter, bool imports) {
+    cowl_table_foreach(onto->imports, import) {
+        if (!cowl_iterate(iter, *import.key)) return false;
+    }
+
+    if (imports) {
+        cowl_ontology_foreach_import(onto, import, {
+            if (!cowl_ontology_iterate_import_iris(import, iter, true)) return false;
+        });
+    }
+
+    return true;
+}
+
 bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter, bool imports) {
     for (CowlAxiomType type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
         cowl_vector_foreach(onto->axioms_by_type[type], axiom) {

@@ -368,6 +368,19 @@ COWL_PUBLIC
 bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter, bool imports);
 
 /**
+ * Iterates over the import IRIs.
+ *
+ * @param onto The ontology.
+ * @param iter The iterator.
+ * @param imports If true, the query recurses over imported ontologies.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+bool cowl_ontology_iterate_import_iris(CowlOntology *onto, CowlIterator *iter, bool imports);
+
+/**
  * Iterates over the axioms in the ontology.
  *
  * @param onto The ontology.

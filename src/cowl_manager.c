@@ -189,10 +189,9 @@ cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig confi
     return stream_stream(manager, cowl_stream(manager, config), istream);
 }
 
-static bool onto_stream_handle_import(void *ctx, CowlAny *import) {
+static bool onto_stream_handle_import(void *ctx, CowlAny *import_iri) {
     void **c = ctx;
-    CowlIRI *iri = cowl_ontology_get_import_iri(c[1], import);
-    return !iri || (*((cowl_ret *)c[0]) = cowl_stream_push_import(c[2], iri)) == COWL_OK;
+    return (*((cowl_ret *)c[0]) = cowl_stream_push_import(c[1], import_iri)) == COWL_OK;
 }
 
 static bool onto_stream_handle_axiom(void *ctx, CowlAny *axiom) {
@@ -221,9 +220,9 @@ cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig con
     }
 
     if (config.handle_import) {
-        void *ctx[] = { &ret, ontology, stream };
+        void *ctx[] = { &ret, stream };
         CowlIterator iter = { ctx, onto_stream_handle_import };
-        if (!cowl_ontology_iterate_imports(ontology, &iter, false)) goto end;
+        if (!cowl_ontology_iterate_import_iris(ontology, &iter, false)) goto end;
     }
 
     if (config.handle_axiom) {

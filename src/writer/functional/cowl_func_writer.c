@@ -12,7 +12,6 @@
 #include "cowl_anon_ind.h"
 #include "cowl_datatype.h"
 #include "cowl_decl_axiom.h"
-#include "cowl_error_handler.h"
 #include "cowl_has_key_axiom.h"
 #include "cowl_iri.h"
 #include "cowl_literal.h"
@@ -280,32 +279,9 @@ static ustream_ret cowl_func_write_import(UOStream *s, CowlIRI *iri) {
     return s->state;
 }
 
-static bool imports_writer(void *ctx, void *import) {
-    void **array = ctx;
-    UOStream *s = array[0];
-    CowlOntology *onto = array[1];
-    CowlIRI *iri = cowl_ontology_get_import_iri(onto, import);
-
-    if (!iri) {
-        iri = cowl_ontology_get_id(import).iri;
-        CowlString *iri_str = cowl_iri_to_string(iri);
-
-        UString comp[] = {
-            ustring_literal("No import IRI for ontology \""),
-            *cowl_string_get_raw(iri_str),
-            ustring_literal("\"")
-        };
-
-        UString desc = ustring_join(comp, ulib_array_count(comp), ustring_empty);
-        cowl_handle_error(COWL_ERR_IMPORT, desc, import);
-
-        cowl_string_release(iri_str);
-        ustring_deinit(&desc);
-
-        return false;
-    }
-
-    cowl_func_write_import(s, iri);
+static bool imports_writer(void *ctx, void *import_iri) {
+    UOStream *s = ctx;
+    cowl_func_write_import(s, import_iri);
     cowl_write_static(s, "\n");
     return s->state == USTREAM_OK;
 }
@@ -357,9 +333,8 @@ static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto) {
     cowl_func_write_onto_id(s, &id);
     cowl_write_static(s, "\n");
 
-    void *ctx[] = { s, onto };
-    CowlIterator iter = { ctx, imports_writer };
-    if (!cowl_ontology_iterate_imports(onto, &iter, false)) {
+    CowlIterator iter = { s, imports_writer };
+    if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) {
         return s->state ? s->state : USTREAM_ERR;
     }
 
@@ -368,7 +343,8 @@ static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto) {
         cowl_write_static(s, "\n");
     }
 
-    ctx[1] = st;
+    void *ctx[] = { s, st };
+    iter.ctx = ctx;
     iter.for_each = axiom_writer;
     cowl_ontology_iterate_axioms(onto, &iter, false);
 
