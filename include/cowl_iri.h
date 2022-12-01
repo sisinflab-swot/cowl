@@ -121,8 +121,7 @@ CowlString* cowl_iri_get_rem(CowlIRI *iri);
  */
 COWL_INLINE
 bool cowl_iri_has_rem(CowlIRI *iri) {
-    CowlString *rem = cowl_iri_get_rem(iri);
-    return rem && cowl_string_get_length(rem) > 0;
+    return cowl_string_get_length(cowl_iri_get_rem(iri)) > 0;
 }
 
 /**
