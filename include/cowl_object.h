@@ -138,6 +138,17 @@ COWL_PUBLIC
 bool cowl_is_data_range(CowlAny *object);
 
 /**
+ * If the object is an entity, returns its IRI, otherwise returns NULL.
+ *
+ * @param object The object.
+ * @return IRI or NULL.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+CowlIRI* cowl_get_iri(CowlAny *object);
+
+/**
  * Returns the string representation of the specified object.
  *
  * @param object The object.
@@ -177,6 +188,18 @@ CowlString* cowl_to_debug_string(CowlAny *object);
  */
 COWL_PUBLIC
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs);
+
+/**
+ * Checks if the object is an entity and its IRI matches the specified string.
+ *
+ * @param object The object.
+ * @param iri_str IRI string.
+ * @return True if the object is an entity and its IRI matches the string, false otherwise.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+bool cowl_equals_iri_string(CowlAny *object, UString iri_str);
 
 /**
  * Hash function.

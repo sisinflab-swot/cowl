@@ -213,6 +213,10 @@ bool cowl_is_data_range(CowlAny *object) {
     return type >= COWL_OT_FIRST_DR && type <= COWL_OT_LAST_DR;
 }
 
+CowlIRI* cowl_get_iri(CowlAny *object) {
+    return cowl_is_entity(object) ? cowl_entity_get_iri(object) : NULL;
+}
+
 static cowl_ret cowl_write_debug_impl(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
@@ -326,6 +330,18 @@ bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
         case COWL_OT_OPE_INV_OBJ_PROP: GEN_EQUALS(InvObjProp, inv_obj_prop);
         default: return lhs == rhs;
     }
+}
+
+bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
+    CowlIRI *iri = cowl_get_iri(object);
+    if (!iri) return false;
+
+    CowlString *ns = cowl_iri_get_ns(iri), *rem = cowl_iri_get_rem(iri);
+    ulib_uint ns_len = cowl_string_get_length(ns), rem_len = cowl_string_get_length(rem);
+
+    if (ustring_length(iri_str) != ns_len + rem_len) return false;
+    if (!ustring_ends_with(iri_str, *cowl_string_get_raw(rem))) return false;
+    return ustring_starts_with(iri_str, *cowl_string_get_raw(ns));
 }
 
 ulib_uint cowl_hash(CowlAny *object) {
