@@ -56,7 +56,7 @@ static cowl_ret store_annot(void *ctx, CowlAnnotation *annot) {
     return cowl_ontology_add_annot(ctx, annot);
 }
 
-static cowl_ret store_axiom(void *ctx, CowlAxiom *axiom) {
+static cowl_ret store_axiom(void *ctx, CowlAnyAxiom *axiom) {
     return cowl_ontology_add_axiom(ctx, axiom);
 }
 

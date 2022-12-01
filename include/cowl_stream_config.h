@@ -70,7 +70,7 @@ typedef struct CowlStreamConfig {
      * @param axiom The axiom.
      * @return Return code.
      */
-    cowl_ret (*handle_axiom)(void *ctx, CowlAxiom *axiom);
+    cowl_ret (*handle_axiom)(void *ctx, CowlAnyAxiom *axiom);
 
 } CowlStreamConfig;
 

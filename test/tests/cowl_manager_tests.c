@@ -51,7 +51,7 @@ static cowl_ret count_import(void *ctx, cowl_unused CowlIRI *import) {
     return COWL_OK;
 }
 
-static cowl_ret count_axiom(void *ctx, cowl_unused CowlAxiom *obj) {
+static cowl_ret count_axiom(void *ctx, cowl_unused CowlAnyAxiom *obj) {
     (*((ulib_uint *)ctx))++;
     return COWL_OK;
 }
