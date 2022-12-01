@@ -15,6 +15,7 @@
 #include "cowl_ontology.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_string.h"
+#include "cowl_sym_table.h"
 #include "cowl_table.h"
 #include "cowl_test_utils.h"
 #include "cowl_vector.h"
@@ -104,6 +105,12 @@ bool cowl_test_manager_write_ontology(void) {
 
     CowlOntology *onto_in = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_not_null(onto_in);
+
+    CowlSymTable *st = cowl_ontology_get_sym_table(onto_in);
+    cowl_sym_table_register_prefix_raw(st, ustring_literal("dc"),
+                                       ustring_literal("http://purl.org/dc/elements/1.1/"));
+    cowl_sym_table_register_prefix_raw(st, ustring_literal("dcterms"),
+                                       ustring_literal("http://purl.org/dc/terms/"));
 
     cowl_ret ret = cowl_manager_write_path(manager, onto_in, ustring_literal(COWL_ONTOLOGY_OUT));
     utest_assert_uint(ret, ==, COWL_OK);
