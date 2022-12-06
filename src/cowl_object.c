@@ -222,17 +222,19 @@ static cowl_ret cowl_write_debug_impl(UOStream *stream, CowlAny *object) {
 }
 
 static CowlString* cowl_to_string_impl(CowlAny *object, cowl_ret (*fun)(UOStream *, CowlAny *)) {
-    CowlString *string = NULL;
     UOStream stream;
     UStrBuf buf = ustrbuf();
-    if (uostream_to_strbuf(&stream, &buf) == USTREAM_OK) {
-        if (fun(&stream, object) == COWL_OK) {
-            string = cowl_string(ustrbuf_to_ustring(&buf));
-        }
-        uostream_deinit(&stream);
-    }
-    ustrbuf_deinit(&buf);
+    if (uostream_to_strbuf(&stream, &buf) ||
+        fun(&stream, object)) goto err;
+
+    CowlString *string = cowl_string(ustrbuf_to_ustring(&buf));
+    uostream_deinit(&stream);
     return string;
+
+err:
+    uostream_deinit(&stream);
+    ustrbuf_deinit(&buf);
+    return NULL;
 }
 
 CowlString* cowl_to_string(CowlAny *object) {

@@ -7,8 +7,10 @@ on:
 env:
   build_dir: build
   build_config: Release
-  cflags_gnuc: -Werror
+  cflags_gnuc: -Werror -fsanitize=address
+  lflags_gnuc: -fsanitize=address
   cflags_msvc: /WX
+  lflags_msvc:
   test_target: cowl-test
   cpp_test_target: cowl-cpp-test
   bench_target: cowl-bench
@@ -27,79 +29,83 @@ jobs:
         lib_type: [STATIC, SHARED]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        submodules: recursive
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
-    - name: Configure runner
-      run: |
-        if [ $RUNNER_OS == 'Windows' ]; then
-          echo 'cflags="${{env.cflags_msvc}}"' >> $GITHUB_ENV
-          choco install winflexbison3
-        else
-          echo 'cflags="${{env.cflags_gnuc}}"' >> $GITHUB_ENV
-          if [ $RUNNER_OS == 'macOS' ]; then
-            brew install flex bison
-            echo '/usr/local/opt/bison/bin' >> $GITHUB_PATH
-            echo '/usr/local/opt/flex/bin' >> $GITHUB_PATH
+      - name: Configure runner
+        run: |
+          if [ $RUNNER_OS == 'Windows' ]; then
+            echo 'cflags="${{env.cflags_msvc}}"' >> $GITHUB_ENV
+            echo 'lflags="${{env.lflags_msvc}}"' >> $GITHUB_ENV
+            choco install winflexbison3
+          else
+            echo 'cflags="${{env.cflags_gnuc}}"' >> $GITHUB_ENV
+            echo 'lflags="${{env.lflags_gnuc}}"' >> $GITHUB_ENV
+            if [ $RUNNER_OS == 'macOS' ]; then
+              brew install flex bison
+              echo '/usr/local/opt/bison/bin' >> $GITHUB_PATH
+              echo '/usr/local/opt/flex/bin' >> $GITHUB_PATH
+            fi
           fi
-        fi
-      shell: bash
+        shell: bash
 
-    - name: Configure CMake
-      run: >
-        cmake -B ${{env.build_dir}}
-        -DULIB_LEAKS=ON
-        -DULIB_LIBRARY_TYPE=${{matrix.lib_type}}
-        -DCOWL_LIBRARY_TYPE=${{matrix.lib_type}}
-        -DCMAKE_SYSTEM_VERSION=''
-        -DCMAKE_BUILD_TYPE=${{env.build_config}}
-        -DCMAKE_C_FLAGS=${{env.cflags}}
-        -DCMAKE_CXX_FLAGS=${{env.cflags}}
+      - name: Configure CMake
+        run: >
+          cmake -B ${{env.build_dir}}
+          -DULIB_LEAKS=ON
+          -DULIB_LIBRARY_TYPE=${{matrix.lib_type}}
+          -DCOWL_LIBRARY_TYPE=${{matrix.lib_type}}
+          -DCMAKE_SYSTEM_VERSION=''
+          -DCMAKE_BUILD_TYPE=${{env.build_config}}
+          -DCMAKE_C_FLAGS=${{env.cflags}}
+          -DCMAKE_CXX_FLAGS=${{env.cflags}}
+          -DCMAKE_SHARED_LINKER_FLAGS=${{env.lflags}}
+          -DCMAKE_EXE_LINKER_FLAGS=${{env.lflags}}
 
-    - name: Build
-      run: >
-        cmake --build ${{env.build_dir}}
-        --config ${{env.build_config}}
-        --target ${{env.test_target}} ${{env.cpp_test_target}}
-        ${{env.bench_target}} ${{env.examples_target}}
+      - name: Build
+        run: >
+          cmake --build ${{env.build_dir}}
+          --config ${{env.build_config}}
+          --target ${{env.test_target}} ${{env.cpp_test_target}}
+          ${{env.bench_target}} ${{env.examples_target}}
 
-    - name: Configure tests
-      working-directory: ${{env.build_dir}}
-      if: matrix.os == 'windows-latest'
-      run: |
-        mv test/${{env.build_config}}/*.exe test
-        mv examples/${{env.build_config}}/*.exe examples
-        if [ ${{matrix.lib_type}} == 'SHARED' ]; then
-          find . -name '*.dll' -exec cp -t test {} + -exec cp -t examples {} +
-        fi
-      shell: bash
+      - name: Configure tests
+        working-directory: ${{env.build_dir}}
+        if: matrix.os == 'windows-latest'
+        run: |
+          mv test/${{env.build_config}}/*.exe test
+          mv examples/${{env.build_config}}/*.exe examples
+          if [ ${{matrix.lib_type}} == 'SHARED' ]; then
+            find . -name '*.dll' -exec cp -t test {} + -exec cp -t examples {} +
+          fi
+        shell: bash
 
-    - name: Run examples
-      working-directory: ${{env.build_dir}}/examples
-      run: |
-        if [ $RUNNER_OS == 'Windows' ]; then
-          EXAMPLES=(./*-example.exe)
-        else
-          EXAMPLES=(./*-example)
-        fi
-        for EXAMPLE in "${EXAMPLES[@]}"; do
-          "${EXAMPLE}"
-        done
-      shell: bash
+      - name: Run examples
+        working-directory: ${{env.build_dir}}/examples
+        run: |
+          if [ $RUNNER_OS == 'Windows' ]; then
+            EXAMPLES=(./*-example.exe)
+          else
+            EXAMPLES=(./*-example)
+          fi
+          for EXAMPLE in "${EXAMPLES[@]}"; do
+            "${EXAMPLE}"
+          done
+        shell: bash
 
-    - name: Run benchmark
-      working-directory: ${{env.build_dir}}/test
-      run: ./${{env.bench_target}}
+      - name: Run benchmark
+        working-directory: ${{env.build_dir}}/test
+        run: ./${{env.bench_target}}
 
-    - name: Run tests
-      working-directory: ${{env.build_dir}}/test
-      run: ./${{env.test_target}}
+      - name: Run tests
+        working-directory: ${{env.build_dir}}/test
+        run: ./${{env.test_target}}
 
-    - name: Run tests (C++)
-      working-directory: ${{env.build_dir}}/test
-      run: ./${{env.cpp_test_target}}
+      - name: Run tests (C++)
+        working-directory: ${{env.build_dir}}/test
+        run: ./${{env.cpp_test_target}}
 
   docs:
     name: Generate the documentation
