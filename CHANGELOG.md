@@ -5,6 +5,22 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2022-12-07
+### Added
+- `cowl_get_iri`, `cowl_equals_iri_string`.
+- `cowl_manager_stream_ontology`.
+- `cowl_anon_ind_from_static`.
+- `cowl_literal_from_string`, `cowl_literal_from_static`.
+- `cowl_sym_table_register_prefix_raw`.
+
+### Changed
+- Updated to RDF 1.1 literals.
+- Slightly optimized `CowlIRI` constructor.
+- Signature of `handle_axiom` field of `CowlStreamConfig`.
+
+### Fixed
+- Serialization of ontology import IRIs.
+
 ## [0.6.0] - 2022-11-06
 ### Added
 - Ontology stream parsing (`CowlStream`, `CowlStreamConfig`).
@@ -271,6 +287,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.6.1]: https://github.com/sisinflab-swot/cowl/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/sisinflab-swot/cowl/compare/v0.5.3...v0.6.0
 [0.5.3]: https://github.com/sisinflab-swot/cowl/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/sisinflab-swot/cowl/compare/v0.5.1...v0.5.2
