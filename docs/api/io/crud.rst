@@ -64,8 +64,8 @@ as allowed by the :class:`CowlOntology` API. They can also be created from scrat
 :func:`CowlManager::cowl_manager_get_ontology()` and specifying a unique :class:`CowlOntologyId`
 or a ``NULL`` one (in which case an anonymous ontology is created).
 
-Access to syntactical details that are not relevant to logic, such as XML prefixes,
-import IRIs and anonymous individual identifiers is provided by a :class:`CowlSymTable` instance
+Access to syntactical details that are not relevant to logic, such as the mapping
+between prefixed and full IRIs, is provided by a :class:`CowlSymTable` instance
 retrievable by calling :func:`CowlOntology::cowl_ontology_get_sym_table()`.
 
 .. doxygenstruct:: CowlSymTable
