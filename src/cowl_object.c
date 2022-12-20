@@ -576,6 +576,7 @@ bool cowl_equals_impl(CowlAny *lhs, CowlAny *rhs) {
 
     CowlAny *lhs_opt = cowl_get_opt_field(lhs), *rhs_opt = cowl_get_opt_field(rhs);
     if (lhs_opt == rhs_opt) return true;
+    if (!(lhs_opt && rhs_opt)) return false;
 
     return cowl_equals(lhs_opt, rhs_opt);
 }
