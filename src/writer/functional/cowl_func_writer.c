@@ -15,6 +15,7 @@
 #include "cowl_has_key_axiom.h"
 #include "cowl_iri.h"
 #include "cowl_literal.h"
+#include "cowl_obj_quant.h"
 #include "cowl_object_private.h"
 #include "cowl_ontology.h"
 #include "cowl_rdf_vocab.h"
@@ -212,6 +213,16 @@ static ustream_ret cowl_func_write_declaration(UOStream *s, CowlDeclAxiom *decl,
     return s->state;
 }
 
+static ustream_ret cowl_func_write_obj_quant(UOStream *s, CowlObjQuant *restr, CowlSymTable *st) {
+    cowl_write_object_type(s, cowl_get_type(restr));
+    cowl_write_static(s, "(");
+    cowl_func_write_obj(s, cowl_obj_quant_get_prop(restr), st);
+    cowl_write_static(s, " ");
+    cowl_func_write_obj(s, cowl_obj_quant_get_filler(restr), st);
+    cowl_write_static(s, ")");
+    return s->state;
+}
+
 static ustream_ret cowl_func_write_sub_obj_prop(UOStream *s, CowlSubObjPropAxiom *axiom,
                                                 CowlSymTable *st) {
     cowl_write_object_type(s, COWL_OT_A_SUB_OBJ_PROP);
@@ -375,6 +386,8 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         case COWL_OT_A_DECL: return cowl_func_write_declaration(s, obj, st);
         case COWL_OT_A_SUB_OBJ_PROP: return cowl_func_write_sub_obj_prop(s, obj, st);
         case COWL_OT_A_HAS_KEY: return cowl_func_write_has_key(s, obj, st);
+        case COWL_OT_CE_OBJ_SOME:
+        case COWL_OT_CE_OBJ_ALL: return cowl_func_write_obj_quant(s, obj, st);
         case COWL_OT_CE_OBJ_MIN_CARD:
         case COWL_OT_CE_OBJ_MAX_CARD:
         case COWL_OT_CE_OBJ_EXACT_CARD:

@@ -33,7 +33,7 @@
 static CowlOntology *onto = NULL;
 
 static ulib_uint const test_onto_imports_count = 1;
-static ulib_uint const test_onto_axiom_count = 566;
+static ulib_uint const test_onto_axiom_count = 568;
 
 static ulib_uint const test_primitives_count[] = { 105, 47, 72, 27, 18, 1, 45 };
 static ulib_uint const test_primitive_axiom_count[] = { 15, 4, 4, 2, 2, 1, 2 };
@@ -43,7 +43,7 @@ static ulib_uint* test_onto_axiom_counts(void) {
 
     counts[COWL_AT_DECL] = 263;
     counts[COWL_AT_DATATYPE_DEF] = 2;
-    counts[COWL_AT_SUB_CLASS] = 33;
+    counts[COWL_AT_SUB_CLASS] = 35;
     counts[COWL_AT_EQUIV_CLASSES] = 4;
     counts[COWL_AT_DISJ_CLASSES] = 4;
     counts[COWL_AT_DISJ_UNION] = 1;

@@ -19,6 +19,16 @@ Declaration(NamedIndividual(:IndividualB))
 
 
 ############################
+#   Classes
+############################
+
+# Class: :ClassA (:ClassA)
+
+SubClassOf(:ClassA ObjectAllValuesFrom(:ObjectPropertyA owl:Thing))
+SubClassOf(:ClassA ObjectSomeValuesFrom(:ObjectPropertyA owl:Thing))
+
+
+############################
 #   Named Individuals
 ############################
 
