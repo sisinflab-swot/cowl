@@ -132,5 +132,5 @@ bool cowl_vector_remove(CowlVector *vec, CowlAny *object) {
 }
 
 cowl_ret cowl_vector_shrink(CowlVector *vec) {
-    return vec && uvec_shrink(CowlObjectPtr, &vec->data) ? COWL_ERR_MEM : COWL_OK;
+    return uvec_shrink(CowlObjectPtr, &vec->data) ? COWL_ERR_MEM : COWL_OK;
 }
