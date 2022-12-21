@@ -44,13 +44,9 @@ cowl_struct_decl(CowlDataQuant);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_INLINE
+COWL_PUBLIC
 CowlDataQuant* cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop,
-                               CowlAnyDataRange *range) {
-    if (!cowl_enum_value_is_valid(QT, type)) return NULL;
-    CowlObjectType t = (CowlObjectType)(COWL_OT_CE_DATA_SOME + (CowlObjectType)type);
-    return (CowlDataQuant *)cowl_get_impl_2(t, prop, range);
-}
+                               CowlAnyDataRange *range);
 
 /**
  * Retains the specified data quantifier.
@@ -111,10 +107,8 @@ CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
  *
  * @public @memberof CowlDataQuant
  */
-COWL_INLINE
-CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr) {
-    return (CowlDataRange *)cowl_get_field(restr, 1);
-}
+COWL_PUBLIC
+CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr);
 
 /**
  * Returns the string representation of the specified data quantifier.

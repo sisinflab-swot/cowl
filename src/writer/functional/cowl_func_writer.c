@@ -10,6 +10,7 @@
 
 #include "cowl_writer.h"
 #include "cowl_anon_ind.h"
+#include "cowl_data_quant.h"
 #include "cowl_datatype.h"
 #include "cowl_decl_axiom.h"
 #include "cowl_has_key_axiom.h"
@@ -223,6 +224,16 @@ static ustream_ret cowl_func_write_obj_quant(UOStream *s, CowlObjQuant *restr, C
     return s->state;
 }
 
+static ustream_ret cowl_func_write_data_quant(UOStream *s, CowlDataQuant *restr, CowlSymTable *st) {
+    cowl_write_object_type(s, cowl_get_type(restr));
+    cowl_write_static(s, "(");
+    cowl_func_write_obj(s, cowl_data_quant_get_prop(restr), st);
+    cowl_write_static(s, " ");
+    cowl_func_write_obj(s, cowl_data_quant_get_range(restr), st);
+    cowl_write_static(s, ")");
+    return s->state;
+}
+
 static ustream_ret cowl_func_write_sub_obj_prop(UOStream *s, CowlSubObjPropAxiom *axiom,
                                                 CowlSymTable *st) {
     cowl_write_object_type(s, COWL_OT_A_SUB_OBJ_PROP);
@@ -375,7 +386,8 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         case COWL_OT_LITERAL: return cowl_func_write_literal(s, obj, st);
         case COWL_OT_FACET_RESTR: return cowl_func_write_facet_restr(s, obj, st);
         case COWL_OT_ONTOLOGY: return cowl_func_write_onto(s, obj);
-        case COWL_OT_MANAGER: return cowl_write_debug(s, obj);
+        case COWL_OT_MANAGER:
+        case COWL_OT_STREAM: return cowl_write_debug(s, obj);
         case COWL_OT_ANNOTATION: return cowl_func_write_annot_construct(s, obj, st);
         case COWL_OT_ANNOT_PROP:
         case COWL_OT_CE_CLASS:
@@ -389,6 +401,8 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         case COWL_OT_A_HAS_KEY: return cowl_func_write_has_key(s, obj, st);
         case COWL_OT_CE_OBJ_SOME:
         case COWL_OT_CE_OBJ_ALL: return cowl_func_write_obj_quant(s, obj, st);
+        case COWL_OT_CE_DATA_SOME:
+        case COWL_OT_CE_DATA_ALL: return cowl_func_write_data_quant(s, obj, st);
         case COWL_OT_CE_OBJ_MIN_CARD:
         case COWL_OT_CE_OBJ_MAX_CARD:
         case COWL_OT_CE_OBJ_EXACT_CARD:

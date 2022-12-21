@@ -60,8 +60,8 @@ cowl_ret cowl_object_api_init(void) {
     composite_fields[COWL_OT_CE_OBJ_EXACT_CARD] = 1;
     composite_fields[COWL_OT_CE_OBJ_HAS_VALUE] = 2;
     composite_fields[COWL_OT_CE_OBJ_HAS_SELF] = 1;
-    composite_fields[COWL_OT_CE_DATA_SOME] = 2;
-    composite_fields[COWL_OT_CE_DATA_ALL] = 2;
+    composite_fields[COWL_OT_CE_DATA_SOME] = 1;
+    composite_fields[COWL_OT_CE_DATA_ALL] = 1;
     composite_fields[COWL_OT_CE_DATA_MIN_CARD] = 1;
     composite_fields[COWL_OT_CE_DATA_MAX_CARD] = 1;
     composite_fields[COWL_OT_CE_DATA_EXACT_CARD] = 1;
