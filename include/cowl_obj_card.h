@@ -47,13 +47,9 @@ cowl_struct_decl(CowlObjCard);
  *
  * @public @memberof CowlObjCard
  */
-COWL_INLINE
+COWL_PUBLIC
 CowlObjCard* cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop,
-                           CowlAnyClsExp *filler, ulib_uint cardinality) {
-    if (!cowl_enum_value_is_valid(CT, type)) return NULL;
-    CowlObjectType t = (CowlObjectType)(COWL_OT_CE_OBJ_MIN_CARD + (CowlObjectType)type);
-    return (CowlObjCard *)cowl_get_impl_1_uint_opt(t, prop, cardinality, filler);
-}
+                           CowlAnyClsExp *filler, ulib_uint cardinality);
 
 /**
  * Retains the specified object property cardinality restriction.
@@ -114,10 +110,8 @@ CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) {
  *
  * @public @memberof CowlObjCard
  */
-COWL_INLINE
-CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr) {
-    return (CowlClsExp *)cowl_get_opt_field(restr);
-}
+COWL_PUBLIC
+CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr);
 
 /**
  * Gets the cardinality of the restriction.

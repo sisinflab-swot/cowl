@@ -47,13 +47,9 @@ cowl_struct_decl(CowlDataCard);
  *
  * @public @memberof CowlDataCard
  */
-COWL_INLINE
+COWL_PUBLIC
 CowlDataCard* cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop,
-                             CowlAnyDataRange *range, ulib_uint cardinality) {
-    if (!cowl_enum_value_is_valid(CT, type)) return NULL;
-    CowlObjectType t = (CowlObjectType)(COWL_OT_CE_DATA_MIN_CARD + (CowlObjectType)type);
-    return (CowlDataCard *)cowl_get_impl_1_uint_opt(t, prop, cardinality, range);
-}
+                             CowlAnyDataRange *range, ulib_uint cardinality);
 
 /**
  * Retains the specified data property cardinality restriction.
@@ -114,10 +110,8 @@ CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {
  *
  * @public @memberof CowlDataCard
  */
-COWL_INLINE
-CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr) {
-    return (CowlDataRange *)cowl_get_opt_field(restr);
-}
+COWL_PUBLIC
+CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr);
 
 /**
  * Gets the cardinality of the restriction.
