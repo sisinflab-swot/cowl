@@ -45,8 +45,8 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
 COWL_INLINE
 CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotProp *super,
                                                  CowlVector *annot) {
-    return (CowlSubAnnotPropAxiom *)cowl_get_impl_2_opt(COWL_OT_A_SUB_ANNOT_PROP,
-                                                        sub, super, annot);
+    return (CowlSubAnnotPropAxiom *)cowl_get_impl_2_annot(COWL_OT_A_SUB_ANNOT_PROP,
+                                                          sub, super, annot);
 }
 
 /**

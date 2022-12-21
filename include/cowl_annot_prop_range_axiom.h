@@ -45,8 +45,8 @@ cowl_struct_decl(CowlAnnotPropRangeAxiom);
 COWL_INLINE
 CowlAnnotPropRangeAxiom* cowl_annot_prop_range_axiom(CowlAnnotProp *prop, CowlIRI *range,
                                                      CowlVector *annot) {
-    return (CowlAnnotPropRangeAxiom *)cowl_get_impl_2_opt(COWL_OT_A_ANNOT_PROP_RANGE,
-                                                          prop, range, annot);
+    return (CowlAnnotPropRangeAxiom *)cowl_get_impl_2_annot(COWL_OT_A_ANNOT_PROP_RANGE,
+                                                            prop, range, annot);
 }
 
 /**

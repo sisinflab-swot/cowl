@@ -44,7 +44,7 @@ cowl_struct_decl(CowlSubClsAxiom);
  */
 COWL_INLINE
 CowlSubClsAxiom* cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, CowlVector *annot) {
-    return (CowlSubClsAxiom *)cowl_get_impl_2_opt(COWL_OT_A_SUB_CLASS, sub, super, annot);
+    return (CowlSubClsAxiom *)cowl_get_impl_2_annot(COWL_OT_A_SUB_CLASS, sub, super, annot);
 }
 
 /**

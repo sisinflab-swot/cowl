@@ -46,7 +46,7 @@ cowl_struct_decl(CowlClsAssertAxiom);
 COWL_INLINE
 CowlClsAssertAxiom* cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual *ind,
                                           CowlVector *annot) {
-    return (CowlClsAssertAxiom *)cowl_get_impl_2_opt(COWL_OT_A_CLASS_ASSERT, exp, ind, annot);
+    return (CowlClsAssertAxiom *)cowl_get_impl_2_annot(COWL_OT_A_CLASS_ASSERT, exp, ind, annot);
 }
 
 /**

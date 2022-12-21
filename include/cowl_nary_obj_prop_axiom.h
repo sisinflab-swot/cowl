@@ -49,7 +49,7 @@ CowlNAryObjPropAxiom* cowl_nary_obj_prop_axiom(CowlNAryAxiomType type, CowlVecto
                                                CowlVector *annot) {
     if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_A_EQUIV_OBJ_PROP + (CowlObjectType)type);
-    return (CowlNAryObjPropAxiom *)cowl_get_impl_1_opt(t, props, annot);
+    return (CowlNAryObjPropAxiom *)cowl_get_impl_1_annot(t, props, annot);
 }
 
 /**

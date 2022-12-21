@@ -23,9 +23,13 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
+cowl_struct_decl(CowlVector);
 
 COWL_PUBLIC
 CowlAny* cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt);
+
+COWL_PUBLIC
+CowlAny* cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot);
 
 COWL_INLINE
 CowlAny* cowl_get_impl_1_opt(CowlObjectType type, CowlAny *f1, CowlAny *opt) {
@@ -33,6 +37,11 @@ CowlAny* cowl_get_impl_1_opt(CowlObjectType type, CowlAny *f1, CowlAny *opt) {
     return cowl_get_impl(type, fields, opt);
 }
 
+COWL_INLINE
+CowlAny* cowl_get_impl_1_annot(CowlObjectType type, CowlAny *f1, CowlVector *annot) {
+    CowlAny *fields[] = { f1 };
+    return cowl_get_impl_annot(type, fields, annot);
+}
 
 COWL_INLINE
 CowlAny* cowl_get_impl_1(CowlObjectType type, CowlAny *f1) {
@@ -46,6 +55,12 @@ CowlAny* cowl_get_impl_2_opt(CowlObjectType type, CowlAny *f1, CowlAny *f2, Cowl
 }
 
 COWL_INLINE
+CowlAny* cowl_get_impl_2_annot(CowlObjectType type, CowlAny *f1, CowlAny *f2, CowlVector *annot) {
+    CowlAny *fields[] = { f1, f2 };
+    return cowl_get_impl_annot(type, fields, annot);
+}
+
+COWL_INLINE
 CowlAny* cowl_get_impl_2(CowlObjectType type, CowlAny *f1, CowlAny *f2) {
     return cowl_get_impl_2_opt(type, f1, f2, NULL);
 }
@@ -55,6 +70,13 @@ CowlAny* cowl_get_impl_3_opt(CowlObjectType type, CowlAny *f1, CowlAny *f2,
                              CowlAny *f3, CowlAny *opt) {
     CowlAny *fields[] = { f1, f2, f3 };
     return cowl_get_impl(type, fields, opt);
+}
+
+COWL_INLINE
+CowlAny* cowl_get_impl_3_annot(CowlObjectType type, CowlAny *f1, CowlAny *f2,
+                               CowlAny *f3, CowlVector *annot) {
+    CowlAny *fields[] = { f1, f2, f3 };
+    return cowl_get_impl_annot(type, fields, annot);
 }
 
 COWL_INLINE

@@ -532,6 +532,11 @@ CowlAny* cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
     return obj;
 }
 
+CowlAny* cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot) {
+    if (annot && !cowl_vector_count(annot)) annot = NULL;
+    return cowl_get_impl(type, fields, annot);
+}
+
 CowlAny* cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
     if (!cowl_enum_value_is_valid(OT, type)) return NULL;
 

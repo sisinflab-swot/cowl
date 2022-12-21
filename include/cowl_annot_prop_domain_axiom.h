@@ -45,8 +45,8 @@ cowl_struct_decl(CowlAnnotPropDomainAxiom);
 COWL_INLINE
 CowlAnnotPropDomainAxiom* cowl_annot_prop_domain_axiom(CowlAnnotProp *prop, CowlIRI *domain,
                                                        CowlVector *annot) {
-    return (CowlAnnotPropDomainAxiom *)cowl_get_impl_2_opt(COWL_OT_A_ANNOT_PROP_DOMAIN,
-                                                           prop, domain, annot);
+    return (CowlAnnotPropDomainAxiom *)cowl_get_impl_2_annot(COWL_OT_A_ANNOT_PROP_DOMAIN,
+                                                             prop, domain, annot);
 }
 
 /**

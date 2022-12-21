@@ -46,8 +46,8 @@ cowl_struct_decl(CowlObjPropRangeAxiom);
 COWL_INLINE
 CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *range,
                                                  CowlVector *annot) {
-    return (CowlObjPropRangeAxiom *)cowl_get_impl_2_opt(COWL_OT_A_OBJ_PROP_RANGE,
-                                                        prop, range, annot);
+    return (CowlObjPropRangeAxiom *)cowl_get_impl_2_annot(COWL_OT_A_OBJ_PROP_RANGE,
+                                                          prop, range, annot);
 }
 
 /**

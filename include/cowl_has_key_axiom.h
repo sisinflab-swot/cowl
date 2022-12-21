@@ -49,8 +49,8 @@ CowlHasKeyAxiom* cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_prop
                                     CowlVector *data_props, CowlVector *annot) {
     if (!obj_props) obj_props = cowl_vector_empty();
     if (!data_props) data_props = cowl_vector_empty();
-    return (CowlHasKeyAxiom *)cowl_get_impl_3_opt(COWL_OT_A_HAS_KEY,
-                                                  cls_exp, obj_props, data_props, annot);
+    return (CowlHasKeyAxiom *)cowl_get_impl_3_annot(COWL_OT_A_HAS_KEY,
+                                                    cls_exp, obj_props, data_props, annot);
 }
 
 /**

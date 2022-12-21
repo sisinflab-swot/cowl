@@ -44,7 +44,7 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  */
 COWL_INLINE
 CowlDisjUnionAxiom* cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) {
-    return (CowlDisjUnionAxiom *)cowl_get_impl_2_opt(COWL_OT_A_DISJ_UNION, cls, disjoints, annot);
+    return (CowlDisjUnionAxiom *)cowl_get_impl_2_annot(COWL_OT_A_DISJ_UNION, cls, disjoints, annot);
 }
 
 /**
