@@ -98,7 +98,7 @@ ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
         GEN_OT_STRING(A_DATA_PROP_RANGE, "DataPropertyRange");
         GEN_OT_STRING(A_HAS_KEY, "HasKey");
         GEN_OT_STRING(A_ANNOT_ASSERT, "AnnotationAssertion");
-        GEN_OT_STRING(A_SUB_ANNOT_PROP, "AnnotationProperty");
+        GEN_OT_STRING(A_SUB_ANNOT_PROP, "SubAnnotationPropertyOf");
         GEN_OT_STRING(A_ANNOT_PROP_DOMAIN, "AnnotationPropertyDomain");
         GEN_OT_STRING(A_ANNOT_PROP_RANGE, "AnnotationPropertyRange");
         GEN_OT_STRING(CE_CLASS, "Class");
