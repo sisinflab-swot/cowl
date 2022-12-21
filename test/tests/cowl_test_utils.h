@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -42,6 +42,7 @@ uvec_decl(CowlError);
 // Test data
 
 #define COWL_TEST_ONTOLOGY "test_onto.owl"
+#define COWL_TEST_IMPORT "test_import.owl"
 
 CowlOntology* cowl_test_load_import(void *ctx, CowlIRI *iri);
 

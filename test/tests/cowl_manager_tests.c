@@ -99,11 +99,11 @@ bool cowl_test_manager_read_ontology(void) {
     return true;
 }
 
-bool cowl_test_manager_write_ontology(void) {
+static bool cowl_test_manager_write_ontology_path(UString path) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
 
-    CowlOntology *onto_in = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
+    CowlOntology *onto_in = cowl_manager_read_path(manager, path);
     utest_assert_not_null(onto_in);
 
     CowlSymTable *st = cowl_ontology_get_sym_table(onto_in);
@@ -141,6 +141,12 @@ bool cowl_test_manager_write_ontology(void) {
     cowl_ontology_release(onto_out);
     cowl_manager_release(manager);
 
+    return true;
+}
+
+bool cowl_test_manager_write_ontology(void) {
+    utest_assert(cowl_test_manager_write_ontology_path(ustring_literal(COWL_TEST_ONTOLOGY)));
+    utest_assert(cowl_test_manager_write_ontology_path(ustring_literal(COWL_TEST_IMPORT)));
     return true;
 }
 

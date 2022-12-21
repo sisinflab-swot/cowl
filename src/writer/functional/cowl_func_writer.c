@@ -2,7 +2,7 @@
  * @author Ivano Bilenchi
  *
  * @copyright Copyright (c) 2022 SisInf Lab, Polytechnic University of Bari
- * @copyright <http://sisinflab.poliba.it/swottools>
+ * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
@@ -104,11 +104,11 @@ static ustream_ret cowl_func_write_construct_uint(UOStream *s, CowlAny *obj, Cow
     return s->state;
 }
 
-static ustream_ret cowl_func_write_axiom(UOStream *s, CowlAnyAxiom *axiom, CowlSymTable *st) {
-    CowlObjectType type = cowl_get_type(axiom);
+static ustream_ret cowl_func_write_annot_construct(UOStream *s, CowlAny *obj, CowlSymTable *st) {
+    CowlObjectType type = cowl_get_type(obj);
     cowl_write_object_type(s, type);
     cowl_write_static(s, "(");
-    cowl_func_write_opt_fields(s, type, axiom, st);
+    cowl_func_write_opt_fields(s, type, obj, st);
     cowl_write_static(s, ")");
     return s->state;
 }
@@ -376,6 +376,7 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         case COWL_OT_FACET_RESTR: return cowl_func_write_facet_restr(s, obj, st);
         case COWL_OT_ONTOLOGY: return cowl_func_write_onto(s, obj);
         case COWL_OT_MANAGER: return cowl_write_debug(s, obj);
+        case COWL_OT_ANNOTATION: return cowl_func_write_annot_construct(s, obj, st);
         case COWL_OT_ANNOT_PROP:
         case COWL_OT_CE_CLASS:
         case COWL_OT_DPE_DATA_PROP:
@@ -396,7 +397,7 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         case COWL_OT_CE_DATA_EXACT_CARD: return cowl_func_write_construct_uint(s, obj, st);
         default: {
             if (type >= COWL_OT_FIRST_A && type <= COWL_OT_LAST_A) {
-                return cowl_func_write_axiom(s, obj, st);
+                return cowl_func_write_annot_construct(s, obj, st);
             } else {
                 return cowl_func_write_construct(s, obj, st);
             }
