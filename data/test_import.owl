@@ -10,12 +10,20 @@ Ontology(<http://swot.sisinflab.poliba.it/test_import>
 
 Declaration(Class(:ClassA))
 Declaration(ObjectProperty(:ObjectPropertyA))
+Declaration(ObjectProperty(:ObjectPropertyB))
 Declaration(DataProperty(:DataPropertyA))
 Declaration(AnnotationProperty(:AnnotationPropertyA))
 Declaration(AnnotationProperty(:AnnotationPropertyB))
 Declaration(NamedIndividual(:IndividualA))
 Declaration(NamedIndividual(:IndividualB))
 
+############################
+#   Object Properties
+############################
+
+# Object Property: :ObjectPropertyA (:ObjectPropertyA)
+
+EquivalentObjectProperties(:ObjectPropertyA ObjectInverseOf(:ObjectPropertyB))
 
 
 ############################
@@ -41,7 +49,6 @@ ObjectPropertyAssertion(:ObjectPropertyA :IndividualA :IndividualB)
 DataPropertyAssertion(:DataPropertyA :IndividualB "true"^^xsd:boolean)
 
 
-
 ############################
 #   Anonymous Individuals
 ############################
@@ -49,7 +56,6 @@ DataPropertyAssertion(:DataPropertyA :IndividualB "true"^^xsd:boolean)
 # Individual: _:genid2147483648 (_:genid2147483648)
 
 ClassAssertion(:ClassA _:genid2147483648)
-
 
 
 ############################
@@ -67,6 +73,4 @@ Annotation(rdfs:comment "Test axiom annotations"^^xsd:string)
 
 AnnotationPropertyDomain(:AnnotationPropertyA owl:Thing)
 AnnotationPropertyRange(:AnnotationPropertyA owl:Thing)
-
-
 )

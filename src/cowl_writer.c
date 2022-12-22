@@ -129,7 +129,7 @@ ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
         GEN_OT_STRING(I_ANONYMOUS, "AnonymousIndividual");
         GEN_OT_STRING(I_NAMED, "NamedIndividual");
         GEN_OT_STRING(OPE_OBJ_PROP, "ObjectProperty");
-        GEN_OT_STRING(OPE_INV_OBJ_PROP, "InverseObjectProperty");
+        GEN_OT_STRING(OPE_INV_OBJ_PROP, "ObjectInverseOf");
         default: {
             cowl_write_static(s, "UnknownConstruct(");
             cowl_write_uint(s, type);
