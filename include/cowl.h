@@ -101,6 +101,7 @@
 #include "cowl_stream.h"
 #include "cowl_stream_config.h"
 #include "cowl_string.h"
+#include "cowl_string_opts.h"
 #include "cowl_sub_annot_prop_axiom.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sub_data_prop_axiom.h"

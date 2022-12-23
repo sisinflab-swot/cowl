@@ -17,7 +17,6 @@
 #include "cowl_cstring.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator_private.h"
-#include "cowl_literal_private.h"
 #include "cowl_manager_private.h"
 #include "cowl_object_private.h"
 #include "cowl_ontology_private.h"

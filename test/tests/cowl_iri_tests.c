@@ -77,8 +77,8 @@ bool cowl_test_iri_equals(void) {
         char const *prefix_str = tests[i][0];
         char const *suffix_str = tests[i][1];
 
-        CowlString *prefix = cowl_string(ustring_copy(prefix_str, strlen(prefix_str)));
-        CowlString *suffix = cowl_string(ustring_copy(suffix_str, strlen(suffix_str)));
+        CowlString *prefix = cowl_string_opt(ustring_wrap_buf(prefix_str), COWL_SO_COPY);
+        CowlString *suffix = cowl_string_opt(ustring_wrap_buf(suffix_str), COWL_SO_COPY);
 
         CowlIRI *iri = cowl_iri(prefix, suffix);
         cowl_assert_equal(iri, iri, expected);

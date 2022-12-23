@@ -15,9 +15,50 @@
 static UHash(CowlObjectTable) inst_tbl;
 static CowlString *empty = NULL;
 
+static CowlString* cowl_string_get(UString raw_string, bool copy) {
+    if (copy) {
+        raw_string = ustring_dup(raw_string);
+        if (ustring_is_null(raw_string)) return NULL;
+    }
+
+    CowlString *string = ulib_alloc(string);
+    if (string) {
+        *string = cowl_string_init(raw_string);
+    } else {
+        ustring_deinit(&raw_string);
+    }
+    return string;
+}
+
+static CowlString* cowl_string_get_intern(UString raw_string, bool copy) {
+    CowlString *string = NULL;
+    CowlString key = cowl_string_init(raw_string);
+
+    ulib_uint idx;
+    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+
+    if (ret == UHASH_PRESENT) {
+        string = uhash_key(CowlObjectTable, &inst_tbl, idx);
+        cowl_string_retain(string);
+        if (!copy) ustring_deinit(&raw_string);
+    } else if (ret == UHASH_INSERTED) {
+        string = cowl_string_get(raw_string, copy);
+        if (string) {
+            cowl_object_bit_set(string);
+            uhash_key(CowlObjectTable, &inst_tbl, idx) = string;
+        } else {
+            uhash_delete(CowlObjectTable, &inst_tbl, idx);
+        }
+    } else if (!copy) {
+        ustring_deinit(&raw_string);
+    }
+
+    return string;
+}
+
 cowl_ret cowl_string_api_init(void) {
     inst_tbl = cowl_string_map();
-    empty = cowl_string_from_static("");
+    empty = cowl_string_get(ustring_literal(""), true);
     return empty ? COWL_OK : COWL_ERR_MEM;
 }
 
@@ -33,29 +74,6 @@ CowlString cowl_string_init(UString raw_string) {
         .raw_string = raw_string
     };
     return init;
-}
-
-CowlString* cowl_string_get_intern(UString raw_string) {
-    if (!ustring_length(raw_string)) return cowl_string_empty();
-
-    CowlString *string;
-    CowlString key = cowl_string_init(raw_string);
-
-    ulib_uint idx;
-    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
-
-    if (ret == UHASH_PRESENT) {
-        string = uhash_key(CowlObjectTable, &inst_tbl, idx);
-        cowl_string_retain(string);
-    } else if (ret == UHASH_INSERTED) {
-        string = cowl_string(ustring_dup(raw_string));
-        cowl_object_bit_set(string);
-        uhash_key(CowlObjectTable, &inst_tbl, idx) = string;
-    } else {
-        string = NULL;
-    }
-
-    return string;
 }
 
 CowlString* cowl_string_intern(CowlString *string) {
@@ -94,14 +112,14 @@ cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString 
     char const *cstring = ustring_data(string);
 
     if (ns_length < str_len) {
-        rhs = cowl_string(ustring_copy(cstring + ns_length, str_len - ns_length));
+        rhs = cowl_string_opt(ustring_wrap(cstring + ns_length, str_len - ns_length), COWL_SO_COPY);
     } else {
         ns_length = str_len;
         rhs = cowl_string_empty();
     }
 
     UString raw_string = ustring_wrap(cstring, ns_length);
-    CowlString *lhs = cowl_string_get_intern(raw_string);
+    CowlString *lhs = cowl_string_opt(raw_string, COWL_SO_COPY | COWL_SO_INTERN);
     cowl_ret ret;
 
     if (lhs && rhs) {
@@ -121,13 +139,34 @@ cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString 
 
 CowlString* cowl_string(UString raw_string) {
     if (ustring_is_null(raw_string)) return NULL;
-    CowlString *string = ulib_alloc(string);
-    if (string) {
-        *string = cowl_string_init(raw_string);
-    } else {
-        ustring_deinit(&raw_string);
+    if (ustring_is_empty(raw_string)) return cowl_string_empty();
+    return cowl_string_get(raw_string, false);
+}
+
+CowlString* cowl_string_opt(UString raw_string, CowlStringOpts opts) {
+    CowlString *ret = NULL;
+    bool copy = ubit_is_set(COWL_SO, opts, COWL_SO_COPY);
+
+    if (ustring_is_null(raw_string)) {
+        goto end_deinit;
     }
-    return string;
+
+    if (ustring_is_empty(raw_string)) {
+        ret = cowl_string_empty();
+        goto end_deinit;
+    }
+
+    if (ubit_is_set(COWL_SO, opts, COWL_SO_INTERN)) {
+        ret = cowl_string_get_intern(raw_string, copy);
+    } else {
+        ret = cowl_string_get(raw_string, copy);
+    }
+
+    return ret;
+
+end_deinit:
+    if (!copy) ustring_deinit(&raw_string);
+    return ret;
 }
 
 CowlString* cowl_string_empty(void) {

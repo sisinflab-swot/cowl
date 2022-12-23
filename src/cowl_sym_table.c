@@ -87,8 +87,8 @@ cowl_ret cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, US
     if (ret == UHASH_PRESENT) return COWL_OK;
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
 
-    CowlString *prefix_str = cowl_string(ustring_dup(prefix));
-    CowlString *ns_str = cowl_string_get_intern(ns);
+    CowlString *prefix_str = cowl_string_opt(prefix, COWL_SO_COPY);
+    CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
 
     if (!(prefix_str && ns_str)) {
         cowl_string_release(prefix_str);
@@ -109,7 +109,7 @@ CowlIRI* cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) 
     if (!ns_str) return NULL;
 
     ulib_uint const rem_length = ustring_length(rem);
-    CowlString *rem_str = rem_length ? cowl_string(ustring_dup(rem)) : cowl_string_empty();
+    CowlString *rem_str = rem_length ? cowl_string_opt(rem, COWL_SO_COPY) : cowl_string_empty();
     if (!rem_str) return NULL;
 
     CowlIRI *iri = cowl_iri(ns_str, rem_str);

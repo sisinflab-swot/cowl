@@ -14,6 +14,7 @@
 #define COWL_STRING_H
 
 #include "cowl_object.h"
+#include "cowl_string_opts.h"
 
 COWL_BEGIN_DECLS
 
@@ -34,10 +35,37 @@ cowl_struct_decl(CowlString);
  * @param string The underlying string object.
  * @return Retained string, or NULL on error.
  *
+ * @note The buffer of the raw string must have been dynamically allocated.
+ * @note Ownership of the raw string is transferred to the newly created CowlString,
+ *       meaning you must not deinitialize it.
+ * @note Equivalent to `cowl_string_opt(string, COWL_SO_NONE)`.
+ *
  * @public @memberof CowlString
  */
 COWL_PUBLIC
 CowlString* cowl_string(UString string);
+
+/**
+ * Returns a retained string.
+ *
+ * String creation is governed by the following options:
+ *
+ * - COWL_SO_COPY: if set, the raw string is copied internally, otherwise it is directly assigned.
+ *                 Note that in the latter case the raw string must have been dynamically allocated,
+ *                 and you must not deinitialize it after passing it to this method.
+ * - COWL_SO_INTERN: if set, the CowlString is either created and added to an internal
+ *                   instance pool, or if an instance with the same raw string already exists
+ *                   in the pool, that instance is retained and returned. This entails that
+ *                   all instances created with this flag are guaranteed to be unique in memory.
+ *
+ * @param string THe underlying string object.
+ * @param opts String creation options.
+ * @return Retained string, or NULL on error.
+ *
+ * @public @memberof CowlString
+ */
+COWL_PUBLIC
+CowlString* cowl_string_opt(UString string, CowlStringOpts opts);
 
 /**
  * Returns a retained string from the specified static string.
@@ -47,7 +75,7 @@ CowlString* cowl_string(UString string);
  *
  * @public @related CowlString
  */
-#define cowl_string_from_static(CSTR) cowl_string(ustring_copy_literal(CSTR))
+#define cowl_string_from_static(CSTR) cowl_string_opt(ustring_literal(CSTR), COWL_SO_COPY)
 
 /**
  * Returns a retained empty string.
@@ -81,6 +109,24 @@ CowlString* cowl_string_retain(CowlString *string) {
  */
 COWL_PUBLIC
 void cowl_string_release(CowlString *string);
+
+/**
+ * Interns the specified string.
+ *
+ * The string is either added to an internal instance pool, or if an instance with the same
+ * raw string already exists in the pool, that instance is returned.
+ *
+ * @param string The string.
+ * @return Interned string.
+ *
+ * @note The reference counts of the original string and that of the returned instance are not
+ *       changed. This means you are still responsible for releasing the original string if
+ *       you created it, and you should retain the returned string if you need to keep it alive.
+ *
+ * @public @memberof CowlString
+ */
+COWL_PUBLIC
+CowlString* cowl_string_intern(CowlString *string);
 
 /**
  * Releases the specified string, returning its buffer as a copy.

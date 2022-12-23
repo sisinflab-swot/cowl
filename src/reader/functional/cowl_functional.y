@@ -132,6 +132,7 @@
 
 // Nonterminals
 
+%type <CowlString *> prefix namespace quoted_string lang_tag
 %type <CowlIRI *> iri full_iri abbreviated_iri
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue *> annotation_subject annotation_value
@@ -216,6 +217,7 @@
 %destructor { cowl_named_ind_release($$); } <CowlNamedInd *>
 %destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
 %destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
+%destructor { cowl_string_release($$); } <CowlString *>
 %destructor { cowl_vector_release($$); } <CowlVector *>
 
 %%
@@ -260,10 +262,24 @@ prefix_declarations
     | prefix_declarations prefix_declaration
 ;
 
+prefix
+    : PNAME_NS {
+        $$ = cowl_string_opt($1, COWL_SO_COPY);
+    }
+;
+
+namespace
+    : IRI_REF {
+        $$ = cowl_string_opt($1, COWL_SO_COPY | COWL_SO_INTERN);
+    }
+;
+
 prefix_declaration
-    : PREFIX L_PAREN PNAME_NS EQUALS IRI_REF R_PAREN {
+    : PREFIX L_PAREN prefix EQUALS namespace R_PAREN {
         CowlSymTable *st = cowl_stream_get_sym_table(stream);
-        cowl_ret ret = cowl_sym_table_register_prefix_raw(st, $3, $5);
+        cowl_ret ret = cowl_sym_table_register_prefix(st, $3, $5);
+        cowl_string_release($3);
+        cowl_string_release($5);
         if (ret) COWL_ERROR(ret);
     }
 ;
@@ -383,17 +399,34 @@ anonymous_individual
 
 // Literals
 
+quoted_string
+    : QUOTED_STRING {
+        $$ = cowl_string_opt($1, COWL_SO_COPY);
+    }
+;
+
+lang_tag
+    : LANG_TAG {
+        $$ = cowl_string_opt($1, COWL_SO_COPY | COWL_SO_INTERN);
+    }
+;
+
 literal
-    : QUOTED_STRING DOUBLE_CARET datatype {
+    : quoted_string DOUBLE_CARET datatype {
         if (!$3) COWL_ERROR_MEM;
-        $$ = cowl_literal_raw($3, $1, ustring_empty);
+        $$ = cowl_literal($3, $1, NULL);
+        cowl_string_release($1);
         cowl_datatype_release($3);
     }
-    | QUOTED_STRING LANG_TAG {
-        $$ = cowl_literal_raw(NULL, $1, $2);
+    | quoted_string lang_tag {
+        if (!$2) COWL_ERROR_MEM;
+        $$ = cowl_literal(NULL, $1, $2);
+        cowl_string_release($1);
+        cowl_string_release($2);
     }
-    | QUOTED_STRING {
-        $$ = cowl_literal_raw(NULL, $1, ustring_empty);
+    | quoted_string {
+        $$ = cowl_literal(NULL, $1, NULL);
+        cowl_string_release($1);
     }
 ;
 

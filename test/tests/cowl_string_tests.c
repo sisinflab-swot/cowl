@@ -86,20 +86,16 @@ bool cowl_test_string_concat(void) {
 }
 
 bool cowl_test_string_intern(void) {
-#ifndef COWL_SHARED
-    CowlString *a = cowl_string_from_static(COWL_TEST_STRING);
-    utest_assert_uint(cowl_object_bit_get(a), ==, 0);
-
+    CowlString *a = cowl_string_opt(ustring_literal(COWL_TEST_STRING), COWL_SO_COPY | COWL_SO_INTERN);
     CowlString *ai = cowl_string_intern(a);
-    utest_assert_uint(cowl_object_bit_get(a), ==, 1);
+    utest_assert_ptr(a, ==, ai);
 
     CowlString *b = cowl_string_from_static(COWL_TEST_STRING);
     CowlString *bi = cowl_string_intern(b);
-
     utest_assert_ptr(ai, ==, bi);
 
     cowl_string_release(a);
     cowl_string_release(b);
-#endif
+
     return true;
 }

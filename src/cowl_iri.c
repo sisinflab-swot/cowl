@@ -92,7 +92,8 @@ CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix) {
         }
 
         prefix = cowl_string(ustrbuf_to_ustring(&buf));
-        suffix = cowl_string(ustring_copy(s_cstr + s_ns_len, ustring_length(s_str) - s_ns_len));
+        UString raw_suffix = ustring_wrap(s_cstr + s_ns_len, ustring_length(s_str) - s_ns_len);
+        suffix = cowl_string_opt(raw_suffix, COWL_SO_COPY);
     } else {
         ulib_uint p_ns_len = cowl_xml_ns_length(p_str);
 
@@ -107,7 +108,7 @@ CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix) {
                 return NULL;
             }
 
-            prefix = cowl_string_get_intern(ustring_wrap(p_cstr, p_ns_len));
+            prefix = cowl_string_opt(ustring_wrap(p_cstr, p_ns_len), COWL_SO_COPY | COWL_SO_INTERN);
             suffix = cowl_string(ustrbuf_to_ustring(&buf));
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.

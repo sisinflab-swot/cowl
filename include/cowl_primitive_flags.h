@@ -1,4 +1,6 @@
 /**
+ * Defines CowlPrimitiveFlags and declares its API.
+ *
  * @author Ivano Bilenchi
  *
  * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
