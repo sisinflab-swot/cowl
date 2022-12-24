@@ -517,11 +517,7 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
 }
 
 CowlAny* cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
-    if (!cowl_enum_value_is_valid(OT, type)) return NULL;
-
     ulib_byte count = composite_fields[type];
-    for (ulib_byte i = 0; i < count; ++i) { if (!fields[i]) return NULL; }
-
     CowlComposite *obj = ulib_malloc(sizeof(*obj) + (opt ? count + 1 : count) * sizeof(*obj->data));
     if (!obj) return NULL;
 
@@ -538,11 +534,7 @@ CowlAny* cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector 
 }
 
 CowlAny* cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
-    if (!cowl_enum_value_is_valid(OT, type)) return NULL;
-
     ulib_byte count = composite_fields[type];
-    for (ulib_byte i = 0; i < count; ++i) { if (!fields[i]) return NULL; }
-
     ulib_byte data_size = opt ? count + 2 : count + 1;
     CowlComposite *obj = ulib_malloc(sizeof(*obj) + data_size * sizeof(*obj->data));
     if (!obj) return NULL;

@@ -410,9 +410,7 @@ static bool cowl_ontology_primitive_adder(void *ctx, CowlAny *obj) {
 }
 
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
-    cowl_ret ret = COWL_ERR_MEM;
-    if (!annot) goto end;
-
+    cowl_ret ret;
     CowlAxiomCtx ctx = { .onto = onto };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_adder };
     cowl_annotation_iterate_primitives(annot, COWL_PF_ALL, &iter);
@@ -447,8 +445,6 @@ static bool iri_eq(CowlAny *lhs, CowlAny *rhs) { return lhs == rhs; }
 
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *iri) {
     ulib_uint idx = UHASH_INDEX_MISSING;
-    if (!iri) goto err;
-
     UHash(CowlObjectTable) map = uhmap_pi(CowlObjectTable, iri_hash, iri_eq);
     if (!onto->imports && !(onto->imports = cowl_table(&map))) goto err;
 
@@ -535,9 +531,7 @@ static bool cowl_ontology_primitive_axiom_remover(void *ctx, void *obj) {
 }
 
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
-    cowl_ret ret = COWL_ERR_MEM;
-    if (!axiom) goto end;
-
+    cowl_ret ret;
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_adder };
 
