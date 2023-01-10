@@ -58,7 +58,7 @@ CowlString* cowl_string(UString string);
  *                   in the pool, that instance is retained and returned. This entails that
  *                   all instances created with this flag are guaranteed to be unique in memory.
  *
- * @param string THe underlying string object.
+ * @param string The underlying string object.
  * @param opts String creation options.
  * @return Retained string, or NULL on error.
  *
