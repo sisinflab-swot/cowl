@@ -1,0 +1,5 @@
+Checks: '-*,
+clang-analyzer-*,
+modernize-*, -modernize-macro-to-enum, -modernize-redundant-void-arg,
+performance-*,
+portability-*'
