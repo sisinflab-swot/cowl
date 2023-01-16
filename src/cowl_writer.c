@@ -51,7 +51,8 @@ ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint) {
 }
 
 ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
-#define GEN_OT_STRING(T, S) case COWL_OT_##T: return cowl_write_static(s, S)
+#define GEN_OT_STRING(T, S)                                                                        \
+    case COWL_OT_##T: return cowl_write_static(s, S)
 
     switch (type) {
         GEN_OT_STRING(STRING, "String");
@@ -147,8 +148,7 @@ ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
     if (error->origin) {
         cowl_write_static(s, " - triggered by ");
 
-        switch(cowl_get_type(error->origin)) {
-
+        switch (cowl_get_type(error->origin)) {
             case COWL_OT_MANAGER: {
                 CowlReader reader = cowl_manager_get_reader((CowlManager *)error->origin);
                 char const *name = reader.name ? reader.name : "unnamed";
@@ -156,14 +156,12 @@ ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
                 cowl_write_static(s, " reader");
                 break;
             }
-
             case COWL_OT_ONTOLOGY: {
                 CowlOntology *onto = error->origin;
                 cowl_write_static(s, "ontology ");
                 cowl_write_iri(s, cowl_ontology_get_id(onto).iri);
                 break;
             }
-
             default: {
                 cowl_write_debug(s, error->origin);
                 break;

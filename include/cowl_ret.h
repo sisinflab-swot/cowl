@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -36,7 +36,7 @@ typedef enum uvec_ret uvec_ret;
  */
 typedef enum cowl_ret {
 
-/// @name Codes
+    /// @name Codes
 
     /// Success.
     COWL_OK,
@@ -60,7 +60,7 @@ typedef enum cowl_ret {
     /// Import error.
     COWL_ERR_IMPORT,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_RET_COUNT,
@@ -117,7 +117,7 @@ UString cowl_ret_to_ustring(cowl_ret ret);
  * @note The returned string is retained, so you are responsible for releasing it.
  */
 COWL_PUBLIC
-CowlString* cowl_ret_to_string(cowl_ret ret);
+CowlString *cowl_ret_to_string(cowl_ret ret);
 
 /// @}
 

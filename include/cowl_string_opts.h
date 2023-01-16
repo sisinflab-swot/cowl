@@ -28,13 +28,13 @@ COWL_BEGIN_DECLS
 typedef UBit(COWL_SO) CowlStringOpts;
 
 /// Empty options.
-#define COWL_SO_NONE        ubit_none(COWL_SO)
+#define COWL_SO_NONE ubit_none(COWL_SO)
 
 /// Copy the underlying raw string.
-#define COWL_SO_COPY        ubit_bit(COWL_SO, 0)
+#define COWL_SO_COPY ubit_bit(COWL_SO, 0)
 
 /// Intern the resulting string.
-#define COWL_SO_INTERN      ubit_bit(COWL_SO, 1)
+#define COWL_SO_INTERN ubit_bit(COWL_SO, 1)
 
 COWL_END_DECLS
 

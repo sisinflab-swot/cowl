@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_NARY_DATA_H
 #define COWL_NARY_DATA_H
 
-#include "cowl_object.h"
 #include "cowl_nary_type.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlNAryData);
  * @public @memberof CowlNAryData
  */
 COWL_INLINE
-CowlNAryData* cowl_nary_data(CowlNAryType type, CowlVector *operands) {
+CowlNAryData *cowl_nary_data(CowlNAryType type, CowlVector *operands) {
     if (!cowl_enum_value_is_valid(NT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_DR_DATA_INTERSECT + (CowlObjectType)type);
     return (CowlNAryData *)cowl_get_impl_1(t, operands);
@@ -58,7 +58,7 @@ CowlNAryData* cowl_nary_data(CowlNAryType type, CowlVector *operands) {
  * @public @memberof CowlNAryData
  */
 COWL_INLINE
-CowlNAryData* cowl_nary_data_retain(CowlNAryData *range) {
+CowlNAryData *cowl_nary_data_retain(CowlNAryData *range) {
     return (CowlNAryData *)cowl_retain(range);
 }
 
@@ -95,7 +95,7 @@ CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
  * @public @memberof CowlNAryData
  */
 COWL_INLINE
-CowlVector* cowl_nary_data_get_operands(CowlNAryData *range) {
+CowlVector *cowl_nary_data_get_operands(CowlNAryData *range) {
     return (CowlVector *)cowl_get_field(range, 0);
 }
 
@@ -110,7 +110,7 @@ CowlVector* cowl_nary_data_get_operands(CowlNAryData *range) {
  * @public @memberof CowlNAryData
  */
 COWL_INLINE
-CowlString* cowl_nary_data_to_string(CowlNAryData *range) {
+CowlString *cowl_nary_data_to_string(CowlNAryData *range) {
     return cowl_to_string(range);
 }
 

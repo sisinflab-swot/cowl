@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,6 +13,6 @@
 
 // Import loader
 
-CowlOntology* cowl_test_load_import(void *ctx, cowl_unused CowlIRI *iri) {
+CowlOntology *cowl_test_load_import(void *ctx, cowl_unused CowlIRI *iri) {
     return cowl_manager_read_path((CowlManager *)ctx, ustring_literal(COWL_TEST_IMPORT));
 }

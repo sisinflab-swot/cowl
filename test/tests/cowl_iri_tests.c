@@ -26,9 +26,9 @@ bool cowl_test_iri_lifecycle(void) {
 
 bool cowl_test_iri_get_ns(void) {
     char const *tests[][2] = {
-        {COWL_TEST_IRI, COWL_TEST_IRI_NS},
-        {COWL_TEST_IRI_REM, ""},
-        {COWL_TEST_IRI_NS, COWL_TEST_IRI_NS}
+        { COWL_TEST_IRI, COWL_TEST_IRI_NS },
+        { COWL_TEST_IRI_REM, "" },
+        { COWL_TEST_IRI_NS, COWL_TEST_IRI_NS },
     };
 
     for (unsigned i = 0; i < ulib_array_count(tests); ++i) {
@@ -45,9 +45,9 @@ bool cowl_test_iri_get_ns(void) {
 
 bool cowl_test_iri_get_rem(void) {
     char const *tests[][2] = {
-        {COWL_TEST_IRI, COWL_TEST_IRI_REM},
-        {COWL_TEST_IRI_REM, COWL_TEST_IRI_REM},
-        {COWL_TEST_IRI_NS, ""}
+        { COWL_TEST_IRI, COWL_TEST_IRI_REM },
+        { COWL_TEST_IRI_REM, COWL_TEST_IRI_REM },
+        { COWL_TEST_IRI_NS, "" },
     };
 
     for (unsigned i = 0; i < ulib_array_count(tests); ++i) {
@@ -66,11 +66,11 @@ bool cowl_test_iri_equals(void) {
     CowlIRI *expected = cowl_iri_from_static(COWL_TEST_IRI);
 
     char const *tests[][2] = {
-        {COWL_TEST_IRI_NS, COWL_TEST_IRI_REM},
-        {"", COWL_TEST_IRI},
-        {COWL_TEST_IRI, ""},
-        {"http://site.com/onto", "logy.owl#remainder"},
-        {"http://site.com/ontology.owl#rem", "ainder"}
+        { COWL_TEST_IRI_NS, COWL_TEST_IRI_REM },
+        { "", COWL_TEST_IRI },
+        { COWL_TEST_IRI, "" },
+        { "http://site.com/onto", "logy.owl#remainder" },
+        { "http://site.com/ontology.owl#rem", "ainder" },
     };
 
     for (unsigned i = 0; i < ulib_array_count(tests); ++i) {

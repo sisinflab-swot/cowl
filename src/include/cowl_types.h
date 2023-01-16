@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -11,7 +11,6 @@
 #ifndef COWL_TYPES_H
 #define COWL_TYPES_H
 
-#include "cowl_std.h"
 #include "cowl_annot_value_type.h"
 #include "cowl_axiom_type.h"
 #include "cowl_card_type.h"
@@ -21,14 +20,15 @@
 #include "cowl_entity_type.h"
 #include "cowl_error.h"
 #include "cowl_iterator_private.h"
-#include "cowl_nary_type.h"
 #include "cowl_nary_axiom_type.h"
+#include "cowl_nary_type.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology_id.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
 #include "cowl_reader.h"
+#include "cowl_std.h"
 #include "cowl_stream_config.h"
 #include "cowl_version.h"
 #include "cowl_writer.h"

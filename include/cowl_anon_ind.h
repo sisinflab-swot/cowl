@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -44,7 +44,7 @@ cowl_struct_decl(CowlAnonInd);
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-CowlAnonInd* cowl_anon_ind(CowlString *id);
+CowlAnonInd *cowl_anon_ind(CowlString *id);
 
 /**
  * Returns a retained anonymous individual.
@@ -55,7 +55,7 @@ CowlAnonInd* cowl_anon_ind(CowlString *id);
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-CowlAnonInd* cowl_anon_ind_from_string(UString string);
+CowlAnonInd *cowl_anon_ind_from_string(UString string);
 
 /**
  * Returns a retained anonymous individual given the static string representation of its identifier.
@@ -76,7 +76,7 @@ CowlAnonInd* cowl_anon_ind_from_string(UString string);
  * @public @memberof CowlAnonInd
  */
 COWL_INLINE
-CowlAnonInd* cowl_anon_ind_retain(CowlAnonInd *ind) {
+CowlAnonInd *cowl_anon_ind_retain(CowlAnonInd *ind) {
     return (CowlAnonInd *)cowl_retain(ind);
 }
 
@@ -99,7 +99,7 @@ void cowl_anon_ind_release(CowlAnonInd *ind);
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
-CowlString* cowl_anon_ind_get_id(CowlAnonInd *ind);
+CowlString *cowl_anon_ind_get_id(CowlAnonInd *ind);
 
 /**
  * Returns the string representation of the specified anonymous individual.
@@ -112,7 +112,7 @@ CowlString* cowl_anon_ind_get_id(CowlAnonInd *ind);
  * @public @memberof CowlAnonInd
  */
 COWL_INLINE
-CowlString* cowl_anon_ind_to_string(CowlAnonInd *ind) {
+CowlString *cowl_anon_ind_to_string(CowlAnonInd *ind) {
     return cowl_primitive_to_string((CowlPrimitive *)ind);
 }
 

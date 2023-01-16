@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlSubClsAxiom);
  * @public @memberof CowlSubClsAxiom
  */
 COWL_INLINE
-CowlSubClsAxiom* cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, CowlVector *annot) {
+CowlSubClsAxiom *cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, CowlVector *annot) {
     return (CowlSubClsAxiom *)cowl_get_impl_2_annot(COWL_OT_A_SUB_CLASS, sub, super, annot);
 }
 
@@ -56,7 +56,7 @@ CowlSubClsAxiom* cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, Co
  * @public @memberof CowlSubClsAxiom
  */
 COWL_INLINE
-CowlSubClsAxiom* cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom) {
+CowlSubClsAxiom *cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom) {
     return (CowlSubClsAxiom *)cowl_retain(axiom);
 }
 
@@ -81,7 +81,7 @@ void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom) {
  * @public @memberof CowlSubClsAxiom
  */
 COWL_INLINE
-CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
+CowlClsExp *cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 0);
 }
 
@@ -94,7 +94,7 @@ CowlClsExp* cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
  * @public @memberof CowlSubClsAxiom
  */
 COWL_INLINE
-CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom) {
+CowlClsExp *cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 1);
 }
 
@@ -107,7 +107,7 @@ CowlClsExp* cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom) {
  * @public @memberof CowlSubClsAxiom
  */
 COWL_INLINE
-CowlVector* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
+CowlVector *cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -122,7 +122,7 @@ CowlVector* cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
  * @public @memberof CowlSubClsAxiom
  */
 COWL_INLINE
-CowlString* cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom) {
+CowlString *cowl_sub_cls_axiom_to_string(CowlSubClsAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

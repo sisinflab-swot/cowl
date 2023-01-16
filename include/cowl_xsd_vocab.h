@@ -26,7 +26,7 @@ cowl_struct_decl(CowlString);
 /// Vocabulary of XSD IRIs.
 typedef struct CowlXSDIRIVocab {
 
-/// @name Datatypes
+    /// @name Datatypes
 
     /// xsd:anyAtomicType
     CowlIRI *any_atomic_type;
@@ -178,7 +178,7 @@ typedef struct CowlXSDIRIVocab {
     /// xsd:yearMonthDuration
     CowlIRI *year_month_duration;
 
-/// @name Facets
+    /// @name Facets
 
     /// xsd:length
     CowlIRI *length;
@@ -389,7 +389,7 @@ typedef struct CowlXSDVocab {
  * @public @memberof CowlXSDVocab
  */
 COWL_PUBLIC
-CowlXSDVocab const* cowl_xsd_vocab(void);
+CowlXSDVocab const *cowl_xsd_vocab(void);
 
 COWL_END_DECLS
 

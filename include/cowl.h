@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -31,6 +31,7 @@
 #include "cowl_cls_exp.h"
 #include "cowl_cls_exp_type.h"
 #include "cowl_compat.h"
+#include "cowl_config.h"
 #include "cowl_data_card.h"
 #include "cowl_data_compl.h"
 #include "cowl_data_has_value.h"
@@ -57,7 +58,6 @@
 #include "cowl_has_key_axiom.h"
 #include "cowl_import_loader.h"
 #include "cowl_individual.h"
-#include "cowl_config.h"
 #include "cowl_inv_obj_prop.h"
 #include "cowl_inv_obj_prop_axiom.h"
 #include "cowl_iri.h"

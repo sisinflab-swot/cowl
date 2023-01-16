@@ -11,13 +11,13 @@
 #ifndef COWL_VOCAB_UTILS_H
 #define COWL_VOCAB_UTILS_H
 
-#include "cowl_std.h"
 #include "cowl_annot_prop.h"
 #include "cowl_class.h"
 #include "cowl_data_prop.h"
 #include "cowl_datatype.h"
 #include "cowl_iri_private.h"
 #include "cowl_obj_prop.h"
+#include "cowl_std.h"
 #include "cowl_string_private.h"
 
 COWL_BEGIN_DECLS
@@ -25,13 +25,13 @@ COWL_BEGIN_DECLS
 #define cowl_string_vocab(CSTR) cowl_string(ustring_literal(CSTR))
 #define cowl_string_vocab_free(STR) ulib_free(STR)
 
-#define cowl_iri_vocab(NS_STR, REM_CSTR) \
-    cowl_iri_unvalidated((NS_STR), cowl_string_vocab(REM_CSTR))
+#define cowl_iri_vocab(NS_STR, REM_CSTR) cowl_iri_unvalidated((NS_STR), cowl_string_vocab(REM_CSTR))
 
-#define cowl_iri_vocab_free(IRI) do {                                                               \
-    cowl_string_vocab_free(cowl_iri_get_rem(IRI));                                                  \
-    ulib_free(IRI);                                                                                 \
-} while(0)
+#define cowl_iri_vocab_free(IRI)                                                                   \
+    do {                                                                                           \
+        cowl_string_vocab_free(cowl_iri_get_rem(IRI));                                             \
+        ulib_free(IRI);                                                                            \
+    } while (0)
 
 #define cowl_annot_prop_vocab(IRI) cowl_annot_prop(IRI)
 #define cowl_annot_prop_vocab_free(PROP) ulib_free(PROP)

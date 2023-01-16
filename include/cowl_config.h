@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,10 +13,10 @@
 #ifndef COWL_CONFIG_H
 #define COWL_CONFIG_H
 
-#include "cowl_std.h"
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
 #include "cowl_reader.h"
+#include "cowl_std.h"
 #include "cowl_writer.h"
 
 COWL_BEGIN_DECLS

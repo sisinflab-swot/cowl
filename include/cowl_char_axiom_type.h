@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlObjPropCharAxiom.
 typedef enum CowlCharAxiomType {
 
-/// @name Types
+    /// @name Types
 
     /// Functional object property.
     COWL_CAT_FUNC,
@@ -43,7 +43,7 @@ typedef enum CowlCharAxiomType {
     /// Irreflexive object property.
     COWL_CAT_IRREFL,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_CAT_COUNT,

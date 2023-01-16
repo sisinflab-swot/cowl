@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_OBJ_CARD_H
 #define COWL_OBJ_CARD_H
 
-#include "cowl_object.h"
 #include "cowl_card_type.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -48,8 +48,8 @@ cowl_struct_decl(CowlObjCard);
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
-CowlObjCard* cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop,
-                           CowlAnyClsExp *filler, ulib_uint cardinality);
+CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler,
+                           ulib_uint cardinality);
 
 /**
  * Retains the specified object property cardinality restriction.
@@ -60,7 +60,7 @@ CowlObjCard* cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop,
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-CowlObjCard* cowl_obj_card_retain(CowlObjCard *restr) {
+CowlObjCard *cowl_obj_card_retain(CowlObjCard *restr) {
     return (CowlObjCard *)cowl_retain(restr);
 }
 
@@ -98,7 +98,7 @@ CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) {
+CowlObjPropExp *cowl_obj_card_get_prop(CowlObjCard *restr) {
     return (CowlObjPropExp *)cowl_get_field(restr, 0);
 }
 
@@ -111,7 +111,7 @@ CowlObjPropExp* cowl_obj_card_get_prop(CowlObjCard *restr) {
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
-CowlClsExp* cowl_obj_card_get_filler(CowlObjCard *restr);
+CowlClsExp *cowl_obj_card_get_filler(CowlObjCard *restr);
 
 /**
  * Gets the cardinality of the restriction.
@@ -137,7 +137,7 @@ ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) {
  * @public @memberof CowlObjCard
  */
 COWL_INLINE
-CowlString* cowl_obj_card_to_string(CowlObjCard *restr) {
+CowlString *cowl_obj_card_to_string(CowlObjCard *restr) {
     return cowl_to_string(restr);
 }
 

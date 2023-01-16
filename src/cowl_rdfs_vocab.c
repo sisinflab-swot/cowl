@@ -30,23 +30,19 @@ cowl_ret cowl_rdfs_vocab_init(void) {
         .defined_by = cowl_iri_vocab(ns, "isDefinedBy"),
         .label = cowl_iri_vocab(ns, "label"),
         .literal = cowl_iri_vocab(ns, "Literal"),
-        .see_also = cowl_iri_vocab(ns, "seeAlso")
+        .see_also = cowl_iri_vocab(ns, "seeAlso"),
     };
 
-    vocab = (CowlRDFSVocab) {
+    vocab = (CowlRDFSVocab){
         .ns = ns,
         .iri = v,
-
-        .dt = {
-            .literal = cowl_datatype_vocab(v.literal)
-        },
-
+        .dt = { .literal = cowl_datatype_vocab(v.literal) },
         .annot_prop = {
             .comment = cowl_annot_prop_vocab(v.comment),
             .defined_by = cowl_annot_prop_vocab(v.defined_by),
             .label = cowl_annot_prop_vocab(v.label),
-            .see_also = cowl_annot_prop_vocab(v.see_also)
-        }
+            .see_also = cowl_annot_prop_vocab(v.see_also),
+        },
     };
 
     return cowl_rdfs_vocab_validate();
@@ -68,6 +64,6 @@ void cowl_rdfs_vocab_deinit(void) {
     cowl_annot_prop_vocab_free(vocab.annot_prop.see_also);
 }
 
-CowlRDFSVocab const* cowl_rdfs_vocab(void) {
+CowlRDFSVocab const *cowl_rdfs_vocab(void) {
     return &vocab;
 }

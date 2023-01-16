@@ -44,7 +44,7 @@ typedef struct CowlImportLoader {
      * @param iri IRI of the ontology to load.
      * @return The imported ontology, or NULL on error.
      */
-    CowlOntology* (*load_ontology)(void *ctx, CowlIRI *iri);
+    CowlOntology *(*load_ontology)(void *ctx, CowlIRI *iri);
 
     /**
      * Pointer to a resource deallocator function for the context.

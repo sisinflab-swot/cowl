@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -11,7 +11,7 @@
 #include "cowl_primitive.h"
 
 CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive) {
-    switch(cowl_get_type(primitive)) {
+    switch (cowl_get_type(primitive)) {
         case COWL_OT_CE_CLASS: return COWL_PT_CLASS;
         case COWL_OT_OPE_OBJ_PROP: return COWL_PT_OBJ_PROP;
         case COWL_OT_I_NAMED: return COWL_PT_NAMED_IND;

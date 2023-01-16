@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -11,9 +11,9 @@
 #ifndef COWL_ONTOLOGY_PRIVATE_H
 #define COWL_ONTOLOGY_PRIVATE_H
 
-#include "cowl_ontology.h"
 #include "cowl_axiom_type.h"
 #include "cowl_object_private.h"
+#include "cowl_ontology.h"
 #include "cowl_ontology_id.h"
 #include "cowl_sym_table_private.h"
 #include "cowl_table.h"
@@ -32,7 +32,7 @@ struct CowlOntology {
     UHash(CowlObjectTable) refs[COWL_PT_COUNT];
 };
 
-CowlOntology* cowl_ontology(CowlManager *manager);
+CowlOntology *cowl_ontology(CowlManager *manager);
 cowl_ret cowl_ontology_finalize(CowlOntology *onto);
 
 COWL_END_DECLS

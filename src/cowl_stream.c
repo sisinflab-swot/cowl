@@ -8,11 +8,11 @@
  * @file
  */
 
-#include "cowl_stream_private.h"
 #include "cowl_manager.h"
 #include "cowl_ontology_private.h"
+#include "cowl_stream_private.h"
 
-static CowlStream* cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, CowlStreamConfig cfg) {
+static CowlStream *cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, CowlStreamConfig cfg) {
     bool free_st = false;
 
     if (!st) {
@@ -24,17 +24,17 @@ static CowlStream* cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, Cow
     CowlStream *stream = ulib_alloc(stream);
     if (!stream) return NULL;
 
-    *stream = (CowlStream) {
+    *stream = (CowlStream){
         .super = COWL_OBJECT_BIT_INIT(COWL_OT_STREAM, free_st),
         .manager = cowl_manager_retain(manager),
         .st = st,
-        .config = cfg
+        .config = cfg,
     };
 
     return stream;
 }
 
-CowlStream* cowl_stream(CowlManager *manager, CowlStreamConfig config) {
+CowlStream *cowl_stream(CowlManager *manager, CowlStreamConfig config) {
     return cowl_stream_alloc(manager, NULL, config);
 }
 
@@ -60,14 +60,14 @@ static cowl_ret store_axiom(void *ctx, CowlAnyAxiom *axiom) {
     return cowl_ontology_add_axiom(ctx, axiom);
 }
 
-CowlStream* cowl_stream_to_ontology(CowlOntology *onto) {
+CowlStream *cowl_stream_to_ontology(CowlOntology *onto) {
     CowlStreamConfig cfg = {
         .ctx = onto,
         .handle_iri = store_iri,
         .handle_version = store_version,
         .handle_import = store_import,
         .handle_annot = store_annot,
-        .handle_axiom = store_axiom
+        .handle_axiom = store_axiom,
     };
     return cowl_stream_alloc(onto->manager, &onto->st, cfg);
 }
@@ -82,11 +82,11 @@ void cowl_stream_release(CowlStream *stream) {
     ulib_free(stream);
 }
 
-CowlManager* cowl_stream_get_manager(CowlStream *stream) {
+CowlManager *cowl_stream_get_manager(CowlStream *stream) {
     return stream->manager;
 }
 
-CowlSymTable* cowl_stream_get_sym_table(CowlStream *stream) {
+CowlSymTable *cowl_stream_get_sym_table(CowlStream *stream) {
     return stream->st;
 }
 

@@ -1,25 +1,25 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
  */
 
-#include "cowl_manager_private.h"
 #include "cowl_config_private.h"
+#include "cowl_manager_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_stream_private.h"
 
-CowlManager* cowl_manager(void) {
+CowlManager *cowl_manager(void) {
     CowlManager *manager = ulib_alloc(manager);
     if (!manager) return NULL;
     *manager = (CowlManager){
         .super = COWL_OBJECT_INIT(COWL_OT_MANAGER),
-        .reader = {0},
-        .ontos = uvec(CowlObjectPtr)
+        .reader = { 0 },
+        .ontos = uvec(CowlObjectPtr),
     };
     return manager;
 }
@@ -78,7 +78,7 @@ static cowl_ret stream_stream_deinit(CowlManager *manager, CowlStream *stream, U
     return ret;
 }
 
-static CowlOntology* read_stream_deinit(CowlManager *manager, UIStream *istream) {
+static CowlOntology *read_stream_deinit(CowlManager *manager, UIStream *istream) {
     CowlOntology *onto = cowl_ontology(manager);
 
     if (!onto) {
@@ -127,7 +127,7 @@ static void handle_path_error(CowlManager *manager, UString path) {
     ustring_deinit(&desc);
 }
 
-CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path) {
+CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path) {
     UIStream stream;
     uistream_from_path(&stream, ustring_data(path));
     CowlOntology *onto = read_stream_deinit(manager, &stream);
@@ -135,19 +135,19 @@ CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path) {
     return onto;
 }
 
-CowlOntology* cowl_manager_read_file(CowlManager *manager, FILE *file) {
+CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file) {
     UIStream stream;
     uistream_from_file(&stream, file);
     return read_stream_deinit(manager, &stream);
 }
 
-CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *string) {
+CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *string) {
     UIStream stream;
     uistream_from_ustring(&stream, string);
     return read_stream_deinit(manager, &stream);
 }
 
-CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream) {
+CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream) {
     CowlOntology *onto = cowl_ontology(manager);
 
     if (!onto) {
@@ -177,15 +177,15 @@ cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlStreamConfig config,
     return stream_stream_deinit(manager, cowl_stream(manager, config), &stream);
 }
 
-cowl_ret cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config,
-                                    UString const *string) {
+cowl_ret
+cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config, UString const *string) {
     UIStream stream;
     uistream_from_ustring(&stream, string);
     return stream_stream_deinit(manager, cowl_stream(manager, config), &stream);
 }
 
-cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config,
-                                    UIStream *istream) {
+cowl_ret
+cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config, UIStream *istream) {
     return stream_stream(manager, cowl_stream(manager, config), istream);
 }
 
@@ -209,12 +209,13 @@ cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig con
     if (config.handle_iri || config.handle_version) {
         CowlOntologyId id = cowl_ontology_get_id(ontology);
         if ((ret = cowl_stream_push_iri(stream, id.iri)) ||
-            (ret = cowl_stream_push_version(stream, id.version))) goto end;
+            (ret = cowl_stream_push_version(stream, id.version)))
+            goto end;
     }
 
     if (config.handle_annot) {
         CowlVector *annotations = cowl_ontology_get_annot(ontology);
-        cowl_vector_foreach(annotations, annot) {
+        cowl_vector_foreach (annotations, annot) {
             if ((ret = cowl_stream_push_annot(stream, *annot.item))) goto end;
         }
     }
@@ -294,9 +295,9 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
     manager->handler = handler;
 }
 
-CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id) {
+CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id) {
     if (id) {
-        uvec_foreach(CowlObjectPtr, &manager->ontos, onto) {
+        uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
             if (cowl_ontology_id_equals(cowl_ontology_get_id(*onto.item), *id)) {
                 return *onto.item;
             }

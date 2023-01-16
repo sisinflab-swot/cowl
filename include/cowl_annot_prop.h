@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -39,7 +39,7 @@ cowl_struct_decl(CowlAnnotProp);
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-CowlAnnotProp* cowl_annot_prop(CowlIRI *iri) {
+CowlAnnotProp *cowl_annot_prop(CowlIRI *iri) {
     return (CowlAnnotProp *)cowl_entity_get_impl(COWL_OT_ANNOT_PROP, iri);
 }
 
@@ -52,7 +52,7 @@ CowlAnnotProp* cowl_annot_prop(CowlIRI *iri) {
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-CowlAnnotProp* cowl_annot_prop_from_string(UString string) {
+CowlAnnotProp *cowl_annot_prop_from_string(UString string) {
     return (CowlAnnotProp *)cowl_entity_from_string_impl(COWL_OT_ANNOT_PROP, string);
 }
 
@@ -75,7 +75,7 @@ CowlAnnotProp* cowl_annot_prop_from_string(UString string) {
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-CowlAnnotProp* cowl_annot_prop_retain(CowlAnnotProp *prop) {
+CowlAnnotProp *cowl_annot_prop_retain(CowlAnnotProp *prop) {
     return (CowlAnnotProp *)cowl_retain(prop);
 }
 
@@ -100,7 +100,7 @@ void cowl_annot_prop_release(CowlAnnotProp *prop) {
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
+CowlIRI *cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
     return cowl_entity_get_iri((CowlEntity *)prop);
 }
 
@@ -115,7 +115,7 @@ CowlIRI* cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
  * @public @memberof CowlAnnotProp
  */
 COWL_INLINE
-CowlString* cowl_annot_prop_to_string(CowlAnnotProp *prop) {
+CowlString *cowl_annot_prop_to_string(CowlAnnotProp *prop) {
     return cowl_entity_to_string((CowlEntity *)prop);
 }
 

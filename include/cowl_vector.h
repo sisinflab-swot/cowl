@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-typedef CowlAny* CowlObjectPtr;
+typedef CowlAny *CowlObjectPtr;
 UVEC_DECL_EQUATABLE_SPEC(CowlObjectPtr, COWL_PUBLIC)
 cowl_struct_decl(CowlVector);
 /// @endcond
@@ -42,7 +42,7 @@ cowl_struct_decl(CowlVector);
  * @public @memberof CowlVector
  */
 COWL_PUBLIC
-CowlVector* cowl_vector(UVec(CowlObjectPtr) *vec);
+CowlVector *cowl_vector(UVec(CowlObjectPtr) * vec);
 
 /**
  * Returns a retained vector.
@@ -56,7 +56,7 @@ CowlVector* cowl_vector(UVec(CowlObjectPtr) *vec);
  * @public @memberof CowlVector
  */
 COWL_PUBLIC
-CowlVector* cowl_vector_ordered(UVec(CowlObjectPtr) *vec);
+CowlVector *cowl_vector_ordered(UVec(CowlObjectPtr) * vec);
 
 /**
  * Returns a retained vector with no elements.
@@ -86,7 +86,7 @@ CowlVector* cowl_vector_ordered(UVec(CowlObjectPtr) *vec);
  * @public @memberof CowlVector
  */
 COWL_INLINE
-CowlVector* cowl_vector_retain(CowlVector *vec) {
+CowlVector *cowl_vector_retain(CowlVector *vec) {
     return (CowlVector *)cowl_retain(vec);
 }
 
@@ -109,7 +109,7 @@ void cowl_vector_release(CowlVector *vec);
  * @public @memberof CowlVector
  */
 COWL_PUBLIC
-UVec(CowlObjectPtr) const* cowl_vector_get_data(CowlVector *vec);
+UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec);
 
 /**
  * Returns the string representation of the specified vector.
@@ -122,7 +122,7 @@ UVec(CowlObjectPtr) const* cowl_vector_get_data(CowlVector *vec);
  * @public @memberof CowlVector
  */
 COWL_INLINE
-CowlString* cowl_vector_to_string(CowlVector *vec) {
+CowlString *cowl_vector_to_string(CowlVector *vec) {
     return cowl_to_string(vec);
 }
 
@@ -185,7 +185,7 @@ ulib_uint cowl_vector_count(CowlVector *vec) {
  * @public @related CowlVector
  */
 COWL_INLINE
-CowlAny* cowl_vector_get_item(CowlVector *vec, ulib_uint idx) {
+CowlAny *cowl_vector_get_item(CowlVector *vec, ulib_uint idx) {
     return uvec_get(CowlObjectPtr, cowl_vector_get_data(vec), idx);
 }
 
@@ -197,7 +197,7 @@ CowlAny* cowl_vector_get_item(CowlVector *vec, ulib_uint idx) {
  *
  * @public @related CowlVector
  */
-#define cowl_vector_foreach(vec, obj) uvec_foreach(CowlObjectPtr, cowl_vector_get_data(vec), obj)
+#define cowl_vector_foreach(vec, obj) uvec_foreach (CowlObjectPtr, cowl_vector_get_data(vec), obj)
 
 COWL_END_DECLS
 

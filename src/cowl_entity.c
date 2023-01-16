@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -36,19 +36,14 @@ void cowl_entity_api_deinit(void) {
     uhash_deinit(CowlObjectTable, &inst_tbl);
 }
 
-static CowlEntity* cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
+static CowlEntity *cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
     CowlEntity *entity = ulib_alloc(entity);
     if (!entity) return NULL;
-
-    (*entity) = (CowlEntity) {
-        .super = COWL_OBJECT_INIT(type),
-        .iri = cowl_iri_retain(iri)
-    };
-
+    *entity = (CowlEntity){ .super = COWL_OBJECT_INIT(type), .iri = cowl_iri_retain(iri) };
     return entity;
 }
 
-CowlAnyEntity* cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
+CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     if (!iri) return NULL;
     ulib_uint idx;
     CowlEntity key = { .super = COWL_OBJECT_INIT(type), .iri = iri };
@@ -79,7 +74,7 @@ void cowl_entity_release(CowlAnyEntity *entity) {
     }
 }
 
-CowlAnyEntity* cowl_entity_from_string_impl(CowlObjectType type, UString string) {
+CowlAnyEntity *cowl_entity_from_string_impl(CowlObjectType type, UString string) {
     CowlEntity *entity = NULL;
     CowlIRI *iri = cowl_iri_from_string(string);
 
@@ -91,16 +86,16 @@ CowlAnyEntity* cowl_entity_from_string_impl(CowlObjectType type, UString string)
     return entity;
 }
 
-CowlString* cowl_entity_to_string(CowlAnyEntity *entity) {
+CowlString *cowl_entity_to_string(CowlAnyEntity *entity) {
     return cowl_primitive_to_string(entity);
 }
 
-CowlIRI* cowl_entity_get_iri(CowlAnyEntity *entity) {
+CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity) {
     return ((CowlEntity *)entity)->iri;
 }
 
 CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity) {
-    switch(cowl_get_type(entity)) {
+    switch (cowl_get_type(entity)) {
         case COWL_OT_CE_CLASS: return COWL_ET_CLASS;
         case COWL_OT_OPE_OBJ_PROP: return COWL_ET_OBJ_PROP;
         case COWL_OT_I_NAMED: return COWL_ET_NAMED_IND;

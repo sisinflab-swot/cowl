@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -15,7 +15,7 @@
 #include "cowl_string_tests.h"
 #include "cowl_version_tests.h"
 
-utest_main(
+utest_main({
     cowl_init();
     utest_run("string", COWL_STRING_TESTS);
     utest_run("iri", COWL_IRI_TESTS);
@@ -23,4 +23,4 @@ utest_main(
     utest_run("ontology", COWL_ONTOLOGY_TESTS);
     utest_run("version", COWL_VERSION_TESTS);
     cowl_deinit();
-)
+})

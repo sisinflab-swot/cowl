@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_OBJECT_H
 #define COWL_OBJECT_H
 
-#include "cowl_std.h"
 #include "cowl_impl.h"
+#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
@@ -37,7 +37,7 @@ cowl_struct_decl(CowlObject);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlAny* cowl_retain(CowlAny *object);
+CowlAny *cowl_retain(CowlAny *object);
 
 /**
  * Releases the specified object.
@@ -146,7 +146,7 @@ bool cowl_is_data_range(CowlAny *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlIRI* cowl_get_iri(CowlAny *object);
+CowlIRI *cowl_get_iri(CowlAny *object);
 
 /**
  * Returns the string representation of the specified object.
@@ -159,7 +159,7 @@ CowlIRI* cowl_get_iri(CowlAny *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlString* cowl_to_string(CowlAny *object);
+CowlString *cowl_to_string(CowlAny *object);
 
 /**
  * Returns a debug string representation of the specified object.
@@ -175,7 +175,7 @@ CowlString* cowl_to_string(CowlAny *object);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
-CowlString* cowl_to_debug_string(CowlAny *object);
+CowlString *cowl_to_debug_string(CowlAny *object);
 
 /**
  * Equality function.

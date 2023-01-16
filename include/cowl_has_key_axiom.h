@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -45,12 +45,12 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlHasKeyAxiom* cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_props,
+CowlHasKeyAxiom *cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_props,
                                     CowlVector *data_props, CowlVector *annot) {
     if (!obj_props) obj_props = cowl_vector_empty();
     if (!data_props) data_props = cowl_vector_empty();
-    return (CowlHasKeyAxiom *)cowl_get_impl_3_annot(COWL_OT_A_HAS_KEY,
-                                                    cls_exp, obj_props, data_props, annot);
+    return (CowlHasKeyAxiom *)cowl_get_impl_3_annot(COWL_OT_A_HAS_KEY, cls_exp, obj_props,
+                                                    data_props, annot);
 }
 
 /**
@@ -62,7 +62,7 @@ CowlHasKeyAxiom* cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_prop
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlHasKeyAxiom* cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) {
+CowlHasKeyAxiom *cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) {
     return (CowlHasKeyAxiom *)cowl_retain(axiom);
 }
 
@@ -87,7 +87,7 @@ void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom) {
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
+CowlClsExp *cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 0);
 }
 
@@ -100,7 +100,7 @@ CowlClsExp* cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
+CowlVector *cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 1);
 }
 
@@ -113,7 +113,7 @@ CowlVector* cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
+CowlVector *cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 2);
 }
 
@@ -126,7 +126,7 @@ CowlVector* cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
+CowlVector *cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -141,7 +141,7 @@ CowlVector* cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
  * @public @memberof CowlHasKeyAxiom
  */
 COWL_INLINE
-CowlString* cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom) {
+CowlString *cowl_has_key_axiom_to_string(CowlHasKeyAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

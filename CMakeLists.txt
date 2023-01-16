@@ -16,7 +16,7 @@ set(COWL_VERSION "${COWL_VERSION_MAJOR}.${COWL_VERSION_MINOR}.${COWL_VERSION_PAT
 
 set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
 set(COWL_VENDOR_URL "http://swot.sisinflab.poliba.it")
-set(COWL_COPYRIGHT_YEAR "2019-2022")
+set(COWL_COPYRIGHT_YEAR "2019-2023")
 set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
 project(Cowl
@@ -96,7 +96,7 @@ list(APPEND COWL_PUBLIC_HEADERS ${COWL_ULIB_HEADERS})
 
 # Sources
 
-file(GLOB COWL_SOURCES CONFIGURE_DEPENDS  "${COWL_SRC_DIR}/*.c")
+file(GLOB COWL_SOURCES CONFIGURE_DEPENDS "${COWL_SRC_DIR}/*.c")
 
 ###############
 ### Targets ###
@@ -149,8 +149,7 @@ endif()
 add_custom_target(cowl-headers
                   COMMAND "${CMAKE_COMMAND}" -E remove_directory "${COWL_HEADERS_OUT_DIR}"
                   COMMAND "${CMAKE_COMMAND}" -E make_directory "${COWL_HEADERS_OUT_DIR}"
-                  COMMAND ${CMAKE_COMMAND} -E copy
-                          ${COWL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
+                  COMMAND ${CMAKE_COMMAND} -E copy ${COWL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
                   COMMENT "Copy headers to the build directory.")
 
 # Library

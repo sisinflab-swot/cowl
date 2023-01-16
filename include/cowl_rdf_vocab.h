@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -76,7 +76,7 @@ typedef struct CowlRDFVocab {
  * @public @memberof CowlRDFVocab
  */
 COWL_PUBLIC
-CowlRDFVocab const* cowl_rdf_vocab(void);
+CowlRDFVocab const *cowl_rdf_vocab(void);
 
 COWL_END_DECLS
 

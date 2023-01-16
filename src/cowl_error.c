@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -12,11 +12,10 @@
 #include "cowl_string.h"
 #include "cowl_writer.h"
 
-CowlString* cowl_error_to_string(CowlError const *error) {
+CowlString *cowl_error_to_string(CowlError const *error) {
     UOStream stream;
     UStrBuf buf = ustrbuf();
-    if (uostream_to_strbuf(&stream, &buf) ||
-        cowl_write_error(&stream, error)) goto err;
+    if (uostream_to_strbuf(&stream, &buf) || cowl_write_error(&stream, error)) goto err;
 
     CowlString *string = cowl_string(ustrbuf_to_ustring(&buf));
     uostream_deinit(&stream);

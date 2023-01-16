@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlAxiom.
 typedef enum CowlAxiomType {
 
-/// @name Declaration/definition
+    /// @name Declaration/definition
 
     /// CowlDeclAxiom - Declaration.
     COWL_AT_DECL,
@@ -28,7 +28,7 @@ typedef enum CowlAxiomType {
     /// CowlDatatypeDefAxiom - Datatype definition.
     COWL_AT_DATATYPE_DEF,
 
-/// @name Class axioms
+    /// @name Class axioms
 
     /// CowlSubClsAxiom - Subclass.
     COWL_AT_SUB_CLASS,
@@ -42,7 +42,7 @@ typedef enum CowlAxiomType {
     /// CowlDisjUnionAxiom - Disjoint union.
     COWL_AT_DISJ_UNION,
 
-/// @name Individual axioms
+    /// @name Individual axioms
 
     /// CowlClsAssertAxiom - Class assertion.
     COWL_AT_CLASS_ASSERT,
@@ -65,7 +65,7 @@ typedef enum CowlAxiomType {
     /// CowlDataPropAssertAxiom - Negative data property assertion.
     COWL_AT_NEG_DATA_PROP_ASSERT,
 
-/// @name Object property axioms
+    /// @name Object property axioms
 
     /// CowlSubObjPropAxiom - Object subproperty.
     COWL_AT_SUB_OBJ_PROP,
@@ -106,7 +106,7 @@ typedef enum CowlAxiomType {
     /// CowlObjPropCharAxiom - Object property range.
     COWL_AT_OBJ_PROP_RANGE,
 
-/// @name Data property axioms
+    /// @name Data property axioms
 
     /// CowlSubDataPropAxiom - Data subproperty.
     COWL_AT_SUB_DATA_PROP,
@@ -126,12 +126,12 @@ typedef enum CowlAxiomType {
     /// CowlDataPropRangeAxiom - Data property range.
     COWL_AT_DATA_PROP_RANGE,
 
-/// @name Keys
+    /// @name Keys
 
     /// CowlHasKeyAxiom - Has key.
     COWL_AT_HAS_KEY,
 
-/// @name Annotation axioms
+    /// @name Annotation axioms
 
     /// CowlAnnotAssertAxiom - Annotation assertion.
     COWL_AT_ANNOT_ASSERT,
@@ -145,7 +145,7 @@ typedef enum CowlAxiomType {
     /// CowlAnnotPropRangeAxiom - Annotation property range.
     COWL_AT_ANNOT_PROP_RANGE,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_AT_COUNT,

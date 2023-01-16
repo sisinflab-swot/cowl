@@ -4,7 +4,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
@@ -14,7 +14,7 @@
 #define IMPORT "import.owl"
 #define LOG "errors.log"
 
-static CowlOntology* load_import(void *ctx, CowlIRI *iri);
+static CowlOntology *load_import(void *ctx, CowlIRI *iri);
 static void handle_error(void *ctx, CowlError const *error);
 
 int main(void) {
@@ -62,7 +62,7 @@ int main(void) {
  * the imported ontology from the local filesystem. In this example
  * we just return a generic local "import.owl" ontology, disregarding its IRI.
  */
-static CowlOntology* load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
+static CowlOntology *load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
     CowlOntology *import = NULL;
     CowlManager *manager = cowl_manager();
 

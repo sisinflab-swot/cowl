@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -23,7 +23,7 @@ typedef enum CowlClsExpType {
     /// CowlClass - class.
     COWL_CET_CLASS,
 
-/// @name Object property restrictions
+    /// @name Object property restrictions
 
     /// CowlObjQuant - "some values from" object property restriction.
     COWL_CET_OBJ_SOME,
@@ -46,7 +46,7 @@ typedef enum CowlClsExpType {
     /// CowlObjHasSelf - "has self" object property restriction.
     COWL_CET_OBJ_HAS_SELF,
 
-/// @name Data property restrictions
+    /// @name Data property restrictions
 
     /// CowlDataQuant - "some values from" data property restriction.
     COWL_CET_DATA_SOME,
@@ -66,7 +66,7 @@ typedef enum CowlClsExpType {
     /// CowlDataHasValue - "has value" data property restriction.
     COWL_CET_DATA_HAS_VALUE,
 
-/// @name Boolean expressions
+    /// @name Boolean expressions
 
     /// CowlNAryBool - Intersection of class expressions.
     COWL_CET_OBJ_INTERSECT,
@@ -77,12 +77,12 @@ typedef enum CowlClsExpType {
     /// CowlObjCompl - Complement of a class expression.
     COWL_CET_OBJ_COMPL,
 
-/// @name Enumeration
+    /// @name Enumeration
 
     /// CowlObjOneOf - Enumeration of individuals.
     COWL_CET_OBJ_ONE_OF,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_CET_COUNT,

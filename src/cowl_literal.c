@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -11,15 +11,15 @@
 #include "cowl_literal.h"
 #include "cowl_datatype.h"
 #include "cowl_object_private.h"
-#include "cowl_string_private.h"
 #include "cowl_rdf_vocab.h"
+#include "cowl_string_private.h"
 #include "cowl_xsd_vocab.h"
 
 static inline bool cowl_literal_is_lang_string(CowlLiteral *literal) {
     return cowl_object_bit_get(literal);
 }
 
-static CowlString* parse_lang(CowlString *value, CowlString **lang) {
+static CowlString *parse_lang(CowlString *value, CowlString **lang) {
     UString const *raw_value = cowl_string_get_raw(value);
     char const *val_str = ustring_data(*raw_value);
     ulib_uint val_len = ustring_length(*raw_value);
@@ -43,7 +43,7 @@ static CowlString* parse_lang(CowlString *value, CowlString **lang) {
     return value;
 }
 
-CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
+CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     if (!value) return NULL;
     CowlRDFVocab const *v = cowl_rdf_vocab();
 
@@ -82,7 +82,7 @@ CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
     return (CowlLiteral *)literal;
 }
 
-CowlLiteral* cowl_literal_from_string(UString dt, UString value, UString lang) {
+CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang) {
     CowlDatatype *cdt = cowl_datatype_from_string(dt);
     CowlString *cvalue = cowl_string_opt(value, COWL_SO_COPY);
     CowlString *clang = cowl_string_opt(lang, COWL_SO_COPY | COWL_SO_INTERN);
@@ -105,16 +105,16 @@ void cowl_literal_release(CowlLiteral *literal) {
     }
 }
 
-CowlDatatype* cowl_literal_get_datatype(CowlLiteral *literal) {
+CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal) {
     if (cowl_literal_is_lang_string(literal)) return cowl_rdf_vocab()->dt.lang_string;
     return cowl_get_field(literal, 1);
 }
 
-CowlString* cowl_literal_get_value(CowlLiteral *literal) {
+CowlString *cowl_literal_get_value(CowlLiteral *literal) {
     return cowl_get_field(literal, 0);
 }
 
-CowlString* cowl_literal_get_lang(CowlLiteral *literal) {
+CowlString *cowl_literal_get_lang(CowlLiteral *literal) {
     if (cowl_literal_is_lang_string(literal)) return cowl_get_field(literal, 1);
     return NULL;
 }

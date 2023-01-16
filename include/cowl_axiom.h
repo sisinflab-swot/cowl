@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlAxiom);
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlAnyAxiom* cowl_axiom_retain(CowlAnyAxiom *axiom) {
+CowlAnyAxiom *cowl_axiom_retain(CowlAnyAxiom *axiom) {
     return cowl_retain(axiom);
 }
 
@@ -79,7 +79,7 @@ CowlAxiomType cowl_axiom_get_type(CowlAnyAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlVector* cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
+CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -94,7 +94,7 @@ CowlVector* cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_INLINE
-CowlString* cowl_axiom_to_string(CowlAnyAxiom *axiom) {
+CowlString *cowl_axiom_to_string(CowlAnyAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -44,7 +44,7 @@ cowl_struct_decl(CowlVector);
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlAnnotation* cowl_annotation(CowlAnnotProp *prop, CowlAnyAnnotValue *value, CowlVector *annot) {
+CowlAnnotation *cowl_annotation(CowlAnnotProp *prop, CowlAnyAnnotValue *value, CowlVector *annot) {
     return (CowlAnnotation *)cowl_get_impl_2_annot(COWL_OT_ANNOTATION, prop, value, annot);
 }
 
@@ -57,7 +57,7 @@ CowlAnnotation* cowl_annotation(CowlAnnotProp *prop, CowlAnyAnnotValue *value, C
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlAnnotation* cowl_annotation_retain(CowlAnnotation *annot) {
+CowlAnnotation *cowl_annotation_retain(CowlAnnotation *annot) {
     return (CowlAnnotation *)cowl_retain(annot);
 }
 
@@ -82,10 +82,9 @@ void cowl_annotation_release(CowlAnnotation *annot) {
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot) {
+CowlAnnotProp *cowl_annotation_get_prop(CowlAnnotation *annot) {
     return (CowlAnnotProp *)cowl_get_field(annot, 0);
 }
-
 
 /**
  * Gets the annotation value.
@@ -96,7 +95,7 @@ CowlAnnotProp* cowl_annotation_get_prop(CowlAnnotation *annot) {
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot) {
+CowlAnnotValue *cowl_annotation_get_value(CowlAnnotation *annot) {
     return (CowlAnnotValue *)cowl_get_field(annot, 1);
 }
 
@@ -109,7 +108,7 @@ CowlAnnotValue* cowl_annotation_get_value(CowlAnnotation *annot) {
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot) {
+CowlVector *cowl_annotation_get_annot(CowlAnnotation *annot) {
     return (CowlVector *)cowl_get_opt_field(annot);
 }
 
@@ -124,7 +123,7 @@ CowlVector* cowl_annotation_get_annot(CowlAnnotation *annot) {
  * @public @memberof CowlAnnotation
  */
 COWL_INLINE
-CowlString* cowl_annotation_to_string(CowlAnnotation *annot) {
+CowlString *cowl_annotation_to_string(CowlAnnotation *annot) {
     return cowl_to_string(annot);
 }
 

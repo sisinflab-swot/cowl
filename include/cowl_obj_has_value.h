@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -42,7 +42,7 @@ cowl_struct_decl(CowlObjHasValue);
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlObjHasValue* cowl_obj_has_value(CowlAnyObjPropExp *prop, CowlAnyIndividual *individual) {
+CowlObjHasValue *cowl_obj_has_value(CowlAnyObjPropExp *prop, CowlAnyIndividual *individual) {
     return (CowlObjHasValue *)cowl_get_impl_2(COWL_OT_CE_OBJ_HAS_VALUE, prop, individual);
 }
 
@@ -55,7 +55,7 @@ CowlObjHasValue* cowl_obj_has_value(CowlAnyObjPropExp *prop, CowlAnyIndividual *
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlObjHasValue* cowl_obj_has_value_retain(CowlObjHasValue *exp) {
+CowlObjHasValue *cowl_obj_has_value_retain(CowlObjHasValue *exp) {
     return (CowlObjHasValue *)cowl_retain(exp);
 }
 
@@ -80,7 +80,7 @@ void cowl_obj_has_value_release(CowlObjHasValue *exp) {
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
+CowlObjPropExp *cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
     return (CowlObjPropExp *)cowl_get_field(exp, 0);
 }
 
@@ -93,7 +93,7 @@ CowlObjPropExp* cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
+CowlIndividual *cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
     return (CowlIndividual *)cowl_get_field(exp, 1);
 }
 
@@ -108,7 +108,7 @@ CowlIndividual* cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
  * @public @memberof CowlObjHasValue
  */
 COWL_INLINE
-CowlString* cowl_obj_has_value_to_string(CowlObjHasValue *exp) {
+CowlString *cowl_obj_has_value_to_string(CowlObjHasValue *exp) {
     return cowl_to_string(exp);
 }
 

@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,7 +43,8 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-CowlDisjUnionAxiom* cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) {
+CowlDisjUnionAxiom *
+cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) {
     return (CowlDisjUnionAxiom *)cowl_get_impl_2_annot(COWL_OT_A_DISJ_UNION, cls, disjoints, annot);
 }
 
@@ -56,7 +57,7 @@ CowlDisjUnionAxiom* cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints,
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-CowlDisjUnionAxiom* cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom) {
+CowlDisjUnionAxiom *cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom) {
     return (CowlDisjUnionAxiom *)cowl_retain(axiom);
 }
 
@@ -81,7 +82,7 @@ void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom) {
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
+CowlClass *cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
     return (CowlClass *)cowl_get_field(axiom, 0);
 }
 
@@ -93,7 +94,7 @@ CowlClass* cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
+CowlVector *cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 1);
 }
 
@@ -106,7 +107,7 @@ CowlVector* cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
+CowlVector *cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -121,7 +122,7 @@ CowlVector* cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
  * @public @memberof CowlDisjUnionAxiom
  */
 COWL_INLINE
-CowlString* cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom) {
+CowlString *cowl_disj_union_axiom_to_string(CowlDisjUnionAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

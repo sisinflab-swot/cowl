@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlIRI);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix);
+CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix);
 
 /**
  * Returns a retained IRI given its string representation.
@@ -54,7 +54,7 @@ CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-CowlIRI* cowl_iri_from_string(UString string);
+CowlIRI *cowl_iri_from_string(UString string);
 
 /**
  * Returns a retained IRI given its static string representation.
@@ -75,7 +75,7 @@ CowlIRI* cowl_iri_from_string(UString string);
  * @public @memberof CowlIRI
  */
 COWL_INLINE
-CowlIRI* cowl_iri_retain(CowlIRI *iri) {
+CowlIRI *cowl_iri_retain(CowlIRI *iri) {
     return (CowlIRI *)cowl_retain(iri);
 }
 
@@ -98,7 +98,7 @@ void cowl_iri_release(CowlIRI *iri);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-CowlString* cowl_iri_get_ns(CowlIRI *iri);
+CowlString *cowl_iri_get_ns(CowlIRI *iri);
 
 /**
  * Gets the remainder of the specified IRI.
@@ -109,7 +109,7 @@ CowlString* cowl_iri_get_ns(CowlIRI *iri);
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
-CowlString* cowl_iri_get_rem(CowlIRI *iri);
+CowlString *cowl_iri_get_rem(CowlIRI *iri);
 
 /**
  * Checks whether the IRI has a remainder.
@@ -135,7 +135,7 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
  * @public @memberof CowlIRI
  */
 COWL_INLINE
-CowlString* cowl_iri_to_string(CowlIRI *iri) {
+CowlString *cowl_iri_to_string(CowlIRI *iri) {
     return cowl_iri_has_rem(iri) ? cowl_to_string(iri) : cowl_string_retain(cowl_iri_get_ns(iri));
 }
 

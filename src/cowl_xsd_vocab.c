@@ -8,8 +8,8 @@
  * @file
  */
 
-#include "cowl_xsd_vocab_private.h"
 #include "cowl_vocab_utils.h"
+#include "cowl_xsd_vocab_private.h"
 
 static CowlXSDVocab vocab;
 
@@ -17,12 +17,16 @@ static inline cowl_ret cowl_xsd_vocab_validate(void) {
     if (!vocab.ns) return COWL_ERR_MEM;
 
     void **temp = (void **)&vocab.iri;
-    size_t count = sizeof(vocab.iri) / sizeof(void*);
-    for (size_t i = 0; i < count; ++i) if (!temp[i]) return COWL_ERR_MEM;
+    size_t count = sizeof(vocab.iri) / sizeof(void *);
+    for (size_t i = 0; i < count; ++i) {
+        if (!temp[i]) return COWL_ERR_MEM;
+    }
 
     temp = (void **)&vocab.dt;
-    count = sizeof(vocab.dt) / sizeof(void*);
-    for (size_t i = 0; i < count; ++i) if (!temp[i]) return COWL_ERR_MEM;
+    count = sizeof(vocab.dt) / sizeof(void *);
+    for (size_t i = 0; i < count; ++i) {
+        if (!temp[i]) return COWL_ERR_MEM;
+    }
 
     return COWL_OK;
 }
@@ -90,10 +94,10 @@ cowl_ret cowl_xsd_vocab_init(void) {
         .max_inclusive = cowl_iri_vocab(ns, "maxInclusive"),
         .max_exclusive = cowl_iri_vocab(ns, "maxExclusive"),
         .total_digits = cowl_iri_vocab(ns, "totalDigits"),
-        .fraction_digits = cowl_iri_vocab(ns, "fractionDigits")
+        .fraction_digits = cowl_iri_vocab(ns, "fractionDigits"),
     };
 
-    vocab = (struct CowlXSDVocab) {
+    vocab = (struct CowlXSDVocab){
         .ns = ns,
         .iri = v,
         .dt = {
@@ -146,8 +150,8 @@ cowl_ret cowl_xsd_vocab_init(void) {
             .unsigned_int = cowl_datatype_vocab(v.unsigned_int),
             .unsigned_long = cowl_datatype_vocab(v.unsigned_long),
             .unsigned_short = cowl_datatype_vocab(v.unsigned_short),
-            .year_month_duration = cowl_datatype_vocab(v.year_month_duration)
-        }
+            .year_month_duration = cowl_datatype_vocab(v.year_month_duration),
+        },
     };
 
     return cowl_xsd_vocab_validate();
@@ -157,14 +161,18 @@ void cowl_xsd_vocab_deinit(void) {
     cowl_string_vocab_free(vocab.ns);
 
     CowlIRI **iris = (CowlIRI **)&vocab.iri;
-    size_t count = sizeof(vocab.iri) / sizeof(CowlIRI*);
-    for (size_t i = 0; i < count; ++i) cowl_iri_vocab_free(iris[i]);
+    size_t count = sizeof(vocab.iri) / sizeof(CowlIRI *);
+    for (size_t i = 0; i < count; ++i) {
+        cowl_iri_vocab_free(iris[i]);
+    }
 
     CowlDatatype **dts = (CowlDatatype **)&vocab.dt;
-    count = sizeof(vocab.dt) / sizeof(CowlDatatype*);
-    for (size_t i = 0; i < count; ++i) cowl_datatype_vocab_free(dts[i]);
+    count = sizeof(vocab.dt) / sizeof(CowlDatatype *);
+    for (size_t i = 0; i < count; ++i) {
+        cowl_datatype_vocab_free(dts[i]);
+    }
 }
 
-CowlXSDVocab const* cowl_xsd_vocab(void) {
+CowlXSDVocab const *cowl_xsd_vocab(void) {
     return &vocab;
 }

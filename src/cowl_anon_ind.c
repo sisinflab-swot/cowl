@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -37,19 +37,17 @@ static UString generate_id(void) {
     return urand_string(rand_id_len, NULL);
 }
 
-static CowlAnonInd* anon_ind_alloc(CowlString *id) {
+static CowlAnonInd *anon_ind_alloc(CowlString *id) {
     CowlAnonInd *ind = ulib_alloc(ind);
     if (!ind) return NULL;
-
-    *ind = (CowlAnonInd) {
+    *ind = (CowlAnonInd){
         .super = COWL_OBJECT_INIT(COWL_OT_I_ANONYMOUS),
-        .id = cowl_string_retain(id)
+        .id = cowl_string_retain(id),
     };
-
     return ind;
 }
 
-static CowlAnonInd* anon_ind(CowlString *id, bool copy_id) {
+static CowlAnonInd *anon_ind(CowlString *id, bool copy_id) {
     ulib_uint idx;
     CowlAnonInd key = { .id = id };
     uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
@@ -77,7 +75,7 @@ static CowlAnonInd* anon_ind(CowlString *id, bool copy_id) {
     return val;
 }
 
-static CowlAnonInd* anon_ind_generate(void) {
+static CowlAnonInd *anon_ind_generate(void) {
     UString id = generate_id();
     if (ustring_is_null(id)) return NULL;
 
@@ -114,11 +112,11 @@ err:
     return NULL;
 }
 
-CowlAnonInd* cowl_anon_ind(CowlString *id) {
+CowlAnonInd *cowl_anon_ind(CowlString *id) {
     return id ? anon_ind(id, false) : anon_ind_generate();
 }
 
-CowlAnonInd* cowl_anon_ind_from_string(UString string) {
+CowlAnonInd *cowl_anon_ind_from_string(UString string) {
     CowlString id = cowl_string_init(string);
     return anon_ind(&id, true);
 }
@@ -131,6 +129,6 @@ void cowl_anon_ind_release(CowlAnonInd *ind) {
     }
 }
 
-CowlString* cowl_anon_ind_get_id(CowlAnonInd *ind) {
+CowlString *cowl_anon_ind_get_id(CowlAnonInd *ind) {
     return ind->id;
 }

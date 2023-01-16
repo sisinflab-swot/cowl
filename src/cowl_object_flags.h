@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -31,9 +31,9 @@ COWL_BEGIN_DECLS
 // of references is (2^24 - 1), being as big as (2^56 - 1) if COWL_HUGE is defined.
 
 #if defined COWL_HUGE
-    #define COWL_OBJECT_FLAGS_SIZE 64
+#define COWL_OBJECT_FLAGS_SIZE 64
 #else
-    #define COWL_OBJECT_FLAGS_SIZE 32
+#define COWL_OBJECT_FLAGS_SIZE 32
 #endif
 
 #define COWL_OBJECT_FLAGS_TYPE_SIZE 7
@@ -50,21 +50,18 @@ typedef UBit(COWL_OF) CowlObjectFlags;
 #define COWL_OBJECT_FLAGS_BIT_TYPE_MASK (ubit_all(COWL_OF) & ~COWL_OBJECT_FLAGS_REF_MASK)
 #define COWL_OBJECT_FLAGS_TYPE_MASK (COWL_OBJECT_FLAGS_BIT_TYPE_MASK & ~COWL_OBJECT_FLAGS_BIT_MASK)
 
-#define cowl_object_flags(TYPE, HAS_BIT) (                                                          \
-     ubit_lshift(COWL_OF, TYPE, COWL_OBJECT_FLAGS_TYPE_OFFSET) |                                    \
-     ((HAS_BIT) ? COWL_OBJECT_FLAGS_BIT_MASK : ubit_none(COWL_OF)) | 1                              \
-)
+#define cowl_object_flags(TYPE, HAS_BIT)                                                           \
+    (ubit_lshift(COWL_OF, TYPE, COWL_OBJECT_FLAGS_TYPE_OFFSET) |                                   \
+     ((HAS_BIT) ? COWL_OBJECT_FLAGS_BIT_MASK : ubit_none(COWL_OF)) | 1)
 
-#define cowl_object_flags_has_bit(FLAGS) \
-    ubit_is_set(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
-#define cowl_object_flags_set_bit(FLAGS) \
+#define cowl_object_flags_has_bit(FLAGS) ubit_is_set(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
+#define cowl_object_flags_set_bit(FLAGS)                                                           \
     ((FLAGS) = ubit_set(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK))
 
-#define cowl_object_flags_get_type(FLAGS) \
-    ((CowlObjectType)(((FLAGS) & COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))
+#define cowl_object_flags_get_type(FLAGS)                                                          \
+    ((CowlObjectType)(((FLAGS)&COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))
 
-#define cowl_object_flags_get_ref(FLAGS) \
-    ((ulib_uint)((FLAGS) & COWL_OBJECT_FLAGS_REF_MASK))
+#define cowl_object_flags_get_ref(FLAGS) ((ulib_uint)((FLAGS)&COWL_OBJECT_FLAGS_REF_MASK))
 
 #define cowl_object_flags_incr_ref(FLAGS) (++(FLAGS))
 #define cowl_object_flags_decr_ref(FLAGS) (--(FLAGS))

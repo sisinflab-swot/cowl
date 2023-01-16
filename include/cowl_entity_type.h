@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlEntity.
 typedef enum CowlEntityType {
 
-/// @name Types
+    /// @name Types
 
     /// CowlClass - class.
     COWL_ET_CLASS,
@@ -40,7 +40,7 @@ typedef enum CowlEntityType {
     /// CowlDatatype - datatype.
     COWL_ET_DATATYPE,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_ET_COUNT,

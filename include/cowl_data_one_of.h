@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -40,7 +40,7 @@ cowl_struct_decl(CowlDataOneOf);
  * @public @memberof CowlDataOneOf
  */
 COWL_INLINE
-CowlDataOneOf* cowl_data_one_of(CowlVector *values) {
+CowlDataOneOf *cowl_data_one_of(CowlVector *values) {
     return (CowlDataOneOf *)cowl_get_impl_1(COWL_OT_DR_DATA_ONE_OF, values);
 }
 
@@ -53,7 +53,7 @@ CowlDataOneOf* cowl_data_one_of(CowlVector *values) {
  * @public @memberof CowlDataOneOf
  */
 COWL_INLINE
-CowlDataOneOf* cowl_data_one_of_retain(CowlDataOneOf *range) {
+CowlDataOneOf *cowl_data_one_of_retain(CowlDataOneOf *range) {
     return (CowlDataOneOf *)cowl_retain(range);
 }
 
@@ -78,7 +78,7 @@ void cowl_data_one_of_release(CowlDataOneOf *range) {
  * @public @memberof CowlDataOneOf
  */
 COWL_INLINE
-CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range) {
+CowlVector *cowl_data_one_of_get_values(CowlDataOneOf *range) {
     return (CowlVector *)cowl_get_field(range, 0);
 }
 
@@ -93,7 +93,7 @@ CowlVector* cowl_data_one_of_get_values(CowlDataOneOf *range) {
  * @public @memberof CowlDataOneOf
  */
 COWL_INLINE
-CowlString* cowl_data_one_of_to_string(CowlDataOneOf *range) {
+CowlString *cowl_data_one_of_to_string(CowlDataOneOf *range) {
     return cowl_to_string(range);
 }
 

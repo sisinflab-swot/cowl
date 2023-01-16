@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlObject.
 typedef enum CowlObjectType {
 
-/// @name Base types
+    /// @name Base types
 
     /// CowlString - String.
     COWL_OT_STRING = 0,
@@ -55,7 +55,7 @@ typedef enum CowlObjectType {
     /// CowlAnnotProp - Annotation property.
     COWL_OT_ANNOT_PROP,
 
-/// @name Axioms
+    /// @name Axioms
 
     /// CowlDeclAxiom - Declaration.
     COWL_OT_A_DECL,
@@ -168,7 +168,7 @@ typedef enum CowlObjectType {
     /// CowlAnnotPropRangeAxiom - Annotation property range.
     COWL_OT_A_ANNOT_PROP_RANGE,
 
-/// @name Class expressions
+    /// @name Class expressions
 
     /// CowlClass - class.
     COWL_OT_CE_CLASS,
@@ -224,12 +224,12 @@ typedef enum CowlObjectType {
     /// CowlObjOneOf - Enumeration of individuals.
     COWL_OT_CE_OBJ_ONE_OF,
 
-/// @name Data property expressions
+    /// @name Data property expressions
 
     /// CowlDataProp - Data property.
     COWL_OT_DPE_DATA_PROP,
 
-/// @name Data ranges
+    /// @name Data ranges
 
     /// CowlDatatype - Datatype.
     COWL_OT_DR_DATATYPE,
@@ -249,7 +249,7 @@ typedef enum CowlObjectType {
     /// CowlDataOneOf - Enumeration of literals.
     COWL_OT_DR_DATA_ONE_OF,
 
-/// @name Individuals
+    /// @name Individuals
 
     /// CowlAnonInd - Anonymous individual.
     COWL_OT_I_ANONYMOUS,
@@ -257,7 +257,7 @@ typedef enum CowlObjectType {
     /// CowlNamedInd - Named individual.
     COWL_OT_I_NAMED,
 
-/// @name Object property expressions
+    /// @name Object property expressions
 
     /// CowlObjProp - Object property.
     COWL_OT_OPE_OBJ_PROP,
@@ -265,7 +265,7 @@ typedef enum CowlObjectType {
     /// CowlInvObjProp - Inverse object property.
     COWL_OT_OPE_INV_OBJ_PROP,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_OT_COUNT,

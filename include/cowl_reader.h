@@ -34,7 +34,7 @@ typedef struct CowlReader {
      *
      * @note This member is optional.
      */
-    void* (*alloc)(void);
+    void *(*alloc)(void);
 
     /**
      * Pointer to a function that deallocates the reader's state and releases reserved resources.

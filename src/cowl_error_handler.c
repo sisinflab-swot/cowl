@@ -26,7 +26,7 @@ static CowlErrorHandler cowl_best_error_handler(CowlObject *origin) {
         default: break;
     }
 
-    CowlErrorHandler handler = manager ? manager->handler : (CowlErrorHandler){0};
+    CowlErrorHandler handler = manager ? manager->handler : (CowlErrorHandler){ 0 };
     if (!handler.handle_error) handler = cowl_get_error_handler();
 
     return handler;
@@ -34,7 +34,7 @@ static CowlErrorHandler cowl_best_error_handler(CowlObject *origin) {
 
 void cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
     if (code == COWL_ERR_SYNTAX) {
-        cowl_handle_syntax_error(desc, origin, (CowlErrorLoc){0});
+        cowl_handle_syntax_error(desc, origin, (CowlErrorLoc){ 0 });
         return;
     }
 
@@ -47,7 +47,7 @@ void cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
     CowlError error = {
         .code = code,
         .origin = origin,
-        .description = cowl_string_get_length(&description) ? &description : NULL
+        .description = cowl_string_get_length(&description) ? &description : NULL,
     };
 
     handler.handle_error(handler.ctx, &error);
@@ -70,9 +70,9 @@ void cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
         .super = {
             .code = COWL_ERR_SYNTAX,
             .origin = origin,
-            .description = cowl_string_get_length(&description) ? &description : NULL
+            .description = cowl_string_get_length(&description) ? &description : NULL,
         },
-        .loc = loc
+        .loc = loc,
     };
 
     handler.handle_error(handler.ctx, (CowlError *)&error);

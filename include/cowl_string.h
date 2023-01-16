@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,7 +43,7 @@ cowl_struct_decl(CowlString);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string(UString string);
+CowlString *cowl_string(UString string);
 
 /**
  * Returns a retained string.
@@ -65,7 +65,7 @@ CowlString* cowl_string(UString string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_opt(UString string, CowlStringOpts opts);
+CowlString *cowl_string_opt(UString string, CowlStringOpts opts);
 
 /**
  * Returns a retained string from the specified static string.
@@ -85,7 +85,7 @@ CowlString* cowl_string_opt(UString string, CowlStringOpts opts);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_empty(void);
+CowlString *cowl_string_empty(void);
 
 /**
  * Retains the specified string.
@@ -96,7 +96,7 @@ CowlString* cowl_string_empty(void);
  * @public @memberof CowlString
  */
 COWL_INLINE
-CowlString* cowl_string_retain(CowlString *string) {
+CowlString *cowl_string_retain(CowlString *string) {
     return (CowlString *)cowl_retain(string);
 }
 
@@ -126,7 +126,7 @@ void cowl_string_release(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_intern(CowlString *string);
+CowlString *cowl_string_intern(CowlString *string);
 
 /**
  * Releases the specified string, returning its buffer as a copy.
@@ -140,7 +140,7 @@ CowlString* cowl_string_intern(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-char const* cowl_string_release_copying_cstring(CowlString *string);
+char const *cowl_string_release_copying_cstring(CowlString *string);
 
 /**
  * Gets the underlying string buffer.
@@ -151,8 +151,7 @@ char const* cowl_string_release_copying_cstring(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-char const* cowl_string_get_cstring(CowlString *string);
-
+char const *cowl_string_get_cstring(CowlString *string);
 
 /**
  * Gets the length of the string, excluding the NULL terminator.
@@ -174,7 +173,7 @@ ulib_uint cowl_string_get_length(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-UString const* cowl_string_get_raw(CowlString *string);
+UString const *cowl_string_get_raw(CowlString *string);
 
 /**
  * Returns the string representation of the specified string.
@@ -221,7 +220,7 @@ ulib_uint cowl_string_hash(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_with_format(char const *format, ...);
+CowlString *cowl_string_with_format(char const *format, ...);
 
 /**
  * Returns a retained string obtained by concatenating two strings.
@@ -233,7 +232,7 @@ CowlString* cowl_string_with_format(char const *format, ...);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-CowlString* cowl_string_concat(CowlString *lhs, CowlString *rhs);
+CowlString *cowl_string_concat(CowlString *lhs, CowlString *rhs);
 
 COWL_END_DECLS
 

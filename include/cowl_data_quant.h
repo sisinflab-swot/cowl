@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -45,8 +45,8 @@ cowl_struct_decl(CowlDataQuant);
  * @public @memberof CowlDataQuant
  */
 COWL_PUBLIC
-CowlDataQuant* cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop,
-                               CowlAnyDataRange *range);
+CowlDataQuant *
+cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range);
 
 /**
  * Retains the specified data quantifier.
@@ -57,7 +57,7 @@ CowlDataQuant* cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop,
  * @public @memberof CowlDataQuant
  */
 COWL_INLINE
-CowlDataQuant* cowl_data_quant_retain(CowlDataQuant *restr) {
+CowlDataQuant *cowl_data_quant_retain(CowlDataQuant *restr) {
     return (CowlDataQuant *)cowl_retain(restr);
 }
 
@@ -95,7 +95,7 @@ CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr) {
  * @public @memberof CowlDataQuant
  */
 COWL_INLINE
-CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
+CowlDataPropExp *cowl_data_quant_get_prop(CowlDataQuant *restr) {
     return (CowlDataPropExp *)cowl_get_field(restr, 0);
 }
 
@@ -108,7 +108,7 @@ CowlDataPropExp* cowl_data_quant_get_prop(CowlDataQuant *restr) {
  * @public @memberof CowlDataQuant
  */
 COWL_PUBLIC
-CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr);
+CowlDataRange *cowl_data_quant_get_range(CowlDataQuant *restr);
 
 /**
  * Returns the string representation of the specified data quantifier.
@@ -121,7 +121,7 @@ CowlDataRange* cowl_data_quant_get_range(CowlDataQuant *restr);
  * @public @memberof CowlDataQuant
  */
 COWL_INLINE
-CowlString* cowl_data_quant_to_string(CowlDataQuant *restr) {
+CowlString *cowl_data_quant_to_string(CowlDataQuant *restr) {
     return cowl_to_string(restr);
 }
 

@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -42,7 +42,7 @@ cowl_struct_decl(CowlDataHasValue);
  * @public @memberof CowlDataHasValue
  */
 COWL_INLINE
-CowlDataHasValue* cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *value) {
+CowlDataHasValue *cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *value) {
     return (CowlDataHasValue *)cowl_get_impl_2(COWL_OT_CE_DATA_HAS_VALUE, prop, value);
 }
 
@@ -55,7 +55,7 @@ CowlDataHasValue* cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *val
  * @public @memberof CowlDataHasValue
  */
 COWL_INLINE
-CowlDataHasValue* cowl_data_has_value_retain(CowlDataHasValue *restr) {
+CowlDataHasValue *cowl_data_has_value_retain(CowlDataHasValue *restr) {
     return (CowlDataHasValue *)cowl_retain(restr);
 }
 
@@ -80,7 +80,7 @@ void cowl_data_has_value_release(CowlDataHasValue *restr) {
  * @public @memberof CowlDataHasValue
  */
 COWL_INLINE
-CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
+CowlDataPropExp *cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
     return (CowlDataPropExp *)cowl_get_field(restr, 0);
 }
 
@@ -93,7 +93,7 @@ CowlDataPropExp* cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
  * @public @memberof CowlDataHasValue
  */
 COWL_INLINE
-CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr) {
+CowlLiteral *cowl_data_has_value_get_value(CowlDataHasValue *restr) {
     return (CowlLiteral *)cowl_get_field(restr, 1);
 }
 
@@ -108,7 +108,7 @@ CowlLiteral* cowl_data_has_value_get_value(CowlDataHasValue *restr) {
  * @public @memberof CowlDataHasValue
  */
 COWL_INLINE
-CowlString* cowl_data_has_value_to_string(CowlDataHasValue *restr) {
+CowlString *cowl_data_has_value_to_string(CowlDataHasValue *restr) {
     return cowl_to_string(restr);
 }
 

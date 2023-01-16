@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny*, CowlAny*, COWL_PUBLIC)
+UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny *, CowlAny *, COWL_PUBLIC)
 cowl_struct_decl(CowlTable);
 /// @endcond
 
@@ -40,7 +40,7 @@ cowl_struct_decl(CowlTable);
  * @public @memberof CowlTable
  */
 COWL_PUBLIC
-CowlTable* cowl_table(UHash(CowlObjectTable) *table);
+CowlTable *cowl_table(UHash(CowlObjectTable) * table);
 
 /**
  * Returns a retained hash table with no elements.
@@ -60,7 +60,7 @@ CowlTable* cowl_table(UHash(CowlObjectTable) *table);
  * @public @memberof CowlTable
  */
 COWL_INLINE
-CowlTable* cowl_table_retain(CowlTable *table) {
+CowlTable *cowl_table_retain(CowlTable *table) {
     return (CowlTable *)cowl_retain(table);
 }
 
@@ -83,7 +83,7 @@ void cowl_table_release(CowlTable *table);
  * @public @memberof CowlTable
  */
 COWL_PUBLIC
-UHash(CowlObjectTable) const* cowl_table_get_data(CowlTable *table);
+UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
 
 /**
  * Returns the string representation of the specified hash table.
@@ -96,7 +96,7 @@ UHash(CowlObjectTable) const* cowl_table_get_data(CowlTable *table);
  * @public @memberof CowlVector
  */
 COWL_INLINE
-CowlString* cowl_table_to_string(CowlTable *table) {
+CowlString *cowl_table_to_string(CowlTable *table) {
     return cowl_to_string(table);
 }
 
@@ -123,7 +123,7 @@ ulib_uint cowl_table_count(CowlTable *table) {
  * @public @memberof CowlTable
  */
 COWL_INLINE
-CowlAny* cowl_table_get_value(CowlTable *table, CowlAny *key) {
+CowlAny *cowl_table_get_value(CowlTable *table, CowlAny *key) {
     return uhmap_get(CowlObjectTable, cowl_table_get_data(table), key, NULL);
 }
 
@@ -136,7 +136,7 @@ CowlAny* cowl_table_get_value(CowlTable *table, CowlAny *key) {
  * @public @memberof CowlTable
  */
 COWL_INLINE
-CowlAny* cowl_table_get_any(CowlTable *table) {
+CowlAny *cowl_table_get_any(CowlTable *table) {
     return uhset_get_any(CowlObjectTable, cowl_table_get_data(table), NULL);
 }
 
@@ -198,8 +198,8 @@ bool cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, C
  *
  * @public @related CowlTable
  */
-#define cowl_table_foreach(table, obj) \
-    uhash_foreach(CowlObjectTable, cowl_table_get_data(table), obj)
+#define cowl_table_foreach(table, obj)                                                             \
+    uhash_foreach (CowlObjectTable, cowl_table_get_data(table), obj)
 
 COWL_END_DECLS
 

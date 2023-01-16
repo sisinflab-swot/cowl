@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -23,7 +23,7 @@ COWL_BEGIN_DECLS
  */
 typedef enum CowlNAryAxiomType {
 
-/// @name Classes and Properties
+    /// @name Classes and Properties
 
     /// Equivalence.
     COWL_NAT_EQUIV,
@@ -31,7 +31,7 @@ typedef enum CowlNAryAxiomType {
     /// Disjointness.
     COWL_NAT_DISJ,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_NAT_COUNT,
@@ -39,7 +39,7 @@ typedef enum CowlNAryAxiomType {
     /// First enum value.
     COWL_NAT_FIRST = 0,
 
-/// @name Individuals
+    /// @name Individuals
 
     /// Same individuals.
     COWL_NAT_SAME = COWL_NAT_EQUIV,

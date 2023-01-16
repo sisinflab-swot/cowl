@@ -13,9 +13,9 @@
 #ifndef COWL_WRITER_H
 #define COWL_WRITER_H
 
-#include "cowl_std.h"
 #include "cowl_error.h"
 #include "cowl_object_type.h"
+#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
@@ -38,7 +38,7 @@ typedef struct CowlWriter {
      *
      * @note This member is optional.
      */
-    void* (*alloc)(void);
+    void *(*alloc)(void);
 
     /**
      * Pointer to a function that deallocates the writer's state

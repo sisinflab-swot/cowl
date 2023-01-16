@@ -1,15 +1,15 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
  */
 
-#include "cowl_config_private.h"
 #include "cowl_anon_ind_private.h"
+#include "cowl_config_private.h"
 #include "cowl_entity_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_owl_vocab_private.h"
@@ -27,20 +27,20 @@ static CowlReader global_reader;
 static CowlWriter global_writer;
 
 #ifdef COWL_DEFAULT_READER
-    #define cowl_default_reader() P_ULIB_MACRO_CONCAT(cowl_reader_, COWL_DEFAULT_READER)()
+#define cowl_default_reader() P_ULIB_MACRO_CONCAT(cowl_reader_, COWL_DEFAULT_READER)()
 #else
-    #define cowl_default_reader() ((CowlReader){0})
+#define cowl_default_reader() ((CowlReader){ 0 })
 #endif
 
 #ifdef COWL_DEFAULT_WRITER
-    #define cowl_default_writer() P_ULIB_MACRO_CONCAT(cowl_writer_, COWL_DEFAULT_WRITER)()
+#define cowl_default_writer() P_ULIB_MACRO_CONCAT(cowl_writer_, COWL_DEFAULT_WRITER)()
 #else
-    #define cowl_default_writer() ((CowlWriter){0})
+#define cowl_default_writer() ((CowlWriter){ 0 })
 #endif
 
 static void cowl_config_init(void) {
-    global_error_handler = (CowlErrorHandler){0};
-    global_import_loader = (CowlImportLoader){0};
+    global_error_handler = (CowlErrorHandler){ 0 };
+    global_import_loader = (CowlImportLoader){ 0 };
     global_reader = cowl_default_reader();
     global_writer = cowl_default_writer();
 
@@ -58,15 +58,9 @@ cowl_ret cowl_init(void) {
     cowl_initialized = true;
     cowl_config_init();
 
-    if (cowl_object_api_init() ||
-        cowl_iri_api_init() ||
-        cowl_entity_api_init() ||
-        cowl_anon_ind_api_init() ||
-        cowl_string_api_init() ||
-        cowl_owl_vocab_init() ||
-        cowl_rdf_vocab_init() ||
-        cowl_rdfs_vocab_init() ||
-        cowl_xsd_vocab_init()) {
+    if (cowl_object_api_init() || cowl_iri_api_init() || cowl_entity_api_init() ||
+        cowl_anon_ind_api_init() || cowl_string_api_init() || cowl_owl_vocab_init() ||
+        cowl_rdf_vocab_init() || cowl_rdfs_vocab_init() || cowl_xsd_vocab_init()) {
         return COWL_ERR_MEM;
     }
 
@@ -91,7 +85,7 @@ void cowl_deinit(void) {
 CowlErrorHandler cowl_get_error_handler(void) {
     return (CowlErrorHandler){
         .ctx = global_error_handler.ctx,
-        .handle_error = global_error_handler.handle_error
+        .handle_error = global_error_handler.handle_error,
     };
 }
 
@@ -102,7 +96,7 @@ void cowl_set_error_handler(CowlErrorHandler handler) {
 CowlImportLoader cowl_get_import_loader(void) {
     return (CowlImportLoader){
         .ctx = global_import_loader.ctx,
-        .load_ontology = global_import_loader.load_ontology
+        .load_ontology = global_import_loader.load_ontology,
     };
 }
 

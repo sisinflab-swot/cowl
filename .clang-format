@@ -1,0 +1,24 @@
+BasedOnStyle: LLVM
+AllowShortBlocksOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
+ColumnLimit: 100
+Cpp11BracedListStyle: false
+ForEachMacros:
+  - cowl_vector_foreach
+  - cowl_table_foreach
+  - uvec_foreach
+  - uhash_foreach
+IndentCaseLabels: true
+IndentWidth: 4
+PenaltyBreakAssignment: 100
+PenaltyBreakBeforeFirstCallParameter: 100
+PenaltyBreakOpenParenthesis: 100
+PenaltyExcessCharacter: 1000
+PenaltyIndentedWhitespace: 1
+PenaltyReturnTypeOnItsOwnLine: 0
+StatementMacros:
+  - COWL_BEGIN_DECLS
+  - COWL_END_DECLS

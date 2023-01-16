@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier - EPL-2.0
  *
@@ -17,11 +17,10 @@
 
 COWL_BEGIN_DECLS
 
-
 /// Represents the type of CowlDataRange.
 typedef enum CowlDataRangeType {
 
-/// @name Types
+    /// @name Types
 
     /// CowlDatatype - Datatype.
     COWL_DRT_DATATYPE,
@@ -41,7 +40,7 @@ typedef enum CowlDataRangeType {
     /// CowlDataOneOf - Enumeration of literals.
     COWL_DRT_DATA_ONE_OF,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_DRT_COUNT,

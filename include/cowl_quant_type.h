@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,21 +20,21 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlObjQuant and CowlDataQuant.
 typedef enum CowlQuantType {
 
-/// @name Types
+    /// @name Types
 
     /// Existential quantifier (SomeValuesFrom).
-        COWL_QT_SOME,
+    COWL_QT_SOME,
 
     /// Universal quantifier (AllValuesFrom).
-        COWL_QT_ALL,
+    COWL_QT_ALL,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
-        COWL_QT_COUNT,
+    COWL_QT_COUNT,
 
     /// First enum value.
-        COWL_QT_FIRST = 0
+    COWL_QT_FIRST = 0
 
 } CowlQuantType;
 

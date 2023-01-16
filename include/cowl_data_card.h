@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_DATA_CARD_H
 #define COWL_DATA_CARD_H
 
-#include "cowl_object.h"
 #include "cowl_card_type.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -48,8 +48,8 @@ cowl_struct_decl(CowlDataCard);
  * @public @memberof CowlDataCard
  */
 COWL_PUBLIC
-CowlDataCard* cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop,
-                             CowlAnyDataRange *range, ulib_uint cardinality);
+CowlDataCard *cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range,
+                             ulib_uint cardinality);
 
 /**
  * Retains the specified data property cardinality restriction.
@@ -60,7 +60,7 @@ CowlDataCard* cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop,
  * @public @memberof CowlDataCard
  */
 COWL_INLINE
-CowlDataCard* cowl_data_card_retain(CowlDataCard *restr) {
+CowlDataCard *cowl_data_card_retain(CowlDataCard *restr) {
     return (CowlDataCard *)cowl_retain(restr);
 }
 
@@ -98,7 +98,7 @@ CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
  * @public @memberof CowlDataCard
  */
 COWL_INLINE
-CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {
+CowlDataPropExp *cowl_data_card_get_prop(CowlDataCard *restr) {
     return (CowlDataPropExp *)cowl_get_field(restr, 0);
 }
 
@@ -111,7 +111,7 @@ CowlDataPropExp* cowl_data_card_get_prop(CowlDataCard *restr) {
  * @public @memberof CowlDataCard
  */
 COWL_PUBLIC
-CowlDataRange* cowl_data_card_get_range(CowlDataCard *restr);
+CowlDataRange *cowl_data_card_get_range(CowlDataCard *restr);
 
 /**
  * Gets the cardinality of the restriction.
@@ -137,7 +137,7 @@ ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr) {
  * @public @memberof CowlDataCard
  */
 COWL_INLINE
-CowlString* cowl_data_card_to_string(CowlDataCard *restr) {
+CowlString *cowl_data_card_to_string(CowlDataCard *restr) {
     return cowl_to_string(restr);
 }
 

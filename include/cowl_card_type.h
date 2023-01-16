@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlObjCard and CowlDataCard.
 typedef enum CowlCardType {
 
-/// @name Types
+    /// @name Types
 
     /// Minimum cardinality.
     COWL_CT_MIN,
@@ -31,7 +31,7 @@ typedef enum CowlCardType {
     /// Exact cardinality.
     COWL_CT_EXACT,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_CT_COUNT,

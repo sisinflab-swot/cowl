@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_PRIMITIVE_H
 #define COWL_PRIMITIVE_H
 
-#include "cowl_primitive_type.h"
 #include "cowl_object.h"
+#include "cowl_primitive_type.h"
 
 COWL_BEGIN_DECLS
 
@@ -38,7 +38,7 @@ cowl_struct_decl(CowlPrimitive);
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-CowlAnyPrimitive* cowl_primitive_retain(CowlAnyPrimitive *primitive) {
+CowlAnyPrimitive *cowl_primitive_retain(CowlAnyPrimitive *primitive) {
     return cowl_retain(primitive);
 }
 
@@ -87,7 +87,7 @@ bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive);
  * @public @memberof CowlPrimitive
  */
 COWL_INLINE
-CowlString* cowl_primitive_to_string(CowlAnyPrimitive *primitive) {
+CowlString *cowl_primitive_to_string(CowlAnyPrimitive *primitive) {
     return cowl_to_string(primitive);
 }
 

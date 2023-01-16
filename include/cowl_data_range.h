@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlDataRange);
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-CowlAnyDataRange* cowl_data_range_retain(CowlAnyDataRange *range) {
+CowlAnyDataRange *cowl_data_range_retain(CowlAnyDataRange *range) {
     return cowl_retain(range);
 }
 
@@ -53,7 +53,9 @@ CowlAnyDataRange* cowl_data_range_retain(CowlAnyDataRange *range) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-void cowl_data_range_release(CowlAnyDataRange *range) { cowl_release(range); }
+void cowl_data_range_release(CowlAnyDataRange *range) {
+    cowl_release(range);
+}
 
 /**
  * Gets the type of the specified data range.
@@ -79,7 +81,7 @@ CowlDataRangeType cowl_data_range_get_type(CowlAnyDataRange *range) {
  * @public @memberof CowlDataRange
  */
 COWL_INLINE
-CowlString* cowl_data_range_to_string(CowlAnyDataRange *range) {
+CowlString *cowl_data_range_to_string(CowlAnyDataRange *range) {
     return cowl_to_string(range);
 }
 

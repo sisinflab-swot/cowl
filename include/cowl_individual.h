@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -39,7 +39,7 @@ cowl_struct_decl(CowlIndividual);
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-CowlAnyIndividual* cowl_individual_retain(CowlAnyIndividual *ind) {
+CowlAnyIndividual *cowl_individual_retain(CowlAnyIndividual *ind) {
     return cowl_retain(ind);
 }
 
@@ -78,7 +78,7 @@ bool cowl_individual_is_named(CowlAnyIndividual *ind) {
  * @public @memberof CowlIndividual
  */
 COWL_INLINE
-CowlString* cowl_individual_to_string(CowlAnyIndividual *ind) {
+CowlString *cowl_individual_to_string(CowlAnyIndividual *ind) {
     return cowl_to_string(ind);
 }
 

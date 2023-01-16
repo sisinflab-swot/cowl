@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -44,7 +44,7 @@ cowl_struct_decl(CowlLiteral);
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang);
+CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang);
 
 /**
  * Returns a retained literal given the string representations of its components.
@@ -57,7 +57,7 @@ CowlLiteral* cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-CowlLiteral* cowl_literal_from_string(UString dt, UString value, UString lang);
+CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang);
 
 /**
  * Returns a retained literal given the static string representations of its components.
@@ -69,7 +69,7 @@ CowlLiteral* cowl_literal_from_string(UString dt, UString value, UString lang);
  *
  * @public @related CowlLiteral
  */
-#define cowl_literal_from_static(DT, VALUE, LANG) \
+#define cowl_literal_from_static(DT, VALUE, LANG)                                                  \
     cowl_literal_from_string(ustring_literal(DT), ustring_literal(VALUE), ustring_literal(LANG))
 
 /**
@@ -81,7 +81,7 @@ CowlLiteral* cowl_literal_from_string(UString dt, UString value, UString lang);
  * @public @memberof CowlLiteral
  */
 COWL_INLINE
-CowlLiteral* cowl_literal_retain(CowlLiteral *literal) {
+CowlLiteral *cowl_literal_retain(CowlLiteral *literal) {
     return (CowlLiteral *)cowl_retain(literal);
 }
 
@@ -104,7 +104,7 @@ void cowl_literal_release(CowlLiteral *literal);
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-CowlDatatype* cowl_literal_get_datatype(CowlLiteral *literal);
+CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal);
 
 /**
  * Gets the value.
@@ -115,7 +115,7 @@ CowlDatatype* cowl_literal_get_datatype(CowlLiteral *literal);
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-CowlString* cowl_literal_get_value(CowlLiteral *literal);
+CowlString *cowl_literal_get_value(CowlLiteral *literal);
 
 /**
  * Gets the language tag.
@@ -126,7 +126,7 @@ CowlString* cowl_literal_get_value(CowlLiteral *literal);
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-CowlString* cowl_literal_get_lang(CowlLiteral *literal);
+CowlString *cowl_literal_get_lang(CowlLiteral *literal);
 
 /**
  * Returns the string representation of the specified literal.
@@ -139,7 +139,7 @@ CowlString* cowl_literal_get_lang(CowlLiteral *literal);
  * @public @memberof CowlLiteral
  */
 COWL_PUBLIC
-CowlString* cowl_literal_to_string(CowlLiteral *literal);
+CowlString *cowl_literal_to_string(CowlLiteral *literal);
 
 /**
  * Equality function.

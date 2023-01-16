@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -86,7 +86,8 @@ bool cowl_test_string_concat(void) {
 }
 
 bool cowl_test_string_intern(void) {
-    CowlString *a = cowl_string_opt(ustring_literal(COWL_TEST_STRING), COWL_SO_COPY | COWL_SO_INTERN);
+    CowlString *a = cowl_string_opt(ustring_literal(COWL_TEST_STRING),
+                                    COWL_SO_COPY | COWL_SO_INTERN);
     CowlString *ai = cowl_string_intern(a);
     utest_assert_ptr(a, ==, ai);
 

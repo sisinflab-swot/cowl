@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -40,7 +40,7 @@ cowl_struct_decl(CowlObjPropExp);
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-CowlAnyObjPropExp* cowl_obj_prop_exp_retain(CowlAnyObjPropExp *exp) {
+CowlAnyObjPropExp *cowl_obj_prop_exp_retain(CowlAnyObjPropExp *exp) {
     return cowl_retain(exp);
 }
 
@@ -78,7 +78,7 @@ bool cowl_obj_prop_exp_is_inverse(CowlAnyObjPropExp *exp) {
  * @public @memberof CowlObjPropExp
  */
 COWL_PUBLIC
-CowlObjProp* cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
+CowlObjProp *cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
 
 /**
  * Returns the string representation of the specified object property expression.
@@ -91,7 +91,7 @@ CowlObjProp* cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
  * @public @memberof CowlObjPropExp
  */
 COWL_INLINE
-CowlString* cowl_obj_prop_exp_to_string(CowlAnyObjPropExp *exp) {
+CowlString *cowl_obj_prop_exp_to_string(CowlAnyObjPropExp *exp) {
     return cowl_to_string(exp);
 }
 

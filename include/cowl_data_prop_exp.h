@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -40,7 +40,7 @@ cowl_struct_decl(CowlDataPropExp);
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-CowlAnyDataPropExp* cowl_data_prop_exp_retain(CowlAnyDataPropExp *exp) {
+CowlAnyDataPropExp *cowl_data_prop_exp_retain(CowlAnyDataPropExp *exp) {
     return (CowlAnyDataPropExp *)cowl_data_prop_retain((CowlDataProp *)exp);
 }
 
@@ -65,7 +65,7 @@ void cowl_data_prop_exp_release(CowlAnyDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-CowlDataProp* cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
+CowlDataProp *cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
     return (CowlDataProp *)exp;
 }
 
@@ -80,7 +80,7 @@ CowlDataProp* cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
  * @public @memberof CowlDataPropExp
  */
 COWL_INLINE
-CowlString* cowl_data_prop_exp_to_string(CowlAnyDataPropExp *exp) {
+CowlString *cowl_data_prop_exp_to_string(CowlAnyDataPropExp *exp) {
     return cowl_data_prop_to_string((CowlDataProp *)exp);
 }
 

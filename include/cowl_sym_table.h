@@ -1,6 +1,6 @@
 /**
  * Declares CowlSymTable and its API.
- * 
+ *
  * @author Ivano Bilenchi
  *
  * @copyright Copyright (c) 2022 SisInf Lab, Polytechnic University of Bari
@@ -39,7 +39,7 @@ cowl_struct_decl(CowlTable);
  * @public @memberof CowlSymTable
  */
 COWL_PUBLIC
-CowlTable* cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse);
+CowlTable *cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse);
 
 /**
  * Returns the namespace associated with the specified prefix.
@@ -51,7 +51,7 @@ CowlTable* cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse);
  * @public @memberof CowlSymTable
  */
 COWL_PUBLIC
-CowlString* cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix);
+CowlString *cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix);
 
 /**
  * Returns the prefix associated with the specified namespace.
@@ -63,12 +63,12 @@ CowlString* cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix);
  * @public @memberof CowlSymTable
  */
 COWL_PUBLIC
-CowlString* cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns);
+CowlString *cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns);
 
 /**
  * Registers the specified prefix-namespace mapping.
- * 
- * @param st The symbol table. 
+ *
+ * @param st The symbol table.
  * @param prefix The prefix.
  * @param ns The namespace.
  * @return Return code.
@@ -102,7 +102,7 @@ cowl_ret cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, US
  * @public @memberof CowlSymTable
  */
 COWL_PUBLIC
-CowlIRI* cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem);
+CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem);
 
 /**
  * Retrieves the full IRI associated with the specified short IRI.
@@ -114,7 +114,7 @@ CowlIRI* cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem);
  * @public @memberof CowlSymTable
  */
 COWL_PUBLIC
-CowlIRI* cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri);
+CowlIRI *cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri);
 
 COWL_END_DECLS
 

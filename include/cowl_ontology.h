@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -48,7 +48,7 @@ cowl_struct_decl(CowlOntology);
  * @public @memberof CowlOntology
  */
 COWL_INLINE
-CowlOntology* cowl_ontology_retain(CowlOntology *onto) {
+CowlOntology *cowl_ontology_retain(CowlOntology *onto) {
     return (CowlOntology *)cowl_retain(onto);
 }
 
@@ -71,7 +71,7 @@ void cowl_ontology_release(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlManager* cowl_ontology_get_manager(CowlOntology *onto);
+CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
 
 /**
  * Gets the symbol table of this ontology.
@@ -82,7 +82,7 @@ CowlManager* cowl_ontology_get_manager(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlSymTable* cowl_ontology_get_sym_table(CowlOntology *onto);
+CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
 
 /**
  * Gets the ontology ID.
@@ -126,7 +126,7 @@ void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlVector* cowl_ontology_get_annot(CowlOntology *onto);
+CowlVector *cowl_ontology_get_annot(CowlOntology *onto);
 
 /**
  * Adds an annotation to the ontology.
@@ -161,7 +161,7 @@ void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlOntology* cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
+CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
 
 /**
  * Gets the import IRI of an imported ontology.
@@ -173,7 +173,7 @@ CowlOntology* cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-CowlIRI* cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
+CowlIRI *cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
 
 /**
  * Adds an import to the ontology.
@@ -232,7 +232,7 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  * @public @memberof CowlOntology
  */
 COWL_INLINE
-CowlString* cowl_ontology_to_string(CowlOntology *onto) {
+CowlString *cowl_ontology_to_string(CowlOntology *onto) {
     return cowl_to_string(onto);
 }
 
@@ -323,8 +323,8 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPri
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags,
-                                         bool imports);
+ulib_uint
+cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, bool imports);
 
 /**
  * Checks if the specified primitive is referenced by an axiom in the ontology.
@@ -435,8 +435,8 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
-                                       CowlIterator *iter, bool imports);
+bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
+                                       bool imports);
 
 /**
  * Iterates over the superclasses of the specified class.
@@ -465,8 +465,8 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
  * @public @memberof CowlOntology
  */
 COWL_PUBLIC
-bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
-                                      CowlIterator *iter, bool imports);
+bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
+                                      bool imports);
 
 /**
  * Iterates over the disjoint classes of the specified class.

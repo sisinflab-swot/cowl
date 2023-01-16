@@ -119,6 +119,7 @@ jobs:
 
       - name: Configure runner
         run: |
+          brew update
           if [ -z ${{env.doxygen_version}} ]; then
             brew install doxygen
           else

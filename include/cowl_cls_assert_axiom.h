@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -44,8 +44,8 @@ cowl_struct_decl(CowlClsAssertAxiom);
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_INLINE
-CowlClsAssertAxiom* cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual *ind,
-                                          CowlVector *annot) {
+CowlClsAssertAxiom *
+cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual *ind, CowlVector *annot) {
     return (CowlClsAssertAxiom *)cowl_get_impl_2_annot(COWL_OT_A_CLASS_ASSERT, exp, ind, annot);
 }
 
@@ -58,7 +58,7 @@ CowlClsAssertAxiom* cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual 
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_INLINE
-CowlClsAssertAxiom* cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom) {
+CowlClsAssertAxiom *cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom) {
     return (CowlClsAssertAxiom *)cowl_retain(axiom);
 }
 
@@ -83,7 +83,7 @@ void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom) {
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_INLINE
-CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
+CowlClsExp *cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 0);
 }
 
@@ -96,7 +96,7 @@ CowlClsExp* cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_INLINE
-CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
+CowlIndividual *cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
     return (CowlIndividual *)cowl_get_field(axiom, 1);
 }
 
@@ -109,7 +109,7 @@ CowlIndividual* cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_INLINE
-CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
+CowlVector *cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -124,7 +124,7 @@ CowlVector* cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
  * @public @memberof CowlClsAssertAxiom
  */
 COWL_INLINE
-CowlString* cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom) {
+CowlString *cowl_cls_assert_axiom_to_string(CowlClsAssertAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

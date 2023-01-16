@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -42,7 +42,7 @@ cowl_struct_decl(CowlDatatypeRestr);
  * @public @memberof CowlDatatypeRestr
  */
 COWL_INLINE
-CowlDatatypeRestr* cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restrictions) {
+CowlDatatypeRestr *cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restrictions) {
     return (CowlDatatypeRestr *)cowl_get_impl_2(COWL_OT_DR_DATATYPE_RESTR, datatype, restrictions);
 }
 
@@ -55,7 +55,7 @@ CowlDatatypeRestr* cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restr
  * @public @memberof CowlDatatypeRestr
  */
 COWL_INLINE
-CowlDatatypeRestr* cowl_datatype_restr_retain(CowlDatatypeRestr *restr) {
+CowlDatatypeRestr *cowl_datatype_restr_retain(CowlDatatypeRestr *restr) {
     return (CowlDatatypeRestr *)cowl_retain(restr);
 }
 
@@ -80,7 +80,7 @@ void cowl_datatype_restr_release(CowlDatatypeRestr *restr) {
  * @public @memberof CowlDatatypeRestr
  */
 COWL_INLINE
-CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
+CowlDatatype *cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
     return (CowlDatatype *)cowl_get_field(restr, 0);
 }
 
@@ -93,7 +93,7 @@ CowlDatatype* cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
  * @public @memberof CowlDatatypeRestr
  */
 COWL_INLINE
-CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
+CowlVector *cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
     return (CowlVector *)cowl_get_field(restr, 1);
 }
 
@@ -108,7 +108,7 @@ CowlVector* cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
  * @public @memberof CowlDatatypeRestr
  */
 COWL_INLINE
-CowlString* cowl_datatype_restr_to_string(CowlDatatypeRestr *restr) {
+CowlString *cowl_datatype_restr_to_string(CowlDatatypeRestr *restr) {
     return cowl_to_string(restr);
 }
 

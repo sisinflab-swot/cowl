@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_NARY_CLS_AXIOM_H
 #define COWL_NARY_CLS_AXIOM_H
 
-#include "cowl_object.h"
 #include "cowl_nary_axiom_type.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,8 +44,8 @@ cowl_struct_decl(CowlNAryClsAxiom);
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_INLINE
-CowlNAryClsAxiom* cowl_nary_cls_axiom(CowlNAryAxiomType type, CowlVector *classes,
-                                      CowlVector *annot) {
+CowlNAryClsAxiom *
+cowl_nary_cls_axiom(CowlNAryAxiomType type, CowlVector *classes, CowlVector *annot) {
     if (!cowl_enum_value_is_valid(NAT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_A_EQUIV_CLASSES + (CowlObjectType)type);
     return (CowlNAryClsAxiom *)cowl_get_impl_1_annot(t, classes, annot);
@@ -60,7 +60,7 @@ CowlNAryClsAxiom* cowl_nary_cls_axiom(CowlNAryAxiomType type, CowlVector *classe
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_INLINE
-CowlNAryClsAxiom* cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom) {
+CowlNAryClsAxiom *cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom) {
     return (CowlNAryClsAxiom *)cowl_retain(axiom);
 }
 
@@ -98,7 +98,7 @@ CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom) {
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_INLINE
-CowlVector* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
+CowlVector *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 0);
 }
 
@@ -111,7 +111,7 @@ CowlVector* cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_INLINE
-CowlVector* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
+CowlVector *cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -126,7 +126,7 @@ CowlVector* cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
  * @public @memberof CowlNAryClsAxiom
  */
 COWL_INLINE
-CowlString* cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom) {
+CowlString *cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

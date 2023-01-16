@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2020 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -20,7 +20,7 @@ COWL_BEGIN_DECLS
 /// Represents the type of CowlNAryBool and CowlNAryData.
 typedef enum CowlNAryType {
 
-/// @name Types
+    /// @name Types
 
     /// Intersection.
     COWL_NT_INTERSECT,
@@ -28,7 +28,7 @@ typedef enum CowlNAryType {
     /// Union.
     COWL_NT_UNION,
 
-/// @name Markers
+    /// @name Markers
 
     /// Number of enum values.
     COWL_NT_COUNT,

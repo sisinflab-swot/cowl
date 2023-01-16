@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,10 +43,10 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_INLINE
-CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotProp *super,
-                                                 CowlVector *annot) {
-    return (CowlSubAnnotPropAxiom *)cowl_get_impl_2_annot(COWL_OT_A_SUB_ANNOT_PROP,
-                                                          sub, super, annot);
+CowlSubAnnotPropAxiom *
+cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotProp *super, CowlVector *annot) {
+    return (CowlSubAnnotPropAxiom *)cowl_get_impl_2_annot(COWL_OT_A_SUB_ANNOT_PROP, sub, super,
+                                                          annot);
 }
 
 /**
@@ -58,7 +58,7 @@ CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotPr
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_INLINE
-CowlSubAnnotPropAxiom* cowl_sub_annot_prop_axiom_retain(CowlSubAnnotPropAxiom *axiom) {
+CowlSubAnnotPropAxiom *cowl_sub_annot_prop_axiom_retain(CowlSubAnnotPropAxiom *axiom) {
     return (CowlSubAnnotPropAxiom *)cowl_retain(axiom);
 }
 
@@ -83,7 +83,7 @@ void cowl_sub_annot_prop_axiom_release(CowlSubAnnotPropAxiom *axiom) {
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_INLINE
-CowlAnnotProp* cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
+CowlAnnotProp *cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
     return (CowlAnnotProp *)cowl_get_field(axiom, 0);
 }
 
@@ -96,7 +96,7 @@ CowlAnnotProp* cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_INLINE
-CowlAnnotProp* cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom) {
+CowlAnnotProp *cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom) {
     return (CowlAnnotProp *)cowl_get_field(axiom, 1);
 }
 
@@ -109,7 +109,7 @@ CowlAnnotProp* cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom)
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_INLINE
-CowlVector* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
+CowlVector *cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -124,7 +124,7 @@ CowlVector* cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
  * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_INLINE
-CowlString* cowl_sub_annot_prop_axiom_to_string(CowlSubAnnotPropAxiom *axiom) {
+CowlString *cowl_sub_annot_prop_axiom_to_string(CowlSubAnnotPropAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

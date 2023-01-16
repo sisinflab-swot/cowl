@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -12,29 +12,29 @@
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
-static CowlVector* cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
+static CowlVector *cowl_vector_alloc(UVec(CowlObjectPtr) * data, bool ordered) {
     if (data && uvec_shrink(CowlObjectPtr, data) != UVEC_OK) return NULL;
 
     CowlVector *vec = ulib_alloc(vec);
     if (!vec) return NULL;
 
-    *vec = (CowlVector) {
+    *vec = (CowlVector){
         .super = COWL_OBJECT_BIT_INIT(COWL_OT_VECTOR, ordered),
-        .data = data ? uvec_move(CowlObjectPtr, data) : uvec(CowlObjectPtr)
+        .data = data ? uvec_move(CowlObjectPtr, data) : uvec(CowlObjectPtr),
     };
 
-    uvec_foreach(CowlObjectPtr, &vec->data, obj) {
+    uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         cowl_retain(*obj.item);
     }
 
     return vec;
 }
 
-CowlVector* cowl_vector(UVec(CowlObjectPtr) *vec) {
+CowlVector *cowl_vector(UVec(CowlObjectPtr) * vec) {
     return cowl_vector_alloc(vec, false);
 }
 
-CowlVector* cowl_vector_ordered(UVec(CowlObjectPtr) *vec) {
+CowlVector *cowl_vector_ordered(UVec(CowlObjectPtr) * vec) {
     return cowl_vector_alloc(vec, true);
 }
 
@@ -45,15 +45,17 @@ void cowl_vector_release(CowlVector *vec) {
 void cowl_vector_release_ex(CowlVector *vec, bool release_elements) {
     if (vec && !cowl_object_decr_ref(vec)) {
         if (release_elements) {
-            uvec_foreach(CowlObjectPtr, &vec->data, obj) { cowl_release(*obj.item); }
+            uvec_foreach (CowlObjectPtr, &vec->data, obj) {
+                cowl_release(*obj.item);
+            }
         }
         uvec_deinit(CowlObjectPtr, &vec->data);
         ulib_free(vec);
     }
 }
 
-UVec(CowlObjectPtr) const* cowl_vector_get_data(CowlVector *vec) {
-    static UVec(CowlObjectPtr) const empty_data = {0};
+UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec) {
+    static UVec(CowlObjectPtr) const empty_data = { 0 };
     return vec ? &vec->data : &empty_data;
 }
 
@@ -63,8 +65,10 @@ static bool cowl_vector_equals_order(CowlVector *lhs, CowlVector *rhs) {
 
 static bool cowl_vector_equals_no_order(CowlVector *lhs, CowlVector *rhs) {
     if (lhs == rhs) return true;
-    if (uvec_count(CowlObjectPtr, &lhs->data) != uvec_count(CowlObjectPtr, &rhs->data)) return false;
-    uvec_foreach(CowlObjectPtr, &lhs->data, obj) {
+    if (uvec_count(CowlObjectPtr, &lhs->data) != uvec_count(CowlObjectPtr, &rhs->data)) {
+        return false;
+    }
+    uvec_foreach (CowlObjectPtr, &lhs->data, obj) {
         if (!uvec_contains(CowlObjectPtr, &rhs->data, *obj.item)) return false;
     }
     return true;
@@ -78,7 +82,7 @@ bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs) {
 static ulib_uint cowl_vector_hash_order(CowlVector *vec) {
     ulib_uint hash = 0;
 
-    uvec_foreach(CowlObjectPtr, &vec->data, obj) {
+    uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         ulib_uint h = cowl_hash(*obj.item);
         hash = uhash_combine_hash(hash, h);
     }
@@ -89,7 +93,7 @@ static ulib_uint cowl_vector_hash_order(CowlVector *vec) {
 static ulib_uint cowl_vector_hash_no_order(CowlVector *vec) {
     ulib_uint hash = 0;
 
-    uvec_foreach(CowlObjectPtr, &vec->data, obj) {
+    uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         hash ^= cowl_hash(*obj.item);
     }
 
@@ -104,7 +108,7 @@ ulib_uint cowl_vector_hash(CowlVector *vec) {
 bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter) {
     if (!vec) return true;
 
-    uvec_foreach(CowlObjectPtr, &vec->data, obj) {
+    uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         if (!cowl_iterate_primitives(*obj.item, flags, iter)) return false;
     }
 

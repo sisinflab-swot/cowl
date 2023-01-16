@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -46,7 +46,7 @@ cowl_struct_decl(CowlObjQuant);
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
-CowlObjQuant* cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler);
+CowlObjQuant *cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler);
 
 /**
  * Retains the specified object quantifier.
@@ -57,7 +57,7 @@ CowlObjQuant* cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAn
  * @public @memberof CowlObjQuant
  */
 COWL_INLINE
-CowlObjQuant* cowl_obj_quant_retain(CowlObjQuant *restr) {
+CowlObjQuant *cowl_obj_quant_retain(CowlObjQuant *restr) {
     return (CowlObjQuant *)cowl_retain(restr);
 }
 
@@ -95,7 +95,7 @@ CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
  * @public @memberof CowlObjQuant
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) {
+CowlObjPropExp *cowl_obj_quant_get_prop(CowlObjQuant *restr) {
     return (CowlObjPropExp *)cowl_get_field(restr, 0);
 }
 
@@ -108,7 +108,7 @@ CowlObjPropExp* cowl_obj_quant_get_prop(CowlObjQuant *restr) {
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
-CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
+CowlClsExp *cowl_obj_quant_get_filler(CowlObjQuant *restr);
 
 /**
  * Returns the string representation of the specified object quantifier.
@@ -121,7 +121,7 @@ CowlClsExp* cowl_obj_quant_get_filler(CowlObjQuant *restr);
  * @public @memberof CowlObjQuant
  */
 COWL_INLINE
-CowlString* cowl_obj_quant_to_string(CowlObjQuant *restr) {
+CowlString *cowl_obj_quant_to_string(CowlObjQuant *restr) {
     return cowl_to_string(restr);
 }
 

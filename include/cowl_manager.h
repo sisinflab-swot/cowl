@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -51,7 +51,7 @@ cowl_struct_decl(CowlManager);
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlManager* cowl_manager(void);
+CowlManager *cowl_manager(void);
 
 /**
  * Retains the specified manager.
@@ -62,7 +62,7 @@ CowlManager* cowl_manager(void);
  * @public @memberof CowlManager
  */
 COWL_INLINE
-CowlManager* cowl_manager_retain(CowlManager *manager) {
+CowlManager *cowl_manager_retain(CowlManager *manager) {
     return (CowlManager *)cowl_retain(manager);
 }
 
@@ -133,7 +133,7 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
+CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
 
 /**
  * Reads an ontology from the file at the specified path.
@@ -147,7 +147,7 @@ CowlOntology* cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path);
+CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path);
 
 /**
  * Reads an ontology from the specified file.
@@ -161,7 +161,7 @@ CowlOntology* cowl_manager_read_path(CowlManager *manager, UString path);
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOntology* cowl_manager_read_file(CowlManager *manager, FILE *file);
+CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file);
 
 /**
  * Reads an ontology from the specified string.
@@ -175,7 +175,7 @@ CowlOntology* cowl_manager_read_file(CowlManager *manager, FILE *file);
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *string);
+CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *string);
 
 /**
  * Reads an ontology from the specified input stream.
@@ -190,7 +190,7 @@ CowlOntology* cowl_manager_read_string(CowlManager *manager, UString const *stri
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOntology* cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
+CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
 
 /**
  * Streams through the ontology at the specified path.
@@ -229,8 +229,8 @@ cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlStreamConfig config,
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-cowl_ret cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config,
-                                    UString const *string);
+cowl_ret
+cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config, UString const *string);
 
 /**
  * Streams through the ontology read from the specified input stream.
@@ -243,8 +243,8 @@ cowl_ret cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig confi
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config,
-                                    UIStream *stream);
+cowl_ret
+cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config, UIStream *stream);
 
 /**
  * Streams through the specified ontology.
@@ -257,8 +257,8 @@ cowl_ret cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig confi
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig config,
-                                      CowlOntology *ontology);
+cowl_ret
+cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig config, CowlOntology *ontology);
 
 /**
  * Writes the ontology to the file at the specified path.

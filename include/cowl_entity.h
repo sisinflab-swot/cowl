@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlEntity);
  * @public @memberof CowlEntity
  */
 COWL_INLINE
-CowlAnyEntity* cowl_entity_retain(CowlAnyEntity *entity) {
+CowlAnyEntity *cowl_entity_retain(CowlAnyEntity *entity) {
     return cowl_retain(entity);
 }
 
@@ -75,7 +75,7 @@ CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity);
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-CowlIRI* cowl_entity_get_iri(CowlAnyEntity *entity);
+CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity);
 
 /**
  * Returns the string representation of the specified entity.
@@ -88,7 +88,7 @@ CowlIRI* cowl_entity_get_iri(CowlAnyEntity *entity);
  * @public @memberof CowlEntity
  */
 COWL_PUBLIC
-CowlString* cowl_entity_to_string(CowlAnyEntity *entity);
+CowlString *cowl_entity_to_string(CowlAnyEntity *entity);
 
 /**
  * Equality function.

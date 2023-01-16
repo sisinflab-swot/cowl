@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -40,7 +40,7 @@ cowl_struct_decl(CowlObjHasSelf);
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-CowlObjHasSelf* cowl_obj_has_self(CowlAnyObjPropExp *prop) {
+CowlObjHasSelf *cowl_obj_has_self(CowlAnyObjPropExp *prop) {
     return (CowlObjHasSelf *)cowl_get_impl_1(COWL_OT_CE_OBJ_HAS_SELF, prop);
 }
 
@@ -53,7 +53,7 @@ CowlObjHasSelf* cowl_obj_has_self(CowlAnyObjPropExp *prop) {
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-CowlObjHasSelf* cowl_obj_has_self_retain(CowlObjHasSelf *exp) {
+CowlObjHasSelf *cowl_obj_has_self_retain(CowlObjHasSelf *exp) {
     return (CowlObjHasSelf *)cowl_retain(exp);
 }
 
@@ -78,7 +78,7 @@ void cowl_obj_has_self_release(CowlObjHasSelf *exp) {
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
+CowlObjPropExp *cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
     return (CowlObjPropExp *)cowl_get_field(exp, 0);
 }
 
@@ -93,7 +93,7 @@ CowlObjPropExp* cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
  * @public @memberof CowlObjHasSelf
  */
 COWL_INLINE
-CowlString* cowl_obj_has_self_to_string(CowlObjHasSelf *exp) {
+CowlString *cowl_obj_has_self_to_string(CowlObjHasSelf *exp) {
     return cowl_to_string(exp);
 }
 

@@ -11,8 +11,8 @@
 #ifndef COWL_STREAM_H
 #define COWL_STREAM_H
 
-#include "cowl_object.h"
 #include "cowl_error_handler.h"
+#include "cowl_object.h"
 #include "cowl_reader.h"
 
 COWL_BEGIN_DECLS
@@ -45,7 +45,7 @@ cowl_struct_decl(CowlStream);
  * @public @memberof CowlStream
  */
 COWL_PUBLIC
-CowlManager* cowl_stream_get_manager(CowlStream *stream);
+CowlManager *cowl_stream_get_manager(CowlStream *stream);
 
 /**
  * Gets the symbol table of this ontology stream.
@@ -56,7 +56,7 @@ CowlManager* cowl_stream_get_manager(CowlStream *stream);
  * @public @memberof CowlStream
  */
 COWL_PUBLIC
-CowlSymTable* cowl_stream_get_sym_table(CowlStream *stream);
+CowlSymTable *cowl_stream_get_sym_table(CowlStream *stream);
 
 /**
  * Pushes an ontology IRI to the stream.

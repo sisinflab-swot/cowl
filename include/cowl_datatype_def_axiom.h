@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -44,8 +44,8 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_INLINE
-CowlDatatypeDefAxiom* cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange *range,
-                                              CowlVector *annot) {
+CowlDatatypeDefAxiom *
+cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange *range, CowlVector *annot) {
     return (CowlDatatypeDefAxiom *)cowl_get_impl_2_annot(COWL_OT_A_DATATYPE_DEF, dt, range, annot);
 }
 
@@ -58,7 +58,7 @@ CowlDatatypeDefAxiom* cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_INLINE
-CowlDatatypeDefAxiom* cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom) {
+CowlDatatypeDefAxiom *cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom) {
     return (CowlDatatypeDefAxiom *)cowl_retain(axiom);
 }
 
@@ -83,7 +83,7 @@ void cowl_datatype_def_axiom_release(CowlDatatypeDefAxiom *axiom) {
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_INLINE
-CowlDatatype* cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) {
+CowlDatatype *cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) {
     return (CowlDatatype *)cowl_get_field(axiom, 0);
 }
 
@@ -95,7 +95,7 @@ CowlDatatype* cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) 
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_INLINE
-CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
+CowlDataRange *cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
     return (CowlDataRange *)cowl_get_field(axiom, 1);
 }
 
@@ -108,7 +108,7 @@ CowlDataRange* cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_INLINE
-CowlVector* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
+CowlVector *cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -123,7 +123,7 @@ CowlVector* cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
  * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_INLINE
-CowlString* cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom) {
+CowlString *cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

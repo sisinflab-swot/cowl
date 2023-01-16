@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #include "cowl_decl_axiom.h"
 #include "cowl_manager.h"
 #include "cowl_ontology.h"
-#include "cowl_sub_cls_axiom.h"
 #include "cowl_string.h"
+#include "cowl_sub_cls_axiom.h"
 #include "cowl_sym_table.h"
 #include "cowl_table.h"
 #include "cowl_test_utils.h"

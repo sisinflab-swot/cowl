@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -50,11 +50,11 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom(CowlAnyObjPropExp *prop,
-                                                   CowlAnyIndividual *subject,
-                                                   CowlAnyIndividual *object, CowlVector *annot) {
-    return (CowlObjPropAssertAxiom *)cowl_get_impl_3_annot(COWL_OT_A_OBJ_PROP_ASSERT,
-                                                           prop, subject, object, annot);
+CowlObjPropAssertAxiom *
+cowl_obj_prop_assert_axiom(CowlAnyObjPropExp *prop, CowlAnyIndividual *subject,
+                           CowlAnyIndividual *object, CowlVector *annot) {
+    return (CowlObjPropAssertAxiom *)cowl_get_impl_3_annot(COWL_OT_A_OBJ_PROP_ASSERT, prop, subject,
+                                                           object, annot);
 }
 
 /**
@@ -69,12 +69,11 @@ CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom(CowlAnyObjPropExp *prop,
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom(CowlAnyObjPropExp *prop,
-                                                       CowlAnyIndividual *subject,
-                                                       CowlAnyIndividual *object,
-                                                       CowlVector *annot) {
-    return (CowlObjPropAssertAxiom *)cowl_get_impl_3_annot(COWL_OT_A_NEG_OBJ_PROP_ASSERT,
-                                                           prop, subject, object, annot);
+CowlObjPropAssertAxiom *
+cowl_neg_obj_prop_assert_axiom(CowlAnyObjPropExp *prop, CowlAnyIndividual *subject,
+                               CowlAnyIndividual *object, CowlVector *annot) {
+    return (CowlObjPropAssertAxiom *)cowl_get_impl_3_annot(COWL_OT_A_NEG_OBJ_PROP_ASSERT, prop,
+                                                           subject, object, annot);
 }
 
 /**
@@ -86,7 +85,7 @@ CowlObjPropAssertAxiom* cowl_neg_obj_prop_assert_axiom(CowlAnyObjPropExp *prop,
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropAssertAxiom* cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom) {
+CowlObjPropAssertAxiom *cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom) {
     return (CowlObjPropAssertAxiom *)cowl_retain(axiom);
 }
 
@@ -124,7 +123,7 @@ bool cowl_obj_prop_assert_axiom_is_negative(CowlObjPropAssertAxiom *axiom) {
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom) {
+CowlObjPropExp *cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
 }
 
@@ -137,7 +136,7 @@ CowlObjPropExp* cowl_obj_prop_assert_axiom_get_prop(CowlObjPropAssertAxiom *axio
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom) {
+CowlIndividual *cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *axiom) {
     return (CowlIndividual *)cowl_get_field(axiom, 1);
 }
 
@@ -150,7 +149,7 @@ CowlIndividual* cowl_obj_prop_assert_axiom_get_subject(CowlObjPropAssertAxiom *a
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlIndividual* cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *axiom) {
+CowlIndividual *cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *axiom) {
     return (CowlIndividual *)cowl_get_field(axiom, 2);
 }
 
@@ -163,7 +162,7 @@ CowlIndividual* cowl_obj_prop_assert_axiom_get_object(CowlObjPropAssertAxiom *ax
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlVector* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom) {
+CowlVector *cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -178,7 +177,7 @@ CowlVector* cowl_obj_prop_assert_axiom_get_annot(CowlObjPropAssertAxiom *axiom) 
  * @public @memberof CowlObjPropAssertAxiom
  */
 COWL_INLINE
-CowlString* cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom) {
+CowlString *cowl_obj_prop_assert_axiom_to_string(CowlObjPropAssertAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

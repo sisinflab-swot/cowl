@@ -40,6 +40,6 @@ cowl_ret cowl_ret_from_uhash(uhash_ret ret) {
     return ret == UHASH_ERR ? COWL_ERR_MEM : COWL_OK;
 }
 
-CowlString* cowl_ret_to_string(cowl_ret ret) {
+CowlString *cowl_ret_to_string(cowl_ret ret) {
     return cowl_string_opt(cowl_ret_to_ustring(ret), COWL_SO_COPY);
 }

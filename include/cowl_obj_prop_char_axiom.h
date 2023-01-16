@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_OBJ_PROP_CHAR_AXIOM_H
 #define COWL_OBJ_PROP_CHAR_AXIOM_H
 
-#include "cowl_object.h"
 #include "cowl_char_axiom_type.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -65,8 +65,8 @@ cowl_struct_decl(CowlObjPropCharAxiom);
  * @public @memberof CowlObjPropCharAxiom
  */
 COWL_INLINE
-CowlObjPropCharAxiom* cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop,
-                                               CowlVector *annot) {
+CowlObjPropCharAxiom *
+cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop, CowlVector *annot) {
     if (!cowl_enum_value_is_valid(CAT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_A_FUNC_OBJ_PROP + (CowlObjectType)type);
     return (CowlObjPropCharAxiom *)cowl_get_impl_1_annot(t, prop, annot);
@@ -81,7 +81,7 @@ CowlObjPropCharAxiom* cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyOb
  * @public @memberof CowlObjPropCharAxiom
  */
 COWL_INLINE
-CowlObjPropCharAxiom* cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom) {
+CowlObjPropCharAxiom *cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom) {
     return (CowlObjPropCharAxiom *)cowl_retain(axiom);
 }
 
@@ -119,7 +119,7 @@ CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom)
  * @public @memberof CowlObjPropCharAxiom
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
+CowlObjPropExp *cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
 }
 
@@ -132,7 +132,7 @@ CowlObjPropExp* cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
  * @public @memberof CowlObjPropCharAxiom
  */
 COWL_INLINE
-CowlVector* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
+CowlVector *cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -147,7 +147,7 @@ CowlVector* cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
  * @public @memberof CowlObjPropCharAxiom
  */
 COWL_INLINE
-CowlString* cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom) {
+CowlString *cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

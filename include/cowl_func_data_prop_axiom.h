@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -42,7 +42,7 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_INLINE
-CowlFuncDataPropAxiom* cowl_func_data_prop_axiom(CowlAnyDataPropExp *prop, CowlVector *annot) {
+CowlFuncDataPropAxiom *cowl_func_data_prop_axiom(CowlAnyDataPropExp *prop, CowlVector *annot) {
     return (CowlFuncDataPropAxiom *)cowl_get_impl_1_annot(COWL_OT_A_FUNC_DATA_PROP, prop, annot);
 }
 
@@ -55,7 +55,7 @@ CowlFuncDataPropAxiom* cowl_func_data_prop_axiom(CowlAnyDataPropExp *prop, CowlV
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_INLINE
-CowlFuncDataPropAxiom* cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom) {
+CowlFuncDataPropAxiom *cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom) {
     return (CowlFuncDataPropAxiom *)cowl_retain(axiom);
 }
 
@@ -80,7 +80,7 @@ void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom) {
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_INLINE
-CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom) {
+CowlDataPropExp *cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom) {
     return (CowlDataPropExp *)cowl_get_field(axiom, 0);
 }
 
@@ -93,7 +93,7 @@ CowlDataPropExp* cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_INLINE
-CowlVector* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
+CowlVector *cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -108,7 +108,7 @@ CowlVector* cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
  * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_INLINE
-CowlString* cowl_func_data_prop_axiom_to_string(CowlFuncDataPropAxiom *axiom) {
+CowlString *cowl_func_data_prop_axiom_to_string(CowlFuncDataPropAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

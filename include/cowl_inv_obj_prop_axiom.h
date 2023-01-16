@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -43,10 +43,10 @@ cowl_struct_decl(CowlInvObjPropAxiom);
  * @public @memberof CowlInvObjPropAxiom
  */
 COWL_INLINE
-CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyObjPropExp *second,
-                                             CowlVector *annot) {
-    return (CowlInvObjPropAxiom *)cowl_get_impl_2_annot(COWL_OT_A_INV_OBJ_PROP,
-                                                        first, second, annot);
+CowlInvObjPropAxiom *
+cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyObjPropExp *second, CowlVector *annot) {
+    return (CowlInvObjPropAxiom *)cowl_get_impl_2_annot(COWL_OT_A_INV_OBJ_PROP, first, second,
+                                                        annot);
 }
 
 /**
@@ -58,7 +58,7 @@ CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyOb
  * @public @memberof CowlInvObjPropAxiom
  */
 COWL_INLINE
-CowlInvObjPropAxiom* cowl_inv_obj_prop_axiom_retain(CowlInvObjPropAxiom *axiom) {
+CowlInvObjPropAxiom *cowl_inv_obj_prop_axiom_retain(CowlInvObjPropAxiom *axiom) {
     return (CowlInvObjPropAxiom *)cowl_retain(axiom);
 }
 
@@ -83,7 +83,7 @@ void cowl_inv_obj_prop_axiom_release(CowlInvObjPropAxiom *axiom) {
  * @public @memberof CowlInvObjPropAxiom
  */
 COWL_INLINE
-CowlObjPropExp* cowl_inv_obj_prop_axiom_get_first_prop(CowlInvObjPropAxiom *axiom) {
+CowlObjPropExp *cowl_inv_obj_prop_axiom_get_first_prop(CowlInvObjPropAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
 }
 
@@ -96,7 +96,7 @@ CowlObjPropExp* cowl_inv_obj_prop_axiom_get_first_prop(CowlInvObjPropAxiom *axio
  * @public @memberof CowlInvObjPropAxiom
  */
 COWL_INLINE
-CowlObjPropExp* cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axiom) {
+CowlObjPropExp *cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 1);
 }
 
@@ -109,7 +109,7 @@ CowlObjPropExp* cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axi
  * @public @memberof CowlInvObjPropAxiom
  */
 COWL_INLINE
-CowlVector* cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
+CowlVector *cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -124,7 +124,7 @@ CowlVector* cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
  * @public @memberof CowlInvObjPropAxiom
  */
 COWL_INLINE
-CowlString* cowl_inv_obj_prop_axiom_to_string(CowlInvObjPropAxiom *axiom) {
+CowlString *cowl_inv_obj_prop_axiom_to_string(CowlInvObjPropAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

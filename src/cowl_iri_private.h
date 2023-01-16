@@ -25,7 +25,7 @@ struct CowlIRI {
 cowl_ret cowl_iri_api_init(void);
 void cowl_iri_api_deinit(void);
 
-CowlIRI* cowl_iri_unvalidated(CowlString *ns, CowlString *rem);
+CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem);
 
 COWL_END_DECLS
 

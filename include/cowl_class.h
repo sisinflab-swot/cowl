@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -40,7 +40,7 @@ cowl_struct_decl(CowlClass);
  * @public @memberof CowlClass
  */
 COWL_INLINE
-CowlClass* cowl_class(CowlIRI *iri) {
+CowlClass *cowl_class(CowlIRI *iri) {
     return (CowlClass *)cowl_entity_get_impl(COWL_OT_CE_CLASS, iri);
 }
 
@@ -53,7 +53,7 @@ CowlClass* cowl_class(CowlIRI *iri) {
  * @public @memberof CowlClass
  */
 COWL_INLINE
-CowlClass* cowl_class_from_string(UString string) {
+CowlClass *cowl_class_from_string(UString string) {
     return (CowlClass *)cowl_entity_from_string_impl(COWL_OT_CE_CLASS, string);
 }
 
@@ -76,7 +76,7 @@ CowlClass* cowl_class_from_string(UString string) {
  * @public @memberof CowlClass
  */
 COWL_INLINE
-CowlClass* cowl_class_retain(CowlClass *cls) {
+CowlClass *cowl_class_retain(CowlClass *cls) {
     return (CowlClass *)cowl_retain(cls);
 }
 
@@ -101,7 +101,7 @@ void cowl_class_release(CowlClass *cls) {
  * @public @memberof CowlClass
  */
 COWL_INLINE
-CowlIRI* cowl_class_get_iri(CowlClass *cls) {
+CowlIRI *cowl_class_get_iri(CowlClass *cls) {
     return cowl_entity_get_iri((CowlEntity *)cls);
 }
 
@@ -116,7 +116,7 @@ CowlIRI* cowl_class_get_iri(CowlClass *cls) {
  * @public @memberof CowlClass
  */
 COWL_INLINE
-CowlString* cowl_class_to_string(CowlClass *cls) {
+CowlString *cowl_class_to_string(CowlClass *cls) {
     return cowl_entity_to_string((CowlEntity *)cls);
 }
 

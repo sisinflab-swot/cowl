@@ -12,27 +12,27 @@
 #include "cowl_string.h"
 
 #ifndef COWL_VERSION_MAJOR
-    #define COWL_VERSION_MAJOR 0
+#define COWL_VERSION_MAJOR 0
 #endif
 
 #ifndef COWL_VERSION_MINOR
-    #define COWL_VERSION_MINOR 0
+#define COWL_VERSION_MINOR 0
 #endif
 
 #ifndef COWL_VERSION_PATCH
-    #define COWL_VERSION_PATCH 0
+#define COWL_VERSION_PATCH 0
 #endif
 
 static UVersion version = {
     .major = COWL_VERSION_MAJOR,
     .minor = COWL_VERSION_MINOR,
-    .patch = COWL_VERSION_PATCH
+    .patch = COWL_VERSION_PATCH,
 };
 
 UVersion cowl_get_version(void) {
     return version;
 }
 
-CowlString* cowl_get_version_string(void) {
+CowlString *cowl_get_version_string(void) {
     return cowl_string_with_format("%u.%u.%u", version.major, version.minor, version.patch);
 }

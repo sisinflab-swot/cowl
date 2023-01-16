@@ -10,11 +10,11 @@
 
 #include "cowl_xml_utils.h"
 
-#define IS_NCNAME_START_CHAR(C)                                                                     \
-    (((C) >= 'A' && (C) <= 'Z') || (C) == '_' || ((C) >= 'a' && (C) <= 'z') ||                      \
+#define IS_NCNAME_START_CHAR(C)                                                                    \
+    (((C) >= 'A' && (C) <= 'Z') || (C) == '_' || ((C) >= 'a' && (C) <= 'z') ||                     \
      ((C) >= 0xC0 && (C) <= 0xD6) || ((C) >= 0xD8 && (C) <= 0xF6) || ((C) >= 0xF8))
 
-#define IS_NCNAME_NON_START_CHAR(C) \
+#define IS_NCNAME_NON_START_CHAR(C)                                                                \
     ((C) == '-' || (C) == '.' || ((C) >= '0' && (C) <= '9') || (C) == 0xB7)
 
 ulib_uint cowl_xml_ns_length(UString string) {

@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_ITERATOR_H
 #define COWL_ITERATOR_H
 
-#include "cowl_std.h"
 #include "cowl_primitive_flags.h"
+#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
@@ -60,7 +60,7 @@ typedef struct CowlIterator {
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec);
+CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) * vec);
 
 /**
  * Initializes an iterator that stores objects in the specified set.
@@ -76,7 +76,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec);
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set);
+CowlIterator cowl_iterator_set(UHash(CowlObjectTable) * set);
 
 /**
  * Initializes an iterator that counts the objects it iterates on.

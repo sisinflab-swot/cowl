@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2020-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2020 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -11,7 +11,7 @@
 #include "cowl_object_private.h"
 #include "cowl_private.h"
 
-ulib_byte composite_fields[COWL_OT_COUNT] = {0};
+ulib_byte composite_fields[COWL_OT_COUNT] = { 0 };
 
 cowl_ret cowl_object_api_init(void) {
     composite_fields[COWL_OT_FACET_RESTR] = 2;
@@ -79,17 +79,21 @@ cowl_ret cowl_object_api_init(void) {
     return COWL_OK;
 }
 
-void cowl_object_api_deinit(void) { /* No-op */ }
+void cowl_object_api_deinit(void) {}
 
-CowlAny* cowl_retain(CowlAny *object) {
+CowlAny *cowl_retain(CowlAny *object) {
     return cowl_object_incr_ref(object);
 }
 
 void cowl_release(CowlAny *object) {
     if (!object) return;
 
-    #define GEN_RELEASE(UC, LC) cowl_##LC##_release((Cowl##UC *)object); break
-    #define GEN_RELEASE_AXIOM(UC, LC) cowl_##LC##_axiom_release((Cowl##UC##Axiom *)object); break
+#define GEN_RELEASE(UC, LC)                                                                        \
+    cowl_##LC##_release((Cowl##UC *)object);                                                       \
+    break
+#define GEN_RELEASE_AXIOM(UC, LC)                                                                  \
+    cowl_##LC##_axiom_release((Cowl##UC##Axiom *)object);                                          \
+    break
 
     switch (cowl_get_type(object)) {
         case COWL_OT_STRING: GEN_RELEASE(String, string);
@@ -213,7 +217,7 @@ bool cowl_is_data_range(CowlAny *object) {
     return type >= COWL_OT_FIRST_DR && type <= COWL_OT_LAST_DR;
 }
 
-CowlIRI* cowl_get_iri(CowlAny *object) {
+CowlIRI *cowl_get_iri(CowlAny *object) {
     return cowl_is_entity(object) ? cowl_entity_get_iri(object) : NULL;
 }
 
@@ -221,11 +225,10 @@ static cowl_ret cowl_write_debug_impl(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
 
-static CowlString* cowl_to_string_impl(CowlAny *object, cowl_ret (*fun)(UOStream *, CowlAny *)) {
+static CowlString *cowl_to_string_impl(CowlAny *object, cowl_ret (*fun)(UOStream *, CowlAny *)) {
     UOStream stream;
     UStrBuf buf = ustrbuf();
-    if (uostream_to_strbuf(&stream, &buf) ||
-        fun(&stream, object)) goto err;
+    if (uostream_to_strbuf(&stream, &buf) || fun(&stream, object)) goto err;
 
     CowlString *string = cowl_string(ustrbuf_to_ustring(&buf));
     uostream_deinit(&stream);
@@ -237,11 +240,11 @@ err:
     return NULL;
 }
 
-CowlString* cowl_to_string(CowlAny *object) {
+CowlString *cowl_to_string(CowlAny *object) {
     return cowl_to_string_impl(object, cowl_write);
 }
 
-CowlString* cowl_to_debug_string(CowlAny *object) {
+CowlString *cowl_to_debug_string(CowlAny *object) {
     return cowl_to_string_impl(object, cowl_write_debug_impl);
 }
 
@@ -249,10 +252,9 @@ bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
     CowlObjectType type = cowl_get_type(lhs);
     if (type != cowl_get_type(rhs)) return false;
 
-    #define GEN_EQUALS(UC, LC) \
-        return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
-    #define GEN_EQUALS_AXIOM(UC, LC) \
-        return cowl_##LC##_axiom_equals((Cowl##UC##Axiom *)lhs, (Cowl##UC##Axiom *)rhs)
+#define GEN_EQUALS(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
+#define GEN_EQUALS_AXIOM(UC, LC)                                                                   \
+    return cowl_##LC##_axiom_equals((Cowl##UC##Axiom *)lhs, (Cowl##UC##Axiom *)rhs)
 
     switch (type) {
         case COWL_OT_STRING: GEN_EQUALS(String, string);
@@ -347,8 +349,8 @@ bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
 }
 
 ulib_uint cowl_hash(CowlAny *object) {
-    #define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)object)
-    #define GEN_HASH_AXIOM(UC, LC) return cowl_##LC##_axiom_hash((Cowl##UC##Axiom *)object)
+#define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)object)
+#define GEN_HASH_AXIOM(UC, LC) return cowl_##LC##_axiom_hash((Cowl##UC##Axiom *)object)
 
     switch (cowl_get_type(object)) {
         case COWL_OT_STRING: GEN_HASH(String, string);
@@ -431,12 +433,11 @@ ulib_uint cowl_hash(CowlAny *object) {
 }
 
 bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    #define GEN_ITER(UC, LC) \
-        return cowl_##LC##_iterate_primitives((Cowl##UC *)object, flags, iter)
-    #define GEN_ITER_AXIOM(UC, LC) \
-        return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, flags, iter)
-    #define GEN_ITER_PRIMITIVE(TYPE) \
-        return ubit_is_set(COWL_PF, flags, COWL_PF_##TYPE) ? cowl_iterate(iter, object) : true
+#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)object, flags, iter)
+#define GEN_ITER_AXIOM(UC, LC)                                                                     \
+    return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, flags, iter)
+#define GEN_ITER_PRIMITIVE(TYPE)                                                                   \
+    return ubit_is_set(COWL_PF, flags, COWL_PF_##TYPE) ? cowl_iterate(iter, object) : true
 
     switch (cowl_get_type(object)) {
         case COWL_OT_VECTOR: GEN_ITER(Vector, vector);
@@ -516,31 +517,35 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
     }
 }
 
-CowlAny* cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
+CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
     ulib_byte count = composite_fields[type];
     CowlComposite *obj = ulib_malloc(sizeof(*obj) + (opt ? count + 1 : count) * sizeof(*obj->data));
     if (!obj) return NULL;
 
     obj->super = COWL_OBJECT_BIT_INIT(type, opt);
-    for (ulib_byte i = 0; i < count; ++i) { obj->data[i] = cowl_retain(fields[i]); }
+    for (ulib_byte i = 0; i < count; ++i) {
+        obj->data[i] = cowl_retain(fields[i]);
+    }
     if (opt) obj->data[count] = cowl_retain(opt);
 
     return obj;
 }
 
-CowlAny* cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot) {
+CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot) {
     if (annot && !cowl_vector_count(annot)) annot = NULL;
     return cowl_get_impl(type, fields, annot);
 }
 
-CowlAny* cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
+CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
     ulib_byte count = composite_fields[type];
     ulib_byte data_size = opt ? count + 2 : count + 1;
     CowlComposite *obj = ulib_malloc(sizeof(*obj) + data_size * sizeof(*obj->data));
     if (!obj) return NULL;
 
     obj->super = COWL_OBJECT_BIT_INIT(type, opt);
-    for (ulib_byte i = 0; i < count; ++i) { obj->data[i] = cowl_retain(fields[i]); }
+    for (ulib_byte i = 0; i < count; ++i) {
+        obj->data[i] = cowl_retain(fields[i]);
+    }
 
     if (opt) {
         obj->data[count] = cowl_retain(opt);
@@ -556,7 +561,9 @@ void cowl_release_impl(CowlAny *object) {
     if (!object || cowl_object_decr_ref(object)) return;
     ulib_byte count = composite_fields[cowl_get_type(object)];
     if (cowl_has_opt_field(object)) ++count;
-    for (ulib_byte i = 0; i < count; ++i) { cowl_release(cowl_get_field(object, i)); }
+    for (ulib_byte i = 0; i < count; ++i) {
+        cowl_release(cowl_get_field(object, i));
+    }
     ulib_free(object);
 }
 
@@ -602,8 +609,7 @@ ulib_uint cowl_uint_hash_impl(CowlAny *object) {
     return uhash_combine_hash(hash, cowl_get_uint_field(object));
 }
 
-bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags,
-                                  CowlIterator *iter) {
+bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
     ulib_byte count = composite_fields[cowl_get_type(object)];
     for (ulib_byte i = 0; i < count; ++i) {
         if (!cowl_iterate_primitives(cowl_get_field(object, i), flags, iter)) return false;
@@ -613,7 +619,7 @@ bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags,
     return true;
 }
 
-CowlAny* cowl_get_field(CowlAny *object, ulib_uint index) {
+CowlAny *cowl_get_field(CowlAny *object, ulib_uint index) {
     return ((CowlComposite *)object)->data[index];
 }
 
@@ -621,7 +627,7 @@ bool cowl_has_opt_field(CowlAny *object) {
     return cowl_object_bit_get(object);
 }
 
-CowlAny* cowl_get_opt_field(CowlAny *object) {
+CowlAny *cowl_get_opt_field(CowlAny *object) {
     if (!cowl_object_bit_get(object)) return NULL;
     return cowl_get_field(object, composite_fields[cowl_get_type(object)]);
 }

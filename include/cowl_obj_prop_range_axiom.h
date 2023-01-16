@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -44,10 +44,10 @@ cowl_struct_decl(CowlObjPropRangeAxiom);
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_INLINE
-CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *range,
-                                                 CowlVector *annot) {
-    return (CowlObjPropRangeAxiom *)cowl_get_impl_2_annot(COWL_OT_A_OBJ_PROP_RANGE,
-                                                          prop, range, annot);
+CowlObjPropRangeAxiom *
+cowl_obj_prop_range_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *range, CowlVector *annot) {
+    return (CowlObjPropRangeAxiom *)cowl_get_impl_2_annot(COWL_OT_A_OBJ_PROP_RANGE, prop, range,
+                                                          annot);
 }
 
 /**
@@ -59,7 +59,7 @@ CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom(CowlAnyObjPropExp *prop, CowlAn
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_INLINE
-CowlObjPropRangeAxiom* cowl_obj_prop_range_axiom_retain(CowlObjPropRangeAxiom *axiom) {
+CowlObjPropRangeAxiom *cowl_obj_prop_range_axiom_retain(CowlObjPropRangeAxiom *axiom) {
     return (CowlObjPropRangeAxiom *)cowl_retain(axiom);
 }
 
@@ -84,7 +84,7 @@ void cowl_obj_prop_range_axiom_release(CowlObjPropRangeAxiom *axiom) {
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_INLINE
-CowlObjPropExp* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom *axiom) {
+CowlObjPropExp *cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
 }
 
@@ -97,7 +97,7 @@ CowlObjPropExp* cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom *axiom)
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_INLINE
-CowlClsExp* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
+CowlClsExp *cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 1);
 }
 
@@ -110,7 +110,7 @@ CowlClsExp* cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_INLINE
-CowlVector* cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
+CowlVector *cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
@@ -125,7 +125,7 @@ CowlVector* cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
  * @public @memberof CowlObjPropRangeAxiom
  */
 COWL_INLINE
-CowlString* cowl_obj_prop_range_axiom_to_string(CowlObjPropRangeAxiom *axiom) {
+CowlString *cowl_obj_prop_range_axiom_to_string(CowlObjPropRangeAxiom *axiom) {
     return cowl_to_string(axiom);
 }
 

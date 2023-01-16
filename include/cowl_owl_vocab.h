@@ -169,7 +169,7 @@ typedef struct CowlOWLVocab {
  * @public @memberof CowlOWLVocab
  */
 COWL_PUBLIC
-CowlOWLVocab const * cowl_owl_vocab(void);
+CowlOWLVocab const *cowl_owl_vocab(void);
 
 COWL_END_DECLS
 

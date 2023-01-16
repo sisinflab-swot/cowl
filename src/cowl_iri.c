@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -9,8 +9,8 @@
  */
 
 #include "cowl_iri_private.h"
-#include "cowl_table.h"
 #include "cowl_string_private.h"
+#include "cowl_table.h"
 #include "cowl_xml_utils.h"
 
 static UHash(CowlObjectTable) inst_tbl;
@@ -35,20 +35,20 @@ void cowl_iri_api_deinit(void) {
     uhash_deinit(CowlObjectTable, &inst_tbl);
 }
 
-static CowlIRI* cowl_iri_alloc(CowlString *ns, CowlString *rem) {
+static CowlIRI *cowl_iri_alloc(CowlString *ns, CowlString *rem) {
     CowlIRI *iri = ulib_alloc(iri);
     if (!iri) return NULL;
 
-    *iri = (CowlIRI) {
+    *iri = (CowlIRI){
         .super = COWL_OBJECT_INIT(COWL_OT_IRI),
         .ns = cowl_string_retain(ns),
-        .rem = cowl_string_retain(rem)
+        .rem = cowl_string_retain(rem),
     };
 
     return iri;
 }
 
-CowlIRI* cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
+CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
     if (!(ns && (ns = cowl_string_intern(ns)))) return NULL;
 
     ulib_uint idx;
@@ -72,7 +72,7 @@ CowlIRI* cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
     return val;
 }
 
-CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix) {
+CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix) {
     if (!(prefix && suffix)) return NULL;
 
     UString p_str = prefix->raw_string;
@@ -85,8 +85,7 @@ CowlIRI* cowl_iri(CowlString *prefix, CowlString *suffix) {
         UStrBuf buf = ustrbuf();
         char const *s_cstr = ustring_data(s_str);
 
-        if (ustrbuf_append_ustring(&buf, p_str) ||
-            ustrbuf_append_string(&buf, s_cstr, s_ns_len)) {
+        if (ustrbuf_append_ustring(&buf, p_str) || ustrbuf_append_string(&buf, s_cstr, s_ns_len)) {
             ustrbuf_deinit(&buf);
             return NULL;
         }
@@ -138,7 +137,7 @@ void cowl_iri_release(CowlIRI *iri) {
     }
 }
 
-CowlIRI* cowl_iri_from_string(UString string) {
+CowlIRI *cowl_iri_from_string(UString string) {
     if (ustring_size(string) <= 1) return NULL;
     ulib_uint ns_length = cowl_xml_ns_length(string);
 
@@ -153,10 +152,10 @@ CowlIRI* cowl_iri_from_string(UString string) {
     return iri;
 }
 
-CowlString* cowl_iri_get_ns(CowlIRI *iri) {
+CowlString *cowl_iri_get_ns(CowlIRI *iri) {
     return iri->ns;
 }
 
-CowlString* cowl_iri_get_rem(CowlIRI *iri) {
+CowlString *cowl_iri_get_rem(CowlIRI *iri) {
     return iri->rem;
 }

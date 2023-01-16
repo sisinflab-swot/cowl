@@ -3,7 +3,7 @@
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2019-2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2019 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -13,8 +13,8 @@
 #ifndef COWL_NARY_BOOL_H
 #define COWL_NARY_BOOL_H
 
-#include "cowl_object.h"
 #include "cowl_nary_type.h"
+#include "cowl_object.h"
 
 COWL_BEGIN_DECLS
 
@@ -44,7 +44,7 @@ cowl_struct_decl(CowlNAryBool);
  * @public @memberof CowlNAryBool
  */
 COWL_INLINE
-CowlNAryBool* cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
+CowlNAryBool *cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
     if (!cowl_enum_value_is_valid(NT, type)) return NULL;
     CowlObjectType t = (CowlObjectType)(COWL_OT_CE_OBJ_INTERSECT + (CowlObjectType)type);
     return (CowlNAryBool *)cowl_get_impl_1(t, operands);
@@ -59,7 +59,7 @@ CowlNAryBool* cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
  * @public @memberof CowlNAryBool
  */
 COWL_INLINE
-CowlNAryBool* cowl_nary_bool_retain(CowlNAryBool *exp) {
+CowlNAryBool *cowl_nary_bool_retain(CowlNAryBool *exp) {
     return (CowlNAryBool *)cowl_retain(exp);
 }
 
@@ -97,7 +97,7 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
  * @public @memberof CowlNAryBool
  */
 COWL_INLINE
-CowlVector* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
+CowlVector *cowl_nary_bool_get_operands(CowlNAryBool *exp) {
     return (CowlVector *)cowl_get_field(exp, 0);
 }
 
@@ -112,7 +112,7 @@ CowlVector* cowl_nary_bool_get_operands(CowlNAryBool *exp) {
  * @public @memberof CowlNAryBool
  */
 COWL_INLINE
-CowlString* cowl_nary_bool_to_string(CowlNAryBool *exp) {
+CowlString *cowl_nary_bool_to_string(CowlNAryBool *exp) {
     return cowl_to_string(exp);
 }
 

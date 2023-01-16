@@ -23,14 +23,10 @@ bool cowl_test_string_with_format(void);
 bool cowl_test_string_concat(void);
 bool cowl_test_string_intern(void);
 
-#define COWL_STRING_TESTS                                                                           \
-    cowl_test_string_lifecycle,                                                                     \
-    cowl_test_string_get_empty,                                                                     \
-    cowl_test_string_get_length,                                                                    \
-    cowl_test_string_equals,                                                                        \
-    cowl_test_string_with_format,                                                                   \
-    cowl_test_string_concat,                                                                        \
-    cowl_test_string_intern
+#define COWL_STRING_TESTS                                                                          \
+    cowl_test_string_lifecycle, cowl_test_string_get_empty, cowl_test_string_get_length,           \
+        cowl_test_string_equals, cowl_test_string_with_format, cowl_test_string_concat,            \
+        cowl_test_string_intern
 
 COWL_END_DECLS
 
