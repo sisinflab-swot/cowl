@@ -11,71 +11,71 @@
 #include "cowl_object_private.h"
 #include "cowl_private.h"
 
-ulib_byte composite_fields[COWL_OT_COUNT] = { 0 };
+static ulib_byte field_count[COWL_OT_COUNT] = { 0 };
 
 cowl_ret cowl_object_api_init(void) {
-    composite_fields[COWL_OT_FACET_RESTR] = 2;
-    composite_fields[COWL_OT_ANNOTATION] = 2;
-    composite_fields[COWL_OT_A_DECL] = 1;
-    composite_fields[COWL_OT_A_DATATYPE_DEF] = 2;
-    composite_fields[COWL_OT_A_SUB_CLASS] = 2;
-    composite_fields[COWL_OT_A_EQUIV_CLASSES] = 1;
-    composite_fields[COWL_OT_A_DISJ_CLASSES] = 1;
-    composite_fields[COWL_OT_A_DISJ_UNION] = 2;
-    composite_fields[COWL_OT_A_CLASS_ASSERT] = 2;
-    composite_fields[COWL_OT_A_SAME_IND] = 1;
-    composite_fields[COWL_OT_A_DIFF_IND] = 1;
-    composite_fields[COWL_OT_A_OBJ_PROP_ASSERT] = 3;
-    composite_fields[COWL_OT_A_NEG_OBJ_PROP_ASSERT] = 3;
-    composite_fields[COWL_OT_A_DATA_PROP_ASSERT] = 3;
-    composite_fields[COWL_OT_A_NEG_DATA_PROP_ASSERT] = 3;
-    composite_fields[COWL_OT_A_SUB_OBJ_PROP] = 2;
-    composite_fields[COWL_OT_A_INV_OBJ_PROP] = 2;
-    composite_fields[COWL_OT_A_EQUIV_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_DISJ_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_FUNC_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_INV_FUNC_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_SYMM_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_ASYMM_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_REFL_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_IRREFL_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_TRANS_OBJ_PROP] = 1;
-    composite_fields[COWL_OT_A_OBJ_PROP_DOMAIN] = 2;
-    composite_fields[COWL_OT_A_OBJ_PROP_RANGE] = 2;
-    composite_fields[COWL_OT_A_SUB_DATA_PROP] = 2;
-    composite_fields[COWL_OT_A_EQUIV_DATA_PROP] = 1;
-    composite_fields[COWL_OT_A_DISJ_DATA_PROP] = 1;
-    composite_fields[COWL_OT_A_FUNC_DATA_PROP] = 1;
-    composite_fields[COWL_OT_A_DATA_PROP_DOMAIN] = 2;
-    composite_fields[COWL_OT_A_DATA_PROP_RANGE] = 2;
-    composite_fields[COWL_OT_A_HAS_KEY] = 3;
-    composite_fields[COWL_OT_A_ANNOT_ASSERT] = 3;
-    composite_fields[COWL_OT_A_SUB_ANNOT_PROP] = 2;
-    composite_fields[COWL_OT_A_ANNOT_PROP_DOMAIN] = 2;
-    composite_fields[COWL_OT_A_ANNOT_PROP_RANGE] = 2;
-    composite_fields[COWL_OT_CE_OBJ_SOME] = 1;
-    composite_fields[COWL_OT_CE_OBJ_ALL] = 1;
-    composite_fields[COWL_OT_CE_OBJ_MIN_CARD] = 1;
-    composite_fields[COWL_OT_CE_OBJ_MAX_CARD] = 1;
-    composite_fields[COWL_OT_CE_OBJ_EXACT_CARD] = 1;
-    composite_fields[COWL_OT_CE_OBJ_HAS_VALUE] = 2;
-    composite_fields[COWL_OT_CE_OBJ_HAS_SELF] = 1;
-    composite_fields[COWL_OT_CE_DATA_SOME] = 1;
-    composite_fields[COWL_OT_CE_DATA_ALL] = 1;
-    composite_fields[COWL_OT_CE_DATA_MIN_CARD] = 1;
-    composite_fields[COWL_OT_CE_DATA_MAX_CARD] = 1;
-    composite_fields[COWL_OT_CE_DATA_EXACT_CARD] = 1;
-    composite_fields[COWL_OT_CE_DATA_HAS_VALUE] = 2;
-    composite_fields[COWL_OT_CE_OBJ_INTERSECT] = 1;
-    composite_fields[COWL_OT_CE_OBJ_UNION] = 1;
-    composite_fields[COWL_OT_CE_OBJ_COMPL] = 1;
-    composite_fields[COWL_OT_CE_OBJ_ONE_OF] = 1;
-    composite_fields[COWL_OT_DR_DATATYPE_RESTR] = 2;
-    composite_fields[COWL_OT_DR_DATA_INTERSECT] = 1;
-    composite_fields[COWL_OT_DR_DATA_UNION] = 1;
-    composite_fields[COWL_OT_DR_DATA_COMPL] = 1;
-    composite_fields[COWL_OT_DR_DATA_ONE_OF] = 1;
-    composite_fields[COWL_OT_OPE_INV_OBJ_PROP] = 1;
+    field_count[COWL_OT_FACET_RESTR] = 2;
+    field_count[COWL_OT_ANNOTATION] = 2;
+    field_count[COWL_OT_A_DECL] = 1;
+    field_count[COWL_OT_A_DATATYPE_DEF] = 2;
+    field_count[COWL_OT_A_SUB_CLASS] = 2;
+    field_count[COWL_OT_A_EQUIV_CLASSES] = 1;
+    field_count[COWL_OT_A_DISJ_CLASSES] = 1;
+    field_count[COWL_OT_A_DISJ_UNION] = 2;
+    field_count[COWL_OT_A_CLASS_ASSERT] = 2;
+    field_count[COWL_OT_A_SAME_IND] = 1;
+    field_count[COWL_OT_A_DIFF_IND] = 1;
+    field_count[COWL_OT_A_OBJ_PROP_ASSERT] = 3;
+    field_count[COWL_OT_A_NEG_OBJ_PROP_ASSERT] = 3;
+    field_count[COWL_OT_A_DATA_PROP_ASSERT] = 3;
+    field_count[COWL_OT_A_NEG_DATA_PROP_ASSERT] = 3;
+    field_count[COWL_OT_A_SUB_OBJ_PROP] = 2;
+    field_count[COWL_OT_A_INV_OBJ_PROP] = 2;
+    field_count[COWL_OT_A_EQUIV_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_DISJ_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_FUNC_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_INV_FUNC_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_SYMM_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_ASYMM_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_REFL_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_IRREFL_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_TRANS_OBJ_PROP] = 1;
+    field_count[COWL_OT_A_OBJ_PROP_DOMAIN] = 2;
+    field_count[COWL_OT_A_OBJ_PROP_RANGE] = 2;
+    field_count[COWL_OT_A_SUB_DATA_PROP] = 2;
+    field_count[COWL_OT_A_EQUIV_DATA_PROP] = 1;
+    field_count[COWL_OT_A_DISJ_DATA_PROP] = 1;
+    field_count[COWL_OT_A_FUNC_DATA_PROP] = 1;
+    field_count[COWL_OT_A_DATA_PROP_DOMAIN] = 2;
+    field_count[COWL_OT_A_DATA_PROP_RANGE] = 2;
+    field_count[COWL_OT_A_HAS_KEY] = 3;
+    field_count[COWL_OT_A_ANNOT_ASSERT] = 3;
+    field_count[COWL_OT_A_SUB_ANNOT_PROP] = 2;
+    field_count[COWL_OT_A_ANNOT_PROP_DOMAIN] = 2;
+    field_count[COWL_OT_A_ANNOT_PROP_RANGE] = 2;
+    field_count[COWL_OT_CE_OBJ_SOME] = 1;
+    field_count[COWL_OT_CE_OBJ_ALL] = 1;
+    field_count[COWL_OT_CE_OBJ_MIN_CARD] = 1;
+    field_count[COWL_OT_CE_OBJ_MAX_CARD] = 1;
+    field_count[COWL_OT_CE_OBJ_EXACT_CARD] = 1;
+    field_count[COWL_OT_CE_OBJ_HAS_VALUE] = 2;
+    field_count[COWL_OT_CE_OBJ_HAS_SELF] = 1;
+    field_count[COWL_OT_CE_DATA_SOME] = 1;
+    field_count[COWL_OT_CE_DATA_ALL] = 1;
+    field_count[COWL_OT_CE_DATA_MIN_CARD] = 1;
+    field_count[COWL_OT_CE_DATA_MAX_CARD] = 1;
+    field_count[COWL_OT_CE_DATA_EXACT_CARD] = 1;
+    field_count[COWL_OT_CE_DATA_HAS_VALUE] = 2;
+    field_count[COWL_OT_CE_OBJ_INTERSECT] = 1;
+    field_count[COWL_OT_CE_OBJ_UNION] = 1;
+    field_count[COWL_OT_CE_OBJ_COMPL] = 1;
+    field_count[COWL_OT_CE_OBJ_ONE_OF] = 1;
+    field_count[COWL_OT_DR_DATATYPE_RESTR] = 2;
+    field_count[COWL_OT_DR_DATA_INTERSECT] = 1;
+    field_count[COWL_OT_DR_DATA_UNION] = 1;
+    field_count[COWL_OT_DR_DATA_COMPL] = 1;
+    field_count[COWL_OT_DR_DATA_ONE_OF] = 1;
+    field_count[COWL_OT_OPE_INV_OBJ_PROP] = 1;
     return COWL_OK;
 }
 
@@ -518,17 +518,17 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
 }
 
 CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
-    ulib_byte count = composite_fields[type];
-    CowlComposite *obj = ulib_malloc(sizeof(*obj) + (opt ? count + 1 : count) * sizeof(*obj->data));
-    if (!obj) return NULL;
+    ulib_byte count = field_count[type];
+    CowlComposite *o = ulib_malloc(sizeof(*o) + (opt ? count + 1 : count) * sizeof(*o->fields));
+    if (!o) return NULL;
 
-    obj->super = COWL_OBJECT_BIT_INIT(type, opt);
+    o->super = COWL_OBJECT_BIT_INIT(type, opt);
     for (ulib_byte i = 0; i < count; ++i) {
-        obj->data[i] = cowl_retain(fields[i]);
+        o->fields[i].obj = cowl_retain(fields[i]);
     }
-    if (opt) obj->data[count] = cowl_retain(opt);
+    if (opt) o->fields[count].obj = cowl_retain(opt);
 
-    return obj;
+    return o;
 }
 
 CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot) {
@@ -537,21 +537,21 @@ CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector 
 }
 
 CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
-    ulib_byte count = composite_fields[type];
+    ulib_byte count = field_count[type];
     ulib_byte data_size = opt ? count + 2 : count + 1;
-    CowlComposite *obj = ulib_malloc(sizeof(*obj) + data_size * sizeof(*obj->data));
+    CowlComposite *obj = ulib_malloc(sizeof(*obj) + data_size * sizeof(*obj->fields));
     if (!obj) return NULL;
 
     obj->super = COWL_OBJECT_BIT_INIT(type, opt);
     for (ulib_byte i = 0; i < count; ++i) {
-        obj->data[i] = cowl_retain(fields[i]);
+        obj->fields[i].obj = cowl_retain(fields[i]);
     }
 
     if (opt) {
-        obj->data[count] = cowl_retain(opt);
-        obj->data[count + 1] = (CowlAny *)(uintptr_t)val;
+        obj->fields[count].obj = cowl_retain(opt);
+        obj->fields[count + 1].uint = val;
     } else {
-        obj->data[count] = (CowlAny *)(uintptr_t)val;
+        obj->fields[count].uint = val;
     }
 
     return obj;
@@ -559,7 +559,7 @@ CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint va
 
 void cowl_release_impl(CowlAny *object) {
     if (!object || cowl_object_decr_ref(object)) return;
-    ulib_byte count = composite_fields[cowl_get_type(object)];
+    ulib_byte count = field_count[cowl_get_type(object)];
     if (cowl_has_opt_field(object)) ++count;
     for (ulib_byte i = 0; i < count; ++i) {
         cowl_release(cowl_get_field(object, i));
@@ -573,7 +573,7 @@ bool cowl_equals_impl(CowlAny *lhs, CowlAny *rhs) {
     CowlObjectType type = cowl_get_type(lhs);
     if (type != cowl_get_type(rhs)) return false;
 
-    ulib_byte count = composite_fields[cowl_get_type(lhs)];
+    ulib_byte count = field_count[cowl_get_type(lhs)];
     for (ulib_byte i = 0; i < count; ++i) {
         if (!cowl_equals(cowl_get_field(lhs, i), cowl_get_field(rhs, i))) return false;
     }
@@ -592,7 +592,7 @@ bool cowl_uint_equals_impl(CowlAny *lhs, CowlAny *rhs) {
 
 ulib_uint cowl_hash_impl(CowlAny *object) {
     CowlObjectType type = cowl_get_type(object);
-    ulib_byte count = composite_fields[type];
+    ulib_byte count = field_count[type];
 
     ulib_uint hash = uhash_combine_hash(6151U, type);
 
@@ -610,7 +610,7 @@ ulib_uint cowl_uint_hash_impl(CowlAny *object) {
 }
 
 bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    ulib_byte count = composite_fields[cowl_get_type(object)];
+    ulib_byte count = field_count[cowl_get_type(object)];
     for (ulib_byte i = 0; i < count; ++i) {
         if (!cowl_iterate_primitives(cowl_get_field(object, i), flags, iter)) return false;
     }
@@ -619,8 +619,12 @@ bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags, Cow
     return true;
 }
 
+ulib_uint cowl_get_field_count(CowlAny *object) {
+    return field_count[cowl_get_type(object)];
+}
+
 CowlAny *cowl_get_field(CowlAny *object, ulib_uint index) {
-    return ((CowlComposite *)object)->data[index];
+    return ((CowlComposite *)object)->fields[index].obj;
 }
 
 bool cowl_has_opt_field(CowlAny *object) {
@@ -629,11 +633,11 @@ bool cowl_has_opt_field(CowlAny *object) {
 
 CowlAny *cowl_get_opt_field(CowlAny *object) {
     if (!cowl_object_bit_get(object)) return NULL;
-    return cowl_get_field(object, composite_fields[cowl_get_type(object)]);
+    return cowl_get_field(object, field_count[cowl_get_type(object)]);
 }
 
 ulib_uint cowl_get_uint_field(CowlAny *object) {
-    ulib_byte idx = composite_fields[cowl_get_type(object)];
+    ulib_byte idx = field_count[cowl_get_type(object)];
     if (cowl_has_opt_field(object)) idx++;
-    return (ulib_uint)(uintptr_t)cowl_get_field(object, idx);
+    return ((CowlComposite *)object)->fields[idx].uint;
 }

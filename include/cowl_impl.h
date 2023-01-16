@@ -135,6 +135,9 @@ COWL_PUBLIC
 bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_PUBLIC
+ulib_uint cowl_get_field_count(CowlAny *object);
+
+COWL_PUBLIC
 CowlAny *cowl_get_field(CowlAny *object, ulib_uint index);
 
 COWL_PUBLIC

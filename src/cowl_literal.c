@@ -67,16 +67,16 @@ CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
 
     if (!(lang || dt)) dt = cowl_xsd_vocab()->dt.string;
 
-    CowlComposite *literal = ulib_malloc(sizeof(*literal) + 2 * sizeof(*literal->data));
+    CowlComposite *literal = ulib_malloc(sizeof(*literal) + 2 * sizeof(*literal->fields));
     if (!literal) return NULL;
 
     literal->super = COWL_OBJECT_BIT_INIT(COWL_OT_LITERAL, lang);
-    literal->data[0] = cowl_string_retain(value);
+    literal->fields[0].obj = cowl_string_retain(value);
 
     if (lang) {
-        literal->data[1] = cowl_string_retain(lang);
+        literal->fields[1].obj = cowl_string_retain(lang);
     } else {
-        literal->data[1] = cowl_datatype_retain(dt);
+        literal->fields[1].obj = cowl_datatype_retain(dt);
     }
 
     return (CowlLiteral *)literal;

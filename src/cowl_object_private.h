@@ -16,15 +16,16 @@
 
 COWL_BEGIN_DECLS
 
-extern ulib_byte composite_fields[];
-
 struct CowlObject {
     CowlObjectFlags flags;
 };
 
 typedef struct CowlComposite {
     CowlObject super;
-    CowlAny *data[];
+    union {
+        CowlAny *obj;
+        ulib_uint uint;
+    } fields[];
 } CowlComposite;
 
 #define COWL_OBJECT_BIT_INIT(TYPE, HAS_BIT)                                                        \
