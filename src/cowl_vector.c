@@ -12,7 +12,7 @@
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
-static CowlVector *cowl_vector_alloc(UVec(CowlObjectPtr) * data, bool ordered) {
+static CowlVector *cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
     if (data && uvec_shrink(CowlObjectPtr, data) != UVEC_OK) return NULL;
 
     CowlVector *vec = ulib_alloc(vec);
@@ -30,11 +30,11 @@ static CowlVector *cowl_vector_alloc(UVec(CowlObjectPtr) * data, bool ordered) {
     return vec;
 }
 
-CowlVector *cowl_vector(UVec(CowlObjectPtr) * vec) {
+CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec) {
     return cowl_vector_alloc(vec, false);
 }
 
-CowlVector *cowl_vector_ordered(UVec(CowlObjectPtr) * vec) {
+CowlVector *cowl_vector_ordered(UVec(CowlObjectPtr) *vec) {
     return cowl_vector_alloc(vec, true);
 }
 

@@ -25,7 +25,7 @@ static bool cowl_count(void *count, cowl_unused CowlAny *obj) {
     return true;
 }
 
-CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) * vec) {
+CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec) {
     if (!vec) {
         vec = ulib_alloc(vec);
         if (vec) *vec = uvec(CowlObjectPtr);
@@ -33,7 +33,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) * vec) {
     return (CowlIterator){ .ctx = vec, .for_each = cowl_store_vec };
 }
 
-CowlIterator cowl_iterator_set(UHash(CowlObjectTable) * set) {
+CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set) {
     if (!set) {
         set = ulib_alloc(set);
         if (set) *set = uhset(CowlObjectTable);

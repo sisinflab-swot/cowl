@@ -46,8 +46,7 @@ CowlWriter cowl_writer_functional(void) {
     return cowl_func_writer;
 }
 
-static ustream_ret
-cowl_func_write_fields(UOStream *s, CowlAny *obj, CowlSymTable *st) {
+static ustream_ret cowl_func_write_fields(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     ulib_byte count = cowl_get_field_count(obj);
     cowl_func_write_obj(s, cowl_get_field(obj, 0), st);
     for (ulib_byte i = 1; i < count; ++i) {
@@ -57,8 +56,7 @@ cowl_func_write_fields(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     return s->state;
 }
 
-static ustream_ret
-cowl_func_write_fields_opt(UOStream *s, CowlAny *obj, CowlSymTable *st) {
+static ustream_ret cowl_func_write_fields_opt(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     cowl_func_write_fields(s, obj, st);
     CowlAny *opt = cowl_get_opt_field(obj);
 
@@ -70,8 +68,7 @@ cowl_func_write_fields_opt(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     return s->state;
 }
 
-static ustream_ret
-cowl_func_write_opt_fields(UOStream *s, CowlAny *obj, CowlSymTable *st) {
+static ustream_ret cowl_func_write_opt_fields(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     CowlAny *opt = cowl_get_opt_field(obj);
 
     if (opt) {

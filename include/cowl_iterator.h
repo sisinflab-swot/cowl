@@ -60,7 +60,7 @@ typedef struct CowlIterator {
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) * vec);
+CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec);
 
 /**
  * Initializes an iterator that stores objects in the specified set.
@@ -76,7 +76,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) * vec);
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_set(UHash(CowlObjectTable) * set);
+CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set);
 
 /**
  * Initializes an iterator that counts the objects it iterates on.

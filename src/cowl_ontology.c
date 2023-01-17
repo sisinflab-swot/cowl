@@ -390,7 +390,7 @@ void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version) {
     onto->id.version = version ? cowl_iri_retain(version) : NULL;
 }
 
-static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjectTable) * map) {
+static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjectTable) *map) {
     ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, map, primitive, &idx);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
@@ -494,7 +494,7 @@ void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
 }
 
 static cowl_ret
-cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) * map) {
+cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
     ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, map, primitive, &idx);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
@@ -515,7 +515,7 @@ cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectT
 }
 
 static void
-cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) * map) {
+cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
     CowlVector *vec = uhmap_get(CowlObjectTable, map, primitive, NULL);
     if (vec) uvec_remove(CowlObjectPtr, &vec->data, axiom);
 }

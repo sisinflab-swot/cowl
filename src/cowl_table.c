@@ -15,8 +15,12 @@
 UHASH_IMPL_PI(CowlObjectTable, cowl_hash, cowl_equals)
 
 #define HASH_GEN(T, TYPE)                                                                          \
-    static ulib_uint T##_hash(CowlAny *obj) { return cowl_##T##_hash(obj); }                       \
-    static bool T##_equals(CowlAny *lhs, CowlAny *rhs) { return cowl_##T##_equals(lhs, rhs); }     \
+    static ulib_uint T##_hash(CowlAny *obj) {                                                      \
+        return cowl_##T##_hash(obj);                                                               \
+    }                                                                                              \
+    static bool T##_equals(CowlAny *lhs, CowlAny *rhs) {                                           \
+        return cowl_##T##_equals(lhs, rhs);                                                        \
+    }                                                                                              \
     UHash(CowlObjectTable) cowl_##T##_##TYPE(void) {                                               \
         return uh##TYPE##_pi(CowlObjectTable, T##_hash, T##_equals);                               \
     }
@@ -24,7 +28,7 @@ UHASH_IMPL_PI(CowlObjectTable, cowl_hash, cowl_equals)
 HASH_GEN(primitive, map)
 HASH_GEN(string, map)
 
-CowlTable *cowl_table(UHash(CowlObjectTable) * table) {
+CowlTable *cowl_table(UHash(CowlObjectTable) *table) {
     CowlTable *tbl = ulib_alloc(tbl);
 
     if (!tbl) {

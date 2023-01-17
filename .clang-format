@@ -22,3 +22,6 @@ PenaltyReturnTypeOnItsOwnLine: 0
 StatementMacros:
   - COWL_BEGIN_DECLS
   - COWL_END_DECLS
+TypenameMacros:
+  - UHash
+  - UVec
