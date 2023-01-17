@@ -5,6 +5,23 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2] - 2023-01-17
+### Added
+- String interning: `cowl_string_opt`, `cowl_string_intern`, `CowlStringOpts`.
+
+### Changed
+- `cowl_ontology_get_annot` returns an empty vector rather than NULL.
+- `cowl_obj_card_get_filler` returns *owl:Thing* rather than NULL.
+- `cowl_data_card_get_range` returns *rdfs:Literal* rather than NULL.
+
+### Fixed
+- NULL pointer dereference in `cowl_equals_impl`.
+- Serialization of unqualified object quantifiers.
+- Serialization of *SubAnnotationPropertyOf* axioms.
+- Serialization of nested annotations.
+- Serialization of inverse object properties.
+- Improved handling of out-of-memory conditions.
+
 ## [0.6.1] - 2022-12-07
 ### Added
 - `cowl_get_iri`, `cowl_equals_iri_string`.
@@ -287,6 +304,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.6.2]: https://github.com/sisinflab-swot/cowl/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/sisinflab-swot/cowl/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/sisinflab-swot/cowl/compare/v0.5.3...v0.6.0
 [0.5.3]: https://github.com/sisinflab-swot/cowl/compare/v0.5.2...v0.5.3
