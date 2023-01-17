@@ -56,7 +56,7 @@
         if (strcmp(s, "memory exhausted") == 0) {
             COWL_HANDLE_MEM_ERROR();
         } else {
-            cowl_handle_syntax_error(ustring_wrap(s, strlen(s)), stream,
+            cowl_handle_syntax_error(ustring_wrap_buf(s), stream,
                                      (CowlErrorLoc) { .line = yylloc->last_line });
         }
     }
@@ -64,30 +64,30 @@
     #ifdef YYNOMEM
         #define COWL_ERROR_MEM YYNOMEM
     #else
-        #define COWL_ERROR_MEM do {                                                                 \
-            COWL_HANDLE_MEM_ERROR();                                                                \
-            YYABORT;                                                                                \
+        #define COWL_ERROR_MEM do {                                                                \
+            COWL_HANDLE_MEM_ERROR();                                                               \
+            YYABORT;                                                                               \
         } while (0)
     #endif
 
-    #define COWL_ERROR(CODE) do {                                                                   \
-        if ((CODE) == COWL_ERR_MEM) {                                                               \
-            COWL_ERROR_MEM;                                                                         \
-        } else {                                                                                    \
-            COWL_HANDLE_ERROR(CODE);                                                                \
-            YYERROR;                                                                                \
-        }                                                                                           \
+    #define COWL_ERROR(CODE) do {                                                                  \
+        if ((CODE) == COWL_ERR_MEM) {                                                              \
+            COWL_ERROR_MEM;                                                                        \
+        } else {                                                                                   \
+            COWL_HANDLE_ERROR(CODE);                                                               \
+            YYERROR;                                                                               \
+        }                                                                                          \
     } while (0)
 
-    #define COWL_VEC_PUSH(T, VEC, OBJ) do {                                                         \
-        if (cowl_vector_push(VEC, OBJ)) COWL_ERROR_MEM;                                             \
+    #define COWL_VEC_PUSH(T, VEC, OBJ) do {                                                        \
+        if (cowl_vector_push(VEC, OBJ)) COWL_ERROR_MEM;                                            \
     } while (0)
 
-    #define COWL_VEC_FINALIZE(VEC) do {                                                             \
-        if (VEC) {                                                                                  \
-            cowl_vector_release(VEC);                                                               \
-            if (cowl_vector_shrink(VEC)) COWL_ERROR_MEM;                                            \
-        }                                                                                           \
+    #define COWL_VEC_FINALIZE(VEC) do {                                                            \
+        if (VEC) {                                                                                 \
+            cowl_vector_release(VEC);                                                              \
+            if (cowl_vector_shrink(VEC)) COWL_ERROR_MEM;                                           \
+        }                                                                                          \
     } while (0)
 }
 
