@@ -46,8 +46,8 @@ static CowlString *parse_lang(CowlString *value, CowlString **lang) {
 CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     if (!value) return NULL;
     CowlRDFVocab const *v = cowl_rdf_vocab();
-
     if (lang && !cowl_string_get_length(lang)) lang = NULL;
+    bool should_retain = true;
 
     if (lang) {
         if (!(lang = cowl_string_intern(lang))) return NULL;
@@ -62,6 +62,7 @@ CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
     } else if (dt == v->dt.lang_string || dt == v->dt.plain_literal) {
         // Attempt to parse the language tag from the value.
         if (!(value = parse_lang(value, &lang))) return NULL;
+        should_retain = false;
         dt = NULL;
     }
 
@@ -71,12 +72,17 @@ CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
     if (!literal) return NULL;
 
     literal->super = COWL_OBJECT_BIT_INIT(COWL_OT_LITERAL, lang);
-    literal->fields[0].obj = cowl_string_retain(value);
+    literal->fields[0].obj = value;
 
     if (lang) {
-        literal->fields[1].obj = cowl_string_retain(lang);
+        literal->fields[1].obj = lang;
     } else {
-        literal->fields[1].obj = cowl_datatype_retain(dt);
+        literal->fields[1].obj = dt;
+    }
+
+    if (should_retain) {
+        cowl_retain(literal->fields[0].obj);
+        cowl_retain(literal->fields[1].obj);
     }
 
     return (CowlLiteral *)literal;

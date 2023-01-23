@@ -46,7 +46,8 @@ ObjectPropertyAssertion(:ObjectPropertyA :IndividualA :IndividualB)
 
 # Individual: :IndividualB (:IndividualB)
 
-DataPropertyAssertion(:DataPropertyA :IndividualB "true"^^xsd:boolean)
+DataPropertyAssertion(:DataPropertyA :IndividualA "true"^^xsd:boolean)
+DataPropertyAssertion(:DataPropertyA :IndividualB "String with inner language tag@en"^^rdf:PlainLiteral)
 
 
 ############################
