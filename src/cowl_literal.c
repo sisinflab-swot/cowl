@@ -28,7 +28,7 @@ static CowlString *parse_lang(CowlString *value, CowlString **lang) {
     *lang = NULL;
 
     if (lang_idx < val_len) {
-        value = cowl_string_opt(ustring_wrap(val_str, lang_idx), COWL_SO_COPY);
+        value = cowl_string_opt(ustring_wrap(val_str, lang_idx - 1), COWL_SO_COPY);
         if (!value) return NULL;
 
         UString const raw_lang = ustring_wrap(val_str + lang_idx, val_len - lang_idx);
