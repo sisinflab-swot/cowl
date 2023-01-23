@@ -181,9 +181,9 @@ void cowl_string_release(CowlString *string) {
     }
 }
 
-char const *cowl_string_release_copying_cstring(CowlString *string) {
+char *cowl_string_release_copying_cstring(CowlString *string) {
     if (!string) return NULL;
-    char const *ret;
+    char *ret;
 
     if (cowl_object_get_ref(string) > 1) {
         ret = ulib_str_dup(ustring_data(string->raw_string), ustring_length(string->raw_string));

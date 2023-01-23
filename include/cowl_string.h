@@ -140,7 +140,7 @@ CowlString *cowl_string_intern(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
-char const *cowl_string_release_copying_cstring(CowlString *string);
+char *cowl_string_release_copying_cstring(CowlString *string);
 
 /**
  * Gets the underlying string buffer.
