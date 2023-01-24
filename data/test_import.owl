@@ -67,7 +67,7 @@ ClassAssertion(:ClassA _:genid2147483648)
 
 SubAnnotationPropertyOf(
 Annotation(
-Annotation(rdfs:comment "This is a nested annotation"^^xsd:string)
+Annotation(rdfs:comment "This is a nested annotation"@EN)
 rdfs:label "Annotation Property A"^^xsd:string)
 Annotation(rdfs:comment "Test axiom annotations"^^xsd:string)
 :AnnotationPropertyA :AnnotationPropertyB)

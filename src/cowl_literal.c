@@ -20,54 +20,55 @@ static inline bool cowl_literal_is_lang_string(CowlLiteral *literal) {
 }
 
 static CowlString *parse_lang(CowlString *value, CowlString **lang) {
+    *lang = NULL;
+
     UString const *raw_value = cowl_string_get_raw(value);
     char const *val_str = ustring_data(*raw_value);
     ulib_uint val_len = ustring_length(*raw_value);
     ulib_uint lang_idx = ustring_index_of_last(*raw_value, '@') + 1;
+    if (lang_idx >= val_len) return cowl_string_retain(value);
 
-    *lang = NULL;
+    CowlString *new_val = cowl_string_opt(ustring_wrap(val_str, lang_idx - 1), COWL_SO_COPY);
+    if (!new_val) goto err;
 
-    if (lang_idx < val_len) {
-        value = cowl_string_opt(ustring_wrap(val_str, lang_idx - 1), COWL_SO_COPY);
-        if (!value) return NULL;
+    UString raw_lang;
+    ulib_uint const lang_len = val_len - lang_idx;
+    char *buf = ustring(&raw_lang, lang_len);
+    if (!buf) goto err;
 
-        UString const raw_lang = ustring_wrap(val_str + lang_idx, val_len - lang_idx);
-        *lang = cowl_string_opt(raw_lang, COWL_SO_COPY | COWL_SO_INTERN);
+    ulib_str_to_lower(buf, val_str + lang_idx, lang_len);
+    *lang = cowl_string_opt(raw_lang, COWL_SO_INTERN);
+    if (!(*lang)) goto err;
 
-        if (!(*lang)) {
-            cowl_string_release(value);
-            return NULL;
-        }
-    }
+    return new_val;
 
-    return value;
+err:
+    cowl_string_release(new_val);
+    return NULL;
 }
 
-CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    if (!value) return NULL;
-    CowlRDFVocab const *v = cowl_rdf_vocab();
-    if (lang && !cowl_string_get_length(lang)) lang = NULL;
-    bool should_retain = true;
+static CowlString *internalize_lang(CowlString *lang) {
+    UString const *raw_lang = cowl_string_get_raw(lang);
 
-    if (lang) {
+    if (ustring_is_lower(*raw_lang)) {
         if (!(lang = cowl_string_intern(lang))) return NULL;
-        if (dt) {
-            if (dt == v->dt.lang_string || dt == v->dt.plain_literal) {
-                dt = NULL;
-            } else {
-                // Literal with language tag but incorrect datatype.
-                return NULL;
-            }
-        }
-    } else if (dt == v->dt.lang_string || dt == v->dt.plain_literal) {
-        // Attempt to parse the language tag from the value.
-        if (!(value = parse_lang(value, &lang))) return NULL;
-        should_retain = false;
-        dt = NULL;
+        cowl_string_retain(lang);
+    } else {
+        // Language tag must be normalized to lowercase.
+        UString new_lang = ustring_to_lower(*raw_lang);
+        if (ustring_is_null(new_lang)) return NULL;
+        lang = cowl_string_opt(new_lang, COWL_SO_INTERN);
     }
 
-    if (!(lang || dt)) dt = cowl_xsd_vocab()->dt.string;
+    return lang;
+}
 
+static inline bool is_lang_datatype(CowlDatatype *dt) {
+    CowlRDFVocab const *v = cowl_rdf_vocab();
+    return dt == v->dt.lang_string || dt == v->dt.plain_literal;
+}
+
+static CowlLiteral *cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     CowlComposite *literal = ulib_malloc(sizeof(*literal) + 2 * sizeof(*literal->fields));
     if (!literal) return NULL;
 
@@ -80,12 +81,40 @@ CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
         literal->fields[1].obj = dt;
     }
 
-    if (should_retain) {
-        cowl_retain(literal->fields[0].obj);
-        cowl_retain(literal->fields[1].obj);
-    }
+    cowl_retain(literal->fields[0].obj);
+    cowl_retain(literal->fields[1].obj);
 
     return (CowlLiteral *)literal;
+}
+
+CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
+    if (!value) return NULL;
+    if (lang && !cowl_string_get_length(lang)) lang = NULL;
+
+    CowlLiteral *ret = NULL;
+    bool release_value = false, release_lang = false;
+
+    if (lang) {
+        // Validate datatype.
+        if (dt && !is_lang_datatype(dt)) goto end;
+        if (!(lang = internalize_lang(lang))) goto end;
+        release_lang = true;
+        dt = NULL;
+    } else if (is_lang_datatype(dt)) {
+        // Attempt to parse the language tag from the value.
+        if (!(value = parse_lang(value, &lang))) goto end;
+        release_value = release_lang = true;
+        dt = NULL;
+    }
+
+    if (!(lang || dt)) dt = cowl_xsd_vocab()->dt.string;
+    ret = cowl_literal_alloc(dt, value, lang);
+
+end:
+    if (release_value) cowl_string_release(value);
+    if (release_lang) cowl_string_release(lang);
+
+    return ret;
 }
 
 CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang) {
