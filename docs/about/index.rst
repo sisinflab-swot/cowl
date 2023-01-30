@@ -64,5 +64,5 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
 .. _semver: https://semver.org
 .. |sweet2022| replace:: **Cowl: a lightweight OWL library for the Semantic Web of Everything**
-.. _sweet2022: https://sisinflab.poliba.it/publications/cowl-a-lightweight-owl-library-for-the-semantic-web-of-everything
+.. _sweet2022: http://sisinflab.poliba.it/publications/2022/BSR22
 .. _uLib: https://github.com/IvanoBilenchi/ulib
