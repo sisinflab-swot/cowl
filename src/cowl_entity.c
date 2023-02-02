@@ -16,6 +16,11 @@
 
 static UHash(CowlObjectTable) inst_tbl;
 
+#if COWL_ENTITY_IDS
+#include "cowl_vector.h"
+static UVec(CowlObjectPtr) id_map;
+#endif
+
 static ulib_uint inst_tbl_hash(CowlAny *key) {
     ulib_uint h1 = cowl_iri_hash(cowl_entity_get_iri(key));
     ulib_uint h2 = (ulib_uint)cowl_get_type(key);
@@ -29,17 +34,39 @@ static bool inst_tbl_eq(CowlAny *lhs, CowlAny *rhs) {
 
 cowl_ret cowl_entity_api_init(void) {
     inst_tbl = uhset_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+#if COWL_ENTITY_IDS
+    id_map = uvec(CowlObjectPtr);
+#endif
     return COWL_OK;
 }
 
 void cowl_entity_api_deinit(void) {
     uhash_deinit(CowlObjectTable, &inst_tbl);
+#if COWL_ENTITY_IDS
+    uvec_foreach (CowlObjectPtr, &id_map, e) {
+        cowl_entity_release(*e.item);
+    }
+    uvec_deinit(CowlObjectPtr, &id_map);
+#endif
 }
 
 static CowlEntity *cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
     CowlEntity *entity = ulib_alloc(entity);
     if (!entity) return NULL;
-    *entity = (CowlEntity){ .super = COWL_OBJECT_INIT(type), .iri = cowl_iri_retain(iri) };
+
+    entity->super = COWL_OBJECT_INIT(type);
+
+#if COWL_ENTITY_IDS
+    entity->id = uvec_count(CowlObjectPtr, &id_map);
+    if (uvec_push(CowlObjectPtr, &id_map, entity) != COWL_OK) {
+        ulib_free(entity);
+        return NULL;
+    }
+    cowl_object_incr_ref(entity);
+#endif
+
+    entity->iri = cowl_iri_retain(iri);
+
     return entity;
 }
 
@@ -93,6 +120,18 @@ CowlString *cowl_entity_to_string(CowlAnyEntity *entity) {
 CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity) {
     return ((CowlEntity *)entity)->iri;
 }
+
+#if COWL_ENTITY_IDS
+
+ulib_uint cowl_entity_get_id(CowlAnyEntity *entity) {
+    return ((CowlEntity *)entity)->id;
+}
+
+CowlAnyEntity *cowl_entity_with_id(ulib_uint id) {
+    return id < uvec_count(CowlObjectPtr, &id_map) ? uvec_get(CowlObjectPtr, &id_map, id) : NULL;
+}
+
+#endif
 
 CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity) {
     switch (cowl_get_type(entity)) {

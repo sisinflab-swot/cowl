@@ -77,6 +77,32 @@ CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity);
 COWL_PUBLIC
 CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity);
 
+#if COWL_ENTITY_IDS
+
+/**
+ * Gets the increasing unique identifier associated to the specified entity.
+ *
+ * @param entity The entity.
+ * @return Unique identifier.
+ *
+ * @public @memberof CowlEntity
+ */
+COWL_PUBLIC
+ulib_uint cowl_entity_get_id(CowlAnyEntity *entity);
+
+/**
+ * Returns the entity that has the specified identifier.
+ *
+ * @param id Unique identifier.
+ * @return Entity with the specified identifier, or NULL if no entity has the specified identifier.
+ *
+ * @public @memberof CowlEntity
+ */
+COWL_PUBLIC
+CowlAnyEntity *cowl_entity_with_id(ulib_uint id);
+
+#endif
+
 /**
  * Returns the string representation of the specified entity.
  *

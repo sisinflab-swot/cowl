@@ -29,6 +29,7 @@ project(Cowl
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
+option(COWL_ENTITY_IDS "Associate increasing unique identifiers to entities" OFF)
 set(COWL_LIBRARY_TYPE "STATIC" CACHE STRING "Type of library to build.")
 set(COWL_READERS "functional" CACHE STRING "List of enabled built-in readers (semicolon-separated)")
 set(COWL_WRITERS "functional" CACHE STRING "List of enabled built-in writers (semicolon-separated)")
@@ -54,6 +55,10 @@ set(COWL_HEADERS_OUT_DIR "${COWL_OUTPUT_DIR}/include")
 # Target settings
 
 set(COWL_COMPILE_FEATURES c_std_11)
+
+if(COWL_ENTITY_IDS)
+    list(APPEND COWL_PUBLIC_DEFINES COWL_ENTITY_IDS=1)
+endif()
 
 list(APPEND COWL_PRIVATE_DEFINES
      COWL_BUILDING

@@ -18,6 +18,9 @@ COWL_BEGIN_DECLS
 
 struct CowlEntity {
     CowlObject super;
+#if COWL_ENTITY_IDS
+    ulib_uint id;
+#endif
     CowlIRI *iri;
 };
 
