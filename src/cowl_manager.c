@@ -62,6 +62,7 @@ static cowl_ret stream_stream(CowlManager *manager, CowlStream *stream, UIStream
 end:
     if (reader.free) reader.free(state);
     if (ret) cowl_handle_error_code(ret, manager);
+    cowl_stream_release(stream);
     return ret;
 }
 
@@ -74,7 +75,6 @@ static cowl_ret stream_stream_deinit(CowlManager *manager, CowlStream *stream, U
         cowl_handle_error_code(ret, manager);
     }
 
-    cowl_stream_release(stream);
     return ret;
 }
 
