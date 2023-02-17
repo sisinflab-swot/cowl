@@ -57,6 +57,7 @@ jobs:
           -DULIB_LEAKS=ON
           -DULIB_LIBRARY_TYPE=${{matrix.lib_type}}
           -DCOWL_LIBRARY_TYPE=${{matrix.lib_type}}
+          -DCOWL_ENTITY_IDS=ON
           -DCMAKE_SYSTEM_VERSION=''
           -DCMAKE_BUILD_TYPE=${{env.build_config}}
           -DCMAKE_C_FLAGS=${{env.cflags}}

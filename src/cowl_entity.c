@@ -58,11 +58,11 @@ static CowlEntity *cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
 
 #if COWL_ENTITY_IDS
     entity->id = uvec_count(CowlObjectPtr, &id_map);
-    if (uvec_push(CowlObjectPtr, &id_map, entity) != COWL_OK) {
+    if (uvec_push(CowlObjectPtr, &id_map, entity) != UVEC_OK) {
         ulib_free(entity);
         return NULL;
     }
-    cowl_object_incr_ref(entity);
+    (void)cowl_object_incr_ref(entity);
 #endif
 
     entity->iri = cowl_iri_retain(iri);
