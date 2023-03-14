@@ -234,6 +234,50 @@ CowlString *cowl_string_with_format(char const *format, ...);
 COWL_PUBLIC
 CowlString *cowl_string_concat(CowlString *lhs, CowlString *rhs);
 
+/**
+ * Converts the string into an integer.
+ *
+ * @param string The string.
+ * @param out Output value.
+ * @param base Numeric base.
+ * @return Return code.
+ *
+ * @public @memberof CowlString
+ */
+COWL_INLINE
+cowl_ret cowl_string_to_int(CowlString *string, ulib_int *out, unsigned base) {
+    return ustring_to_int(*cowl_string_get_raw(string), out, base) == ULIB_OK ? COWL_OK : COWL_ERR;
+}
+
+/**
+ * Converts the string into an unsigned integer.
+ *
+ * @param string The string.
+ * @param out Output value.
+ * @param base Numeric base.
+ * @return Return code.
+ *
+ * @public @memberof CowlString
+ */
+COWL_INLINE
+cowl_ret cowl_string_to_uint(CowlString *string, ulib_uint *out, unsigned base) {
+    return ustring_to_uint(*cowl_string_get_raw(string), out, base) == ULIB_OK ? COWL_OK : COWL_ERR;
+}
+
+/**
+ * Converts the string into a float.
+ *
+ * @param string The string.
+ * @param out Output value.
+ * @return Return code.
+ *
+ * @public @memberof CowlString
+ */
+COWL_INLINE
+cowl_ret cowl_string_to_float(CowlString *string, ulib_float *out) {
+    return ustring_to_float(*cowl_string_get_raw(string), out) == ULIB_OK ? COWL_OK : COWL_ERR;
+}
+
 COWL_END_DECLS
 
 #endif // COWL_STRING_H
