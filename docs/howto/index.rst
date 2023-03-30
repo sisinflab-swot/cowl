@@ -40,7 +40,7 @@ though not as fancy as the ones you are viewing.
 Downloading the sources
 -----------------------
 
-You can find Cowl's code on its `git repository <git_url>`_. Please note that it contains
+You can find Cowl's code on its `git repository <git_url_>`_. Please note that it contains
 submodules, so it is recommended that you clone it using the ``--recursive`` flag.
 
 .. code-block:: bash

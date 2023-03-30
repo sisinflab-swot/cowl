@@ -27,11 +27,11 @@ rst_epilog = (
 # HTML
 
 html_theme = 'sphinx_rtd_theme'
-html_theme_options = { 'logo_only': False }
+html_theme_options = {'logo_only': False}
 templates_path = ['@SPHINX_INPUT_DIRECTORY@/_templates']
 html_static_path = ['@SPHINX_INPUT_DIRECTORY@/_static', '@DOCS_IMAGES_DIRECTORY@']
 html_logo = logo
-html_short_title = '{} docs'.format(project)
+html_short_title = f'{project} docs'
 html_context = {
     'poliba_url': poliba_url,
     'sisinflab_url': sisinflab_url,
@@ -49,7 +49,7 @@ intersphinx_mapping = {
 
 # Breathe
 
-breathe_projects = { project: '@DOXYGEN_XML_OUTPUT_DIRECTORY@' }
+breathe_projects = {project: '@DOXYGEN_XML_OUTPUT_DIRECTORY@'}
 breathe_default_project = project
 breathe_default_members = ('members', 'undocmembers')
 
