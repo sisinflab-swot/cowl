@@ -63,6 +63,7 @@ ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
         GEN_OT_STRING(FACET_RESTR, "FacetRestriction");
         GEN_OT_STRING(ONTOLOGY, "Ontology");
         GEN_OT_STRING(MANAGER, "Manager");
+        GEN_OT_STRING(STREAM, "Stream");
         GEN_OT_STRING(ANNOTATION, "Annotation");
         GEN_OT_STRING(ANNOT_PROP, "AnnotationProperty");
         GEN_OT_STRING(A_DECL, "Declaration");
