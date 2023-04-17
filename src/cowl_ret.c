@@ -18,7 +18,7 @@ UString cowl_ret_to_ustring(cowl_ret ret) {
         case COWL_ERR_MEM: return ustring_literal("memory exhausted");
         case COWL_ERR_SYNTAX: return ustring_literal("syntax error");
         case COWL_ERR_IMPORT: return ustring_literal("import error");
-        default: return ustring_literal("unknown error");
+        default: return ustring_literal("error");
     }
 }
 

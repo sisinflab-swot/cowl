@@ -81,4 +81,5 @@ static CowlOntology *load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
  */
 static void handle_error(void *ctx, CowlError const *error) {
     cowl_write_error(ctx, error);
+    cowl_write_static(ctx, "\n");
 }
