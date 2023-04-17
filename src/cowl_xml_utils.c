@@ -11,11 +11,9 @@
 #include "cowl_xml_utils.h"
 
 #define IS_NCNAME_START_CHAR(C)                                                                    \
-    (((C) >= 'A' && (C) <= 'Z') || (C) == '_' || ((C) >= 'a' && (C) <= 'z') ||                     \
-     ((C) >= 0xC0 && (C) <= 0xD6) || ((C) >= 0xD8 && (C) <= 0xF6) || ((C) >= 0xF8))
+    (((C) >= 'A' && (C) <= 'Z') || (C) == '_' || ((C) >= 'a' && (C) <= 'z') || (C) >= 0x80)
 
-#define IS_NCNAME_NON_START_CHAR(C)                                                                \
-    ((C) == '-' || (C) == '.' || ((C) >= '0' && (C) <= '9') || (C) == 0xB7)
+#define IS_NCNAME_NON_START_CHAR(C) ((C) == '-' || (C) == '.' || ((C) >= '0' && (C) <= '9'))
 
 ulib_uint cowl_xml_ns_length(UString string) {
     // This is currently not completely compliant with the NCName specification.

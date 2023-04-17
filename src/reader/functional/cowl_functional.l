@@ -50,14 +50,14 @@ COMMENT                                 "#"[^\n]*
 DIGIT                                   [0-9]
 ALPHA                                   [A-Za-z]
 ALNUM                                   ({ALPHA}|{DIGIT})
-PN_CHARS_BASE                           {ALPHA}
+PN_CHARS_BASE                           ({ALPHA}|[\x80-\xff])
 PN_CHARS_U                              ({PN_CHARS_BASE}|_)
 PN_CHARS                                ({PN_CHARS_U}|-|{DIGIT})
 PN_PREFIX                               {PN_CHARS_BASE}(({PN_CHARS}|\.)*{PN_CHARS})?
 PN_LOCAL                                ({PN_CHARS_U}|{DIGIT})(({PN_CHARS}|\.)*{PN_CHARS})?
 PNAME_NS                                {PN_PREFIX}?:
 PNAME_LN                                {PNAME_NS}{PN_LOCAL}
-IRI_REF                                 <[^<>"{}|\^`\\ ]{-}[\x00-\x20]*>
+IRI_REF                                 <[^\x00-\x20<>"{}|\^`\\]*>
 BLANK_NODE_LABEL                        _:{PN_LOCAL}
 LANG_TAG                                @{ALPHA}+(-{ALNUM}+)*
 QUOTED_STRING                           \"([^\"\\]|\\\"|\\\\)*\"
