@@ -43,6 +43,9 @@ typedef enum CowlPrimitiveType {
     /// CowlDatatype - datatype.
     COWL_PT_DATATYPE,
 
+    /// CowlIRI - IRI.
+    COWL_PT_IRI,
+
     /// @name Markers
 
     /// Number of enum values.

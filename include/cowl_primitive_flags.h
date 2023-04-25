@@ -51,6 +51,9 @@ typedef UBit(COWL_PF) CowlPrimitiveFlags;
 /// Iterate over datatypes.
 #define COWL_PF_DATATYPE ubit_bit(COWL_PF, 6)
 
+/// Iterate over IRIs.
+#define COWL_PF_IRI ubit_bit(COWL_PF, 7)
+
 /// Iterate over entities.
 #define COWL_PF_ENTITY                                                                             \
     (COWL_PF_CLASS | COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP | COWL_PF_ANNOT_PROP |                   \

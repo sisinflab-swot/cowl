@@ -440,6 +440,7 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
     return ubit_is_set(COWL_PF, flags, COWL_PF_##TYPE) ? cowl_iterate(iter, object) : true
 
     switch (cowl_get_type(object)) {
+        case COWL_OT_IRI: GEN_ITER_PRIMITIVE(IRI);
         case COWL_OT_VECTOR: GEN_ITER(Vector, vector);
         case COWL_OT_TABLE: GEN_ITER(Table, table);
         case COWL_OT_LITERAL: GEN_ITER(Literal, literal);

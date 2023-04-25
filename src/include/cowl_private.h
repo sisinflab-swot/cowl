@@ -21,6 +21,7 @@
 #include "cowl_object_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_owl_vocab_private.h"
+#include "cowl_primitive_private.h"
 #include "cowl_rdf_vocab_private.h"
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_stream_private.h"

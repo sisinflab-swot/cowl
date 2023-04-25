@@ -3,8 +3,11 @@ Entities and Primitives
 =======================
 
 *Entities* represent the named terms of OWL ontologies, and are modeled by :class:`CowlEntity`.
-*Primitives* are a superset of entities, which also include anonymous individuals. They are modeled
-by :class:`CowlPrimitive`.
+The term *primitive* has no correspondence in the OWL 2 specification.
+It is used as a collective term for entities, anonymous individuals, and IRIs,
+which are modeled by :class:`CowlPrimitive`. You can always safely cast :class:`CowlEntity`
+to :class:`CowlPrimitive`, while the opposite can only be done after checking that the primitive
+is an OWL entity (see :func:`CowlPrimitive::cowl_primitive_is_entity()`).
 
 .. doxygenstruct:: CowlEntity
 .. doxygenenum:: CowlEntityType
@@ -13,19 +16,12 @@ by :class:`CowlPrimitive`.
 .. doxygenenum:: CowlPrimitiveType
 
 .. toctree::
-   :caption: Types
+   :caption: Primitive types
 
    CowlClass
    CowlDatatype
-
-.. toctree::
-   :caption: Properties
-
    CowlObjProp
    CowlDataProp
    CowlAnnotProp
-
-.. toctree::
-   :caption: Individuals
-
    ../ind/CowlIndividual
+   ../../base/CowlIRI

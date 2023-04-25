@@ -8,10 +8,11 @@
  * @file
  */
 
-#include "cowl_primitive.h"
+#include "cowl_primitive_private.h"
 
 CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive) {
     switch (cowl_get_type(primitive)) {
+        case COWL_OT_IRI: return COWL_PT_IRI;
         case COWL_OT_CE_CLASS: return COWL_PT_CLASS;
         case COWL_OT_OPE_OBJ_PROP: return COWL_PT_OBJ_PROP;
         case COWL_OT_I_NAMED: return COWL_PT_NAMED_IND;
@@ -23,5 +24,5 @@ CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive) {
 }
 
 bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive) {
-    return cowl_get_type(primitive) != COWL_OT_I_ANONYMOUS;
+    return cowl_primitive_type_is_entity(cowl_primitive_get_type(primitive));
 }

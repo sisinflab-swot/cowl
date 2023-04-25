@@ -147,8 +147,14 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
 
 ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                   bool imports) {
-    UHash(CowlObjectTable) *table = &onto->refs[cowl_primitive_get_type(primitive)];
+    CowlPrimitiveType type = cowl_primitive_get_type(primitive);
+    UHash(CowlObjectTable) *table = &onto->refs[type];
     ulib_uint count = cowl_vector_count(uhmap_get(CowlObjectTable, table, primitive, NULL));
+
+    if (cowl_primitive_type_is_entity(type)) {
+        CowlIRI *iri = cowl_entity_get_iri(primitive);
+        count += cowl_vector_count(uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_IRI], iri, NULL));
+    }
 
     if (imports) {
         cowl_ontology_foreach_import(onto, import, {
@@ -179,8 +185,13 @@ cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, boo
 }
 
 bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive, bool imports) {
-    UHash(CowlObjectTable) *refs = &onto->refs[cowl_primitive_get_type(primitive)];
-    if (uhash_contains(CowlObjectTable, refs, primitive)) return true;
+    CowlPrimitiveType type = cowl_primitive_get_type(primitive);
+    if (uhash_contains(CowlObjectTable, &onto->refs[type], primitive)) return true;
+
+    if (cowl_primitive_type_is_entity(type)) {
+        CowlIRI *iri = cowl_entity_get_iri(primitive);
+        if (uhash_contains(CowlObjectTable, &onto->refs[COWL_PT_IRI], iri)) return true;
+    }
 
     if (imports) {
         cowl_ontology_foreach_import(onto, import, {
@@ -270,10 +281,18 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
 
 bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                 CowlIterator *iter, bool imports) {
-    UHash(CowlObjectTable) *table = &onto->refs[cowl_primitive_get_type(primitive)];
+    CowlPrimitiveType type = cowl_primitive_get_type(primitive);
+    UHash(CowlObjectTable) *table = &onto->refs[type];
 
     cowl_vector_foreach (uhmap_get(CowlObjectTable, table, primitive, NULL), a) {
         if (!cowl_iterate(iter, *a.item)) return false;
+    }
+
+    if (cowl_primitive_type_is_entity(type)) {
+        CowlIRI *iri = cowl_entity_get_iri(primitive);
+        cowl_vector_foreach (uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_IRI], iri, NULL), a) {
+            if (!cowl_iterate(iter, *a.item)) return false;
+        }
     }
 
     if (imports) {

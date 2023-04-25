@@ -144,7 +144,7 @@ ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
 }
 
 /**
- * Iterates over the primitives referenced by this anonymous individual.
+ * Iterates over this anonymous individual.
  *
  * @param ind The anonymous individual.
  * @param flags Iteration flags.
