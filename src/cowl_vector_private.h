@@ -21,6 +21,10 @@ struct CowlVector {
     UVec(CowlObjectPtr) data;
 };
 
+#define cowl_vector_is_ordered(vec) cowl_object_bit_get(vec)
+#define cowl_vector_set_ordered(vec) cowl_object_bit_set(vec)
+
+CowlVector *cowl_vector_ordered_empty(void);
 void cowl_vector_release_ex(CowlVector *vec, bool release_elements);
 cowl_ret cowl_vector_add(CowlVector *vec, CowlAny *object);
 cowl_ret cowl_vector_push(CowlVector *vec, CowlAny *object);

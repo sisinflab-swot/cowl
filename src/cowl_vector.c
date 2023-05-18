@@ -12,14 +12,14 @@
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
-static CowlVector *cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
+CowlVector *cowl_vector(UVec(CowlObjectPtr) *data) {
     if (data && uvec_shrink(CowlObjectPtr, data) != UVEC_OK) return NULL;
 
     CowlVector *vec = ulib_alloc(vec);
     if (!vec) return NULL;
 
     *vec = (CowlVector){
-        .super = COWL_OBJECT_BIT_INIT(COWL_OT_VECTOR, ordered),
+        .super = COWL_OBJECT_INIT(COWL_OT_VECTOR),
         .data = data ? uvec_move(CowlObjectPtr, data) : uvec(CowlObjectPtr),
     };
 
@@ -30,12 +30,10 @@ static CowlVector *cowl_vector_alloc(UVec(CowlObjectPtr) *data, bool ordered) {
     return vec;
 }
 
-CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec) {
-    return cowl_vector_alloc(vec, false);
-}
-
-CowlVector *cowl_vector_ordered(UVec(CowlObjectPtr) *vec) {
-    return cowl_vector_alloc(vec, true);
+CowlVector *cowl_vector_ordered_empty(void) {
+    CowlVector *ret = cowl_vector_empty();
+    cowl_vector_set_ordered(ret);
+    return ret;
 }
 
 void cowl_vector_release(CowlVector *vec) {
@@ -75,7 +73,7 @@ static bool cowl_vector_equals_no_order(CowlVector *lhs, CowlVector *rhs) {
 }
 
 bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs) {
-    if (cowl_object_bit_get(lhs)) return cowl_vector_equals_order(lhs, rhs);
+    if (cowl_vector_is_ordered(lhs)) return cowl_vector_equals_order(lhs, rhs);
     return cowl_vector_equals_no_order(lhs, rhs);
 }
 
@@ -101,7 +99,7 @@ static ulib_uint cowl_vector_hash_no_order(CowlVector *vec) {
 }
 
 ulib_uint cowl_vector_hash(CowlVector *vec) {
-    if (cowl_object_bit_get(vec)) return cowl_vector_hash_order(vec);
+    if (cowl_vector_is_ordered(vec)) return cowl_vector_hash_order(vec);
     return cowl_vector_hash_no_order(vec);
 }
 

@@ -32,7 +32,6 @@ cowl_struct_decl(CowlVector);
 
 /**
  * Returns a retained vector.
- * The equality and hash functions of the vector do not account for the order of its elements.
  *
  * @param vec Underlying raw vector.
  * @return Retained vector, or NULL on error.
@@ -45,20 +44,6 @@ COWL_PUBLIC
 CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec);
 
 /**
- * Returns a retained vector.
- * The equality and hash functions of the vector account for the order of its elements.
- *
- * @param vec Underlying raw vector.
- * @return Retained vector, or NULL on error.
- *
- * @note You must not use the raw vector after passing it to this function.
- *
- * @public @memberof CowlVector
- */
-COWL_PUBLIC
-CowlVector *cowl_vector_ordered(UVec(CowlObjectPtr) *vec);
-
-/**
  * Returns a retained vector with no elements.
  *
  * @return [CowlVector*] Retained vector, or NULL on error.
@@ -66,16 +51,6 @@ CowlVector *cowl_vector_ordered(UVec(CowlObjectPtr) *vec);
  * @public @related CowlVector
  */
 #define cowl_vector_empty() cowl_vector(NULL)
-
-/**
- * Returns a retained vector with no elements.
- * The equality and hash functions of the vector account for the order of its elements.
- *
- * @return [CowlVector*] Retained vector, or NULL on error.
- *
- * @public @related CowlVector
- */
-#define cowl_vector_ordered_empty() cowl_vector_ordered(NULL)
 
 /**
  * Retains the specified vector.

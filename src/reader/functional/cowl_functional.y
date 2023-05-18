@@ -193,8 +193,7 @@
 %type <CowlVector *> individual_list individual_2_list
 %type <CowlVector *> literal_list
 %type <CowlVector *> object_property_expression_list object_property_expression_2_list
-%type <CowlVector *> object_property_expression_star
-%type <CowlVector *> object_property_expression_ordered_2_list property_expression_chain
+%type <CowlVector *> object_property_expression_star property_expression_chain
 %type <CowlVector *> annotation_star
 
 // Start symbol
@@ -862,7 +861,7 @@ sub_object_property_of
 ;
 
 property_expression_chain
-    : OBJECT_PROPERTY_CHAIN L_PAREN object_property_expression_ordered_2_list R_PAREN {
+    : OBJECT_PROPERTY_CHAIN L_PAREN object_property_expression_2_list R_PAREN {
         $$ = $3;
     }
 ;
@@ -1387,19 +1386,6 @@ object_property_expression_list
 
 object_property_expression_2_list
     : object_property_expression_list object_property_expression {
-        $$ = $1;
-        COWL_VEC_PUSH(obj_prop_exp, $$, $2);
-    }
-;
-
-object_property_expression_ordered_2_list
-    : object_property_expression object_property_expression {
-        $$ = cowl_vector_ordered_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(obj_prop_exp, $$, $1);
-        COWL_VEC_PUSH(obj_prop_exp, $$, $2);
-    }
-    | object_property_expression_ordered_2_list object_property_expression {
         $$ = $1;
         COWL_VEC_PUSH(obj_prop_exp, $$, $2);
     }
