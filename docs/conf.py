@@ -20,6 +20,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 rst_prolog = f':github_url: {git_url}'
 rst_epilog = (
     f'.. _git_url: {git_url}\n'
+    f'.. |git_url| replace:: {git_url}.git\n'
     f'.. _swot_url: {swot_url}\n'
     f'.. _poliba_url: {poliba_url}\n'
 )
@@ -52,6 +53,7 @@ intersphinx_mapping = {
 breathe_projects = {project: '@DOXYGEN_XML_OUTPUT_DIRECTORY@'}
 breathe_default_project = project
 breathe_default_members = ('members', 'undocmembers')
+
 
 # Setup
 

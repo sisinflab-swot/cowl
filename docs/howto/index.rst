@@ -43,9 +43,9 @@ Downloading the sources
 You can find Cowl's code on its `git repository <git_url_>`_. Please note that it contains
 submodules, so it is recommended that you clone it using the ``--recursive`` flag.
 
-.. code-block:: bash
+.. parsed-literal::
 
-   git clone --recursive <repo URL> <dir>
+   git clone --recursive |git_url|
 
 Compiling
 ---------
@@ -55,16 +55,34 @@ The following commands allow you to build Cowl:
 .. code-block:: bash
 
    # Generate the build system
-   cmake -B cmake-build
+   cmake -B cmake-build -DCMAKE_BUILD_TYPE=Release
 
    # [Optional] Edit build settings (build type, optimization options, etc.)
    ccmake cmake-build
 
    # Build the libraries and copy public headers into the output dir
-   cmake --build cmake-build
+   cmake --build cmake-build --config Release
 
    # [Optional] Build the documentation
    cmake --build cmake-build --target cowl-docs
+
+Linking
+-------
+
+If you're using CMake as your build system, you can link against Cowl by configuring your
+*CMakeLists.txt* file as follows:
+
+.. code-block:: cmake
+
+    # Assuming Cowl's source is under "lib/cowl"
+    add_subdirectory("lib/cowl" EXCLUDE_FROM_ALL)
+    target_link_libraries(your-target PRIVATE cowl)
+
+For other build systems or if you are building directly through a compiler, please refer
+to their respective documentations. A relatively headache-free way to integrate Cowl
+involves compiling it and then linking against the built library, making sure
+the build system or compiler is aware of Cowl's headers. Note that in this case
+you likely need to link against uLib as well.
 
 Programming with Cowl
 =====================
