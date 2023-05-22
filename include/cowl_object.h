@@ -225,6 +225,19 @@ ulib_uint cowl_hash(CowlAny *object);
 COWL_PUBLIC
 bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
 
+/**
+ * Releases the specified objects.
+ *
+ * @param ... The objects.
+ *
+ * @public @related CowlObject
+ */
+#define cowl_release_all(...)                                                                      \
+    do {                                                                                           \
+        CowlAny *p_cowl_release_all_##__LINE__[] = { __VA_ARGS__, NULL };                          \
+        cowl_release_all_impl(p_cowl_release_all_##__LINE__);                                      \
+    } while (0)
+
 COWL_END_DECLS
 
 #endif // COWL_OBJECT_H

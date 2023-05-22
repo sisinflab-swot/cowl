@@ -120,6 +120,9 @@ COWL_PUBLIC
 void cowl_release_impl(CowlAny *object);
 
 COWL_PUBLIC
+void cowl_release_all_impl(CowlAny **objects);
+
+COWL_PUBLIC
 bool cowl_equals_impl(CowlAny *lhs, CowlAny *rhs);
 
 COWL_PUBLIC

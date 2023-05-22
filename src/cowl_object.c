@@ -568,6 +568,12 @@ void cowl_release_impl(CowlAny *object) {
     ulib_free(object);
 }
 
+void cowl_release_all_impl(CowlAny **objects) {
+    while (*objects) {
+        cowl_release(*(objects++));
+    }
+}
+
 bool cowl_equals_impl(CowlAny *lhs, CowlAny *rhs) {
     if (lhs == rhs) return true;
 
