@@ -54,29 +54,6 @@ COWL_PUBLIC
 CowlManager *cowl_manager(void);
 
 /**
- * Retains the specified manager.
- *
- * @param manager The manager.
- * @return Retained manager.
- *
- * @public @memberof CowlManager
- */
-COWL_INLINE
-CowlManager *cowl_manager_retain(CowlManager *manager) {
-    return (CowlManager *)cowl_retain(manager);
-}
-
-/**
- * Releases the specified manager.
- *
- * @param manager The manager.
- *
- * @public @memberof CowlManager
- */
-COWL_PUBLIC
-void cowl_manager_release(CowlManager *manager);
-
-/**
  * Sets the reader.
  *
  * @param manager The manager.

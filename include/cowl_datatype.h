@@ -68,31 +68,6 @@ CowlDatatype *cowl_datatype_from_string(UString string) {
 #define cowl_datatype_from_static(CSTR) cowl_datatype_from_string(ustring_literal(CSTR))
 
 /**
- * Retains the specified datatype.
- *
- * @param dt The datatype.
- * @return Retained datatype.
- *
- * @public @memberof CowlDatatype
- */
-COWL_INLINE
-CowlDatatype *cowl_datatype_retain(CowlDatatype *dt) {
-    return (CowlDatatype *)cowl_retain(dt);
-}
-
-/**
- * Releases the specified datatype.
- *
- * @param dt The datatype.
- *
- * @public @memberof CowlDatatype
- */
-COWL_INLINE
-void cowl_datatype_release(CowlDatatype *dt) {
-    cowl_entity_release((CowlEntity *)dt);
-}
-
-/**
  * Gets the IRI of the specified datatype.
  *
  * @param dt The datatype.

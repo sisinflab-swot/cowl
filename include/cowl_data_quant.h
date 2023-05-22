@@ -49,31 +49,6 @@ CowlDataQuant *
 cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range);
 
 /**
- * Retains the specified data quantifier.
- *
- * @param restr The data quantifier.
- * @return Retained data quantifier.
- *
- * @public @memberof CowlDataQuant
- */
-COWL_INLINE
-CowlDataQuant *cowl_data_quant_retain(CowlDataQuant *restr) {
-    return (CowlDataQuant *)cowl_retain(restr);
-}
-
-/**
- * Releases the specified data quantifier.
- *
- * @param restr The data quantifier.
- *
- * @public @memberof CowlDataQuant
- */
-COWL_INLINE
-void cowl_data_quant_release(CowlDataQuant *restr) {
-    cowl_release_impl(restr);
-}
-
-/**
  * Gets the type of the specified data quantifier.
  *
  * @param restr The data quantifier.

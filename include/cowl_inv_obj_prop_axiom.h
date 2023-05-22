@@ -50,31 +50,6 @@ cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyObjPropExp *second, Cow
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlInvObjPropAxiom
- */
-COWL_INLINE
-CowlInvObjPropAxiom *cowl_inv_obj_prop_axiom_retain(CowlInvObjPropAxiom *axiom) {
-    return (CowlInvObjPropAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlInvObjPropAxiom
- */
-COWL_INLINE
-void cowl_inv_obj_prop_axiom_release(CowlInvObjPropAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the first of the two object property expressions.
  *
  * @param axiom The axiom.

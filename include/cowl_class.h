@@ -68,31 +68,6 @@ CowlClass *cowl_class_from_string(UString string) {
 #define cowl_class_from_static(CSTR) cowl_class_from_string(ustring_literal(CSTR))
 
 /**
- * Retains the specified class.
- *
- * @param cls The class.
- * @return Retained class.
- *
- * @public @memberof CowlClass
- */
-COWL_INLINE
-CowlClass *cowl_class_retain(CowlClass *cls) {
-    return (CowlClass *)cowl_retain(cls);
-}
-
-/**
- * Releases the specified class.
- *
- * @param cls The class.
- *
- * @public @memberof CowlClass
- */
-COWL_INLINE
-void cowl_class_release(CowlClass *cls) {
-    cowl_entity_release((CowlEntity *)cls);
-}
-
-/**
  * Gets the IRI of the specified class.
  *
  * @param cls The class.

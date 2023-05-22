@@ -53,31 +53,6 @@ cowl_nary_data_prop_axiom(CowlNAryAxiomType type, CowlVector *props, CowlVector 
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlNAryDataPropAxiom
- */
-COWL_INLINE
-CowlNAryDataPropAxiom *cowl_nary_data_prop_axiom_retain(CowlNAryDataPropAxiom *axiom) {
-    return (CowlNAryDataPropAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlNAryDataPropAxiom
- */
-COWL_INLINE
-void cowl_nary_data_prop_axiom_release(CowlNAryDataPropAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the type of the specified N-ary data property axiom.
  *
  * @param axiom The axiom.

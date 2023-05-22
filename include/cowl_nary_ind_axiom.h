@@ -53,31 +53,6 @@ cowl_nary_ind_axiom(CowlNAryAxiomType type, CowlVector *individuals, CowlVector 
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlNAryIndAxiom
- */
-COWL_INLINE
-CowlNAryIndAxiom *cowl_nary_ind_axiom_retain(CowlNAryIndAxiom *axiom) {
-    return (CowlNAryIndAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlNAryIndAxiom
- */
-COWL_INLINE
-void cowl_nary_ind_axiom_release(CowlNAryIndAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the type of the specified N-ary individual axiom.
  *
  * @param axiom The axiom.

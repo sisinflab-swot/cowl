@@ -32,31 +32,6 @@ cowl_struct_decl(CowlObjPropExp);
  */
 
 /**
- * Retains the specified object property expression.
- *
- * @param exp The object property expression.
- * @return Retained object property expression.
- *
- * @public @memberof CowlObjPropExp
- */
-COWL_INLINE
-CowlAnyObjPropExp *cowl_obj_prop_exp_retain(CowlAnyObjPropExp *exp) {
-    return cowl_retain(exp);
-}
-
-/**
- * Releases the specified object property expression.
- *
- * @param exp The object property expression.
- *
- * @public @memberof CowlObjPropExp
- */
-COWL_INLINE
-void cowl_obj_prop_exp_release(CowlAnyObjPropExp *exp) {
-    cowl_release(exp);
-}
-
-/**
  * Returns true if the object property expression is inverse.
  *
  * @param exp The object property expression.

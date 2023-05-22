@@ -37,7 +37,7 @@ static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
 bool cowl_test_manager_lifecycle(void) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
-    cowl_manager_release(manager);
+    cowl_release(manager);
     return true;
 }
 
@@ -93,9 +93,7 @@ bool cowl_test_manager_read_ontology(void) {
     ret = cowl_manager_write_path(manager, onto, ustring_literal(COWL_ONTOLOGY_LOG));
     utest_assert_uint(ret, ==, COWL_OK);
 
-    cowl_ontology_release(onto);
-    cowl_manager_release(manager);
-
+    cowl_release_all(onto, manager);
     return true;
 }
 
@@ -137,10 +135,7 @@ static bool cowl_test_manager_write_ontology_path(UString path) {
 
     uhash_deinit(CowlObjectTable, &axioms_in);
     uhash_deinit(CowlObjectTable, &axioms_out);
-    cowl_ontology_release(onto_in);
-    cowl_ontology_release(onto_out);
-    cowl_manager_release(manager);
-
+    cowl_release_all(onto_in, onto_out, manager);
     return true;
 }
 
@@ -162,19 +157,18 @@ bool cowl_test_manager_edit_ontology(void) {
     CowlDeclAxiom *decl_axiom = cowl_decl_axiom((CowlEntity *)a, NULL);
     cowl_ret ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)decl_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
-    cowl_decl_axiom_release(decl_axiom);
+    cowl_release(decl_axiom);
 
     decl_axiom = cowl_decl_axiom((CowlEntity *)b, NULL);
     ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)decl_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
-    cowl_decl_axiom_release(decl_axiom);
+    cowl_release(decl_axiom);
 
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
 
     CowlSubClsAxiom *sub_axiom = cowl_sub_cls_axiom((CowlClsExp *)a, (CowlClsExp *)b, NULL);
-    cowl_class_release(a);
-    cowl_class_release(b);
+    cowl_release_all(a, b);
 
     ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)sub_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
@@ -183,8 +177,6 @@ bool cowl_test_manager_edit_ontology(void) {
     cowl_ontology_remove_axiom(onto, (CowlAxiom *)sub_axiom);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
 
-    cowl_sub_cls_axiom_release(sub_axiom);
-    cowl_ontology_release(onto);
-    cowl_manager_release(manager);
+    cowl_release_all(sub_axiom, onto, manager);
     return true;
 }

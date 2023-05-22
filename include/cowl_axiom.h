@@ -33,31 +33,6 @@ cowl_struct_decl(CowlAxiom);
  */
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlAxiom
- */
-COWL_INLINE
-CowlAnyAxiom *cowl_axiom_retain(CowlAnyAxiom *axiom) {
-    return cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlAxiom
- */
-COWL_INLINE
-void cowl_axiom_release(CowlAnyAxiom *axiom) {
-    cowl_release(axiom);
-}
-
-/**
  * Gets the type of the specified axiom.
  *
  * @param axiom The axiom.

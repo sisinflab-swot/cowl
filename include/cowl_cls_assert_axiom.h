@@ -50,31 +50,6 @@ cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual *ind, CowlVector *an
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlClsAssertAxiom
- */
-COWL_INLINE
-CowlClsAssertAxiom *cowl_cls_assert_axiom_retain(CowlClsAssertAxiom *axiom) {
-    return (CowlClsAssertAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlClsAssertAxiom
- */
-COWL_INLINE
-void cowl_cls_assert_axiom_release(CowlClsAssertAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the class expression that is asserted to be a type for an individual by this axiom.
  *
  * @param axiom The axiom.

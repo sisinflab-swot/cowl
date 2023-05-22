@@ -68,31 +68,6 @@ CowlObjProp *cowl_obj_prop_from_string(UString string) {
 #define cowl_obj_prop_from_static(CSTR) cowl_obj_prop_from_string(ustring_literal(CSTR))
 
 /**
- * Retains the specified object property.
- *
- * @param prop The object property.
- * @return Retained object property.
- *
- * @public @memberof CowlObjProp
- */
-COWL_INLINE
-CowlObjProp *cowl_obj_prop_retain(CowlObjProp *prop) {
-    return (CowlObjProp *)cowl_retain(prop);
-}
-
-/**
- * Releases the specified object property.
- *
- * @param prop The object property.
- *
- * @public @memberof CowlObjProp
- */
-COWL_INLINE
-void cowl_obj_prop_release(CowlObjProp *prop) {
-    cowl_entity_release((CowlEntity *)prop);
-}
-
-/**
  * Gets the IRI of the specified object property.
  *
  * @param prop The object property.

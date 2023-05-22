@@ -78,31 +78,6 @@ cowl_neg_data_prop_assert_axiom(CowlAnyDataPropExp *prop, CowlAnyIndividual *sub
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlDataPropAssertAxiom
- */
-COWL_INLINE
-CowlDataPropAssertAxiom *cowl_data_prop_assert_axiom_retain(CowlDataPropAssertAxiom *axiom) {
-    return (CowlDataPropAssertAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlDataPropAssertAxiom
- */
-COWL_INLINE
-void cowl_data_prop_assert_axiom_release(CowlDataPropAssertAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Returns true if the specified data property assertion axiom is negative.
  *
  * @param axiom The axiom.

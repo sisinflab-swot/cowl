@@ -45,31 +45,6 @@ CowlObjCompl *cowl_obj_compl(CowlAnyClsExp *operand) {
 }
 
 /**
- * Retains the specified class expression complement.
- *
- * @param exp The complement.
- * @return Retained class expression complement.
- *
- * @public @memberof CowlObjCompl
- */
-COWL_INLINE
-CowlObjCompl *cowl_obj_compl_retain(CowlObjCompl *exp) {
-    return (CowlObjCompl *)cowl_retain(exp);
-}
-
-/**
- * Releases the specified class expression complement.
- *
- * @param exp The complement.
- *
- * @public @memberof CowlObjCompl
- */
-COWL_INLINE
-void cowl_obj_compl_release(CowlObjCompl *exp) {
-    cowl_release_impl(exp);
-}
-
-/**
  * Gets the operand of the specified class expression complement.
  *
  * @param exp The complement.

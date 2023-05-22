@@ -38,7 +38,7 @@ CowlSymTable cowl_sym_table_init(void) {
 }
 
 void cowl_sym_table_deinit(CowlSymTable *st) {
-    cowl_table_release(st->prefix_ns_map);
+    cowl_table_release_ex(st->prefix_ns_map, true);
     cowl_table_release_ex(st->ns_prefix_map, false);
 }
 
@@ -73,8 +73,8 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
 
     if (ret == UHASH_INSERTED) {
-        cowl_string_retain(prefix);
-        cowl_string_retain(ns);
+        cowl_retain(prefix);
+        cowl_retain(ns);
     }
 
     return COWL_OK;
@@ -96,8 +96,8 @@ cowl_ret cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, US
     CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
 
     if (!(prefix_str && ns_str)) {
-        cowl_string_release(prefix_str);
-        cowl_string_release(ns_str);
+        cowl_release(prefix_str);
+        cowl_release(ns_str);
         uhash_delete(CowlObjectTable, &table->data, i);
         return COWL_ERR_MEM;
     }
@@ -118,7 +118,7 @@ CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) 
     if (!rem_str) return NULL;
 
     CowlIRI *iri = cowl_iri(ns_str, rem_str);
-    cowl_string_release(rem_str);
+    cowl_release(rem_str);
     return iri;
 }
 

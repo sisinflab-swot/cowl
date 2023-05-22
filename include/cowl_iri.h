@@ -67,29 +67,6 @@ CowlIRI *cowl_iri_from_string(UString string);
 #define cowl_iri_from_static(CSTR) (cowl_iri_from_string(ustring_literal(CSTR)))
 
 /**
- * Retains the specified IRI.
- *
- * @param iri The IRI.
- * @return Retained IRI.
- *
- * @public @memberof CowlIRI
- */
-COWL_INLINE
-CowlIRI *cowl_iri_retain(CowlIRI *iri) {
-    return (CowlIRI *)cowl_retain(iri);
-}
-
-/**
- * Releases the specified IRI.
- *
- * @param iri The IRI.
- *
- * @public @memberof CowlIRI
- */
-COWL_PUBLIC
-void cowl_iri_release(CowlIRI *iri);
-
-/**
  * Gets the namespace of the specified IRI.
  *
  * @param iri The IRI.
@@ -136,7 +113,8 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
  */
 COWL_INLINE
 CowlString *cowl_iri_to_string(CowlIRI *iri) {
-    return cowl_iri_has_rem(iri) ? cowl_to_string(iri) : cowl_string_retain(cowl_iri_get_ns(iri));
+    if (cowl_iri_has_rem(iri)) return cowl_to_string(iri);
+    return (CowlString *)cowl_retain(cowl_iri_get_ns(iri));
 }
 
 /**

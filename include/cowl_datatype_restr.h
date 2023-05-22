@@ -47,31 +47,6 @@ CowlDatatypeRestr *cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restr
 }
 
 /**
- * Retains the specified datatype restriction.
- *
- * @param restr The restriction.
- * @return Retained datatype restriction.
- *
- * @public @memberof CowlDatatypeRestr
- */
-COWL_INLINE
-CowlDatatypeRestr *cowl_datatype_restr_retain(CowlDatatypeRestr *restr) {
-    return (CowlDatatypeRestr *)cowl_retain(restr);
-}
-
-/**
- * Releases the specified datatype restriction.
- *
- * @param restr The datatype restriction.
- *
- * @public @memberof CowlDatatypeRestr
- */
-COWL_INLINE
-void cowl_datatype_restr_release(CowlDatatypeRestr *restr) {
-    cowl_release_impl(restr);
-}
-
-/**
  * Gets the datatype that this data range restricts.
  *
  * @param restr The datatype restriction.

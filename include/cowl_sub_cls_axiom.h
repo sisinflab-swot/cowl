@@ -48,31 +48,6 @@ CowlSubClsAxiom *cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, Co
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlSubClsAxiom
- */
-COWL_INLINE
-CowlSubClsAxiom *cowl_sub_cls_axiom_retain(CowlSubClsAxiom *axiom) {
-    return (CowlSubClsAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlSubClsAxiom
- */
-COWL_INLINE
-void cowl_sub_cls_axiom_release(CowlSubClsAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the subclass.
  *
  * @param axiom The axiom.

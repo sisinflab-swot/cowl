@@ -47,31 +47,6 @@ CowlFuncDataPropAxiom *cowl_func_data_prop_axiom(CowlAnyDataPropExp *prop, CowlV
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlFuncDataPropAxiom
- */
-COWL_INLINE
-CowlFuncDataPropAxiom *cowl_func_data_prop_axiom_retain(CowlFuncDataPropAxiom *axiom) {
-    return (CowlFuncDataPropAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlFuncDataPropAxiom
- */
-COWL_INLINE
-void cowl_func_data_prop_axiom_release(CowlFuncDataPropAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the data property.
  *
  * @param axiom The axiom.

@@ -39,7 +39,7 @@ static CowlString *cowl_string_get_intern(UString raw_string, bool copy) {
 
     if (ret == UHASH_PRESENT) {
         string = uhash_key(CowlObjectTable, &inst_tbl, idx);
-        cowl_string_retain(string);
+        cowl_retain(string);
         if (!copy) ustring_deinit(&raw_string);
     } else if (ret == UHASH_INSERTED) {
         string = cowl_string_get(raw_string, copy);
@@ -63,7 +63,7 @@ cowl_ret cowl_string_api_init(void) {
 }
 
 void cowl_string_api_deinit(void) {
-    cowl_string_release(empty);
+    cowl_release(empty);
     uhash_deinit(CowlObjectTable, &inst_tbl);
 }
 
@@ -124,8 +124,8 @@ cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString 
     if (lhs && rhs) {
         ret = COWL_OK;
     } else {
-        cowl_string_release(lhs);
-        cowl_string_release(rhs);
+        cowl_release(lhs);
+        cowl_release(rhs);
         lhs = NULL;
         rhs = NULL;
         ret = COWL_ERR_MEM;
@@ -169,30 +169,29 @@ end_deinit:
 }
 
 CowlString *cowl_string_empty(void) {
-    return cowl_string_retain(empty);
+    return cowl_retain(empty);
 }
 
-void cowl_string_release(CowlString *string) {
-    if (string && !cowl_object_decr_ref(string)) {
-        // If the string was interned, it must also be removed from the hash set.
-        if (cowl_object_bit_get(string)) uhset_remove(CowlObjectTable, &inst_tbl, string);
-        ustring_deinit(&string->raw_string);
-        ulib_free(string);
-    }
+void cowl_string_free(CowlString *string) {
+    // If the string was interned, it must also be removed from the hash set.
+    if (cowl_object_bit_get(string)) uhset_remove(CowlObjectTable, &inst_tbl, string);
+    ustring_deinit(&string->raw_string);
+    ulib_free(string);
 }
 
 char *cowl_string_release_copying_cstring(CowlString *string) {
     if (!string) return NULL;
     char *ret;
+    ulib_uint ref = cowl_object_decr_ref(string);
 
-    if (cowl_object_get_ref(string) > 1) {
+    if (ref) {
         ret = ulib_str_dup(ustring_data(string->raw_string), ustring_length(string->raw_string));
     } else {
         ret = ustring_deinit_return_data(&string->raw_string);
         string->raw_string = ustring_null;
+        cowl_string_free(string);
     }
 
-    cowl_string_release(string);
     return ret;
 }
 

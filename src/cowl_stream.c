@@ -26,12 +26,21 @@ static CowlStream *cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, Cow
 
     *stream = (CowlStream){
         .super = COWL_OBJECT_BIT_INIT(COWL_OT_STREAM, free_st),
-        .manager = cowl_manager_retain(manager),
+        .manager = cowl_retain(manager),
         .st = st,
         .config = cfg,
     };
 
     return stream;
+}
+
+void cowl_stream_free(CowlStream *stream) {
+    if (cowl_object_bit_get(stream)) {
+        cowl_sym_table_deinit(stream->st);
+        ulib_free(stream->st);
+    }
+    cowl_release(stream->manager);
+    ulib_free(stream);
 }
 
 CowlStream *cowl_stream(CowlManager *manager, CowlStreamConfig config) {
@@ -70,16 +79,6 @@ CowlStream *cowl_stream_to_ontology(CowlOntology *onto) {
         .handle_axiom = store_axiom,
     };
     return cowl_stream_alloc(onto->manager, &onto->st, cfg);
-}
-
-void cowl_stream_release(CowlStream *stream) {
-    if (!stream || cowl_object_decr_ref(stream)) return;
-    if (cowl_object_bit_get(stream)) {
-        cowl_sym_table_deinit(stream->st);
-        ulib_free(stream->st);
-    }
-    cowl_manager_release(stream->manager);
-    ulib_free(stream);
 }
 
 CowlManager *cowl_stream_get_manager(CowlStream *stream) {

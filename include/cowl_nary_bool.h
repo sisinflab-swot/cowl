@@ -51,31 +51,6 @@ CowlNAryBool *cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
 }
 
 /**
- * Retains the specified N-ary boolean class expression.
- *
- * @param exp The expression.
- * @return Retained expression.
- *
- * @public @memberof CowlNAryBool
- */
-COWL_INLINE
-CowlNAryBool *cowl_nary_bool_retain(CowlNAryBool *exp) {
-    return (CowlNAryBool *)cowl_retain(exp);
-}
-
-/**
- * Releases the specified N-ary boolean class expression.
- *
- * @param exp The expression.
- *
- * @public @memberof CowlNAryBool
- */
-COWL_INLINE
-void cowl_nary_bool_release(CowlNAryBool *exp) {
-    cowl_release_impl(exp);
-}
-
-/**
  * Gets the type of the specified N-ary boolean class expression.
  *
  * @param exp The expression.

@@ -52,31 +52,6 @@ CowlAnnotAssertAxiom *cowl_annot_assert_axiom(CowlAnnotProp *prop, CowlAnyAnnotV
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlAnnotAssertAxiom
- */
-COWL_INLINE
-CowlAnnotAssertAxiom *cowl_annot_assert_axiom_retain(CowlAnnotAssertAxiom *axiom) {
-    return (CowlAnnotAssertAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlAnnotAssertAxiom
- */
-COWL_INLINE
-void cowl_annot_assert_axiom_release(CowlAnnotAssertAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the annotation property.
  *
  * @param axiom The axiom.

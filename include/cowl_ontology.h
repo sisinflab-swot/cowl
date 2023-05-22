@@ -40,29 +40,6 @@ cowl_struct_decl(CowlOntology);
  */
 
 /**
- * Retains the specified ontology.
- *
- * @param onto The ontology.
- * @return Retained ontology.
- *
- * @public @memberof CowlOntology
- */
-COWL_INLINE
-CowlOntology *cowl_ontology_retain(CowlOntology *onto) {
-    return (CowlOntology *)cowl_retain(onto);
-}
-
-/**
- * Releases the specified ontology.
- *
- * @param onto The ontology.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-void cowl_ontology_release(CowlOntology *onto);
-
-/**
  * Gets the manager of this ontology.
  *
  * @param onto The ontology.

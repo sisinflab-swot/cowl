@@ -68,29 +68,6 @@ CowlAnonInd *cowl_anon_ind_from_string(UString string);
 #define cowl_anon_ind_from_static(CSTR) cowl_anon_ind_from_string(ustring_literal(CSTR))
 
 /**
- * Retains the specified anonymous individual.
- *
- * @param ind The anonymous individual.
- * @return Retained anonymous individual.
- *
- * @public @memberof CowlAnonInd
- */
-COWL_INLINE
-CowlAnonInd *cowl_anon_ind_retain(CowlAnonInd *ind) {
-    return (CowlAnonInd *)cowl_retain(ind);
-}
-
-/**
- * Releases the specified anonymous individual.
- *
- * @param ind The anonymous individual.
- *
- * @public @memberof CowlAnonInd
- */
-COWL_PUBLIC
-void cowl_anon_ind_release(CowlAnonInd *ind);
-
-/**
  * Gets the node ID of the specified anonymous individual.
  *
  * @param ind The anonymous individual.

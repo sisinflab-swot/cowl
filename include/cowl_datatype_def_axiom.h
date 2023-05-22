@@ -50,31 +50,6 @@ cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange *range, CowlVector *a
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlDatatypeDefAxiom
- */
-COWL_INLINE
-CowlDatatypeDefAxiom *cowl_datatype_def_axiom_retain(CowlDatatypeDefAxiom *axiom) {
-    return (CowlDatatypeDefAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlDatatypeDefAxiom
- */
-COWL_INLINE
-void cowl_datatype_def_axiom_release(CowlDatatypeDefAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the defined datatype.
  *
  * @param axiom The axiom.

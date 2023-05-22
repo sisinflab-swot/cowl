@@ -24,6 +24,8 @@ struct CowlAnonInd {
 cowl_ret cowl_anon_ind_api_init(void);
 void cowl_anon_ind_api_deinit(void);
 
+void cowl_anon_ind_free(CowlAnonInd *ind);
+
 COWL_END_DECLS
 
 #endif // COWL_ANON_IND_PRIVATE_H

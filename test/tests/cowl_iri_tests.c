@@ -20,7 +20,7 @@
 bool cowl_test_iri_lifecycle(void) {
     CowlIRI *iri = cowl_iri_from_static(COWL_TEST_IRI);
     utest_assert_not_null(iri);
-    cowl_iri_release(iri);
+    cowl_release(iri);
     return true;
 }
 
@@ -37,7 +37,7 @@ bool cowl_test_iri_get_ns(void) {
         CowlIRI *iri = cowl_iri_from_string(ustring_wrap_buf(iri_str));
         CowlString *ns = cowl_iri_get_ns(iri);
         utest_assert_string(cowl_string_get_cstring(ns), ==, ns_str);
-        cowl_iri_release(iri);
+        cowl_release(iri);
     }
 
     return true;
@@ -56,7 +56,7 @@ bool cowl_test_iri_get_rem(void) {
         CowlIRI *iri = cowl_iri_from_string(ustring_wrap_buf(iri_str));
         CowlString *rem = cowl_iri_get_rem(iri);
         utest_assert_string(cowl_string_get_cstring(rem), ==, rem_str);
-        cowl_iri_release(iri);
+        cowl_release(iri);
     }
 
     return true;
@@ -82,17 +82,12 @@ bool cowl_test_iri_equals(void) {
 
         CowlIRI *iri = cowl_iri(prefix, suffix);
         cowl_assert_equal(iri, iri, expected);
-
-        cowl_string_release(prefix);
-        cowl_string_release(suffix);
-        cowl_iri_release(iri);
+        cowl_release_all(prefix, suffix, iri);
     }
 
     CowlIRI *iri = cowl_iri_from_static(COWL_TEST_IRI "_2");
     cowl_assert_not_equal(iri, iri, expected);
 
-    cowl_iri_release(iri);
-    cowl_iri_release(expected);
-
+    cowl_release_all(iri, expected);
     return true;
 }

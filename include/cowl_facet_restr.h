@@ -47,31 +47,6 @@ CowlFacetRestr *cowl_facet_restr(CowlIRI *facet, CowlLiteral *value) {
 }
 
 /**
- * Retains the specified facet restriction.
- *
- * @param restr The facet restriction.
- * @return Retained facet restriction.
- *
- * @public @memberof CowlFacetRestr
- */
-COWL_INLINE
-CowlFacetRestr *cowl_facet_restr_retain(CowlFacetRestr *restr) {
-    return (CowlFacetRestr *)cowl_retain(restr);
-}
-
-/**
- * Releases the specified facet restriction.
- *
- * @param restr The facet restriction.
- *
- * @public @memberof CowlFacetRestr
- */
-COWL_INLINE
-void cowl_facet_restr_release(CowlFacetRestr *restr) {
-    cowl_release_impl(restr);
-}
-
-/**
  * Gets the facet.
  *
  * @param restr The facet restriction.

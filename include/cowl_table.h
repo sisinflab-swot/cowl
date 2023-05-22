@@ -52,29 +52,6 @@ CowlTable *cowl_table(UHash(CowlObjectTable) *table);
 #define cowl_table_empty() cowl_table(NULL)
 
 /**
- * Retains the specified hash table.
- *
- * @param table The hash table.
- * @return Retained hash table.
- *
- * @public @memberof CowlTable
- */
-COWL_INLINE
-CowlTable *cowl_table_retain(CowlTable *table) {
-    return (CowlTable *)cowl_retain(table);
-}
-
-/**
- * Releases the specified hash table.
- *
- * @param table The hash table.
- *
- * @public @memberof CowlTable
- */
-COWL_PUBLIC
-void cowl_table_release(CowlTable *table);
-
-/**
  * Returns the underlying raw hash table.
  *
  * @param table The hash table.

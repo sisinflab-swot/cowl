@@ -45,31 +45,6 @@ CowlDataCompl *cowl_data_compl(CowlAnyDataRange *operand) {
 }
 
 /**
- * Retains the specified data range complement.
- *
- * @param range The data range complement.
- * @return Retained data range complement.
- *
- * @public @memberof CowlDataCompl
- */
-COWL_INLINE
-CowlDataCompl *cowl_data_compl_retain(CowlDataCompl *range) {
-    return (CowlDataCompl *)cowl_retain(range);
-}
-
-/**
- * Releases the specified data range complement.
- *
- * @param range The data range complement.
- *
- * @public @memberof CowlDataCompl
- */
-COWL_INLINE
-void cowl_data_compl_release(CowlDataCompl *range) {
-    cowl_release_impl(range);
-}
-
-/**
  * Gets the data range which this data range is a complement of.
  *
  * @param range The data range complement.

@@ -32,31 +32,6 @@ cowl_struct_decl(CowlDataPropExp);
  */
 
 /**
- * Retains the specified data property expression.
- *
- * @param exp The data property expression.
- * @return Retained data property expression.
- *
- * @public @memberof CowlDataPropExp
- */
-COWL_INLINE
-CowlAnyDataPropExp *cowl_data_prop_exp_retain(CowlAnyDataPropExp *exp) {
-    return (CowlAnyDataPropExp *)cowl_data_prop_retain((CowlDataProp *)exp);
-}
-
-/**
- * Releases the specified data property expression.
- *
- * @param exp The data property expression.
- *
- * @public @memberof CowlDataPropExp
- */
-COWL_INLINE
-void cowl_data_prop_exp_release(CowlAnyDataPropExp *exp) {
-    cowl_data_prop_release((CowlDataProp *)exp);
-}
-
-/**
  * Gets the underlying data property.
  *
  * @param exp The data property expression.

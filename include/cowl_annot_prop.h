@@ -67,31 +67,6 @@ CowlAnnotProp *cowl_annot_prop_from_string(UString string) {
 #define cowl_annot_prop_from_static(CSTR) cowl_annot_prop_from_string(ustring_literal(CSTR))
 
 /**
- * Retains the specified annotation property.
- *
- * @param prop The annotation property.
- * @return Retained annotation property.
- *
- * @public @memberof CowlAnnotProp
- */
-COWL_INLINE
-CowlAnnotProp *cowl_annot_prop_retain(CowlAnnotProp *prop) {
-    return (CowlAnnotProp *)cowl_retain(prop);
-}
-
-/**
- * Releases the specified annotation property.
- *
- * @param prop The annotation property.
- *
- * @public @memberof CowlAnnotProp
- */
-COWL_INLINE
-void cowl_annot_prop_release(CowlAnnotProp *prop) {
-    cowl_entity_release((CowlEntity *)prop);
-}
-
-/**
  * Gets the IRI of the specified annotation property.
  *
  * @param prop The annotation property.

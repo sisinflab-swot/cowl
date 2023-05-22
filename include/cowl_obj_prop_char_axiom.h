@@ -73,31 +73,6 @@ cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop, CowlVe
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlObjPropCharAxiom
- */
-COWL_INLINE
-CowlObjPropCharAxiom *cowl_obj_prop_char_axiom_retain(CowlObjPropCharAxiom *axiom) {
-    return (CowlObjPropCharAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlObjPropCharAxiom
- */
-COWL_INLINE
-void cowl_obj_prop_char_axiom_release(CowlObjPropCharAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the type of the specified object property characteristic axiom.
  *
  * @param axiom The axiom.

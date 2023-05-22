@@ -49,31 +49,6 @@ COWL_PUBLIC
 CowlObjQuant *cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler);
 
 /**
- * Retains the specified object quantifier.
- *
- * @param restr The object quantifier.
- * @return Retained object quantifier.
- *
- * @public @memberof CowlObjQuant
- */
-COWL_INLINE
-CowlObjQuant *cowl_obj_quant_retain(CowlObjQuant *restr) {
-    return (CowlObjQuant *)cowl_retain(restr);
-}
-
-/**
- * Releases the specified object quantifier.
- *
- * @param restr The object quantifier.
- *
- * @public @memberof CowlObjQuant
- */
-COWL_INLINE
-void cowl_obj_quant_release(CowlObjQuant *restr) {
-    cowl_release_impl(restr);
-}
-
-/**
  * Gets the type of the specified object quantifier.
  *
  * @param restr The object quantifier.

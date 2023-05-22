@@ -47,31 +47,6 @@ CowlDeclAxiom *cowl_decl_axiom(CowlAnyEntity *entity, CowlVector *annot) {
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlDeclAxiom
- */
-COWL_INLINE
-CowlDeclAxiom *cowl_decl_axiom_retain(CowlDeclAxiom *axiom) {
-    return (CowlDeclAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlDeclAxiom
- */
-COWL_INLINE
-void cowl_decl_axiom_release(CowlDeclAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the declared entity.
  *
  * @param axiom The axiom.

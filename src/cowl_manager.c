@@ -24,8 +24,7 @@ CowlManager *cowl_manager(void) {
     return manager;
 }
 
-void cowl_manager_release(CowlManager *manager) {
-    if (!manager || cowl_object_decr_ref(manager)) return;
+void cowl_manager_free(CowlManager *manager) {
     if (manager->loader.free) manager->loader.free(manager->loader.ctx);
     if (manager->handler.free) manager->handler.free(manager->handler.ctx);
     uvec_deinit(CowlObjectPtr, &manager->ontos);
@@ -62,7 +61,7 @@ static cowl_ret stream_stream(CowlManager *manager, CowlStream *stream, UIStream
 end:
     if (reader.free) reader.free(state);
     if (ret) cowl_handle_error_code(ret, manager);
-    cowl_stream_release(stream);
+    cowl_release(stream);
     return ret;
 }
 
@@ -88,11 +87,11 @@ static CowlOntology *read_stream_deinit(CowlManager *manager, UIStream *istream)
     }
 
     if (stream_stream_deinit(manager, cowl_stream_to_ontology(onto), istream)) {
-        cowl_ontology_release(onto);
+        cowl_release(onto);
         onto = NULL;
     } else if (cowl_ontology_finalize(onto)) {
         cowl_handle_error_code(COWL_ERR_MEM, manager);
-        cowl_ontology_release(onto);
+        cowl_release(onto);
         onto = NULL;
     }
 
@@ -156,7 +155,7 @@ CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream) {
     }
 
     if (stream_stream(manager, cowl_stream_to_ontology(onto), stream)) {
-        cowl_ontology_release(onto);
+        cowl_release(onto);
         return NULL;
     }
 
@@ -233,7 +232,7 @@ cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig con
     }
 
 end:
-    cowl_stream_release(stream);
+    cowl_release(stream);
     return ret;
 }
 
@@ -313,7 +312,7 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
     }
 
     if (uvec_push(CowlObjectPtr, &manager->ontos, onto)) {
-        cowl_ontology_release(onto);
+        cowl_release(onto);
         onto = NULL;
     }
 

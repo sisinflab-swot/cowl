@@ -87,13 +87,13 @@ bool cowl_test_ontology_init(void) {
     CowlImportLoader loader = { manager, cowl_test_load_import };
     cowl_manager_set_import_loader(manager, loader);
     onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
-    cowl_manager_release(manager);
+    cowl_release(manager);
     utest_assert_critical(onto);
     return true;
 }
 
 bool cowl_test_ontology_deinit(void) {
-    cowl_ontology_release(onto);
+    cowl_release(onto);
     return true;
 }
 
@@ -103,7 +103,7 @@ bool cowl_test_ontology_get_id(void) {
 
     CowlIRI *expected_onto_iri = cowl_iri_from_static(test_onto_iri);
     cowl_assert_equal(iri, id.iri, expected_onto_iri);
-    cowl_iri_release(expected_onto_iri);
+    cowl_release(expected_onto_iri);
 
     return true;
 }

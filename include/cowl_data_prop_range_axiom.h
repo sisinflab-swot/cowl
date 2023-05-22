@@ -51,31 +51,6 @@ cowl_data_prop_range_axiom(CowlAnyDataPropExp *prop, CowlAnyDataRange *range, Co
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlDataPropRangeAxiom
- */
-COWL_INLINE
-CowlDataPropRangeAxiom *cowl_data_prop_range_axiom_retain(CowlDataPropRangeAxiom *axiom) {
-    return (CowlDataPropRangeAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlDataPropRangeAxiom
- */
-COWL_INLINE
-void cowl_data_prop_range_axiom_release(CowlDataPropRangeAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the data property.
  *
  * @param axiom The axiom.

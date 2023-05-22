@@ -30,31 +30,6 @@ cowl_struct_decl(CowlPrimitive);
  */
 
 /**
- * Retains the primitive.
- *
- * @param primitive The primitive.
- * @return Retained primitive.
- *
- * @public @memberof CowlPrimitive
- */
-COWL_INLINE
-CowlAnyPrimitive *cowl_primitive_retain(CowlAnyPrimitive *primitive) {
-    return cowl_retain(primitive);
-}
-
-/**
- * Releases the primitive.
- *
- * @param primitive The primitive.
- *
- * @public @memberof CowlPrimitive
- */
-COWL_INLINE
-void cowl_primitive_release(CowlAnyPrimitive *primitive) {
-    cowl_release(primitive);
-}
-
-/**
  * Gets the type of the primitive.
  *
  * @param primitive The primitive.

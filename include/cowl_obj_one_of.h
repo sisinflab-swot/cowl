@@ -45,31 +45,6 @@ CowlObjOneOf *cowl_obj_one_of(CowlVector *inds) {
 }
 
 /**
- * Retains the specified individual enumeration.
- *
- * @param exp The individual enumeration.
- * @return Retained individual enumeration.
- *
- * @public @memberof CowlObjOneOf
- */
-COWL_INLINE
-CowlObjOneOf *cowl_obj_one_of_retain(CowlObjOneOf *exp) {
-    return (CowlObjOneOf *)cowl_retain(exp);
-}
-
-/**
- * Releases the specified individual enumeration.
- *
- * @param exp The individual enumeration.
- *
- * @public @memberof CowlObjOneOf
- */
-COWL_INLINE
-void cowl_obj_one_of_release(CowlObjOneOf *exp) {
-    cowl_release_impl(exp);
-}
-
-/**
  * Gets the individuals of the specified enumeration.
  *
  * @param exp The individual enumeration.

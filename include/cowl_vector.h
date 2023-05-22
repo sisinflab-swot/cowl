@@ -53,29 +53,6 @@ CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec);
 #define cowl_vector_empty() cowl_vector(NULL)
 
 /**
- * Retains the specified vector.
- *
- * @param vec The vector.
- * @return Retained vector.
- *
- * @public @memberof CowlVector
- */
-COWL_INLINE
-CowlVector *cowl_vector_retain(CowlVector *vec) {
-    return (CowlVector *)cowl_retain(vec);
-}
-
-/**
- * Releases the specified vector.
- *
- * @param vec The vector.
- *
- * @public @memberof CowlVector
- */
-COWL_PUBLIC
-void cowl_vector_release(CowlVector *vec);
-
-/**
  * Returns the underlying raw vector.
  *
  * @param vec The vector.

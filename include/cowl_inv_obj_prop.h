@@ -45,31 +45,6 @@ CowlInvObjProp *cowl_inv_obj_prop(CowlObjProp *prop) {
 }
 
 /**
- * Retains the specified inverse object property.
- *
- * @param inv The inverse object property.
- * @return Retained inverse object property.
- *
- * @public @memberof CowlInvObjProp
- */
-COWL_INLINE
-CowlInvObjProp *cowl_inv_obj_prop_retain(CowlInvObjProp *inv) {
-    return (CowlInvObjProp *)cowl_retain(inv);
-}
-
-/**
- * Releases the specified inverse object property.
- *
- * @param inv The inverse object property.
- *
- * @public @memberof CowlInvObjProp
- */
-COWL_INLINE
-void cowl_inv_obj_prop_release(CowlInvObjProp *inv) {
-    cowl_release_impl(inv);
-}
-
-/**
  * Gets the property of which the expression is the inverse of.
  *
  * @param inv The inverse object property.

@@ -63,31 +63,6 @@ CowlSubObjPropAxiom *
 cowl_sub_obj_prop_chain_axiom(CowlVector *sub, CowlAnyObjPropExp *super, CowlVector *annot);
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlSubObjPropAxiom
- */
-COWL_INLINE
-CowlSubObjPropAxiom *cowl_sub_obj_prop_axiom_retain(CowlSubObjPropAxiom *axiom) {
-    return (CowlSubObjPropAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlSubObjPropAxiom
- */
-COWL_INLINE
-void cowl_sub_obj_prop_axiom_release(CowlSubObjPropAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the subproperty.
  *
  * @param axiom The axiom.

@@ -26,6 +26,7 @@ cowl_ret cowl_iri_api_init(void);
 void cowl_iri_api_deinit(void);
 
 CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem);
+void cowl_iri_free(CowlIRI *iri);
 
 COWL_END_DECLS
 

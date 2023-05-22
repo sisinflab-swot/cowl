@@ -50,31 +50,6 @@ cowl_annot_prop_range_axiom(CowlAnnotProp *prop, CowlIRI *range, CowlVector *ann
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlAnnotPropRangeAxiom
- */
-COWL_INLINE
-CowlAnnotPropRangeAxiom *cowl_annot_prop_range_axiom_retain(CowlAnnotPropRangeAxiom *axiom) {
-    return (CowlAnnotPropRangeAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlAnnotPropRangeAxiom
- */
-COWL_INLINE
-void cowl_annot_prop_range_axiom_release(CowlAnnotPropRangeAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the annotation property.
  *
  * @param axiom The axiom.

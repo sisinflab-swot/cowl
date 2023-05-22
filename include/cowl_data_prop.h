@@ -68,31 +68,6 @@ CowlDataProp *cowl_data_prop_from_string(UString string) {
 #define cowl_data_prop_from_static(CSTR) cowl_data_prop_from_string(ustring_literal(CSTR))
 
 /**
- * Retains the specified data property.
- *
- * @param prop The data property.
- * @return Retained data property.
- *
- * @public @memberof CowlDataProp
- */
-COWL_INLINE
-CowlDataProp *cowl_data_prop_retain(CowlDataProp *prop) {
-    return (CowlDataProp *)cowl_retain(prop);
-}
-
-/**
- * Releases the specified data property.
- *
- * @param prop The data property.
- *
- * @public @memberof CowlDataProp
- */
-COWL_INLINE
-void cowl_data_prop_release(CowlDataProp *prop) {
-    cowl_entity_release((CowlEntity *)prop);
-}
-
-/**
  * Gets the IRI of the specified data property.
  *
  * @param prop The data property.

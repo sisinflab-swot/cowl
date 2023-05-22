@@ -44,7 +44,7 @@ void cowl_entity_api_deinit(void) {
     uhash_deinit(CowlObjectTable, &inst_tbl);
 #if COWL_ENTITY_IDS
     uvec_foreach (CowlObjectPtr, &id_map, e) {
-        cowl_entity_release(*e.item);
+        cowl_release(*e.item);
     }
     uvec_deinit(CowlObjectPtr, &id_map);
 #endif
@@ -65,9 +65,15 @@ static CowlEntity *cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
     (void)cowl_object_incr_ref(entity);
 #endif
 
-    entity->iri = cowl_iri_retain(iri);
+    entity->iri = cowl_retain(iri);
 
     return entity;
+}
+
+void cowl_entity_free(CowlAnyEntity *entity) {
+    uhset_remove(CowlObjectTable, &inst_tbl, entity);
+    cowl_release(cowl_entity_get_iri(entity));
+    ulib_free(entity);
 }
 
 CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
@@ -93,21 +99,13 @@ CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     return entity;
 }
 
-void cowl_entity_release(CowlAnyEntity *entity) {
-    if (entity && !cowl_object_decr_ref(entity)) {
-        uhset_remove(CowlObjectTable, &inst_tbl, entity);
-        cowl_iri_release(cowl_entity_get_iri(entity));
-        ulib_free(entity);
-    }
-}
-
 CowlAnyEntity *cowl_entity_from_string_impl(CowlObjectType type, UString string) {
     CowlEntity *entity = NULL;
     CowlIRI *iri = cowl_iri_from_string(string);
 
     if (iri) {
         entity = cowl_entity_get_impl(type, iri);
-        cowl_iri_release(iri);
+        cowl_release(iri);
     }
 
     return entity;

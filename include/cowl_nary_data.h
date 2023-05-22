@@ -50,31 +50,6 @@ CowlNAryData *cowl_nary_data(CowlNAryType type, CowlVector *operands) {
 }
 
 /**
- * Retains the specified N-ary data range.
- *
- * @param range The data range.
- * @return Retained N-ary data range.
- *
- * @public @memberof CowlNAryData
- */
-COWL_INLINE
-CowlNAryData *cowl_nary_data_retain(CowlNAryData *range) {
-    return (CowlNAryData *)cowl_retain(range);
-}
-
-/**
- * Releases the specified N-ary data range.
- *
- * @param range The data range.
- *
- * @public @memberof CowlNAryData
- */
-COWL_INLINE
-void cowl_nary_data_release(CowlNAryData *range) {
-    cowl_release_impl(range);
-}
-
-/**
  * Gets the type of the specified N-ary data range.
  * @param range The data range.
  * @return The type.

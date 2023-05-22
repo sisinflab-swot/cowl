@@ -29,8 +29,8 @@ uvec_decl(CowlError);
             CowlString *T##_rhs_str = cowl_##T##_to_string(RHS);                                   \
             printf(" must be equal to \"%s\", found \"%s\".",                                      \
                    cowl_string_get_cstring(T##_rhs_str), cowl_string_get_cstring(T##_lhs_str));    \
-            cowl_string_release(T##_lhs_str);                                                      \
-            cowl_string_release(T##_rhs_str);                                                      \
+            cowl_release(T##_lhs_str);                                                             \
+            cowl_release(T##_rhs_str);                                                             \
         },                                                                                         \
         #LHS)
 
@@ -40,7 +40,7 @@ uvec_decl(CowlError);
         {                                                                                          \
             CowlString *T##_rhs_str = cowl_##T##_to_string(RHS);                                   \
             printf(" must not be equal to \"%s\".", cowl_string_get_cstring(T##_rhs_str));         \
-            cowl_string_release(T##_rhs_str);                                                      \
+            cowl_release(T##_rhs_str);                                                             \
         },                                                                                         \
         #LHS)
 

@@ -52,31 +52,6 @@ cowl_nary_cls_axiom(CowlNAryAxiomType type, CowlVector *classes, CowlVector *ann
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlNAryClsAxiom
- */
-COWL_INLINE
-CowlNAryClsAxiom *cowl_nary_cls_axiom_retain(CowlNAryClsAxiom *axiom) {
-    return (CowlNAryClsAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlNAryClsAxiom
- */
-COWL_INLINE
-void cowl_nary_cls_axiom_release(CowlNAryClsAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the type of the specified N-ary class expression axiom.
  *
  * @param axiom The axiom.

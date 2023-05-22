@@ -68,31 +68,6 @@ CowlNamedInd *cowl_named_ind_from_string(UString string) {
 #define cowl_named_ind_from_static(CSTR) cowl_named_ind_from_string(ustring_literal(CSTR))
 
 /**
- * Retains the specified named individual.
- *
- * @param ind The named individual.
- * @return Retained named individual.
- *
- * @public @memberof CowlNamedInd
- */
-COWL_INLINE
-CowlNamedInd *cowl_named_ind_retain(CowlNamedInd *ind) {
-    return (CowlNamedInd *)cowl_retain(ind);
-}
-
-/**
- * Releases the specified named individual.
- *
- * @param ind The named individual.
- *
- * @public @memberof CowlNamedInd
- */
-COWL_INLINE
-void cowl_named_ind_release(CowlNamedInd *ind) {
-    cowl_entity_release((CowlEntity *)ind);
-}
-
-/**
  * Gets the IRI of the named individual.
  *
  * @param ind The named individual.

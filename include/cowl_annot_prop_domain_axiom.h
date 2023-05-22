@@ -50,31 +50,6 @@ cowl_annot_prop_domain_axiom(CowlAnnotProp *prop, CowlIRI *domain, CowlVector *a
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
- */
-COWL_INLINE
-CowlAnnotPropDomainAxiom *cowl_annot_prop_domain_axiom_retain(CowlAnnotPropDomainAxiom *axiom) {
-    return (CowlAnnotPropDomainAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
- */
-COWL_INLINE
-void cowl_annot_prop_domain_axiom_release(CowlAnnotPropDomainAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the annotation property.
  *
  * @param axiom The axiom.

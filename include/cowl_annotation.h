@@ -49,31 +49,6 @@ CowlAnnotation *cowl_annotation(CowlAnnotProp *prop, CowlAnyAnnotValue *value, C
 }
 
 /**
- * Retains the specified annotation.
- *
- * @param annot The annotation.
- * @return Retained annotation.
- *
- * @public @memberof CowlAnnotation
- */
-COWL_INLINE
-CowlAnnotation *cowl_annotation_retain(CowlAnnotation *annot) {
-    return (CowlAnnotation *)cowl_retain(annot);
-}
-
-/**
- * Releases the specified annotation.
- *
- * @param annot The annotation.
- *
- * @public @memberof CowlAnnotation
- */
-COWL_INLINE
-void cowl_annotation_release(CowlAnnotation *annot) {
-    cowl_release_impl(annot);
-}
-
-/**
  * Gets the annotation property.
  *
  * @param annot The annotation.

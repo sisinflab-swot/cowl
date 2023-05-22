@@ -49,31 +49,6 @@ cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) 
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlDisjUnionAxiom
- */
-COWL_INLINE
-CowlDisjUnionAxiom *cowl_disj_union_axiom_retain(CowlDisjUnionAxiom *axiom) {
-    return (CowlDisjUnionAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlDisjUnionAxiom
- */
-COWL_INLINE
-void cowl_disj_union_axiom_release(CowlDisjUnionAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the class which is equivalent to the disjoint union.
  *
  * @param axiom The axiom.

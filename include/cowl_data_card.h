@@ -52,31 +52,6 @@ CowlDataCard *cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop, CowlAn
                              ulib_uint cardinality);
 
 /**
- * Retains the specified data property cardinality restriction.
- *
- * @param restr The restriction.
- * @return Retained restriction.
- *
- * @public @memberof CowlDataCard
- */
-COWL_INLINE
-CowlDataCard *cowl_data_card_retain(CowlDataCard *restr) {
-    return (CowlDataCard *)cowl_retain(restr);
-}
-
-/**
- * Releases the specified data property cardinality restriction.
- *
- * @param restr The restriction.
- *
- * @public @memberof CowlDataCard
- */
-COWL_INLINE
-void cowl_data_card_release(CowlDataCard *restr) {
-    cowl_release_impl(restr);
-}
-
-/**
  * Gets the type of the specified data property cardinality restriction.
  *
  * @param restr The restriction.

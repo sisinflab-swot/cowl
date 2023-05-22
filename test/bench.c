@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_wrap_buf(path));
     t = utime_get_ns() - t;
 
-    cowl_manager_release(manager);
+    cowl_release(manager);
 
     if (!onto) {
         printf("Failed to read ontology at path: %s", path);
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
     printf("%" ULIB_UINT_FMT " primitives iterated in %.2f us\n", count,
            utime_interval_convert(t, UTIME_MICROSECONDS));
 
-    cowl_ontology_release(onto);
+    cowl_release(onto);
 
     return EXIT_SUCCESS;
 }

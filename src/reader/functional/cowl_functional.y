@@ -85,7 +85,7 @@
 
     #define COWL_VEC_FINALIZE(VEC) do {                                                            \
         if (VEC) {                                                                                 \
-            cowl_vector_release(VEC);                                                              \
+            cowl_release(VEC);                                                                     \
             if (cowl_vector_shrink(VEC)) COWL_ERROR_MEM;                                           \
         }                                                                                          \
     } while (0)
@@ -202,26 +202,26 @@
 
 // Destructors
 
-%destructor { cowl_annotation_release($$); } <CowlAnnotation *>
-%destructor { cowl_annot_prop_release($$); } <CowlAnnotProp *>
-%destructor { cowl_annot_value_release($$); } <CowlAnnotValue *>
-%destructor { cowl_axiom_release($$); } <CowlAxiom *>
-%destructor { cowl_class_release($$); } <CowlClass *>
-%destructor { cowl_cls_exp_release($$); } <CowlClsExp *>
-%destructor { cowl_data_prop_release($$); } <CowlDataProp *>
-%destructor { cowl_data_prop_exp_release($$); } <CowlDataPropExp *>
-%destructor { cowl_data_range_release($$); } <CowlDataRange *>
-%destructor { cowl_datatype_release($$); } <CowlDatatype *>
-%destructor { cowl_entity_release($$); } <CowlEntity *>
-%destructor { cowl_facet_restr_release($$); } <CowlFacetRestr *>
-%destructor { cowl_individual_release($$); } <CowlIndividual *>
-%destructor { cowl_iri_release($$); } <CowlIRI *>
-%destructor { cowl_literal_release($$); } <CowlLiteral *>
-%destructor { cowl_named_ind_release($$); } <CowlNamedInd *>
-%destructor { cowl_obj_prop_release($$); } <CowlObjProp *>
-%destructor { cowl_obj_prop_exp_release($$); } <CowlObjPropExp *>
-%destructor { cowl_string_release($$); } <CowlString *>
-%destructor { cowl_vector_release($$); } <CowlVector *>
+%destructor { cowl_release($$); } <CowlAnnotation *>
+%destructor { cowl_release($$); } <CowlAnnotProp *>
+%destructor { cowl_release($$); } <CowlAnnotValue *>
+%destructor { cowl_release($$); } <CowlAxiom *>
+%destructor { cowl_release($$); } <CowlClass *>
+%destructor { cowl_release($$); } <CowlClsExp *>
+%destructor { cowl_release($$); } <CowlDataProp *>
+%destructor { cowl_release($$); } <CowlDataPropExp *>
+%destructor { cowl_release($$); } <CowlDataRange *>
+%destructor { cowl_release($$); } <CowlDatatype *>
+%destructor { cowl_release($$); } <CowlEntity *>
+%destructor { cowl_release($$); } <CowlFacetRestr *>
+%destructor { cowl_release($$); } <CowlIndividual *>
+%destructor { cowl_release($$); } <CowlIRI *>
+%destructor { cowl_release($$); } <CowlLiteral *>
+%destructor { cowl_release($$); } <CowlNamedInd *>
+%destructor { cowl_release($$); } <CowlObjProp *>
+%destructor { cowl_release($$); } <CowlObjPropExp *>
+%destructor { cowl_release($$); } <CowlString *>
+%destructor { cowl_release($$); } <CowlVector *>
 
 %%
 
@@ -284,8 +284,8 @@ prefix_declaration
     : PREFIX L_PAREN prefix EQUALS namespace R_PAREN {
         CowlSymTable *st = cowl_stream_get_sym_table(stream);
         cowl_ret ret = cowl_sym_table_register_prefix(st, $3, $5);
-        cowl_string_release($3);
-        cowl_string_release($5);
+        cowl_release($3);
+        cowl_release($5);
         if (ret) COWL_ERROR(ret);
     }
 ;
@@ -298,13 +298,13 @@ ontology_id
     : %empty
     | iri {
         cowl_stream_push_iri(stream, $1);
-        cowl_iri_release($1);
+        cowl_release($1);
     }
     | iri iri {
         cowl_stream_push_iri(stream, $1);
         cowl_stream_push_version(stream, $2);
-        cowl_iri_release($1);
-        cowl_iri_release($2);
+        cowl_release($1);
+        cowl_release($2);
     }
 ;
 
@@ -316,7 +316,7 @@ ontology_imports
 import
     : IMPORT L_PAREN iri R_PAREN {
         cowl_ret ret = cowl_stream_push_import(stream, $3);
-        cowl_iri_release($3);
+        cowl_release($3);
         if (ret) YYERROR;
     }
 ;
@@ -325,7 +325,7 @@ ontology_annotations
     : %empty
     | ontology_annotations annotation {
         cowl_ret ret = cowl_stream_push_annot(stream, $2);
-        cowl_annotation_release($2);
+        cowl_release($2);
         if (ret) YYERROR;
     }
 
@@ -333,7 +333,7 @@ axioms
     : %empty
     | axioms axiom {
         cowl_ret ret = cowl_stream_push_axiom(stream, $2);
-        cowl_axiom_release($2);
+        cowl_release($2);
         if (ret) YYERROR;
     }
 ;
@@ -343,7 +343,7 @@ axioms
 class
     : iri {
         $$ = cowl_class($1);
-        cowl_iri_release($1);
+        cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -353,7 +353,7 @@ class
 datatype
     : iri {
         $$ = cowl_datatype($1);
-        cowl_iri_release($1);
+        cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -363,7 +363,7 @@ datatype
 object_property
     : iri {
         $$ = cowl_obj_prop($1);
-        cowl_iri_release($1);
+        cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -373,7 +373,7 @@ object_property
 data_property
     : iri {
         $$ = cowl_data_prop($1);
-        cowl_iri_release($1);
+        cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -383,7 +383,7 @@ data_property
 annotation_property
     : iri {
         $$ = cowl_annot_prop($1);
-        cowl_iri_release($1);
+        cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -398,7 +398,7 @@ individual
 named_individual
     : iri {
         $$ = cowl_named_ind($1);
-        cowl_iri_release($1);
+        cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -429,19 +429,19 @@ lang_tag
 literal
     : quoted_string DOUBLE_CARET datatype {
         $$ = cowl_literal($3, $1, NULL);
-        cowl_string_release($1);
-        cowl_datatype_release($3);
+        cowl_release($1);
+        cowl_release($3);
         if (!$$) COWL_ERROR_MEM;
     }
     | quoted_string lang_tag {
         $$ = cowl_literal(NULL, $1, $2);
-        cowl_string_release($1);
-        cowl_string_release($2);
+        cowl_release($1);
+        cowl_release($2);
         if (!$$) COWL_ERROR_MEM;
     }
     | quoted_string {
         $$ = cowl_literal(NULL, $1, NULL);
-        cowl_string_release($1);
+        cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -452,7 +452,7 @@ declaration
     : DECLARATION L_PAREN annotation_star entity R_PAREN {
         $$ = (CowlAxiom *)cowl_decl_axiom($4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_entity_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -488,7 +488,7 @@ object_property_expression
 inverse_object_property
     : OBJECT_INVERSE_OF L_PAREN object_property R_PAREN {
         $$ = (CowlObjPropExp *)cowl_inv_obj_prop($3);
-        cowl_obj_prop_release($3);
+        cowl_release($3);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -529,7 +529,7 @@ data_union_of
 data_complement_of
     : DATA_COMPLEMENT_OF L_PAREN data_range R_PAREN {
         $$ = (CowlDataRange *)cowl_data_compl($3);
-        cowl_data_range_release($3);
+        cowl_release($3);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -545,7 +545,7 @@ data_one_of
 datatype_restriction
     : DATATYPE_RESTRICTION L_PAREN datatype facet_restriction_list R_PAREN {
         $$ = (CowlDataRange *)cowl_datatype_restr($3, $4);
-        cowl_datatype_release($3);
+        cowl_release($3);
         COWL_VEC_FINALIZE($4);
         if (!$$) COWL_ERROR_MEM;
     }
@@ -554,8 +554,8 @@ datatype_restriction
 facet_restriction
     : iri literal {
         $$ = cowl_facet_restr($1, $2);
-        cowl_iri_release($1);
-        cowl_literal_release($2);
+        cowl_release($1);
+        cowl_release($2);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -602,7 +602,7 @@ object_union_of
 object_complement_of
     : OBJECT_COMPLEMENT_OF L_PAREN class_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_compl($3);
-        cowl_cls_exp_release($3);
+        cowl_release($3);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -618,8 +618,8 @@ object_one_of
 object_some_values_from
     : OBJECT_SOME_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_quant(COWL_QT_SOME, $3, $4);
-        cowl_obj_prop_exp_release($3);
-        cowl_cls_exp_release($4);
+        cowl_release($3);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -627,8 +627,8 @@ object_some_values_from
 object_all_values_from
     : OBJECT_ALL_VALUES_FROM L_PAREN object_property_expression class_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_quant(COWL_QT_ALL, $3, $4);
-        cowl_obj_prop_exp_release($3);
-        cowl_cls_exp_release($4);
+        cowl_release($3);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -636,8 +636,8 @@ object_all_values_from
 object_has_value
     : OBJECT_HAS_VALUE L_PAREN object_property_expression individual R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_has_value($3, $4);
-        cowl_obj_prop_exp_release($3);
-        cowl_individual_release($4);
+        cowl_release($3);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -645,7 +645,7 @@ object_has_value
 object_has_self
     : OBJECT_HAS_SELF L_PAREN object_property_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_has_self($3);
-        cowl_obj_prop_exp_release($3);
+        cowl_release($3);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -653,13 +653,13 @@ object_has_self
 object_min_cardinality
     : OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_card(COWL_CT_MIN, $4, NULL, $3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
     | OBJECT_MIN_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_card(COWL_CT_MIN, $4, $5, $3);
-        cowl_obj_prop_exp_release($4);
-        cowl_cls_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -667,13 +667,13 @@ object_min_cardinality
 object_max_cardinality
     : OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_card(COWL_CT_MAX, $4, NULL, $3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
     | OBJECT_MAX_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_card(COWL_CT_MAX, $4, $5, $3);
-        cowl_obj_prop_exp_release($4);
-        cowl_cls_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -681,13 +681,13 @@ object_max_cardinality
 object_exact_cardinality
     : OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_card(COWL_CT_EXACT, $4, NULL, $3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
     | OBJECT_EXACT_CARDINALITY L_PAREN cardinality object_property_expression class_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_obj_card(COWL_CT_EXACT, $4, $5, $3);
-        cowl_obj_prop_exp_release($4);
-        cowl_cls_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -699,8 +699,8 @@ cardinality
 data_some_values_from
     : DATA_SOME_VALUES_FROM L_PAREN data_property_expression data_range R_PAREN {
         $$ = (CowlClsExp *)cowl_data_quant(COWL_QT_SOME, $3, $4);
-        cowl_data_prop_exp_release($3);
-        cowl_data_range_release($4);
+        cowl_release($3);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -708,8 +708,8 @@ data_some_values_from
 data_all_values_from
     : DATA_ALL_VALUES_FROM L_PAREN data_property_expression data_range R_PAREN {
         $$ = (CowlClsExp *)cowl_data_quant(COWL_QT_ALL, $3, $4);
-        cowl_data_prop_exp_release($3);
-        cowl_data_range_release($4);
+        cowl_release($3);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -717,8 +717,8 @@ data_all_values_from
 data_has_value
     : DATA_HAS_VALUE L_PAREN data_property_expression literal R_PAREN {
         $$ = (CowlClsExp *)cowl_data_has_value($3, $4);
-        cowl_data_prop_exp_release($3);
-        cowl_literal_release($4);
+        cowl_release($3);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -726,13 +726,13 @@ data_has_value
 data_min_cardinality
     : DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_data_card(COWL_CT_MIN, $4, NULL, $3);
-        cowl_data_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
     | DATA_MIN_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
         $$ = (CowlClsExp *)cowl_data_card(COWL_CT_MIN, $4, $5, $3);
-        cowl_data_prop_exp_release($4);
-        cowl_data_range_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -740,13 +740,13 @@ data_min_cardinality
 data_max_cardinality
     : DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_data_card(COWL_CT_MAX, $4, NULL, $3);
-        cowl_data_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
     | DATA_MAX_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
         $$ = (CowlClsExp *)cowl_data_card(COWL_CT_MAX, $4, $5, $3);
-        cowl_data_prop_exp_release($4);
-        cowl_data_range_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -754,13 +754,13 @@ data_max_cardinality
 data_exact_cardinality
     : DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression R_PAREN {
         $$ = (CowlClsExp *)cowl_data_card(COWL_CT_EXACT, $4, NULL, $3);
-        cowl_data_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
     | DATA_EXACT_CARDINALITY L_PAREN cardinality data_property_expression data_range R_PAREN {
         $$ = (CowlClsExp *)cowl_data_card(COWL_CT_EXACT, $4, $5, $3);
-        cowl_data_prop_exp_release($4);
-        cowl_data_range_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -791,8 +791,8 @@ sub_class_of
     : SUB_CLASS_OF L_PAREN annotation_star class_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_cls_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_cls_exp_release($4);
-        cowl_cls_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -819,7 +819,7 @@ disjoint_union
     : DISJOINT_UNION L_PAREN annotation_star class class_expression_2_list R_PAREN {
         $$ = (CowlAxiom *)cowl_disj_union_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_class_release($4);
+        cowl_release($4);
         COWL_VEC_FINALIZE($5);
         if (!$$) COWL_ERROR_MEM;
     }
@@ -847,15 +847,15 @@ sub_object_property_of
     : SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star object_property_expression object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_obj_prop_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
-        cowl_obj_prop_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
     | SUB_OBJECT_PROPERTY_OF L_PAREN annotation_star property_expression_chain object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_obj_prop_chain_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
         COWL_VEC_FINALIZE($4);
-        cowl_obj_prop_exp_release($5);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -888,8 +888,8 @@ inverse_object_properties
     : INVERSE_OBJECT_PROPERTIES L_PAREN annotation_star object_property_expression object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_inv_obj_prop_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
-        cowl_obj_prop_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -898,8 +898,8 @@ object_property_domain
     : OBJECT_PROPERTY_DOMAIN L_PAREN annotation_star object_property_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_domain_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
-        cowl_cls_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -908,8 +908,8 @@ object_property_range
     : OBJECT_PROPERTY_RANGE L_PAREN annotation_star object_property_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_range_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
-        cowl_cls_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -918,7 +918,7 @@ functional_object_property
     : FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom(COWL_CAT_FUNC, $4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -927,7 +927,7 @@ inverse_functional_object_property
     : INVERSE_FUNCTIONAL_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom(COWL_CAT_INV_FUNC, $4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -936,7 +936,7 @@ reflexive_object_property
     : REFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom(COWL_CAT_REFL, $4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -945,7 +945,7 @@ irreflexive_object_property
     : IRREFLEXIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom(COWL_CAT_IRREFL, $4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -954,7 +954,7 @@ symmetric_object_property
     : SYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom(COWL_CAT_SYMM, $4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -963,7 +963,7 @@ asymmetric_object_property
     : ASYMMETRIC_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom(COWL_CAT_ASYMM, $4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -972,7 +972,7 @@ transitive_object_property
     : TRANSITIVE_OBJECT_PROPERTY L_PAREN annotation_star object_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_char_axiom(COWL_CAT_TRANS, $4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -992,8 +992,8 @@ sub_data_property_of
     : SUB_DATA_PROPERTY_OF L_PAREN annotation_star data_property_expression data_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_data_prop_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_data_prop_exp_release($4);
-        cowl_data_prop_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1020,8 +1020,8 @@ data_property_domain
     : DATA_PROPERTY_DOMAIN L_PAREN annotation_star data_property_expression class_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_data_prop_domain_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_data_prop_exp_release($4);
-        cowl_cls_exp_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1030,8 +1030,8 @@ data_property_range
     : DATA_PROPERTY_RANGE L_PAREN annotation_star data_property_expression data_range R_PAREN {
         $$ = (CowlAxiom *)cowl_data_prop_range_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_data_prop_exp_release($4);
-        cowl_data_range_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1040,7 +1040,7 @@ functional_data_property
     : FUNCTIONAL_DATA_PROPERTY L_PAREN annotation_star data_property_expression R_PAREN {
         $$ = (CowlAxiom *)cowl_func_data_prop_axiom($4, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_data_prop_exp_release($4);
+        cowl_release($4);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1051,8 +1051,8 @@ datatype_definition
     : DATATYPE_DEFINITION L_PAREN annotation_star datatype data_range R_PAREN {
         $$ = (CowlAxiom *)cowl_datatype_def_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_datatype_release($4);
-        cowl_data_range_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1066,7 +1066,7 @@ has_key
         R_PAREN {
         $$ = (CowlAxiom *)cowl_has_key_axiom($4, $6, $9, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_cls_exp_release($4);
+        cowl_release($4);
         COWL_VEC_FINALIZE($6);
         COWL_VEC_FINALIZE($9);
         if (!$$) COWL_ERROR_MEM;
@@ -1107,8 +1107,8 @@ class_assertion
     : CLASS_ASSERTION L_PAREN annotation_star class_expression individual R_PAREN {
         $$ = (CowlAxiom *)cowl_cls_assert_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_cls_exp_release($4);
-        cowl_individual_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1117,9 +1117,9 @@ object_property_assertion
     : OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
         $$ = (CowlAxiom *)cowl_obj_prop_assert_axiom($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
-        cowl_individual_release($5);
-        cowl_individual_release($6);
+        cowl_release($4);
+        cowl_release($5);
+        cowl_release($6);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1128,9 +1128,9 @@ negative_object_property_assertion
     : NEGATIVE_OBJECT_PROPERTY_ASSERTION L_PAREN annotation_star object_property_expression individual individual R_PAREN {
         $$ = (CowlAxiom *)cowl_neg_obj_prop_assert_axiom($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_obj_prop_exp_release($4);
-        cowl_individual_release($5);
-        cowl_individual_release($6);
+        cowl_release($4);
+        cowl_release($5);
+        cowl_release($6);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1139,9 +1139,9 @@ data_property_assertion
     : DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
         $$ = (CowlAxiom *)cowl_data_prop_assert_axiom($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_data_prop_exp_release($4);
-        cowl_individual_release($5);
-        cowl_literal_release($6);
+        cowl_release($4);
+        cowl_release($5);
+        cowl_release($6);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1150,9 +1150,9 @@ negative_data_property_assertion
     : NEGATIVE_DATA_PROPERTY_ASSERTION L_PAREN annotation_star data_property_expression individual literal R_PAREN {
         $$ = (CowlAxiom *)cowl_neg_data_prop_assert_axiom($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_data_prop_exp_release($4);
-        cowl_individual_release($5);
-        cowl_literal_release($6);
+        cowl_release($4);
+        cowl_release($5);
+        cowl_release($6);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1163,8 +1163,8 @@ annotation
     : ANNOTATION L_PAREN annotation_star annotation_property annotation_value R_PAREN {
         $$ = cowl_annotation($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_annot_prop_release($4);
-        cowl_annot_value_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1194,9 +1194,9 @@ annotation_assertion
     : ANNOTATION_ASSERTION L_PAREN annotation_star annotation_property annotation_subject annotation_value R_PAREN {
         $$ = (CowlAxiom *)cowl_annot_assert_axiom($4, $5, $6, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_annot_prop_release($4);
-        cowl_annot_value_release($5);
-        cowl_annot_value_release($6);
+        cowl_release($4);
+        cowl_release($5);
+        cowl_release($6);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1214,8 +1214,8 @@ sub_annotation_property_of
     : SUB_ANNOTATION_PROPERTY_OF L_PAREN annotation_star annotation_property annotation_property R_PAREN {
         $$ = (CowlAxiom *)cowl_sub_annot_prop_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_annot_prop_release($4);
-        cowl_annot_prop_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1224,8 +1224,8 @@ annotation_property_domain
     : ANNOTATION_PROPERTY_DOMAIN L_PAREN annotation_star annotation_property iri R_PAREN {
         $$ = (CowlAxiom *)cowl_annot_prop_domain_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_annot_prop_release($4);
-        cowl_iri_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;
@@ -1234,8 +1234,8 @@ annotation_property_range
     : ANNOTATION_PROPERTY_RANGE L_PAREN annotation_star annotation_property iri R_PAREN {
         $$ = (CowlAxiom *)cowl_annot_prop_range_axiom($4, $5, $3);
         COWL_VEC_FINALIZE($3);
-        cowl_annot_prop_release($4);
-        cowl_iri_release($5);
+        cowl_release($4);
+        cowl_release($5);
         if (!$$) COWL_ERROR_MEM;
     }
 ;

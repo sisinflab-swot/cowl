@@ -47,31 +47,6 @@ CowlObjHasValue *cowl_obj_has_value(CowlAnyObjPropExp *prop, CowlAnyIndividual *
 }
 
 /**
- * Retains the specified individual value restriction.
- *
- * @param exp The restriction.
- * @return Retained restriction.
- *
- * @public @memberof CowlObjHasValue
- */
-COWL_INLINE
-CowlObjHasValue *cowl_obj_has_value_retain(CowlObjHasValue *exp) {
-    return (CowlObjHasValue *)cowl_retain(exp);
-}
-
-/**
- * Releases the specified individual value restriction.
- *
- * @param exp The restriction.
- *
- * @public @memberof CowlObjHasValue
- */
-COWL_INLINE
-void cowl_obj_has_value_release(CowlObjHasValue *exp) {
-    cowl_release_impl(exp);
-}
-
-/**
  * Gets the object property expression of the specified individual value restriction.
  *
  * @param exp The restriction.

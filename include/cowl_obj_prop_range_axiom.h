@@ -51,31 +51,6 @@ cowl_obj_prop_range_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *range, CowlVec
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlObjPropRangeAxiom
- */
-COWL_INLINE
-CowlObjPropRangeAxiom *cowl_obj_prop_range_axiom_retain(CowlObjPropRangeAxiom *axiom) {
-    return (CowlObjPropRangeAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlObjPropRangeAxiom
- */
-COWL_INLINE
-void cowl_obj_prop_range_axiom_release(CowlObjPropRangeAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the object property.
  *
  * @param axiom The axiom.

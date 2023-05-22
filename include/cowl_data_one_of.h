@@ -45,31 +45,6 @@ CowlDataOneOf *cowl_data_one_of(CowlVector *values) {
 }
 
 /**
- * Retains the specified literal enumeration.
- *
- * @param range The literal enumeration.
- * @return Retained literal enumeration.
- *
- * @public @memberof CowlDataOneOf
- */
-COWL_INLINE
-CowlDataOneOf *cowl_data_one_of_retain(CowlDataOneOf *range) {
-    return (CowlDataOneOf *)cowl_retain(range);
-}
-
-/**
- * Releases the specified literal enumeration.
- *
- * @param range The literal enumeration.
- *
- * @public @memberof CowlDataOneOf
- */
-COWL_INLINE
-void cowl_data_one_of_release(CowlDataOneOf *range) {
-    cowl_release_impl(range);
-}
-
-/**
  * Gets the values of the specified literal enumeration.
  *
  * @param range The literal enumeration.

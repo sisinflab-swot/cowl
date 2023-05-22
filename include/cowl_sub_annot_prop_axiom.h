@@ -50,31 +50,6 @@ cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotProp *super, CowlVector *
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlSubAnnotPropAxiom
- */
-COWL_INLINE
-CowlSubAnnotPropAxiom *cowl_sub_annot_prop_axiom_retain(CowlSubAnnotPropAxiom *axiom) {
-    return (CowlSubAnnotPropAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlSubAnnotPropAxiom
- */
-COWL_INLINE
-void cowl_sub_annot_prop_axiom_release(CowlSubAnnotPropAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the subproperty.
  *
  * @param axiom The axiom.

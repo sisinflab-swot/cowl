@@ -86,94 +86,34 @@ CowlAny *cowl_retain(CowlAny *object) {
 }
 
 void cowl_release(CowlAny *object) {
-    if (!object) return;
+    if (!object || cowl_object_decr_ref(object)) return;
+    CowlObjectType type = cowl_get_type(object);
 
-#define GEN_RELEASE(UC, LC)                                                                        \
-    cowl_##LC##_release((Cowl##UC *)object);                                                       \
-    break
-#define GEN_RELEASE_AXIOM(UC, LC)                                                                  \
-    cowl_##LC##_axiom_release((Cowl##UC##Axiom *)object);                                          \
-    break
-
-    switch (cowl_get_type(object)) {
-        case COWL_OT_STRING: GEN_RELEASE(String, string);
-        case COWL_OT_VECTOR: GEN_RELEASE(Vector, vector);
-        case COWL_OT_TABLE: GEN_RELEASE(Table, table);
-        case COWL_OT_IRI: GEN_RELEASE(IRI, iri);
-        case COWL_OT_LITERAL: GEN_RELEASE(Literal, literal);
-        case COWL_OT_FACET_RESTR: GEN_RELEASE(FacetRestr, facet_restr);
-        case COWL_OT_ONTOLOGY: GEN_RELEASE(Ontology, ontology);
-        case COWL_OT_STREAM: GEN_RELEASE(Stream, stream);
-        case COWL_OT_MANAGER: GEN_RELEASE(Manager, manager);
-        case COWL_OT_ANNOTATION: GEN_RELEASE(Annotation, annotation);
-        case COWL_OT_ANNOT_PROP: GEN_RELEASE(AnnotProp, annot_prop);
-        case COWL_OT_A_DECL: GEN_RELEASE_AXIOM(Decl, decl);
-        case COWL_OT_A_DATATYPE_DEF: GEN_RELEASE_AXIOM(DatatypeDef, datatype_def);
-        case COWL_OT_A_SUB_CLASS: GEN_RELEASE_AXIOM(SubCls, sub_cls);
-        case COWL_OT_A_EQUIV_CLASSES:
-        case COWL_OT_A_DISJ_CLASSES: GEN_RELEASE_AXIOM(NAryCls, nary_cls);
-        case COWL_OT_A_DISJ_UNION: GEN_RELEASE_AXIOM(DisjUnion, disj_union);
-        case COWL_OT_A_CLASS_ASSERT: GEN_RELEASE_AXIOM(ClsAssert, cls_assert);
-        case COWL_OT_A_SAME_IND:
-        case COWL_OT_A_DIFF_IND: GEN_RELEASE_AXIOM(NAryInd, nary_ind);
-        case COWL_OT_A_OBJ_PROP_ASSERT:
-        case COWL_OT_A_NEG_OBJ_PROP_ASSERT: GEN_RELEASE_AXIOM(ObjPropAssert, obj_prop_assert);
-        case COWL_OT_A_DATA_PROP_ASSERT:
-        case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_RELEASE_AXIOM(DataPropAssert, data_prop_assert);
-        case COWL_OT_A_SUB_OBJ_PROP: GEN_RELEASE_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_INV_OBJ_PROP: GEN_RELEASE_AXIOM(InvObjProp, inv_obj_prop);
-        case COWL_OT_A_EQUIV_OBJ_PROP:
-        case COWL_OT_A_DISJ_OBJ_PROP: GEN_RELEASE_AXIOM(NAryObjProp, nary_obj_prop);
-        case COWL_OT_A_FUNC_OBJ_PROP:
-        case COWL_OT_A_INV_FUNC_OBJ_PROP:
-        case COWL_OT_A_SYMM_OBJ_PROP:
-        case COWL_OT_A_ASYMM_OBJ_PROP:
-        case COWL_OT_A_TRANS_OBJ_PROP:
-        case COWL_OT_A_REFL_OBJ_PROP:
-        case COWL_OT_A_IRREFL_OBJ_PROP: GEN_RELEASE_AXIOM(ObjPropChar, obj_prop_char);
-        case COWL_OT_A_OBJ_PROP_DOMAIN: GEN_RELEASE_AXIOM(ObjPropDomain, obj_prop_domain);
-        case COWL_OT_A_OBJ_PROP_RANGE: GEN_RELEASE_AXIOM(ObjPropRange, obj_prop_range);
-        case COWL_OT_A_SUB_DATA_PROP: GEN_RELEASE_AXIOM(SubDataProp, sub_data_prop);
-        case COWL_OT_A_EQUIV_DATA_PROP:
-        case COWL_OT_A_DISJ_DATA_PROP: GEN_RELEASE_AXIOM(NAryDataProp, nary_data_prop);
-        case COWL_OT_A_FUNC_DATA_PROP: GEN_RELEASE_AXIOM(FuncDataProp, func_data_prop);
-        case COWL_OT_A_DATA_PROP_DOMAIN: GEN_RELEASE_AXIOM(DataPropDomain, data_prop_domain);
-        case COWL_OT_A_DATA_PROP_RANGE: GEN_RELEASE_AXIOM(DataPropRange, data_prop_range);
-        case COWL_OT_A_HAS_KEY: GEN_RELEASE_AXIOM(HasKey, has_key);
-        case COWL_OT_A_ANNOT_ASSERT: GEN_RELEASE_AXIOM(AnnotAssert, annot_assert);
-        case COWL_OT_A_SUB_ANNOT_PROP: GEN_RELEASE_AXIOM(SubAnnotProp, sub_annot_prop);
-        case COWL_OT_A_ANNOT_PROP_DOMAIN: GEN_RELEASE_AXIOM(AnnotPropDomain, annot_prop_domain);
-        case COWL_OT_A_ANNOT_PROP_RANGE: GEN_RELEASE_AXIOM(AnnotPropRange, annot_prop_range);
-        case COWL_OT_CE_CLASS: GEN_RELEASE(Class, class);
-        case COWL_OT_CE_OBJ_SOME:
-        case COWL_OT_CE_OBJ_ALL: GEN_RELEASE(ObjQuant, obj_quant);
-        case COWL_OT_CE_OBJ_MIN_CARD:
-        case COWL_OT_CE_OBJ_MAX_CARD:
-        case COWL_OT_CE_OBJ_EXACT_CARD: GEN_RELEASE(ObjCard, obj_card);
-        case COWL_OT_CE_OBJ_HAS_VALUE: GEN_RELEASE(ObjHasValue, obj_has_value);
-        case COWL_OT_CE_OBJ_HAS_SELF: GEN_RELEASE(ObjHasSelf, obj_has_self);
-        case COWL_OT_CE_DATA_SOME:
-        case COWL_OT_CE_DATA_ALL: GEN_RELEASE(DataQuant, data_quant);
-        case COWL_OT_CE_DATA_MIN_CARD:
-        case COWL_OT_CE_DATA_MAX_CARD:
-        case COWL_OT_CE_DATA_EXACT_CARD: GEN_RELEASE(DataCard, data_card);
-        case COWL_OT_CE_DATA_HAS_VALUE: GEN_RELEASE(DataHasValue, data_has_value);
-        case COWL_OT_CE_OBJ_INTERSECT:
-        case COWL_OT_CE_OBJ_UNION: GEN_RELEASE(NAryBool, nary_bool);
-        case COWL_OT_CE_OBJ_COMPL: GEN_RELEASE(ObjCompl, obj_compl);
-        case COWL_OT_CE_OBJ_ONE_OF: GEN_RELEASE(ObjOneOf, obj_one_of);
-        case COWL_OT_DPE_DATA_PROP: GEN_RELEASE(DataProp, data_prop);
-        case COWL_OT_DR_DATATYPE: GEN_RELEASE(Datatype, datatype);
-        case COWL_OT_DR_DATATYPE_RESTR: GEN_RELEASE(DatatypeRestr, datatype_restr);
-        case COWL_OT_DR_DATA_INTERSECT:
-        case COWL_OT_DR_DATA_UNION: GEN_RELEASE(NAryData, nary_data);
-        case COWL_OT_DR_DATA_COMPL: GEN_RELEASE(DataCompl, data_compl);
-        case COWL_OT_DR_DATA_ONE_OF: GEN_RELEASE(DataOneOf, data_one_of);
-        case COWL_OT_I_ANONYMOUS: GEN_RELEASE(AnonInd, anon_ind);
-        case COWL_OT_I_NAMED: GEN_RELEASE(NamedInd, named_ind);
-        case COWL_OT_OPE_OBJ_PROP: GEN_RELEASE(ObjProp, obj_prop);
-        case COWL_OT_OPE_INV_OBJ_PROP: GEN_RELEASE(InvObjProp, inv_obj_prop);
-        case COWL_OT_COUNT: break;
+    switch (type) {
+        case COWL_OT_STRING: cowl_string_free(object); break;
+        case COWL_OT_VECTOR: cowl_vector_free(object); break;
+        case COWL_OT_TABLE: cowl_table_free(object); break;
+        case COWL_OT_IRI: cowl_iri_free(object); break;
+        case COWL_OT_LITERAL: cowl_literal_free(object); break;
+        case COWL_OT_ONTOLOGY: cowl_ontology_free(object); break;
+        case COWL_OT_STREAM: cowl_stream_free(object); break;
+        case COWL_OT_MANAGER: cowl_manager_free(object); break;
+        case COWL_OT_I_ANONYMOUS: cowl_anon_ind_free(object); break;
+        case COWL_OT_ANNOT_PROP:
+        case COWL_OT_CE_CLASS:
+        case COWL_OT_DPE_DATA_PROP:
+        case COWL_OT_DR_DATATYPE:
+        case COWL_OT_I_NAMED:
+        case COWL_OT_OPE_OBJ_PROP: cowl_entity_free(object); break;
+        default: {
+            ulib_byte count = field_count[type];
+            if (cowl_has_opt_field(object)) ++count;
+            for (ulib_byte i = 0; i < count; ++i) {
+                cowl_release(cowl_get_field(object, i));
+            }
+            ulib_free(object);
+            break;
+        }
     }
 }
 
@@ -556,16 +496,6 @@ CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint va
     }
 
     return obj;
-}
-
-void cowl_release_impl(CowlAny *object) {
-    if (!object || cowl_object_decr_ref(object)) return;
-    ulib_byte count = field_count[cowl_get_type(object)];
-    if (cowl_has_opt_field(object)) ++count;
-    for (ulib_byte i = 0; i < count; ++i) {
-        cowl_release(cowl_get_field(object, i));
-    }
-    ulib_free(object);
 }
 
 void cowl_release_all_impl(CowlAny **objects) {

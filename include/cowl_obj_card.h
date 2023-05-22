@@ -52,31 +52,6 @@ CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyCl
                            ulib_uint cardinality);
 
 /**
- * Retains the specified object property cardinality restriction.
- *
- * @param restr The restriction.
- * @return Retained restriction.
- *
- * @public @memberof CowlObjCard
- */
-COWL_INLINE
-CowlObjCard *cowl_obj_card_retain(CowlObjCard *restr) {
-    return (CowlObjCard *)cowl_retain(restr);
-}
-
-/**
- * Releases the specified object property cardinality restriction.
- *
- * @param restr The restriction.
- *
- * @public @memberof CowlObjCard
- */
-COWL_INLINE
-void cowl_obj_card_release(CowlObjCard *restr) {
-    cowl_release_impl(restr);
-}
-
-/**
  * Gets the type of the specified object property cardinality restriction.
  *
  * @param restr The restriction.

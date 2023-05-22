@@ -33,31 +33,6 @@ cowl_struct_decl(CowlDataRange);
  */
 
 /**
- * Retains the specified data range.
- *
- * @param range The data range.
- * @return Retained data range.
- *
- * @public @memberof CowlDataRange
- */
-COWL_INLINE
-CowlAnyDataRange *cowl_data_range_retain(CowlAnyDataRange *range) {
-    return cowl_retain(range);
-}
-
-/**
- * Releases the specified data range.
- *
- * @param range The data range.
- *
- * @public @memberof CowlDataRange
- */
-COWL_INLINE
-void cowl_data_range_release(CowlAnyDataRange *range) {
-    cowl_release(range);
-}
-
-/**
  * Gets the type of the specified data range.
  *
  * @param range The data range.

@@ -32,31 +32,6 @@ cowl_struct_decl(CowlClsExp);
  */
 
 /**
- * Retains the specified class expression.
- *
- * @param exp The class expression.
- * @return Retained class expression.
- *
- * @public @memberof CowlClsExp
- */
-COWL_INLINE
-CowlAnyClsExp *cowl_cls_exp_retain(CowlAnyClsExp *exp) {
-    return cowl_retain(exp);
-}
-
-/**
- * Releases the specified class expression.
- *
- * @param exp The class expression.
- *
- * @public @memberof CowlClsExp
- */
-COWL_INLINE
-void cowl_cls_exp_release(CowlAnyClsExp *exp) {
-    cowl_release(exp);
-}
-
-/**
  * Gets the type of the specified class expression.
  *
  * @param exp The class expression.

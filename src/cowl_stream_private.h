@@ -30,7 +30,7 @@ struct CowlStream {
 
 CowlStream *cowl_stream(CowlManager *manager, CowlStreamConfig config);
 CowlStream *cowl_stream_to_ontology(CowlOntology *onto);
-void cowl_stream_release(CowlStream *stream);
+void cowl_stream_free(CowlStream *stream);
 
 COWL_END_DECLS
 

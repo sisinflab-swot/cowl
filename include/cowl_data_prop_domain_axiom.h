@@ -51,31 +51,6 @@ cowl_data_prop_domain_axiom(CowlAnyDataPropExp *prop, CowlAnyClsExp *domain, Cow
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlDataPropDomainAxiom
- */
-COWL_INLINE
-CowlDataPropDomainAxiom *cowl_data_prop_domain_axiom_retain(CowlDataPropDomainAxiom *axiom) {
-    return (CowlDataPropDomainAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlDataPropDomainAxiom
- */
-COWL_INLINE
-void cowl_data_prop_domain_axiom_release(CowlDataPropDomainAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the data property.
  *
  * @param axiom The axiom.

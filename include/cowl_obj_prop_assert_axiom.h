@@ -77,31 +77,6 @@ cowl_neg_obj_prop_assert_axiom(CowlAnyObjPropExp *prop, CowlAnyIndividual *subje
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlObjPropAssertAxiom
- */
-COWL_INLINE
-CowlObjPropAssertAxiom *cowl_obj_prop_assert_axiom_retain(CowlObjPropAssertAxiom *axiom) {
-    return (CowlObjPropAssertAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlObjPropAssertAxiom
- */
-COWL_INLINE
-void cowl_obj_prop_assert_axiom_release(CowlObjPropAssertAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Returns true if the specified object property assertion axiom is negative.
  *
  * @param axiom The axiom.

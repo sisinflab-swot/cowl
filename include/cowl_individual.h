@@ -31,30 +31,6 @@ cowl_struct_decl(CowlIndividual);
  */
 
 /**
- * Retains the specified individual.
- *
- * @param ind The individual.
- * @return Retained individual.
- *
- * @public @memberof CowlIndividual
- */
-COWL_INLINE
-CowlAnyIndividual *cowl_individual_retain(CowlAnyIndividual *ind) {
-    return cowl_retain(ind);
-}
-
-/**
- * Releases the specified individual.
- * @param ind The individual.
- *
- * @public @memberof CowlIndividual
- */
-COWL_INLINE
-void cowl_individual_release(CowlAnyIndividual *ind) {
-    cowl_release(ind);
-}
-
-/**
  * Returns true if the underlying individual is named.
  *
  * @param ind The individual.

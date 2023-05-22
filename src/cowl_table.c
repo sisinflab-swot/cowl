@@ -48,9 +48,7 @@ CowlTable *cowl_table(UHash(CowlObjectTable) *table) {
     return tbl;
 }
 
-void cowl_table_release_ex(CowlTable *table, bool release_elements) {
-    if (!table || cowl_object_decr_ref(table)) return;
-
+void cowl_table_free_ex(CowlTable *table, bool release_elements) {
     if (release_elements) {
         cowl_table_foreach (table, obj) {
             cowl_release(*obj.key);
@@ -62,8 +60,14 @@ void cowl_table_release_ex(CowlTable *table, bool release_elements) {
     ulib_free(table);
 }
 
-void cowl_table_release(CowlTable *table) {
-    cowl_table_release_ex(table, true);
+void cowl_table_free(CowlTable *table) {
+    cowl_table_free_ex(table, true);
+}
+
+void cowl_table_release_ex(CowlTable *table, bool release_elements) {
+    if (table && !cowl_object_decr_ref(table)) {
+        cowl_table_free_ex(table, release_elements);
+    }
 }
 
 UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table) {

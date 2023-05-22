@@ -45,31 +45,6 @@ CowlObjHasSelf *cowl_obj_has_self(CowlAnyObjPropExp *prop) {
 }
 
 /**
- * Retains the specified self-restriction.
- *
- * @param exp The restriction.
- * @return Retained restriction.
- *
- * @public @memberof CowlObjHasSelf
- */
-COWL_INLINE
-CowlObjHasSelf *cowl_obj_has_self_retain(CowlObjHasSelf *exp) {
-    return (CowlObjHasSelf *)cowl_retain(exp);
-}
-
-/**
- * Releases the specified self-restriction.
- *
- * @param exp The restriction.
- *
- * @public @memberof CowlObjHasSelf
- */
-COWL_INLINE
-void cowl_obj_has_self_release(CowlObjHasSelf *exp) {
-    cowl_release_impl(exp);
-}
-
-/**
  * Gets the object property expression of the specified self-restriction.
  *
  * @param exp The restriction.

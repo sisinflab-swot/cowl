@@ -73,29 +73,6 @@ CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang);
     cowl_literal_from_string(ustring_literal(DT), ustring_literal(VALUE), ustring_literal(LANG))
 
 /**
- * Retains the specified literal.
- *
- * @param literal The literal.
- * @return Retained literal.
- *
- * @public @memberof CowlLiteral
- */
-COWL_INLINE
-CowlLiteral *cowl_literal_retain(CowlLiteral *literal) {
-    return (CowlLiteral *)cowl_retain(literal);
-}
-
-/**
- * Releases the specified literal.
- *
- * @param literal The literal.
- *
- * @public @memberof CowlLiteral
- */
-COWL_PUBLIC
-void cowl_literal_release(CowlLiteral *literal);
-
-/**
  * Gets the datatype.
  *
  * @param literal The literal.

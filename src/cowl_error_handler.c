@@ -76,7 +76,7 @@ void cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
     };
 
     handler.handle_error(handler.ctx, (CowlError *)&error);
-    if (release_source) cowl_string_release(loc.source);
+    if (release_source) cowl_release(loc.source);
 }
 
 void cowl_handle_error_code(cowl_ret code, CowlAny *origin) {

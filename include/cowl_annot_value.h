@@ -32,31 +32,6 @@ cowl_struct_decl(CowlAnnotValue);
  */
 
 /**
- * Retains the annotation value.
- *
- * @param value The annotation value.
- * @return Retained annotation value.
- *
- * @public @memberof CowlAnnotValue
- */
-COWL_INLINE
-CowlAnyAnnotValue *cowl_annot_value_retain(CowlAnyAnnotValue *value) {
-    return cowl_retain(value);
-}
-
-/**
- * Releases the annotation value.
- *
- * @param value The annotation value.
- *
- * @public @memberof CowlAnnotValue
- */
-COWL_INLINE
-void cowl_annot_value_release(CowlAnyAnnotValue *value) {
-    cowl_release(value);
-}
-
-/**
  * Gets the type of the specified annotation value.
  *
  * @param value The annotation value.

@@ -27,6 +27,8 @@ struct CowlEntity {
 cowl_ret cowl_entity_api_init(void);
 void cowl_entity_api_deinit(void);
 
+void cowl_entity_free(CowlAnyEntity *entity);
+
 COWL_END_DECLS
 
 #endif // COWL_ENTITY_PRIVATE_H

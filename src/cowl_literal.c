@@ -26,7 +26,7 @@ static CowlString *parse_lang(CowlString *value, CowlString **lang) {
     char const *val_str = ustring_data(*raw_value);
     ulib_uint val_len = ustring_length(*raw_value);
     ulib_uint lang_idx = ustring_index_of_last(*raw_value, '@') + 1;
-    if (lang_idx >= val_len) return cowl_string_retain(value);
+    if (lang_idx >= val_len) return cowl_retain(value);
 
     CowlString *new_val = cowl_string_opt(ustring_wrap(val_str, lang_idx - 1), COWL_SO_COPY);
     if (!new_val) goto err;
@@ -43,7 +43,7 @@ static CowlString *parse_lang(CowlString *value, CowlString **lang) {
     return new_val;
 
 err:
-    cowl_string_release(new_val);
+    cowl_release(new_val);
     return NULL;
 }
 
@@ -52,7 +52,7 @@ static CowlString *internalize_lang(CowlString *lang) {
 
     if (ustring_is_lower(*raw_lang)) {
         if (!(lang = cowl_string_intern(lang))) return NULL;
-        cowl_string_retain(lang);
+        cowl_retain(lang);
     } else {
         // Language tag must be normalized to lowercase.
         UString new_lang = ustring_to_lower(*raw_lang);
@@ -87,6 +87,16 @@ static CowlLiteral *cowl_literal_alloc(CowlDatatype *dt, CowlString *value, Cowl
     return (CowlLiteral *)literal;
 }
 
+void cowl_literal_free(CowlLiteral *literal) {
+    cowl_release(cowl_literal_get_value(literal));
+    if (cowl_literal_is_lang_string(literal)) {
+        cowl_release(cowl_literal_get_lang(literal));
+    } else {
+        cowl_release(cowl_literal_get_datatype(literal));
+    }
+    ulib_free(literal);
+}
+
 CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
     if (!value) return NULL;
     if (lang && !cowl_string_get_length(lang)) lang = NULL;
@@ -111,8 +121,8 @@ CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
     ret = cowl_literal_alloc(dt, value, lang);
 
 end:
-    if (release_value) cowl_string_release(value);
-    if (release_lang) cowl_string_release(lang);
+    if (release_value) cowl_release(value);
+    if (release_lang) cowl_release(lang);
 
     return ret;
 }
@@ -122,22 +132,10 @@ CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang) {
     CowlString *cvalue = cowl_string_opt(value, COWL_SO_COPY);
     CowlString *clang = cowl_string_opt(lang, COWL_SO_COPY | COWL_SO_INTERN);
     CowlLiteral *literal = cowl_literal(cdt, cvalue, clang);
-    cowl_datatype_release(cdt);
-    cowl_string_release(cvalue);
-    cowl_string_release(clang);
+    cowl_release(cdt);
+    cowl_release(cvalue);
+    cowl_release(clang);
     return literal;
-}
-
-void cowl_literal_release(CowlLiteral *literal) {
-    if (literal && !cowl_object_decr_ref(literal)) {
-        cowl_string_release(cowl_literal_get_value(literal));
-        if (cowl_literal_is_lang_string(literal)) {
-            cowl_string_release(cowl_literal_get_lang(literal));
-        } else {
-            cowl_datatype_release(cowl_literal_get_datatype(literal));
-        }
-        ulib_free(literal);
-    }
 }
 
 CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal) {

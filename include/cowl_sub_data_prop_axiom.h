@@ -50,31 +50,6 @@ cowl_sub_data_prop_axiom(CowlAnyDataPropExp *sub, CowlAnyDataPropExp *super, Cow
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlSubDataPropAxiom
- */
-COWL_INLINE
-CowlSubDataPropAxiom *cowl_sub_data_prop_axiom_retain(CowlSubDataPropAxiom *axiom) {
-    return (CowlSubDataPropAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlSubDataPropAxiom
- */
-COWL_INLINE
-void cowl_sub_data_prop_axiom_release(CowlSubDataPropAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the subproperty.
  *
  * @param axiom The axiom.

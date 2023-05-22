@@ -88,29 +88,6 @@ COWL_PUBLIC
 CowlString *cowl_string_empty(void);
 
 /**
- * Retains the specified string.
- *
- * @param string The string.
- * @return Retained string.
- *
- * @public @memberof CowlString
- */
-COWL_INLINE
-CowlString *cowl_string_retain(CowlString *string) {
-    return (CowlString *)cowl_retain(string);
-}
-
-/**
- * Releases the specified string.
- *
- * @param string The string.
- *
- * @public @memberof CowlString
- */
-COWL_PUBLIC
-void cowl_string_release(CowlString *string);
-
-/**
  * Interns the specified string.
  *
  * The string is either added to an internal instance pool, or if an instance with the same
@@ -185,7 +162,7 @@ UString const *cowl_string_get_raw(CowlString *string);
  *
  * @public @related CowlString
  */
-#define cowl_string_to_string(STR) cowl_string_retain(STR)
+#define cowl_string_to_string(STR) ((CowlString *)cowl_retain(STR))
 
 /**
  * Equality function.

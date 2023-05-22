@@ -47,31 +47,6 @@ CowlDataHasValue *cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *val
 }
 
 /**
- * Retains the specified literal value restriction.
- *
- * @param restr The restriction.
- * @return Retained restriction.
- *
- * @public @memberof CowlDataHasValue
- */
-COWL_INLINE
-CowlDataHasValue *cowl_data_has_value_retain(CowlDataHasValue *restr) {
-    return (CowlDataHasValue *)cowl_retain(restr);
-}
-
-/**
- * Releases the specified literal value restriction.
- *
- * @param restr The restriction.
- *
- * @public @memberof CowlDataHasValue
- */
-COWL_INLINE
-void cowl_data_has_value_release(CowlDataHasValue *restr) {
-    cowl_release_impl(restr);
-}
-
-/**
  * Gets the property of the restriction.
  *
  * @param restr The restriction.

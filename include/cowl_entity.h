@@ -33,29 +33,6 @@ cowl_struct_decl(CowlEntity);
  */
 
 /**
- * Retains the entity.
- *
- * @param entity The entity.
- * @return Retained entity.
- *
- * @public @memberof CowlEntity
- */
-COWL_INLINE
-CowlAnyEntity *cowl_entity_retain(CowlAnyEntity *entity) {
-    return cowl_retain(entity);
-}
-
-/**
- * Releases the entity.
- *
- * @param entity The entity.
- *
- * @public @memberof CowlEntity
- */
-COWL_PUBLIC
-void cowl_entity_release(CowlAnyEntity *entity);
-
-/**
  * Gets the type of the entity.
  *
  * @param entity The entity.

@@ -54,31 +54,6 @@ CowlHasKeyAxiom *cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_prop
 }
 
 /**
- * Retains the specified axiom.
- *
- * @param axiom The axiom.
- * @return Retained axiom.
- *
- * @public @memberof CowlHasKeyAxiom
- */
-COWL_INLINE
-CowlHasKeyAxiom *cowl_has_key_axiom_retain(CowlHasKeyAxiom *axiom) {
-    return (CowlHasKeyAxiom *)cowl_retain(axiom);
-}
-
-/**
- * Releases the specified axiom.
- *
- * @param axiom The axiom.
- *
- * @public @memberof CowlHasKeyAxiom
- */
-COWL_INLINE
-void cowl_has_key_axiom_release(CowlHasKeyAxiom *axiom) {
-    cowl_release_impl(axiom);
-}
-
-/**
  * Gets the class expression, instances of which this axiom acts as the key for.
  *
  * @param axiom The axiom.
