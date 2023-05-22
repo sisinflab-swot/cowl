@@ -114,22 +114,6 @@ ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
     return cowl_hash_impl(restr);
 }
 
-/**
- * Iterates over the primitives referenced by the specified datatype restriction.
- *
- * @param restr The datatype restriction.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDatatypeRestr
- */
-COWL_INLINE
-bool cowl_datatype_restr_iterate_primitives(CowlDatatypeRestr *restr, CowlPrimitiveFlags flags,
-                                            CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(restr, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_RESTR_H

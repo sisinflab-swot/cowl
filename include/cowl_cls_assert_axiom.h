@@ -130,22 +130,6 @@ ulib_uint cowl_cls_assert_axiom_hash(CowlClsAssertAxiom *axiom) {
     return cowl_hash_impl(axiom);
 }
 
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlClsAssertAxiom
- */
-COWL_INLINE
-bool cowl_cls_assert_axiom_iterate_primitives(CowlClsAssertAxiom *axiom, CowlPrimitiveFlags flags,
-                                              CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(axiom, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_CLS_ASSERT_AXIOM_H

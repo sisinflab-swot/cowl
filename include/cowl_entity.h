@@ -120,22 +120,6 @@ ulib_uint cowl_entity_hash(CowlAnyEntity *entity) {
     return uhash_ptr_hash(entity);
 }
 
-/**
- * Iterates over this entity.
- *
- * @param entity The entity.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlEntity
- */
-COWL_INLINE
-bool cowl_entity_iterate_primitives(CowlAnyEntity *entity, CowlPrimitiveFlags flags,
-                                    CowlIterator *iter) {
-    return cowl_iterate_primitives(entity, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ENTITY_H

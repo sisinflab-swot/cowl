@@ -155,19 +155,6 @@ COWL_PUBLIC
 ulib_uint cowl_table_hash(CowlTable *table);
 
 /**
- * Iterates over the primitives referenced by the specified hash table.
- *
- * @param table The hash table.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlTable
- */
-COWL_PUBLIC
-bool cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, CowlIterator *iter);
-
-/**
  * Iterates over the entries in the hash table.
  *
  * @param table [CowlTable *] The hash table.

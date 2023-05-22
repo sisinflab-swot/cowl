@@ -102,19 +102,6 @@ COWL_PUBLIC
 ulib_uint cowl_vector_hash(CowlVector *vec);
 
 /**
- * Iterates over the primitives referenced by the specified vector.
- *
- * @param vec The vector.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlVector
- */
-COWL_PUBLIC
-bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter);
-
-/**
  * Returns the number of elements in the vector.
  *
  * @param vec The vector.

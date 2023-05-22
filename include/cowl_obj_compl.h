@@ -99,23 +99,6 @@ ulib_uint cowl_obj_compl_hash(CowlObjCompl *exp) {
     return cowl_hash_impl(exp);
 }
 
-/**
- * Iterates over the primitives referenced by
- * the specified class expression complement.
- *
- * @param exp The complement.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjCompl
- */
-COWL_INLINE
-bool cowl_obj_compl_iterate_primitives(CowlObjCompl *exp, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(exp, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_COMPL_H

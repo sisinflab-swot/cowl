@@ -205,7 +205,7 @@ bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags fla
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         if (!cowl_primitive_flags_has_type(flags, i)) continue;
         uhash_foreach (CowlObjectTable, &onto->refs[i], p) {
-            if (!cowl_class_iterate_primitives(*p.key, flags, iter)) return false;
+            if (!cowl_iterate_primitives(*p.key, flags, iter)) return false;
         }
     }
 
@@ -431,7 +431,7 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
     cowl_ret ret;
     CowlAxiomCtx ctx = { .onto = onto };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_adder };
-    cowl_annotation_iterate_primitives(annot, COWL_PF_ALL, &iter);
+    cowl_iterate_primitives(annot, COWL_PF_ALL, &iter);
     if ((ret = ctx.ret)) goto end;
 
     ret = cowl_vector_ptr_add(&onto->annot, annot);
@@ -558,7 +558,7 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_adder };
 
-    cowl_axiom_iterate_primitives(axiom, COWL_PF_ALL, &iter);
+    cowl_iterate_primitives(axiom, COWL_PF_ALL, &iter);
     if ((ret = ctx.ret)) goto end;
 
     ret = cowl_vector_ptr_add(&onto->axioms_by_type[cowl_axiom_get_type(axiom)], axiom);
@@ -577,7 +577,7 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
 
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_remover };
-    cowl_axiom_iterate_primitives(axiom, COWL_PF_ALL, &iter);
+    cowl_iterate_primitives(axiom, COWL_PF_ALL, &iter);
 
     cowl_release(axiom);
 }

@@ -166,5 +166,5 @@ ulib_uint cowl_literal_hash(CowlLiteral *literal) {
 
 bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,
                                      CowlIterator *iter) {
-    return cowl_datatype_iterate_primitives(cowl_literal_get_datatype(literal), flags, iter);
+    return cowl_iterate_primitives(cowl_literal_get_datatype(literal), flags, iter);
 }

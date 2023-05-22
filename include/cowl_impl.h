@@ -132,9 +132,6 @@ COWL_PUBLIC
 ulib_uint cowl_uint_hash_impl(CowlAny *object);
 
 COWL_PUBLIC
-bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
-
-COWL_PUBLIC
 ulib_uint cowl_get_field_count(CowlAny *object);
 
 COWL_PUBLIC

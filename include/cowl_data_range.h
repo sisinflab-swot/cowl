@@ -87,22 +87,6 @@ ulib_uint cowl_data_range_hash(CowlAnyDataRange *range) {
     return cowl_hash(range);
 }
 
-/**
- * Iterates over the primitives referenced by the specified data range.
- *
- * @param range The data range.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDataRange
- */
-COWL_INLINE
-bool cowl_data_range_iterate_primitives(CowlAnyDataRange *range, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter) {
-    return cowl_iterate_primitives(range, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_RANGE_H

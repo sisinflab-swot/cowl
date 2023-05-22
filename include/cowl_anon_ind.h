@@ -120,22 +120,6 @@ ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-/**
- * Iterates over this anonymous individual.
- *
- * @param ind The anonymous individual.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlAnonInd
- */
-COWL_INLINE
-bool cowl_anon_ind_iterate_primitives(CowlAnonInd *ind, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter) {
-    return cowl_iterate_primitives(ind, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANON_IND_H

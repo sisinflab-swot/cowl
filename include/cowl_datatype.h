@@ -122,22 +122,6 @@ ulib_uint cowl_datatype_hash(CowlDatatype *dt) {
     return uhash_ptr_hash(dt);
 }
 
-/**
- * Iterates over this datatype.
- *
- * @param dt The datatype.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDatatype
- */
-COWL_INLINE
-bool cowl_datatype_iterate_primitives(CowlDatatype *dt, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter) {
-    return cowl_entity_iterate_primitives((CowlEntity *)dt, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_H

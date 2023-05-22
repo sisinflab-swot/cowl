@@ -99,22 +99,6 @@ ulib_uint cowl_data_one_of_hash(CowlDataOneOf *range) {
     return cowl_hash_impl(range);
 }
 
-/**
- * Iterates over the primitives referenced by the specified literal enumeration.
- *
- * @param range The literal enumeration.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDataOneOf
- */
-COWL_INLINE
-bool cowl_data_one_of_iterate_primitives(CowlDataOneOf *range, CowlPrimitiveFlags flags,
-                                         CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(range, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_COWL_DATA_ONE_OF_H

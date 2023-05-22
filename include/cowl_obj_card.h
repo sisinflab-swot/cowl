@@ -143,23 +143,6 @@ ulib_uint cowl_obj_card_hash(CowlObjCard *restr) {
     return cowl_uint_hash_impl(restr);
 }
 
-/**
- * Iterates over the primitives referenced by
- * the specified object property cardinality restriction.
- *
- * @param restr The restriction.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjCard
- */
-COWL_INLINE
-bool cowl_obj_card_iterate_primitives(CowlObjCard *restr, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(restr, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_CARD_H

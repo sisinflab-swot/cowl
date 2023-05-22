@@ -31,6 +31,7 @@ cowl_ret cowl_vector_add(CowlVector *vec, CowlAny *object);
 cowl_ret cowl_vector_push(CowlVector *vec, CowlAny *object);
 bool cowl_vector_remove(CowlVector *vec, CowlAny *object);
 cowl_ret cowl_vector_shrink(CowlVector *vec);
+bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

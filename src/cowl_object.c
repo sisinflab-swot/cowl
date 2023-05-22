@@ -372,89 +372,38 @@ ulib_uint cowl_hash(CowlAny *object) {
     }
 }
 
-bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-#define GEN_ITER(UC, LC) return cowl_##LC##_iterate_primitives((Cowl##UC *)object, flags, iter)
-#define GEN_ITER_AXIOM(UC, LC)                                                                     \
-    return cowl_##LC##_axiom_iterate_primitives((Cowl##UC##Axiom *)object, flags, iter)
-#define GEN_ITER_PRIMITIVE(TYPE)                                                                   \
-    return ubit_is_set(COWL_PF, flags, COWL_PF_##TYPE) ? cowl_iterate(iter, object) : true
+static inline bool
+iterate_pf(CowlPrimitiveFlags type, CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
+    return ubit_is_set(COWL_PF, flags, type) ? cowl_iterate(iter, object) : true;
+}
 
-    switch (cowl_get_type(object)) {
-        case COWL_OT_IRI: GEN_ITER_PRIMITIVE(IRI);
-        case COWL_OT_VECTOR: GEN_ITER(Vector, vector);
-        case COWL_OT_TABLE: GEN_ITER(Table, table);
-        case COWL_OT_LITERAL: GEN_ITER(Literal, literal);
-        case COWL_OT_FACET_RESTR: GEN_ITER(FacetRestr, facet_restr);
+bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
+
+    CowlObjectType type = cowl_get_type(object);
+    switch (type) {
+        case COWL_OT_VECTOR: return cowl_vector_iterate_primitives(object, flags, iter);
+        case COWL_OT_TABLE: return cowl_table_iterate_primitives(object, flags, iter);
+        case COWL_OT_IRI: return iterate_pf(COWL_PF_IRI, object, flags, iter);
+        case COWL_OT_LITERAL: return cowl_literal_iterate_primitives(object, flags, iter);
+        case COWL_OT_ANNOT_PROP: return iterate_pf(COWL_PF_ANNOT_PROP, object, flags, iter);
+        case COWL_OT_CE_CLASS: return iterate_pf(COWL_PF_CLASS, object, flags, iter);
+        case COWL_OT_DPE_DATA_PROP: return iterate_pf(COWL_PF_DATA_PROP, object, flags, iter);
+        case COWL_OT_DR_DATATYPE: return iterate_pf(COWL_PF_DATATYPE, object, flags, iter);
+        case COWL_OT_I_NAMED: return iterate_pf(COWL_PF_NAMED_IND, object, flags, iter);
+        case COWL_OT_I_ANONYMOUS: return iterate_pf(COWL_PF_ANON_IND, object, flags, iter);
+        case COWL_OT_OPE_OBJ_PROP: return iterate_pf(COWL_PF_OBJ_PROP, object, flags, iter);
         case COWL_OT_ONTOLOGY: return cowl_ontology_iterate_primitives(object, flags, iter, false);
-        case COWL_OT_ANNOTATION: GEN_ITER(Annotation, annotation);
-        case COWL_OT_ANNOT_PROP: GEN_ITER_PRIMITIVE(ANNOT_PROP);
-        case COWL_OT_A_DECL: GEN_ITER_AXIOM(Decl, decl);
-        case COWL_OT_A_DATATYPE_DEF: GEN_ITER_AXIOM(DatatypeDef, datatype_def);
-        case COWL_OT_A_SUB_CLASS: GEN_ITER_AXIOM(SubCls, sub_cls);
-        case COWL_OT_A_EQUIV_CLASSES:
-        case COWL_OT_A_DISJ_CLASSES: GEN_ITER_AXIOM(NAryCls, nary_cls);
-        case COWL_OT_A_DISJ_UNION: GEN_ITER_AXIOM(DisjUnion, disj_union);
-        case COWL_OT_A_CLASS_ASSERT: GEN_ITER_AXIOM(ClsAssert, cls_assert);
-        case COWL_OT_A_SAME_IND:
-        case COWL_OT_A_DIFF_IND: GEN_ITER_AXIOM(NAryInd, nary_ind);
-        case COWL_OT_A_OBJ_PROP_ASSERT:
-        case COWL_OT_A_NEG_OBJ_PROP_ASSERT: GEN_ITER_AXIOM(ObjPropAssert, obj_prop_assert);
-        case COWL_OT_A_DATA_PROP_ASSERT:
-        case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_ITER_AXIOM(DataPropAssert, data_prop_assert);
-        case COWL_OT_A_SUB_OBJ_PROP: GEN_ITER_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_INV_OBJ_PROP: GEN_ITER_AXIOM(InvObjProp, inv_obj_prop);
-        case COWL_OT_A_EQUIV_OBJ_PROP:
-        case COWL_OT_A_DISJ_OBJ_PROP: GEN_ITER_AXIOM(NAryObjProp, nary_obj_prop);
-        case COWL_OT_A_FUNC_OBJ_PROP:
-        case COWL_OT_A_INV_FUNC_OBJ_PROP:
-        case COWL_OT_A_SYMM_OBJ_PROP:
-        case COWL_OT_A_ASYMM_OBJ_PROP:
-        case COWL_OT_A_TRANS_OBJ_PROP:
-        case COWL_OT_A_REFL_OBJ_PROP:
-        case COWL_OT_A_IRREFL_OBJ_PROP: GEN_ITER_AXIOM(ObjPropChar, obj_prop_char);
-        case COWL_OT_A_OBJ_PROP_DOMAIN: GEN_ITER_AXIOM(ObjPropDomain, obj_prop_domain);
-        case COWL_OT_A_OBJ_PROP_RANGE: GEN_ITER_AXIOM(ObjPropRange, obj_prop_range);
-        case COWL_OT_A_SUB_DATA_PROP: GEN_ITER_AXIOM(SubDataProp, sub_data_prop);
-        case COWL_OT_A_EQUIV_DATA_PROP:
-        case COWL_OT_A_DISJ_DATA_PROP: GEN_ITER_AXIOM(NAryDataProp, nary_data_prop);
-        case COWL_OT_A_FUNC_DATA_PROP: GEN_ITER_AXIOM(FuncDataProp, func_data_prop);
-        case COWL_OT_A_DATA_PROP_DOMAIN: GEN_ITER_AXIOM(DataPropDomain, data_prop_domain);
-        case COWL_OT_A_DATA_PROP_RANGE: GEN_ITER_AXIOM(DataPropRange, data_prop_range);
-        case COWL_OT_A_HAS_KEY: GEN_ITER_AXIOM(HasKey, has_key);
-        case COWL_OT_A_ANNOT_ASSERT: GEN_ITER_AXIOM(AnnotAssert, annot_assert);
-        case COWL_OT_A_SUB_ANNOT_PROP: GEN_ITER_AXIOM(SubAnnotProp, sub_annot_prop);
-        case COWL_OT_A_ANNOT_PROP_DOMAIN: GEN_ITER_AXIOM(AnnotPropDomain, annot_prop_domain);
-        case COWL_OT_A_ANNOT_PROP_RANGE: GEN_ITER_AXIOM(AnnotPropRange, annot_prop_range);
-        case COWL_OT_CE_CLASS: GEN_ITER_PRIMITIVE(CLASS);
-        case COWL_OT_CE_OBJ_SOME:
-        case COWL_OT_CE_OBJ_ALL: GEN_ITER(ObjQuant, obj_quant);
-        case COWL_OT_CE_OBJ_MIN_CARD:
-        case COWL_OT_CE_OBJ_MAX_CARD:
-        case COWL_OT_CE_OBJ_EXACT_CARD: GEN_ITER(ObjCard, obj_card);
-        case COWL_OT_CE_OBJ_HAS_VALUE: GEN_ITER(ObjHasValue, obj_has_value);
-        case COWL_OT_CE_OBJ_HAS_SELF: GEN_ITER(ObjHasSelf, obj_has_self);
-        case COWL_OT_CE_DATA_SOME:
-        case COWL_OT_CE_DATA_ALL: GEN_ITER(DataQuant, data_quant);
-        case COWL_OT_CE_DATA_MIN_CARD:
-        case COWL_OT_CE_DATA_MAX_CARD:
-        case COWL_OT_CE_DATA_EXACT_CARD: GEN_ITER(DataCard, data_card);
-        case COWL_OT_CE_DATA_HAS_VALUE: GEN_ITER(DataHasValue, data_has_value);
-        case COWL_OT_CE_OBJ_INTERSECT:
-        case COWL_OT_CE_OBJ_UNION: GEN_ITER(NAryBool, nary_bool);
-        case COWL_OT_CE_OBJ_COMPL: GEN_ITER(ObjCompl, obj_compl);
-        case COWL_OT_CE_OBJ_ONE_OF: GEN_ITER(ObjOneOf, obj_one_of);
-        case COWL_OT_DPE_DATA_PROP: GEN_ITER_PRIMITIVE(DATA_PROP);
-        case COWL_OT_DR_DATATYPE: GEN_ITER_PRIMITIVE(DATATYPE);
-        case COWL_OT_DR_DATATYPE_RESTR: GEN_ITER(DatatypeRestr, datatype_restr);
-        case COWL_OT_DR_DATA_INTERSECT:
-        case COWL_OT_DR_DATA_UNION: GEN_ITER(NAryData, nary_data);
-        case COWL_OT_DR_DATA_COMPL: GEN_ITER(DataCompl, data_compl);
-        case COWL_OT_DR_DATA_ONE_OF: GEN_ITER(DataOneOf, data_one_of);
-        case COWL_OT_I_ANONYMOUS: GEN_ITER_PRIMITIVE(ANON_IND);
-        case COWL_OT_I_NAMED: GEN_ITER_PRIMITIVE(NAMED_IND);
-        case COWL_OT_OPE_OBJ_PROP: GEN_ITER_PRIMITIVE(OBJ_PROP);
-        case COWL_OT_OPE_INV_OBJ_PROP: GEN_ITER(InvObjProp, inv_obj_prop);
-        default: return true;
+        default: {
+            ulib_byte count = field_count[type];
+            if (!count) return true;
+
+            for (ulib_byte i = 0; i < count; ++i) {
+                if (!cowl_iterate_primitives(cowl_get_field(object, i), flags, iter)) return false;
+            }
+
+            CowlAny *opt = cowl_get_opt_field(object);
+            return opt ? cowl_iterate_primitives(opt, flags, iter) : true;
+        }
     }
 }
 
@@ -544,16 +493,6 @@ ulib_uint cowl_hash_impl(CowlAny *object) {
 ulib_uint cowl_uint_hash_impl(CowlAny *object) {
     ulib_uint hash = cowl_hash_impl(object);
     return uhash_combine_hash(hash, cowl_get_uint_field(object));
-}
-
-bool cowl_iterate_primitives_impl(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    ulib_byte count = field_count[cowl_get_type(object)];
-    for (ulib_byte i = 0; i < count; ++i) {
-        if (!cowl_iterate_primitives(cowl_get_field(object, i), flags, iter)) return false;
-    }
-    CowlAny *opt = cowl_get_opt_field(object);
-    if (opt) cowl_iterate_primitives(opt, flags, iter);
-    return true;
 }
 
 ulib_uint cowl_get_field_count(CowlAny *object) {

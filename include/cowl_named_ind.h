@@ -122,22 +122,6 @@ ulib_uint cowl_named_ind_hash(CowlNamedInd *ind) {
     return uhash_ptr_hash(ind);
 }
 
-/**
- * Iterates over this named individual.
- *
- * @param ind The named individual.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlNamedInd
- */
-COWL_INLINE
-bool cowl_named_ind_iterate_primitives(CowlNamedInd *ind, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter) {
-    return cowl_entity_iterate_primitives((CowlEntity *)ind, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_NAMED_IND_H

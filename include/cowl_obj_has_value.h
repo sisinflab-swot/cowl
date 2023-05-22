@@ -114,23 +114,6 @@ ulib_uint cowl_obj_has_value_hash(CowlObjHasValue *exp) {
     return cowl_hash_impl(exp);
 }
 
-/**
- * Iterates over the primitives referenced by
- * the specified individual value restriction.
- *
- * @param exp The restriction.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjHasValue
- */
-COWL_INLINE
-bool cowl_obj_has_value_iterate_primitives(CowlObjHasValue *exp, CowlPrimitiveFlags flags,
-                                           CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(exp, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_HAS_VALUE_H

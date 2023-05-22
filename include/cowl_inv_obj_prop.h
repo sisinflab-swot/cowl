@@ -99,22 +99,6 @@ ulib_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv) {
     return cowl_hash_impl(inv);
 }
 
-/**
- * Iterates over the primitives referenced by the specified inverse object property.
- *
- * @param inv The inverse object property.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlInvObjProp
- */
-COWL_INLINE
-bool cowl_inv_obj_prop_iterate_primitives(CowlInvObjProp *inv, CowlPrimitiveFlags flags,
-                                          CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(inv, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_INV_OBJ_PROP_H

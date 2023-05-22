@@ -85,22 +85,6 @@ ulib_uint cowl_individual_hash(CowlAnyIndividual *ind) {
     return uhash_ptr_hash(ind);
 }
 
-/**
- * Iterates over this individual.
- *
- * @param ind The individual.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlIndividual
- */
-COWL_INLINE
-bool cowl_individual_iterate_primitives(CowlAnyIndividual *ind, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter) {
-    return cowl_iterate_primitives(ind, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_INDIVIDUAL_H

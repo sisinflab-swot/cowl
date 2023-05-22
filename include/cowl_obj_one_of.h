@@ -99,22 +99,6 @@ ulib_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
     return cowl_hash_impl(exp);
 }
 
-/**
- * Iterates over the primitives referenced by the specified individual enumeration.
- *
- * @param exp The individual enumeration.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjOneOf
- */
-COWL_INLINE
-bool cowl_obj_one_of_iterate_primitives(CowlObjOneOf *exp, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(exp, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_ONE_OF_H

@@ -114,22 +114,6 @@ ulib_uint cowl_data_has_value_hash(CowlDataHasValue *restr) {
     return cowl_hash_impl(restr);
 }
 
-/**
- * Iterates over the primitives referenced by the specified literal value restriction.
- *
- * @param restr The restriction.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDataHasValue
- */
-COWL_INLINE
-bool cowl_data_has_value_iterate_primitives(CowlDataHasValue *restr, CowlPrimitiveFlags flags,
-                                            CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(restr, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_HAS_VALUE_H

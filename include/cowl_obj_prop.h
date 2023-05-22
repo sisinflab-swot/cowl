@@ -122,22 +122,6 @@ ulib_uint cowl_obj_prop_hash(CowlObjProp *prop) {
     return uhash_ptr_hash(prop);
 }
 
-/**
- * Iterates over this object property.
- *
- * @param prop The object property.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjProp
- */
-COWL_INLINE
-bool cowl_obj_prop_iterate_primitives(CowlObjProp *prop, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter) {
-    return cowl_entity_iterate_primitives((CowlEntity *)prop, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_PROP_H

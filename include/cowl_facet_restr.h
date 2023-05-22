@@ -114,22 +114,6 @@ ulib_uint cowl_facet_restr_hash(CowlFacetRestr *restr) {
     return cowl_hash_impl(restr);
 }
 
-/**
- * Iterates over the primitives referenced by specified facet restriction.
- *
- * @param restr The facet restriction.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlFacetRestr
- */
-COWL_INLINE
-bool cowl_facet_restr_iterate_primitives(CowlFacetRestr *restr, CowlPrimitiveFlags flags,
-                                         CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(restr, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_FACET_RESTR_H

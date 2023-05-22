@@ -84,22 +84,6 @@ ulib_uint cowl_annot_value_hash(CowlAnyAnnotValue *value) {
     return cowl_hash(value);
 }
 
-/**
- * Iterates over the primitives referenced by the specified annotation value.
- *
- * @param value The annotation value.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlAnnotValue
- */
-COWL_INLINE
-bool cowl_annot_value_iterate_primitives(CowlAnyAnnotValue *value, CowlPrimitiveFlags flags,
-                                         CowlIterator *iter) {
-    return cowl_iterate_primitives(value, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANNOT_VALUE_H

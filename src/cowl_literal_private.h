@@ -16,6 +16,8 @@
 COWL_BEGIN_DECLS
 
 void cowl_literal_free(CowlLiteral *literal);
+bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,
+                                     CowlIterator *iter);
 
 COWL_END_DECLS
 

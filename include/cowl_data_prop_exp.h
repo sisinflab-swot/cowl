@@ -86,22 +86,6 @@ ulib_uint cowl_data_prop_exp_hash(CowlAnyDataPropExp *exp) {
     return uhash_ptr_hash(exp);
 }
 
-/**
- * Iterates over the primitives referenced by the specified data property expression.
- *
- * @param exp The data property expression.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlDataPropExp
- */
-COWL_INLINE
-bool cowl_data_prop_exp_iterate_primitives(CowlAnyDataPropExp *exp, CowlPrimitiveFlags flags,
-                                           CowlIterator *iter) {
-    return cowl_data_prop_iterate_primitives((CowlDataProp *)exp, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_PROP_EXP_H

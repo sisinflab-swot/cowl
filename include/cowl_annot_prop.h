@@ -121,22 +121,6 @@ ulib_uint cowl_annot_prop_hash(CowlAnnotProp *prop) {
     return uhash_ptr_hash(prop);
 }
 
-/**
- * Iterates over this annotation property.
- *
- * @param prop The annotation property.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlAnnotProp
- */
-COWL_INLINE
-bool cowl_annot_prop_iterate_primitives(CowlAnnotProp *prop, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter) {
-    return cowl_entity_iterate_primitives((CowlEntity *)prop, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANNOT_PROP_H

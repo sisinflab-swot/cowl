@@ -116,22 +116,6 @@ ulib_uint cowl_nary_data_hash(CowlNAryData *range) {
     return cowl_hash_impl(range);
 }
 
-/**
- * Iterates over the primitives referenced by the specified N-ary data range.
- *
- * @param range The data range.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlNAryData
- */
-COWL_INLINE
-bool cowl_nary_data_iterate_primitives(CowlNAryData *range, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(range, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_NARY_DATA_H

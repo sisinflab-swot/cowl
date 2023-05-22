@@ -131,22 +131,6 @@ ulib_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
     return cowl_hash_impl(axiom);
 }
 
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjPropRangeAxiom
- */
-COWL_INLINE
-bool cowl_obj_prop_range_axiom_iterate_primitives(CowlObjPropRangeAxiom *axiom,
-                                                  CowlPrimitiveFlags flags, CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(axiom, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_PROP_RANGE_AXIOM_H

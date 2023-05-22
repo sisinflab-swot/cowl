@@ -97,22 +97,6 @@ ulib_uint cowl_obj_prop_exp_hash(CowlAnyObjPropExp *exp) {
     return cowl_hash(exp);
 }
 
-/**
- * Iterates over the primitives referenced by the specified object property expression.
- *
- * @param exp The object property expression.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjPropExp
- */
-COWL_INLINE
-bool cowl_obj_prop_exp_iterate_primitives(CowlAnyObjPropExp *exp, CowlPrimitiveFlags flags,
-                                          CowlIterator *iter) {
-    return cowl_iterate_primitives(exp, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_PROP_EXP_H

@@ -93,22 +93,6 @@ ulib_uint cowl_primitive_hash(CowlAnyPrimitive *primitive) {
     return uhash_ptr_hash(primitive);
 }
 
-/**
- * Iterates over this primitive.
- *
- * @param primitive The primitive.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlPrimitive
- */
-COWL_INLINE
-bool cowl_primitive_iterate_primitives(CowlAnyPrimitive *primitive, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter) {
-    return cowl_iterate_primitives(primitive, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_PRIMITIVE_H

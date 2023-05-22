@@ -144,21 +144,6 @@ ulib_uint cowl_iri_hash(CowlIRI *iri) {
     return uhash_ptr_hash(iri);
 }
 
-/**
- * Iterates over this IRI.
- *
- * @param iri The IRI.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlIRI
- */
-COWL_INLINE
-bool cowl_iri_iterate_primitives(CowlIRI *iri, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    return cowl_iterate_primitives(iri, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_IRI_H

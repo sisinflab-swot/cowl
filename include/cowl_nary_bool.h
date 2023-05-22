@@ -118,23 +118,6 @@ ulib_uint cowl_nary_bool_hash(CowlNAryBool *exp) {
     return cowl_hash_impl(exp);
 }
 
-/**
- * Iterates over the primitives referenced by
- * the specified N-ary boolean class expression.
- *
- * @param exp The expression.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlNAryBool
- */
-COWL_INLINE
-bool cowl_nary_bool_iterate_primitives(CowlNAryBool *exp, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(exp, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_NARY_BOOL_H

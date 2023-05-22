@@ -99,22 +99,6 @@ ulib_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
     return cowl_hash_impl(exp);
 }
 
-/**
- * Iterates over the primitives referenced by the specified self-restriction.
- *
- * @param exp The restriction.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObjHasSelf
- */
-COWL_INLINE
-bool cowl_obj_has_self_iterate_primitives(CowlObjHasSelf *exp, CowlPrimitiveFlags flags,
-                                          CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(exp, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_HAS_SELF_H

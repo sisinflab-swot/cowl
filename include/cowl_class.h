@@ -122,21 +122,6 @@ ulib_uint cowl_class_hash(CowlClass *cls) {
     return uhash_ptr_hash(cls);
 }
 
-/**
- * Iterates over this class.
- *
- * @param cls The class.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlClass
- */
-COWL_INLINE
-bool cowl_class_iterate_primitives(CowlClass *cls, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    return cowl_entity_iterate_primitives((CowlEntity *)cls, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_CLASS_H

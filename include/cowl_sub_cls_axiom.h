@@ -128,22 +128,6 @@ ulib_uint cowl_sub_cls_axiom_hash(CowlSubClsAxiom *axiom) {
     return cowl_hash_impl(axiom);
 }
 
-/**
- * Iterates over the primitives referenced by the specified axiom.
- *
- * @param axiom The axiom.
- * @param flags Iteration flags.
- * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlSubClsAxiom
- */
-COWL_INLINE
-bool cowl_sub_cls_axiom_iterate_primitives(CowlSubClsAxiom *axiom, CowlPrimitiveFlags flags,
-                                           CowlIterator *iter) {
-    return cowl_iterate_primitives_impl(axiom, flags, iter);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_SUB_CLS_AXIOM_H
