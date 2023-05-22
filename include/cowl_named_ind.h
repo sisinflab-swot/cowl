@@ -81,21 +81,6 @@ CowlIRI *cowl_named_ind_get_iri(CowlNamedInd *ind) {
 }
 
 /**
- * Returns the string representation of the specified named individual.
- *
- * @param ind The named individual.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlNamedInd
- */
-COWL_INLINE
-CowlString *cowl_named_ind_to_string(CowlNamedInd *ind) {
-    return cowl_entity_to_string((CowlEntity *)ind);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

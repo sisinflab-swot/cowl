@@ -90,21 +90,6 @@ CowlVector *cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) 
 }
 
 /**
- * Returns the string representation of the specified axiom.
- *
- * @param axiom The axiom.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDataPropRangeAxiom
- */
-COWL_INLINE
-CowlString *cowl_data_prop_range_axiom_to_string(CowlDataPropRangeAxiom *axiom) {
-    return cowl_to_string(axiom);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

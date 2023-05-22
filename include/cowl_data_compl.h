@@ -58,21 +58,6 @@ CowlDataRange *cowl_data_compl_get_operand(CowlDataCompl *range) {
 }
 
 /**
- * Returns the string representation of the specified data range complement.
- *
- * @param range The data range complement.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDataCompl
- */
-COWL_INLINE
-CowlString *cowl_data_compl_to_string(CowlDataCompl *range) {
-    return cowl_to_string(range);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

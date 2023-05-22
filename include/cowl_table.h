@@ -63,21 +63,6 @@ COWL_PUBLIC
 UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
 
 /**
- * Returns the string representation of the specified hash table.
- *
- * @param table The hash table.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlVector
- */
-COWL_INLINE
-CowlString *cowl_table_to_string(CowlTable *table) {
-    return cowl_to_string(table);
-}
-
-/**
  * Returns the number of elements in the hash table.
  *
  * @param table The hash table.

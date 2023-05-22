@@ -86,21 +86,6 @@ COWL_PUBLIC
 CowlDataRange *cowl_data_quant_get_range(CowlDataQuant *restr);
 
 /**
- * Returns the string representation of the specified data quantifier.
- *
- * @param restr The data quantifier.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDataQuant
- */
-COWL_INLINE
-CowlString *cowl_data_quant_to_string(CowlDataQuant *restr) {
-    return cowl_to_string(restr);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

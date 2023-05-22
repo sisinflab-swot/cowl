@@ -45,21 +45,6 @@ CowlDataProp *cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
 }
 
 /**
- * Returns the string representation of the specified data property expression.
- *
- * @param exp The data property expression.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDataPropExp
- */
-COWL_INLINE
-CowlString *cowl_data_prop_exp_to_string(CowlAnyDataPropExp *exp) {
-    return cowl_data_prop_to_string((CowlDataProp *)exp);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

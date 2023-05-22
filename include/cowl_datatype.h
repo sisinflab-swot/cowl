@@ -81,21 +81,6 @@ CowlIRI *cowl_datatype_get_iri(CowlDatatype *dt) {
 }
 
 /**
- * Returns the string representation of the specified datatype.
- *
- * @param dt The datatype.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDatatype
- */
-COWL_INLINE
-CowlString *cowl_datatype_to_string(CowlDatatype *dt) {
-    return cowl_entity_to_string((CowlEntity *)dt);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

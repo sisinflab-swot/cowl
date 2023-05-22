@@ -46,21 +46,6 @@ CowlDataRangeType cowl_data_range_get_type(CowlAnyDataRange *range) {
 }
 
 /**
- * Returns the string representation of the specified data range.
- *
- * @param range The data range.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDataRange
- */
-COWL_INLINE
-CowlString *cowl_data_range_to_string(CowlAnyDataRange *range) {
-    return cowl_to_string(range);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

@@ -153,18 +153,6 @@ COWL_PUBLIC
 UString const *cowl_string_get_raw(CowlString *string);
 
 /**
- * Returns the string representation of the specified string.
- *
- * @param STR [CowlString] The string.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @related CowlString
- */
-#define cowl_string_to_string(STR) ((CowlString *)cowl_retain(STR))
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

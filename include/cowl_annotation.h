@@ -88,21 +88,6 @@ CowlVector *cowl_annotation_get_annot(CowlAnnotation *annot) {
 }
 
 /**
- * Returns the string representation of the specified annotation.
- *
- * @param annot The annotation.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlAnnotation
- */
-COWL_INLINE
-CowlString *cowl_annotation_to_string(CowlAnnotation *annot) {
-    return cowl_to_string(annot);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

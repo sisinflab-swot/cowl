@@ -60,7 +60,7 @@ void cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
     bool release_source = false;
 
     if (!loc.source && cowl_get_type(origin) == COWL_OT_ONTOLOGY) {
-        loc.source = cowl_iri_to_string(cowl_ontology_get_id(origin).iri);
+        loc.source = cowl_to_string(cowl_ontology_get_id(origin).iri);
         release_source = true;
     }
 

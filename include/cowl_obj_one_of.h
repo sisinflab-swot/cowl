@@ -58,21 +58,6 @@ CowlVector *cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
 }
 
 /**
- * Returns the string representation of the specified individual enumeration.
- *
- * @param exp The individual enumeration.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlObjOneOf
- */
-COWL_INLINE
-CowlString *cowl_obj_one_of_to_string(CowlObjOneOf *exp) {
-    return cowl_to_string(exp);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

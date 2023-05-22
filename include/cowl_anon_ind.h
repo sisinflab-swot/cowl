@@ -79,21 +79,6 @@ COWL_PUBLIC
 CowlString *cowl_anon_ind_get_id(CowlAnonInd *ind);
 
 /**
- * Returns the string representation of the specified anonymous individual.
- *
- * @param ind The anonymous individual.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlAnonInd
- */
-COWL_INLINE
-CowlString *cowl_anon_ind_to_string(CowlAnonInd *ind) {
-    return cowl_primitive_to_string((CowlPrimitive *)ind);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

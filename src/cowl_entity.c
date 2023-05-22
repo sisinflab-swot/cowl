@@ -111,10 +111,6 @@ CowlAnyEntity *cowl_entity_from_string_impl(CowlObjectType type, UString string)
     return entity;
 }
 
-CowlString *cowl_entity_to_string(CowlAnyEntity *entity) {
-    return cowl_primitive_to_string(entity);
-}
-
 CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity) {
     return ((CowlEntity *)entity)->iri;
 }

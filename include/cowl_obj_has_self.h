@@ -58,21 +58,6 @@ CowlObjPropExp *cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
 }
 
 /**
- * Returns the string representation of the specified self-restriction.
- *
- * @param exp The restriction.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlObjHasSelf
- */
-COWL_INLINE
-CowlString *cowl_obj_has_self_to_string(CowlObjHasSelf *exp) {
-    return cowl_to_string(exp);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

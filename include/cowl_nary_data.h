@@ -75,21 +75,6 @@ CowlVector *cowl_nary_data_get_operands(CowlNAryData *range) {
 }
 
 /**
- * Returns the string representation of the specified N-ary data range.
- *
- * @param range The data range.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlNAryData
- */
-COWL_INLINE
-CowlString *cowl_nary_data_to_string(CowlNAryData *range) {
-    return cowl_to_string(range);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

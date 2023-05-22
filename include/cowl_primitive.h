@@ -52,21 +52,6 @@ COWL_PUBLIC
 bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive);
 
 /**
- * Returns the string representation of the specified primitive.
- *
- * @param primitive The primitive.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlPrimitive
- */
-COWL_INLINE
-CowlString *cowl_primitive_to_string(CowlAnyPrimitive *primitive) {
-    return cowl_to_string(primitive);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

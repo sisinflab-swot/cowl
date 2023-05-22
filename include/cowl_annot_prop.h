@@ -80,21 +80,6 @@ CowlIRI *cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
 }
 
 /**
- * Returns the string representation of the specified annotation property.
- *
- * @param prop The annotation property.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlAnnotProp
- */
-COWL_INLINE
-CowlString *cowl_annot_prop_to_string(CowlAnnotProp *prop) {
-    return cowl_entity_to_string((CowlEntity *)prop);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

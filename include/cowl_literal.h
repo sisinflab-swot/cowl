@@ -106,19 +106,6 @@ COWL_PUBLIC
 CowlString *cowl_literal_get_lang(CowlLiteral *literal);
 
 /**
- * Returns the string representation of the specified literal.
- *
- * @param literal The literal.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlLiteral
- */
-COWL_PUBLIC
-CowlString *cowl_literal_to_string(CowlLiteral *literal);
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

@@ -73,21 +73,6 @@ CowlVector *cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
 }
 
 /**
- * Returns the string representation of the specified datatype restriction.
- *
- * @param restr The datatype restriction.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDatatypeRestr
- */
-COWL_INLINE
-CowlString *cowl_datatype_restr_to_string(CowlDatatypeRestr *restr) {
-    return cowl_to_string(restr);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

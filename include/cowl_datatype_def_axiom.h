@@ -88,21 +88,6 @@ CowlVector *cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
 }
 
 /**
- * Returns the string representation of the specified axiom.
- *
- * @param axiom The axiom.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDatatypeDefAxiom
- */
-COWL_INLINE
-CowlString *cowl_datatype_def_axiom_to_string(CowlDatatypeDefAxiom *axiom) {
-    return cowl_to_string(axiom);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

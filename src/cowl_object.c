@@ -378,7 +378,6 @@ iterate_pf(CowlPrimitiveFlags type, CowlAny *object, CowlPrimitiveFlags flags, C
 }
 
 bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-
     CowlObjectType type = cowl_get_type(object);
     switch (type) {
         case COWL_OT_VECTOR: return cowl_vector_iterate_primitives(object, flags, iter);

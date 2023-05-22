@@ -45,21 +45,6 @@ CowlClsExpType cowl_cls_exp_get_type(CowlAnyClsExp *exp) {
 }
 
 /**
- * Returns the string representation of the specified class expression.
- *
- * @param exp The class expression.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlClsExp
- */
-COWL_INLINE
-CowlString *cowl_cls_exp_to_string(CowlAnyClsExp *exp) {
-    return cowl_to_string(exp);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

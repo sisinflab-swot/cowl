@@ -58,21 +58,6 @@ CowlVector *cowl_data_one_of_get_values(CowlDataOneOf *range) {
 }
 
 /**
- * Returns the string representation of the specified literal enumeration.
- *
- * @param range The literal enumeration.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlDataOneOf
- */
-COWL_INLINE
-CowlString *cowl_data_one_of_to_string(CowlDataOneOf *range) {
-    return cowl_to_string(range);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

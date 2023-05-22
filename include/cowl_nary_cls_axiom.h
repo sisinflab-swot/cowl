@@ -91,21 +91,6 @@ CowlVector *cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
 }
 
 /**
- * Returns the string representation of the specified axiom.
- *
- * @param axiom The axiom.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlNAryClsAxiom
- */
-COWL_INLINE
-CowlString *cowl_nary_cls_axiom_to_string(CowlNAryClsAxiom *axiom) {
-    return cowl_to_string(axiom);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

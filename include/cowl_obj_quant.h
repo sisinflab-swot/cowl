@@ -86,21 +86,6 @@ COWL_PUBLIC
 CowlClsExp *cowl_obj_quant_get_filler(CowlObjQuant *restr);
 
 /**
- * Returns the string representation of the specified object quantifier.
- *
- * @param restr The object quantifier.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlObjQuant
- */
-COWL_INLINE
-CowlString *cowl_obj_quant_to_string(CowlObjQuant *restr) {
-    return cowl_to_string(restr);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

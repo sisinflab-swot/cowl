@@ -81,19 +81,6 @@ CowlAnyEntity *cowl_entity_with_id(ulib_uint id);
 #endif
 
 /**
- * Returns the string representation of the specified entity.
- *
- * @param entity The entity.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlEntity
- */
-COWL_PUBLIC
-CowlString *cowl_entity_to_string(CowlAnyEntity *entity);
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

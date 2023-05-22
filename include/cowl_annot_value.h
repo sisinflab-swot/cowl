@@ -43,21 +43,6 @@ COWL_PUBLIC
 CowlAnnotValueType cowl_annot_value_get_type(CowlAnyAnnotValue *value);
 
 /**
- * Returns the string representation of the specified annotation value.
- *
- * @param value The annotation value.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlAnnotValue
- */
-COWL_INLINE
-CowlString *cowl_annot_value_to_string(CowlAnyAnnotValue *value) {
-    return cowl_to_string(value);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

@@ -112,21 +112,6 @@ CowlVector *cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
 }
 
 /**
- * Returns the string representation of the specified axiom.
- *
- * @param axiom The axiom.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlObjPropCharAxiom
- */
-COWL_INLINE
-CowlString *cowl_obj_prop_char_axiom_to_string(CowlObjPropCharAxiom *axiom) {
-    return cowl_to_string(axiom);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

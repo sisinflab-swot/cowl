@@ -102,22 +102,6 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
 }
 
 /**
- * Returns the string representation of the specified IRI.
- *
- * @param iri The IRI.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlIRI
- */
-COWL_INLINE
-CowlString *cowl_iri_to_string(CowlIRI *iri) {
-    if (cowl_iri_has_rem(iri)) return cowl_to_string(iri);
-    return (CowlString *)cowl_retain(cowl_iri_get_ns(iri));
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

@@ -81,21 +81,6 @@ CowlIRI *cowl_data_prop_get_iri(CowlDataProp *prop) {
 }
 
 /**
- * Returns the string representation of the specified data property.
- *
- * @param prop The data property.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlObjProp
- */
-COWL_INLINE
-CowlString *cowl_data_prop_to_string(CowlDataProp *prop) {
-    return cowl_entity_to_string((CowlEntity *)prop);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

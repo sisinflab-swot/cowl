@@ -199,21 +199,6 @@ COWL_PUBLIC
 void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
- * Returns the string representation of the specified ontology.
- *
- * @param onto The ontology.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlOntology
- */
-COWL_INLINE
-CowlString *cowl_ontology_to_string(CowlOntology *onto) {
-    return cowl_to_string(onto);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

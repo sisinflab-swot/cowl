@@ -81,21 +81,6 @@ CowlIRI *cowl_class_get_iri(CowlClass *cls) {
 }
 
 /**
- * Returns the string representation of the specified class.
- *
- * @param cls The class.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlClass
- */
-COWL_INLINE
-CowlString *cowl_class_to_string(CowlClass *cls) {
-    return cowl_entity_to_string((CowlEntity *)cls);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.

@@ -77,21 +77,6 @@ CowlVector *cowl_nary_bool_get_operands(CowlNAryBool *exp) {
 }
 
 /**
- * Returns the string representation of the specified N-ary boolean class expression.
- *
- * @param exp The expression.
- * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
- * @public @memberof CowlNAryBool
- */
-COWL_INLINE
-CowlString *cowl_nary_bool_to_string(CowlNAryBool *exp) {
-    return cowl_to_string(exp);
-}
-
-/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.
