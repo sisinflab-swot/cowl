@@ -45,10 +45,10 @@ int main(void) {
         // Do stuff with the ontology.
         if (onto) {
             cowl_manager_write_file(manager, onto, stdout);
-            cowl_ontology_release(onto);
+            cowl_release(onto);
         }
 
-        cowl_manager_release(manager);
+        cowl_release(manager);
     }
 
     uostream_deinit(&stream);
@@ -68,7 +68,7 @@ static CowlOntology *load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri
 
     if (manager) {
         import = cowl_manager_read_path(manager, ustring_literal(IMPORT));
-        cowl_manager_release(manager);
+        cowl_release(manager);
     }
 
     return import;

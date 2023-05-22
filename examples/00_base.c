@@ -27,11 +27,11 @@ int main(void) {
         cowl_manager_write_file(manager, ontology, stdout);
 
         // Release the ontology.
-        cowl_ontology_release(ontology);
+        cowl_release(ontology);
     }
 
     // Release the manager.
-    cowl_manager_release(manager);
+    cowl_release(manager);
 
     return EXIT_SUCCESS;
 }

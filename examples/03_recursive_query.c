@@ -33,7 +33,7 @@ int main(void) {
 
     CowlManager *manager = cowl_manager();
     CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO));
-    cowl_manager_release(manager);
+    cowl_release(manager);
 
     if (ontology) {
         puts("Recursive atomic subclasses of " CLASS_NAME ":");
@@ -44,8 +44,8 @@ int main(void) {
         CowlIterator iter = { ontology, for_each_cls };
         cowl_ontology_iterate_sub_classes(ontology, cls, &iter, false);
 
-        cowl_class_release(cls);
-        cowl_ontology_release(ontology);
+        cowl_release(cls);
+        cowl_release(ontology);
     }
 
     return EXIT_SUCCESS;
