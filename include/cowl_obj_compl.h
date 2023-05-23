@@ -57,33 +57,6 @@ CowlClsExp *cowl_obj_compl_get_operand(CowlObjCompl *exp) {
     return (CowlClsExp *)cowl_get_field(exp, 0);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjCompl
- */
-COWL_INLINE
-bool cowl_obj_compl_equals(CowlObjCompl *lhs, CowlObjCompl *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param exp The complement.
- * @return The hash value.
- *
- * @public @memberof CowlObjCompl
- */
-COWL_INLINE
-ulib_uint cowl_obj_compl_hash(CowlObjCompl *exp) {
-    return cowl_hash_impl(exp);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_COMPL_H

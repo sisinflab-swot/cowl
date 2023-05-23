@@ -120,18 +120,6 @@ COWL_PUBLIC
 void cowl_release_all_impl(CowlAny **objects);
 
 COWL_PUBLIC
-bool cowl_equals_impl(CowlAny *lhs, CowlAny *rhs);
-
-COWL_PUBLIC
-bool cowl_uint_equals_impl(CowlAny *lhs, CowlAny *rhs);
-
-COWL_PUBLIC
-ulib_uint cowl_hash_impl(CowlAny *object);
-
-COWL_PUBLIC
-ulib_uint cowl_uint_hash_impl(CowlAny *object);
-
-COWL_PUBLIC
 ulib_uint cowl_get_field_count(CowlAny *object);
 
 COWL_PUBLIC

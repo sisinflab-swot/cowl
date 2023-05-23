@@ -80,33 +80,6 @@ CowlIRI *cowl_class_get_iri(CowlClass *cls) {
     return cowl_entity_get_iri((CowlEntity *)cls);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlClass
- */
-COWL_INLINE
-bool cowl_class_equals(CowlClass *lhs, CowlClass *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param cls The class.
- * @return The hash value.
- *
- * @public @memberof CowlClass
- */
-COWL_INLINE
-ulib_uint cowl_class_hash(CowlClass *cls) {
-    return uhash_ptr_hash(cls);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_CLASS_H

@@ -55,33 +55,6 @@ bool cowl_obj_prop_exp_is_inverse(CowlAnyObjPropExp *exp) {
 COWL_PUBLIC
 CowlObjProp *cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjPropExp
- */
-COWL_INLINE
-bool cowl_obj_prop_exp_equals(CowlAnyObjPropExp *lhs, CowlAnyObjPropExp *rhs) {
-    return cowl_equals(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param exp The object property expression.
- * @return The hash value.
- *
- * @public @memberof CowlObjPropExp
- */
-COWL_INLINE
-ulib_uint cowl_obj_prop_exp_hash(CowlAnyObjPropExp *exp) {
-    return cowl_hash(exp);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_PROP_EXP_H

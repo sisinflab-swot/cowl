@@ -74,33 +74,6 @@ CowlVector *cowl_nary_data_get_operands(CowlNAryData *range) {
     return (CowlVector *)cowl_get_field(range, 0);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlNAryData
- */
-COWL_INLINE
-bool cowl_nary_data_equals(CowlNAryData *lhs, CowlNAryData *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param range The data range.
- * @return The hash value.
- *
- * @public @memberof CowlNAryData
- */
-COWL_INLINE
-ulib_uint cowl_nary_data_hash(CowlNAryData *range) {
-    return cowl_hash_impl(range);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_NARY_DATA_H

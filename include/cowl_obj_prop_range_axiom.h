@@ -89,33 +89,6 @@ CowlVector *cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjPropRangeAxiom
- */
-COWL_INLINE
-bool cowl_obj_prop_range_axiom_equals(CowlObjPropRangeAxiom *lhs, CowlObjPropRangeAxiom *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param axiom The axiom.
- * @return The hash value.
- *
- * @public @memberof CowlObjPropRangeAxiom
- */
-COWL_INLINE
-ulib_uint cowl_obj_prop_range_axiom_hash(CowlObjPropRangeAxiom *axiom) {
-    return cowl_hash_impl(axiom);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_PROP_RANGE_AXIOM_H

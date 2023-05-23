@@ -64,29 +64,6 @@ COWL_PUBLIC
 UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec);
 
 /**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlVector
- */
-COWL_PUBLIC
-bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs);
-
-/**
- * Hash function.
- *
- * @param vec The vector.
- * @return The hash value.
- *
- * @public @memberof CowlVector
- */
-COWL_PUBLIC
-ulib_uint cowl_vector_hash(CowlVector *vec);
-
-/**
  * Returns the number of elements in the vector.
  *
  * @param vec The vector.

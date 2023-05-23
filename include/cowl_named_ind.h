@@ -80,33 +80,6 @@ CowlIRI *cowl_named_ind_get_iri(CowlNamedInd *ind) {
     return cowl_entity_get_iri((CowlEntity *)ind);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlNamedInd
- */
-COWL_INLINE
-bool cowl_named_ind_equals(CowlNamedInd *lhs, CowlNamedInd *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param ind The named individual.
- * @return The hash value.
- *
- * @public @memberof CowlNamedInd
- */
-COWL_INLINE
-ulib_uint cowl_named_ind_hash(CowlNamedInd *ind) {
-    return uhash_ptr_hash(ind);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_NAMED_IND_H

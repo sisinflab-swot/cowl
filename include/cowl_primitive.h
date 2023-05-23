@@ -51,33 +51,6 @@ CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive);
 COWL_PUBLIC
 bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive);
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlPrimitive
- */
-COWL_INLINE
-bool cowl_primitive_equals(CowlAnyPrimitive *lhs, CowlAnyPrimitive *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param primitive The primitive.
- * @return The hash value.
- *
- * @public @memberof CowlPrimitive
- */
-COWL_INLINE
-ulib_uint cowl_primitive_hash(CowlAnyPrimitive *primitive) {
-    return uhash_ptr_hash(primitive);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_PRIMITIVE_H

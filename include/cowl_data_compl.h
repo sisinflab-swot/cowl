@@ -57,33 +57,6 @@ CowlDataRange *cowl_data_compl_get_operand(CowlDataCompl *range) {
     return (CowlDataRange *)cowl_get_field(range, 0);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDataCompl
- */
-COWL_INLINE
-bool cowl_data_compl_equals(CowlDataCompl *lhs, CowlDataCompl *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param range The data range complement.
- * @return The hash value.
- *
- * @public @memberof CowlDataCompl
- */
-COWL_INLINE
-ulib_uint cowl_data_compl_hash(CowlDataCompl *range) {
-    return cowl_hash_impl(range);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_COMPL_H

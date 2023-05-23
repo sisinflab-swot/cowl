@@ -57,33 +57,6 @@ CowlVector *cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
     return (CowlVector *)cowl_get_field(exp, 0);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjOneOf
- */
-COWL_INLINE
-bool cowl_obj_one_of_equals(CowlObjOneOf *lhs, CowlObjOneOf *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param exp The individual enumeration.
- * @return The hash value.
- *
- * @public @memberof CowlObjOneOf
- */
-COWL_INLINE
-ulib_uint cowl_obj_one_of_hash(CowlObjOneOf *exp) {
-    return cowl_hash_impl(exp);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_ONE_OF_H

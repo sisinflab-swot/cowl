@@ -72,33 +72,6 @@ CowlLiteral *cowl_data_has_value_get_value(CowlDataHasValue *restr) {
     return (CowlLiteral *)cowl_get_field(restr, 1);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDataHasValue
- */
-COWL_INLINE
-bool cowl_data_has_value_equals(CowlDataHasValue *lhs, CowlDataHasValue *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param restr The restriction.
- * @return The hash value.
- *
- * @public @memberof CowlDataHasValue
- */
-COWL_INLINE
-ulib_uint cowl_data_has_value_hash(CowlDataHasValue *restr) {
-    return cowl_hash_impl(restr);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_HAS_VALUE_H

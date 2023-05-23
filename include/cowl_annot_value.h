@@ -42,33 +42,6 @@ cowl_struct_decl(CowlAnnotValue);
 COWL_PUBLIC
 CowlAnnotValueType cowl_annot_value_get_type(CowlAnyAnnotValue *value);
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlAnnotValue
- */
-COWL_INLINE
-bool cowl_annot_value_equals(CowlAnyAnnotValue *lhs, CowlAnyAnnotValue *rhs) {
-    return cowl_equals(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param value The annotation value.
- * @return The hash value.
- *
- * @public @memberof CowlAnnotValue
- */
-COWL_INLINE
-ulib_uint cowl_annot_value_hash(CowlAnyAnnotValue *value) {
-    return cowl_hash(value);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANNOT_VALUE_H

@@ -45,33 +45,6 @@ CowlDataRangeType cowl_data_range_get_type(CowlAnyDataRange *range) {
     return (CowlDataRangeType)(cowl_get_type(range) - COWL_OT_DR_DATATYPE);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDataRange
- */
-COWL_INLINE
-bool cowl_data_range_equals(CowlAnyDataRange *lhs, CowlAnyDataRange *rhs) {
-    return cowl_equals(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param range The data range.
- * @return The hash value.
- *
- * @public @memberof CowlDataRange
- */
-COWL_INLINE
-ulib_uint cowl_data_range_hash(CowlAnyDataRange *range) {
-    return cowl_hash(range);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_RANGE_H

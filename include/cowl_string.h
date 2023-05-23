@@ -153,29 +153,6 @@ COWL_PUBLIC
 UString const *cowl_string_get_raw(CowlString *string);
 
 /**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlString
- */
-COWL_PUBLIC
-bool cowl_string_equals(CowlString *lhs, CowlString *rhs);
-
-/**
- * Hash function.
- *
- * @param string The string.
- * @return The hash value.
- *
- * @public @memberof CowlString
- */
-COWL_PUBLIC
-ulib_uint cowl_string_hash(CowlString *string);
-
-/**
  * Returns a retained string with the specified format.
  *
  * @param format Format string.

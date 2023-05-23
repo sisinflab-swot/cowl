@@ -87,33 +87,6 @@ CowlVector *cowl_annotation_get_annot(CowlAnnotation *annot) {
     return (CowlVector *)cowl_get_opt_field(annot);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlAnnotation
- */
-COWL_INLINE
-bool cowl_annotation_equals(CowlAnnotation *lhs, CowlAnnotation *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param annot The annotation.
- * @return The hash value.
- *
- * @public @memberof CowlAnnotation
- */
-COWL_INLINE
-ulib_uint cowl_annotation_hash(CowlAnnotation *annot) {
-    return cowl_hash_impl(annot);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANNOTATION_H

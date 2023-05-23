@@ -44,33 +44,6 @@ CowlDataProp *cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
     return (CowlDataProp *)exp;
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDataPropExp
- */
-COWL_INLINE
-bool cowl_data_prop_exp_equals(CowlAnyDataPropExp *lhs, CowlAnyDataPropExp *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param exp The data property expression.
- * @return The hash value.
- *
- * @public @memberof CowlDataPropExp
- */
-COWL_INLINE
-ulib_uint cowl_data_prop_exp_hash(CowlAnyDataPropExp *exp) {
-    return uhash_ptr_hash(exp);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_PROP_EXP_H

@@ -80,33 +80,6 @@ CowlIRI *cowl_datatype_get_iri(CowlDatatype *dt) {
     return cowl_entity_get_iri((CowlEntity *)dt);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDatatype
- */
-COWL_INLINE
-bool cowl_datatype_equals(CowlDatatype *lhs, CowlDatatype *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param dt The datatype.
- * @return The hash value.
- *
- * @public @memberof CowlDatatype
- */
-COWL_INLINE
-ulib_uint cowl_datatype_hash(CowlDatatype *dt) {
-    return uhash_ptr_hash(dt);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_H

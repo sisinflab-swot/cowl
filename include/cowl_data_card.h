@@ -101,33 +101,6 @@ ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr) {
     return cowl_get_uint_field(restr);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDataCard
- */
-COWL_INLINE
-bool cowl_data_card_equals(CowlDataCard *lhs, CowlDataCard *rhs) {
-    return cowl_uint_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param restr The restriction.
- * @return The hash value.
- *
- * @public @memberof CowlDataCard
- */
-COWL_INLINE
-ulib_uint cowl_data_card_hash(CowlDataCard *restr) {
-    return cowl_uint_hash_impl(restr);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_CARD_H

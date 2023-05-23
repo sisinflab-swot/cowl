@@ -11,7 +11,7 @@
 #include "cowl_entity_private.h"
 #include "cowl_iri.h"
 #include "cowl_iterator_private.h"
-#include "cowl_primitive.h"
+#include "cowl_primitive_private.h"
 #include "cowl_table.h"
 
 static UHash(CowlObjectTable) inst_tbl;
@@ -22,13 +22,13 @@ static UVec(CowlObjectPtr) id_map;
 #endif
 
 static ulib_uint inst_tbl_hash(CowlAny *key) {
-    ulib_uint h1 = cowl_iri_hash(cowl_entity_get_iri(key));
+    ulib_uint h1 = cowl_primitive_hash(cowl_entity_get_iri(key));
     ulib_uint h2 = (ulib_uint)cowl_get_type(key);
     return uhash_combine_hash(h1, h2);
 }
 
 static bool inst_tbl_eq(CowlAny *lhs, CowlAny *rhs) {
-    return cowl_iri_equals(cowl_entity_get_iri(lhs), cowl_entity_get_iri(rhs)) &&
+    return cowl_primitive_equals(cowl_entity_get_iri(lhs), cowl_entity_get_iri(rhs)) &&
            cowl_get_type(lhs) == cowl_get_type(rhs);
 }
 

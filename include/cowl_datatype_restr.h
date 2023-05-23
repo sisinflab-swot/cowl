@@ -72,33 +72,6 @@ CowlVector *cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
     return (CowlVector *)cowl_get_field(restr, 1);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDatatypeRestr
- */
-COWL_INLINE
-bool cowl_datatype_restr_equals(CowlDatatypeRestr *lhs, CowlDatatypeRestr *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param restr The datatype restriction.
- * @return The hash value.
- *
- * @public @memberof CowlDatatypeRestr
- */
-COWL_INLINE
-ulib_uint cowl_datatype_restr_hash(CowlDatatypeRestr *restr) {
-    return cowl_hash_impl(restr);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATATYPE_RESTR_H

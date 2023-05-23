@@ -85,33 +85,6 @@ CowlDataPropExp *cowl_data_quant_get_prop(CowlDataQuant *restr) {
 COWL_PUBLIC
 CowlDataRange *cowl_data_quant_get_range(CowlDataQuant *restr);
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlDataQuant
- */
-COWL_INLINE
-bool cowl_data_quant_equals(CowlDataQuant *lhs, CowlDataQuant *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param restr The data quantifier.
- * @return The hash value.
- *
- * @public @memberof CowlDataQuant
- */
-COWL_INLINE
-ulib_uint cowl_data_quant_hash(CowlDataQuant *restr) {
-    return cowl_hash_impl(restr);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_DATA_QUANT_H

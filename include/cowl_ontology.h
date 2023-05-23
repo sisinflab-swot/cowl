@@ -199,31 +199,6 @@ COWL_PUBLIC
 void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @note Two ontologies are considered equal if their ontology IDs are equal.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs);
-
-/**
- * Hash function.
- *
- * @param onto The ontology.
- * @return The hash value.
- *
- * @public @memberof CowlOntology
- */
-COWL_PUBLIC
-ulib_uint cowl_ontology_hash(CowlOntology *onto);
-
-/**
  * Gets the number of axioms in the ontology.
  *
  * @param onto The ontology.

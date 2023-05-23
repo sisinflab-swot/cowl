@@ -78,33 +78,6 @@ CowlAnonInd *cowl_anon_ind_from_string(UString string);
 COWL_PUBLIC
 CowlString *cowl_anon_ind_get_id(CowlAnonInd *ind);
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlAnonInd
- */
-COWL_INLINE
-bool cowl_anon_ind_equals(CowlAnonInd *lhs, CowlAnonInd *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param ind The anonymous individual.
- * @return The hash value.
- *
- * @public @memberof CowlAnonInd
- */
-COWL_INLINE
-ulib_uint cowl_anon_ind_hash(CowlAnonInd *ind) {
-    return uhash_ptr_hash(ind);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANON_IND_H

@@ -8,8 +8,8 @@
  * @file
  */
 
-#include "cowl_primitive.h"
-#include "cowl_string.h"
+#include "cowl_primitive_private.h"
+#include "cowl_string_private.h"
 #include "cowl_table_private.h"
 
 UHASH_IMPL_PI(CowlObjectTable, cowl_hash, cowl_equals)

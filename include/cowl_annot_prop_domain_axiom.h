@@ -88,34 +88,6 @@ CowlVector *cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axi
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
- */
-COWL_INLINE
-bool cowl_annot_prop_domain_axiom_equals(CowlAnnotPropDomainAxiom *lhs,
-                                         CowlAnnotPropDomainAxiom *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param axiom The axiom.
- * @return The hash value.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
- */
-COWL_INLINE
-ulib_uint cowl_annot_prop_domain_axiom_hash(CowlAnnotPropDomainAxiom *axiom) {
-    return cowl_hash_impl(axiom);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANNOT_PROP_DOMAIN_AXIOM_H

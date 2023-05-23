@@ -80,33 +80,6 @@ CowlIRI *cowl_obj_prop_get_iri(CowlObjProp *prop) {
     return cowl_entity_get_iri((CowlEntity *)prop);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjProp
- */
-COWL_INLINE
-bool cowl_obj_prop_equals(CowlObjProp *lhs, CowlObjProp *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param prop The property.
- * @return The hash value.
- *
- * @public @memberof CowlObjProp
- */
-COWL_INLINE
-ulib_uint cowl_obj_prop_hash(CowlObjProp *prop) {
-    return uhash_ptr_hash(prop);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_PROP_H

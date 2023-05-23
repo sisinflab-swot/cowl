@@ -58,33 +58,6 @@ CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlAxiom
- */
-COWL_INLINE
-bool cowl_axiom_equals(CowlAnyAxiom *lhs, CowlAnyAxiom *rhs) {
-    return cowl_equals(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param axiom The axiom.
- * @return The hash value.
- *
- * @public @memberof CowlAxiom
- */
-COWL_INLINE
-ulib_uint cowl_axiom_hash(CowlAnyAxiom *axiom) {
-    return cowl_hash(axiom);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_AXIOM_H

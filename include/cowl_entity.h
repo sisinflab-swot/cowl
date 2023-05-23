@@ -80,33 +80,6 @@ CowlAnyEntity *cowl_entity_with_id(ulib_uint id);
 
 #endif
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlEntity
- */
-COWL_INLINE
-bool cowl_entity_equals(CowlAnyEntity *lhs, CowlAnyEntity *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param entity The entity.
- * @return The hash value.
- *
- * @public @memberof CowlEntity
- */
-COWL_INLINE
-ulib_uint cowl_entity_hash(CowlAnyEntity *entity) {
-    return uhash_ptr_hash(entity);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ENTITY_H

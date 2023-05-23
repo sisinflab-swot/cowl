@@ -117,29 +117,6 @@ bool cowl_table_contains(CowlTable *table, CowlAny *key) {
 }
 
 /**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlTable
- */
-COWL_PUBLIC
-bool cowl_table_equals(CowlTable *lhs, CowlTable *rhs);
-
-/**
- * Hash function.
- *
- * @param table The hash table.
- * @return The hash value.
- *
- * @public @memberof CowlTable
- */
-COWL_PUBLIC
-ulib_uint cowl_table_hash(CowlTable *table);
-
-/**
  * Iterates over the entries in the hash table.
  *
  * @param table [CowlTable *] The hash table.

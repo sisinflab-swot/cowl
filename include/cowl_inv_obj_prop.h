@@ -57,33 +57,6 @@ CowlObjProp *cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) {
     return (CowlObjProp *)cowl_get_field(inv, 0);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlInvObjProp
- */
-COWL_INLINE
-bool cowl_inv_obj_prop_equals(CowlInvObjProp *lhs, CowlInvObjProp *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param inv The inverse object property.
- * @return The hash value.
- *
- * @public @memberof CowlInvObjProp
- */
-COWL_INLINE
-ulib_uint cowl_inv_obj_prop_hash(CowlInvObjProp *inv) {
-    return cowl_hash_impl(inv);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_INV_OBJ_PROP_H

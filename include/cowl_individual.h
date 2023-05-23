@@ -43,33 +43,6 @@ bool cowl_individual_is_named(CowlAnyIndividual *ind) {
     return cowl_get_type(ind) == COWL_OT_I_NAMED;
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlIndividual
- */
-COWL_INLINE
-bool cowl_individual_equals(CowlAnyIndividual *lhs, CowlAnyIndividual *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param ind The individual.
- * @return The hash value.
- *
- * @public @memberof CowlIndividual
- */
-COWL_INLINE
-ulib_uint cowl_individual_hash(CowlAnyIndividual *ind) {
-    return uhash_ptr_hash(ind);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_INDIVIDUAL_H

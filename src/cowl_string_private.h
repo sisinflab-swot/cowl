@@ -29,6 +29,8 @@ CowlString cowl_string_init(UString raw_string);
 CowlString *cowl_string_copy(CowlString *string);
 void cowl_string_free(CowlString *string);
 cowl_ret cowl_string_get_ns_rem(UString string, ulib_uint ns_length, CowlString **out);
+bool cowl_string_equals(CowlString *lhs, CowlString *rhs);
+ulib_uint cowl_string_hash(CowlString *string);
 
 COWL_END_DECLS
 

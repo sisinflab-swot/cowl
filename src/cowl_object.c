@@ -85,35 +85,36 @@ CowlAny *cowl_retain(CowlAny *object) {
     return cowl_object_incr_ref(object);
 }
 
+static inline void release_impl(CowlObjectType type, CowlAny *object) {
+    ulib_byte count = field_count[type];
+    if (cowl_has_opt_field(object)) ++count;
+    for (ulib_byte i = 0; i < count; ++i) {
+        cowl_release(cowl_get_field(object, i));
+    }
+    ulib_free(object);
+}
+
 void cowl_release(CowlAny *object) {
     if (!object || cowl_object_decr_ref(object)) return;
     CowlObjectType type = cowl_get_type(object);
 
     switch (type) {
-        case COWL_OT_STRING: cowl_string_free(object); break;
-        case COWL_OT_VECTOR: cowl_vector_free(object); break;
-        case COWL_OT_TABLE: cowl_table_free(object); break;
-        case COWL_OT_IRI: cowl_iri_free(object); break;
-        case COWL_OT_LITERAL: cowl_literal_free(object); break;
-        case COWL_OT_ONTOLOGY: cowl_ontology_free(object); break;
-        case COWL_OT_STREAM: cowl_stream_free(object); break;
-        case COWL_OT_MANAGER: cowl_manager_free(object); break;
-        case COWL_OT_I_ANONYMOUS: cowl_anon_ind_free(object); break;
+        case COWL_OT_STRING: cowl_string_free(object); return;
+        case COWL_OT_VECTOR: cowl_vector_free(object); return;
+        case COWL_OT_TABLE: cowl_table_free(object); return;
+        case COWL_OT_IRI: cowl_iri_free(object); return;
+        case COWL_OT_LITERAL: cowl_literal_free(object); return;
+        case COWL_OT_ONTOLOGY: cowl_ontology_free(object); return;
+        case COWL_OT_STREAM: cowl_stream_free(object); return;
+        case COWL_OT_MANAGER: cowl_manager_free(object); return;
+        case COWL_OT_I_ANONYMOUS: cowl_anon_ind_free(object); return;
         case COWL_OT_ANNOT_PROP:
         case COWL_OT_CE_CLASS:
         case COWL_OT_DPE_DATA_PROP:
         case COWL_OT_DR_DATATYPE:
         case COWL_OT_I_NAMED:
-        case COWL_OT_OPE_OBJ_PROP: cowl_entity_free(object); break;
-        default: {
-            ulib_byte count = field_count[type];
-            if (cowl_has_opt_field(object)) ++count;
-            for (ulib_byte i = 0; i < count; ++i) {
-                cowl_release(cowl_get_field(object, i));
-            }
-            ulib_free(object);
-            break;
-        }
+        case COWL_OT_OPE_OBJ_PROP: cowl_entity_free(object); return;
+        default: release_impl(type, object); return;
     }
 }
 
@@ -188,91 +189,50 @@ CowlString *cowl_to_debug_string(CowlAny *object) {
     return cowl_to_string_impl(object, cowl_write_debug_impl);
 }
 
+static inline bool equals_impl(CowlObjectType type, CowlAny *lhs, CowlAny *rhs) {
+    ulib_byte count = field_count[type];
+    if (!count) return lhs == rhs;
+
+    for (ulib_byte i = 0; i < count; ++i) {
+        if (!cowl_equals(cowl_get_field(lhs, i), cowl_get_field(rhs, i))) return false;
+    }
+
+    CowlAny *lhs_opt = cowl_get_opt_field(lhs), *rhs_opt = cowl_get_opt_field(rhs);
+    if (lhs_opt == rhs_opt) return true;
+    if (!(lhs_opt && rhs_opt)) return false;
+
+    return cowl_equals(lhs_opt, rhs_opt);
+}
+
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
     CowlObjectType type = cowl_get_type(lhs);
     if (type != cowl_get_type(rhs)) return false;
 
-#define GEN_EQUALS(UC, LC) return cowl_##LC##_equals((Cowl##UC *)lhs, (Cowl##UC *)rhs)
-#define GEN_EQUALS_AXIOM(UC, LC)                                                                   \
-    return cowl_##LC##_axiom_equals((Cowl##UC##Axiom *)lhs, (Cowl##UC##Axiom *)rhs)
-
     switch (type) {
-        case COWL_OT_STRING: GEN_EQUALS(String, string);
-        case COWL_OT_VECTOR: GEN_EQUALS(Vector, vector);
-        case COWL_OT_TABLE: GEN_EQUALS(Table, table);
-        case COWL_OT_IRI: GEN_EQUALS(IRI, iri);
-        case COWL_OT_LITERAL: GEN_EQUALS(Literal, literal);
-        case COWL_OT_FACET_RESTR: GEN_EQUALS(FacetRestr, facet_restr);
-        case COWL_OT_ONTOLOGY: GEN_EQUALS(Ontology, ontology);
-        case COWL_OT_ANNOTATION: GEN_EQUALS(Annotation, annotation);
-        case COWL_OT_ANNOT_PROP: GEN_EQUALS(AnnotProp, annot_prop);
-        case COWL_OT_A_DECL: GEN_EQUALS_AXIOM(Decl, decl);
-        case COWL_OT_A_DATATYPE_DEF: GEN_EQUALS_AXIOM(DatatypeDef, datatype_def);
-        case COWL_OT_A_SUB_CLASS: GEN_EQUALS_AXIOM(SubCls, sub_cls);
-        case COWL_OT_A_EQUIV_CLASSES:
-        case COWL_OT_A_DISJ_CLASSES: GEN_EQUALS_AXIOM(NAryCls, nary_cls);
-        case COWL_OT_A_DISJ_UNION: GEN_EQUALS_AXIOM(DisjUnion, disj_union);
-        case COWL_OT_A_CLASS_ASSERT: GEN_EQUALS_AXIOM(ClsAssert, cls_assert);
-        case COWL_OT_A_SAME_IND:
-        case COWL_OT_A_DIFF_IND: GEN_EQUALS_AXIOM(NAryInd, nary_ind);
-        case COWL_OT_A_OBJ_PROP_ASSERT:
-        case COWL_OT_A_NEG_OBJ_PROP_ASSERT: GEN_EQUALS_AXIOM(ObjPropAssert, obj_prop_assert);
-        case COWL_OT_A_DATA_PROP_ASSERT:
-        case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_EQUALS_AXIOM(DataPropAssert, data_prop_assert);
-        case COWL_OT_A_SUB_OBJ_PROP: GEN_EQUALS_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_INV_OBJ_PROP: GEN_EQUALS_AXIOM(InvObjProp, inv_obj_prop);
-        case COWL_OT_A_EQUIV_OBJ_PROP:
-        case COWL_OT_A_DISJ_OBJ_PROP: GEN_EQUALS_AXIOM(NAryObjProp, nary_obj_prop);
-        case COWL_OT_A_FUNC_OBJ_PROP:
-        case COWL_OT_A_INV_FUNC_OBJ_PROP:
-        case COWL_OT_A_SYMM_OBJ_PROP:
-        case COWL_OT_A_ASYMM_OBJ_PROP:
-        case COWL_OT_A_TRANS_OBJ_PROP:
-        case COWL_OT_A_REFL_OBJ_PROP:
-        case COWL_OT_A_IRREFL_OBJ_PROP: GEN_EQUALS_AXIOM(ObjPropChar, obj_prop_char);
-        case COWL_OT_A_OBJ_PROP_DOMAIN: GEN_EQUALS_AXIOM(ObjPropDomain, obj_prop_domain);
-        case COWL_OT_A_OBJ_PROP_RANGE: GEN_EQUALS_AXIOM(ObjPropRange, obj_prop_range);
-        case COWL_OT_A_SUB_DATA_PROP: GEN_EQUALS_AXIOM(SubDataProp, sub_data_prop);
-        case COWL_OT_A_EQUIV_DATA_PROP:
-        case COWL_OT_A_DISJ_DATA_PROP: GEN_EQUALS_AXIOM(NAryDataProp, nary_data_prop);
-        case COWL_OT_A_FUNC_DATA_PROP: GEN_EQUALS_AXIOM(FuncDataProp, func_data_prop);
-        case COWL_OT_A_DATA_PROP_DOMAIN: GEN_EQUALS_AXIOM(DataPropDomain, data_prop_domain);
-        case COWL_OT_A_DATA_PROP_RANGE: GEN_EQUALS_AXIOM(DataPropRange, data_prop_range);
-        case COWL_OT_A_HAS_KEY: GEN_EQUALS_AXIOM(HasKey, has_key);
-        case COWL_OT_A_ANNOT_ASSERT: GEN_EQUALS_AXIOM(AnnotAssert, annot_assert);
-        case COWL_OT_A_SUB_ANNOT_PROP: GEN_EQUALS_AXIOM(SubAnnotProp, sub_annot_prop);
-        case COWL_OT_A_ANNOT_PROP_DOMAIN: GEN_EQUALS_AXIOM(AnnotPropDomain, annot_prop_domain);
-        case COWL_OT_A_ANNOT_PROP_RANGE: GEN_EQUALS_AXIOM(AnnotPropRange, annot_prop_range);
-        case COWL_OT_CE_CLASS: GEN_EQUALS(Class, class);
-        case COWL_OT_CE_OBJ_SOME:
-        case COWL_OT_CE_OBJ_ALL: GEN_EQUALS(ObjQuant, obj_quant);
+        case COWL_OT_STRING: return cowl_string_equals(lhs, rhs);
+        case COWL_OT_VECTOR: return cowl_vector_equals(lhs, rhs);
+        case COWL_OT_TABLE: return cowl_table_equals(lhs, rhs);
+        case COWL_OT_LITERAL: return cowl_literal_equals(lhs, rhs);
+        case COWL_OT_ONTOLOGY: return cowl_ontology_equals(lhs, rhs);
+
+        case COWL_OT_IRI:
+        case COWL_OT_ANNOT_PROP:
+        case COWL_OT_CE_CLASS:
+        case COWL_OT_DPE_DATA_PROP:
+        case COWL_OT_DR_DATATYPE:
+        case COWL_OT_I_NAMED:
+        case COWL_OT_I_ANONYMOUS:
+        case COWL_OT_OPE_OBJ_PROP: return cowl_primitive_equals(lhs, rhs);
+
         case COWL_OT_CE_OBJ_MIN_CARD:
         case COWL_OT_CE_OBJ_MAX_CARD:
-        case COWL_OT_CE_OBJ_EXACT_CARD: GEN_EQUALS(ObjCard, obj_card);
-        case COWL_OT_CE_OBJ_HAS_VALUE: GEN_EQUALS(ObjHasValue, obj_has_value);
-        case COWL_OT_CE_OBJ_HAS_SELF: GEN_EQUALS(ObjHasSelf, obj_has_self);
-        case COWL_OT_CE_DATA_SOME:
-        case COWL_OT_CE_DATA_ALL: GEN_EQUALS(DataQuant, data_quant);
+        case COWL_OT_CE_OBJ_EXACT_CARD:
         case COWL_OT_CE_DATA_MIN_CARD:
         case COWL_OT_CE_DATA_MAX_CARD:
-        case COWL_OT_CE_DATA_EXACT_CARD: GEN_EQUALS(DataCard, data_card);
-        case COWL_OT_CE_DATA_HAS_VALUE: GEN_EQUALS(DataHasValue, data_has_value);
-        case COWL_OT_CE_OBJ_INTERSECT:
-        case COWL_OT_CE_OBJ_UNION: GEN_EQUALS(NAryBool, nary_bool);
-        case COWL_OT_CE_OBJ_COMPL: GEN_EQUALS(ObjCompl, obj_compl);
-        case COWL_OT_CE_OBJ_ONE_OF: GEN_EQUALS(ObjOneOf, obj_one_of);
-        case COWL_OT_DPE_DATA_PROP: GEN_EQUALS(DataProp, data_prop);
-        case COWL_OT_DR_DATATYPE: GEN_EQUALS(Datatype, datatype);
-        case COWL_OT_DR_DATATYPE_RESTR: GEN_EQUALS(DatatypeRestr, datatype_restr);
-        case COWL_OT_DR_DATA_INTERSECT:
-        case COWL_OT_DR_DATA_UNION: GEN_EQUALS(NAryData, nary_data);
-        case COWL_OT_DR_DATA_COMPL: GEN_EQUALS(DataCompl, data_compl);
-        case COWL_OT_DR_DATA_ONE_OF: GEN_EQUALS(DataOneOf, data_one_of);
-        case COWL_OT_I_ANONYMOUS: GEN_EQUALS(AnonInd, anon_ind);
-        case COWL_OT_I_NAMED: GEN_EQUALS(NamedInd, named_ind);
-        case COWL_OT_OPE_OBJ_PROP: GEN_EQUALS(ObjProp, obj_prop);
-        case COWL_OT_OPE_INV_OBJ_PROP: GEN_EQUALS(InvObjProp, inv_obj_prop);
-        default: return lhs == rhs;
+        case COWL_OT_CE_DATA_EXACT_CARD:
+            if (cowl_get_uint_field(lhs) != cowl_get_uint_field(rhs)) return false;
+            // Fallthrough
+        default: return equals_impl(type, lhs, rhs);
     }
 }
 
@@ -288,93 +248,69 @@ bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
     return ustring_starts_with(iri_str, *cowl_string_get_raw(ns));
 }
 
-ulib_uint cowl_hash(CowlAny *object) {
-#define GEN_HASH(UC, LC) return cowl_##LC##_hash((Cowl##UC *)object)
-#define GEN_HASH_AXIOM(UC, LC) return cowl_##LC##_axiom_hash((Cowl##UC##Axiom *)object)
+static inline ulib_uint hash_impl(CowlObjectType type, CowlAny *object) {
+    ulib_byte count = field_count[type];
+    if (!count) return uhash_ptr_hash(object);
 
-    switch (cowl_get_type(object)) {
-        case COWL_OT_STRING: GEN_HASH(String, string);
-        case COWL_OT_VECTOR: GEN_HASH(Vector, vector);
-        case COWL_OT_TABLE: GEN_HASH(Table, table);
-        case COWL_OT_IRI: GEN_HASH(IRI, iri);
-        case COWL_OT_LITERAL: GEN_HASH(Literal, literal);
-        case COWL_OT_FACET_RESTR: GEN_HASH(FacetRestr, facet_restr);
-        case COWL_OT_ONTOLOGY: GEN_HASH(Ontology, ontology);
-        case COWL_OT_ANNOTATION: GEN_HASH(Annotation, annotation);
-        case COWL_OT_ANNOT_PROP: GEN_HASH(AnnotProp, annot_prop);
-        case COWL_OT_A_DECL: GEN_HASH_AXIOM(Decl, decl);
-        case COWL_OT_A_DATATYPE_DEF: GEN_HASH_AXIOM(DatatypeDef, datatype_def);
-        case COWL_OT_A_SUB_CLASS: GEN_HASH_AXIOM(SubCls, sub_cls);
-        case COWL_OT_A_EQUIV_CLASSES:
-        case COWL_OT_A_DISJ_CLASSES: GEN_HASH_AXIOM(NAryCls, nary_cls);
-        case COWL_OT_A_DISJ_UNION: GEN_HASH_AXIOM(DisjUnion, disj_union);
-        case COWL_OT_A_CLASS_ASSERT: GEN_HASH_AXIOM(ClsAssert, cls_assert);
-        case COWL_OT_A_SAME_IND:
-        case COWL_OT_A_DIFF_IND: GEN_HASH_AXIOM(NAryInd, nary_ind);
-        case COWL_OT_A_OBJ_PROP_ASSERT:
-        case COWL_OT_A_NEG_OBJ_PROP_ASSERT: GEN_HASH_AXIOM(ObjPropAssert, obj_prop_assert);
-        case COWL_OT_A_DATA_PROP_ASSERT:
-        case COWL_OT_A_NEG_DATA_PROP_ASSERT: GEN_HASH_AXIOM(DataPropAssert, data_prop_assert);
-        case COWL_OT_A_SUB_OBJ_PROP: GEN_HASH_AXIOM(SubObjProp, sub_obj_prop);
-        case COWL_OT_A_INV_OBJ_PROP: GEN_HASH_AXIOM(InvObjProp, inv_obj_prop);
-        case COWL_OT_A_EQUIV_OBJ_PROP:
-        case COWL_OT_A_DISJ_OBJ_PROP: GEN_HASH_AXIOM(NAryObjProp, nary_obj_prop);
-        case COWL_OT_A_FUNC_OBJ_PROP:
-        case COWL_OT_A_INV_FUNC_OBJ_PROP:
-        case COWL_OT_A_SYMM_OBJ_PROP:
-        case COWL_OT_A_ASYMM_OBJ_PROP:
-        case COWL_OT_A_TRANS_OBJ_PROP:
-        case COWL_OT_A_REFL_OBJ_PROP:
-        case COWL_OT_A_IRREFL_OBJ_PROP: GEN_HASH_AXIOM(ObjPropChar, obj_prop_char);
-        case COWL_OT_A_OBJ_PROP_DOMAIN: GEN_HASH_AXIOM(ObjPropDomain, obj_prop_domain);
-        case COWL_OT_A_OBJ_PROP_RANGE: GEN_HASH_AXIOM(ObjPropRange, obj_prop_range);
-        case COWL_OT_A_SUB_DATA_PROP: GEN_HASH_AXIOM(SubDataProp, sub_data_prop);
-        case COWL_OT_A_EQUIV_DATA_PROP:
-        case COWL_OT_A_DISJ_DATA_PROP: GEN_HASH_AXIOM(NAryDataProp, nary_data_prop);
-        case COWL_OT_A_FUNC_DATA_PROP: GEN_HASH_AXIOM(FuncDataProp, func_data_prop);
-        case COWL_OT_A_DATA_PROP_DOMAIN: GEN_HASH_AXIOM(DataPropDomain, data_prop_domain);
-        case COWL_OT_A_DATA_PROP_RANGE: GEN_HASH_AXIOM(DataPropRange, data_prop_range);
-        case COWL_OT_A_HAS_KEY: GEN_HASH_AXIOM(HasKey, has_key);
-        case COWL_OT_A_ANNOT_ASSERT: GEN_HASH_AXIOM(AnnotAssert, annot_assert);
-        case COWL_OT_A_SUB_ANNOT_PROP: GEN_HASH_AXIOM(SubAnnotProp, sub_annot_prop);
-        case COWL_OT_A_ANNOT_PROP_DOMAIN: GEN_HASH_AXIOM(AnnotPropDomain, annot_prop_domain);
-        case COWL_OT_A_ANNOT_PROP_RANGE: GEN_HASH_AXIOM(AnnotPropRange, annot_prop_range);
-        case COWL_OT_CE_CLASS: GEN_HASH(Class, class);
-        case COWL_OT_CE_OBJ_SOME:
-        case COWL_OT_CE_OBJ_ALL: GEN_HASH(ObjQuant, obj_quant);
+    ulib_uint hash = uhash_combine_hash(6151U, type);
+
+    for (ulib_byte i = 0; i < count; ++i) {
+        ulib_uint lhash = cowl_hash(cowl_get_field(object, i));
+        hash = uhash_combine_hash(hash, lhash);
+    }
+
+    return hash;
+}
+
+static inline ulib_uint hash_impl_uint(CowlObjectType type, CowlAny *object) {
+    ulib_uint hash = hash_impl(type, object);
+    return uhash_combine_hash(hash, cowl_get_uint_field(object));
+}
+
+ulib_uint cowl_hash(CowlAny *object) {
+    CowlObjectType type = cowl_get_type(object);
+    switch (type) {
+        case COWL_OT_STRING: return cowl_string_hash(object);
+        case COWL_OT_VECTOR: return cowl_vector_hash(object);
+        case COWL_OT_TABLE: return cowl_table_hash(object);
+        case COWL_OT_LITERAL: return cowl_literal_hash(object);
+        case COWL_OT_ONTOLOGY: return cowl_ontology_hash(object);
+
+        case COWL_OT_IRI:
+        case COWL_OT_ANNOT_PROP:
+        case COWL_OT_CE_CLASS:
+        case COWL_OT_DPE_DATA_PROP:
+        case COWL_OT_DR_DATATYPE:
+        case COWL_OT_I_NAMED:
+        case COWL_OT_I_ANONYMOUS:
+        case COWL_OT_OPE_OBJ_PROP: return cowl_primitive_hash(object);
+
         case COWL_OT_CE_OBJ_MIN_CARD:
         case COWL_OT_CE_OBJ_MAX_CARD:
-        case COWL_OT_CE_OBJ_EXACT_CARD: GEN_HASH(ObjCard, obj_card);
-        case COWL_OT_CE_OBJ_HAS_VALUE: GEN_HASH(ObjHasValue, obj_has_value);
-        case COWL_OT_CE_OBJ_HAS_SELF: GEN_HASH(ObjHasSelf, obj_has_self);
-        case COWL_OT_CE_DATA_SOME:
-        case COWL_OT_CE_DATA_ALL: GEN_HASH(DataQuant, data_quant);
+        case COWL_OT_CE_OBJ_EXACT_CARD:
         case COWL_OT_CE_DATA_MIN_CARD:
         case COWL_OT_CE_DATA_MAX_CARD:
-        case COWL_OT_CE_DATA_EXACT_CARD: GEN_HASH(DataCard, data_card);
-        case COWL_OT_CE_DATA_HAS_VALUE: GEN_HASH(DataHasValue, data_has_value);
-        case COWL_OT_CE_OBJ_INTERSECT:
-        case COWL_OT_CE_OBJ_UNION: GEN_HASH(NAryBool, nary_bool);
-        case COWL_OT_CE_OBJ_COMPL: GEN_HASH(ObjCompl, obj_compl);
-        case COWL_OT_CE_OBJ_ONE_OF: GEN_HASH(ObjOneOf, obj_one_of);
-        case COWL_OT_DPE_DATA_PROP: GEN_HASH(DataProp, data_prop);
-        case COWL_OT_DR_DATATYPE: GEN_HASH(Datatype, datatype);
-        case COWL_OT_DR_DATATYPE_RESTR: GEN_HASH(DatatypeRestr, datatype_restr);
-        case COWL_OT_DR_DATA_INTERSECT:
-        case COWL_OT_DR_DATA_UNION: GEN_HASH(NAryData, nary_data);
-        case COWL_OT_DR_DATA_COMPL: GEN_HASH(DataCompl, data_compl);
-        case COWL_OT_DR_DATA_ONE_OF: GEN_HASH(DataOneOf, data_one_of);
-        case COWL_OT_I_ANONYMOUS: GEN_HASH(AnonInd, anon_ind);
-        case COWL_OT_I_NAMED: GEN_HASH(NamedInd, named_ind);
-        case COWL_OT_OPE_OBJ_PROP: GEN_HASH(ObjProp, obj_prop);
-        case COWL_OT_OPE_INV_OBJ_PROP: GEN_HASH(InvObjProp, inv_obj_prop);
-        default: return uhash_ptr_hash(object);
+        case COWL_OT_CE_DATA_EXACT_CARD: return hash_impl_uint(type, object);
+        default: return hash_impl(type, object);
     }
 }
 
 static inline bool
 iterate_pf(CowlPrimitiveFlags type, CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
     return ubit_is_set(COWL_PF, flags, type) ? cowl_iterate(iter, object) : true;
+}
+
+static inline bool
+iterate_impl(CowlObjectType type, CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
+    ulib_byte count = field_count[type];
+    if (!count) return true;
+
+    for (ulib_byte i = 0; i < count; ++i) {
+        if (!cowl_iterate_primitives(cowl_get_field(object, i), flags, iter)) return false;
+    }
+
+    CowlAny *opt = cowl_get_opt_field(object);
+    return opt ? cowl_iterate_primitives(opt, flags, iter) : true;
 }
 
 bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
@@ -392,17 +328,7 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
         case COWL_OT_I_ANONYMOUS: return iterate_pf(COWL_PF_ANON_IND, object, flags, iter);
         case COWL_OT_OPE_OBJ_PROP: return iterate_pf(COWL_PF_OBJ_PROP, object, flags, iter);
         case COWL_OT_ONTOLOGY: return cowl_ontology_iterate_primitives(object, flags, iter, false);
-        default: {
-            ulib_byte count = field_count[type];
-            if (!count) return true;
-
-            for (ulib_byte i = 0; i < count; ++i) {
-                if (!cowl_iterate_primitives(cowl_get_field(object, i), flags, iter)) return false;
-            }
-
-            CowlAny *opt = cowl_get_opt_field(object);
-            return opt ? cowl_iterate_primitives(opt, flags, iter) : true;
-        }
+        default: return iterate_impl(type, object, flags, iter);
     }
 }
 
@@ -450,48 +376,6 @@ void cowl_release_all_impl(CowlAny **objects) {
     while (*objects) {
         cowl_release(*(objects++));
     }
-}
-
-bool cowl_equals_impl(CowlAny *lhs, CowlAny *rhs) {
-    if (lhs == rhs) return true;
-
-    CowlObjectType type = cowl_get_type(lhs);
-    if (type != cowl_get_type(rhs)) return false;
-
-    ulib_byte count = field_count[cowl_get_type(lhs)];
-    for (ulib_byte i = 0; i < count; ++i) {
-        if (!cowl_equals(cowl_get_field(lhs, i), cowl_get_field(rhs, i))) return false;
-    }
-
-    CowlAny *lhs_opt = cowl_get_opt_field(lhs), *rhs_opt = cowl_get_opt_field(rhs);
-    if (lhs_opt == rhs_opt) return true;
-    if (!(lhs_opt && rhs_opt)) return false;
-
-    return cowl_equals(lhs_opt, rhs_opt);
-}
-
-bool cowl_uint_equals_impl(CowlAny *lhs, CowlAny *rhs) {
-    if (!cowl_equals_impl(lhs, rhs)) return false;
-    return cowl_get_uint_field(lhs) == cowl_get_uint_field(rhs);
-}
-
-ulib_uint cowl_hash_impl(CowlAny *object) {
-    CowlObjectType type = cowl_get_type(object);
-    ulib_byte count = field_count[type];
-
-    ulib_uint hash = uhash_combine_hash(6151U, type);
-
-    for (ulib_byte i = 0; i < count; ++i) {
-        ulib_uint lhash = cowl_hash(cowl_get_field(object, i));
-        hash = uhash_combine_hash(hash, lhash);
-    }
-
-    return hash;
-}
-
-ulib_uint cowl_uint_hash_impl(CowlAny *object) {
-    ulib_uint hash = cowl_hash_impl(object);
-    return uhash_combine_hash(hash, cowl_get_uint_field(object));
 }
 
 ulib_uint cowl_get_field_count(CowlAny *object) {

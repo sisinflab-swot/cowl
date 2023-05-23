@@ -23,7 +23,7 @@ uvec_decl(CowlError);
 
 #define cowl_assert_equal(T, LHS, RHS)                                                             \
     utest_assert_wrap(                                                                             \
-        cowl_##T##_equals(LHS, RHS),                                                               \
+        cowl_equals(LHS, RHS),                                                                     \
         {                                                                                          \
             CowlString *T##_lhs_str = cowl_to_string(LHS);                                         \
             CowlString *T##_rhs_str = cowl_to_string(RHS);                                         \
@@ -36,7 +36,7 @@ uvec_decl(CowlError);
 
 #define cowl_assert_not_equal(T, LHS, RHS)                                                         \
     utest_assert_wrap(                                                                             \
-        !cowl_##T##_equals(LHS, RHS),                                                              \
+        !cowl_equals(LHS, RHS),                                                                    \
         {                                                                                          \
             CowlString *T##_rhs_str = cowl_to_string(RHS);                                         \
             printf(" must not be equal to \"%s\".", cowl_string_get_cstring(T##_rhs_str));         \

@@ -35,6 +35,8 @@ struct CowlOntology {
 CowlOntology *cowl_ontology(CowlManager *manager);
 void cowl_ontology_free(CowlOntology *ontology);
 cowl_ret cowl_ontology_finalize(CowlOntology *onto);
+bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs);
+ulib_uint cowl_ontology_hash(CowlOntology *onto);
 
 COWL_END_DECLS
 

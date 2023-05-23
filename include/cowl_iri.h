@@ -101,33 +101,6 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
     return cowl_string_get_length(cowl_iri_get_rem(iri)) > 0;
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlIRI
- */
-COWL_INLINE
-bool cowl_iri_equals(CowlIRI *lhs, CowlIRI *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param iri The IRI.
- * @return The hash value.
- *
- * @public @memberof CowlIRI
- */
-COWL_INLINE
-ulib_uint cowl_iri_hash(CowlIRI *iri) {
-    return uhash_ptr_hash(iri);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_IRI_H

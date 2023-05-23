@@ -85,33 +85,6 @@ CowlObjPropExp *cowl_obj_quant_get_prop(CowlObjQuant *restr) {
 COWL_PUBLIC
 CowlClsExp *cowl_obj_quant_get_filler(CowlObjQuant *restr);
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjQuant
- */
-COWL_INLINE
-bool cowl_obj_quant_equals(CowlObjQuant *lhs, CowlObjQuant *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param restr The object quantifier.
- * @return The hash value.
- *
- * @public @memberof CowlObjQuant
- */
-COWL_INLINE
-ulib_uint cowl_obj_quant_hash(CowlObjQuant *restr) {
-    return cowl_hash_impl(restr);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_QUANT_H

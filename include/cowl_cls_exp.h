@@ -44,33 +44,6 @@ CowlClsExpType cowl_cls_exp_get_type(CowlAnyClsExp *exp) {
     return (CowlClsExpType)(cowl_get_type(exp) - COWL_OT_CE_CLASS);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlClsExp
- */
-COWL_INLINE
-bool cowl_cls_exp_equals(CowlAnyClsExp *lhs, CowlAnyClsExp *rhs) {
-    return cowl_equals(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param exp The class expression.
- * @return The hash value.
- *
- * @public @memberof CowlClsExp
- */
-COWL_INLINE
-ulib_uint cowl_cls_exp_hash(CowlAnyClsExp *exp) {
-    return cowl_hash(exp);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_CLS_EXP_H

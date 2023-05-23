@@ -17,6 +17,7 @@
 #include "cowl_literal.h"
 #include "cowl_obj_quant.h"
 #include "cowl_ontology.h"
+#include "cowl_primitive_private.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sym_table.h"
@@ -166,11 +167,11 @@ static ustream_ret cowl_func_write_literal(UOStream *s, CowlLiteral *literal, Co
     cowl_write_static(s, "\"");
 
     CowlDatatype *dt = cowl_literal_get_datatype(literal);
-    if (cowl_datatype_equals(dt, cowl_rdf_vocab()->dt.lang_string)) {
+    if (cowl_primitive_equals(dt, cowl_rdf_vocab()->dt.lang_string)) {
         CowlString *lang = cowl_literal_get_lang(literal);
         cowl_write_static(s, "@");
         cowl_write_string(s, lang);
-    } else if (!cowl_datatype_equals(dt, cowl_xsd_vocab()->dt.string)) {
+    } else if (!cowl_primitive_equals(dt, cowl_xsd_vocab()->dt.string)) {
         cowl_write_static(s, "^^");
         cowl_func_write_iri(s, cowl_datatype_get_iri(dt), st);
     }

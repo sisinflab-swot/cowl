@@ -105,29 +105,6 @@ CowlString *cowl_literal_get_value(CowlLiteral *literal);
 COWL_PUBLIC
 CowlString *cowl_literal_get_lang(CowlLiteral *literal);
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlLiteral
- */
-COWL_PUBLIC
-bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs);
-
-/**
- * Hash function.
- *
- * @param literal The literal.
- * @return The hash value.
- *
- * @public @memberof CowlLiteral
- */
-COWL_PUBLIC
-ulib_uint cowl_literal_hash(CowlLiteral *literal);
-
 COWL_END_DECLS
 
 #endif // COWL_LITERAL_H

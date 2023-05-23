@@ -16,6 +16,8 @@
 COWL_BEGIN_DECLS
 
 void cowl_literal_free(CowlLiteral *literal);
+bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs);
+ulib_uint cowl_literal_hash(CowlLiteral *literal);
 bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,
                                      CowlIterator *iter);
 

@@ -72,33 +72,6 @@ CowlLiteral *cowl_facet_restr_get_value(CowlFacetRestr *restr) {
     return (CowlLiteral *)cowl_get_field(restr, 1);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlFacetRestr
- */
-COWL_INLINE
-bool cowl_facet_restr_equals(CowlFacetRestr *lhs, CowlFacetRestr *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param restr The facet restriction.
- * @return The hash value.
- *
- * @public @memberof CowlFacetRestr
- */
-COWL_INLINE
-ulib_uint cowl_facet_restr_hash(CowlFacetRestr *restr) {
-    return cowl_hash_impl(restr);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_FACET_RESTR_H

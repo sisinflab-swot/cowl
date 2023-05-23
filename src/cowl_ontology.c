@@ -311,7 +311,7 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
         CowlSubClsAxiom *sub_axiom = *axiom.item;
 
-        if (cowl_cls_exp_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_super(sub_axiom))) {
+        if (cowl_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_super(sub_axiom))) {
             if (!cowl_iterate(iter, cowl_sub_cls_axiom_get_sub(sub_axiom))) return false;
         }
     }
@@ -333,7 +333,7 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
         if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
         CowlSubClsAxiom *sub_axiom = *axiom.item;
 
-        if (cowl_cls_exp_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_sub(sub_axiom))) {
+        if (cowl_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_sub(sub_axiom))) {
             if (!cowl_iterate(iter, cowl_sub_cls_axiom_get_super(sub_axiom))) return false;
         }
     }

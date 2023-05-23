@@ -57,33 +57,6 @@ CowlObjPropExp *cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
     return (CowlObjPropExp *)cowl_get_field(exp, 0);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjHasSelf
- */
-COWL_INLINE
-bool cowl_obj_has_self_equals(CowlObjHasSelf *lhs, CowlObjHasSelf *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param exp The restriction.
- * @return The hash value.
- *
- * @public @memberof CowlObjHasSelf
- */
-COWL_INLINE
-ulib_uint cowl_obj_has_self_hash(CowlObjHasSelf *exp) {
-    return cowl_hash_impl(exp);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_HAS_SELF_H

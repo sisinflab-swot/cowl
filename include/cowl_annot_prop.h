@@ -79,33 +79,6 @@ CowlIRI *cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
     return cowl_entity_get_iri((CowlEntity *)prop);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlAnnotProp
- */
-COWL_INLINE
-bool cowl_annot_prop_equals(CowlAnnotProp *lhs, CowlAnnotProp *rhs) {
-    return lhs == rhs;
-}
-
-/**
- * Hash function.
- *
- * @param prop The annotation property.
- * @return The hash value.
- *
- * @public @memberof CowlAnnotProp
- */
-COWL_INLINE
-ulib_uint cowl_annot_prop_hash(CowlAnnotProp *prop) {
-    return uhash_ptr_hash(prop);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_ANNOT_PROP_H

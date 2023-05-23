@@ -72,33 +72,6 @@ CowlIndividual *cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
     return (CowlIndividual *)cowl_get_field(exp, 1);
 }
 
-/**
- * Equality function.
- *
- * @param lhs LHS of the equality relation.
- * @param rhs RHS of the equality relation.
- * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObjHasValue
- */
-COWL_INLINE
-bool cowl_obj_has_value_equals(CowlObjHasValue *lhs, CowlObjHasValue *rhs) {
-    return cowl_equals_impl(lhs, rhs);
-}
-
-/**
- * Hash function.
- *
- * @param exp The restriction.
- * @return The hash value.
- *
- * @public @memberof CowlObjHasValue
- */
-COWL_INLINE
-ulib_uint cowl_obj_has_value_hash(CowlObjHasValue *exp) {
-    return cowl_hash_impl(exp);
-}
-
 COWL_END_DECLS
 
 #endif // COWL_OBJ_HAS_VALUE_H

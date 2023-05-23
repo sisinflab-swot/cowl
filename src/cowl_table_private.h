@@ -26,6 +26,8 @@ UHash(CowlObjectTable) cowl_string_map(void);
 
 void cowl_table_free(CowlTable *table);
 void cowl_table_release_ex(CowlTable *table, bool release_elements);
+bool cowl_table_equals(CowlTable *lhs, CowlTable *rhs);
+ulib_uint cowl_table_hash(CowlTable *table);
 bool cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
