@@ -200,6 +200,19 @@ bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive
     return false;
 }
 
+bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool imports) {
+    CowlVector *vec = onto->axioms_by_type[cowl_axiom_get_type(axiom)];
+    if (vec && cowl_vector_contains(vec, axiom)) return true;
+
+    if (imports) {
+        cowl_ontology_foreach_import(onto, import, {
+            if (cowl_ontology_has_axiom(import, axiom, true)) return true;
+        });
+    }
+
+    return false;
+}
+
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
                                       CowlIterator *iter, bool imports) {
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {

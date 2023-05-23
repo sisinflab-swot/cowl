@@ -69,7 +69,7 @@ UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec);
  * @param vec The vector.
  * @return Number of elements in the vector.
  *
- * @public @related CowlVector
+ * @public @memberof CowlVector
  */
 COWL_INLINE
 ulib_uint cowl_vector_count(CowlVector *vec) {
@@ -83,11 +83,25 @@ ulib_uint cowl_vector_count(CowlVector *vec) {
  * @param idx The index.
  * @return The element at the specified index.
  *
- * @public @related CowlVector
+ * @public @memberof CowlVector
  */
 COWL_INLINE
 CowlAny *cowl_vector_get_item(CowlVector *vec, ulib_uint idx) {
     return uvec_get(CowlObjectPtr, cowl_vector_get_data(vec), idx);
+}
+
+/**
+ * Checks whether the vector contains the specified element.
+ *
+ * @param vec The vector.
+ * @param object The object.
+ * @return True if the vector contains the specified element, false otherwise.
+ *
+ * @public @memberof CowlVector
+ */
+COWL_INLINE
+bool cowl_vector_contains(CowlVector *vec, CowlAny *object) {
+    return uvec_contains(CowlObjectPtr, cowl_vector_get_data(vec), object);
 }
 
 /**

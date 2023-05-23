@@ -11,15 +11,19 @@
 #include "cowl_ontology_tests.h"
 #include "cowl_annot_prop.h"
 #include "cowl_class.h"
+#include "cowl_data_one_of.h"
 #include "cowl_data_prop.h"
 #include "cowl_datatype.h"
+#include "cowl_datatype_def_axiom.h"
 #include "cowl_iri.h"
+#include "cowl_literal.h"
 #include "cowl_manager.h"
 #include "cowl_named_ind.h"
 #include "cowl_obj_prop.h"
 #include "cowl_ontology.h"
 #include "cowl_string.h"
 #include "cowl_test_utils.h"
+#include "cowl_vector.h"
 
 #define test_onto_iri "http://visualdataweb.de/ontobench/ontology/1/"
 #define test_class "Class1"
@@ -208,5 +212,38 @@ bool cowl_test_ontology_has_primitive(void) {
     cowl_test_has_primitive(data_prop);
     cowl_test_has_primitive(annot_prop);
     cowl_test_has_primitive(iri);
+    return true;
+}
+
+static CowlDatatypeDefAxiom *generate_datatype_def(char const *v1, char const *v2, char const *v3) {
+    CowlDatatype *dt = cowl_datatype_from_static(test_onto_iri "DataOneOf");
+    CowlLiteral *l1 = cowl_literal_from_string(ustring_null, ustring_wrap_buf(v1), ustring_null);
+    CowlLiteral *l2 = cowl_literal_from_string(ustring_null, ustring_wrap_buf(v2), ustring_null);
+    CowlLiteral *l3 = cowl_literal_from_string(ustring_null, ustring_wrap_buf(v3), ustring_null);
+    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
+    uvec_push(CowlObjectPtr, &vec, l1);
+    uvec_push(CowlObjectPtr, &vec, l2);
+    uvec_push(CowlObjectPtr, &vec, l3);
+    CowlVector *values = cowl_vector(&vec);
+    CowlDataOneOf *one_of = cowl_data_one_of(values);
+    CowlDatatypeDefAxiom *axiom = cowl_datatype_def_axiom(dt, one_of, NULL);
+    cowl_release_all(dt, l1, l2, l3, values, one_of);
+    return axiom;
+}
+
+bool cowl_test_ontology_has_axiom(void) {
+    CowlDatatypeDefAxiom *axiom = NULL;
+    // DatatypeDefinition(:DataOneOf DataOneOf("DataOneOf_Literal1"^^xsd:string
+    // "DataOneOf_Literal2"^^xsd:string "DataOneOf_Literal3"^^xsd:string))
+    axiom = generate_datatype_def("DataOneOf_Literal3", "DataOneOf_Literal2", "DataOneOf_Literal1");
+    utest_assert(cowl_ontology_has_axiom(onto, axiom, false));
+    cowl_release(axiom);
+
+    // DatatypeDefinition(:DataOneOf DataOneOf("DataOneOf_Literal1"^^xsd:string
+    // "DataOneOf_Literal2"^^xsd:string "DataOneOf_Literal4"^^xsd:string))
+    axiom = generate_datatype_def("DataOneOf_Literal4", "DataOneOf_Literal2", "DataOneOf_Literal1");
+    utest_assert_false(cowl_ontology_has_axiom(onto, axiom, false));
+    cowl_release(axiom);
+
     return true;
 }

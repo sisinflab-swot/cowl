@@ -277,6 +277,19 @@ COWL_PUBLIC
 bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive, bool imports);
 
 /**
+ * Checks whether the ontology contains the specified axiom.
+ *
+ * @param onto The ontology.
+ * @param axiom The axiom.
+ * @param imports If true, the query recurses over imported ontologies.
+ * @return True if the ontology contains the axiom, false otherwise.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool imports);
+
+/**
  * Iterates over the primitives referenced by the specified ontology.
  *
  * @param onto The ontology.
