@@ -11,25 +11,18 @@
 #include "cowl_func_yylexer.h"
 #include "cowl_reader.h"
 
-static void *cowl_func_reader_alloc(void) {
+static cowl_ret cowl_func_reader_read(UIStream *istream, CowlStream *stream) {
     void *scanner;
-    return cowl_func_yylex_init(&scanner) == 0 ? scanner : NULL;
-}
-
-static void cowl_func_reader_free(void *scanner) {
-    cowl_func_yylex_destroy(scanner);
-}
-
-static cowl_ret cowl_func_reader_read(void *scanner, UIStream *istream, CowlStream *stream) {
+    if (cowl_func_yylex_init(&scanner) != 0) return COWL_ERR_MEM;
     cowl_func_yyset_in(NULL, scanner);
     cowl_func_yyset_extra(istream, scanner);
-    return cowl_func_yyparse(scanner, stream) == 0 ? COWL_OK : COWL_ERR;
+    cowl_ret ret = cowl_func_yyparse(scanner, stream) == 0 ? COWL_OK : COWL_ERR;
+    cowl_func_yylex_destroy(scanner);
+    return ret;
 }
 
 static CowlReader const cowl_func_reader = {
     .name = "functional",
-    .alloc = cowl_func_reader_alloc,
-    .free = cowl_func_reader_free,
     .read = cowl_func_reader_read,
 };
 

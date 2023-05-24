@@ -31,26 +31,6 @@ typedef struct CowlWriter {
     char const *name;
 
     /**
-     * Pointer to a function that allocates the writer's state
-     * and reserves any needed resource.
-     *
-     * @return Writer state.
-     *
-     * @note This member is optional.
-     */
-    void *(*alloc)(void);
-
-    /**
-     * Pointer to a function that deallocates the writer's state
-     * and releases reserved resources.
-     *
-     * @param state Writer state.
-     *
-     * @note This member is optional.
-     */
-    void (*free)(void *state);
-
-    /**
      * Pointer to a function that writes an ontology to an output stream.
      *
      * @param state Writer state.
@@ -60,7 +40,7 @@ typedef struct CowlWriter {
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*write_ontology)(void *state, UOStream *stream, CowlOntology *ontology);
+    cowl_ret (*write_ontology)(UOStream *stream, CowlOntology *ontology);
 
     /**
      * Pointer to a function that writes an object to an output stream.
@@ -70,8 +50,6 @@ typedef struct CowlWriter {
      * @return Return code.
      *
      * @note This member is optional.
-     * @note As denoted by the lack of the state parameter, the writer must be stateless
-     *       in order to implement this function.
      */
     cowl_ret (*write)(UOStream *stream, CowlAny *object);
 

@@ -28,24 +28,6 @@ typedef struct CowlReader {
     char const *name;
 
     /**
-     * Pointer to a function that allocates the reader's state and reserves any needed resource.
-     *
-     * @return Reader state.
-     *
-     * @note This member is optional.
-     */
-    void *(*alloc)(void);
-
-    /**
-     * Pointer to a function that deallocates the reader's state and releases reserved resources.
-     *
-     * @param state Reader state.
-     *
-     * @note This member is optional.
-     */
-    void (*free)(void *state);
-
-    /**
      * Pointer to a function that reads an ontology from an input stream.
      *
      * @param state Reader state.
@@ -55,7 +37,7 @@ typedef struct CowlReader {
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*read)(void *state, UIStream *istream, CowlStream *stream);
+    cowl_ret (*read)(UIStream *istream, CowlStream *stream);
 
 } CowlReader;
 

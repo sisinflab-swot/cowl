@@ -51,15 +51,7 @@ static cowl_ret stream_stream(CowlManager *manager, CowlStream *stream, UIStream
         return ret;
     }
 
-    CowlReader reader = cowl_manager_get_reader(manager);
-    void *state = NULL;
-    cowl_ret ret = COWL_ERR_MEM;
-
-    if (reader.alloc && !(state = reader.alloc())) goto end;
-    ret = reader.read(state, istream, stream);
-
-end:
-    if (reader.free) reader.free(state);
+    cowl_ret ret = cowl_manager_get_reader(manager).read(istream, stream);
     if (ret) cowl_handle_error_code(ret, manager);
     cowl_release(stream);
     return ret;
@@ -265,15 +257,7 @@ cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology,
 }
 
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream) {
-    cowl_ret ret = COWL_ERR_MEM;
-    CowlWriter writer = cowl_manager_get_writer(manager);
-    void *state = NULL;
-
-    if (writer.alloc && !(state = writer.alloc())) goto end;
-    ret = writer.write_ontology(state, stream, ontology);
-
-end:
-    if (writer.free) writer.free(state);
+    cowl_ret ret = cowl_manager_get_writer(manager).write_ontology(stream, ontology);
     if (ret) cowl_handle_error_code(ret, manager);
     return ret;
 }

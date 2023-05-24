@@ -32,8 +32,7 @@ static cowl_ret cowl_func_write(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_func_write_obj(stream, object, NULL));
 }
 
-static cowl_ret
-cowl_func_write_ontology(cowl_unused void *state, UOStream *stream, CowlOntology *onto) {
+static cowl_ret cowl_func_write_ontology(UOStream *stream, CowlOntology *onto) {
     return cowl_ret_from_ustream(cowl_func_write_onto(stream, onto));
 }
 
