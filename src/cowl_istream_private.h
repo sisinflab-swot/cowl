@@ -8,12 +8,12 @@
  * @file
  */
 
-#ifndef COWL_STREAM_PRIVATE_H
-#define COWL_STREAM_PRIVATE_H
+#ifndef COWL_ISTREAM_PRIVATE_H
+#define COWL_ISTREAM_PRIVATE_H
 
+#include "cowl_istream.h"
+#include "cowl_istream_config.h"
 #include "cowl_object_private.h"
-#include "cowl_stream.h"
-#include "cowl_stream_config.h"
 
 COWL_BEGIN_DECLS
 
@@ -21,17 +21,17 @@ cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlSymTable);
 
-struct CowlStream {
+struct CowlIStream {
     CowlObject super;
-    CowlStreamConfig config;
+    CowlIStreamConfig config;
     CowlSymTable *st;
     CowlManager *manager;
 };
 
-CowlStream *cowl_stream(CowlManager *manager, CowlStreamConfig config);
-CowlStream *cowl_stream_to_ontology(CowlOntology *onto);
-void cowl_stream_free(CowlStream *stream);
+CowlIStream *cowl_istream(CowlManager *manager, CowlIStreamConfig config);
+CowlIStream *cowl_istream_to_ontology(CowlOntology *onto);
+void cowl_istream_free(CowlIStream *stream);
 
 COWL_END_DECLS
 
-#endif // COWL_STREAM_PRIVATE_H
+#endif // COWL_ISTREAM_PRIVATE_H

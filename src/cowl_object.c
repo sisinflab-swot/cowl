@@ -105,7 +105,8 @@ void cowl_release(CowlAny *object) {
         case COWL_OT_IRI: cowl_iri_free(object); return;
         case COWL_OT_LITERAL: cowl_literal_free(object); return;
         case COWL_OT_ONTOLOGY: cowl_ontology_free(object); return;
-        case COWL_OT_STREAM: cowl_stream_free(object); return;
+        case COWL_OT_ISTREAM: cowl_istream_free(object); return;
+        case COWL_OT_OSTREAM: cowl_ostream_free(object); return;
         case COWL_OT_MANAGER: cowl_manager_free(object); return;
         case COWL_OT_I_ANONYMOUS: cowl_anon_ind_free(object); return;
         case COWL_OT_ANNOT_PROP:

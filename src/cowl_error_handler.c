@@ -11,18 +11,20 @@
 #include "cowl_error_handler.h"
 #include "cowl_config_private.h"
 #include "cowl_iri.h"
+#include "cowl_istream.h"
 #include "cowl_manager_private.h"
 #include "cowl_ontology.h"
-#include "cowl_stream.h"
+#include "cowl_ostream.h"
 #include "cowl_string_private.h"
 
-static CowlErrorHandler cowl_best_error_handler(CowlObject *origin) {
+static CowlErrorHandler cowl_best_error_handler(CowlAny *origin) {
     CowlManager *manager = NULL;
 
     switch (cowl_get_type(origin)) {
-        case COWL_OT_ONTOLOGY: manager = cowl_ontology_get_manager((CowlOntology *)origin); break;
-        case COWL_OT_STREAM: manager = cowl_stream_get_manager((CowlStream *)origin); break;
-        case COWL_OT_MANAGER: manager = (CowlManager *)origin; break;
+        case COWL_OT_ONTOLOGY: manager = cowl_ontology_get_manager(origin); break;
+        case COWL_OT_ISTREAM: manager = cowl_istream_get_manager(origin); break;
+        case COWL_OT_OSTREAM: manager = cowl_ostream_get_manager(origin); break;
+        case COWL_OT_MANAGER: manager = origin; break;
         default: break;
     }
 

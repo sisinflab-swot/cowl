@@ -64,7 +64,7 @@ bool cowl_test_manager_read_ontology(void) {
     cowl_manager_set_import_loader(manager, loader);
 
     ulib_uint count = 0;
-    CowlStreamConfig cfg = { &count };
+    CowlIStreamConfig cfg = { &count };
     cfg.handle_axiom = count_axiom;
     cfg.handle_import = count_import;
     cfg.handle_annot = count_annot;
@@ -119,12 +119,22 @@ static bool cowl_test_manager_write_ontology_path(UString path) {
     // Check that the written ontology is syntactically equal to the test ontology.
     cowl_assert_equal(ontology, onto_in, onto_out);
 
+    UVec(CowlObjectPtr) imports_in = uvec(CowlObjectPtr);
+    CowlIterator iter = cowl_iterator_vec(&imports_in);
+    cowl_ontology_iterate_import_iris(onto_in, &iter, false);
+    UVec(CowlObjectPtr) imports_out = uvec(CowlObjectPtr);
+    iter = cowl_iterator_vec(&imports_out);
+    cowl_ontology_iterate_import_iris(onto_out, &iter, false);
+    utest_assert(uvec_equals(CowlObjectPtr, &imports_in, &imports_out));
+    uvec_deinit(CowlObjectPtr, &imports_in);
+    uvec_deinit(CowlObjectPtr, &imports_out);
+
     CowlVector *annot_in = cowl_ontology_get_annot(onto_in);
     CowlVector *annot_out = cowl_ontology_get_annot(onto_out);
     cowl_assert_equal(vector, annot_in, annot_out);
 
     UHash(CowlObjectTable) axioms_in = uhset(CowlObjectTable);
-    CowlIterator iter = cowl_iterator_set(&axioms_in);
+    iter = cowl_iterator_set(&axioms_in);
     cowl_ontology_iterate_axioms(onto_in, &iter, false);
 
     UHash(CowlObjectTable) axioms_out = uhset(CowlObjectTable);

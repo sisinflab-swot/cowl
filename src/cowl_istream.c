@@ -8,11 +8,12 @@
  * @file
  */
 
+#include "cowl_istream_private.h"
 #include "cowl_manager.h"
 #include "cowl_ontology_private.h"
-#include "cowl_stream_private.h"
 
-static CowlStream *cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, CowlStreamConfig cfg) {
+static CowlIStream *
+cowl_istream_alloc(CowlManager *manager, CowlSymTable *st, CowlIStreamConfig cfg) {
     bool free_st = false;
 
     if (!st) {
@@ -21,11 +22,11 @@ static CowlStream *cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, Cow
         free_st = true;
     }
 
-    CowlStream *stream = ulib_alloc(stream);
+    CowlIStream *stream = ulib_alloc(stream);
     if (!stream) return NULL;
 
-    *stream = (CowlStream){
-        .super = COWL_OBJECT_BIT_INIT(COWL_OT_STREAM, free_st),
+    *stream = (CowlIStream){
+        .super = COWL_OBJECT_BIT_INIT(COWL_OT_ISTREAM, free_st),
         .manager = cowl_retain(manager),
         .st = st,
         .config = cfg,
@@ -34,7 +35,7 @@ static CowlStream *cowl_stream_alloc(CowlManager *manager, CowlSymTable *st, Cow
     return stream;
 }
 
-void cowl_stream_free(CowlStream *stream) {
+void cowl_istream_free(CowlIStream *stream) {
     if (cowl_object_bit_get(stream)) {
         cowl_sym_table_deinit(stream->st);
         ulib_free(stream->st);
@@ -43,8 +44,8 @@ void cowl_stream_free(CowlStream *stream) {
     ulib_free(stream);
 }
 
-CowlStream *cowl_stream(CowlManager *manager, CowlStreamConfig config) {
-    return cowl_stream_alloc(manager, NULL, config);
+CowlIStream *cowl_istream(CowlManager *manager, CowlIStreamConfig config) {
+    return cowl_istream_alloc(manager, NULL, config);
 }
 
 static cowl_ret store_iri(void *ctx, CowlIRI *iri) {
@@ -69,8 +70,8 @@ static cowl_ret store_axiom(void *ctx, CowlAnyAxiom *axiom) {
     return cowl_ontology_add_axiom(ctx, axiom);
 }
 
-CowlStream *cowl_stream_to_ontology(CowlOntology *onto) {
-    CowlStreamConfig cfg = {
+CowlIStream *cowl_istream_to_ontology(CowlOntology *onto) {
+    CowlIStreamConfig cfg = {
         .ctx = onto,
         .handle_iri = store_iri,
         .handle_version = store_version,
@@ -78,38 +79,38 @@ CowlStream *cowl_stream_to_ontology(CowlOntology *onto) {
         .handle_annot = store_annot,
         .handle_axiom = store_axiom,
     };
-    return cowl_stream_alloc(onto->manager, &onto->st, cfg);
+    return cowl_istream_alloc(onto->manager, &onto->st, cfg);
 }
 
-CowlManager *cowl_stream_get_manager(CowlStream *stream) {
+CowlManager *cowl_istream_get_manager(CowlIStream *stream) {
     return stream->manager;
 }
 
-CowlSymTable *cowl_stream_get_sym_table(CowlStream *stream) {
+CowlSymTable *cowl_istream_get_sym_table(CowlIStream *stream) {
     return stream->st;
 }
 
-cowl_ret cowl_stream_push_iri(CowlStream *stream, CowlIRI *iri) {
+cowl_ret cowl_istream_push_iri(CowlIStream *stream, CowlIRI *iri) {
     if (!stream->config.handle_iri) return COWL_OK;
     return stream->config.handle_iri(stream->config.ctx, iri);
 }
 
-cowl_ret cowl_stream_push_version(CowlStream *stream, CowlIRI *version) {
+cowl_ret cowl_istream_push_version(CowlIStream *stream, CowlIRI *version) {
     if (!stream->config.handle_version) return COWL_OK;
     return stream->config.handle_version(stream->config.ctx, version);
 }
 
-cowl_ret cowl_stream_push_import(CowlStream *stream, CowlIRI *import) {
+cowl_ret cowl_istream_push_import(CowlIStream *stream, CowlIRI *import) {
     if (!stream->config.handle_import) return COWL_OK;
     return stream->config.handle_import(stream->config.ctx, import);
 }
 
-cowl_ret cowl_stream_push_annot(CowlStream *stream, CowlAnnotation *annot) {
+cowl_ret cowl_istream_push_annot(CowlIStream *stream, CowlAnnotation *annot) {
     if (!stream->config.handle_annot) return COWL_OK;
     return stream->config.handle_annot(stream->config.ctx, annot);
 }
 
-cowl_ret cowl_stream_push_axiom(CowlStream *stream, CowlAnyAxiom *axiom) {
+cowl_ret cowl_istream_push_axiom(CowlIStream *stream, CowlAnyAxiom *axiom) {
     if (!stream->config.handle_axiom) return COWL_OK;
     return stream->config.handle_axiom(stream->config.ctx, axiom);
 }

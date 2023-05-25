@@ -15,9 +15,9 @@
 
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
+#include "cowl_istream_config.h"
 #include "cowl_object.h"
 #include "cowl_reader.h"
-#include "cowl_stream_config.h"
 #include "cowl_writer.h"
 
 COWL_BEGIN_DECLS
@@ -25,6 +25,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyId);
+cowl_struct_decl(CowlOStream);
 cowl_struct_decl(CowlManager);
 /// @endcond
 
@@ -180,7 +181,7 @@ CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlStreamConfig config, UString path);
+cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlIStreamConfig config, UString path);
 
 /**
  * Streams through the ontology read from the specified file.
@@ -193,7 +194,7 @@ cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlStreamConfig config,
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlStreamConfig config, FILE *file);
+cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlIStreamConfig config, FILE *file);
 
 /**
  * Streams through the ontology read from the specified string.
@@ -207,7 +208,7 @@ cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlStreamConfig config,
  */
 COWL_PUBLIC
 cowl_ret
-cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config, UString const *string);
+cowl_manager_stream_string(CowlManager *manager, CowlIStreamConfig config, UString const *string);
 
 /**
  * Streams through the ontology read from the specified input stream.
@@ -221,7 +222,7 @@ cowl_manager_stream_string(CowlManager *manager, CowlStreamConfig config, UStrin
  */
 COWL_PUBLIC
 cowl_ret
-cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config, UIStream *stream);
+cowl_manager_stream_stream(CowlManager *manager, CowlIStreamConfig config, UIStream *stream);
 
 /**
  * Streams through the specified ontology.
@@ -234,8 +235,8 @@ cowl_manager_stream_stream(CowlManager *manager, CowlStreamConfig config, UIStre
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-cowl_ret
-cowl_manager_stream_ontology(CowlManager *manager, CowlStreamConfig config, CowlOntology *ontology);
+cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlIStreamConfig config,
+                                      CowlOntology *ontology);
 
 /**
  * Writes the ontology to the file at the specified path.
@@ -290,6 +291,20 @@ cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology,
  */
 COWL_PUBLIC
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream);
+
+/**
+ * Returns an ontology output stream.
+ *
+ * @param manager The manager.
+ * @param stream The output stream.
+ * @return Ontology output stream.
+ *
+ * @note You are responsible for releasing the returned object.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+CowlOStream *cowl_manager_open_ostream(CowlManager *manager, UOStream *stream);
 
 COWL_END_DECLS
 

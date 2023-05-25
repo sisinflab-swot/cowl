@@ -11,7 +11,7 @@
 #include "cowl_func_yylexer.h"
 #include "cowl_reader.h"
 
-static cowl_ret cowl_func_reader_read(UIStream *istream, CowlStream *stream) {
+static cowl_ret cowl_func_reader_read(UIStream *istream, CowlIStream *stream) {
     void *scanner;
     if (cowl_func_yylex_init(&scanner) != 0) return COWL_ERR_MEM;
     cowl_func_yyset_in(NULL, scanner);

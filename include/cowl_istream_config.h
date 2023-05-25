@@ -8,8 +8,8 @@
  * @file
  */
 
-#ifndef COWL_STREAM_CONFIG_H
-#define COWL_STREAM_CONFIG_H
+#ifndef COWL_ISTREAM_CONFIG_H
+#define COWL_ISTREAM_CONFIG_H
 
 #include "cowl_std.h"
 
@@ -22,7 +22,7 @@ cowl_struct_decl(CowlIRI);
 /// @endcond
 
 /// Ontology stream configuration.
-typedef struct CowlStreamConfig {
+typedef struct CowlIStreamConfig {
 
     /// Stream context, can be anything.
     void *ctx;
@@ -72,8 +72,8 @@ typedef struct CowlStreamConfig {
      */
     cowl_ret (*handle_axiom)(void *ctx, CowlAnyAxiom *axiom);
 
-} CowlStreamConfig;
+} CowlIStreamConfig;
 
 COWL_END_DECLS
 
-#endif // COWL_STREAM_CONFIG_H
+#endif // COWL_ISTREAM_CONFIG_H

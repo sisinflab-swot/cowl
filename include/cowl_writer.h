@@ -15,14 +15,49 @@
 
 #include "cowl_error.h"
 #include "cowl_object_type.h"
-#include "cowl_std.h"
+#include "cowl_ontology_header.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlOntology);
+cowl_struct_decl(CowlSymTable);
 /// @endcond
+
+/// Defines functions that must be implemented by stream writers.
+typedef struct CowlStreamWriter {
+
+    /**
+     * Pointer to a function that writes an ontology header to an output stream.
+     *
+     * @param stream Output stream.
+     * @param st Symbol table.
+     * @param header Ontology header.
+     * @return Return code.
+     */
+    cowl_ret (*write_header)(UOStream *stream, CowlSymTable *st, CowlOntologyHeader header);
+
+    /**
+     * Pointer to a function that writes an axiom to an output stream.
+     *
+     * @param stream Output stream.
+     * @param st Symbol table.
+     * @param axiom Axiom.
+     * @return Return code.
+     */
+    cowl_ret (*write_axiom)(UOStream *stream, CowlSymTable *st, CowlAnyAxiom *axiom);
+
+    /**
+     * Pointer to a function that writes the ontology footer to an output stream.
+     *
+     * @param stream Output stream.
+     * @param st Symbol table.
+     * @return Return code.
+     */
+    cowl_ret (*write_footer)(UOStream *stream, CowlSymTable *st);
+
+} CowlStreamWriter;
 
 /// Defines a writer.
 typedef struct CowlWriter {
@@ -33,7 +68,6 @@ typedef struct CowlWriter {
     /**
      * Pointer to a function that writes an ontology to an output stream.
      *
-     * @param state Writer state.
      * @param stream Output stream.
      * @param ontology Ontology.
      * @return Return code.
@@ -52,6 +86,13 @@ typedef struct CowlWriter {
      * @note This member is optional.
      */
     cowl_ret (*write)(UOStream *stream, CowlAny *object);
+
+    /**
+     * Contains the streaming implementation of this writer.
+     *
+     * @note This member is optional.
+     */
+    CowlStreamWriter stream;
 
 } CowlWriter;
 
