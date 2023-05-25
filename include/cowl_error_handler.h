@@ -48,11 +48,12 @@ typedef struct CowlErrorHandler {
  * @param code Error code.
  * @param desc Error description.
  * @param origin Object that originated the error.
+ * @return Error code.
  *
  * @public @related CowlErrorHandler
  */
 COWL_PUBLIC
-void cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin);
+cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin);
 
 /**
  * Handles a syntax error via the most specific error handler available.
@@ -60,33 +61,36 @@ void cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin);
  * @param desc Error description.
  * @param origin Object that originated the error.
  * @param loc Error location.
+ * @return Error code.
  *
  * @public @related CowlErrorHandler
  */
 COWL_PUBLIC
-void cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc);
+cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc);
 
 /**
  * Handles a generic error of the specified type via the most specific error handler available.
  *
  * @param code Error code.
  * @param origin Object that originated the error.
+ * @return Error code.
  *
  * @public @related CowlErrorHandler
  */
 COWL_PUBLIC
-void cowl_handle_error_code(cowl_ret code, CowlAny *origin);
+cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin);
 
 /**
  * Handles an IO stream error via the most specific error handler available.
  *
  * @param code Error code.
  * @param origin Object that originated the error.
+ * @return Error code.
  *
  * @public @related CowlErrorHandler
  */
 COWL_PUBLIC
-void cowl_handle_stream_error(ustream_ret code, CowlAny *origin);
+cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin);
 
 COWL_END_DECLS
 

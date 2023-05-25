@@ -34,14 +34,14 @@ static CowlErrorHandler cowl_best_error_handler(CowlAny *origin) {
     return handler;
 }
 
-void cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
+cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
     if (code == COWL_ERR_SYNTAX) {
         cowl_handle_syntax_error(desc, origin, (CowlErrorLoc){ 0 });
-        return;
+        return code;
     }
 
     CowlErrorHandler handler = cowl_best_error_handler(origin);
-    if (!handler.handle_error) return;
+    if (!handler.handle_error) return code;
 
     if (ustring_is_empty(desc)) desc = cowl_ret_to_ustring(code);
     CowlString description = cowl_string_init(desc);
@@ -53,11 +53,12 @@ void cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
     };
 
     handler.handle_error(handler.ctx, &error);
+    return code;
 }
 
-void cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
+cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
     CowlErrorHandler handler = cowl_best_error_handler(origin);
-    if (!handler.handle_error) return;
+    if (!handler.handle_error) return COWL_ERR_SYNTAX;
 
     bool release_source = false;
 
@@ -79,12 +80,13 @@ void cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
 
     handler.handle_error(handler.ctx, (CowlError *)&error);
     if (release_source) cowl_release(loc.source);
+    return COWL_ERR_SYNTAX;
 }
 
-void cowl_handle_error_code(cowl_ret code, CowlAny *origin) {
-    cowl_handle_error(code, ustring_empty, origin);
+cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin) {
+    return cowl_handle_error(code, ustring_empty, origin);
 }
 
-void cowl_handle_stream_error(ustream_ret code, CowlAny *origin) {
-    cowl_handle_error_code(cowl_ret_from_ustream(code), origin);
+cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin) {
+    return cowl_handle_error_code(cowl_ret_from_ustream(code), origin);
 }

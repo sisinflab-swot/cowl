@@ -46,12 +46,7 @@ static cowl_ret stream_stream(CowlManager *manager, CowlIStream *stream, UIStrea
         return COWL_ERR_MEM;
     }
 
-    if (istream->state) {
-        cowl_ret ret = cowl_ret_from_ustream(istream->state);
-        cowl_handle_error_code(ret, manager);
-        return ret;
-    }
-
+    if (istream->state) return cowl_handle_stream_error(istream->state, manager);
     cowl_ret ret = cowl_manager_get_reader(manager).read(istream, stream);
     if (ret) cowl_handle_error_code(ret, manager);
     cowl_release(stream);
@@ -61,12 +56,7 @@ static cowl_ret stream_stream(CowlManager *manager, CowlIStream *stream, UIStrea
 static cowl_ret stream_stream_deinit(CowlManager *manager, CowlIStream *stream, UIStream *istream) {
     cowl_ret ret = stream_stream(manager, stream, istream);
     ustream_ret s_ret = uistream_deinit(istream);
-
-    if (ret == COWL_OK && s_ret) {
-        ret = cowl_ret_from_ustream(s_ret);
-        cowl_handle_error_code(ret, manager);
-    }
-
+    if (ret == COWL_OK && s_ret) ret = cowl_handle_stream_error(s_ret, manager);
     return ret;
 }
 
@@ -95,20 +85,14 @@ static cowl_ret write_stream_deinit(CowlManager *manager, CowlOntology *onto, UO
     cowl_ret ret;
 
     if (stream->state) {
-        ret = cowl_ret_from_ustream(stream->state);
-        cowl_handle_error_code(ret, manager);
+        ret = cowl_handle_stream_error(stream->state, manager);
         uostream_deinit(stream);
         return ret;
     }
 
     ret = cowl_manager_write_stream(manager, onto, stream);
     ustream_ret s_ret = uostream_deinit(stream);
-
-    if (ret == COWL_OK && s_ret) {
-        ret = cowl_ret_from_ustream(s_ret);
-        cowl_handle_error_code(ret, manager);
-    }
-
+    if (ret == COWL_OK && s_ret) ret = cowl_handle_stream_error(s_ret, manager);
     return ret;
 }
 
