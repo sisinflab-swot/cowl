@@ -40,6 +40,19 @@ typedef struct CowlOntologyId {
 } CowlOntologyId;
 
 /**
+ * Creates the ID of an anonymous ontology.
+ *
+ * @return ID of an anonymous ontology.
+ *
+ * @public @memberof CowlOntologyId
+ */
+COWL_INLINE
+CowlOntologyId cowl_ontology_id_anonymous(void) {
+    CowlOntologyId id = { NULL, NULL };
+    return id;
+}
+
+/**
  * Equality function.
  *
  * @param lhs LHS of the equality relation.
