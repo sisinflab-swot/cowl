@@ -11,22 +11,22 @@
 #include "cowl_istream_private.h"
 #include "cowl_manager.h"
 #include "cowl_ontology_private.h"
+#include "cowl_sym_table_private.h"
 
 static CowlIStream *
 cowl_istream_alloc(CowlManager *manager, CowlSymTable *st, CowlIStreamConfig cfg) {
-    bool free_st = false;
-
-    if (!st) {
-        if (!(st = ulib_alloc(st))) return NULL;
-        *st = cowl_sym_table_init();
-        free_st = true;
-    }
-
     CowlIStream *stream = ulib_alloc(stream);
     if (!stream) return NULL;
 
+    if (st) {
+        cowl_retain(st);
+    } else if (!(st = cowl_sym_table())) {
+        ulib_free(stream);
+        return NULL;
+    }
+
     *stream = (CowlIStream){
-        .super = COWL_OBJECT_BIT_INIT(COWL_OT_ISTREAM, free_st),
+        .super = COWL_OBJECT_INIT(COWL_OT_ISTREAM),
         .manager = cowl_retain(manager),
         .st = st,
         .config = cfg,
@@ -36,11 +36,8 @@ cowl_istream_alloc(CowlManager *manager, CowlSymTable *st, CowlIStreamConfig cfg
 }
 
 void cowl_istream_free(CowlIStream *stream) {
-    if (cowl_object_bit_get(stream)) {
-        cowl_sym_table_deinit(stream->st);
-        ulib_free(stream->st);
-    }
     cowl_release(stream->manager);
+    cowl_release(stream->st);
     ulib_free(stream);
 }
 
@@ -79,7 +76,7 @@ CowlIStream *cowl_istream_to_ontology(CowlOntology *onto) {
         .handle_annot = store_annot,
         .handle_axiom = store_axiom,
     };
-    return cowl_istream_alloc(onto->manager, &onto->st, cfg);
+    return cowl_istream_alloc(onto->manager, onto->st, cfg);
 }
 
 CowlManager *cowl_istream_get_manager(CowlIStream *stream) {

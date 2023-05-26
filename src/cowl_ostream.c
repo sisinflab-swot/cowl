@@ -10,15 +10,22 @@
 
 #include "cowl_manager_private.h"
 #include "cowl_ostream_private.h"
+#include "cowl_sym_table_private.h"
 
 CowlOStream *cowl_ostream(CowlManager *manager, UOStream *stream) {
     CowlOStream *ostream = ulib_alloc(ostream);
     if (!ostream) return NULL;
 
+    CowlSymTable *st = cowl_sym_table();
+    if (!st) {
+        ulib_free(ostream);
+        return NULL;
+    }
+
     *ostream = (CowlOStream){
         .super = COWL_OBJECT_INIT(COWL_OT_OSTREAM),
-        .st = cowl_sym_table_init(),
         .manager = cowl_retain(manager),
+        .st = st,
         .stream = stream,
     };
 
@@ -27,7 +34,7 @@ CowlOStream *cowl_ostream(CowlManager *manager, UOStream *stream) {
 
 void cowl_ostream_free(CowlOStream *stream) {
     cowl_release(stream->manager);
-    cowl_sym_table_deinit(&stream->st);
+    cowl_release(stream->st);
     ulib_free(stream);
 }
 
@@ -36,13 +43,13 @@ CowlManager *cowl_ostream_get_manager(CowlOStream *stream) {
 }
 
 CowlSymTable *cowl_ostream_get_sym_table(CowlOStream *stream) {
-    return &stream->st;
+    return stream->st;
 }
 
 cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader header) {
     CowlWriter writer = cowl_manager_get_writer(stream->manager);
     if (!writer.stream.write_header) return COWL_ERR;
-    cowl_ret ret = writer.stream.write_header(stream->stream, &stream->st, header);
+    cowl_ret ret = writer.stream.write_header(stream->stream, stream->st, header);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
@@ -50,7 +57,7 @@ cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader heade
 cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom) {
     CowlWriter writer = cowl_manager_get_writer(stream->manager);
     if (!writer.stream.write_axiom) return COWL_ERR;
-    cowl_ret ret = writer.stream.write_axiom(stream->stream, &stream->st, axiom);
+    cowl_ret ret = writer.stream.write_axiom(stream->stream, stream->st, axiom);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
@@ -58,7 +65,7 @@ cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom) {
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream) {
     CowlWriter writer = cowl_manager_get_writer(stream->manager);
     if (!writer.stream.write_footer) return COWL_ERR;
-    cowl_ret ret = writer.stream.write_footer(stream->stream, &stream->st);
+    cowl_ret ret = writer.stream.write_footer(stream->stream, stream->st);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }

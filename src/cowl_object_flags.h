@@ -57,6 +57,8 @@ typedef UBit(COWL_OF) CowlObjectFlags;
 #define cowl_object_flags_has_bit(FLAGS) ubit_is_set(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK)
 #define cowl_object_flags_set_bit(FLAGS)                                                           \
     ((FLAGS) = ubit_set(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK))
+#define cowl_object_flags_unset_bit(FLAGS)                                                         \
+    ((FLAGS) = ubit_unset(COWL_OF, FLAGS, COWL_OBJECT_FLAGS_BIT_MASK))
 
 #define cowl_object_flags_get_type(FLAGS)                                                          \
     ((CowlObjectType)(((FLAGS)&COWL_OBJECT_FLAGS_TYPE_MASK) >> COWL_OBJECT_FLAGS_TYPE_OFFSET))

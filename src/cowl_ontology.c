@@ -35,9 +35,15 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
     CowlOntology *onto = ulib_alloc(onto);
     if (!onto) return NULL;
 
+    CowlSymTable *st = cowl_sym_table();
+    if (!st) {
+        ulib_free(onto);
+        return NULL;
+    }
+
     *onto = (CowlOntology){ 0 };
     onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
-    onto->st = cowl_sym_table_init();
+    onto->st = st;
     onto->manager = cowl_retain(manager);
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
@@ -50,8 +56,8 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
 void cowl_ontology_free(CowlOntology *onto) {
     cowl_manager_remove_ontology(onto->manager, onto);
     cowl_release(onto->manager);
+    cowl_release(onto->st);
 
-    cowl_sym_table_deinit(&onto->st);
     cowl_release(onto->id.iri);
     cowl_release(onto->id.version);
 
@@ -77,7 +83,7 @@ CowlManager *cowl_ontology_get_manager(CowlOntology *onto) {
 }
 
 CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto) {
-    return &onto->st;
+    return onto->st;
 }
 
 CowlOntologyId cowl_ontology_get_id(CowlOntology *onto) {

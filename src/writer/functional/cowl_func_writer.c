@@ -421,6 +421,7 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         case COWL_OT_FACET_RESTR: return cowl_func_write_facet_restr(s, obj, st);
         case COWL_OT_ONTOLOGY: return cowl_func_write_onto(s, obj);
         case COWL_OT_MANAGER:
+        case COWL_OT_SYM_TABLE:
         case COWL_OT_ISTREAM:
         case COWL_OT_OSTREAM: return cowl_write_debug(s, obj);
         case COWL_OT_ANNOTATION: return cowl_func_write_annot_construct(s, obj, st);

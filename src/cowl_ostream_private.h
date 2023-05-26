@@ -14,14 +14,16 @@
 #include "cowl_object_private.h"
 #include "cowl_ontology_header.h"
 #include "cowl_ostream.h"
-#include "cowl_sym_table_private.h"
 
 COWL_BEGIN_DECLS
 
+cowl_struct_decl(CowlManager);
+cowl_struct_decl(CowlSymTable);
+
 struct CowlOStream {
     CowlObject super;
-    CowlSymTable st;
     CowlManager *manager;
+    CowlSymTable *st;
     UOStream *stream;
 };
 
