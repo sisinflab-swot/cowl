@@ -21,15 +21,17 @@ static bool string_equals(void *lhs, void *rhs) {
     return cowl_string_equals(lhs, rhs);
 }
 
-static cowl_ret cowl_update_reverse_map(CowlTable *h1, CowlTable *h2) {
-    if (cowl_table_count(h1) == cowl_table_count(h2)) return COWL_OK;
+static cowl_ret cowl_update_reverse_map(CowlSymTable *st) {
+    if (!st->dirty) return COWL_OK;
 
+    CowlTable *h1 = st->prefix_ns_map, *h2 = st->ns_prefix_map;
     cowl_table_foreach (h1, e) {
-        if (uhmap_add(CowlObjectTable, &h2->data, *e.val, *e.key, NULL) == UHASH_ERR) {
+        if (uhmap_set(CowlObjectTable, &h2->data, *e.val, *e.key, NULL) == UHASH_ERR) {
             return COWL_ERR_MEM;
         }
     }
 
+    st->dirty = false;
     return COWL_OK;
 }
 
@@ -50,7 +52,7 @@ CowlTable *cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse) {
         if (!(*table = cowl_table(&temp))) return NULL;
     }
 
-    if (reverse && cowl_update_reverse_map(st->prefix_ns_map, st->ns_prefix_map)) {
+    if (reverse && cowl_update_reverse_map(st)) {
         return NULL;
     }
 
@@ -65,22 +67,33 @@ CowlString *cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns) {
     return cowl_table_get_value(cowl_sym_table_get_prefix_ns_map(st, true), ns);
 }
 
-cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, CowlString *ns) {
+cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, CowlString *ns,
+                                        bool overwrite) {
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, false);
     if (!(table && (ns = cowl_string_intern(ns)))) return COWL_ERR_MEM;
 
-    uhash_ret ret = uhmap_add(CowlObjectTable, &table->data, prefix, ns, NULL);
+    ulib_uint i;
+    uhash_ret ret = uhash_put(CowlObjectTable, &table->data, prefix, &i);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
 
-    if (ret == UHASH_INSERTED) {
-        cowl_retain(prefix);
-        cowl_retain(ns);
+    if (ret == UHASH_PRESENT) {
+        if (!overwrite) return COWL_OK;
+        // Mapping present, overwrite mapped namespace
+        cowl_release(uhash_value(CowlObjectTable, &table->data, i));
+        uhash_value(CowlObjectTable, &table->data, i) = cowl_retain(ns);
+        st->dirty = true;
+        return COWL_OK;
     }
 
+    // Mapping not present
+    uhash_key(CowlObjectTable, &table->data, i) = cowl_retain(prefix);
+    uhash_value(CowlObjectTable, &table->data, i) = cowl_retain(ns);
+    st->dirty = true;
     return COWL_OK;
 }
 
-cowl_ret cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns) {
+cowl_ret
+cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns, bool overwrite) {
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, false);
     if (!table) return COWL_ERR_MEM;
 
@@ -88,23 +101,73 @@ cowl_ret cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, US
 
     ulib_uint i;
     uhash_ret ret = uhash_put(CowlObjectTable, &table->data, &key, &i);
-
-    if (ret == UHASH_PRESENT) return COWL_OK;
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
 
-    CowlString *prefix_str = cowl_string_opt(prefix, COWL_SO_COPY);
-    CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
+    if (ret == UHASH_PRESENT) {
+        if (!overwrite) return COWL_OK;
+        // Mapping present, overwrite mapped namespace
+        CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
+        if (!ns_str) goto oom;
+        cowl_release(uhash_value(CowlObjectTable, &table->data, i));
+        uhash_value(CowlObjectTable, &table->data, i) = ns_str;
+        st->dirty = true;
+        return COWL_OK;
+    }
 
-    if (!(prefix_str && ns_str)) {
+    // Mapping not present
+    CowlString *prefix_str = cowl_string_opt(prefix, COWL_SO_COPY);
+    if (!prefix_str) goto oom;
+
+    CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
+    if (!ns_str) {
         cowl_release(prefix_str);
-        cowl_release(ns_str);
-        uhash_delete(CowlObjectTable, &table->data, i);
-        return COWL_ERR_MEM;
+        goto oom;
     }
 
     uhash_key(CowlObjectTable, &table->data, i) = prefix_str;
     uhash_value(CowlObjectTable, &table->data, i) = ns_str;
+    st->dirty = true;
+    return COWL_OK;
 
+oom:
+    uhash_delete(CowlObjectTable, &table->data, i);
+    return COWL_ERR_MEM;
+}
+
+cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix) {
+    CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, false);
+    CowlAny *ex_key, *ex_value;
+
+    if (uhmap_pop(CowlObjectTable, &table->data, prefix, &ex_key, &ex_value)) {
+        table = cowl_sym_table_get_prefix_ns_map(st, true);
+        uhmap_remove(CowlObjectTable, &table->data, ex_value);
+        cowl_release(ex_key);
+        cowl_release(ex_value);
+    }
+
+    return COWL_OK;
+}
+
+cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns) {
+    CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, true);
+    CowlAny *ex_key, *ex_value;
+
+    if (uhmap_pop(CowlObjectTable, &table->data, ns, &ex_key, &ex_value)) {
+        table = cowl_sym_table_get_prefix_ns_map(st, false);
+        uhmap_remove(CowlObjectTable, &table->data, ex_value);
+        cowl_release(ex_key);
+        cowl_release(ex_value);
+    }
+
+    return COWL_OK;
+}
+
+cowl_ret cowl_sym_table_merge(CowlSymTable *st, CowlSymTable *other, bool overwrite) {
+    CowlTable *table = cowl_sym_table_get_prefix_ns_map(other, false);
+    cowl_table_foreach (table, e) {
+        cowl_ret ret = cowl_sym_table_register_prefix(st, *e.key, *e.val, overwrite);
+        if (ret) return ret;
+    }
     return COWL_OK;
 }
 

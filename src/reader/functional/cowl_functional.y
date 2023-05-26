@@ -283,7 +283,7 @@ namespace
 prefix_declaration
     : PREFIX L_PAREN prefix EQUALS namespace R_PAREN {
         CowlSymTable *st = cowl_istream_get_sym_table(stream);
-        cowl_ret ret = cowl_sym_table_register_prefix(st, $3, $5);
+        cowl_ret ret = cowl_sym_table_register_prefix(st, $3, $5, true);
         cowl_release($3);
         cowl_release($5);
         if (ret) COWL_ERROR(ret);

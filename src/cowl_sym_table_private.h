@@ -18,6 +18,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlTable);
 
 struct CowlSymTable {
+    bool dirty;
     CowlTable *prefix_ns_map;
     CowlTable *ns_prefix_map;
 };

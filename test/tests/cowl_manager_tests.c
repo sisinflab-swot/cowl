@@ -106,9 +106,9 @@ static bool cowl_test_manager_write_ontology_path(UString path) {
 
     CowlSymTable *st = cowl_ontology_get_sym_table(onto_in);
     cowl_sym_table_register_prefix_raw(st, ustring_literal("dc"),
-                                       ustring_literal("http://purl.org/dc/elements/1.1/"));
+                                       ustring_literal("http://purl.org/dc/elements/1.1/"), false);
     cowl_sym_table_register_prefix_raw(st, ustring_literal("dcterms"),
-                                       ustring_literal("http://purl.org/dc/terms/"));
+                                       ustring_literal("http://purl.org/dc/terms/"), false);
 
     cowl_ret ret = cowl_manager_write_path(manager, onto_in, ustring_literal(COWL_ONTOLOGY_OUT));
     utest_assert_uint(ret, ==, COWL_OK);
