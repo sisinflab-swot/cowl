@@ -19,7 +19,7 @@
 #include "cowl_data_range_type.h"
 #include "cowl_entity_type.h"
 #include "cowl_error.h"
-#include "cowl_istream_config.h"
+#include "cowl_istream_handlers.h"
 #include "cowl_iterator_private.h"
 #include "cowl_nary_axiom_type.h"
 #include "cowl_nary_type.h"

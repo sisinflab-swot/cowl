@@ -9,27 +9,19 @@
  */
 
 #include "cowl_istream_private.h"
-#include "cowl_manager.h"
+#include "cowl_manager_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_sym_table_private.h"
 
-static CowlIStream *
-cowl_istream_alloc(CowlManager *manager, CowlSymTable *st, CowlIStreamConfig cfg) {
+CowlIStream *cowl_istream(CowlManager *manager, CowlSymTable *st, CowlIStreamHandlers handlers) {
     CowlIStream *stream = ulib_alloc(stream);
     if (!stream) return NULL;
-
-    if (st) {
-        cowl_retain(st);
-    } else if (!(st = cowl_sym_table())) {
-        ulib_free(stream);
-        return NULL;
-    }
 
     *stream = (CowlIStream){
         .super = COWL_OBJECT_INIT(COWL_OT_ISTREAM),
         .manager = cowl_retain(manager),
-        .st = st,
-        .config = cfg,
+        .st = cowl_retain(st),
+        .handlers = handlers,
     };
 
     return stream;
@@ -41,44 +33,6 @@ void cowl_istream_free(CowlIStream *stream) {
     ulib_free(stream);
 }
 
-CowlIStream *cowl_istream(CowlManager *manager, CowlIStreamConfig config) {
-    return cowl_istream_alloc(manager, NULL, config);
-}
-
-static cowl_ret store_iri(void *ctx, CowlIRI *iri) {
-    cowl_ontology_set_iri(ctx, iri);
-    return COWL_OK;
-}
-
-static cowl_ret store_version(void *ctx, CowlIRI *version) {
-    cowl_ontology_set_version(ctx, version);
-    return COWL_OK;
-}
-
-static cowl_ret store_import(void *ctx, CowlIRI *import) {
-    return cowl_ontology_add_import(ctx, import);
-}
-
-static cowl_ret store_annot(void *ctx, CowlAnnotation *annot) {
-    return cowl_ontology_add_annot(ctx, annot);
-}
-
-static cowl_ret store_axiom(void *ctx, CowlAnyAxiom *axiom) {
-    return cowl_ontology_add_axiom(ctx, axiom);
-}
-
-CowlIStream *cowl_istream_to_ontology(CowlOntology *onto) {
-    CowlIStreamConfig cfg = {
-        .ctx = onto,
-        .handle_iri = store_iri,
-        .handle_version = store_version,
-        .handle_import = store_import,
-        .handle_annot = store_annot,
-        .handle_axiom = store_axiom,
-    };
-    return cowl_istream_alloc(onto->manager, onto->st, cfg);
-}
-
 CowlManager *cowl_istream_get_manager(CowlIStream *stream) {
     return stream->manager;
 }
@@ -87,27 +41,105 @@ CowlSymTable *cowl_istream_get_sym_table(CowlIStream *stream) {
     return stream->st;
 }
 
-cowl_ret cowl_istream_push_iri(CowlIStream *stream, CowlIRI *iri) {
-    if (!stream->config.handle_iri) return COWL_OK;
-    return stream->config.handle_iri(stream->config.ctx, iri);
+cowl_ret cowl_istream_handle_iri(CowlIStream *stream, CowlIRI *iri) {
+    CowlIStreamHandlers handle = stream->handlers;
+    return handle.iri ? handle.iri(handle.ctx, iri) : COWL_OK;
 }
 
-cowl_ret cowl_istream_push_version(CowlIStream *stream, CowlIRI *version) {
-    if (!stream->config.handle_version) return COWL_OK;
-    return stream->config.handle_version(stream->config.ctx, version);
+cowl_ret cowl_istream_handle_version(CowlIStream *stream, CowlIRI *version) {
+    CowlIStreamHandlers handle = stream->handlers;
+    return handle.version ? handle.version(handle.ctx, version) : COWL_OK;
 }
 
-cowl_ret cowl_istream_push_import(CowlIStream *stream, CowlIRI *import) {
-    if (!stream->config.handle_import) return COWL_OK;
-    return stream->config.handle_import(stream->config.ctx, import);
+cowl_ret cowl_istream_handle_import(CowlIStream *stream, CowlIRI *import) {
+    CowlIStreamHandlers handle = stream->handlers;
+    return handle.import ? handle.import(handle.ctx, import) : COWL_OK;
 }
 
-cowl_ret cowl_istream_push_annot(CowlIStream *stream, CowlAnnotation *annot) {
-    if (!stream->config.handle_annot) return COWL_OK;
-    return stream->config.handle_annot(stream->config.ctx, annot);
+cowl_ret cowl_istream_handle_annot(CowlIStream *stream, CowlAnnotation *annot) {
+    CowlIStreamHandlers handle = stream->handlers;
+    return handle.annot ? handle.annot(handle.ctx, annot) : COWL_OK;
 }
 
-cowl_ret cowl_istream_push_axiom(CowlIStream *stream, CowlAnyAxiom *axiom) {
-    if (!stream->config.handle_axiom) return COWL_OK;
-    return stream->config.handle_axiom(stream->config.ctx, axiom);
+cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom) {
+    CowlIStreamHandlers handle = stream->handlers;
+    return handle.axiom ? handle.axiom(handle.ctx, axiom) : COWL_OK;
+}
+
+cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream) {
+    if (istream->state) return cowl_handle_stream_error(istream->state, stream);
+    cowl_ret ret = cowl_manager_get_reader(stream->manager).read(istream, stream);
+    if (ret) cowl_handle_error_code(ret, stream);
+    return ret;
+}
+
+static cowl_ret cowl_istream_process_stream_deinit(CowlIStream *stream, UIStream *istream) {
+    cowl_ret ret = cowl_istream_process_stream(stream, istream);
+    ustream_ret s_ret = uistream_deinit(istream);
+    if (ret == COWL_OK && s_ret) ret = cowl_handle_stream_error(s_ret, stream);
+    return ret;
+}
+
+cowl_ret cowl_istream_process_path(CowlIStream *stream, UString path) {
+    UIStream istream;
+    uistream_from_path(&istream, ustring_data(path));
+    cowl_ret ret = cowl_istream_process_stream_deinit(stream, &istream);
+    if (ret) cowl_handle_path_error(path, ustring_literal("failed to load ontology"), stream);
+    return ret;
+}
+
+cowl_ret cowl_istream_process_file(CowlIStream *stream, FILE *file) {
+    UIStream istream;
+    uistream_from_file(&istream, file);
+    return cowl_istream_process_stream_deinit(stream, &istream);
+}
+
+cowl_ret cowl_istream_process_string(CowlIStream *stream, UString const *string) {
+    UIStream istream;
+    uistream_from_ustring(&istream, string);
+    return cowl_istream_process_stream_deinit(stream, &istream);
+}
+
+static bool onto_stream_handle_import(void *ctx, CowlAny *import_iri) {
+    void **c = ctx;
+    CowlIStreamHandlers *handle = c[1];
+    return (*((cowl_ret *)c[0]) = handle->import(handle->ctx, import_iri)) == COWL_OK;
+}
+
+static bool onto_stream_handle_axiom(void *ctx, CowlAny *axiom) {
+    void **c = ctx;
+    CowlIStreamHandlers *handle = c[1];
+    return (*((cowl_ret *)c[0]) = handle->axiom(handle->ctx, axiom)) == COWL_OK;
+}
+
+cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *ontology) {
+    cowl_ret ret = COWL_OK;
+    CowlIStreamHandlers *handle = &stream->handlers;
+
+    if (handle->iri || handle->version) {
+        CowlOntologyId id = cowl_ontology_get_id(ontology);
+        if (handle->iri && (ret = handle->iri(handle->ctx, id.iri))) return ret;
+        if (handle->version && (ret = handle->version(handle->ctx, id.version))) return ret;
+    }
+
+    if (handle->annot) {
+        CowlVector *annotations = cowl_ontology_get_annot(ontology);
+        cowl_vector_foreach (annotations, annot) {
+            if ((ret = handle->annot(handle->ctx, *annot.item))) return ret;
+        }
+    }
+
+    if (handle->import) {
+        void *ctx[] = { &ret, handle };
+        CowlIterator iter = { ctx, onto_stream_handle_import };
+        if (!cowl_ontology_iterate_import_iris(ontology, &iter, false)) return ret;
+    }
+
+    if (handle->axiom) {
+        void *ctx[] = { &ret, handle };
+        CowlIterator iter = { ctx, onto_stream_handle_axiom };
+        if (!cowl_ontology_iterate_axioms(ontology, &iter, false)) return ret;
+    }
+
+    return ret;
 }

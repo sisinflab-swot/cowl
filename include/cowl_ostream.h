@@ -91,6 +91,18 @@ cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom);
 COWL_PUBLIC
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream);
 
+/**
+ * Writes the specified ontology to the stream.
+ *
+ * @param stream The ontology output stream.
+ * @param ontology The ontology.
+ * @return Return code.
+ *
+ * @public @memberof CowlOStream
+ */
+COWL_PUBLIC
+cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *ontology);
+
 COWL_END_DECLS
 
 #endif // COWL_OSTREAM_H

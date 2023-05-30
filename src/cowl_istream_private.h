@@ -12,24 +12,22 @@
 #define COWL_ISTREAM_PRIVATE_H
 
 #include "cowl_istream.h"
-#include "cowl_istream_config.h"
+#include "cowl_istream_handlers.h"
 #include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlSymTable);
 
 struct CowlIStream {
     CowlObject super;
-    CowlIStreamConfig config;
-    CowlSymTable *st;
+    CowlIStreamHandlers handlers;
     CowlManager *manager;
+    CowlSymTable *st;
 };
 
-CowlIStream *cowl_istream(CowlManager *manager, CowlIStreamConfig config);
-CowlIStream *cowl_istream_to_ontology(CowlOntology *onto);
+CowlIStream *cowl_istream(CowlManager *manager, CowlSymTable *st, CowlIStreamHandlers config);
 void cowl_istream_free(CowlIStream *stream);
 
 COWL_END_DECLS

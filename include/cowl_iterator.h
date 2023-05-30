@@ -29,10 +29,10 @@ uhash_decl(CowlObjectTable);
  * A CowlIterator is a wrapper around a function that gets called for every element
  * matched by a query submitted to a CowlOntology. By providing a generic context pointer,
  * you can plug any data structure (loggers, collections, etc.) which allows
- * for arbitrarily complex queries.
+ * for arbitrarily complex programmatic queries.
  *
  * The iterator function returns a `boolean` that can be used to control iteration:
- * by returning `true` iteration goes on to the next element,
+ * by returning `true` iteration proceeds to the next element,
  * while returning `false` causes it to stop. This is useful if, for example,
  * you want to find the first element matching certain criteria.
  */

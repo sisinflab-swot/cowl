@@ -51,10 +51,10 @@ Other than deserializing ontologies into :class:`CowlOntology` objects, Cowl sup
 lightweight abstraction to access ontology contents by means of :class:`CowlIStream` instances.
 You can stream through ontologies by calling the related :class:`CowlManager` APIs
 (such as :func:`CowlManager::cowl_manager_stream_path()`) and providing suitably populated
-:class:`CowlIStreamConfig` objects.
+:class:`CowlIStreamHandlers` objects.
 
 .. doxygenstruct:: CowlIStream
-.. doxygenstruct:: CowlIStreamConfig
+.. doxygenstruct:: CowlIStreamHandlers
 
 Editing
 =======

@@ -62,7 +62,7 @@
 #include "cowl_inv_obj_prop_axiom.h"
 #include "cowl_iri.h"
 #include "cowl_istream.h"
-#include "cowl_istream_config.h"
+#include "cowl_istream_handlers.h"
 #include "cowl_iterator.h"
 #include "cowl_literal.h"
 #include "cowl_manager.h"

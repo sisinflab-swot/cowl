@@ -15,14 +15,14 @@
 
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
-#include "cowl_istream_config.h"
-#include "cowl_object.h"
+#include "cowl_istream_handlers.h"
 #include "cowl_reader.h"
 #include "cowl_writer.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlIStream);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyId);
 cowl_struct_decl(CowlOStream);
@@ -171,74 +171,6 @@ COWL_PUBLIC
 CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
 
 /**
- * Streams through the ontology at the specified path.
- *
- * @param manager The manager.
- * @param config Ontology stream configuration.
- * @param path The file path.
- * @return Return code.
- *
- * @public @memberof CowlManager
- */
-COWL_PUBLIC
-cowl_ret cowl_manager_stream_path(CowlManager *manager, CowlIStreamConfig config, UString path);
-
-/**
- * Streams through the ontology read from the specified file.
- *
- * @param manager The manager.
- * @param config Ontology stream configuration.
- * @param file The file.
- * @return Return code.
- *
- * @public @memberof CowlManager
- */
-COWL_PUBLIC
-cowl_ret cowl_manager_stream_file(CowlManager *manager, CowlIStreamConfig config, FILE *file);
-
-/**
- * Streams through the ontology read from the specified string.
- *
- * @param manager The manager.
- * @param config Ontology stream configuration.
- * @param string The string.
- * @return Return code.
- *
- * @public @memberof CowlManager
- */
-COWL_PUBLIC
-cowl_ret
-cowl_manager_stream_string(CowlManager *manager, CowlIStreamConfig config, UString const *string);
-
-/**
- * Streams through the ontology read from the specified input stream.
- *
- * @param manager The manager.
- * @param config Ontology stream configuration.
- * @param stream The input stream.
- * @return Return code.
- *
- * @public @memberof CowlManager
- */
-COWL_PUBLIC
-cowl_ret
-cowl_manager_stream_stream(CowlManager *manager, CowlIStreamConfig config, UIStream *stream);
-
-/**
- * Streams through the specified ontology.
- *
- * @param manager The manager.
- * @param config Ontology stream configuration.
- * @param ontology The ontology.
- * @return Return code.
- *
- * @public @memberof CowlManager
- */
-COWL_PUBLIC
-cowl_ret cowl_manager_stream_ontology(CowlManager *manager, CowlIStreamConfig config,
-                                      CowlOntology *ontology);
-
-/**
  * Writes the ontology to the file at the specified path.
  *
  * @param manager The manager.
@@ -293,6 +225,34 @@ COWL_PUBLIC
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream);
 
 /**
+ * Returns an ontology input stream.
+ *
+ * @param manager The manager.
+ * @param handlers The handlers.
+ * @return Ontology input stream.
+ *
+ * @note You are responsible for releasing the returned object.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers handlers);
+
+/**
+ * Returns an ontology input stream that stores constructs in the specified ontology.
+ *
+ * @param manager The manager.
+ * @param ontology The ontology.
+ * @return Ontology input stream.
+ *
+ * @note You are responsible for releasing the returned object.
+ *
+ * @public @memberof CowlManager
+ */
+COWL_PUBLIC
+CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOntology *ontology);
+
+/**
  * Returns an ontology output stream.
  *
  * @param manager The manager.
@@ -304,7 +264,7 @@ cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology,
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
-CowlOStream *cowl_manager_open_ostream(CowlManager *manager, UOStream *stream);
+CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream);
 
 COWL_END_DECLS
 

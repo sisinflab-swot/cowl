@@ -9,8 +9,10 @@
  */
 
 #include "cowl_manager_tests.h"
+#include "cowl_axiom.h"
 #include "cowl_class.h"
 #include "cowl_decl_axiom.h"
+#include "cowl_istream.h"
 #include "cowl_manager.h"
 #include "cowl_ontology.h"
 #include "cowl_string.h"
@@ -64,18 +66,19 @@ bool cowl_test_manager_read_ontology(void) {
     cowl_manager_set_import_loader(manager, loader);
 
     ulib_uint count = 0;
-    CowlIStreamConfig cfg = { &count };
-    cfg.handle_axiom = count_axiom;
-    cfg.handle_import = count_import;
-    cfg.handle_annot = count_annot;
+    CowlIStreamHandlers handlers = { &count };
+    handlers.axiom = count_axiom;
+    handlers.import = count_import;
+    handlers.annot = count_annot;
 
-    cowl_ret ret = cowl_manager_stream_path(manager, cfg, ustring_literal(COWL_TEST_ONTOLOGY));
+    CowlIStream *stream = cowl_manager_get_istream(manager, handlers);
+    cowl_ret ret = cowl_istream_process_path(stream, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_uint(ret, ==, COWL_OK);
 
-    UOStream stream;
-    utest_assert_critical(uostream_to_path(&stream, COWL_ONTOLOGY_LOG) == USTREAM_OK);
+    UOStream ostream;
+    utest_assert_critical(uostream_to_path(&ostream, COWL_ONTOLOGY_LOG) == USTREAM_OK);
 
-    CowlErrorHandler handler = { &stream, cowl_test_manager_write_error };
+    CowlErrorHandler handler = { &ostream, cowl_test_manager_write_error };
     cowl_manager_set_error_handler(manager, handler);
 
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
@@ -86,14 +89,14 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_uint(count, ==, true_count);
 
     count = 0;
-    ret = cowl_manager_stream_ontology(manager, cfg, onto);
+    ret = cowl_istream_process_ontology(stream, onto);
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(count, ==, true_count);
 
     ret = cowl_manager_write_path(manager, onto, ustring_literal(COWL_ONTOLOGY_LOG));
     utest_assert_uint(ret, ==, COWL_OK);
 
-    cowl_release_all(onto, manager);
+    cowl_release_all(manager, stream, onto);
     return true;
 }
 

@@ -502,8 +502,7 @@ cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *iri) {
     }
 
     CowlOntology *import = NULL;
-    CowlImportLoader loader = onto->manager->loader;
-    if (!loader.load_ontology) loader = cowl_get_import_loader();
+    CowlImportLoader loader = cowl_manager_get_import_loader(onto->manager);
     if (loader.load_ontology && !(import = loader.load_ontology(loader.ctx, iri))) goto err;
     uhash_value(CowlObjectTable, tbl, idx) = import;
 

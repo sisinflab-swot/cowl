@@ -238,8 +238,7 @@ full_iri
 
 abbreviated_iri
     : PNAME_LN {
-        CowlSymTable *st = cowl_istream_get_sym_table(stream);
-        $$ = cowl_sym_table_parse_full_iri(st, $1);
+        $$ = cowl_sym_table_parse_full_iri(cowl_istream_get_sym_table(stream), $1);
         if (!$$) {
             UString comp[] = { ustring_literal("failed to resolve "), $1 };
             UString err_str = ustring_concat(comp, ulib_array_count(comp));
@@ -297,12 +296,12 @@ ontology
 ontology_id
     : %empty
     | iri {
-        cowl_istream_push_iri(stream, $1);
+        cowl_istream_handle_iri(stream, $1);
         cowl_release($1);
     }
     | iri iri {
-        cowl_istream_push_iri(stream, $1);
-        cowl_istream_push_version(stream, $2);
+        cowl_istream_handle_iri(stream, $1);
+        cowl_istream_handle_version(stream, $2);
         cowl_release($1);
         cowl_release($2);
     }
@@ -315,7 +314,7 @@ ontology_imports
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret ret = cowl_istream_push_import(stream, $3);
+        cowl_ret ret = cowl_istream_handle_import(stream, $3);
         cowl_release($3);
         if (ret) YYERROR;
     }
@@ -324,7 +323,7 @@ import
 ontology_annotations
     : %empty
     | ontology_annotations annotation {
-        cowl_ret ret = cowl_istream_push_annot(stream, $2);
+        cowl_ret ret = cowl_istream_handle_annot(stream, $2);
         cowl_release($2);
         if (ret) YYERROR;
     }
@@ -332,7 +331,7 @@ ontology_annotations
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret ret = cowl_istream_push_axiom(stream, $2);
+        cowl_ret ret = cowl_istream_handle_axiom(stream, $2);
         cowl_release($2);
         if (ret) YYERROR;
     }

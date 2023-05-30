@@ -9,7 +9,6 @@
  */
 
 #include "cowl_error_handler.h"
-#include "cowl_config_private.h"
 #include "cowl_iri.h"
 #include "cowl_istream.h"
 #include "cowl_manager_private.h"
@@ -28,10 +27,7 @@ static CowlErrorHandler cowl_best_error_handler(CowlAny *origin) {
         default: break;
     }
 
-    CowlErrorHandler handler = manager ? manager->handler : (CowlErrorHandler){ 0 };
-    if (!handler.handle_error) handler = cowl_get_error_handler();
-
-    return handler;
+    return cowl_manager_get_error_handler(manager);
 }
 
 cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
@@ -89,4 +85,12 @@ cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin) {
 
 cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin) {
     return cowl_handle_error_code(cowl_ret_from_ustream(code), origin);
+}
+
+cowl_ret cowl_handle_path_error(UString path, UString reason, CowlAny *origin) {
+    UString comp[] = { reason, ustring_literal(" "), path };
+    UString desc = ustring_concat(comp, ulib_array_count(comp));
+    cowl_handle_error(COWL_ERR_IO, desc, origin);
+    ustring_deinit(&desc);
+    return COWL_ERR_IO;
 }

@@ -1,4 +1,6 @@
 /**
+ * Defines CowlIStreamHandlers and declares its API.
+ *
  * @author Ivano Bilenchi
  *
  * @copyright Copyright (c) 2022 SisInf Lab, Polytechnic University of Bari
@@ -8,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_ISTREAM_CONFIG_H
-#define COWL_ISTREAM_CONFIG_H
+#ifndef COWL_ISTREAM_HANDLERS_H
+#define COWL_ISTREAM_HANDLERS_H
 
 #include "cowl_std.h"
 
@@ -17,12 +19,11 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotation);
-cowl_struct_decl(CowlAxiom);
 cowl_struct_decl(CowlIRI);
 /// @endcond
 
-/// Ontology stream configuration.
-typedef struct CowlIStreamConfig {
+/// Ontology input stream handlers.
+typedef struct CowlIStreamHandlers {
 
     /// Stream context, can be anything.
     void *ctx;
@@ -34,7 +35,7 @@ typedef struct CowlIStreamConfig {
      * @param iri The ontology IRI.
      * @return Return code.
      */
-    cowl_ret (*handle_iri)(void *ctx, CowlIRI *iri);
+    cowl_ret (*iri)(void *ctx, CowlIRI *iri);
 
     /**
      * Pointer to a function that handles the specified version IRI.
@@ -43,7 +44,7 @@ typedef struct CowlIStreamConfig {
      * @param version The version IRI.
      * @return Return code.
      */
-    cowl_ret (*handle_version)(void *ctx, CowlIRI *version);
+    cowl_ret (*version)(void *ctx, CowlIRI *version);
 
     /**
      * Pointer to a function that handles the specified import IRI.
@@ -52,7 +53,7 @@ typedef struct CowlIStreamConfig {
      * @param import The import IRI.
      * @return Return code.
      */
-    cowl_ret (*handle_import)(void *ctx, CowlIRI *import);
+    cowl_ret (*import)(void *ctx, CowlIRI *import);
 
     /**
      * Pointer to a function that handles the specified annotation.
@@ -61,7 +62,7 @@ typedef struct CowlIStreamConfig {
      * @param annot The annotation.
      * @return Return code.
      */
-    cowl_ret (*handle_annot)(void *ctx, CowlAnnotation *annot);
+    cowl_ret (*annot)(void *ctx, CowlAnnotation *annot);
 
     /**
      * Pointer to a function that handles the specified axiom.
@@ -70,10 +71,10 @@ typedef struct CowlIStreamConfig {
      * @param axiom The axiom.
      * @return Return code.
      */
-    cowl_ret (*handle_axiom)(void *ctx, CowlAnyAxiom *axiom);
+    cowl_ret (*axiom)(void *ctx, CowlAnyAxiom *axiom);
 
-} CowlIStreamConfig;
+} CowlIStreamHandlers;
 
 COWL_END_DECLS
 
-#endif // COWL_ISTREAM_CONFIG_H
+#endif // COWL_ISTREAM_HANDLERS_H

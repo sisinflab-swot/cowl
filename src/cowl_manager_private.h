@@ -30,6 +30,8 @@ void cowl_manager_free(CowlManager *manager);
 CowlReader cowl_manager_get_reader(CowlManager *manager);
 CowlWriter cowl_manager_get_writer(CowlManager *manager);
 void cowl_manager_remove_ontology(CowlManager *manager, CowlOntology *onto);
+CowlImportLoader cowl_manager_get_import_loader(CowlManager *manager);
+CowlErrorHandler cowl_manager_get_error_handler(CowlManager *manager);
 
 COWL_END_DECLS
 
