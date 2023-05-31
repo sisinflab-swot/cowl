@@ -12,27 +12,53 @@ They are ordered by complexity, so it is recommended that you read them sequenti
 .. highlight:: c
    :linenothreshold: 5
 
-Basic ontology parsing
-======================
+Reading ontologies
+==================
+
+Related documentation: :ref:`ontology reading <reading>`
 
 .. literalinclude:: ../../examples/00_base.c
 
 Handling of errors and imports
 ==============================
 
+Related documentation: :ref:`error handling <error>`, :ref:`import handling <import>`
+
 .. literalinclude:: ../../examples/01_errors_imports.c
 
-Ontology querying
-=================
+Querying ontologies
+===================
+
+Related documentation: :ref:`ontology queries <query>`
+
+Basic queries
+-------------
 
 .. literalinclude:: ../../examples/02_query.c
 
-Recursive ontology querying
-===========================
+Recursive queries
+-----------------
 
 .. literalinclude:: ../../examples/03_recursive_query.c
 
-Ontology editing and serialization
-==================================
+Editing and writing ontologies
+==============================
+
+Related documentation: :ref:`ontology editing <editing>`, :ref:`ontology writing <writing>`
 
 .. literalinclude:: ../../examples/04_editing.c
+
+Ontology streams
+================
+
+Related documentation: :ref:`input streams <istream>`, :ref:`output streams <ostream>`
+
+Input streams
+-------------
+
+.. literalinclude:: ../../examples/05_istream.c
+
+Output streams
+--------------
+
+.. literalinclude:: ../../examples/06_ostream.c

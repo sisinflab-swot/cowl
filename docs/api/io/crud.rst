@@ -26,8 +26,10 @@ is used in a number of ways:
   via :func:`CowlManager::cowl_manager_set_reader()`.
 
 You can integrate additional readers by providing suitably populated :class:`CowlReader` instances.
-When implementing one, use the provided :class:`CowlOntology` instance for CRUD operations over
-the ontology object. Refer to the built-in readers if you need guidance.
+When implementing one, use the provided :class:`CowlIStream` object to handle detected
+OWL constructs. If you need to manage prefixed IRIs, you can do so through the :class:`CowlSymTable`
+instance available by calling :func:`CowlIStream::cowl_istream_get_sym_table()`.
+Refer to the built-in readers if you need guidance.
 
 .. doxygenstruct:: CowlReader
 
@@ -44,17 +46,21 @@ If you do both, Cowl prioritizes local loaders, as you would expect.
 
 .. doxygenstruct:: CowlImportLoader
 
-Ontology streams
-----------------
+.. _istream:
+
+Ontology input streams
+----------------------
 
 Other than deserializing ontologies into :class:`CowlOntology` objects, Cowl supports a more
-lightweight abstraction to access ontology contents by means of :class:`CowlIStream` instances.
-You can stream through ontologies by calling the related :class:`CowlManager` APIs
-(such as :func:`CowlManager::cowl_manager_stream_path()`) and providing suitably populated
-:class:`CowlIStreamHandlers` objects.
+lightweight abstraction to access ontology contents by means of :class:`CowlIStream` instances,
+which can be obtained by calling :func:`CowlManager::cowl_manager_get_istream()`.
+You must provide a suitably populated :class:`CowlIStreamHandlers` object,
+which tells the stream how OWL constructs should be handled.
 
 .. doxygenstruct:: CowlIStream
 .. doxygenstruct:: CowlIStreamHandlers
+
+.. _editing:
 
 Editing
 =======
@@ -89,3 +95,19 @@ Additional writers can be integrated by providing suitably populated :class:`Cow
 Refer to the built-in writers if you need guidance.
 
 .. doxygenstruct:: CowlWriter
+
+.. _ostream:
+
+Ontology output streams
+-----------------------
+
+Most OWL syntaxes logically consist of a *header*, a sequence of *axioms*, and a closing *footer*.
+This allows ontology documents to be serialized in a streaming fashion, greatly reducing memory
+usage in cases where one needs to provide a structured OWL representation of some dynamic data.
+
+To do so, the chosen writer must implement the :class:`CowlStreamWriter` interface, and the
+ontology document must be serialized via the :class:`CowlOStream` API. Similarly to input streams,
+you can retrieve a :class:`CowlOStream` instance via :func:`CowlManager::cowl_manager_get_ostream()`.
+
+.. doxygenstruct:: CowlStreamWriter
+.. doxygenstruct:: CowlOStream

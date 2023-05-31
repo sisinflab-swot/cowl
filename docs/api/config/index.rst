@@ -5,13 +5,10 @@ Configuration
 Initialization
 ==============
 
-Before making any API call, you **must** invoke :func:`cowl_init()`, which is
-needed in order to initialize the library's internal state.
-
-On the other hand, calling :func:`cowl_deinit()` is not strictly necessary, and may
-actually be inconvenient if you plan to use Cowl functions again at a later time:
-this is because, once invoked, you **must not** use objects previously retrieved via the API.
-You can, of course, use objects retrieved after a new call to :func:`cowl_init()`.
+Before making any API call, you **must** invoke :func:`cowl_init()`, which is needed
+to initialize the library's internal state. This state is meant to be application-scoped,
+therefore calling :func:`cowl_deinit()` is generally unnecessary. If you need to do so,
+you **must not** use previously retrieved objects as they will be invalid.
 
 .. doxygenfunction:: cowl_init
 .. doxygenfunction:: cowl_deinit

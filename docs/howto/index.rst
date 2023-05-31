@@ -9,8 +9,8 @@ How-to
 Building from source
 ====================
 
-Cowl can be built and run on **Windows**, **macOS** and **Linux**. We have successfully deployed it
-to a wider range of platforms, including tiny microcontrollers, with relatively minor
+Cowl can be built and run on **Windows**, **macOS** and **Linux**. It has also been successfully
+deployed to a wider range of platforms, including tiny microcontrollers, with relatively minor
 build system setup. It can be compiled either as a **static** or **dynamic library**.
 
 Requirements
@@ -110,6 +110,8 @@ from mass storage or retrieving them from the network. Cowl's approach to import
 its :ref:`focus on portability <about>`, so ontology retrieval
 :ref:`is delegated to the end user <import>`.
 
+.. _query:
+
 Ontology queries
 ----------------
 
@@ -119,7 +121,7 @@ member functions, which generally accept :class:`CowlIterator` instances.
 
 :class:`CowlIterator` is a wrapper around a function that is called for every element matched
 by the query. By providing a generic context pointer, you can plug any custom data structure
-(loggers, collections, etc.), which allows for arbitrarily complex queries.
+(loggers, collections, etc.), which allows for arbitrarily complex programmatic queries.
 
 Ontology editing and writing
 ----------------------------
@@ -139,9 +141,9 @@ Memory management
 -----------------
 
 Cowl uses `reference counting`_ for memory management.
-Reference counts are increased and decreased via `retain` and `release` member functions
-available for every data structure. The API docs are very explicit about which functions
-return already retained instances, which you must release. If nothing is specified,
+Reference counts are increased and decreased via :func:`CowlObject::cowl_retain()` and
+:func:`CowlObject::cowl_release()`, respectively. The API docs are very explicit about
+which functions return retained instances, which you must release. If nothing is specified,
 then the returned instance is not retained, meaning its lifetime is generally tied
 to that of some other object. If you need to keep it alive after its owner
 has been deallocated, you must retain it.

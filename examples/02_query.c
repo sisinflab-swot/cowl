@@ -1,7 +1,7 @@
 /*
- * In this example we will be logging the direct atomic subclasses
- * of a certain class. Note that error and import handling are omitted
- * for the sake of simplicity.
+ * In this example we will be logging the direct atomic subclasses of a class.
+ *
+ * @note Memory allocation failures are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -16,13 +16,12 @@
 #define CLASS_NAME "Food"
 
 // Iterator body, invoked for each class expression matching the query.
-static bool for_each_cls(cowl_unused void *ctx, CowlAny *cls) {
-    // We are only interested in atomic classes. Note that, due to pseudo-inheritance,
+static bool for_each_cls(void *std_out, CowlAny *cls) {
+    // We are only interested in atomic classes. Note that due to pseudo-inheritance
     // this check ensures that the concrete type of 'exp' is CowlClass.
     if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
 
     // Log the IRI remainder.
-    UOStream *std_out = uostream_std();
     cowl_write_string(std_out, cowl_iri_get_rem(cowl_class_get_iri(cls)));
     cowl_write_static(std_out, "\n");
 
@@ -33,23 +32,27 @@ int main(void) {
     cowl_init();
 
     CowlManager *manager = cowl_manager();
-    CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(ONTO));
+    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
     cowl_release(manager);
 
-    // Query the ontology
-    if (ontology) {
-        // Get the class whose atomic subclasses we are interested in.
-        puts("Atomic subclasses of " CLASS_NAME ":");
-        CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
-
-        // Run the query.
-        CowlIterator iter = { NULL, for_each_cls };
-        cowl_ontology_iterate_sub_classes(ontology, cls, &iter, false);
-
-        // Cleanup.
-        cowl_release(cls);
-        cowl_release(ontology);
+    if (!onto) {
+        fprintf(stderr, "Failed to load ontology " ONTO "\n");
+        return EXIT_FAILURE;
     }
+
+    // Query the ontology.
+    UOStream *std_out = uostream_std();
+    cowl_write_static(std_out, "Atomic subclasses of " CLASS_NAME ":");
+
+    // Get the class whose atomic subclasses we are interested in.
+    CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
+
+    // Run the query.
+    CowlIterator iter = { std_out, for_each_cls };
+    cowl_ontology_iterate_sub_classes(onto, cls, &iter, false);
+
+    // Cleanup.
+    cowl_release_all(cls, onto);
 
     return EXIT_SUCCESS;
 }

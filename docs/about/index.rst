@@ -31,7 +31,7 @@ Features
 Cowl is a complete implementation of the `OWL 2 specification`_. Currently supported features:
 
 - Deserialization of ontologies into an optimized in-memory store.
-- Arbitrarily complex ontology queries.
+- Programmatic ontology queries.
 - Ontology editing (addition and removal of axioms, annotations, imports, etc.).
 - Ontology serialization to files, memory buffers or custom streams.
 

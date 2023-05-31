@@ -1,6 +1,7 @@
 /*
  * This example demonstrates ontology editing and serialization to file.
- * Error and import handling are deliberately omitted.
+ *
+ * @note Memory allocation failures are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -18,56 +19,56 @@ int main(void) {
     cowl_init();
 
     // We will be editing the pizza ontology by adding the Porcini pizza.
-    printf("Reading ontology " IN_PATH "...");
+    printf("Reading ontology " IN_PATH "... ");
     CowlManager *manager = cowl_manager();
-    CowlOntology *ontology = cowl_manager_read_path(manager, ustring_literal(IN_PATH));
+    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(IN_PATH));
 
-    if (ontology) {
-        printf(" done!\n");
+    if (onto) {
+        puts("done!");
     } else {
-        printf(" failed\n");
+        puts("failed");
         return EXIT_FAILURE;
     }
-
-    // Note that most of the following function calls can fail due to
-    // memory exhaustion, so you should check their return values.
 
     // Declaration(Class(pizza:PorciniTopping))
     CowlClass *porcini_topping = cowl_class_from_static(NS "PorciniTopping");
     CowlAnyAxiom *axiom = cowl_decl_axiom(porcini_topping, NULL);
-    cowl_ontology_add_axiom(ontology, axiom);
+    cowl_ontology_add_axiom(onto, axiom);
     cowl_release(axiom);
 
     // Declaration(Class(pizza:Porcini))
     CowlClass *porcini = cowl_class_from_static(NS "Porcini");
     axiom = cowl_decl_axiom(porcini, NULL);
-    cowl_ontology_add_axiom(ontology, axiom);
+    cowl_ontology_add_axiom(onto, axiom);
     cowl_release(axiom);
 
     // SubClassOf(pizza:PorciniTopping pizza:MushroomTopping)
     CowlClass *mushroom_topping = cowl_class_from_static(NS "MushroomTopping");
     axiom = cowl_sub_cls_axiom(porcini_topping, mushroom_topping, NULL);
-    cowl_ontology_add_axiom(ontology, axiom);
+    cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, mushroom_topping);
 
     // SubClassOf(pizza:Porcini pizza:NamedPizza)
     CowlClass *named_pizza = cowl_class_from_static(NS "NamedPizza");
     axiom = cowl_sub_cls_axiom(porcini, named_pizza, NULL);
-    cowl_ontology_add_axiom(ontology, axiom);
+    cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, named_pizza);
 
-    // SubClassOf(pizza:Porcini ObjectSomeValuesFrom(pizza:hasTopping pizza:MozzarellaTopping))
+    // SubClassOf(pizza:Porcini
+    // ObjectSomeValuesFrom(pizza:hasTopping pizza:MozzarellaTopping))
     CowlObjProp *has_topping = cowl_obj_prop_from_static(NS "hasTopping");
     CowlClass *mozzarella_topping = cowl_class_from_static(NS "MozzarellaTopping");
-    CowlObjQuant *obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping, mozzarella_topping);
+    CowlObjQuant *obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping,
+                                             mozzarella_topping);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);
-    cowl_ontology_add_axiom(ontology, axiom);
+    cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, obj_quant, mozzarella_topping);
 
-    // SubClassOf(pizza:Porcini ObjectSomeValuesFrom(pizza:hasTopping pizza:PorciniTopping))
+    // SubClassOf(pizza:Porcini
+    // ObjectSomeValuesFrom(pizza:hasTopping pizza:PorciniTopping))
     obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping, porcini_topping);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);
-    cowl_ontology_add_axiom(ontology, axiom);
+    cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, obj_quant);
 
     // SubClassOf(pizza:Porcini ObjectAllValuesFrom(pizza:hasTopping
@@ -79,19 +80,19 @@ int main(void) {
     CowlNAryBool *closure = cowl_nary_bool(COWL_NT_UNION, operands);
     obj_quant = cowl_obj_quant(COWL_QT_ALL, has_topping, closure);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);
-    cowl_ontology_add_axiom(ontology, axiom);
-    cowl_release_all(axiom, obj_quant, closure, operands, porcini_topping, porcini, has_topping);
+    cowl_ontology_add_axiom(onto, axiom);
+    cowl_release_all(axiom, obj_quant, closure, operands, porcini_topping, porcini,
+                     has_topping);
 
     // Serialize the edited ontology to a new file.
-    printf("Writing ontology " OUT_PATH "...");
+    printf("Writing ontology " OUT_PATH "... ");
 
-    if (cowl_manager_write_path(manager, ontology, ustring_literal(OUT_PATH))) {
-        printf(" failed\n");
+    if (cowl_manager_write_path(manager, onto, ustring_literal(OUT_PATH))) {
+        puts("failed");
     } else {
-        printf(" done!\n");
+        puts("done!");
     }
 
-    cowl_release_all(ontology, manager);
-
+    cowl_release_all(onto, manager);
     return EXIT_SUCCESS;
 }
