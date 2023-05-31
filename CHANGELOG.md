@@ -5,6 +5,42 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2023-05-31
+### Added
+- Ontology output streams (`CowlOStream`).
+- `cowl_release_all`.
+- `cowl_ontology_has_axiom`.
+- `cowl_sym_table_unregister_prefix`, `cowl_sym_table_unregister_ns`, `cowl_sym_table_merge`.
+- `cowl_vector_contains`.
+- `cowl_string_to_int`, `cowl_string_to_uint`, `cowl_string_to_float`.
+- `cowl_entity_get_id`, `cowl_entity_with_id`.
+- `cowl_ontology_id_anonymous`.
+
+### Changed
+- Renamed `CowlStream` to `CowlIStream`, and `CowlStreamConfig` to `CowlIStreamHandlers`.
+- Moved ontology input stream functionality from `CowlManager` to `CowlIStream`.
+- `CowlIRI` is now a `CowlPrimitive`.
+- `CowlSymTable` is now a `CowlObject`.
+- Added `overwrite` parameter to `cowl_sym_table_register_prefix`.
+- Language tags are always normalized to lowercase.
+- Return type of `cowl_string_release_copying_cstring`.
+
+### Removed
+- Type-specific retain and release primitives, in favor of `cowl_retain` and `cowl_release`.
+- Type-specific equality and hash functions, in favor of `cowl_equals` and `cowl_hash`.
+- Type-specific primitive iteration functions, in favor of `cowl_iterate_primitives`.
+- Type-specific string conversion functions, in favor of `cowl_to_string`.
+- Unnecessary state field from `CowlReader` and `CowlWriter`.
+- `cowl_vector_ordered`, `cowl_vector_ordered_empty`.
+
+### Fixed
+- Handling of non-ascii characters in prefixed names.
+- Memory leak when parsing language tags from literal values.
+- Potential memory leak when processing ontologies as input streams.
+- Value ending in "@" when parsing language tags from literal values.
+- `cowl_write_object_type` for ontology input streams.
+- Compile warnings on platforms with unsigned enum types.
+
 ## [0.6.2] - 2023-01-17
 ### Added
 - String interning: `cowl_string_opt`, `cowl_string_intern`, `CowlStringOpts`.
@@ -304,6 +340,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.7.0]: https://github.com/sisinflab-swot/cowl/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/sisinflab-swot/cowl/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/sisinflab-swot/cowl/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/sisinflab-swot/cowl/compare/v0.5.3...v0.6.0
