@@ -33,7 +33,8 @@ cowl_struct_decl(CowlManager);
  * Manages ontology documents.
  *
  * CowlManager supports multiple input sources, such as files, memory buffers, or
- * buffered streams. It also supports multiple readers, either built-in or provided by the user.
+ * byte streams. It also supports multiple readers and writers,
+ * either built-in or provided by the user.
  *
  * @see CowlReader
  *

@@ -115,8 +115,12 @@ its :ref:`focus on portability <about>`, so ontology retrieval
 Ontology queries
 ----------------
 
-The core type of the API is :class:`CowlOntology`, which consists of a set of :class:`CowlAxiom`
-instances. The base mechanism for querying a :class:`CowlOntology` is invoking its iterator
+The core type of the API is :class:`CowlOntology`, which is essentially a collection
+of :class:`CowlAxiom` instances. Under the hood, a :class:`CowlOntology` is an optimized
+self-organizing in-memory store, which keeps axioms indexed by type and referenced entities,
+allowing for very fast queries.
+
+The base mechanism for querying a :class:`CowlOntology` is invoking its iterator
 member functions, which generally accept :class:`CowlIterator` instances.
 
 :class:`CowlIterator` is a wrapper around a function that is called for every element matched

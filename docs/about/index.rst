@@ -20,8 +20,8 @@ to some key principles which make it very portable:
 
 - It is written in **standard C11** with no compiler-specific extensions and no platform-specific
   API calls.
-- It is completely **self-contained**, with no external dependencies other than
-  `uLib`_ (which is also self-contained).
+- It is mostly **self-contained**, with no runtime dependencies other than
+  `uLib`_.
 - It goes to great lengths to have a **tiny memory footprint** while being **very fast**,
   meaning it can run even on the most resource-constrained devices.
 
@@ -32,8 +32,10 @@ Cowl is a complete implementation of the `OWL 2 specification`_. Currently suppo
 
 - Deserialization of ontologies into an optimized in-memory store.
 - Programmatic ontology queries.
-- Ontology editing (addition and removal of axioms, annotations, imports, etc.).
-- Ontology serialization to files, memory buffers or custom streams.
+- Ontology creation and editing (addition and removal of axioms, annotations, imports, etc.).
+- Ontology serialization to files, memory buffers and custom byte streams.
+- Ontology reading and writing as :ref:`axiom streams <istream>`, a novel lightweight technique
+  to manipulate ontology documents.
 
 .. _limitations:
 

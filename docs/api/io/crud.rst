@@ -48,14 +48,14 @@ If you do both, Cowl prioritizes local loaders, as you would expect.
 
 .. _istream:
 
-Ontology input streams
-----------------------
+Reading ontologies as axiom streams
+-----------------------------------
 
 Other than deserializing ontologies into :class:`CowlOntology` objects, Cowl supports a more
 lightweight abstraction to access ontology contents by means of :class:`CowlIStream` instances,
 which can be obtained by calling :func:`CowlManager::cowl_manager_get_istream()`.
 You must provide a suitably populated :class:`CowlIStreamHandlers` object,
-which tells the stream how OWL constructs should be handled.
+which tells the library how each OWL construct detected in the byte stream should be handled.
 
 .. doxygenstruct:: CowlIStream
 .. doxygenstruct:: CowlIStreamHandlers
@@ -68,7 +68,7 @@ Editing
 Ontologies can be edited by adding or removing axioms, annotations and other constructs,
 as allowed by the :class:`CowlOntology` API. They can also be created from scratch by calling
 :func:`CowlManager::cowl_manager_get_ontology()` and specifying a unique :class:`CowlOntologyId`
-or a ``NULL`` one (in which case an anonymous ontology is created).
+or a ``NULL`` one, in which case an anonymous ontology is created.
 
 Access to syntactical details that are not relevant to logic, such as the mapping
 between prefixed and full IRIs, is provided by a :class:`CowlSymTable` instance
@@ -98,12 +98,14 @@ Refer to the built-in writers if you need guidance.
 
 .. _ostream:
 
-Ontology output streams
------------------------
+Writing ontologies as axiom streams
+-----------------------------------
 
-Most OWL syntaxes logically consist of a *header*, a sequence of *axioms*, and a closing *footer*.
-This allows ontology documents to be serialized in a streaming fashion, greatly reducing memory
-usage in cases where one needs to provide a structured OWL representation of some dynamic data.
+All standard OWL serialization formats allow ontologies to be serialized in such a way that
+the resulting byte sequence consist of a *header*, a sequence of *axioms*, and a closing *footer*.
+Ontology documents can therefore be serialized in a streaming fashion, without first building
+an intermediate data store such as :class:`CowlOntology`. This greatly reduces memory
+usage in cases where one needs to provide the OWL representation of some dynamic data.
 
 To do so, the chosen writer must implement the :class:`CowlStreamWriter` interface, and the
 ontology document must be serialized via the :class:`CowlOStream` API. Similarly to input streams,
