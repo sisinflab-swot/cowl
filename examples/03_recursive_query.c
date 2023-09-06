@@ -48,7 +48,7 @@ int main(void) {
     }
 
     UOStream *std_out = uostream_std();
-    cowl_write_static(std_out, "Recursive atomic subclasses of " CLASS_NAME ":");
+    cowl_write_static(std_out, "Recursive atomic subclasses of " CLASS_NAME ":\n");
     CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
 
     // Since we are going to perform a recursive query,

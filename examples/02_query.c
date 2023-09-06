@@ -42,7 +42,7 @@ int main(void) {
 
     // Query the ontology.
     UOStream *std_out = uostream_std();
-    cowl_write_static(std_out, "Atomic subclasses of " CLASS_NAME ":");
+    cowl_write_static(std_out, "Atomic subclasses of " CLASS_NAME ":\n");
 
     // Get the class whose atomic subclasses we are interested in.
     CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
