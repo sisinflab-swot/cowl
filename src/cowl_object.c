@@ -85,11 +85,11 @@ CowlAny *cowl_retain(CowlAny *object) {
     return cowl_object_incr_ref(object);
 }
 
-static inline void release_impl(CowlObjectType type, CowlAny *object) {
-    ulib_byte count = field_count[type];
-    if (cowl_has_opt_field(object)) ++count;
-    for (ulib_byte i = 0; i < count; ++i) {
-        cowl_release(cowl_get_field(object, i));
+static inline void release_impl(CowlObjectType type, CowlComposite *object) {
+    ulib_byte n = field_count[type];
+    if (cowl_has_opt_field(object)) ++n;
+    for (ulib_byte i = 0; i < n; ++i) {
+        cowl_release(object->fields[i].obj);
     }
     ulib_free(object);
 }
@@ -192,18 +192,18 @@ CowlString *cowl_to_debug_string(CowlAny *object) {
 }
 
 static inline bool equals_impl(CowlObjectType type, CowlAny *lhs, CowlAny *rhs) {
-    ulib_byte count = field_count[type];
-    if (!count) return lhs == rhs;
+    ulib_byte n = field_count[type];
+    if (!n) return lhs == rhs;
 
-    for (ulib_byte i = 0; i < count; ++i) {
-        if (!cowl_equals(cowl_get_field(lhs, i), cowl_get_field(rhs, i))) return false;
+    CowlComposite *l = lhs, *r = rhs;
+    for (ulib_byte i = 0; i < n; ++i) {
+        if (!cowl_equals(l->fields[i].obj, r->fields[i].obj)) return false;
     }
 
-    CowlAny *lhs_opt = cowl_get_opt_field(lhs), *rhs_opt = cowl_get_opt_field(rhs);
-    if (lhs_opt == rhs_opt) return true;
-    if (!(lhs_opt && rhs_opt)) return false;
-
-    return cowl_equals(lhs_opt, rhs_opt);
+    bool has_opt = cowl_has_opt_field(lhs);
+    if (has_opt != cowl_has_opt_field(rhs)) return false;
+    if (!has_opt) return true;
+    return cowl_equals(l->fields[n].obj, r->fields[n].obj);
 }
 
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
@@ -251,14 +251,14 @@ bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
 }
 
 static inline ulib_uint hash_impl(CowlObjectType type, CowlAny *object) {
-    ulib_byte count = field_count[type];
-    if (!count) return uhash_ptr_hash(object);
+    ulib_byte n = field_count[type];
+    if (!n) return uhash_ptr_hash(object);
 
+    CowlComposite *o = object;
     ulib_uint hash = uhash_combine_hash(6151U, type);
 
-    for (ulib_byte i = 0; i < count; ++i) {
-        ulib_uint lhash = cowl_hash(cowl_get_field(object, i));
-        hash = uhash_combine_hash(hash, lhash);
+    for (ulib_byte i = 0; i < n; ++i) {
+        hash = uhash_combine_hash(hash, cowl_hash(o->fields[i].obj));
     }
 
     return hash;
@@ -304,15 +304,13 @@ iterate_pf(CowlPrimitiveFlags type, CowlAny *object, CowlPrimitiveFlags flags, C
 
 static inline bool
 iterate_impl(CowlObjectType type, CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    ulib_byte count = field_count[type];
-    if (!count) return true;
-
-    for (ulib_byte i = 0; i < count; ++i) {
-        if (!cowl_iterate_primitives(cowl_get_field(object, i), flags, iter)) return false;
+    ulib_byte n = field_count[type];
+    if (!n) return true;
+    CowlComposite *o = object;
+    for (ulib_byte i = 0; i < n; ++i) {
+        if (!cowl_iterate_primitives(o->fields[i].obj, flags, iter)) return false;
     }
-
-    CowlAny *opt = cowl_get_opt_field(object);
-    return opt ? cowl_iterate_primitives(opt, flags, iter) : true;
+    return cowl_has_opt_field(o) ? cowl_iterate_primitives(o->fields[n].obj, flags, iter) : true;
 }
 
 bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
@@ -335,15 +333,15 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
 }
 
 CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
-    ulib_byte count = field_count[type];
-    CowlComposite *o = ulib_malloc(sizeof(*o) + (opt ? count + 1 : count) * sizeof(*o->fields));
+    ulib_byte const n = field_count[type];
+    CowlComposite *o = ulib_malloc(sizeof(*o) + (opt ? n + 1 : n) * sizeof(*o->fields));
     if (!o) return NULL;
 
     o->super = COWL_OBJECT_BIT_INIT(type, opt);
-    for (ulib_byte i = 0; i < count; ++i) {
+    for (ulib_byte i = 0; i < n; ++i) {
         o->fields[i].obj = cowl_retain(fields[i]);
     }
-    if (opt) o->fields[count].obj = cowl_retain(opt);
+    if (opt) o->fields[n].obj = cowl_retain(opt);
 
     return o;
 }
@@ -354,21 +352,21 @@ CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector 
 }
 
 CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
-    ulib_byte count = field_count[type];
-    ulib_byte data_size = opt ? count + 2 : count + 1;
+    ulib_byte n = field_count[type];
+    ulib_byte data_size = opt ? n + 2 : n + 1;
     CowlComposite *obj = ulib_malloc(sizeof(*obj) + data_size * sizeof(*obj->fields));
     if (!obj) return NULL;
 
     obj->super = COWL_OBJECT_BIT_INIT(type, opt);
-    for (ulib_byte i = 0; i < count; ++i) {
+    for (ulib_byte i = 0; i < n; ++i) {
         obj->fields[i].obj = cowl_retain(fields[i]);
     }
 
     if (opt) {
-        obj->fields[count].obj = cowl_retain(opt);
-        obj->fields[count + 1].uint = val;
+        obj->fields[n].obj = cowl_retain(opt);
+        obj->fields[n + 1].uint = val;
     } else {
-        obj->fields[count].uint = val;
+        obj->fields[n].uint = val;
     }
 
     return obj;
@@ -380,11 +378,16 @@ void cowl_release_all_impl(CowlAny **objects) {
     }
 }
 
-ulib_uint cowl_get_field_count(CowlAny *object) {
+CowlAny **cowl_get_fields(CowlAny *object, unsigned *count) {
+    *count = field_count[cowl_get_type(object)];
+    return (CowlAny **)((CowlComposite *)object)->fields;
+}
+
+unsigned cowl_get_field_count(CowlAny *object) {
     return field_count[cowl_get_type(object)];
 }
 
-CowlAny *cowl_get_field(CowlAny *object, ulib_uint index) {
+CowlAny *cowl_get_field(CowlAny *object, unsigned index) {
     return ((CowlComposite *)object)->fields[index].obj;
 }
 
@@ -393,7 +396,7 @@ bool cowl_has_opt_field(CowlAny *object) {
 }
 
 CowlAny *cowl_get_opt_field(CowlAny *object) {
-    if (!cowl_object_bit_get(object)) return NULL;
+    if (!cowl_has_opt_field(object)) return NULL;
     return cowl_get_field(object, field_count[cowl_get_type(object)]);
 }
 

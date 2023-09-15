@@ -120,10 +120,13 @@ COWL_PUBLIC
 void cowl_release_all_impl(CowlAny **objects);
 
 COWL_PUBLIC
-ulib_uint cowl_get_field_count(CowlAny *object);
+CowlAny **cowl_get_fields(CowlAny *object, unsigned *count);
 
 COWL_PUBLIC
-CowlAny *cowl_get_field(CowlAny *object, ulib_uint index);
+unsigned cowl_get_field_count(CowlAny *object);
+
+COWL_PUBLIC
+CowlAny *cowl_get_field(CowlAny *object, unsigned index);
 
 COWL_PUBLIC
 bool cowl_has_opt_field(CowlAny *object);

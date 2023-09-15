@@ -70,12 +70,15 @@ CowlWriter cowl_writer_functional(void) {
 }
 
 static ustream_ret cowl_func_write_fields(UOStream *s, CowlAny *obj, CowlSymTable *st) {
-    ulib_byte count = cowl_get_field_count(obj);
-    cowl_func_write_obj(s, cowl_get_field(obj, 0), st);
-    for (ulib_byte i = 1; i < count; ++i) {
+    unsigned n;
+    CowlAny **fields = cowl_get_fields(obj, &n);
+    cowl_func_write_obj(s, fields[0], st);
+
+    for (unsigned i = 1; i < n; ++i) {
         cowl_write_static(s, " ");
-        cowl_func_write_obj(s, cowl_get_field(obj, i), st);
+        cowl_func_write_obj(s, fields[i], st);
     }
+
     return s->state;
 }
 
