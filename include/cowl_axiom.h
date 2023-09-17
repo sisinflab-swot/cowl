@@ -15,6 +15,7 @@
 
 #include "cowl_axiom_type.h"
 #include "cowl_object.h"
+#include "cowl_position.h"
 
 COWL_BEGIN_DECLS
 
@@ -57,6 +58,32 @@ COWL_INLINE
 CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/**
+ * Checks if the axiom has the specified operand.
+ *
+ * @param axiom The axiom.
+ * @param operand The operand.
+ * @param position Position where the operand should appear.
+ * @return True if the axiom has the specified operand, false otherwise.
+ *
+ * @public @memberof CowlAxiom
+ */
+COWL_PUBLIC
+bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position);
+
+/**
+ * Iterates over the operands of the specified axiom.
+ *
+ * @param axiom The axiom.
+ * @param position Position of the desired operands.
+ * @param iter The iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlAxiom
+ */
+COWL_PUBLIC
+bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter);
 
 COWL_END_DECLS
 

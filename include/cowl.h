@@ -94,6 +94,7 @@
 #include "cowl_ontology_id.h"
 #include "cowl_ostream.h"
 #include "cowl_owl_vocab.h"
+#include "cowl_position.h"
 #include "cowl_primitive.h"
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
