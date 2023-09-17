@@ -322,98 +322,47 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
     return true;
 }
 
-bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
-                                       bool imports) {
-    CowlVector *axioms = uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_CLASS], owl_class, NULL);
+struct CowlRelatedCtx {
+    CowlAxiomType type;
+    CowlPosition position;
+    CowlAnyPrimitive *primitive;
+    CowlIterator *iter;
+};
 
-    cowl_vector_foreach (axioms, axiom) {
-        if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
-        CowlSubClsAxiom *sub_axiom = *axiom.item;
-
-        if (cowl_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_super(sub_axiom))) {
-            if (!cowl_iterate(iter, cowl_sub_cls_axiom_get_sub(sub_axiom))) return false;
-        }
-    }
-
-    if (imports) {
-        cowl_ontology_foreach_import(onto, import, {
-            if (!cowl_ontology_iterate_sub_classes(import, owl_class, iter, true)) return false;
-        });
-    }
-
-    return true;
+static bool for_each_related_operand(void *ctx, CowlAny *op) {
+    struct CowlRelatedCtx *c = ctx;
+    return c->primitive == op || cowl_iterate(c->iter, op);
 }
 
-bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
-                                         CowlIterator *iter, bool imports) {
-    CowlVector *axioms = uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_CLASS], owl_class, NULL);
-
-    cowl_vector_foreach (axioms, axiom) {
-        if (cowl_axiom_get_type(*axiom.item) != COWL_AT_SUB_CLASS) continue;
-        CowlSubClsAxiom *sub_axiom = *axiom.item;
-
-        if (cowl_equals((CowlClsExp *)owl_class, cowl_sub_cls_axiom_get_sub(sub_axiom))) {
-            if (!cowl_iterate(iter, cowl_sub_cls_axiom_get_super(sub_axiom))) return false;
-        }
-    }
-
-    if (imports) {
-        cowl_ontology_foreach_import(onto, import, {
-            if (!cowl_ontology_iterate_super_classes(import, owl_class, iter, true)) return false;
-        });
-    }
-
-    return true;
+static bool for_each_related(void *ctx, CowlAny *axiom) {
+    struct CowlRelatedCtx *c = ctx;
+    if (cowl_axiom_get_type(axiom) != c->type) return true;
+    if (!cowl_axiom_has_operand(axiom, c->primitive, COWL_PS_ANY)) return true;
+    CowlIterator iter = { .ctx = ctx, .for_each = for_each_related_operand };
+    return cowl_axiom_iterate_operands(axiom, c->position, &iter);
 }
 
-bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
-                                      bool imports) {
-    CowlVector *axioms = uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_CLASS], owl_class, NULL);
+bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive,
+                                   CowlAxiomType type, CowlPosition position, CowlIterator *iter,
+                                   bool imports) {
+    struct CowlRelatedCtx ctx = {
+        .type = type,
+        .position = position,
+        .primitive = primitive,
+        .iter = iter,
+    };
+    CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_related };
 
-    cowl_vector_foreach (axioms, axiom) {
-        if (cowl_axiom_get_type(*axiom.item) != COWL_AT_EQUIV_CLASSES) continue;
-        CowlVector *eq_classes = cowl_nary_cls_axiom_get_classes((CowlNAryClsAxiom *)*axiom.item);
+    // Iterate over the smallest possible set of axioms.
+    CowlPrimitiveType pt = cowl_primitive_get_type(primitive);
+    CowlVector *ar = uhmap_get(CowlObjectTable, &onto->refs[pt], primitive, NULL);
+    CowlVector *at = onto->axioms_by_type[type];
 
-        if (uvec_contains(CowlObjectPtr, &eq_classes->data, owl_class)) {
-            uvec_foreach (CowlObjectPtr, &eq_classes->data, ce) {
-                CowlAnyClsExp *cls_exp = *ce.item;
-                if (cls_exp != owl_class && !cowl_iterate(iter, cls_exp)) return false;
-            }
-        }
-    }
-
-    if (imports) {
-        cowl_ontology_foreach_import(onto, import, {
-            if (!cowl_ontology_iterate_eq_classes(import, owl_class, iter, true)) return false;
-        });
-    }
-
-    return true;
-}
-
-bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter,
-                                 bool imports) {
-    CowlVector *axioms;
-
-    if (cowl_individual_is_named(ind)) {
-        axioms = uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_NAMED_IND], ind, NULL);
+    if (cowl_vector_count(at) < cowl_vector_count(ar)) {
+        return cowl_ontology_iterate_axioms_of_type(onto, type, iter, imports);
     } else {
-        axioms = uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_ANON_IND], ind, NULL);
+        return cowl_ontology_iterate_axioms_for_primitive(onto, primitive, &l_iter, imports);
     }
-
-    cowl_vector_foreach (axioms, axiom) {
-        if (cowl_axiom_get_type(*axiom.item) != COWL_AT_CLASS_ASSERT) continue;
-        CowlClsAssertAxiom *assert_axiom = *axiom.item;
-        if (!cowl_iterate(iter, cowl_cls_assert_axiom_get_cls_exp(assert_axiom))) return false;
-    }
-
-    if (imports) {
-        cowl_ontology_foreach_import(onto, import, {
-            if (!cowl_ontology_iterate_types(import, ind, iter, true)) return false;
-        });
-    }
-
-    return true;
 }
 
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {

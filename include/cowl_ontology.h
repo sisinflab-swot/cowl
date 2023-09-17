@@ -17,6 +17,7 @@
 #include "cowl_iterator.h"
 #include "cowl_object.h"
 #include "cowl_ontology_id.h"
+#include "cowl_position.h"
 #include "cowl_std.h"
 
 COWL_BEGIN_DECLS
@@ -374,6 +375,24 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
                                                 CowlIterator *iter, bool imports);
 
 /**
+ * Iterates over the constructs that are related to the specified primitive by some axiom.
+ *
+ * @param onto The ontology.
+ * @param primitive The primitive.
+ * @param type
+ * @param position Position of the related constructs.
+ * @param iter The iterator.
+ * @param imports If true, the query recurses over imported ontologies.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @public @memberof CowlOntology
+ */
+COWL_PUBLIC
+bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive,
+                                   CowlAxiomType type, CowlPosition position, CowlIterator *iter,
+                                   bool imports);
+
+/**
  * Iterates over the subclasses of the specified class.
  *
  * @param onto The ontology.
@@ -384,9 +403,12 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
-                                       bool imports);
+                                       bool imports) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_LEFT, iter,
+                                         imports);
+}
 
 /**
  * Iterates over the superclasses of the specified class.
@@ -399,9 +421,12 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
-                                         CowlIterator *iter, bool imports);
+                                         CowlIterator *iter, bool imports) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_RIGHT, iter,
+                                         imports);
+}
 
 /**
  * Iterates over the equivalent classes of the specified class.
@@ -414,9 +439,12 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
-                                      bool imports);
+                                      bool imports) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_EQUIV_CLASSES, COWL_PS_ANY, iter,
+                                         imports);
+}
 
 /**
  * Iterates over the disjoint classes of the specified class.
@@ -429,9 +457,12 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, 
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_class,
-                                            CowlIterator *iter, bool imports);
+                                            CowlIterator *iter, bool imports) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_DISJ_CLASSES, COWL_PS_ANY, iter,
+                                         imports);
+}
 
 /**
  * Iterates over the types of the specified individual.
@@ -444,9 +475,12 @@ bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_c
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_INLINE
 bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter,
-                                 bool imports);
+                                 bool imports) {
+    return cowl_ontology_iterate_related(onto, ind, COWL_AT_CLASS_ASSERT, COWL_PS_LEFT, iter,
+                                         imports);
+}
 
 COWL_END_DECLS
 
