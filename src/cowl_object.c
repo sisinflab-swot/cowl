@@ -124,11 +124,22 @@ CowlObjectType cowl_get_type(CowlAny *object) {
     return cowl_object_flags_get_type(((CowlObject *)object)->flags);
 }
 
-bool cowl_is_entity(CowlAny *object) {
-    CowlObjectType type = cowl_get_type(object);
+static inline bool type_is_entity(CowlObjectType type) {
     return (type == COWL_OT_CE_CLASS || type == COWL_OT_DR_DATATYPE ||
             type == COWL_OT_OPE_OBJ_PROP || type == COWL_OT_DPE_DATA_PROP ||
             type == COWL_OT_ANNOT_PROP || type == COWL_OT_I_NAMED);
+}
+
+static inline bool type_is_primitive(CowlObjectType type) {
+    return type == COWL_OT_IRI || type_is_entity(type);
+}
+
+bool cowl_is_primitive(CowlAny *object) {
+    return type_is_primitive(cowl_get_type(object));
+}
+
+bool cowl_is_entity(CowlAny *object) {
+    return type_is_entity(cowl_get_type(object));
 }
 
 bool cowl_is_axiom(CowlAny *object) {

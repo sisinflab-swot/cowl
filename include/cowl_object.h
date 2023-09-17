@@ -61,6 +61,17 @@ COWL_PUBLIC
 CowlObjectType cowl_get_type(CowlAny *object);
 
 /**
+ * Checks whether the specified object is a primitive.
+ *
+ * @param object The object
+ * @return True if the object is a primitive, false otherwise.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+bool cowl_is_primitive(CowlAny *object);
+
+/**
  * Checks whether the specified object is an entity.
  *
  * @param object The object
