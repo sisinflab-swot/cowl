@@ -391,7 +391,7 @@ static ustream_ret cowl_func_write_onto_footer(UOStream *s) {
 
 static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto) {
     UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
-    CowlIterator iter = cowl_iterator_vec(&imports);
+    CowlIterator iter = cowl_iterator_vec(&imports, false);
     if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) return USTREAM_ERR_MEM;
 
     CowlOntologyHeader header = {

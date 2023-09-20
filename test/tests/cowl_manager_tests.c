@@ -123,10 +123,10 @@ static bool cowl_test_manager_write_ontology_path(UString path) {
     cowl_assert_equal(ontology, onto_in, onto_out);
 
     UVec(CowlObjectPtr) imports_in = uvec(CowlObjectPtr);
-    CowlIterator iter = cowl_iterator_vec(&imports_in);
+    CowlIterator iter = cowl_iterator_vec(&imports_in, false);
     cowl_ontology_iterate_import_iris(onto_in, &iter, false);
     UVec(CowlObjectPtr) imports_out = uvec(CowlObjectPtr);
-    iter = cowl_iterator_vec(&imports_out);
+    iter = cowl_iterator_vec(&imports_out, false);
     cowl_ontology_iterate_import_iris(onto_out, &iter, false);
     utest_assert(uvec_equals(CowlObjectPtr, &imports_in, &imports_out));
     uvec_deinit(CowlObjectPtr, &imports_in);
@@ -137,11 +137,11 @@ static bool cowl_test_manager_write_ontology_path(UString path) {
     cowl_assert_equal(vector, annot_in, annot_out);
 
     UHash(CowlObjectTable) axioms_in = uhset(CowlObjectTable);
-    iter = cowl_iterator_set(&axioms_in);
+    iter = cowl_iterator_set(&axioms_in, false);
     cowl_ontology_iterate_axioms(onto_in, &iter, false);
 
     UHash(CowlObjectTable) axioms_out = uhset(CowlObjectTable);
-    iter = cowl_iterator_set(&axioms_out);
+    iter = cowl_iterator_set(&axioms_out, false);
     cowl_ontology_iterate_axioms(onto_out, &iter, false);
 
     utest_assert(uhset_equals(CowlObjectTable, &axioms_in, &axioms_out));

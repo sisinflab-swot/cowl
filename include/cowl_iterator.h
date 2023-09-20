@@ -50,6 +50,7 @@ typedef struct CowlIterator {
  * Initializes an iterator that stores objects in the specified vector.
  *
  * @param[out] vec Vector.
+ * @param retain If true, elements are retained.
  * @return Initialized iterator.
  *
  * @note When using this iterator, iterator functions return false on error,
@@ -58,12 +59,13 @@ typedef struct CowlIterator {
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec);
+CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
 
 /**
  * Initializes an iterator that stores objects in the specified set.
  *
  * @param[out] set Set.
+ * @param retain If true, elements are retained.
  * @return Initialized iterator.
  *
  * @note When using this iterator, iterator functions return false on error,
@@ -72,7 +74,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec);
  * @public @related CowlIterator
  */
 COWL_PUBLIC
-CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set);
+CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set, bool retain);
 
 /**
  * Initializes an iterator that counts the objects it iterates on.

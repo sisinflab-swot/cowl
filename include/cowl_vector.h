@@ -37,6 +37,7 @@ cowl_struct_decl(CowlVector);
  * @return Retained vector, or NULL on error.
  *
  * @note You must not use the raw vector after passing it to this function.
+ * @note Elements in the raw vector are retained by this constructor.
  *
  * @public @memberof CowlVector
  */

@@ -36,6 +36,7 @@ cowl_struct_decl(CowlTable);
  * @return Retained hash table, or NULL on error.
  *
  * @note You must not use the raw hash table after passing it to this function.
+ * @note Keys and values in the raw table are retained by this constructor.
  *
  * @public @memberof CowlTable
  */
