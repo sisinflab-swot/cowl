@@ -12,39 +12,42 @@
 #include "cowl_table.h"
 #include "cowl_vector.h"
 
-static bool cowl_store_vec(void *vec, CowlAny *obj) {
+static bool for_each_store_vec(void *vec, CowlAny *obj) {
     return uvec_push(CowlObjectPtr, vec, obj) != UVEC_ERR;
 }
 
-static bool cowl_store_set(void *set, CowlAny *obj) {
+static bool for_each_store_set(void *set, CowlAny *obj) {
     return uhset_insert(CowlObjectTable, set, obj) != UHASH_ERR;
 }
 
-static bool cowl_count(void *count, cowl_unused CowlAny *obj) {
+static bool for_each_count(void *count, cowl_unused CowlAny *obj) {
     (*((ulib_uint *)count))++;
     return true;
 }
 
+static bool for_each_contains(void *ctx, CowlAny *obj) {
+    return !cowl_equals(obj, ctx);
+}
+
+static bool for_each_contains_primitive(void *ctx, CowlAny *obj) {
+    return obj != ctx;
+}
+
 CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec) {
-    if (!vec) {
-        vec = ulib_alloc(vec);
-        if (vec) *vec = uvec(CowlObjectPtr);
-    }
-    return (CowlIterator){ .ctx = vec, .for_each = cowl_store_vec };
+    return (CowlIterator){ .ctx = vec, .for_each = for_each_store_vec };
 }
 
 CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set) {
-    if (!set) {
-        set = ulib_alloc(set);
-        if (set) *set = uhset(CowlObjectTable);
-    }
-    return (CowlIterator){ .ctx = set, .for_each = cowl_store_set };
+    return (CowlIterator){ .ctx = set, .for_each = for_each_store_set };
 }
 
 CowlIterator cowl_iterator_count(ulib_uint *count) {
-    if (!count) {
-        count = ulib_alloc(count);
-        if (count) *count = 0;
-    }
-    return (CowlIterator){ .ctx = count, .for_each = cowl_count };
+    return (CowlIterator){ .ctx = count, .for_each = for_each_count };
+}
+
+CowlIterator cowl_iterator_contains(CowlAny *object) {
+    return (CowlIterator){
+        .ctx = object,
+        .for_each = cowl_is_primitive(object) ? for_each_contains_primitive : for_each_contains
+    };
 }

@@ -49,13 +49,11 @@ typedef struct CowlIterator {
 /**
  * Initializes an iterator that stores objects in the specified vector.
  *
- * @param vec Vector.
+ * @param[out] vec Vector.
  * @return Initialized iterator.
  *
  * @note When using this iterator, iterator functions return false on error,
  *       e.g. when memory cannot be allocated.
- * @note If vec is NULL, a new vector is allocated and assigned to the iterator context.
- *       You are responsible for deallocating it and releasing its elements.
  *
  * @public @related CowlIterator
  */
@@ -65,13 +63,11 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec);
 /**
  * Initializes an iterator that stores objects in the specified set.
  *
- * @param set Set.
+ * @param[out] set Set.
  * @return Initialized iterator.
  *
  * @note When using this iterator, iterator functions return false on error,
  *       e.g. when memory cannot be allocated.
- * @note If set is NULL, a new set is allocated and assigned to the iterator context.
- *       You are responsible for deallocating it and releasing its elements.
  *
  * @public @related CowlIterator
  */
@@ -81,16 +77,27 @@ CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set);
 /**
  * Initializes an iterator that counts the objects it iterates on.
  *
- * @param count Object count.
+ * @param[out] count Object count.
  * @return Initialized iterator.
- *
- * @note If count is NULL, a new unsigned integer is allocated and assigned to the iterator context.
- *       You are responsible for deallocating it.
  *
  * @public @related CowlIterator
  */
 COWL_PUBLIC
 CowlIterator cowl_iterator_count(ulib_uint *count);
+
+/**
+ * Initializes an iterator that checks if any of the objects it iterates on
+ * is equal to the specified object.
+ *
+ * @param object The object to look for.
+ * @return Initialized iterator.
+ *
+ * @note When using this iterator, iterator functions return false if the element has been found.
+ *
+ * @public @related CowlIterator
+ */
+COWL_PUBLIC
+CowlIterator cowl_iterator_contains(CowlAny *object);
 
 COWL_END_DECLS
 
