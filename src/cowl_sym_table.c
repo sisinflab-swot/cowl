@@ -12,17 +12,18 @@
 #include "cowl_string_private.h"
 #include "cowl_sym_table_private.h"
 #include "cowl_table_private.h"
+#include "cowl_vocab.h"
 
 static inline bool cowl_sym_table_is_dirty(CowlSymTable *st) {
     return cowl_object_bit_get(st);
 }
 
-static inline void cowl_sym_table_set_dirty(CowlSymTable *st, bool dirty) {
-    if (dirty) {
-        cowl_object_bit_set(st);
-    } else {
-        cowl_object_bit_unset(st);
-    }
+static inline void cowl_sym_table_set_dirty(CowlSymTable *st) {
+    cowl_object_bit_set(st);
+}
+
+static inline void cowl_sym_table_set_clean(CowlSymTable *st) {
+    cowl_object_bit_unset(st);
 }
 
 static cowl_ret cowl_update_reverse_map(CowlSymTable *st) {
@@ -35,7 +36,18 @@ static cowl_ret cowl_update_reverse_map(CowlSymTable *st) {
         }
     }
 
-    cowl_sym_table_set_dirty(st, false);
+    cowl_sym_table_set_clean(st);
+    return COWL_OK;
+}
+
+static inline cowl_ret cowl_sym_table_register_reserved(CowlSymTable *st) {
+    CowlVocab const *v = cowl_vocab();
+    if (cowl_sym_table_register_prefix(st, v->owl->prefix, v->owl->ns, false) ||
+        cowl_sym_table_register_prefix(st, v->rdf->prefix, v->rdf->ns, false) ||
+        cowl_sym_table_register_prefix(st, v->rdfs->prefix, v->rdfs->ns, false) ||
+        cowl_sym_table_register_prefix(st, v->xsd->prefix, v->xsd->ns, false)) {
+        return COWL_ERR_MEM;
+    }
     return COWL_OK;
 }
 
@@ -43,6 +55,12 @@ CowlSymTable *cowl_sym_table(void) {
     CowlSymTable *st = ulib_alloc(st);
     if (!st) return NULL;
     *st = (CowlSymTable){ .super = COWL_OBJECT_INIT(COWL_OT_SYM_TABLE) };
+
+    if (cowl_sym_table_register_reserved(st)) {
+        cowl_sym_table_free(st);
+        st = NULL;
+    }
+
     return st;
 }
 
@@ -86,17 +104,18 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
 
     if (ret == UHASH_PRESENT) {
         if (!overwrite) return COWL_OK;
-        // Mapping present, overwrite mapped namespace
+        // Mapping present, overwrite mapped namespace unless the prefix is reserved
+        if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_ERR;
         cowl_release(uhash_value(CowlObjectTable, &table->data, i));
         uhash_value(CowlObjectTable, &table->data, i) = cowl_retain(ns);
-        cowl_sym_table_set_dirty(st, true);
+        cowl_sym_table_set_dirty(st);
         return COWL_OK;
     }
 
     // Mapping not present
     uhash_key(CowlObjectTable, &table->data, i) = cowl_retain(prefix);
     uhash_value(CowlObjectTable, &table->data, i) = cowl_retain(ns);
-    cowl_sym_table_set_dirty(st, true);
+    cowl_sym_table_set_dirty(st);
     return COWL_OK;
 }
 
@@ -113,12 +132,13 @@ cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns,
 
     if (ret == UHASH_PRESENT) {
         if (!overwrite) return COWL_OK;
-        // Mapping present, overwrite mapped namespace
+        // Mapping present, overwrite mapped namespace unless the prefix is reserved
+        if (cowl_vocab_is_reserved_prefix_raw(prefix)) return COWL_ERR;
         CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
         if (!ns_str) goto oom;
         cowl_release(uhash_value(CowlObjectTable, &table->data, i));
         uhash_value(CowlObjectTable, &table->data, i) = ns_str;
-        cowl_sym_table_set_dirty(st, true);
+        cowl_sym_table_set_dirty(st);
         return COWL_OK;
     }
 
@@ -134,7 +154,7 @@ cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns,
 
     uhash_key(CowlObjectTable, &table->data, i) = prefix_str;
     uhash_value(CowlObjectTable, &table->data, i) = ns_str;
-    cowl_sym_table_set_dirty(st, true);
+    cowl_sym_table_set_dirty(st);
     return COWL_OK;
 
 oom:
@@ -143,6 +163,8 @@ oom:
 }
 
 cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix) {
+    if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_ERR;
+
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, false);
     CowlAny *ex_key, *ex_value;
 
@@ -157,6 +179,8 @@ cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix) 
 }
 
 cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns) {
+    if (cowl_vocab_is_reserved_ns(ns)) return COWL_ERR;
+
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, true);
     CowlAny *ex_key, *ex_value;
 
@@ -173,6 +197,7 @@ cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns) {
 cowl_ret cowl_sym_table_merge(CowlSymTable *st, CowlSymTable *other, bool overwrite) {
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(other, false);
     cowl_table_foreach (table, e) {
+        if (cowl_vocab_is_reserved_prefix(*e.key)) continue;
         cowl_ret ret = cowl_sym_table_register_prefix(st, *e.key, *e.val, overwrite);
         if (ret) return ret;
     }

@@ -11,6 +11,7 @@
 #include "cowl_iri_private.h"
 #include "cowl_string_private.h"
 #include "cowl_table.h"
+#include "cowl_vocab.h"
 #include "cowl_xml_utils.h"
 
 static UHash(CowlObjectTable) inst_tbl;
@@ -156,4 +157,8 @@ CowlString *cowl_iri_get_ns(CowlIRI *iri) {
 
 CowlString *cowl_iri_get_rem(CowlIRI *iri) {
     return iri->rem;
+}
+
+bool cowl_iri_is_reserved(CowlIRI *iri) {
+    return cowl_vocab_is_reserved_ns(iri->ns);
 }

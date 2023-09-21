@@ -12,13 +12,10 @@
 #include "cowl_config_private.h"
 #include "cowl_entity_private.h"
 #include "cowl_iri_private.h"
-#include "cowl_owl_vocab_private.h"
-#include "cowl_rdf_vocab_private.h"
-#include "cowl_rdfs_vocab_private.h"
 #include "cowl_reader.h"
 #include "cowl_string_private.h"
+#include "cowl_vocab_private.h"
 #include "cowl_writer.h"
-#include "cowl_xsd_vocab_private.h"
 
 static bool cowl_initialized = false;
 static CowlErrorHandler global_error_handler;
@@ -59,8 +56,7 @@ cowl_ret cowl_init(void) {
     cowl_config_init();
 
     if (cowl_iri_api_init() || cowl_entity_api_init() || cowl_anon_ind_api_init() ||
-        cowl_string_api_init() || cowl_owl_vocab_init() || cowl_rdf_vocab_init() ||
-        cowl_rdfs_vocab_init() || cowl_xsd_vocab_init()) {
+        cowl_string_api_init() || cowl_vocab_init()) {
         return COWL_ERR_MEM;
     }
 
@@ -74,10 +70,7 @@ void cowl_deinit(void) {
     cowl_iri_api_deinit();
     cowl_string_api_deinit();
     cowl_config_deinit();
-    cowl_owl_vocab_deinit();
-    cowl_rdf_vocab_deinit();
-    cowl_rdfs_vocab_deinit();
-    cowl_xsd_vocab_deinit();
+    cowl_vocab_deinit();
     cowl_initialized = false;
 }
 

@@ -111,8 +111,23 @@ CowlAnyEntity *cowl_entity_from_string_impl(CowlObjectType type, UString string)
     return entity;
 }
 
+CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity) {
+    switch (cowl_get_type(entity)) {
+        case COWL_OT_CE_CLASS: return COWL_ET_CLASS;
+        case COWL_OT_OPE_OBJ_PROP: return COWL_ET_OBJ_PROP;
+        case COWL_OT_I_NAMED: return COWL_ET_NAMED_IND;
+        case COWL_OT_DPE_DATA_PROP: return COWL_ET_DATA_PROP;
+        case COWL_OT_DR_DATATYPE: return COWL_ET_DATATYPE;
+        default: return COWL_ET_ANNOT_PROP;
+    }
+}
+
 CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity) {
     return ((CowlEntity *)entity)->iri;
+}
+
+bool cowl_entity_is_reserved(CowlAnyEntity *entity) {
+    return cowl_iri_is_reserved(cowl_entity_get_iri(entity));
 }
 
 #if COWL_ENTITY_IDS
@@ -126,14 +141,3 @@ CowlAnyEntity *cowl_entity_with_id(ulib_uint id) {
 }
 
 #endif
-
-CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity) {
-    switch (cowl_get_type(entity)) {
-        case COWL_OT_CE_CLASS: return COWL_ET_CLASS;
-        case COWL_OT_OPE_OBJ_PROP: return COWL_ET_OBJ_PROP;
-        case COWL_OT_I_NAMED: return COWL_ET_NAMED_IND;
-        case COWL_OT_DPE_DATA_PROP: return COWL_ET_DATA_PROP;
-        case COWL_OT_DR_DATATYPE: return COWL_ET_DATATYPE;
-        default: return COWL_ET_ANNOT_PROP;
-    }
-}

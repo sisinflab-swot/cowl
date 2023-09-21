@@ -373,6 +373,9 @@ typedef struct CowlXSDVocab {
     /// XSD namespace.
     CowlString *ns;
 
+    /// XSD prefix.
+    CowlString *prefix;
+
     /// IRIs sub-vocabulary.
     CowlXSDIRIVocab iri;
 

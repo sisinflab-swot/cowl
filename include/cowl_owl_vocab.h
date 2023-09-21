@@ -141,6 +141,9 @@ typedef struct CowlOWLVocab {
     /// OWL namespace.
     CowlString *ns;
 
+    /// OWL prefix.
+    CowlString *prefix;
+
     /// IRIs sub-vocabulary.
     CowlOWLIRIVocab iri;
 

@@ -32,7 +32,7 @@
 #include "cowl_sym_table_private.h"
 #include "cowl_table_private.h"
 #include "cowl_vector_private.h"
-#include "cowl_vocab_utils.h"
+#include "cowl_vocab_private.h"
 #include "cowl_xml_utils.h"
 #include "cowl_xsd_vocab_private.h"
 

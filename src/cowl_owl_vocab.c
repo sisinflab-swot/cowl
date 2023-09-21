@@ -9,17 +9,17 @@
  */
 
 #include "cowl_owl_vocab_private.h"
-#include "cowl_vocab_utils.h"
+#include "cowl_vocab_private.h"
 
 static CowlOWLVocab vocab;
 
 static inline cowl_ret cowl_owl_vocab_validate(void) {
-    if (vocab.ns && vocab.iri.thing && vocab.iri.nothing && vocab.iri.top_obj_prop &&
-        vocab.iri.bottom_obj_prop && vocab.iri.top_data_prop && vocab.iri.bottom_data_prop &&
-        vocab.iri.backward_comp && vocab.iri.deprecated && vocab.iri.incompatible &&
-        vocab.iri.prior_version && vocab.iri.rational && vocab.iri.real && vocab.iri.version_info &&
-        vocab.cls.thing && vocab.cls.nothing && vocab.dt.rational && vocab.dt.real &&
-        vocab.obj_prop.top_obj_prop && vocab.obj_prop.bottom_obj_prop &&
+    if (vocab.ns && vocab.prefix && vocab.iri.thing && vocab.iri.nothing &&
+        vocab.iri.top_obj_prop && vocab.iri.bottom_obj_prop && vocab.iri.top_data_prop &&
+        vocab.iri.bottom_data_prop && vocab.iri.backward_comp && vocab.iri.deprecated &&
+        vocab.iri.incompatible && vocab.iri.prior_version && vocab.iri.rational && vocab.iri.real &&
+        vocab.iri.version_info && vocab.cls.thing && vocab.cls.nothing && vocab.dt.rational &&
+        vocab.dt.real && vocab.obj_prop.top_obj_prop && vocab.obj_prop.bottom_obj_prop &&
         vocab.data_prop.top_data_prop && vocab.data_prop.bottom_data_prop &&
         vocab.annot_prop.backward_comp && vocab.annot_prop.deprecated &&
         vocab.annot_prop.incompatible && vocab.annot_prop.prior_version &&
@@ -30,7 +30,7 @@ static inline cowl_ret cowl_owl_vocab_validate(void) {
 }
 
 cowl_ret cowl_owl_vocab_init(void) {
-    CowlString *ns = cowl_string_vocab("http://www.w3.org/2002/07/owl#");
+    CowlString *ns = cowl_string_vocab_intern("http://www.w3.org/2002/07/owl#");
 
     CowlOWLIRIVocab v = {
         .thing = cowl_iri_vocab(ns, "Thing"),
@@ -50,6 +50,7 @@ cowl_ret cowl_owl_vocab_init(void) {
 
     vocab = (struct CowlOWLVocab){
         .ns = ns,
+        .prefix = cowl_string_vocab("owl"),
         .iri = v,
         .cls = {
             .thing = cowl_class_vocab(v.thing),
@@ -81,6 +82,7 @@ cowl_ret cowl_owl_vocab_init(void) {
 
 void cowl_owl_vocab_deinit(void) {
     cowl_string_vocab_free(vocab.ns);
+    cowl_string_vocab_free(vocab.prefix);
 
     cowl_iri_vocab_free(vocab.iri.thing);
     cowl_iri_vocab_free(vocab.iri.nothing);

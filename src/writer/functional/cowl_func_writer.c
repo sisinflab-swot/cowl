@@ -22,6 +22,7 @@
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sym_table.h"
 #include "cowl_table.h"
+#include "cowl_vocab.h"
 #include "cowl_writer.h"
 #include "cowl_xsd_vocab.h"
 
@@ -356,6 +357,7 @@ cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader header, CowlSymTable
     CowlTable *prefixes = cowl_sym_table_get_prefix_ns_map(st, false);
 
     cowl_table_foreach (prefixes, p) {
+        if (cowl_vocab_is_reserved_prefix(*p.key)) continue;
         cowl_func_write_prefix(s, *p.key, *p.val);
         cowl_write_static(s, "\n");
     }

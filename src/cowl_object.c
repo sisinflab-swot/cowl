@@ -279,6 +279,11 @@ bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
     return ustring_starts_with(iri_str, *cowl_string_get_raw(ns));
 }
 
+bool cowl_is_reserved(CowlAny *object) {
+    CowlIRI *iri = cowl_get_iri(object);
+    return iri && cowl_iri_is_reserved(iri);
+}
+
 ulib_uint cowl_hash(CowlAny *object) {
     CowlObjectType type = cowl_get_type(object);
 

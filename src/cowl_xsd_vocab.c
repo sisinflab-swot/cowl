@@ -8,13 +8,13 @@
  * @file
  */
 
-#include "cowl_vocab_utils.h"
+#include "cowl_vocab_private.h"
 #include "cowl_xsd_vocab_private.h"
 
 static CowlXSDVocab vocab;
 
 static inline cowl_ret cowl_xsd_vocab_validate(void) {
-    if (!vocab.ns) return COWL_ERR_MEM;
+    if (!(vocab.ns && vocab.prefix)) return COWL_ERR_MEM;
 
     void **temp = (void **)&vocab.iri;
     size_t count = sizeof(vocab.iri) / sizeof(void *);
@@ -32,7 +32,7 @@ static inline cowl_ret cowl_xsd_vocab_validate(void) {
 }
 
 cowl_ret cowl_xsd_vocab_init(void) {
-    CowlString *ns = cowl_string_vocab("http://www.w3.org/2001/XMLSchema#");
+    CowlString *ns = cowl_string_vocab_intern("http://www.w3.org/2001/XMLSchema#");
 
     CowlXSDIRIVocab v = {
         .any_atomic_type = cowl_iri_vocab(ns, "anyAtomicType"),
@@ -99,6 +99,7 @@ cowl_ret cowl_xsd_vocab_init(void) {
 
     vocab = (struct CowlXSDVocab){
         .ns = ns,
+        .prefix = cowl_string_vocab("xsd"),
         .iri = v,
         .dt = {
             .any_atomic_type = cowl_datatype_vocab(v.any_atomic_type),
@@ -159,6 +160,7 @@ cowl_ret cowl_xsd_vocab_init(void) {
 
 void cowl_xsd_vocab_deinit(void) {
     cowl_string_vocab_free(vocab.ns);
+    cowl_string_vocab_free(vocab.prefix);
 
     CowlIRI **iris = (CowlIRI **)&vocab.iri;
     size_t count = sizeof(vocab.iri) / sizeof(CowlIRI *);

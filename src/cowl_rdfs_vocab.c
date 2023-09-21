@@ -9,12 +9,12 @@
  */
 
 #include "cowl_rdfs_vocab_private.h"
-#include "cowl_vocab_utils.h"
+#include "cowl_vocab_private.h"
 
 static CowlRDFSVocab vocab;
 
 static inline cowl_ret cowl_rdfs_vocab_validate(void) {
-    if (vocab.ns && vocab.iri.comment && vocab.iri.defined_by && vocab.iri.label &&
+    if (vocab.ns && vocab.prefix && vocab.iri.comment && vocab.iri.defined_by && vocab.iri.label &&
         vocab.iri.literal && vocab.iri.see_also && vocab.dt.literal && vocab.annot_prop.comment &&
         vocab.annot_prop.defined_by && vocab.annot_prop.label && vocab.annot_prop.see_also) {
         return COWL_OK;
@@ -23,7 +23,7 @@ static inline cowl_ret cowl_rdfs_vocab_validate(void) {
 }
 
 cowl_ret cowl_rdfs_vocab_init(void) {
-    CowlString *ns = cowl_string_vocab("http://www.w3.org/2000/01/rdf-schema#");
+    CowlString *ns = cowl_string_vocab_intern("http://www.w3.org/2000/01/rdf-schema#");
 
     CowlRDFSIRIVocab v = {
         .comment = cowl_iri_vocab(ns, "comment"),
@@ -35,6 +35,7 @@ cowl_ret cowl_rdfs_vocab_init(void) {
 
     vocab = (CowlRDFSVocab){
         .ns = ns,
+        .prefix = cowl_string_vocab("rdfs"),
         .iri = v,
         .dt = { .literal = cowl_datatype_vocab(v.literal) },
         .annot_prop = {
@@ -50,6 +51,7 @@ cowl_ret cowl_rdfs_vocab_init(void) {
 
 void cowl_rdfs_vocab_deinit(void) {
     cowl_string_vocab_free(vocab.ns);
+    cowl_string_vocab_free(vocab.prefix);
 
     cowl_iri_vocab_free(vocab.iri.comment);
     cowl_iri_vocab_free(vocab.iri.defined_by);

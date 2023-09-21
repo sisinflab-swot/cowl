@@ -9,12 +9,12 @@
  */
 
 #include "cowl_rdf_vocab_private.h"
-#include "cowl_vocab_utils.h"
+#include "cowl_vocab_private.h"
 
 static CowlRDFVocab vocab;
 
 static inline cowl_ret cowl_rdf_vocab_validate(void) {
-    if (!vocab.ns) return COWL_ERR_MEM;
+    if (!(vocab.ns && vocab.prefix)) return COWL_ERR_MEM;
 
     void **temp = (void **)&vocab.iri;
     size_t count = sizeof(vocab.iri) / sizeof(void *);
@@ -32,7 +32,7 @@ static inline cowl_ret cowl_rdf_vocab_validate(void) {
 }
 
 cowl_ret cowl_rdf_vocab_init(void) {
-    CowlString *ns = cowl_string_vocab("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+    CowlString *ns = cowl_string_vocab_intern("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 
     CowlRDFIRIVocab v = {
         .lang_range = cowl_iri_vocab(ns, "langRange"),
@@ -43,6 +43,7 @@ cowl_ret cowl_rdf_vocab_init(void) {
 
     vocab = (struct CowlRDFVocab){
         .ns = ns,
+        .prefix = cowl_string_vocab("rdf"),
         .iri = v,
         .dt = {
             .lang_string = cowl_datatype_vocab(v.lang_string),
@@ -56,6 +57,7 @@ cowl_ret cowl_rdf_vocab_init(void) {
 
 void cowl_rdf_vocab_deinit(void) {
     cowl_string_vocab_free(vocab.ns);
+    cowl_string_vocab_free(vocab.prefix);
 
     CowlIRI **iris = (CowlIRI **)&vocab.iri;
     size_t count = sizeof(vocab.iri) / sizeof(CowlIRI *);

@@ -113,6 +113,7 @@
 #include "cowl_table.h"
 #include "cowl_vector.h"
 #include "cowl_version.h"
+#include "cowl_vocab.h"
 #include "cowl_writer.h"
 #include "cowl_xsd_vocab.h"
 

@@ -54,6 +54,17 @@ CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity);
 COWL_PUBLIC
 CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity);
 
+/**
+ * Checks whether the entity is reserved, i.e. if its IRI is in the reserved vocabulary.
+ *
+ * @param entity The entity.
+ * @return True if the entity is reserved, false otherwise.
+ *
+ * @public @memberof CowlEntity
+ */
+COWL_PUBLIC
+bool cowl_entity_is_reserved(CowlAnyEntity *entity);
+
 #if COWL_ENTITY_IDS
 
 /**

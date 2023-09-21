@@ -75,6 +75,9 @@ typedef struct CowlRDFSVocab {
     /// RDFS namespace.
     CowlString *ns;
 
+    /// RDFS prefix.
+    CowlString *prefix;
+
     /// IRIs sub-vocabulary.
     CowlRDFSIRIVocab iri;
 

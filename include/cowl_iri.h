@@ -101,6 +101,17 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
     return cowl_string_get_length(cowl_iri_get_rem(iri)) > 0;
 }
 
+/**
+ * Checks whether the IRI is in the reserved vocabulary.
+ *
+ * @param iri The IRI.
+ * @return True if the IRI is reserved, false otherwise.
+ *
+ * @public @memberof CowlIRI
+ */
+COWL_PUBLIC
+bool cowl_iri_is_reserved(CowlIRI *iri);
+
 COWL_END_DECLS
 
 #endif // COWL_IRI_H

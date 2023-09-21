@@ -213,6 +213,17 @@ COWL_PUBLIC
 bool cowl_equals_iri_string(CowlAny *object, UString iri_str);
 
 /**
+ * Checks whether the object is reserved, i.e. if its IRI is in the reserved vocabulary.
+ *
+ * @param object The object.
+ * @return True if the object is reserved, false otherwise.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_PUBLIC
+bool cowl_is_reserved(CowlAny *object);
+
+/**
  * Hash function.
  *
  * @param object The object.
