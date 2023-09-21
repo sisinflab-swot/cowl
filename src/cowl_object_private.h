@@ -41,9 +41,6 @@ typedef struct CowlComposite {
 #define cowl_object_bit_set(o) cowl_object_flags_set_bit(((CowlObject *)(o))->flags)
 #define cowl_object_bit_unset(o) cowl_object_flags_unset_bit(((CowlObject *)(o))->flags)
 
-cowl_ret cowl_object_api_init(void);
-void cowl_object_api_deinit(void);
-
 COWL_END_DECLS
 
 #endif // COWL_OBJECT_PRIVATE_H

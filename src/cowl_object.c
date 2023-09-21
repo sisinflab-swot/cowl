@@ -11,82 +11,121 @@
 #include "cowl_object_private.h"
 #include "cowl_private.h"
 
-static ulib_byte field_count[COWL_OT_COUNT] = { 0 };
+/*
+ * Type flags have the following structure:
+ *
+ * |---|C|E|P|FC|
+ *
+ * FC = field count (2 bits)
+ * P = is primitive (1 bit)
+ * E = is entity (1 bit)
+ * C = is cardinality restriction (1 bit)
+ */
 
-cowl_ret cowl_object_api_init(void) {
-    field_count[COWL_OT_FACET_RESTR] = 2;
-    field_count[COWL_OT_ANNOTATION] = 2;
-    field_count[COWL_OT_A_DECL] = 1;
-    field_count[COWL_OT_A_DATATYPE_DEF] = 2;
-    field_count[COWL_OT_A_SUB_CLASS] = 2;
-    field_count[COWL_OT_A_EQUIV_CLASSES] = 1;
-    field_count[COWL_OT_A_DISJ_CLASSES] = 1;
-    field_count[COWL_OT_A_DISJ_UNION] = 2;
-    field_count[COWL_OT_A_CLASS_ASSERT] = 2;
-    field_count[COWL_OT_A_SAME_IND] = 1;
-    field_count[COWL_OT_A_DIFF_IND] = 1;
-    field_count[COWL_OT_A_OBJ_PROP_ASSERT] = 3;
-    field_count[COWL_OT_A_NEG_OBJ_PROP_ASSERT] = 3;
-    field_count[COWL_OT_A_DATA_PROP_ASSERT] = 3;
-    field_count[COWL_OT_A_NEG_DATA_PROP_ASSERT] = 3;
-    field_count[COWL_OT_A_SUB_OBJ_PROP] = 2;
-    field_count[COWL_OT_A_INV_OBJ_PROP] = 2;
-    field_count[COWL_OT_A_EQUIV_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_DISJ_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_FUNC_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_INV_FUNC_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_SYMM_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_ASYMM_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_REFL_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_IRREFL_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_TRANS_OBJ_PROP] = 1;
-    field_count[COWL_OT_A_OBJ_PROP_DOMAIN] = 2;
-    field_count[COWL_OT_A_OBJ_PROP_RANGE] = 2;
-    field_count[COWL_OT_A_SUB_DATA_PROP] = 2;
-    field_count[COWL_OT_A_EQUIV_DATA_PROP] = 1;
-    field_count[COWL_OT_A_DISJ_DATA_PROP] = 1;
-    field_count[COWL_OT_A_FUNC_DATA_PROP] = 1;
-    field_count[COWL_OT_A_DATA_PROP_DOMAIN] = 2;
-    field_count[COWL_OT_A_DATA_PROP_RANGE] = 2;
-    field_count[COWL_OT_A_HAS_KEY] = 3;
-    field_count[COWL_OT_A_ANNOT_ASSERT] = 3;
-    field_count[COWL_OT_A_SUB_ANNOT_PROP] = 2;
-    field_count[COWL_OT_A_ANNOT_PROP_DOMAIN] = 2;
-    field_count[COWL_OT_A_ANNOT_PROP_RANGE] = 2;
-    field_count[COWL_OT_CE_OBJ_SOME] = 1;
-    field_count[COWL_OT_CE_OBJ_ALL] = 1;
-    field_count[COWL_OT_CE_OBJ_MIN_CARD] = 1;
-    field_count[COWL_OT_CE_OBJ_MAX_CARD] = 1;
-    field_count[COWL_OT_CE_OBJ_EXACT_CARD] = 1;
-    field_count[COWL_OT_CE_OBJ_HAS_VALUE] = 2;
-    field_count[COWL_OT_CE_OBJ_HAS_SELF] = 1;
-    field_count[COWL_OT_CE_DATA_SOME] = 1;
-    field_count[COWL_OT_CE_DATA_ALL] = 1;
-    field_count[COWL_OT_CE_DATA_MIN_CARD] = 1;
-    field_count[COWL_OT_CE_DATA_MAX_CARD] = 1;
-    field_count[COWL_OT_CE_DATA_EXACT_CARD] = 1;
-    field_count[COWL_OT_CE_DATA_HAS_VALUE] = 2;
-    field_count[COWL_OT_CE_OBJ_INTERSECT] = 1;
-    field_count[COWL_OT_CE_OBJ_UNION] = 1;
-    field_count[COWL_OT_CE_OBJ_COMPL] = 1;
-    field_count[COWL_OT_CE_OBJ_ONE_OF] = 1;
-    field_count[COWL_OT_DR_DATATYPE_RESTR] = 2;
-    field_count[COWL_OT_DR_DATA_INTERSECT] = 1;
-    field_count[COWL_OT_DR_DATA_UNION] = 1;
-    field_count[COWL_OT_DR_DATA_COMPL] = 1;
-    field_count[COWL_OT_DR_DATA_ONE_OF] = 1;
-    field_count[COWL_OT_OPE_INV_OBJ_PROP] = 1;
-    return COWL_OK;
-}
+#define TF_FC(field_count) (field_count)
+#define TF_NONE 0x0U
+#define TF_PRIMITIVE 0x4U
+#define TF_ENTITY 0x8U
+#define TF_CARD_RESTR 0x10U
 
-void cowl_object_api_deinit(void) {}
+static ulib_byte type_flags[COWL_OT_COUNT] = {
+    [COWL_OT_STRING] = TF_NONE,
+    [COWL_OT_VECTOR] = TF_NONE,
+    [COWL_OT_TABLE] = TF_NONE,
+    [COWL_OT_IRI] = TF_PRIMITIVE,
+    [COWL_OT_LITERAL] = TF_NONE,
+    [COWL_OT_FACET_RESTR] = TF_FC(2),
+    [COWL_OT_ONTOLOGY] = TF_NONE,
+    [COWL_OT_MANAGER] = TF_NONE,
+    [COWL_OT_SYM_TABLE] = TF_NONE,
+    [COWL_OT_ISTREAM] = TF_NONE,
+    [COWL_OT_OSTREAM] = TF_NONE,
+    [COWL_OT_ANNOTATION] = TF_FC(2),
+    [COWL_OT_ANNOT_PROP] = TF_PRIMITIVE | TF_ENTITY,
+    [COWL_OT_A_DECL] = TF_FC(1),
+    [COWL_OT_A_DATATYPE_DEF] = TF_FC(2),
+    [COWL_OT_A_SUB_CLASS] = TF_FC(2),
+    [COWL_OT_A_EQUIV_CLASSES] = TF_FC(1),
+    [COWL_OT_A_DISJ_CLASSES] = TF_FC(1),
+    [COWL_OT_A_DISJ_UNION] = TF_FC(2),
+    [COWL_OT_A_CLASS_ASSERT] = TF_FC(2),
+    [COWL_OT_A_SAME_IND] = TF_FC(1),
+    [COWL_OT_A_DIFF_IND] = TF_FC(1),
+    [COWL_OT_A_OBJ_PROP_ASSERT] = TF_FC(3),
+    [COWL_OT_A_NEG_OBJ_PROP_ASSERT] = TF_FC(3),
+    [COWL_OT_A_DATA_PROP_ASSERT] = TF_FC(3),
+    [COWL_OT_A_NEG_DATA_PROP_ASSERT] = TF_FC(3),
+    [COWL_OT_A_SUB_OBJ_PROP] = TF_FC(2),
+    [COWL_OT_A_INV_OBJ_PROP] = TF_FC(2),
+    [COWL_OT_A_EQUIV_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_DISJ_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_FUNC_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_INV_FUNC_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_SYMM_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_ASYMM_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_TRANS_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_REFL_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_IRREFL_OBJ_PROP] = TF_FC(1),
+    [COWL_OT_A_OBJ_PROP_DOMAIN] = TF_FC(2),
+    [COWL_OT_A_OBJ_PROP_RANGE] = TF_FC(2),
+    [COWL_OT_A_SUB_DATA_PROP] = TF_FC(2),
+    [COWL_OT_A_EQUIV_DATA_PROP] = TF_FC(1),
+    [COWL_OT_A_DISJ_DATA_PROP] = TF_FC(1),
+    [COWL_OT_A_FUNC_DATA_PROP] = TF_FC(1),
+    [COWL_OT_A_DATA_PROP_DOMAIN] = TF_FC(2),
+    [COWL_OT_A_DATA_PROP_RANGE] = TF_FC(2),
+    [COWL_OT_A_HAS_KEY] = TF_FC(3),
+    [COWL_OT_A_ANNOT_ASSERT] = TF_FC(3),
+    [COWL_OT_A_SUB_ANNOT_PROP] = TF_FC(2),
+    [COWL_OT_A_ANNOT_PROP_DOMAIN] = TF_FC(2),
+    [COWL_OT_A_ANNOT_PROP_RANGE] = TF_FC(2),
+    [COWL_OT_CE_CLASS] = TF_PRIMITIVE | TF_ENTITY,
+    [COWL_OT_CE_OBJ_SOME] = TF_FC(1),
+    [COWL_OT_CE_OBJ_ALL] = TF_FC(1),
+    [COWL_OT_CE_OBJ_MIN_CARD] = TF_FC(1) | TF_CARD_RESTR,
+    [COWL_OT_CE_OBJ_MAX_CARD] = TF_FC(1) | TF_CARD_RESTR,
+    [COWL_OT_CE_OBJ_EXACT_CARD] = TF_FC(1) | TF_CARD_RESTR,
+    [COWL_OT_CE_OBJ_HAS_VALUE] = TF_FC(2),
+    [COWL_OT_CE_OBJ_HAS_SELF] = TF_FC(1),
+    [COWL_OT_CE_DATA_SOME] = TF_FC(1),
+    [COWL_OT_CE_DATA_ALL] = TF_FC(1),
+    [COWL_OT_CE_DATA_MIN_CARD] = TF_FC(1) | TF_CARD_RESTR,
+    [COWL_OT_CE_DATA_MAX_CARD] = TF_FC(1) | TF_CARD_RESTR,
+    [COWL_OT_CE_DATA_EXACT_CARD] = TF_FC(1) | TF_CARD_RESTR,
+    [COWL_OT_CE_DATA_HAS_VALUE] = TF_FC(2),
+    [COWL_OT_CE_OBJ_INTERSECT] = TF_FC(1),
+    [COWL_OT_CE_OBJ_UNION] = TF_FC(1),
+    [COWL_OT_CE_OBJ_COMPL] = TF_FC(1),
+    [COWL_OT_CE_OBJ_ONE_OF] = TF_FC(1),
+    [COWL_OT_DPE_DATA_PROP] = TF_PRIMITIVE | TF_ENTITY,
+    [COWL_OT_DR_DATATYPE] = TF_PRIMITIVE | TF_ENTITY,
+    [COWL_OT_DR_DATATYPE_RESTR] = TF_FC(2),
+    [COWL_OT_DR_DATA_INTERSECT] = TF_FC(1),
+    [COWL_OT_DR_DATA_UNION] = TF_FC(1),
+    [COWL_OT_DR_DATA_COMPL] = TF_FC(1),
+    [COWL_OT_DR_DATA_ONE_OF] = TF_FC(1),
+    [COWL_OT_I_ANONYMOUS] = TF_PRIMITIVE,
+    [COWL_OT_I_NAMED] = TF_PRIMITIVE | TF_ENTITY,
+    [COWL_OT_OPE_OBJ_PROP] = TF_PRIMITIVE | TF_ENTITY,
+    [COWL_OT_OPE_INV_OBJ_PROP] = TF_FC(1),
+};
+
+#define type_flag_is_special(f) (!(f))
+#define type_flag_is_primitive(f) ((f) & (0x4U))
+#define type_flag_is_entity(f) ((f) & (0x8U))
+#define type_flag_is_card_restr(f) ((f) & (0x10U))
+#define type_flag_field_count(f) ((f) & (0x3U))
+
+#define type_is_primitive(t) type_flag_is_primitive(type_flags[t])
+#define type_is_entity(t) type_flag_is_entity(type_flags[t])
+#define type_field_count(t) type_flag_field_count(type_flags[t])
 
 CowlAny *cowl_retain(CowlAny *object) {
     return cowl_object_incr_ref(object);
 }
 
 static inline void release_impl(CowlObjectType type, CowlComposite *object) {
-    ulib_byte n = field_count[type];
+    ulib_byte n = type_field_count(type);
     if (cowl_has_opt_field(object)) ++n;
     for (ulib_byte i = 0; i < n; ++i) {
         cowl_release(object->fields[i].obj);
@@ -122,16 +161,6 @@ void cowl_release(CowlAny *object) {
 
 CowlObjectType cowl_get_type(CowlAny *object) {
     return cowl_object_flags_get_type(((CowlObject *)object)->flags);
-}
-
-static inline bool type_is_entity(CowlObjectType type) {
-    return (type == COWL_OT_CE_CLASS || type == COWL_OT_DR_DATATYPE ||
-            type == COWL_OT_OPE_OBJ_PROP || type == COWL_OT_DPE_DATA_PROP ||
-            type == COWL_OT_ANNOT_PROP || type == COWL_OT_I_NAMED);
-}
-
-static inline bool type_is_primitive(CowlObjectType type) {
-    return type == COWL_OT_IRI || type_is_entity(type);
 }
 
 bool cowl_is_primitive(CowlAny *object) {
@@ -202,51 +231,40 @@ CowlString *cowl_to_debug_string(CowlAny *object) {
     return cowl_to_string_impl(object, cowl_write_debug_impl);
 }
 
-static inline bool equals_impl(CowlObjectType type, CowlAny *lhs, CowlAny *rhs) {
-    ulib_byte n = field_count[type];
+bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
+    CowlObjectType type = cowl_get_type(lhs);
+    if (type != cowl_get_type(rhs)) return false;
+
+    ulib_byte const flags = type_flags[type];
+
+    if (type_flag_is_special(flags)) {
+        switch (type) {
+            case COWL_OT_STRING: return cowl_string_equals(lhs, rhs);
+            case COWL_OT_VECTOR: return cowl_vector_equals(lhs, rhs);
+            case COWL_OT_TABLE: return cowl_table_equals(lhs, rhs);
+            case COWL_OT_LITERAL: return cowl_literal_equals(lhs, rhs);
+            case COWL_OT_ONTOLOGY: return cowl_ontology_equals(lhs, rhs);
+            default: return lhs == rhs;
+        }
+    }
+
+    ulib_byte n = type_flag_field_count(flags);
     if (!n) return lhs == rhs;
+
+    bool has_opt = cowl_has_opt_field(lhs);
+    if (has_opt != cowl_has_opt_field(rhs)) return false;
+    if (has_opt) ++n;
 
     CowlComposite *l = lhs, *r = rhs;
     for (ulib_byte i = 0; i < n; ++i) {
         if (!cowl_equals(l->fields[i].obj, r->fields[i].obj)) return false;
     }
 
-    bool has_opt = cowl_has_opt_field(lhs);
-    if (has_opt != cowl_has_opt_field(rhs)) return false;
-    if (!has_opt) return true;
-    return cowl_equals(l->fields[n].obj, r->fields[n].obj);
-}
-
-bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
-    CowlObjectType type = cowl_get_type(lhs);
-    if (type != cowl_get_type(rhs)) return false;
-
-    switch (type) {
-        case COWL_OT_STRING: return cowl_string_equals(lhs, rhs);
-        case COWL_OT_VECTOR: return cowl_vector_equals(lhs, rhs);
-        case COWL_OT_TABLE: return cowl_table_equals(lhs, rhs);
-        case COWL_OT_LITERAL: return cowl_literal_equals(lhs, rhs);
-        case COWL_OT_ONTOLOGY: return cowl_ontology_equals(lhs, rhs);
-
-        case COWL_OT_IRI:
-        case COWL_OT_ANNOT_PROP:
-        case COWL_OT_CE_CLASS:
-        case COWL_OT_DPE_DATA_PROP:
-        case COWL_OT_DR_DATATYPE:
-        case COWL_OT_I_NAMED:
-        case COWL_OT_I_ANONYMOUS:
-        case COWL_OT_OPE_OBJ_PROP: return cowl_primitive_equals(lhs, rhs);
-
-        case COWL_OT_CE_OBJ_MIN_CARD:
-        case COWL_OT_CE_OBJ_MAX_CARD:
-        case COWL_OT_CE_OBJ_EXACT_CARD:
-        case COWL_OT_CE_DATA_MIN_CARD:
-        case COWL_OT_CE_DATA_MAX_CARD:
-        case COWL_OT_CE_DATA_EXACT_CARD:
-            if (cowl_get_uint_field(lhs) != cowl_get_uint_field(rhs)) return false;
-            // Fallthrough
-        default: return equals_impl(type, lhs, rhs);
+    if (type_flag_is_card_restr(flags)) {
+        return cowl_get_uint_field(lhs) == cowl_get_uint_field(rhs);
     }
+
+    return true;
 }
 
 bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
@@ -261,9 +279,25 @@ bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
     return ustring_starts_with(iri_str, *cowl_string_get_raw(ns));
 }
 
-static inline ulib_uint hash_impl(CowlObjectType type, CowlAny *object) {
-    ulib_byte n = field_count[type];
+ulib_uint cowl_hash(CowlAny *object) {
+    CowlObjectType type = cowl_get_type(object);
+
+    ulib_byte const flags = type_flags[type];
+
+    if (type_flag_is_special(flags)) {
+        switch (type) {
+            case COWL_OT_STRING: return cowl_string_hash(object);
+            case COWL_OT_VECTOR: return cowl_vector_hash(object);
+            case COWL_OT_TABLE: return cowl_table_hash(object);
+            case COWL_OT_LITERAL: return cowl_literal_hash(object);
+            case COWL_OT_ONTOLOGY: return cowl_ontology_hash(object);
+            default: return uhash_ptr_hash(object);
+        }
+    }
+
+    ulib_byte n = type_flag_field_count(flags);
     if (!n) return uhash_ptr_hash(object);
+    if (cowl_has_opt_field(object)) ++n;
 
     CowlComposite *o = object;
     ulib_uint hash = uhash_combine_hash(6151U, type);
@@ -272,40 +306,11 @@ static inline ulib_uint hash_impl(CowlObjectType type, CowlAny *object) {
         hash = uhash_combine_hash(hash, cowl_hash(o->fields[i].obj));
     }
 
-    return hash;
-}
-
-static inline ulib_uint hash_impl_uint(CowlObjectType type, CowlAny *object) {
-    ulib_uint hash = hash_impl(type, object);
-    return uhash_combine_hash(hash, cowl_get_uint_field(object));
-}
-
-ulib_uint cowl_hash(CowlAny *object) {
-    CowlObjectType type = cowl_get_type(object);
-    switch (type) {
-        case COWL_OT_STRING: return cowl_string_hash(object);
-        case COWL_OT_VECTOR: return cowl_vector_hash(object);
-        case COWL_OT_TABLE: return cowl_table_hash(object);
-        case COWL_OT_LITERAL: return cowl_literal_hash(object);
-        case COWL_OT_ONTOLOGY: return cowl_ontology_hash(object);
-
-        case COWL_OT_IRI:
-        case COWL_OT_ANNOT_PROP:
-        case COWL_OT_CE_CLASS:
-        case COWL_OT_DPE_DATA_PROP:
-        case COWL_OT_DR_DATATYPE:
-        case COWL_OT_I_NAMED:
-        case COWL_OT_I_ANONYMOUS:
-        case COWL_OT_OPE_OBJ_PROP: return cowl_primitive_hash(object);
-
-        case COWL_OT_CE_OBJ_MIN_CARD:
-        case COWL_OT_CE_OBJ_MAX_CARD:
-        case COWL_OT_CE_OBJ_EXACT_CARD:
-        case COWL_OT_CE_DATA_MIN_CARD:
-        case COWL_OT_CE_DATA_MAX_CARD:
-        case COWL_OT_CE_DATA_EXACT_CARD: return hash_impl_uint(type, object);
-        default: return hash_impl(type, object);
+    if (type_flag_is_card_restr(flags)) {
+        hash = uhash_combine_hash(hash, cowl_get_uint_field(object));
     }
+
+    return hash;
 }
 
 static inline bool
@@ -315,7 +320,7 @@ iterate_pf(CowlPrimitiveFlags type, CowlAny *object, CowlPrimitiveFlags flags, C
 
 static inline bool
 iterate_impl(CowlObjectType type, CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    ulib_byte n = field_count[type];
+    ulib_byte const n = type_field_count(type);
     if (!n) return true;
     CowlComposite *o = object;
     for (ulib_byte i = 0; i < n; ++i) {
@@ -344,7 +349,7 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
 }
 
 CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
-    ulib_byte const n = field_count[type];
+    ulib_byte const n = type_field_count(type);
     CowlComposite *o = ulib_malloc(sizeof(*o) + (opt ? n + 1 : n) * sizeof(*o->fields));
     if (!o) return NULL;
 
@@ -363,7 +368,7 @@ CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector 
 }
 
 CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
-    ulib_byte n = field_count[type];
+    ulib_byte const n = type_field_count(type);
     ulib_byte data_size = opt ? n + 2 : n + 1;
     CowlComposite *obj = ulib_malloc(sizeof(*obj) + data_size * sizeof(*obj->fields));
     if (!obj) return NULL;
@@ -390,12 +395,12 @@ void cowl_release_all_impl(CowlAny **objects) {
 }
 
 CowlAny **cowl_get_fields(CowlAny *object, unsigned *count) {
-    *count = field_count[cowl_get_type(object)];
+    *count = cowl_get_field_count(object);
     return (CowlAny **)((CowlComposite *)object)->fields;
 }
 
 unsigned cowl_get_field_count(CowlAny *object) {
-    return field_count[cowl_get_type(object)];
+    return type_field_count(cowl_get_type(object));
 }
 
 CowlAny *cowl_get_field(CowlAny *object, unsigned index) {
@@ -408,11 +413,11 @@ bool cowl_has_opt_field(CowlAny *object) {
 
 CowlAny *cowl_get_opt_field(CowlAny *object) {
     if (!cowl_has_opt_field(object)) return NULL;
-    return cowl_get_field(object, field_count[cowl_get_type(object)]);
+    return cowl_get_field(object, cowl_get_field_count(object));
 }
 
 ulib_uint cowl_get_uint_field(CowlAny *object) {
-    ulib_byte idx = field_count[cowl_get_type(object)];
-    if (cowl_has_opt_field(object)) idx++;
+    unsigned idx = cowl_get_field_count(object);
+    if (cowl_has_opt_field(object)) ++idx;
     return ((CowlComposite *)object)->fields[idx].uint;
 }

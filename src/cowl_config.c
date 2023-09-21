@@ -58,9 +58,9 @@ cowl_ret cowl_init(void) {
     cowl_initialized = true;
     cowl_config_init();
 
-    if (cowl_object_api_init() || cowl_iri_api_init() || cowl_entity_api_init() ||
-        cowl_anon_ind_api_init() || cowl_string_api_init() || cowl_owl_vocab_init() ||
-        cowl_rdf_vocab_init() || cowl_rdfs_vocab_init() || cowl_xsd_vocab_init()) {
+    if (cowl_iri_api_init() || cowl_entity_api_init() || cowl_anon_ind_api_init() ||
+        cowl_string_api_init() || cowl_owl_vocab_init() || cowl_rdf_vocab_init() ||
+        cowl_rdfs_vocab_init() || cowl_xsd_vocab_init()) {
         return COWL_ERR_MEM;
     }
 
@@ -73,7 +73,6 @@ void cowl_deinit(void) {
     cowl_entity_api_deinit();
     cowl_iri_api_deinit();
     cowl_string_api_deinit();
-    cowl_object_api_deinit();
     cowl_config_deinit();
     cowl_owl_vocab_deinit();
     cowl_rdf_vocab_deinit();
