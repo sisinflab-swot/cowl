@@ -1,5 +1,0 @@
-====================
-Ontology Identifiers
-====================
-
-.. doxygenstruct:: CowlOntologyId

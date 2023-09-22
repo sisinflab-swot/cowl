@@ -110,8 +110,6 @@ from mass storage or retrieving them from the network. Cowl's approach to import
 its :ref:`focus on portability <about>`, so ontology retrieval
 :ref:`is delegated to the end user <import>`.
 
-.. _query:
-
 Ontology queries
 ----------------
 
@@ -120,12 +118,10 @@ of :class:`CowlAxiom` instances. Under the hood, a :class:`CowlOntology` is an o
 self-organizing in-memory store, which keeps axioms indexed by type and referenced entities,
 allowing for very fast queries.
 
-The base mechanism for querying a :class:`CowlOntology` is invoking its iterator
-member functions, which generally accept :class:`CowlIterator` instances.
-
-:class:`CowlIterator` is a wrapper around a function that is called for every element matched
-by the query. By providing a generic context pointer, you can plug any custom data structure
-(loggers, collections, etc.), which allows for arbitrarily complex programmatic queries.
+Ontology queries are functional, and query endpoints can be easily recognized in the
+:class:`CowlOntology` API as they accept :class:`CowlIterator` instances.
+See :ref:`the related documentation <querying>` and :ref:`examples <examples>`
+for further information about how to use iterators.
 
 Ontology editing and writing
 ----------------------------

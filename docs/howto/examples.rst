@@ -29,7 +29,7 @@ Related documentation: :ref:`error handling <error>`, :ref:`import handling <imp
 Querying ontologies
 ===================
 
-Related documentation: :ref:`ontology queries <query>`
+Related documentation: :ref:`ontology querying <querying>`
 
 Basic queries
 -------------

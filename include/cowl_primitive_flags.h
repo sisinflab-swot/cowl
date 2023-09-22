@@ -21,7 +21,12 @@ COWL_BEGIN_DECLS
 /// Size of the CowlPrimitiveFlags type in bits.
 #define COWL_PF 8
 
-/// These flags are used to control iteration over primitives.
+/**
+ * @defgroup CowlPrimitiveFlags Flags to control iteration over primitives.
+ * @{
+ */
+
+/// Flags to control iteration over primitives.
 typedef UBit(COWL_PF) CowlPrimitiveFlags;
 
 /// Iterate over no primitives.
@@ -85,6 +90,8 @@ COWL_INLINE
 bool cowl_primitive_flags_has_type(CowlPrimitiveFlags flags, CowlPrimitiveType type) {
     return ubit_is_set(COWL_PF, flags, ubit_bit(COWL_PF, type));
 }
+
+/// @}
 
 COWL_END_DECLS
 

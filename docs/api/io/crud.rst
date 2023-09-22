@@ -60,6 +60,22 @@ which tells the library how each OWL construct detected in the byte stream shoul
 .. doxygenstruct:: CowlIStream
 .. doxygenstruct:: CowlIStreamHandlers
 
+.. _querying:
+
+Querying
+========
+
+The base mechanism for querying a :class:`CowlOntology` and other constructs is invoking
+their iterator member functions, which generally accept :class:`CowlIterator` instances.
+
+:class:`CowlIterator` is a wrapper around a function that is called for every element matched
+by the query. By providing a generic context pointer, you can plug any custom data structure
+(loggers, collections, etc.), which allows for arbitrarily complex programmatic queries.
+Iteration can be stopped at any time, enabling early termination for queries such as
+finding the first construct that matches some condition.
+
+.. doxygenstruct:: CowlIterator
+
 .. _editing:
 
 Editing
