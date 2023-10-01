@@ -183,6 +183,8 @@ if(COWL_LTO_ENABLED)
     set_property(TARGET cowl PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
+install(TARGETS cowl ulib)
+
 # Subprojects
 
 add_subdirectory("${COWL_DOCS_DIR}")
