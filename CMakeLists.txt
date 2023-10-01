@@ -174,6 +174,7 @@ target_include_directories(cowl
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_link_libraries(cowl PUBLIC ulib)
 add_dependencies(cowl cowl-readers cowl-headers)
+install(TARGETS cowl)
 
 if(COWL_LIBRARY_TYPE STREQUAL "SHARED")
     target_compile_definitions(cowl PUBLIC COWL_SHARED)
