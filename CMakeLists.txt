@@ -149,14 +149,6 @@ if(COWL_WRITERS)
     endif()
 endif()
 
-# Copy headers
-
-add_custom_target(cowl-headers
-                  COMMAND "${CMAKE_COMMAND}" -E remove_directory "${COWL_HEADERS_OUT_DIR}"
-                  COMMAND "${CMAKE_COMMAND}" -E make_directory "${COWL_HEADERS_OUT_DIR}"
-                  COMMAND ${CMAKE_COMMAND} -E copy ${COWL_PUBLIC_HEADERS} "${COWL_HEADERS_OUT_DIR}"
-                  COMMENT "Copy headers to the build directory.")
-
 # Library
 
 add_library(cowl ${COWL_LIBRARY_TYPE} ${COWL_SOURCES})
@@ -173,7 +165,7 @@ target_include_directories(cowl
                            PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
                            PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_link_libraries(cowl PUBLIC ulib)
-add_dependencies(cowl cowl-readers cowl-headers)
+add_dependencies(cowl cowl-readers)
 
 if(COWL_LIBRARY_TYPE STREQUAL "SHARED")
     target_compile_definitions(cowl PUBLIC COWL_SHARED)
