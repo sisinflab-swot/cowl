@@ -60,11 +60,14 @@ The following commands allow you to build Cowl:
    # [Optional] Edit build settings (build type, optimization options, etc.)
    ccmake cmake-build
 
-   # Build the libraries and copy public headers into the output dir
+   # Build the library
    cmake --build cmake-build --config Release
 
    # [Optional] Build the documentation
    cmake --build cmake-build --target cowl-docs
+
+   # [Optional] Install the library and its headers in <install path>
+   cmake --install cmake-build --prefix <install path>
 
 Linking
 -------
