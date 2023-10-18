@@ -12,7 +12,7 @@
 #include "cowl_string_private.h"
 #include "cowl_table.h"
 
-static ulib_uint const rand_id_len = P_USTRING_SMALL_SIZE - 1;
+static ulib_uint const rand_id_len = P_USTRING_SIZE - 1;
 
 static UHash(CowlObjectTable) inst_tbl;
 
