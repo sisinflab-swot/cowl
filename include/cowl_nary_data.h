@@ -34,14 +34,15 @@ cowl_struct_decl(CowlNAryData);
  */
 
 /**
- * Returns a retained N-ary data range.
+ * Returns a N-ary data range.
  *
  * @param type N-ary data range type.
  * @param operands The operands.
- * @return Retained N-ary data range, or NULL on error.
+ * @return N-ary data range, or NULL on error.
  *
  * @public @memberof CowlNAryData
  */
+COWL_RETAINED
 COWL_INLINE
 CowlNAryData *cowl_nary_data(CowlNAryType type, CowlVector *operands) {
     if (!cowl_enum_value_is_valid(NT, type)) return NULL;

@@ -30,10 +30,10 @@ cowl_struct_decl(CowlString);
  */
 
 /**
- * Returns a retained string.
+ * Returns a string.
  *
  * @param string The underlying string object.
- * @return Retained string, or NULL on error.
+ * @return String, or NULL on error.
  *
  * @note The buffer of the raw string must have been dynamically allocated.
  * @note Ownership of the raw string is transferred to the newly created CowlString,
@@ -43,10 +43,11 @@ cowl_struct_decl(CowlString);
  * @public @memberof CowlString
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_string(UString string);
 
 /**
- * Returns a retained string.
+ * Returns a string.
  *
  * String creation is governed by the following options:
  *
@@ -60,31 +61,34 @@ CowlString *cowl_string(UString string);
  *
  * @param string The underlying string object.
  * @param opts String creation options.
- * @return Retained string, or NULL on error.
+ * @return String, or NULL on error.
  *
  * @public @memberof CowlString
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_string_opt(UString string, CowlStringOpts opts);
 
 /**
- * Returns a retained string from the specified static string.
+ * Returns a string from the specified static string.
  *
  * @param CSTR [char const[]] The static string.
- * @return [CowlString *] Retained string, or NULL on error.
+ * @return [CowlString *] String, or NULL on error.
  *
  * @public @related CowlString
  */
+COWL_RETAINED
 #define cowl_string_from_static(CSTR) cowl_string_opt(ustring_literal(CSTR), COWL_SO_COPY)
 
 /**
- * Returns a retained empty string.
+ * Returns an empty string.
  *
- * @return Retained string, or NULL on error.
+ * @return String, or NULL on error.
  *
  * @public @memberof CowlString
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_string_empty(void);
 
 /**
@@ -153,27 +157,29 @@ COWL_PUBLIC
 UString const *cowl_string_get_raw(CowlString *string);
 
 /**
- * Returns a retained string with the specified format.
+ * Returns a string with the specified format.
  *
  * @param format Format string.
  * @param ... Format arguments.
- * @return Retained string, or NULL on error.
+ * @return String, or NULL on error.
  *
  * @public @memberof CowlString
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_string_with_format(char const *format, ...);
 
 /**
- * Returns a retained string obtained by concatenating two strings.
+ * Returns a string obtained by concatenating two strings.
  *
  * @param lhs LHS of the concatenation.
  * @param rhs RHS of the concatenation.
- * @return Retained string, or NULL on error.
+ * @return String, or NULL on error.
  *
  * @public @memberof CowlString
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_string_concat(CowlString *lhs, CowlString *rhs);
 
 /**

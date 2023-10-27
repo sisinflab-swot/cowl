@@ -43,9 +43,9 @@ cowl_struct_decl(CowlManager);
  */
 
 /**
- * Returns a retained manager that uses the default reader and writer.
+ * Returns a manager that uses the default reader and writer.
  *
- * @return Retained manager, or NULL on error.
+ * @return Manager, or NULL on error.
  *
  * @note You can specify the default reader and writer
  *       via `cowl_set_reader()` and `cowl_set_writer()`.
@@ -53,6 +53,7 @@ cowl_struct_decl(CowlManager);
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlManager *cowl_manager(void);
 
 /**
@@ -107,11 +108,10 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
  * @param id The ontology identifier.
  * @return Ontology with the specified identifier.
  *
- * @note The returned ontology is retained, so you are responsible for releasing it.
- *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
 
 /**
@@ -121,11 +121,10 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
  * @param path The file path.
  * @return The read ontology, or NULL on error.
  *
- * @note The returned ontology is retained, so you are responsible for releasing it.
- *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path);
 
 /**
@@ -135,11 +134,10 @@ CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path);
  * @param file The input file.
  * @return The read ontology, or NULL on error.
  *
- * @note The returned ontology is retained, so you are responsible for releasing it.
- *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file);
 
 /**
@@ -149,11 +147,10 @@ CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file);
  * @param string The input string.
  * @return The read ontology, or NULL on error.
  *
- * @note The returned ontology is retained, so you are responsible for releasing it.
- *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *string);
 
 /**
@@ -164,11 +161,11 @@ CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *stri
  * @return The read ontology, or NULL on error.
  *
  * @note The stream is not released by the manager, you must do it yourself.
- * @note The returned ontology is retained, so you are responsible for releasing it.
  *
  * @public @memberof CowlManager
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
 
 /**

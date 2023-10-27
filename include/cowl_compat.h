@@ -74,6 +74,9 @@
 /// Marks inline function definitions.
 #define COWL_INLINE static inline
 
+/// Marks functions that return retained instances.
+#define COWL_RETAINED // No-op
+
 /// Suppresses unused variable warnings.
 #ifndef cowl_unused
     #if (defined __clang__ && __clang_major__ >= 3) || (defined __GNUC__ && __GNUC__ >= 3)

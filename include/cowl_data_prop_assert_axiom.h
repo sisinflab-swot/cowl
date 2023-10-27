@@ -40,16 +40,17 @@ cowl_struct_decl(CowlDataPropAssertAxiom);
  */
 
 /**
- * Returns a retained data property assertion axiom.
+ * Returns a data property assertion axiom.
  *
  * @param prop The data property.
  * @param subj The assertion subject.
  * @param obj The assertion object.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlDataPropAssertAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataPropAssertAxiom *
 cowl_data_prop_assert_axiom(CowlAnyDataPropExp *prop, CowlAnyIndividual *subj, CowlLiteral *obj,
@@ -59,16 +60,17 @@ cowl_data_prop_assert_axiom(CowlAnyDataPropExp *prop, CowlAnyIndividual *subj, C
 }
 
 /**
- * Returns a retained negative data property assertion axiom.
+ * Returns a negative data property assertion axiom.
  *
  * @param subj The assertion subject.
  * @param prop The data property.
  * @param obj The assertion object.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlDataPropAssertAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataPropAssertAxiom *
 cowl_neg_data_prop_assert_axiom(CowlAnyDataPropExp *prop, CowlAnyIndividual *subj, CowlLiteral *obj,

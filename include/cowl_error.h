@@ -64,11 +64,10 @@ typedef struct CowlSyntaxError {
  * @param error The error.
  * @return String representation, or NULL on error.
  *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
  * @public @memberof CowlError
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_error_to_string(CowlError const *error);
 
 COWL_END_DECLS

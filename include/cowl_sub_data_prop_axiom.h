@@ -33,15 +33,16 @@ cowl_struct_decl(CowlSubDataPropAxiom);
  */
 
 /**
- * Returns a retained data subproperty axiom.
+ * Returns a data subproperty axiom.
  *
  * @param sub The subproperty.
  * @param super The superproperty.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlSubDataPropAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlSubDataPropAxiom *
 cowl_sub_data_prop_axiom(CowlAnyDataPropExp *sub, CowlAnyDataPropExp *super, CowlVector *annot) {

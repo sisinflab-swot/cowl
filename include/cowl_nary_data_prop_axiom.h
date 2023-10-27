@@ -35,15 +35,16 @@ cowl_struct_decl(CowlNAryDataPropAxiom);
  */
 
 /**
- * Returns a retained N-ary data property axiom.
+ * Returns a N-ary data property axiom.
  *
  * @param type The type.
  * @param props The data properties.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlNAryDataPropAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlNAryDataPropAxiom *
 cowl_nary_data_prop_axiom(CowlNAryAxiomType type, CowlVector *props, CowlVector *annot) {

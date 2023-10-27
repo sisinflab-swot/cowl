@@ -34,16 +34,17 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
  */
 
 /**
- * Returns a retained annotation assertion axiom.
+ * Returns an annotation assertion axiom.
  *
  * @param prop The annotation property.
  * @param subject The annotation subject.
  * @param value The annotation value.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlAnnotAssertAxiom *cowl_annot_assert_axiom(CowlAnnotProp *prop, CowlAnyAnnotValue *subject,
                                               CowlAnyAnnotValue *value, CowlVector *annot) {

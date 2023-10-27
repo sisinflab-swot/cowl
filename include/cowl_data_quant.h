@@ -35,16 +35,17 @@ cowl_struct_decl(CowlDataQuant);
  */
 
 /**
- * Returns a retained data quantifier.
+ * Returns a data quantifier.
  *
  * @param type Data quantifier type.
  * @param prop The data property.
  * @param range Range of the quantifier.
- * @return Retained data quantifier, or NULL on error.
+ * @return Data quantifier, or NULL on error.
  *
  * @public @memberof CowlDataQuant
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlDataQuant *
 cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range);
 

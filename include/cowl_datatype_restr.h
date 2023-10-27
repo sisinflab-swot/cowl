@@ -33,14 +33,15 @@ cowl_struct_decl(CowlDatatypeRestr);
  */
 
 /**
- * Returns a retained datatype restriction.
+ * Returns a datatype restriction.
  *
  * @param datatype The datatype that this data range restricts.
  * @param restrictions Set of facet restrictions.
- * @return Retained datatype restriction, or NULL on error.
+ * @return Datatype restriction, or NULL on error.
  *
  * @public @memberof CowlDatatypeRestr
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDatatypeRestr *cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restrictions) {
     return (CowlDatatypeRestr *)cowl_get_impl_2(COWL_OT_DR_DATATYPE_RESTR, datatype, restrictions);

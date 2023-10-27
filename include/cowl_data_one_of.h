@@ -32,13 +32,14 @@ cowl_struct_decl(CowlDataOneOf);
  */
 
 /**
- * Returns a retained literal enumeration.
+ * Returns a literal enumeration.
  *
  * @param values The enumeration values.
- * @return Retained literal enumeration, or NULL on error.
+ * @return Literal enumeration, or NULL on error.
  *
  * @public @memberof CowlDataOneOf
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataOneOf *cowl_data_one_of(CowlVector *values) {
     return (CowlDataOneOf *)cowl_get_impl_1(COWL_OT_DR_DATA_ONE_OF, values);

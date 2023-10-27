@@ -33,37 +33,39 @@ cowl_struct_decl(CowlIRI);
  */
 
 /**
- * Returns a retained IRI whose string representation is the concatenation of
- * the specified strings.
+ * Returns an IRI whose string representation is the concatenation of the specified strings.
  *
  * @param prefix The prefix.
  * @param suffix The suffix.
- * @return Retained IRI, or NULL on error
+ * @return IRI, or NULL on error
  *
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix);
 
 /**
- * Returns a retained IRI given its string representation.
+ * Returns an IRI given its string representation.
  *
  * @param string String representation of the IRI.
- * @return Retained IRI, or NULL on error
+ * @return IRI, or NULL on error
  *
  * @public @memberof CowlIRI
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlIRI *cowl_iri_from_string(UString string);
 
 /**
- * Returns a retained IRI given its static string representation.
+ * Returns an IRI given its static string representation.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlIRI *] Retained IRI, or NULL on error
+ * @return [CowlIRI *] IRI, or NULL on error
  *
  * @public @related CowlIRI
  */
+COWL_RETAINED
 #define cowl_iri_from_static(CSTR) (cowl_iri_from_string(ustring_literal(CSTR)))
 
 /**

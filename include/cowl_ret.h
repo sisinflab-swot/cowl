@@ -113,10 +113,9 @@ UString cowl_ret_to_ustring(cowl_ret ret);
  *
  * @param ret Return value.
  * @return String representation, or NULL on error.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_ret_to_string(cowl_ret ret);
 
 /// @}

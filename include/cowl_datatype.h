@@ -32,39 +32,42 @@ cowl_struct_decl(CowlDatatype);
  */
 
 /**
- * Returns a retained datatype.
+ * Returns a datatype.
  *
  * @param iri IRI of the datatype.
- * @return Retained datatype, or NULL on error.
+ * @return Datatype, or NULL on error.
  *
  * @public @memberof CowlDatatype
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDatatype *cowl_datatype(CowlIRI *iri) {
     return (CowlDatatype *)cowl_entity_get_impl(COWL_OT_DR_DATATYPE, iri);
 }
 
 /**
- * Returns a retained datatype given the string representation of its IRI.
+ * Returns a datatype given the string representation of its IRI.
  *
  * @param string String representation of the IRI.
- * @return Retained datatype, or NULL on error.
+ * @return Datatype, or NULL on error.
  *
  * @public @memberof CowlDatatype
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDatatype *cowl_datatype_from_string(UString string) {
     return (CowlDatatype *)cowl_entity_from_string_impl(COWL_OT_DR_DATATYPE, string);
 }
 
 /**
- * Returns a retained datatype given the static string representation of its IRI.
+ * Returns a datatype given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlDatatype *] Retained datatype, or NULL on error.
+ * @return [CowlDatatype *] Datatype, or NULL on error.
  *
  * @public @related CowlDatatype
  */
+COWL_RETAINED
 #define cowl_datatype_from_static(CSTR) cowl_datatype_from_string(ustring_literal(CSTR))
 
 /**

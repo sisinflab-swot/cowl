@@ -34,15 +34,16 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
  */
 
 /**
- * Returns a retained datatype definition axiom.
+ * Returns a datatype definition axiom.
  *
  * @param dt The defined datatype.
  * @param range Range of the defined datatype.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDatatypeDefAxiom *
 cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange *range, CowlVector *annot) {

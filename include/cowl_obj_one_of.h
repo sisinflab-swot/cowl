@@ -32,13 +32,14 @@ cowl_struct_decl(CowlObjOneOf);
  */
 
 /**
- * Returns a retained individual enumeration.
+ * Returns an individual enumeration.
  *
  * @param inds The individuals.
- * @return Retained individual enumeration, or NULL on error.
+ * @return Individual enumeration, or NULL on error.
  *
  * @public @memberof CowlObjOneOf
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjOneOf *cowl_obj_one_of(CowlVector *inds) {
     return (CowlObjOneOf *)cowl_get_impl_1(COWL_OT_CE_OBJ_ONE_OF, inds);

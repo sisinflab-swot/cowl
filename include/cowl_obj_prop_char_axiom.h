@@ -55,15 +55,16 @@ cowl_struct_decl(CowlObjPropCharAxiom);
  */
 
 /**
- * Returns a retained object property characteristic axiom.
+ * Returns an object property characteristic axiom.
  *
  * @param type The type.
  * @param prop The object property expression.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlObjPropCharAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjPropCharAxiom *
 cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop, CowlVector *annot) {

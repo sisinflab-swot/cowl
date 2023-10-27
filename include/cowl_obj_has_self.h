@@ -32,13 +32,14 @@ cowl_struct_decl(CowlObjHasSelf);
  */
 
 /**
- * Returns a retained self-restriction.
+ * Returns a self-restriction.
  *
  * @param prop The property expression.
- * @return Retained restriction, or NULL on error.
+ * @return Restriction, or NULL on error.
  *
  * @public @memberof CowlObjHasSelf
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjHasSelf *cowl_obj_has_self(CowlAnyObjPropExp *prop) {
     return (CowlObjHasSelf *)cowl_get_impl_1(COWL_OT_CE_OBJ_HAS_SELF, prop);

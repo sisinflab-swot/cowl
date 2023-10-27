@@ -34,15 +34,16 @@ cowl_struct_decl(CowlDataPropRangeAxiom);
  */
 
 /**
- * Returns a retained data property range axiom.
+ * Returns a data property range axiom.
  *
  * @param prop The data property.
  * @param range Range of the data property.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataPropRangeAxiom *
 cowl_data_prop_range_axiom(CowlAnyDataPropExp *prop, CowlAnyDataRange *range, CowlVector *annot) {

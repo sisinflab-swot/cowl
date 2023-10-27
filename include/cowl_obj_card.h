@@ -37,17 +37,18 @@ cowl_struct_decl(CowlObjCard);
  */
 
 /**
- * Returns a retained object property cardinality restriction.
+ * Returns an object property cardinality restriction.
  *
  * @param type The type.
  * @param prop The object property.
  * @param filler [optional] Filler of the restriction.
  * @param cardinality Cardinality of the restriction.
- * @return Retained restriction, or NULL on error.
+ * @return Restriction, or NULL on error.
  *
  * @public @memberof CowlObjCard
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler,
                            ulib_uint cardinality);
 

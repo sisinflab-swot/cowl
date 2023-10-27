@@ -34,15 +34,16 @@ cowl_struct_decl(CowlObjPropRangeAxiom);
  */
 
 /**
- * Returns a retained object property range axiom.
+ * Returns an object property range axiom.
  *
  * @param prop The object property.
  * @param range Range of the object property.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlObjPropRangeAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjPropRangeAxiom *
 cowl_obj_prop_range_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *range, CowlVector *annot) {

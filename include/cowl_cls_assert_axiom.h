@@ -34,15 +34,16 @@ cowl_struct_decl(CowlClsAssertAxiom);
  */
 
 /**
- * Returns a retained class assertion axiom.
+ * Returns a class assertion axiom.
  *
  * @param exp The asserted class expression.
  * @param ind The assertion individual.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlClsAssertAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlClsAssertAxiom *
 cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual *ind, CowlVector *annot) {

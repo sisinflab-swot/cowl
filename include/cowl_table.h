@@ -30,10 +30,10 @@ cowl_struct_decl(CowlTable);
  */
 
 /**
- * Returns a retained hash table.
+ * Returns an hash table.
  *
  * @param table Underlying raw hash table.
- * @return Retained hash table, or NULL on error.
+ * @return Hash table, or NULL on error.
  *
  * @note You must not use the raw hash table after passing it to this function.
  * @note Keys and values in the raw table are retained by this constructor.
@@ -41,15 +41,17 @@ cowl_struct_decl(CowlTable);
  * @public @memberof CowlTable
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlTable *cowl_table(UHash(CowlObjectTable) *table);
 
 /**
- * Returns a retained hash table with no elements.
+ * Returns an hash table with no elements.
  *
- * @return [CowlTable*] Retained hash table, or NULL on error.
+ * @return [CowlTable*] Hash table, or NULL on error.
  *
  * @public @related CowlTable
  */
+COWL_RETAINED
 #define cowl_table_empty() cowl_table(NULL)
 
 /**

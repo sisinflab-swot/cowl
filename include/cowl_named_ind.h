@@ -32,39 +32,42 @@ cowl_struct_decl(CowlNamedInd);
  */
 
 /**
- * Returns a retained named individual.
+ * Returns a named individual.
  *
  * @param iri IRI of the individual.
- * @return Retained named individual, or NULL on error.
+ * @return Named individual, or NULL on error.
  *
  * @public @memberof CowlNamedInd
  */
+COWL_RETAINED
 COWL_INLINE
 CowlNamedInd *cowl_named_ind(CowlIRI *iri) {
     return (CowlNamedInd *)cowl_entity_get_impl(COWL_OT_I_NAMED, iri);
 }
 
 /**
- * Returns a retained named individual given the string representation of its IRI.
+ * Returns a named individual given the string representation of its IRI.
  *
  * @param string String representation of the IRI.
- * @return Retained named individual, or NULL on error.
+ * @return Named individual, or NULL on error.
  *
  * @public @memberof CowlNamedInd
  */
+COWL_RETAINED
 COWL_INLINE
 CowlNamedInd *cowl_named_ind_from_string(UString string) {
     return (CowlNamedInd *)cowl_entity_from_string_impl(COWL_OT_I_NAMED, string);
 }
 
 /**
- * Returns a retained named individual given the static string representation of its IRI.
+ * Returns a named individual given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlNamedInd *] Retained named individual, or NULL on error.
+ * @return [CowlNamedInd *] Named individual, or NULL on error.
  *
  * @public @related CowlNamedInd
  */
+COWL_RETAINED
 #define cowl_named_ind_from_static(CSTR) cowl_named_ind_from_string(ustring_literal(CSTR))
 
 /**

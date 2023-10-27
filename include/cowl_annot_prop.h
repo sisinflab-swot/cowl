@@ -31,39 +31,42 @@ cowl_struct_decl(CowlAnnotProp);
  */
 
 /**
- * Returns a retained annotation property.
+ * Returns an annotation property.
  *
  * @param iri IRI of the property.
- * @return Retained annotation property, or NULL on error.
+ * @return Annotation property, or NULL on error.
  *
  * @public @memberof CowlAnnotProp
  */
+COWL_RETAINED
 COWL_INLINE
 CowlAnnotProp *cowl_annot_prop(CowlIRI *iri) {
     return (CowlAnnotProp *)cowl_entity_get_impl(COWL_OT_ANNOT_PROP, iri);
 }
 
 /**
- * Returns a retained annotation property given the string representation of its IRI.
+ * Returns an annotation property given the string representation of its IRI.
  *
  * @param string String representation of the IRI.
- * @return Retained annotation property, or NULL on error.
+ * @return Annotation property, or NULL on error.
  *
  * @public @memberof CowlAnnotProp
  */
+COWL_RETAINED
 COWL_INLINE
 CowlAnnotProp *cowl_annot_prop_from_string(UString string) {
     return (CowlAnnotProp *)cowl_entity_from_string_impl(COWL_OT_ANNOT_PROP, string);
 }
 
 /**
- * Returns a retained annotation property given the static string representation of its IRI.
+ * Returns an annotation property given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlAnnotProp *] Retained annotation property, or NULL on error.
+ * @return [CowlAnnotProp *] Annotation property, or NULL on error.
  *
  * @public @related CowlAnnotProp
  */
+COWL_RETAINED
 #define cowl_annot_prop_from_static(CSTR) cowl_annot_prop_from_string(ustring_literal(CSTR))
 
 /**

@@ -33,14 +33,15 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
  */
 
 /**
- * Returns a retained functional data property axiom.
+ * Returns a functional data property axiom.
  *
  * @param prop The data property.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlFuncDataPropAxiom *cowl_func_data_prop_axiom(CowlAnyDataPropExp *prop, CowlVector *annot) {
     return (CowlFuncDataPropAxiom *)cowl_get_impl_1_annot(COWL_OT_A_FUNC_DATA_PROP, prop, annot);

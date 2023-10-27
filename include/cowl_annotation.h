@@ -34,15 +34,16 @@ cowl_struct_decl(CowlVector);
  */
 
 /**
- * Returns a retained annotation.
+ * Returns an annotation.
  *
  * @param prop The annotation property.
  * @param value The annotation value.
  * @param annot [optional] The annotations.
- * @return Retained annotation, or NULL on error.
+ * @return Annotation, or NULL on error.
  *
  * @public @memberof CowlAnnotation
  */
+COWL_RETAINED
 COWL_INLINE
 CowlAnnotation *cowl_annotation(CowlAnnotProp *prop, CowlAnyAnnotValue *value, CowlVector *annot) {
     return (CowlAnnotation *)cowl_get_impl_2_annot(COWL_OT_ANNOTATION, prop, value, annot);

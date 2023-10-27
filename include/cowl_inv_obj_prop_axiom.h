@@ -33,15 +33,16 @@ cowl_struct_decl(CowlInvObjPropAxiom);
  */
 
 /**
- * Returns a retained inverse object properties axiom.
+ * Returns an inverse object properties axiom.
  *
  * @param first The first object property expression.
  * @param second The second object property expression.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlInvObjPropAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlInvObjPropAxiom *
 cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyObjPropExp *second, CowlVector *annot) {

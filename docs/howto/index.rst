@@ -145,11 +145,17 @@ Memory management
 
 Cowl uses `reference counting`_ for memory management.
 Reference counts are increased and decreased via :func:`CowlObject::cowl_retain()` and
-:func:`CowlObject::cowl_release()`, respectively. The API docs are very explicit about
-which functions return retained instances, which you must release. If nothing is specified,
-then the returned instance is not retained, meaning its lifetime is generally tied
-to that of some other object. If you need to keep it alive after its owner
-has been deallocated, you must retain it.
+:func:`CowlObject::cowl_release()`, respectively. Generally speaking, each retain call must
+be balanced by a corresponding release, in order to avoid leaking memory. There are also
+functions that return retained instances to new or existing objects, which you must also
+make sure to release.
+
+Functions that return retained instances are marked with the `COWL_RETAINED` attribute
+in the header files, and are annotated as such in the API documentation.
+If a function returns a pointer to a Cowl object, and `COWL_RETAINED` is not specified
+in its declaration, then the returned instance is not retained, meaning its lifetime
+is generally tied to that of some other object. If you need to keep it alive
+after its owner has been deallocated, you must retain it.
 
 Pseudo-inheritance
 ------------------

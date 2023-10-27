@@ -32,13 +32,14 @@ cowl_struct_decl(CowlObjCompl);
  */
 
 /**
- * Returns a retained class expression complement.
+ * Returns the complement of a class expression.
  *
  * @param operand The operand.
- * @return Retained class expression complement, or NULL on error.
+ * @return Class expression complement, or NULL on error.
  *
  * @public @memberof CowlObjCompl
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjCompl *cowl_obj_compl(CowlAnyClsExp *operand) {
     return (CowlObjCompl *)cowl_get_impl_1(COWL_OT_CE_OBJ_COMPL, operand);

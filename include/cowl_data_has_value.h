@@ -33,14 +33,15 @@ cowl_struct_decl(CowlDataHasValue);
  */
 
 /**
- * Returns a retained literal value restriction.
+ * Returns a literal value restriction.
  *
  * @param prop The data property expression.
  * @param value The restriction value.
- * @return Retained restriction, or NULL on error.
+ * @return Restriction, or NULL on error.
  *
  * @public @memberof CowlDataHasValue
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataHasValue *cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *value) {
     return (CowlDataHasValue *)cowl_get_impl_2(COWL_OT_CE_DATA_HAS_VALUE, prop, value);

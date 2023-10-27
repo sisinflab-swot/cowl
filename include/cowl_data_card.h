@@ -37,17 +37,18 @@ cowl_struct_decl(CowlDataCard);
  */
 
 /**
- * Returns a retained data property cardinality restriction.
+ * Returns a data property cardinality restriction.
  *
  * @param type The type.
  * @param prop The data property.
  * @param range [optional] Range of the restriction.
  * @param cardinality Cardinality of the restriction.
- * @return Retained restriction, or NULL on error.
+ * @return Restriction, or NULL on error.
  *
  * @public @memberof CowlDataCard
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlDataCard *cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range,
                              ulib_uint cardinality);
 

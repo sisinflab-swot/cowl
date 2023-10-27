@@ -35,15 +35,16 @@ cowl_struct_decl(CowlNAryIndAxiom);
  */
 
 /**
- * Returns a retained N-ary individual axiom.
+ * Returns a N-ary individual axiom.
  *
  * @param type The type.
  * @param individuals The individuals.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlNAryIndAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlNAryIndAxiom *
 cowl_nary_ind_axiom(CowlNAryAxiomType type, CowlVector *individuals, CowlVector *annot) {

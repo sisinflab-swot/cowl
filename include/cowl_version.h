@@ -29,10 +29,9 @@ UVersion cowl_get_version(void);
  * Returns the string representation of the library version.
  *
  * @return String representation.
- *
- * @note The returned string is retained, so you are responsible for releasing it.
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_get_version_string(void);
 
 COWL_END_DECLS

@@ -39,16 +39,17 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
  */
 
 /**
- * Returns a retained object property assertion axiom.
+ * Returns an object property assertion axiom.
  *
  * @param prop The object property.
  * @param subject The assertion subject.
  * @param object The assertion object.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjPropAssertAxiom *
 cowl_obj_prop_assert_axiom(CowlAnyObjPropExp *prop, CowlAnyIndividual *subject,
@@ -58,16 +59,17 @@ cowl_obj_prop_assert_axiom(CowlAnyObjPropExp *prop, CowlAnyIndividual *subject,
 }
 
 /**
- * Returns a retained negative object property assertion axiom.
+ * Returns a negative object property assertion axiom.
  *
  * @param prop The object property.
  * @param subject The assertion subject.
  * @param object The assertion object.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlObjPropAssertAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjPropAssertAxiom *
 cowl_neg_obj_prop_assert_axiom(CowlAnyObjPropExp *prop, CowlAnyIndividual *subject,

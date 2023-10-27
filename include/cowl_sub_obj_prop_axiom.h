@@ -33,15 +33,16 @@ cowl_struct_decl(CowlSubObjPropAxiom);
  */
 
 /**
- * Returns a retained object subproperty axiom.
+ * Returns an object subproperty axiom.
  *
  * @param sub The subproperty.
  * @param super The superproperty.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlSubObjPropAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlSubObjPropAxiom *
 cowl_sub_obj_prop_axiom(CowlAnyObjPropExp *sub, CowlAnyObjPropExp *super, CowlVector *annot) {
@@ -49,16 +50,17 @@ cowl_sub_obj_prop_axiom(CowlAnyObjPropExp *sub, CowlAnyObjPropExp *super, CowlVe
 }
 
 /**
- * Returns a retained object subproperty axiom where the subproperty is a chain of properties.
+ * Returns an object subproperty axiom where the subproperty is a chain of properties.
  *
  * @param sub The chain of properties.
  * @param super The superproperty.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlSubObjPropAxiom
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlSubObjPropAxiom *
 cowl_sub_obj_prop_chain_axiom(CowlVector *sub, CowlAnyObjPropExp *super, CowlVector *annot);
 

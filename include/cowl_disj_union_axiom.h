@@ -33,15 +33,16 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  */
 
 /**
- * Returns a retained disjoint union axiom.
+ * Returns a disjoint union axiom.
  *
  * @param cls The class which is equivalent to the disjoint union.
  * @param disjoints The class expressions which are operands of the disjoint union.
  * @param annot [optional] The annotations.
- * @return Retained disjoint union axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlDisjUnionAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDisjUnionAxiom *
 cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) {

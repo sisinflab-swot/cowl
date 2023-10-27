@@ -32,39 +32,42 @@ cowl_struct_decl(CowlObjProp);
  */
 
 /**
- * Returns a retained object property.
+ * Returns an object property.
  *
  * @param iri IRI of the object property.
- * @return Retained object property, or NULL on error.
+ * @return Object property, or NULL on error.
  *
  * @public @memberof CowlObjProp
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjProp *cowl_obj_prop(CowlIRI *iri) {
     return (CowlObjProp *)cowl_entity_get_impl(COWL_OT_OPE_OBJ_PROP, iri);
 }
 
 /**
- * Returns a retained object property given the string representation of its IRI.
+ * Returns an object property given the string representation of its IRI.
  *
  * @param string String representation of the IRI.
- * @return Retained object property, or NULL on error.
+ * @return Object property, or NULL on error.
  *
  * @public @memberof CowlObjProp
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjProp *cowl_obj_prop_from_string(UString string) {
     return (CowlObjProp *)cowl_entity_from_string_impl(COWL_OT_OPE_OBJ_PROP, string);
 }
 
 /**
- * Returns a retained object property given the static string representation of its IRI.
+ * Returns a object property given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlObjProp *] Retained object property, or NULL on error.
+ * @return [CowlObjProp *] Object property, or NULL on error.
  *
  * @public @related CowlObjProp
  */
+COWL_RETAINED
 #define cowl_obj_prop_from_static(CSTR) cowl_obj_prop_from_string(ustring_literal(CSTR))
 
 /**

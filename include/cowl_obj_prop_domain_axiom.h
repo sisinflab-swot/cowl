@@ -34,15 +34,16 @@ cowl_struct_decl(CowlObjPropDomainAxiom);
  */
 
 /**
- * Returns a retained object property domain axiom.
+ * Returns an object property domain axiom.
  *
  * @param prop The object property.
  * @param domain Domain of the object property.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlObjPropDomainAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjPropDomainAxiom *
 cowl_obj_prop_domain_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *domain, CowlVector *annot) {

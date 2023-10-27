@@ -34,15 +34,16 @@ cowl_struct_decl(CowlNAryClsAxiom);
  */
 
 /**
- * Returns a retained N-ary class expression axiom.
+ * Returns a N-ary class expression axiom.
  *
  * @param type N-ary class expression axiom type.
  * @param classes The classes.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlNAryClsAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlNAryClsAxiom *
 cowl_nary_cls_axiom(CowlNAryAxiomType type, CowlVector *classes, CowlVector *annot) {

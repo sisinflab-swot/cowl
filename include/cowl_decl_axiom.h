@@ -33,14 +33,15 @@ cowl_struct_decl(CowlDeclAxiom);
  */
 
 /**
- * Returns a retained declaration axiom.
+ * Returns a declaration axiom.
  *
  * @param entity The declared entity.
  * @param annot [optional] The annotations.
- * @return Retained declaration.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlDeclAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDeclAxiom *cowl_decl_axiom(CowlAnyEntity *entity, CowlVector *annot) {
     return (CowlDeclAxiom *)cowl_get_impl_1_annot(COWL_OT_A_DECL, entity, annot);

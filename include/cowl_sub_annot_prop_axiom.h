@@ -33,15 +33,16 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
  */
 
 /**
- * Returns a retained annotation subproperty axiom.
+ * Returns an annotation subproperty axiom.
  *
  * @param sub The subproperty.
  * @param super The superproperty.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlSubAnnotPropAxiom *
 cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotProp *super, CowlVector *annot) {

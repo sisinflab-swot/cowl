@@ -32,13 +32,14 @@ cowl_struct_decl(CowlDataCompl);
  */
 
 /**
- * Returns a retained data range complement.
+ * Returns the complement of a data range.
  *
  * @param operand The data range which this data range is a complement of.
- * @return Retained data range complement, or NULL on error.
+ * @return Data range complement, or NULL on error.
  *
  * @public @memberof CowlDataCompl
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataCompl *cowl_data_compl(CowlAnyDataRange *operand) {
     return (CowlDataCompl *)cowl_get_impl_1(COWL_OT_DR_DATA_COMPL, operand);

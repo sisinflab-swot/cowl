@@ -34,37 +34,40 @@ cowl_struct_decl(CowlAnonInd);
  */
 
 /**
- * Returns a retained anonymous individual.
+ * Returns an anonymous individual.
  *
  * @param id Anonymous individual identifier.
- * @return Retained anonymous individual, or NULL on error.
+ * @return Anonymous individual, or NULL on error.
  *
  * @note By passing NULL as the identifier, a new identifier is randomly generated.
  *
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlAnonInd *cowl_anon_ind(CowlString *id);
 
 /**
- * Returns a retained anonymous individual.
+ * Returns an anonymous individual given the string representation of its identifier.
  *
  * @param string Anonymous individual identifier.
- * @return Retained anonymous individual, or NULL on error.
+ * @return Anonymous individual, or NULL on error.
  *
  * @public @memberof CowlAnonInd
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlAnonInd *cowl_anon_ind_from_string(UString string);
 
 /**
- * Returns a retained anonymous individual given the static string representation of its identifier.
+ * Returns an anonymous individual given the static string representation of its identifier.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlAnonInd *] Retained anonymous individual, or NULL on error.
+ * @return [CowlAnonInd *] Anonymous individual, or NULL on error.
  *
  * @public @related CowlAnonInd
  */
+COWL_RETAINED
 #define cowl_anon_ind_from_static(CSTR) cowl_anon_ind_from_string(ustring_literal(CSTR))
 
 /**

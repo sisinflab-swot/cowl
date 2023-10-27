@@ -37,6 +37,7 @@ cowl_struct_decl(CowlObject);
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlAny *cowl_retain(CowlAny *object);
 
 /**
@@ -165,11 +166,10 @@ CowlIRI *cowl_get_iri(CowlAny *object);
  * @param object The object.
  * @return String representation, or NULL on error.
  *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_to_string(CowlAny *object);
 
 /**
@@ -181,11 +181,10 @@ CowlString *cowl_to_string(CowlAny *object);
  * @param object The object.
  * @return String representation, or NULL on error.
  *
- * @note The returned string is retained, so you are responsible for releasing it.
- *
  * @public @memberof CowlObject
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlString *cowl_to_debug_string(CowlAny *object);
 
 /**

@@ -35,14 +35,15 @@ cowl_struct_decl(CowlNAryBool);
  */
 
 /**
- * Returns a retained N-ary boolean class expression.
+ * Returns a N-ary boolean class expression.
  *
  * @param type N-ary class expression type.
  * @param operands The operands.
- * @return Retained expression, or NULL on error.
+ * @return Expression, or NULL on error.
  *
  * @public @memberof CowlNAryBool
  */
+COWL_RETAINED
 COWL_INLINE
 CowlNAryBool *cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
     if (!cowl_enum_value_is_valid(NT, type)) return NULL;

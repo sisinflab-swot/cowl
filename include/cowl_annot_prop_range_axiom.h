@@ -33,15 +33,16 @@ cowl_struct_decl(CowlAnnotPropRangeAxiom);
  */
 
 /**
- * Returns a retained annotation property range axiom.
+ * Returns an annotation property range axiom.
  *
  * @param prop The annotation property.
  * @param range Range of the annotation property.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlAnnotPropRangeAxiom *
 cowl_annot_prop_range_axiom(CowlAnnotProp *prop, CowlIRI *range, CowlVector *annot) {

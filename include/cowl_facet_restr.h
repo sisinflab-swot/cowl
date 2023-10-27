@@ -33,14 +33,15 @@ cowl_struct_decl(CowlFacetRestr);
  */
 
 /**
- * Returns a retained facet restriction.
+ * Returns a facet restriction.
  *
  * @param facet The facet.
  * @param value The restriction value.
- * @return Retained facet restriction, or NULL on error.
+ * @return Facet restriction, or NULL on error.
  *
  * @public @memberof CowlFacetRestr
  */
+COWL_RETAINED
 COWL_INLINE
 CowlFacetRestr *cowl_facet_restr(CowlIRI *facet, CowlLiteral *value) {
     return (CowlFacetRestr *)cowl_get_impl_2(COWL_OT_FACET_RESTR, facet, value);

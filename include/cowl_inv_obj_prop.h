@@ -32,13 +32,14 @@ cowl_struct_decl(CowlInvObjProp);
  */
 
 /**
- * Returns a retained inverse object property.
+ * Returns an inverse object property.
  *
  * @param prop The object property of which the expression is the inverse of.
- * @return Retained inverse object property, or NULL on error.
+ * @return Inverse object property, or NULL on error.
  *
  * @public @memberof CowlInvObjProp
  */
+COWL_RETAINED
 COWL_INLINE
 CowlInvObjProp *cowl_inv_obj_prop(CowlObjProp *prop) {
     return (CowlInvObjProp *)cowl_get_impl_1(COWL_OT_OPE_INV_OBJ_PROP, prop);

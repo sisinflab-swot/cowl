@@ -32,39 +32,42 @@ cowl_struct_decl(CowlDataProp);
  */
 
 /**
- * Returns a retained data property.
+ * Returns a data property.
  *
  * @param iri IRI of the data property.
- * @return Retained data property, or NULL on error.
+ * @return Data property, or NULL on error.
  *
  * @public @memberof CowlDataProp
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataProp *cowl_data_prop(CowlIRI *iri) {
     return (CowlDataProp *)cowl_entity_get_impl(COWL_OT_DPE_DATA_PROP, iri);
 }
 
 /**
- * Returns a retained data property given the string representation of its IRI.
+ * Returns a data property given the string representation of its IRI.
  *
  * @param string String representation of the IRI.
- * @return Retained data property, or NULL on error.
+ * @return Data property, or NULL on error.
  *
  * @public @memberof CowlDataProp
  */
+COWL_RETAINED
 COWL_INLINE
 CowlDataProp *cowl_data_prop_from_string(UString string) {
     return (CowlDataProp *)cowl_entity_from_string_impl(COWL_OT_DPE_DATA_PROP, string);
 }
 
 /**
- * Returns a retained data property given the static string representation of its IRI.
+ * Returns a data property given the static string representation of its IRI.
  *
  * @param CSTR [char const[]] Static string.
- * @return [CowlDataProp *] Retained data property, or NULL on error.
+ * @return [CowlDataProp *] Data property, or NULL on error.
  *
  * @public @related CowlDataProp
  */
+COWL_RETAINED
 #define cowl_data_prop_from_static(CSTR) cowl_data_prop_from_string(ustring_literal(CSTR))
 
 /**

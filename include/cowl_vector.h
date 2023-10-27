@@ -31,10 +31,10 @@ cowl_struct_decl(CowlVector);
  */
 
 /**
- * Returns a retained vector.
+ * Returns a vector.
  *
  * @param vec Underlying raw vector.
- * @return Retained vector, or NULL on error.
+ * @return Vector, or NULL on error.
  *
  * @note You must not use the raw vector after passing it to this function.
  * @note Elements in the raw vector are retained by this constructor.
@@ -42,15 +42,17 @@ cowl_struct_decl(CowlVector);
  * @public @memberof CowlVector
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec);
 
 /**
- * Returns a retained vector with no elements.
+ * Returns a vector with no elements.
  *
- * @return [CowlVector*] Retained vector, or NULL on error.
+ * @return [CowlVector*] Vector, or NULL on error.
  *
  * @public @related CowlVector
  */
+COWL_RETAINED
 #define cowl_vector_empty() cowl_vector(NULL)
 
 /**

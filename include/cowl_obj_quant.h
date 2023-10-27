@@ -36,16 +36,17 @@ cowl_struct_decl(CowlObjQuant);
  */
 
 /**
- * Returns a retained object quantifier.
+ * Returns an object quantifier.
  *
  * @param type Object quantifier type.
  * @param prop The object property.
  * @param filler Filler of the quantifier.
- * @return Retained object quantifier, or NULL on error.
+ * @return Object quantifier, or NULL on error.
  *
  * @public @memberof CowlObjQuant
  */
 COWL_PUBLIC
+COWL_RETAINED
 CowlObjQuant *cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler);
 
 /**

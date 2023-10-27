@@ -33,15 +33,16 @@ cowl_struct_decl(CowlSubClsAxiom);
  */
 
 /**
- * Returns a retained subclass axiom.
+ * Returns a subclass axiom.
  *
  * @param sub The subclass.
  * @param super The superclass.
  * @param annot [optional] The annotations.
- * @return Retained axiom, or NULL on error.
+ * @return Axiom, or NULL on error.
  *
  * @public @memberof CowlSubClsAxiom
  */
+COWL_RETAINED
 COWL_INLINE
 CowlSubClsAxiom *cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, CowlVector *annot) {
     return (CowlSubClsAxiom *)cowl_get_impl_2_annot(COWL_OT_A_SUB_CLASS, sub, super, annot);

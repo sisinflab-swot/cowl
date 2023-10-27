@@ -33,14 +33,15 @@ cowl_struct_decl(CowlObjHasValue);
  */
 
 /**
- * Returns a retained individual value restriction.
+ * Returns an individual value restriction.
  *
  * @param prop The object property expression.
  * @param individual The individual.
- * @return Retained restriction, or NULL on error.
+ * @return Restriction, or NULL on error.
  *
  * @public @memberof CowlObjHasValue
  */
+COWL_RETAINED
 COWL_INLINE
 CowlObjHasValue *cowl_obj_has_value(CowlAnyObjPropExp *prop, CowlAnyIndividual *individual) {
     return (CowlObjHasValue *)cowl_get_impl_2(COWL_OT_CE_OBJ_HAS_VALUE, prop, individual);
