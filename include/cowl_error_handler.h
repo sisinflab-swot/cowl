@@ -52,7 +52,7 @@ typedef struct CowlErrorHandler {
  *
  * @public @related CowlErrorHandler
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin);
 
 /**
@@ -65,7 +65,7 @@ cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin);
  *
  * @public @related CowlErrorHandler
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc);
 
 /**
@@ -77,7 +77,7 @@ cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc lo
  *
  * @public @related CowlErrorHandler
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin);
 
 /**
@@ -89,7 +89,7 @@ cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin);
  *
  * @public @related CowlErrorHandler
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin);
 
 /**
@@ -102,7 +102,7 @@ cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin);
  *
  * @public @related CowlErrorHandler
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_handle_path_error(UString path, UString reason, CowlAny *origin);
 
 COWL_END_DECLS

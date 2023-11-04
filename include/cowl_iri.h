@@ -41,7 +41,7 @@ cowl_struct_decl(CowlIRI);
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix);
 
@@ -53,7 +53,7 @@ CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix);
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlIRI *cowl_iri_from_string(UString string);
 
@@ -76,7 +76,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_iri_get_ns(CowlIRI *iri);
 
 /**
@@ -87,7 +87,7 @@ CowlString *cowl_iri_get_ns(CowlIRI *iri);
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_iri_get_rem(CowlIRI *iri);
 
 /**
@@ -111,7 +111,7 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
  *
  * @public @memberof CowlIRI
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_iri_is_reserved(CowlIRI *iri);
 
 COWL_END_DECLS

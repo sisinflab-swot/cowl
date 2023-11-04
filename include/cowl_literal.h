@@ -43,7 +43,7 @@ cowl_struct_decl(CowlLiteral);
  *
  * @public @memberof CowlLiteral
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang);
 
@@ -57,7 +57,7 @@ CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
  *
  * @public @memberof CowlLiteral
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang);
 
@@ -83,7 +83,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlLiteral
  */
-COWL_PUBLIC
+COWL_API
 CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal);
 
 /**
@@ -94,7 +94,7 @@ CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal);
  *
  * @public @memberof CowlLiteral
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_literal_get_value(CowlLiteral *literal);
 
 /**
@@ -105,7 +105,7 @@ CowlString *cowl_literal_get_value(CowlLiteral *literal);
  *
  * @public @memberof CowlLiteral
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_literal_get_lang(CowlLiteral *literal);
 
 COWL_END_DECLS

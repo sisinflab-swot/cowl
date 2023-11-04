@@ -65,7 +65,7 @@ CowlOntologyId cowl_ontology_id_anonymous(void) {
  *
  * @public @memberof CowlOntologyId
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs);
 
 /**
@@ -76,7 +76,7 @@ bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs);
  *
  * @public @memberof CowlOntologyId
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_ontology_id_hash(CowlOntologyId id);
 
 COWL_END_DECLS

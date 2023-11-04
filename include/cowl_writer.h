@@ -105,7 +105,7 @@ typedef struct CowlWriter {
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 CowlWriter cowl_writer_functional(void);
 
 #endif // COWL_WRITER_FUNCTIONAL
@@ -123,7 +123,7 @@ CowlWriter cowl_writer_functional(void);
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_write(UOStream *stream, CowlAny *object);
 
 // Low-level write functions
@@ -137,7 +137,7 @@ cowl_ret cowl_write(UOStream *stream, CowlAny *object);
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 ustream_ret cowl_write_debug(UOStream *stream, CowlAny *object);
 
 /**
@@ -149,7 +149,7 @@ ustream_ret cowl_write_debug(UOStream *stream, CowlAny *object);
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 ustream_ret cowl_write_string(UOStream *stream, CowlString *string);
 
 /**
@@ -161,7 +161,7 @@ ustream_ret cowl_write_string(UOStream *stream, CowlString *string);
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
 
 /**
@@ -173,7 +173,7 @@ ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 ustream_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
 
 /**
@@ -185,7 +185,7 @@ ustream_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
 
 /**
@@ -197,7 +197,7 @@ ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
  *
  * @public @related CowlWriter
  */
-COWL_PUBLIC
+COWL_API
 ustream_ret cowl_write_error(UOStream *stream, CowlError const *error);
 
 /**

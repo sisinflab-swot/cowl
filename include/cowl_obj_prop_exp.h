@@ -52,7 +52,7 @@ bool cowl_obj_prop_exp_is_inverse(CowlAnyObjPropExp *exp) {
  *
  * @public @memberof CowlObjPropExp
  */
-COWL_PUBLIC
+COWL_API
 CowlObjProp *cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
 
 COWL_END_DECLS

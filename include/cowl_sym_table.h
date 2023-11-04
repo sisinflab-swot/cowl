@@ -38,7 +38,7 @@ cowl_struct_decl(CowlTable);
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 CowlTable *cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse);
 
 /**
@@ -50,7 +50,7 @@ CowlTable *cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse);
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix);
 
 /**
@@ -62,7 +62,7 @@ CowlString *cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix);
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns);
 
 /**
@@ -76,7 +76,7 @@ CowlString *cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns);
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, CowlString *ns,
                                         bool overwrite);
 
@@ -91,7 +91,7 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret
 cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns, bool overwrite);
 
@@ -104,7 +104,7 @@ cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns,
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix);
 
 /**
@@ -116,7 +116,7 @@ cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix);
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns);
 
 /**
@@ -129,7 +129,7 @@ cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns);
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_sym_table_merge(CowlSymTable *dst, CowlSymTable *src, bool overwrite);
 
 /**
@@ -142,7 +142,7 @@ cowl_ret cowl_sym_table_merge(CowlSymTable *dst, CowlSymTable *src, bool overwri
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem);
 
 /**
@@ -154,7 +154,7 @@ CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem);
  *
  * @public @memberof CowlSymTable
  */
-COWL_PUBLIC
+COWL_API
 CowlIRI *cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri);
 
 COWL_END_DECLS

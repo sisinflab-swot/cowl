@@ -171,7 +171,7 @@ typedef struct CowlOWLVocab {
  *
  * @public @memberof CowlOWLVocab
  */
-COWL_PUBLIC
+COWL_API
 CowlOWLVocab const *cowl_owl_vocab(void);
 
 COWL_END_DECLS

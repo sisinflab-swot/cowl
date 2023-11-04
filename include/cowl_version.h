@@ -22,7 +22,7 @@ COWL_BEGIN_DECLS
  *
  * @return Library version.
  */
-COWL_PUBLIC
+COWL_API
 UVersion cowl_get_version(void);
 
 /**
@@ -30,7 +30,7 @@ UVersion cowl_get_version(void);
  *
  * @return String representation.
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_get_version_string(void);
 

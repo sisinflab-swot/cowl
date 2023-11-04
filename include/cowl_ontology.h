@@ -48,7 +48,7 @@ cowl_struct_decl(CowlOntology);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
 
 /**
@@ -59,7 +59,7 @@ CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
 
 /**
@@ -70,7 +70,7 @@ CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
 
 /**
@@ -81,7 +81,7 @@ CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
 
 /**
@@ -92,7 +92,7 @@ void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
 
 /**
@@ -103,7 +103,7 @@ void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 CowlVector *cowl_ontology_get_annot(CowlOntology *onto);
 
 /**
@@ -115,7 +115,7 @@ CowlVector *cowl_ontology_get_annot(CowlOntology *onto);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
 
 /**
@@ -126,7 +126,7 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
 
 /**
@@ -138,7 +138,7 @@ void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
 
 /**
@@ -150,7 +150,7 @@ CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 CowlIRI *cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
 
 /**
@@ -162,7 +162,7 @@ CowlIRI *cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import);
 
 /**
@@ -173,7 +173,7 @@ cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
 
 /**
@@ -185,7 +185,7 @@ void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
@@ -196,7 +196,7 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
@@ -208,7 +208,7 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports);
 
 /**
@@ -220,7 +220,7 @@ ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_ontology_imports_count(CowlOntology *onto, bool imports);
 
 /**
@@ -233,7 +233,7 @@ ulib_uint cowl_ontology_imports_count(CowlOntology *onto, bool imports);
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type, bool imports);
 
 /**
@@ -246,7 +246,7 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                   bool imports);
 
@@ -260,7 +260,7 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPri
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint
 cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, bool imports);
 
@@ -274,7 +274,7 @@ cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, boo
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive, bool imports);
 
 /**
@@ -287,7 +287,7 @@ bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool imports);
 
 /**
@@ -301,7 +301,7 @@ bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool impor
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
                                       CowlIterator *iter, bool imports);
 
@@ -315,7 +315,7 @@ bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags fla
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter, bool imports);
 
 /**
@@ -328,7 +328,7 @@ bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter, bool 
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_iterate_import_iris(CowlOntology *onto, CowlIterator *iter, bool imports);
 
 /**
@@ -341,7 +341,7 @@ bool cowl_ontology_iterate_import_iris(CowlOntology *onto, CowlIterator *iter, b
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter, bool imports);
 
 /**
@@ -355,7 +355,7 @@ bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter, bool i
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
                                           CowlIterator *iter, bool imports);
 
@@ -370,7 +370,7 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                 CowlIterator *iter, bool imports);
 
@@ -387,7 +387,7 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
  *
  * @public @memberof CowlOntology
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                    CowlAxiomType type, CowlPosition position, CowlIterator *iter,
                                    bool imports);

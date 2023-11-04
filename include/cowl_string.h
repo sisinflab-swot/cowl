@@ -42,7 +42,7 @@ cowl_struct_decl(CowlString);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_string(UString string);
 
@@ -65,7 +65,7 @@ CowlString *cowl_string(UString string);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_string_opt(UString string, CowlStringOpts opts);
 
@@ -87,7 +87,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_string_empty(void);
 
@@ -106,7 +106,7 @@ CowlString *cowl_string_empty(void);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_string_intern(CowlString *string);
 
 /**
@@ -120,7 +120,7 @@ CowlString *cowl_string_intern(CowlString *string);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 char *cowl_string_release_copying_cstring(CowlString *string);
 
 /**
@@ -131,7 +131,7 @@ char *cowl_string_release_copying_cstring(CowlString *string);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 char const *cowl_string_get_cstring(CowlString *string);
 
 /**
@@ -142,7 +142,7 @@ char const *cowl_string_get_cstring(CowlString *string);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_string_get_length(CowlString *string);
 
 /**
@@ -153,7 +153,7 @@ ulib_uint cowl_string_get_length(CowlString *string);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 UString const *cowl_string_get_raw(CowlString *string);
 
 /**
@@ -165,7 +165,7 @@ UString const *cowl_string_get_raw(CowlString *string);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_string_with_format(char const *format, ...);
 
@@ -178,7 +178,7 @@ CowlString *cowl_string_with_format(char const *format, ...);
  *
  * @public @memberof CowlString
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_string_concat(CowlString *lhs, CowlString *rhs);
 

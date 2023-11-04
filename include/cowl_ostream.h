@@ -42,7 +42,7 @@ cowl_struct_decl(CowlOStream);
  *
  * @public @memberof CowlOStream
  */
-COWL_PUBLIC
+COWL_API
 CowlManager *cowl_ostream_get_manager(CowlOStream *stream);
 
 /**
@@ -53,7 +53,7 @@ CowlManager *cowl_ostream_get_manager(CowlOStream *stream);
  *
  * @public @memberof CowlOStream
  */
-COWL_PUBLIC
+COWL_API
 CowlSymTable *cowl_ostream_get_sym_table(CowlOStream *stream);
 
 /**
@@ -65,7 +65,7 @@ CowlSymTable *cowl_ostream_get_sym_table(CowlOStream *stream);
  *
  * @public @memberof CowlOStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader header);
 
 /**
@@ -77,7 +77,7 @@ cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader heade
  *
  * @public @memberof CowlOStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom);
 
 /**
@@ -88,7 +88,7 @@ cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom);
  *
  * @public @memberof CowlOStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream);
 
 /**
@@ -100,7 +100,7 @@ cowl_ret cowl_ostream_write_footer(CowlOStream *stream);
  *
  * @public @memberof CowlOStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *ontology);
 
 COWL_END_DECLS

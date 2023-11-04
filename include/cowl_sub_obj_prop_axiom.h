@@ -59,7 +59,7 @@ cowl_sub_obj_prop_axiom(CowlAnyObjPropExp *sub, CowlAnyObjPropExp *super, CowlVe
  *
  * @public @memberof CowlSubObjPropAxiom
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlSubObjPropAxiom *
 cowl_sub_obj_prop_chain_axiom(CowlVector *sub, CowlAnyObjPropExp *super, CowlVector *annot);

@@ -37,7 +37,7 @@ cowl_struct_decl(CowlPrimitive);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
+COWL_API
 CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive);
 
 /**
@@ -48,7 +48,7 @@ CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive);
 
 COWL_END_DECLS

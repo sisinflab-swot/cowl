@@ -19,7 +19,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 typedef CowlAny *CowlObjectPtr;
-UVEC_DECL_EQUATABLE_SPEC(CowlObjectPtr, COWL_PUBLIC)
+UVEC_DECL_EQUATABLE_SPEC(CowlObjectPtr, COWL_API)
 cowl_struct_decl(CowlVector);
 /// @endcond
 
@@ -41,7 +41,7 @@ cowl_struct_decl(CowlVector);
  *
  * @public @memberof CowlVector
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec);
 
@@ -63,7 +63,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlVector
  */
-COWL_PUBLIC
+COWL_API
 UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec);
 
 /**

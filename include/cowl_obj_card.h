@@ -47,7 +47,7 @@ cowl_struct_decl(CowlObjCard);
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler,
                            ulib_uint cardinality);
@@ -86,7 +86,7 @@ CowlObjPropExp *cowl_obj_card_get_prop(CowlObjCard *restr) {
  *
  * @public @memberof CowlObjCard
  */
-COWL_PUBLIC
+COWL_API
 CowlClsExp *cowl_obj_card_get_filler(CowlObjCard *restr);
 
 /**

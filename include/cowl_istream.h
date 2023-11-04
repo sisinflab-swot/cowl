@@ -45,7 +45,7 @@ cowl_struct_decl(CowlIStream);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 CowlManager *cowl_istream_get_manager(CowlIStream *stream);
 
 /**
@@ -56,7 +56,7 @@ CowlManager *cowl_istream_get_manager(CowlIStream *stream);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 CowlSymTable *cowl_istream_get_sym_table(CowlIStream *stream);
 
 /**
@@ -68,7 +68,7 @@ CowlSymTable *cowl_istream_get_sym_table(CowlIStream *stream);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_handle_iri(CowlIStream *stream, CowlIRI *iri);
 
 /**
@@ -80,7 +80,7 @@ cowl_ret cowl_istream_handle_iri(CowlIStream *stream, CowlIRI *iri);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_handle_version(CowlIStream *stream, CowlIRI *version);
 
 /**
@@ -92,7 +92,7 @@ cowl_ret cowl_istream_handle_version(CowlIStream *stream, CowlIRI *version);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_handle_import(CowlIStream *stream, CowlIRI *import);
 
 /**
@@ -104,7 +104,7 @@ cowl_ret cowl_istream_handle_import(CowlIStream *stream, CowlIRI *import);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_handle_annot(CowlIStream *stream, CowlAnnotation *annot);
 
 /**
@@ -116,7 +116,7 @@ cowl_ret cowl_istream_handle_annot(CowlIStream *stream, CowlAnnotation *annot);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom);
 
 /**
@@ -128,7 +128,7 @@ cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_process_path(CowlIStream *stream, UString path);
 
 /**
@@ -140,7 +140,7 @@ cowl_ret cowl_istream_process_path(CowlIStream *stream, UString path);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_process_file(CowlIStream *stream, FILE *file);
 
 /**
@@ -152,7 +152,7 @@ cowl_ret cowl_istream_process_file(CowlIStream *stream, FILE *file);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_process_string(CowlIStream *stream, UString const *string);
 
 /**
@@ -164,7 +164,7 @@ cowl_ret cowl_istream_process_string(CowlIStream *stream, UString const *string)
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream);
 
 /**
@@ -176,7 +176,7 @@ cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream);
  *
  * @public @memberof CowlIStream
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *ontology);
 
 COWL_END_DECLS

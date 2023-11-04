@@ -66,7 +66,7 @@ typedef struct CowlSyntaxError {
  *
  * @public @memberof CowlError
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_error_to_string(CowlError const *error);
 

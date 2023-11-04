@@ -52,7 +52,7 @@ cowl_struct_decl(CowlManager);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlManager *cowl_manager(void);
 
@@ -64,7 +64,7 @@ CowlManager *cowl_manager(void);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
 
 /**
@@ -75,7 +75,7 @@ void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
 
 /**
@@ -86,7 +86,7 @@ void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 void cowl_manager_set_import_loader(CowlManager *manager, CowlImportLoader loader);
 
 /**
@@ -97,7 +97,7 @@ void cowl_manager_set_import_loader(CowlManager *manager, CowlImportLoader loade
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler);
 
 /**
@@ -110,7 +110,7 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
 
@@ -123,7 +123,7 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path);
 
@@ -136,7 +136,7 @@ CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file);
 
@@ -149,7 +149,7 @@ CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *string);
 
@@ -164,7 +164,7 @@ CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *stri
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
 
@@ -178,7 +178,7 @@ CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, UString path);
 
 /**
@@ -191,7 +191,7 @@ cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, U
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *ontology, FILE *file);
 
 /**
@@ -204,7 +204,7 @@ cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *ontology, F
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology, UStrBuf *buf);
 
 /**
@@ -219,7 +219,7 @@ cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology,
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream);
 
 /**
@@ -233,7 +233,7 @@ cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology,
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers handlers);
 
 /**
@@ -247,7 +247,7 @@ CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers 
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOntology *ontology);
 
 /**
@@ -261,7 +261,7 @@ CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOnto
  *
  * @public @memberof CowlManager
  */
-COWL_PUBLIC
+COWL_API
 CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream);
 
 COWL_END_DECLS

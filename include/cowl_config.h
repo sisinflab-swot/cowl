@@ -28,7 +28,7 @@ COWL_BEGIN_DECLS
  *
  * @note It's mandatory to call this function before making any other function call.
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_init(void);
 
 /**
@@ -38,7 +38,7 @@ cowl_ret cowl_init(void);
  *       You **must not** use objects retrieved before deinitializing the library, even
  *       if you later re-initialize it.
  */
-COWL_PUBLIC
+COWL_API
 void cowl_deinit(void);
 
 /**
@@ -48,7 +48,7 @@ void cowl_deinit(void);
  *
  * @note This function must be called again if you reinitialize the library after deinitializing it.
  */
-COWL_PUBLIC
+COWL_API
 void cowl_set_error_handler(CowlErrorHandler handler);
 
 /**
@@ -58,7 +58,7 @@ void cowl_set_error_handler(CowlErrorHandler handler);
  *
  * @note This function must be called again if you reinitialize the library after deinitializing it.
  */
-COWL_PUBLIC
+COWL_API
 void cowl_set_import_loader(CowlImportLoader loader);
 
 /**
@@ -68,7 +68,7 @@ void cowl_set_import_loader(CowlImportLoader loader);
  *
  * @note This function must be called again if you reinitialize library API after deinitializing it.
  */
-COWL_PUBLIC
+COWL_API
 void cowl_set_reader(CowlReader reader);
 
 /**
@@ -78,7 +78,7 @@ void cowl_set_reader(CowlReader reader);
  *
  * @note This function must be called again if you reinitialize the library after deinitializing it.
  */
-COWL_PUBLIC
+COWL_API
 void cowl_set_writer(CowlWriter writer);
 
 COWL_END_DECLS

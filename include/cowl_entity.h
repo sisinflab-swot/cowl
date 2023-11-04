@@ -40,7 +40,7 @@ cowl_struct_decl(CowlEntity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
+COWL_API
 CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity);
 
 /**
@@ -51,7 +51,7 @@ CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
+COWL_API
 CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity);
 
 /**
@@ -62,7 +62,7 @@ CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_entity_is_reserved(CowlAnyEntity *entity);
 
 #if COWL_ENTITY_IDS
@@ -80,7 +80,7 @@ bool cowl_entity_is_reserved(CowlAnyEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_entity_get_id(CowlAnyEntity *entity);
 
 /**
@@ -94,7 +94,7 @@ ulib_uint cowl_entity_get_id(CowlAnyEntity *entity);
  *
  * @public @memberof CowlEntity
  */
-COWL_PUBLIC
+COWL_API
 CowlAnyEntity *cowl_entity_with_id(ulib_uint id);
 
 #endif

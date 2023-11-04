@@ -18,7 +18,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny *, CowlAny *, COWL_PUBLIC)
+UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny *, CowlAny *, COWL_API)
 cowl_struct_decl(CowlTable);
 /// @endcond
 
@@ -40,7 +40,7 @@ cowl_struct_decl(CowlTable);
  *
  * @public @memberof CowlTable
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlTable *cowl_table(UHash(CowlObjectTable) *table);
 
@@ -62,7 +62,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlTable
  */
-COWL_PUBLIC
+COWL_API
 UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
 
 /**

@@ -96,7 +96,7 @@ typedef struct CowlRDFSVocab {
  *
  * @public @memberof CowlRDFSVocab
  */
-COWL_PUBLIC
+COWL_API
 CowlRDFSVocab const *cowl_rdfs_vocab(void);
 
 COWL_END_DECLS

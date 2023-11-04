@@ -25,10 +25,10 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlVector);
 
-COWL_PUBLIC
+COWL_API
 CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt);
 
-COWL_PUBLIC
+COWL_API
 CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot);
 
 COWL_INLINE
@@ -84,7 +84,7 @@ CowlAny *cowl_get_impl_3(CowlObjectType type, CowlAny *f1, CowlAny *f2, CowlAny 
     return cowl_get_impl_3_opt(type, f1, f2, f3, NULL);
 }
 
-COWL_PUBLIC
+COWL_API
 CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt);
 
 COWL_INLINE
@@ -110,31 +110,31 @@ CowlAny *cowl_get_impl_2_uint(CowlObjectType type, CowlAny *f1, CowlAny *f2, uli
     return cowl_get_impl_2_uint_opt(type, f1, f2, val, NULL);
 }
 
-COWL_PUBLIC
+COWL_API
 CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri);
 
-COWL_PUBLIC
+COWL_API
 CowlAnyEntity *cowl_entity_from_string_impl(CowlObjectType type, UString string);
 
-COWL_PUBLIC
+COWL_API
 void cowl_release_all_impl(CowlAny **objects);
 
-COWL_PUBLIC
+COWL_API
 CowlAny **cowl_get_fields(CowlAny *object, unsigned *count);
 
-COWL_PUBLIC
+COWL_API
 unsigned cowl_get_field_count(CowlAny *object);
 
-COWL_PUBLIC
+COWL_API
 CowlAny *cowl_get_field(CowlAny *object, unsigned index);
 
-COWL_PUBLIC
+COWL_API
 bool cowl_has_opt_field(CowlAny *object);
 
-COWL_PUBLIC
+COWL_API
 CowlAny *cowl_get_opt_field(CowlAny *object);
 
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_get_uint_field(CowlAny *object);
 
 /// @endcond

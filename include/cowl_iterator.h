@@ -56,7 +56,7 @@ typedef struct CowlIterator {
  *
  * @public @related CowlIterator
  */
-COWL_PUBLIC
+COWL_API
 CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
 
 /**
@@ -71,7 +71,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
  *
  * @public @related CowlIterator
  */
-COWL_PUBLIC
+COWL_API
 CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set, bool retain);
 
 /**
@@ -82,7 +82,7 @@ CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set, bool retain);
  *
  * @public @related CowlIterator
  */
-COWL_PUBLIC
+COWL_API
 CowlIterator cowl_iterator_count(ulib_uint *count);
 
 /**
@@ -96,7 +96,7 @@ CowlIterator cowl_iterator_count(ulib_uint *count);
  *
  * @public @related CowlIterator
  */
-COWL_PUBLIC
+COWL_API
 CowlIterator cowl_iterator_contains(CowlAny *object);
 
 COWL_END_DECLS

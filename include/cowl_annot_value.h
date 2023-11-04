@@ -39,7 +39,7 @@ cowl_struct_decl(CowlAnnotValue);
  *
  * @public @memberof CowlAnnotValue
  */
-COWL_PUBLIC
+COWL_API
 CowlAnnotValueType cowl_annot_value_get_type(CowlAnyAnnotValue *value);
 
 COWL_END_DECLS

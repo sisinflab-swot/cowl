@@ -69,7 +69,7 @@ CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position);
 
 /**
@@ -82,7 +82,7 @@ bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition 
  *
  * @public @memberof CowlAxiom
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter);
 
 COWL_END_DECLS

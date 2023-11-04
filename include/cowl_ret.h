@@ -76,7 +76,7 @@ typedef enum cowl_ret {
  * @param ret Return code.
  * @return Return value.
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ret_from_ustream(ustream_ret ret);
 
 /**
@@ -85,7 +85,7 @@ cowl_ret cowl_ret_from_ustream(ustream_ret ret);
  * @param ret Return code.
  * @return Return value.
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ret_from_uvec(uvec_ret ret);
 
 /**
@@ -94,7 +94,7 @@ cowl_ret cowl_ret_from_uvec(uvec_ret ret);
  * @param ret Return code.
  * @return Return value.
  */
-COWL_PUBLIC
+COWL_API
 cowl_ret cowl_ret_from_uhash(uhash_ret ret);
 
 /**
@@ -105,7 +105,7 @@ cowl_ret cowl_ret_from_uhash(uhash_ret ret);
  *
  * @note You must not modify or free the returned string.
  */
-COWL_PUBLIC
+COWL_API
 UString cowl_ret_to_ustring(cowl_ret ret);
 
 /**
@@ -114,7 +114,7 @@ UString cowl_ret_to_ustring(cowl_ret ret);
  * @param ret Return value.
  * @return String representation, or NULL on error.
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_ret_to_string(cowl_ret ret);
 

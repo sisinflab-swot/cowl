@@ -45,7 +45,7 @@ cowl_struct_decl(CowlObjQuant);
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlObjQuant *cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler);
 
@@ -83,7 +83,7 @@ CowlObjPropExp *cowl_obj_quant_get_prop(CowlObjQuant *restr) {
  *
  * @public @memberof CowlObjQuant
  */
-COWL_PUBLIC
+COWL_API
 CowlClsExp *cowl_obj_quant_get_filler(CowlObjQuant *restr);
 
 COWL_END_DECLS

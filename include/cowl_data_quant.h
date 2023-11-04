@@ -44,7 +44,7 @@ cowl_struct_decl(CowlDataQuant);
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlDataQuant *
 cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range);
@@ -83,7 +83,7 @@ CowlDataPropExp *cowl_data_quant_get_prop(CowlDataQuant *restr) {
  *
  * @public @memberof CowlDataQuant
  */
-COWL_PUBLIC
+COWL_API
 CowlDataRange *cowl_data_quant_get_range(CowlDataQuant *restr);
 
 COWL_END_DECLS

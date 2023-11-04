@@ -36,7 +36,7 @@ cowl_struct_decl(CowlObject);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlAny *cowl_retain(CowlAny *object);
 
@@ -47,7 +47,7 @@ CowlAny *cowl_retain(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 void cowl_release(CowlAny *object);
 
 /**
@@ -58,7 +58,7 @@ void cowl_release(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 CowlObjectType cowl_get_type(CowlAny *object);
 
 /**
@@ -69,7 +69,7 @@ CowlObjectType cowl_get_type(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_primitive(CowlAny *object);
 
 /**
@@ -80,7 +80,7 @@ bool cowl_is_primitive(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_entity(CowlAny *object);
 
 /**
@@ -91,7 +91,7 @@ bool cowl_is_entity(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_axiom(CowlAny *object);
 
 /**
@@ -102,7 +102,7 @@ bool cowl_is_axiom(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_cls_exp(CowlAny *object);
 
 /**
@@ -113,7 +113,7 @@ bool cowl_is_cls_exp(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_obj_prop_exp(CowlAny *object);
 
 /**
@@ -124,7 +124,7 @@ bool cowl_is_obj_prop_exp(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_data_prop_exp(CowlAny *object);
 
 /**
@@ -135,7 +135,7 @@ bool cowl_is_data_prop_exp(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_individual(CowlAny *object);
 
 /**
@@ -146,7 +146,7 @@ bool cowl_is_individual(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_data_range(CowlAny *object);
 
 /**
@@ -157,7 +157,7 @@ bool cowl_is_data_range(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 CowlIRI *cowl_get_iri(CowlAny *object);
 
 /**
@@ -168,7 +168,7 @@ CowlIRI *cowl_get_iri(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_to_string(CowlAny *object);
 
@@ -183,7 +183,7 @@ CowlString *cowl_to_string(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlString *cowl_to_debug_string(CowlAny *object);
 
@@ -196,7 +196,7 @@ CowlString *cowl_to_debug_string(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs);
 
 /**
@@ -208,7 +208,7 @@ bool cowl_equals(CowlAny *lhs, CowlAny *rhs);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_equals_iri_string(CowlAny *object, UString iri_str);
 
 /**
@@ -219,7 +219,7 @@ bool cowl_equals_iri_string(CowlAny *object, UString iri_str);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_is_reserved(CowlAny *object);
 
 /**
@@ -230,7 +230,7 @@ bool cowl_is_reserved(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 ulib_uint cowl_hash(CowlAny *object);
 
 /**
@@ -243,7 +243,7 @@ ulib_uint cowl_hash(CowlAny *object);
  *
  * @public @memberof CowlObject
  */
-COWL_PUBLIC
+COWL_API
 bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 /**

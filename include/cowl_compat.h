@@ -17,35 +17,17 @@
 
 // clang-format off
 
-/**
- * @def COWL_BEGIN_DECLS
- * Marks the beginning of declarations.
- */
+/// Marks the beginning of declarations.
+#define COWL_BEGIN_DECLS ULIB_BEGIN_DECLS
+
+/// Marks the end of declarations.
+#define COWL_END_DECLS ULIB_END_DECLS
 
 /**
- * @def COWL_END_DECLS
- * Marks the end of declarations.
- */
-
-#ifdef __cplusplus
-    #define COWL_BEGIN_DECLS extern "C" {
-    #define COWL_END_DECLS }
-#else
-    #define COWL_BEGIN_DECLS
-    #define COWL_END_DECLS
-#endif
-
-/**
- * @def COWL_PUBLIC
  * Marks public API, whose symbols should be exported.
+ * @def COWL_API
  */
-
-/**
- * @def COWL_PRIVATE
- * Marks private API, whose symbols should not be exported.
- */
-
-#if defined _WIN32 || defined __CYGWIN__
+#if defined(_WIN32) || defined(__CYGWIN__)
     #ifdef COWL_SHARED
         #ifdef COWL_BUILDING
             #define COWL_DLL_SPEC dllexport
@@ -53,38 +35,29 @@
             #define COWL_DLL_SPEC dllimport
         #endif
         #ifdef __GNUC__
-            #define COWL_PUBLIC __attribute__ ((COWL_DLL_SPEC))
+            #define COWL_API __attribute__((COWL_DLL_SPEC))
         #else
-            #define COWL_PUBLIC __declspec(COWL_DLL_SPEC)
+            #define COWL_API __declspec(COWL_DLL_SPEC)
         #endif
     #else
-        #define COWL_PUBLIC
+        #define COWL_API
     #endif
-    #define COWL_PRIVATE
 #else
     #if __GNUC__ >= 4
-        #define COWL_PUBLIC __attribute__ ((visibility ("default")))
-        #define COWL_PRIVATE  __attribute__ ((visibility ("hidden")))
+        #define COWL_API __attribute__((__visibility__("default")))
     #else
-        #define COWL_PUBLIC
-        #define COWL_PRIVATE
+        #define COWL_API
     #endif
 #endif
 
 /// Marks inline function definitions.
-#define COWL_INLINE static inline
+#define COWL_INLINE ULIB_INLINE
 
 /// Marks functions that return retained instances.
 #define COWL_RETAINED // No-op
 
 /// Suppresses unused variable warnings.
-#ifndef cowl_unused
-    #if (defined __clang__ && __clang_major__ >= 3) || (defined __GNUC__ && __GNUC__ >= 3)
-        #define cowl_unused __attribute__((__unused__))
-    #else
-        #define cowl_unused
-    #endif
-#endif
+#define cowl_unused ulib_unused
 
 /**
  * Struct type forward declaration.

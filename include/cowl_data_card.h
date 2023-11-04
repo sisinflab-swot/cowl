@@ -47,7 +47,7 @@ cowl_struct_decl(CowlDataCard);
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlDataCard *cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range,
                              ulib_uint cardinality);
@@ -86,7 +86,7 @@ CowlDataPropExp *cowl_data_card_get_prop(CowlDataCard *restr) {
  *
  * @public @memberof CowlDataCard
  */
-COWL_PUBLIC
+COWL_API
 CowlDataRange *cowl_data_card_get_range(CowlDataCard *restr);
 
 /**

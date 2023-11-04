@@ -43,7 +43,7 @@ cowl_struct_decl(CowlAnonInd);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlAnonInd *cowl_anon_ind(CowlString *id);
 
@@ -55,7 +55,7 @@ CowlAnonInd *cowl_anon_ind(CowlString *id);
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
+COWL_API
 COWL_RETAINED
 CowlAnonInd *cowl_anon_ind_from_string(UString string);
 
@@ -78,7 +78,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlAnonInd
  */
-COWL_PUBLIC
+COWL_API
 CowlString *cowl_anon_ind_get_id(CowlAnonInd *ind);
 
 COWL_END_DECLS
