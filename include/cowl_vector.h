@@ -24,7 +24,14 @@ cowl_struct_decl(CowlVector);
 /// @endcond
 
 /**
- * Vector of #CowlObject elements.
+ * UVec of CowlObject elements.
+ *
+ * @struct UVec_CowlObjectPtr
+ * @extends UVec
+ */
+
+/**
+ * Vector of CowlObject elements.
  *
  * @struct CowlVector
  * @extends CowlObject

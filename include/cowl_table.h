@@ -23,7 +23,14 @@ cowl_struct_decl(CowlTable);
 /// @endcond
 
 /**
- * Hash table of #CowlObject elements.
+ * UHash table of CowlObject elements.
+ *
+ * @struct UHash_CowlObjectTable
+ * @extends UHash
+ */
+
+/**
+ * Hash table of CowlObject elements.
  *
  * @struct CowlTable
  * @extends CowlObject
