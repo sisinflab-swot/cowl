@@ -159,7 +159,7 @@ COWL_PURE
 bool cowl_is_data_range(CowlAny *object);
 
 /**
- * If the object is an entity, returns its IRI, otherwise returns NULL.
+ * Returns the IRI of the object, if it is identified by one.
  *
  * @param object The object.
  * @return IRI or NULL.
@@ -211,11 +211,11 @@ COWL_PURE
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs);
 
 /**
- * Checks if the object is an entity and its IRI matches the specified string.
+ * Checks if the object has an IRI that matches the specified string.
  *
  * @param object The object.
  * @param iri_str IRI string.
- * @return True if the object is an entity and its IRI matches the string, false otherwise.
+ * @return True if the object has an IRI that matches the string, false otherwise.
  *
  * @public @memberof CowlObject
  */

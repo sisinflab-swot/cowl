@@ -64,6 +64,7 @@ bool cowl_test_iri_get_rem(void) {
 
 bool cowl_test_iri_equals(void) {
     CowlIRI *expected = cowl_iri_from_static(COWL_TEST_IRI);
+    cowl_assert_equal(iri, expected, cowl_get_iri(expected));
 
     char const *tests[][2] = {
         { COWL_TEST_IRI_NS, COWL_TEST_IRI_REM },

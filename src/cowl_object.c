@@ -201,7 +201,10 @@ bool cowl_is_data_range(CowlAny *object) {
 }
 
 CowlIRI *cowl_get_iri(CowlAny *object) {
-    return cowl_is_entity(object) ? cowl_entity_get_iri(object) : NULL;
+    CowlObjectType type = cowl_get_type(object);
+    if (type_is_entity(type)) return cowl_entity_get_iri(object);
+    if (type == COWL_OT_IRI) return object;
+    return type == COWL_OT_ONTOLOGY ? cowl_ontology_get_id(object).iri : NULL;
 }
 
 static cowl_ret cowl_write_debug_impl(UOStream *stream, CowlAny *object) {
