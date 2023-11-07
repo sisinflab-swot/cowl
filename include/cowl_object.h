@@ -171,6 +171,30 @@ COWL_PURE
 CowlIRI *cowl_get_iri(CowlAny *object);
 
 /**
+ * Returns the namespace of the object's IRI.
+ *
+ * @param object The object.
+ * @return IRI namespace or NULL.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_API
+COWL_PURE
+CowlString *cowl_get_ns(CowlAny *object);
+
+/**
+ * Returns the remainder of the object's IRI.
+ *
+ * @param object The object.
+ * @return IRI remainder or NULL.
+ *
+ * @public @memberof CowlObject
+ */
+COWL_API
+COWL_PURE
+CowlString *cowl_get_rem(CowlAny *object);
+
+/**
  * Returns the string representation of the specified object.
  *
  * @param object The object.

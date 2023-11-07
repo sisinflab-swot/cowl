@@ -207,6 +207,16 @@ CowlIRI *cowl_get_iri(CowlAny *object) {
     return type == COWL_OT_ONTOLOGY ? cowl_ontology_get_id(object).iri : NULL;
 }
 
+CowlString *cowl_get_ns(CowlAny *object) {
+    CowlIRI *iri = cowl_get_iri(object);
+    return iri ? cowl_iri_get_ns(iri) : NULL;
+}
+
+CowlString *cowl_get_rem(CowlAny *object) {
+    CowlIRI *iri = cowl_get_iri(object);
+    return iri ? cowl_iri_get_rem(iri) : NULL;
+}
+
 static cowl_ret cowl_write_debug_impl(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
