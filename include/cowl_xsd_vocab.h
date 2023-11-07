@@ -392,6 +392,7 @@ typedef struct CowlXSDVocab {
  * @public @memberof CowlXSDVocab
  */
 COWL_API
+COWL_CONST
 CowlXSDVocab const *cowl_xsd_vocab(void);
 
 COWL_END_DECLS

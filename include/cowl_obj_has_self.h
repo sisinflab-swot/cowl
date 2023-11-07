@@ -53,6 +53,7 @@ CowlObjHasSelf *cowl_obj_has_self(CowlAnyObjPropExp *prop) {
  *
  * @public @memberof CowlObjHasSelf
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
     return (CowlObjPropExp *)cowl_get_field(exp, 0);

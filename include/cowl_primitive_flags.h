@@ -72,6 +72,7 @@ typedef UBit(COWL_PF) CowlPrimitiveFlags;
  *
  * @public
  */
+COWL_CONST
 COWL_INLINE
 CowlPrimitiveFlags cowl_primitive_flags_from_type(CowlPrimitiveType type) {
     return ubit_bit(COWL_PF, type);
@@ -86,6 +87,7 @@ CowlPrimitiveFlags cowl_primitive_flags_from_type(CowlPrimitiveType type) {
  *
  * @public
  */
+COWL_CONST
 COWL_INLINE
 bool cowl_primitive_flags_has_type(CowlPrimitiveFlags flags, CowlPrimitiveType type) {
     return ubit_is_set(COWL_PF, flags, ubit_bit(COWL_PF, type));

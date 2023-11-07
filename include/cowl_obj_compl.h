@@ -53,6 +53,7 @@ CowlObjCompl *cowl_obj_compl(CowlAnyClsExp *operand) {
  *
  * @public @memberof CowlObjCompl
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_obj_compl_get_operand(CowlObjCompl *exp) {
     return (CowlClsExp *)cowl_get_field(exp, 0);

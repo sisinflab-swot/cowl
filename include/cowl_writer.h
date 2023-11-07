@@ -106,6 +106,7 @@ typedef struct CowlWriter {
  * @public @related CowlWriter
  */
 COWL_API
+COWL_CONST
 CowlWriter cowl_writer_functional(void);
 
 #endif // COWL_WRITER_FUNCTIONAL

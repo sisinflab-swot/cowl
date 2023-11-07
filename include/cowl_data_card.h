@@ -60,6 +60,7 @@ CowlDataCard *cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop, CowlAn
  *
  * @public @memberof CowlDataCard
  */
+COWL_PURE
 COWL_INLINE
 CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
     return (CowlCardType)(cowl_get_type(restr) - COWL_OT_CE_DATA_MIN_CARD);
@@ -73,6 +74,7 @@ CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
  *
  * @public @memberof CowlDataCard
  */
+COWL_PURE
 COWL_INLINE
 CowlDataPropExp *cowl_data_card_get_prop(CowlDataCard *restr) {
     return (CowlDataPropExp *)cowl_get_field(restr, 0);
@@ -87,6 +89,7 @@ CowlDataPropExp *cowl_data_card_get_prop(CowlDataCard *restr) {
  * @public @memberof CowlDataCard
  */
 COWL_API
+COWL_PURE
 CowlDataRange *cowl_data_card_get_range(CowlDataCard *restr);
 
 /**
@@ -97,6 +100,7 @@ CowlDataRange *cowl_data_card_get_range(CowlDataCard *restr);
  *
  * @public @memberof CowlDataCard
  */
+COWL_PURE
 COWL_INLINE
 ulib_uint cowl_data_card_get_cardinality(CowlDataCard *restr) {
     return cowl_get_uint_field(restr);

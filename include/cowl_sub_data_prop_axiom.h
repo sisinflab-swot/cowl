@@ -58,6 +58,7 @@ cowl_sub_data_prop_axiom(CowlAnyDataPropExp *sub, CowlAnyDataPropExp *super, Cow
  *
  * @public @memberof CowlSubDataPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDataPropExp *cowl_sub_data_prop_axiom_get_sub(CowlSubDataPropAxiom *axiom) {
     return (CowlDataPropExp *)cowl_get_field(axiom, 0);
@@ -71,6 +72,7 @@ CowlDataPropExp *cowl_sub_data_prop_axiom_get_sub(CowlSubDataPropAxiom *axiom) {
  *
  * @public @memberof CowlSubDataPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDataPropExp *cowl_sub_data_prop_axiom_get_super(CowlSubDataPropAxiom *axiom) {
     return (CowlDataPropExp *)cowl_get_field(axiom, 1);
@@ -84,6 +86,7 @@ CowlDataPropExp *cowl_sub_data_prop_axiom_get_super(CowlSubDataPropAxiom *axiom)
  *
  * @public @memberof CowlSubDataPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_sub_data_prop_axiom_get_annot(CowlSubDataPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

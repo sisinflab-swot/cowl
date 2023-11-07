@@ -71,6 +71,7 @@ COWL_RETAINED
  * @public @memberof CowlVector
  */
 COWL_API
+COWL_PURE
 UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec);
 
 /**
@@ -81,6 +82,7 @@ UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec);
  *
  * @public @memberof CowlVector
  */
+COWL_PURE
 COWL_INLINE
 ulib_uint cowl_vector_count(CowlVector *vec) {
     return uvec_count(CowlObjectPtr, cowl_vector_get_data(vec));
@@ -95,6 +97,7 @@ ulib_uint cowl_vector_count(CowlVector *vec) {
  *
  * @public @memberof CowlVector
  */
+COWL_PURE
 COWL_INLINE
 CowlAny *cowl_vector_get_item(CowlVector *vec, ulib_uint idx) {
     return uvec_get(CowlObjectPtr, cowl_vector_get_data(vec), idx);
@@ -109,6 +112,7 @@ CowlAny *cowl_vector_get_item(CowlVector *vec, ulib_uint idx) {
  *
  * @public @memberof CowlVector
  */
+COWL_PURE
 COWL_INLINE
 bool cowl_vector_contains(CowlVector *vec, CowlAny *object) {
     return uvec_contains(CowlObjectPtr, cowl_vector_get_data(vec), object);

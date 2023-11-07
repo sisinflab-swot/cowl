@@ -59,6 +59,7 @@ cowl_obj_prop_range_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *range, CowlVec
  *
  * @public @memberof CowlObjPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
@@ -72,6 +73,7 @@ CowlObjPropExp *cowl_obj_prop_range_axiom_get_prop(CowlObjPropRangeAxiom *axiom)
  *
  * @public @memberof CowlObjPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 1);
@@ -85,6 +87,7 @@ CowlClsExp *cowl_obj_prop_range_axiom_get_range(CowlObjPropRangeAxiom *axiom) {
  *
  * @public @memberof CowlObjPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_obj_prop_range_axiom_get_annot(CowlObjPropRangeAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

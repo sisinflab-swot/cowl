@@ -78,6 +78,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlDatatype
  */
+COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_datatype_get_iri(CowlDatatype *dt) {
     return cowl_entity_get_iri((CowlEntity *)dt);

@@ -81,6 +81,7 @@ cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop, CowlVe
  *
  * @public @memberof CowlObjPropCharAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom) {
     return (CowlCharAxiomType)(cowl_get_type(axiom) - COWL_OT_A_FUNC_OBJ_PROP);
@@ -94,6 +95,7 @@ CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom)
  *
  * @public @memberof CowlObjPropCharAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
@@ -107,6 +109,7 @@ CowlObjPropExp *cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
  *
  * @public @memberof CowlObjPropCharAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

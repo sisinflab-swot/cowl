@@ -77,6 +77,7 @@ COWL_RETAINED
  * @public @memberof CowlIRI
  */
 COWL_API
+COWL_PURE
 CowlString *cowl_iri_get_ns(CowlIRI *iri);
 
 /**
@@ -88,6 +89,7 @@ CowlString *cowl_iri_get_ns(CowlIRI *iri);
  * @public @memberof CowlIRI
  */
 COWL_API
+COWL_PURE
 CowlString *cowl_iri_get_rem(CowlIRI *iri);
 
 /**
@@ -98,6 +100,7 @@ CowlString *cowl_iri_get_rem(CowlIRI *iri);
  *
  * @public @memberof CowlIRI
  */
+COWL_PURE
 COWL_INLINE
 bool cowl_iri_has_rem(CowlIRI *iri) {
     return cowl_string_get_length(cowl_iri_get_rem(iri)) > 0;
@@ -112,6 +115,7 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
  * @public @memberof CowlIRI
  */
 COWL_API
+COWL_PURE
 bool cowl_iri_is_reserved(CowlIRI *iri);
 
 COWL_END_DECLS

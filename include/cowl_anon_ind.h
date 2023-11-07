@@ -79,6 +79,7 @@ COWL_RETAINED
  * @public @memberof CowlAnonInd
  */
 COWL_API
+COWL_PURE
 CowlString *cowl_anon_ind_get_id(CowlAnonInd *ind);
 
 COWL_END_DECLS

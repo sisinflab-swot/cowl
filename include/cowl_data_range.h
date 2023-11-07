@@ -40,6 +40,7 @@ cowl_struct_decl(CowlDataRange);
  *
  * @public @memberof CowlDataRange
  */
+COWL_PURE
 COWL_INLINE
 CowlDataRangeType cowl_data_range_get_type(CowlAnyDataRange *range) {
     return (CowlDataRangeType)(cowl_get_type(range) - COWL_OT_DR_DATATYPE);

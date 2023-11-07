@@ -23,6 +23,7 @@ COWL_BEGIN_DECLS
  * @return Library version.
  */
 COWL_API
+COWL_CONST
 UVersion cowl_get_version(void);
 
 /**

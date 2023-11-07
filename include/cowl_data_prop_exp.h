@@ -39,6 +39,7 @@ cowl_struct_decl(CowlDataPropExp);
  *
  * @public @memberof CowlDataPropExp
  */
+COWL_PURE
 COWL_INLINE
 CowlDataProp *cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
     return (CowlDataProp *)exp;

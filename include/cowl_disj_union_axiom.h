@@ -57,6 +57,7 @@ cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) 
  *
  * @public @memberof CowlDisjUnionAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlClass *cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
     return (CowlClass *)cowl_get_field(axiom, 0);
@@ -69,6 +70,7 @@ CowlClass *cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
  *
  * @public @memberof CowlDisjUnionAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 1);
@@ -82,6 +84,7 @@ CowlVector *cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
  *
  * @public @memberof CowlDisjUnionAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

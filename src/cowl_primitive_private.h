@@ -15,16 +15,19 @@
 
 COWL_BEGIN_DECLS
 
+COWL_CONST
 COWL_INLINE
 bool cowl_primitive_type_is_entity(CowlPrimitiveType type) {
     return type != COWL_PT_IRI && type != COWL_PT_ANON_IND;
 }
 
+COWL_CONST
 COWL_INLINE
 bool cowl_primitive_equals(CowlAnyPrimitive *lhs, CowlAnyPrimitive *rhs) {
     return lhs == rhs;
 }
 
+COWL_CONST
 COWL_INLINE
 ulib_uint cowl_primitive_hash(CowlAnyPrimitive *primitive) {
     return uhash_ptr_hash(primitive);

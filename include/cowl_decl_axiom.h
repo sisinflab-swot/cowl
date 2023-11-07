@@ -55,6 +55,7 @@ CowlDeclAxiom *cowl_decl_axiom(CowlAnyEntity *entity, CowlVector *annot) {
  *
  * @public @memberof CowlDeclAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlEntity *cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
     return (CowlEntity *)cowl_get_field(axiom, 0);
@@ -68,6 +69,7 @@ CowlEntity *cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
  *
  * @public @memberof CowlDeclAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

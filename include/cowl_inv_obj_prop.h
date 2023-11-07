@@ -53,6 +53,7 @@ CowlInvObjProp *cowl_inv_obj_prop(CowlObjProp *prop) {
  *
  * @public @memberof CowlInvObjProp
  */
+COWL_PURE
 COWL_INLINE
 CowlObjProp *cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) {
     return (CowlObjProp *)cowl_get_field(inv, 0);

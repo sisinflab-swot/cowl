@@ -58,6 +58,7 @@ cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual *ind, CowlVector *an
  *
  * @public @memberof CowlClsAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 0);
@@ -71,6 +72,7 @@ CowlClsExp *cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
  *
  * @public @memberof CowlClsAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlIndividual *cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
     return (CowlIndividual *)cowl_get_field(axiom, 1);
@@ -84,6 +86,7 @@ CowlIndividual *cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
  *
  * @public @memberof CowlClsAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

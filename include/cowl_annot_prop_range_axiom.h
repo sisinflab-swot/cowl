@@ -58,6 +58,7 @@ cowl_annot_prop_range_axiom(CowlAnnotProp *prop, CowlIRI *range, CowlVector *ann
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotProp *cowl_annot_prop_range_axiom_get_prop(CowlAnnotPropRangeAxiom *axiom) {
     return (CowlAnnotProp *)cowl_get_field(axiom, 0);
@@ -71,6 +72,7 @@ CowlAnnotProp *cowl_annot_prop_range_axiom_get_prop(CowlAnnotPropRangeAxiom *axi
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_annot_prop_range_axiom_get_range(CowlAnnotPropRangeAxiom *axiom) {
     return (CowlIRI *)cowl_get_field(axiom, 1);
@@ -84,6 +86,7 @@ CowlIRI *cowl_annot_prop_range_axiom_get_range(CowlAnnotPropRangeAxiom *axiom) {
  *
  * @public @memberof CowlAnnotPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

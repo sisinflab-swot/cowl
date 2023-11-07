@@ -78,6 +78,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlClass
  */
+COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_class_get_iri(CowlClass *cls) {
     return cowl_entity_get_iri((CowlEntity *)cls);

@@ -41,6 +41,7 @@ cowl_struct_decl(CowlAxiom);
  *
  * @public @memberof CowlAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlAxiomType cowl_axiom_get_type(CowlAnyAxiom *axiom) {
     return (CowlAxiomType)(cowl_get_type(axiom) - COWL_OT_A_DECL);
@@ -54,6 +55,7 @@ CowlAxiomType cowl_axiom_get_type(CowlAnyAxiom *axiom) {
  *
  * @public @memberof CowlAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
@@ -70,6 +72,7 @@ CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
  * @public @memberof CowlAxiom
  */
 COWL_API
+COWL_PURE
 bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position);
 
 /**

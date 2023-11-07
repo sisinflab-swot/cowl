@@ -70,6 +70,7 @@ COWL_RETAINED
  * @public @memberof CowlTable
  */
 COWL_API
+COWL_PURE
 UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
 
 /**
@@ -80,6 +81,7 @@ UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
  *
  * @public @memberof CowlTable
  */
+COWL_PURE
 COWL_INLINE
 ulib_uint cowl_table_count(CowlTable *table) {
     return uhash_count(CowlObjectTable, cowl_table_get_data(table));
@@ -94,6 +96,7 @@ ulib_uint cowl_table_count(CowlTable *table) {
  *
  * @public @memberof CowlTable
  */
+COWL_PURE
 COWL_INLINE
 CowlAny *cowl_table_get_value(CowlTable *table, CowlAny *key) {
     return uhmap_get(CowlObjectTable, cowl_table_get_data(table), key, NULL);
@@ -107,6 +110,7 @@ CowlAny *cowl_table_get_value(CowlTable *table, CowlAny *key) {
  *
  * @public @memberof CowlTable
  */
+COWL_PURE
 COWL_INLINE
 CowlAny *cowl_table_get_any(CowlTable *table) {
     return uhset_get_any(CowlObjectTable, cowl_table_get_data(table), NULL);
@@ -121,6 +125,7 @@ CowlAny *cowl_table_get_any(CowlTable *table) {
  *
  * @public @memberof CowlTable
  */
+COWL_PURE
 COWL_INLINE
 bool cowl_table_contains(CowlTable *table, CowlAny *key) {
     return uhash_contains(CowlObjectTable, cowl_table_get_data(table), key);

@@ -55,6 +55,7 @@ CowlObjHasValue *cowl_obj_has_value(CowlAnyObjPropExp *prop, CowlAnyIndividual *
  *
  * @public @memberof CowlObjHasValue
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
     return (CowlObjPropExp *)cowl_get_field(exp, 0);
@@ -68,6 +69,7 @@ CowlObjPropExp *cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
  *
  * @public @memberof CowlObjHasValue
  */
+COWL_PURE
 COWL_INLINE
 CowlIndividual *cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
     return (CowlIndividual *)cowl_get_field(exp, 1);

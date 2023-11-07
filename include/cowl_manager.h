@@ -229,11 +229,10 @@ cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology,
  * @param handlers The handlers.
  * @return Ontology input stream.
  *
- * @note You are responsible for releasing the returned object.
- *
  * @public @memberof CowlManager
  */
 COWL_API
+COWL_RETAINED
 CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers handlers);
 
 /**
@@ -243,11 +242,10 @@ CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers 
  * @param ontology The ontology.
  * @return Ontology input stream.
  *
- * @note You are responsible for releasing the returned object.
- *
  * @public @memberof CowlManager
  */
 COWL_API
+COWL_RETAINED
 CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOntology *ontology);
 
 /**
@@ -257,11 +255,10 @@ CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOnto
  * @param stream The output stream.
  * @return Ontology output stream.
  *
- * @note You are responsible for releasing the returned object.
- *
  * @public @memberof CowlManager
  */
 COWL_API
+COWL_RETAINED
 CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream);
 
 COWL_END_DECLS

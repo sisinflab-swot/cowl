@@ -39,6 +39,7 @@ cowl_struct_decl(CowlObjPropExp);
  *
  * @public @memberof CowlObjPropExp
  */
+COWL_PURE
 COWL_INLINE
 bool cowl_obj_prop_exp_is_inverse(CowlAnyObjPropExp *exp) {
     return cowl_get_type(exp) == COWL_OT_OPE_INV_OBJ_PROP;
@@ -53,6 +54,7 @@ bool cowl_obj_prop_exp_is_inverse(CowlAnyObjPropExp *exp) {
  * @public @memberof CowlObjPropExp
  */
 COWL_API
+COWL_PURE
 CowlObjProp *cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
 
 COWL_END_DECLS

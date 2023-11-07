@@ -49,6 +49,7 @@ cowl_struct_decl(CowlOntology);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
 
 /**
@@ -60,6 +61,7 @@ CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
 
 /**
@@ -71,6 +73,7 @@ CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
 
 /**
@@ -104,6 +107,7 @@ void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 CowlVector *cowl_ontology_get_annot(CowlOntology *onto);
 
 /**
@@ -139,6 +143,7 @@ void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
 
 /**
@@ -151,6 +156,7 @@ CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 CowlIRI *cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
 
 /**
@@ -209,6 +215,7 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports);
 
 /**
@@ -221,6 +228,7 @@ ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 ulib_uint cowl_ontology_imports_count(CowlOntology *onto, bool imports);
 
 /**
@@ -234,6 +242,7 @@ ulib_uint cowl_ontology_imports_count(CowlOntology *onto, bool imports);
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type, bool imports);
 
 /**
@@ -247,6 +256,7 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                   bool imports);
 
@@ -261,6 +271,7 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPri
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 ulib_uint
 cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, bool imports);
 
@@ -275,6 +286,7 @@ cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, boo
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive, bool imports);
 
 /**
@@ -288,6 +300,7 @@ bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive
  * @public @memberof CowlOntology
  */
 COWL_API
+COWL_PURE
 bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool imports);
 
 /**

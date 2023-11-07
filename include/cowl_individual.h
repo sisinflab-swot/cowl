@@ -38,6 +38,7 @@ cowl_struct_decl(CowlIndividual);
  *
  * @public @memberof CowlIndividual
  */
+COWL_PURE
 COWL_INLINE
 bool cowl_individual_is_named(CowlAnyIndividual *ind) {
     return cowl_get_type(ind) == COWL_OT_I_NAMED;

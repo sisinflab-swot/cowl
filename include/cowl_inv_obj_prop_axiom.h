@@ -58,6 +58,7 @@ cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyObjPropExp *second, Cow
  *
  * @public @memberof CowlInvObjPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_inv_obj_prop_axiom_get_first_prop(CowlInvObjPropAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
@@ -71,6 +72,7 @@ CowlObjPropExp *cowl_inv_obj_prop_axiom_get_first_prop(CowlInvObjPropAxiom *axio
  *
  * @public @memberof CowlInvObjPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 1);
@@ -84,6 +86,7 @@ CowlObjPropExp *cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axi
  *
  * @public @memberof CowlInvObjPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

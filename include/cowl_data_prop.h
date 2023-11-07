@@ -78,6 +78,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlDataProp
  */
+COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_data_prop_get_iri(CowlDataProp *prop) {
     return cowl_entity_get_iri((CowlEntity *)prop);

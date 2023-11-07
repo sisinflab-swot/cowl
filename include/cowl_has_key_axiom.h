@@ -62,6 +62,7 @@ CowlHasKeyAxiom *cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_prop
  *
  * @public @memberof CowlHasKeyAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 0);
@@ -75,6 +76,7 @@ CowlClsExp *cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
  *
  * @public @memberof CowlHasKeyAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 1);
@@ -88,6 +90,7 @@ CowlVector *cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
  *
  * @public @memberof CowlHasKeyAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 2);
@@ -101,6 +104,7 @@ CowlVector *cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
  *
  * @public @memberof CowlHasKeyAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

@@ -84,6 +84,7 @@ COWL_RETAINED
  * @public @memberof CowlLiteral
  */
 COWL_API
+COWL_PURE
 CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal);
 
 /**
@@ -95,6 +96,7 @@ CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal);
  * @public @memberof CowlLiteral
  */
 COWL_API
+COWL_PURE
 CowlString *cowl_literal_get_value(CowlLiteral *literal);
 
 /**
@@ -106,6 +108,7 @@ CowlString *cowl_literal_get_value(CowlLiteral *literal);
  * @public @memberof CowlLiteral
  */
 COWL_API
+COWL_PURE
 CowlString *cowl_literal_get_lang(CowlLiteral *literal);
 
 COWL_END_DECLS

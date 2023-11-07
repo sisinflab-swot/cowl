@@ -57,6 +57,7 @@ CowlAnnotation *cowl_annotation(CowlAnnotProp *prop, CowlAnyAnnotValue *value, C
  *
  * @public @memberof CowlAnnotation
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotProp *cowl_annotation_get_prop(CowlAnnotation *annot) {
     return (CowlAnnotProp *)cowl_get_field(annot, 0);
@@ -70,6 +71,7 @@ CowlAnnotProp *cowl_annotation_get_prop(CowlAnnotation *annot) {
  *
  * @public @memberof CowlAnnotation
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotValue *cowl_annotation_get_value(CowlAnnotation *annot) {
     return (CowlAnnotValue *)cowl_get_field(annot, 1);
@@ -83,6 +85,7 @@ CowlAnnotValue *cowl_annotation_get_value(CowlAnnotation *annot) {
  *
  * @public @memberof CowlAnnotation
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_annotation_get_annot(CowlAnnotation *annot) {
     return (CowlVector *)cowl_get_opt_field(annot);

@@ -55,6 +55,7 @@ CowlDatatypeRestr *cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restr
  *
  * @public @memberof CowlDatatypeRestr
  */
+COWL_PURE
 COWL_INLINE
 CowlDatatype *cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
     return (CowlDatatype *)cowl_get_field(restr, 0);
@@ -68,6 +69,7 @@ CowlDatatype *cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
  *
  * @public @memberof CowlDatatypeRestr
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
     return (CowlVector *)cowl_get_field(restr, 1);

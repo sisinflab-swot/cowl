@@ -78,6 +78,7 @@ COWL_RETAINED
  *
  * @public @memberof CowlNamedInd
  */
+COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_named_ind_get_iri(CowlNamedInd *ind) {
     return cowl_entity_get_iri((CowlEntity *)ind);

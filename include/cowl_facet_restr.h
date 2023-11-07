@@ -55,6 +55,7 @@ CowlFacetRestr *cowl_facet_restr(CowlIRI *facet, CowlLiteral *value) {
  *
  * @public @memberof CowlFacetRestr
  */
+COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_facet_restr_get_facet(CowlFacetRestr *restr) {
     return (CowlIRI *)cowl_get_field(restr, 0);
@@ -68,6 +69,7 @@ CowlIRI *cowl_facet_restr_get_facet(CowlFacetRestr *restr) {
  *
  * @public @memberof CowlFacetRestr
  */
+COWL_PURE
 COWL_INLINE
 CowlLiteral *cowl_facet_restr_get_value(CowlFacetRestr *restr) {
     return (CowlLiteral *)cowl_get_field(restr, 1);

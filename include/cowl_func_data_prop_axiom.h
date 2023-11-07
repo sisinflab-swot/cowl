@@ -55,6 +55,7 @@ CowlFuncDataPropAxiom *cowl_func_data_prop_axiom(CowlAnyDataPropExp *prop, CowlV
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDataPropExp *cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom) {
     return (CowlDataPropExp *)cowl_get_field(axiom, 0);
@@ -68,6 +69,7 @@ CowlDataPropExp *cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom
  *
  * @public @memberof CowlFuncDataPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

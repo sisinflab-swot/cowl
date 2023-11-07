@@ -57,6 +57,7 @@ CowlNAryData *cowl_nary_data(CowlNAryType type, CowlVector *operands) {
  *
  * @public @memberof CowlNAryData
  */
+COWL_PURE
 COWL_INLINE
 CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
     return (CowlNAryType)(cowl_get_type(range) - COWL_OT_DR_DATA_INTERSECT);
@@ -70,6 +71,7 @@ CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
  *
  * @public @memberof CowlNAryData
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_data_get_operands(CowlNAryData *range) {
     return (CowlVector *)cowl_get_field(range, 0);

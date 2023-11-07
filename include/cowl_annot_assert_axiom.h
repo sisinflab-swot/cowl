@@ -60,6 +60,7 @@ CowlAnnotAssertAxiom *cowl_annot_assert_axiom(CowlAnnotProp *prop, CowlAnyAnnotV
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotProp *cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
     return (CowlAnnotProp *)cowl_get_field(axiom, 0);
@@ -75,6 +76,7 @@ CowlAnnotProp *cowl_annot_assert_axiom_get_prop(CowlAnnotAssertAxiom *axiom) {
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotValue *cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom) {
     return (CowlAnnotValue *)cowl_get_field(axiom, 1);
@@ -88,6 +90,7 @@ CowlAnnotValue *cowl_annot_assert_axiom_get_subject(CowlAnnotAssertAxiom *axiom)
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotValue *cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
     return (CowlAnnotValue *)cowl_get_field(axiom, 2);
@@ -101,6 +104,7 @@ CowlAnnotValue *cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
  *
  * @public @memberof CowlAnnotAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

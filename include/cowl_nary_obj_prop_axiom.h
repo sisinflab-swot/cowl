@@ -61,6 +61,7 @@ cowl_nary_obj_prop_axiom(CowlNAryAxiomType type, CowlVector *props, CowlVector *
  *
  * @public @memberof CowlNAryObjPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlNAryAxiomType cowl_nary_obj_prop_axiom_get_type(CowlNAryObjPropAxiom *axiom) {
     return (CowlNAryAxiomType)(cowl_get_type(axiom) - COWL_OT_A_EQUIV_OBJ_PROP);
@@ -74,6 +75,7 @@ CowlNAryAxiomType cowl_nary_obj_prop_axiom_get_type(CowlNAryObjPropAxiom *axiom)
  *
  * @public @memberof CowlNAryObjPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 0);
@@ -87,6 +89,7 @@ CowlVector *cowl_nary_obj_prop_axiom_get_props(CowlNAryObjPropAxiom *axiom) {
  *
  * @public @memberof CowlNAryObjPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_obj_prop_axiom_get_annot(CowlNAryObjPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

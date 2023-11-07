@@ -58,6 +58,7 @@ cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange *range, CowlVector *a
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDatatype *cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) {
     return (CowlDatatype *)cowl_get_field(axiom, 0);
@@ -70,6 +71,7 @@ CowlDatatype *cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) 
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDataRange *cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
     return (CowlDataRange *)cowl_get_field(axiom, 1);
@@ -83,6 +85,7 @@ CowlDataRange *cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
  *
  * @public @memberof CowlDatatypeDefAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

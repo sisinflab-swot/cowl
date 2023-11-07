@@ -55,6 +55,7 @@ CowlDataHasValue *cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *val
  *
  * @public @memberof CowlDataHasValue
  */
+COWL_PURE
 COWL_INLINE
 CowlDataPropExp *cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
     return (CowlDataPropExp *)cowl_get_field(restr, 0);
@@ -68,6 +69,7 @@ CowlDataPropExp *cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
  *
  * @public @memberof CowlDataHasValue
  */
+COWL_PURE
 COWL_INLINE
 CowlLiteral *cowl_data_has_value_get_value(CowlDataHasValue *restr) {
     return (CowlLiteral *)cowl_get_field(restr, 1);

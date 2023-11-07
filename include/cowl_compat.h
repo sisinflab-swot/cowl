@@ -53,6 +53,12 @@
 /// Marks inline function definitions.
 #define COWL_INLINE ULIB_INLINE
 
+/// Marks pure functions.
+#define COWL_PURE ULIB_PURE
+
+/// Marks const functions.
+#define COWL_CONST ULIB_CONST
+
 /// Marks functions that return retained instances.
 #define COWL_RETAINED // No-op
 

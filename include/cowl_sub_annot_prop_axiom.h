@@ -58,6 +58,7 @@ cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotProp *super, CowlVector *
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotProp *cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
     return (CowlAnnotProp *)cowl_get_field(axiom, 0);
@@ -71,6 +72,7 @@ CowlAnnotProp *cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlAnnotProp *cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom) {
     return (CowlAnnotProp *)cowl_get_field(axiom, 1);
@@ -84,6 +86,7 @@ CowlAnnotProp *cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom)
  *
  * @public @memberof CowlSubAnnotPropAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

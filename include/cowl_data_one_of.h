@@ -53,6 +53,7 @@ CowlDataOneOf *cowl_data_one_of(CowlVector *values) {
  *
  * @public @memberof CowlDataOneOf
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_data_one_of_get_values(CowlDataOneOf *range) {
     return (CowlVector *)cowl_get_field(range, 0);

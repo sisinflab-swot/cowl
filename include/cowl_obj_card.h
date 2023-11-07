@@ -60,6 +60,7 @@ CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyCl
  *
  * @public @memberof CowlObjCard
  */
+COWL_PURE
 COWL_INLINE
 CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
     return (CowlCardType)(cowl_get_type(restr) - COWL_OT_CE_OBJ_MIN_CARD);
@@ -73,6 +74,7 @@ CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
  *
  * @public @memberof CowlObjCard
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_card_get_prop(CowlObjCard *restr) {
     return (CowlObjPropExp *)cowl_get_field(restr, 0);
@@ -87,6 +89,7 @@ CowlObjPropExp *cowl_obj_card_get_prop(CowlObjCard *restr) {
  * @public @memberof CowlObjCard
  */
 COWL_API
+COWL_PURE
 CowlClsExp *cowl_obj_card_get_filler(CowlObjCard *restr);
 
 /**
@@ -97,6 +100,7 @@ CowlClsExp *cowl_obj_card_get_filler(CowlObjCard *restr);
  *
  * @public @memberof CowlObjCard
  */
+COWL_PURE
 COWL_INLINE
 ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) {
     return cowl_get_uint_field(restr);

@@ -53,6 +53,7 @@ CowlDataCompl *cowl_data_compl(CowlAnyDataRange *operand) {
  *
  * @public @memberof CowlDataCompl
  */
+COWL_PURE
 COWL_INLINE
 CowlDataRange *cowl_data_compl_get_operand(CowlDataCompl *range) {
     return (CowlDataRange *)cowl_get_field(range, 0);

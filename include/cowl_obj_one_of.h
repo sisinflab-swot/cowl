@@ -53,6 +53,7 @@ CowlObjOneOf *cowl_obj_one_of(CowlVector *inds) {
  *
  * @public @memberof CowlObjOneOf
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
     return (CowlVector *)cowl_get_field(exp, 0);

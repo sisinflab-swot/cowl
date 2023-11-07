@@ -43,6 +43,7 @@ cowl_struct_decl(CowlOStream);
  * @public @memberof CowlOStream
  */
 COWL_API
+COWL_PURE
 CowlManager *cowl_ostream_get_manager(CowlOStream *stream);
 
 /**
@@ -54,6 +55,7 @@ CowlManager *cowl_ostream_get_manager(CowlOStream *stream);
  * @public @memberof CowlOStream
  */
 COWL_API
+COWL_PURE
 CowlSymTable *cowl_ostream_get_sym_table(CowlOStream *stream);
 
 /**

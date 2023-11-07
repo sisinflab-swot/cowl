@@ -15,7 +15,7 @@
 
 COWL_BEGIN_DECLS
 
-ulib_uint cowl_xml_ns_length(UString string);
+COWL_PURE ulib_uint cowl_xml_ns_length(UString string);
 
 COWL_END_DECLS
 

@@ -57,6 +57,7 @@ CowlObjQuant *cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAn
  *
  * @public @memberof CowlObjQuant
  */
+COWL_PURE
 COWL_INLINE
 CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
     return (CowlQuantType)(cowl_get_type(restr) - COWL_OT_CE_OBJ_SOME);
@@ -70,6 +71,7 @@ CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
  *
  * @public @memberof CowlObjQuant
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_quant_get_prop(CowlObjQuant *restr) {
     return (CowlObjPropExp *)cowl_get_field(restr, 0);
@@ -84,6 +86,7 @@ CowlObjPropExp *cowl_obj_quant_get_prop(CowlObjQuant *restr) {
  * @public @memberof CowlObjQuant
  */
 COWL_API
+COWL_PURE
 CowlClsExp *cowl_obj_quant_get_filler(CowlObjQuant *restr);
 
 COWL_END_DECLS

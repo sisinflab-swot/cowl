@@ -87,6 +87,7 @@ cowl_neg_data_prop_assert_axiom(CowlAnyDataPropExp *prop, CowlAnyIndividual *sub
  *
  * @public @memberof CowlDataPropAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 bool cowl_data_prop_assert_axiom_is_negative(CowlDataPropAssertAxiom *axiom) {
     return cowl_get_type(axiom) == COWL_OT_A_NEG_DATA_PROP_ASSERT;
@@ -100,6 +101,7 @@ bool cowl_data_prop_assert_axiom_is_negative(CowlDataPropAssertAxiom *axiom) {
  *
  * @public @memberof CowlDataPropAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDataPropExp *cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *axiom) {
     return (CowlDataPropExp *)cowl_get_field(axiom, 0);
@@ -113,6 +115,7 @@ CowlDataPropExp *cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *a
  *
  * @public @memberof CowlDataPropAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlIndividual *cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom *axiom) {
     return (CowlIndividual *)cowl_get_field(axiom, 1);
@@ -126,6 +129,7 @@ CowlIndividual *cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom 
  *
  * @public @memberof CowlDataPropAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlLiteral *cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axiom) {
     return (CowlLiteral *)cowl_get_field(axiom, 2);
@@ -139,6 +143,7 @@ CowlLiteral *cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axi
  *
  * @public @memberof CowlDataPropAssertAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

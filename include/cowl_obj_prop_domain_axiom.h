@@ -59,6 +59,7 @@ cowl_obj_prop_domain_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *domain, CowlV
  *
  * @public @memberof CowlObjPropDomainAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom *axiom) {
     return (CowlObjPropExp *)cowl_get_field(axiom, 0);
@@ -72,6 +73,7 @@ CowlObjPropExp *cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom *axio
  *
  * @public @memberof CowlObjPropDomainAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 1);
@@ -85,6 +87,7 @@ CowlClsExp *cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom *axiom)
  *
  * @public @memberof CowlObjPropDomainAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_obj_prop_domain_axiom_get_annot(CowlObjPropDomainAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

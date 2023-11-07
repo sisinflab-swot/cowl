@@ -39,6 +39,7 @@ cowl_struct_decl(CowlClsExp);
  *
  * @public @memberof CowlClsExp
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExpType cowl_cls_exp_get_type(CowlAnyClsExp *exp) {
     return (CowlClsExpType)(cowl_get_type(exp) - COWL_OT_CE_CLASS);

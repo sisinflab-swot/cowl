@@ -132,6 +132,7 @@ char *cowl_string_release_copying_cstring(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_API
+COWL_PURE
 char const *cowl_string_get_cstring(CowlString *string);
 
 /**
@@ -143,6 +144,7 @@ char const *cowl_string_get_cstring(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_API
+COWL_PURE
 ulib_uint cowl_string_get_length(CowlString *string);
 
 /**
@@ -154,6 +156,7 @@ ulib_uint cowl_string_get_length(CowlString *string);
  * @public @memberof CowlString
  */
 COWL_API
+COWL_PURE
 UString const *cowl_string_get_raw(CowlString *string);
 
 /**

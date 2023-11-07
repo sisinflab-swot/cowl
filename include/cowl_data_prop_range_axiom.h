@@ -59,6 +59,7 @@ cowl_data_prop_range_axiom(CowlAnyDataPropExp *prop, CowlAnyDataRange *range, Co
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDataPropExp *cowl_data_prop_range_axiom_get_prop(CowlDataPropRangeAxiom *axiom) {
     return (CowlDataPropExp *)cowl_get_field(axiom, 0);
@@ -72,6 +73,7 @@ CowlDataPropExp *cowl_data_prop_range_axiom_get_prop(CowlDataPropRangeAxiom *axi
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlDataRange *cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axiom) {
     return (CowlDataRange *)cowl_get_field(axiom, 1);
@@ -85,6 +87,7 @@ CowlDataRange *cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axio
  *
  * @public @memberof CowlDataPropRangeAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);

@@ -59,6 +59,7 @@ CowlNAryBool *cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
  *
  * @public @memberof CowlNAryBool
  */
+COWL_PURE
 COWL_INLINE
 CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
     return (CowlNAryType)(cowl_get_type(exp) - COWL_OT_CE_OBJ_INTERSECT);
@@ -72,6 +73,7 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
  *
  * @public @memberof CowlNAryBool
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_bool_get_operands(CowlNAryBool *exp) {
     return (CowlVector *)cowl_get_field(exp, 0);

@@ -56,6 +56,7 @@ CowlSubClsAxiom *cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, Co
  *
  * @public @memberof CowlSubClsAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 0);
@@ -69,6 +70,7 @@ CowlClsExp *cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
  *
  * @public @memberof CowlSubClsAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom) {
     return (CowlClsExp *)cowl_get_field(axiom, 1);
@@ -82,6 +84,7 @@ CowlClsExp *cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom) {
  *
  * @public @memberof CowlSubClsAxiom
  */
+COWL_PURE
 COWL_INLINE
 CowlVector *cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
