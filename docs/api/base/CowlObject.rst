@@ -3,7 +3,8 @@ Objects
 =======
 
 .. doxygenstruct:: CowlObject
-.. doxygenenum:: CowlObjectType
+.. doxygengroup:: CowlObjectType
+   :content-only:
 
 Placeholder types
 =================

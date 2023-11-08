@@ -17,6 +17,15 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
+cowl_struct_decl(CowlString);
+/// @endcond
+
+/**
+ * @defgroup CowlObjectType CowlObjectType
+ * @{
+ */
+
 /// Represents the type of CowlObject.
 typedef enum CowlObjectType {
 
@@ -310,6 +319,30 @@ typedef enum CowlObjectType {
     COWL_OT_LAST_DR = COWL_OT_DR_DATA_ONE_OF
 
 } CowlObjectType;
+
+/**
+ * Returns a human-readable string representation of the specified object type.
+ *
+ * @param type Object type.
+ * @return String representation, or NULL on error.
+ *
+ * @note You must not modify or free the returned string.
+ */
+COWL_API
+COWL_CONST
+UString cowl_object_type_to_ustring(CowlObjectType type);
+
+/**
+ * Returns a human-readable string representation of the specified object type.
+ *
+ * @param type Object type.
+ * @return String representation, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlString *cowl_object_type_to_string(CowlObjectType type);
+
+/// @}
 
 COWL_END_DECLS
 
