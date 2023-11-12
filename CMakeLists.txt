@@ -49,6 +49,7 @@ set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
 set(COWL_DOCS_DIR "${COWL_PROJECT_DIR}/docs")
 set(COWL_EXAMPLES_DIR "${COWL_PROJECT_DIR}/examples")
 set(COWL_TEST_DIR "${COWL_PROJECT_DIR}/test")
+set(COWL_TOOLS_DIR "${COWL_PROJECT_DIR}/tools")
 
 set(COWL_HEADERS_OUT_DIR "${COWL_OUTPUT_DIR}/include")
 
@@ -182,3 +183,4 @@ install(TARGETS cowl ulib)
 add_subdirectory("${COWL_DOCS_DIR}")
 add_subdirectory("${COWL_EXAMPLES_DIR}")
 add_subdirectory("${COWL_TEST_DIR}")
+add_subdirectory("${COWL_TOOLS_DIR}")

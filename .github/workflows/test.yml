@@ -10,12 +10,7 @@ env:
   cflags_gnuc: -Werror -fsanitize=address
   lflags_gnuc: -fsanitize=address
   cflags_msvc: /WX
-  lflags_msvc:
-  test_target: cowl-test
-  cpp_test_target: cowl-cpp-test
-  bench_target: cowl-bench
-  examples_target: cowl-examples
-  docs_target: cowl-docs
+  lflags_msvc: ''
   doxygen_version: ${{secrets.doxygen_version}}
 
 jobs:
@@ -69,8 +64,7 @@ jobs:
         run: >
           cmake --build ${{env.build_dir}}
           --config ${{env.build_config}}
-          --target ${{env.test_target}} ${{env.cpp_test_target}}
-          ${{env.bench_target}} ${{env.examples_target}}
+          --target cowl-test cowl-cpp-test cowl-bench cowl-examples cowl-tools
 
       - name: Configure tests
         working-directory: ${{env.build_dir}}
@@ -78,10 +72,23 @@ jobs:
         run: |
           mv test/${{env.build_config}}/*.exe test
           mv examples/${{env.build_config}}/*.exe examples
+          mv tools/${{env.build_config}}/*.exe tools
           if [ ${{matrix.lib_type}} == 'SHARED' ]; then
-            find . -name '*.dll' -exec cp -t test {} + -exec cp -t examples {} +
+            find . -name '*.dll' -exec cp -t test {} + -exec cp -t examples {} + -exec cp -t tools {} +
           fi
         shell: bash
+
+      - name: Run tests
+        working-directory: ${{env.build_dir}}/test
+        run: ./cowl-test
+
+      - name: Run tests (C++)
+        working-directory: ${{env.build_dir}}/test
+        run: ./cowl-cpp-test
+
+      - name: Run benchmark
+        working-directory: ${{env.build_dir}}/test
+        run: ./cowl-bench
 
       - name: Run examples
         working-directory: ${{env.build_dir}}/examples
@@ -96,17 +103,9 @@ jobs:
           done
         shell: bash
 
-      - name: Run benchmark
-        working-directory: ${{env.build_dir}}/test
-        run: ./${{env.bench_target}}
-
-      - name: Run tests
-        working-directory: ${{env.build_dir}}/test
-        run: ./${{env.test_target}}
-
-      - name: Run tests (C++)
-        working-directory: ${{env.build_dir}}/test
-        run: ./${{env.cpp_test_target}}
+      - name: Run tools
+        working-directory: ${{env.build_dir}}/tools
+        run: ./cowl-stats test_onto.owl
 
   docs:
     name: Generate the documentation
@@ -133,4 +132,4 @@ jobs:
       - name: Build docs
         run: |
           cmake -B ${{env.build_dir}} -DCOWL_READERS=''
-          cmake --build ${{env.build_dir}} --target ${{env.docs_target}}
+          cmake --build ${{env.build_dir}} --target cowl-docs
