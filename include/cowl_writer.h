@@ -216,6 +216,20 @@ ustream_ret cowl_write_ustring(UOStream *stream, UString const *string) {
 }
 
 /**
+ * Writes a string to the specified output stream.
+ *
+ * @param stream [UOStream *] Output stream.
+ * @param string [char const *] String.
+ * @return [ustream_ret] Return code.
+ *
+ * @public @related CowlWriter
+ */
+COWL_INLINE
+ustream_ret cowl_write_cstring(UOStream *stream, char const *string) {
+    return uostream_write(stream, string, strlen(string), NULL);
+}
+
+/**
  * Writes a string literal to the specified output stream.
  *
  * @param stream [UOStream *] Output stream.
