@@ -15,8 +15,8 @@
 
 COWL_BEGIN_DECLS
 
-size_t cowl_str_from_uint(uint64_t uint, char *buf);
-COWL_PURE uint64_t cowl_str_to_uint(char const *string, size_t length);
+size_t cowl_str_from_uint(ulib_uint uint, char *buf);
+COWL_PURE ulib_uint cowl_str_to_uint(char const *string, size_t length);
 
 COWL_END_DECLS
 

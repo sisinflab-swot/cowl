@@ -144,10 +144,8 @@ CowlIRI *cowl_iri_from_string(UString string) {
     if (cowl_string_get_ns_rem(string, ns_length, parts)) return NULL;
 
     CowlIRI *iri = cowl_iri_unvalidated(parts[0], parts[1]);
-
     cowl_release(parts[0]);
     cowl_release(parts[1]);
-
     return iri;
 }
 

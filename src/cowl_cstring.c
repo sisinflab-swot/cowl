@@ -10,7 +10,7 @@
 
 #include "cowl_cstring.h"
 
-size_t cowl_str_from_uint(uint64_t uint, char *buf) {
+size_t cowl_str_from_uint(ulib_uint uint, char *buf) {
     char *cur = buf;
 
     do {
@@ -30,11 +30,11 @@ size_t cowl_str_from_uint(uint64_t uint, char *buf) {
     return len;
 }
 
-uint64_t cowl_str_to_uint(char const *string, size_t length) {
-    uint64_t res = 0;
+ulib_uint cowl_str_to_uint(char const *string, size_t length) {
+    ulib_uint res = 0;
 
     for (char const *last = string + length; string < last; ++string) {
-        if (*string < '0' || *string > '9') return (uint64_t)-1;
+        if (*string < '0' || *string > '9') return (ulib_uint)-1;
         res = res * 10 + (*string - '0');
     }
 
