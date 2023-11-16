@@ -22,7 +22,3 @@ CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive) {
         default: return COWL_PT_ANNOT_PROP;
     }
 }
-
-bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive) {
-    return cowl_primitive_type_is_entity(cowl_primitive_get_type(primitive));
-}

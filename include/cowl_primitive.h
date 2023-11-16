@@ -49,9 +49,11 @@ CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive);
  *
  * @public @memberof CowlPrimitive
  */
-COWL_API
 COWL_PURE
-bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive);
+COWL_INLINE
+bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive) {
+    return cowl_is_entity(primitive);
+}
 
 COWL_END_DECLS
 
