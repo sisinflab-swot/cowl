@@ -80,9 +80,10 @@ endif()
 
 # uLib
 
+option(ULIB_TINY "" ${COWL_EMBEDDED})
+option(ULIB_LTO "" ${COWL_LTO})
+
 if(NOT TARGET ulib)
-    option(ULIB_EMBEDDED "" ${COWL_EMBEDDED})
-    option(ULIB_LTO "" ${COWL_LTO})
     add_subdirectory("${COWL_LIB_DIR}/ulib" EXCLUDE_FROM_ALL)
 endif()
 
