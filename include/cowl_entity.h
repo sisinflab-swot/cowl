@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlEntity);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlEntity);
  *
  * [Entity]: https://www.w3.org/TR/owl2-syntax/#Entities.2C_Literals.2C_and_Anonymous_Individuals
  *
+ * @superstruct{CowlPrimitive}
  * @struct CowlEntity
- * @extends CowlPrimitive
+ */
+cowl_struct_decl(CowlEntity);
+
+/**
+ * @defgroup CowlEntity CowlEntity API
+ * @{
  */
 
 /**
@@ -37,8 +42,6 @@ cowl_struct_decl(CowlEntity);
  *
  * @param entity The entity.
  * @return The type.
- *
- * @public @memberof CowlEntity
  */
 COWL_API
 COWL_PURE
@@ -49,8 +52,6 @@ CowlEntityType cowl_entity_get_type(CowlAnyEntity *entity);
  *
  * @param entity The entity.
  * @return The IRI.
- *
- * @public @memberof CowlEntity
  */
 COWL_API
 COWL_PURE
@@ -61,8 +62,6 @@ CowlIRI *cowl_entity_get_iri(CowlAnyEntity *entity);
  *
  * @param entity The entity.
  * @return True if the entity is reserved, false otherwise.
- *
- * @public @memberof CowlEntity
  */
 COWL_API
 COWL_PURE
@@ -76,12 +75,10 @@ bool cowl_entity_is_reserved(CowlAnyEntity *entity);
  * @param entity The entity.
  * @return Unique identifier.
  *
- * @note Only available if COWL_ENTITY_IDS is defined. Enabling this API ensures entities are
+ * @note Only available if `COWL_ENTITY_IDS` is defined. Enabling this API ensures entities are
  *       tracked and given a numeric identifier for the lifetime of the executable,
  *       which can be a useful property to have in some applications. Bear in mind that this
  *       also means entities are never deallocated, which can affect memory usage.
- *
- * @public @memberof CowlEntity
  */
 COWL_API
 COWL_PURE
@@ -93,16 +90,16 @@ ulib_uint cowl_entity_get_id(CowlAnyEntity *entity);
  * @param id Unique identifier.
  * @return Entity with the specified identifier, or NULL if no entity has the specified identifier.
  *
- * @note Only available if COWL_ENTITY_IDS is defined.
- * @see cowl_entity_get_id
- *
- * @public @memberof CowlEntity
+ * @note Only available if `COWL_ENTITY_IDS` is defined.
+ * @see @func{#cowl_entity_get_id()}
  */
 COWL_API
 COWL_PURE
 CowlAnyEntity *cowl_entity_with_id(ulib_uint id);
 
 #endif
+
+/// @}
 
 COWL_END_DECLS
 

@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlObjProp);
-cowl_struct_decl(CowlInvObjProp);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlInvObjProp);
  *
  * [InverseObjectProperty]: https://www.w3.org/TR/owl2-syntax/#Inverse_Object_Properties
  *
+ * @superstruct{CowlObjPropExp}
  * @struct CowlInvObjProp
- * @extends CowlObjPropExp
+ */
+cowl_struct_decl(CowlInvObjProp);
+
+/**
+ * @defgroup CowlInvObjProp CowlInvObjProp API
+ * @{
  */
 
 /**
@@ -36,8 +41,6 @@ cowl_struct_decl(CowlInvObjProp);
  *
  * @param prop The object property of which the expression is the inverse of.
  * @return Inverse object property, or NULL on error.
- *
- * @public @memberof CowlInvObjProp
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,14 +53,14 @@ CowlInvObjProp *cowl_inv_obj_prop(CowlObjProp *prop) {
  *
  * @param inv The inverse object property.
  * @return The property.
- *
- * @public @memberof CowlInvObjProp
  */
 COWL_PURE
 COWL_INLINE
 CowlObjProp *cowl_inv_obj_prop_get_prop(CowlInvObjProp *inv) {
     return (CowlObjProp *)cowl_get_field(inv, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

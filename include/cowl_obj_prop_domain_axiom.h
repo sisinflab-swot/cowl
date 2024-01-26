@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlObjPropDomainAxiom);
 /// @endcond
 
 /**
@@ -29,8 +28,14 @@ cowl_struct_decl(CowlObjPropDomainAxiom);
  *
  * [ObjectPropertyDomain]: https://www.w3.org/TR/owl2-syntax/#Object_Property_Domain
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlObjPropDomainAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlObjPropDomainAxiom);
+
+/**
+ * @defgroup CowlObjPropDomainAxiom CowlObjPropDomainAxiom API
+ * @{
  */
 
 /**
@@ -38,10 +43,8 @@ cowl_struct_decl(CowlObjPropDomainAxiom);
  *
  * @param prop The object property.
  * @param domain Domain of the object property.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlObjPropDomainAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -56,8 +59,6 @@ cowl_obj_prop_domain_axiom(CowlAnyObjPropExp *prop, CowlAnyClsExp *domain, CowlV
  *
  * @param axiom The axiom.
  * @return The object property.
- *
- * @public @memberof CowlObjPropDomainAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -70,8 +71,6 @@ CowlObjPropExp *cowl_obj_prop_domain_axiom_get_prop(CowlObjPropDomainAxiom *axio
  *
  * @param axiom The axiom.
  * @return Domain of the object property.
- *
- * @public @memberof CowlObjPropDomainAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -84,14 +83,14 @@ CowlClsExp *cowl_obj_prop_domain_axiom_get_domain(CowlObjPropDomainAxiom *axiom)
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlObjPropDomainAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_obj_prop_domain_axiom_get_annot(CowlObjPropDomainAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

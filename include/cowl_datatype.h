@@ -17,18 +17,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlDatatype);
-/// @endcond
-
 /**
  * Represents a [Datatype] in the OWL 2 specification.
  *
  * [Datatype]: https://www.w3.org/TR/owl2-syntax/#Datatypes
  *
+ * @superstruct{CowlDataRange,CowlEntity}
  * @struct CowlDatatype
- * @extends CowlDataRange
- * @extends CowlEntity
+ */
+cowl_struct_decl(CowlDatatype);
+
+/**
+ * @defgroup CowlDatatype CowlDatatype API
+ * @{
  */
 
 /**
@@ -36,8 +37,6 @@ cowl_struct_decl(CowlDatatype);
  *
  * @param iri IRI of the datatype.
  * @return Datatype, or NULL on error.
- *
- * @public @memberof CowlDatatype
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,8 +49,6 @@ CowlDatatype *cowl_datatype(CowlIRI *iri) {
  *
  * @param string String representation of the IRI.
  * @return Datatype, or NULL on error.
- *
- * @public @memberof CowlDatatype
  */
 COWL_RETAINED
 COWL_INLINE
@@ -60,29 +57,27 @@ CowlDatatype *cowl_datatype_from_string(UString string) {
 }
 
 /**
- * Returns a datatype given the static string representation of its IRI.
+ * Returns a datatype given the string literal representing its IRI.
  *
- * @param CSTR [char const[]] Static string.
- * @return [CowlDatatype *] Datatype, or NULL on error.
- *
- * @public @related CowlDatatype
+ * @param str @type{char const []} String literal.
+ * @return @type{#CowlDatatype *} Datatype, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_datatype_from_static(CSTR) cowl_datatype_from_string(ustring_literal(CSTR))
+#define cowl_datatype_from_static(str) cowl_datatype_from_string(ustring_literal(str))
 
 /**
  * Gets the IRI of the specified datatype.
  *
  * @param dt The datatype.
  * @return The IRI.
- *
- * @public @memberof CowlDatatype
  */
 COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_datatype_get_iri(CowlDatatype *dt) {
     return cowl_entity_get_iri((CowlEntity *)dt);
 }
+
+/// @}
 
 COWL_END_DECLS
 

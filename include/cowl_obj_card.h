@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlObjPropExp);
-cowl_struct_decl(CowlObjCard);
 /// @endcond
 
 /**
@@ -32,8 +31,14 @@ cowl_struct_decl(CowlObjCard);
  * [ObjectMaxCardinality]: https://www.w3.org/TR/owl2-syntax/#Maximum_Cardinality
  * [ObjectExactCardinality]: https://www.w3.org/TR/owl2-syntax/#Exact_Cardinality
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlObjCard
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlObjCard);
+
+/**
+ * @defgroup CowlObjCard CowlObjCard API
+ * @{
  */
 
 /**
@@ -41,11 +46,9 @@ cowl_struct_decl(CowlObjCard);
  *
  * @param type The type.
  * @param prop The object property.
- * @param filler [optional] Filler of the restriction.
+ * @param filler @type{optional} Filler of the restriction.
  * @param cardinality Cardinality of the restriction.
  * @return Restriction, or NULL on error.
- *
- * @public @memberof CowlObjCard
  */
 COWL_API
 COWL_RETAINED
@@ -57,8 +60,6 @@ CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyCl
  *
  * @param restr The restriction.
  * @return The type.
- *
- * @public @memberof CowlObjCard
  */
 COWL_PURE
 COWL_INLINE
@@ -71,8 +72,6 @@ CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
  *
  * @param restr The restriction.
  * @return The property.
- *
- * @public @memberof CowlObjCard
  */
 COWL_PURE
 COWL_INLINE
@@ -85,8 +84,6 @@ CowlObjPropExp *cowl_obj_card_get_prop(CowlObjCard *restr) {
  *
  * @param restr The restriction.
  * @return The filler.
- *
- * @public @memberof CowlObjCard
  */
 COWL_API
 COWL_PURE
@@ -97,14 +94,14 @@ CowlClsExp *cowl_obj_card_get_filler(CowlObjCard *restr);
  *
  * @param restr The restriction.
  * @return The cardinality.
- *
- * @public @memberof CowlObjCard
  */
 COWL_PURE
 COWL_INLINE
 ulib_uint cowl_obj_card_get_cardinality(CowlObjCard *restr) {
     return cowl_get_uint_field(restr);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlString);
-cowl_struct_decl(CowlIRI);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlIRI);
  *
  * [International Resource Identifiers]: https://www.w3.org/TR/owl2-syntax/#IRIs
  *
+ * @superstruct{CowlAnnotValue}
  * @struct CowlIRI
- * @extends CowlAnnotValue
+ */
+cowl_struct_decl(CowlIRI);
+
+/**
+ * @defgroup CowlIRI CowlIRI API
+ * @{
  */
 
 /**
@@ -38,8 +43,6 @@ cowl_struct_decl(CowlIRI);
  * @param prefix The prefix.
  * @param suffix The suffix.
  * @return IRI, or NULL on error
- *
- * @public @memberof CowlIRI
  */
 COWL_API
 COWL_RETAINED
@@ -50,31 +53,25 @@ CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix);
  *
  * @param string String representation of the IRI.
  * @return IRI, or NULL on error
- *
- * @public @memberof CowlIRI
  */
 COWL_API
 COWL_RETAINED
 CowlIRI *cowl_iri_from_string(UString string);
 
 /**
- * Returns an IRI given its static string representation.
+ * Returns an IRI given its literal string representation.
  *
- * @param CSTR [char const[]] Static string.
- * @return [CowlIRI *] IRI, or NULL on error
- *
- * @public @related CowlIRI
+ * @param str @type{char const []} String literal.
+ * @return @type{#CowlIRI *} IRI, or NULL on error
  */
 COWL_RETAINED
-#define cowl_iri_from_static(CSTR) (cowl_iri_from_string(ustring_literal(CSTR)))
+#define cowl_iri_from_static(str) (cowl_iri_from_string(ustring_literal(str)))
 
 /**
  * Gets the namespace of the specified IRI.
  *
  * @param iri The IRI.
  * @return The namespace.
- *
- * @public @memberof CowlIRI
  */
 COWL_API
 COWL_PURE
@@ -85,8 +82,6 @@ CowlString *cowl_iri_get_ns(CowlIRI *iri);
  *
  * @param iri The IRI.
  * @return The remainder.
- *
- * @public @memberof CowlIRI
  */
 COWL_API
 COWL_PURE
@@ -97,8 +92,6 @@ CowlString *cowl_iri_get_rem(CowlIRI *iri);
  *
  * @param iri The IRI.
  * @return True if the IRI has a remainder, false otherwise.
- *
- * @public @memberof CowlIRI
  */
 COWL_PURE
 COWL_INLINE
@@ -111,12 +104,12 @@ bool cowl_iri_has_rem(CowlIRI *iri) {
  *
  * @param iri The IRI.
  * @return True if the IRI is reserved, false otherwise.
- *
- * @public @memberof CowlIRI
  */
 COWL_API
 COWL_PURE
 bool cowl_iri_is_reserved(CowlIRI *iri);
+
+/// @}
 
 COWL_END_DECLS
 

@@ -20,16 +20,21 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlLiteral);
-cowl_struct_decl(CowlFacetRestr);
 /// @endcond
 
 /**
- * Represents a facet restriction used to restrict a particular CowlDatatype.
+ * Represents a facet restriction used to restrict a particular @type{#CowlDatatype}.
  *
  * @see https://www.w3.org/TR/owl2-syntax/#Datatype_Maps
  *
+ * @superstruct{CowlObject}
  * @struct CowlFacetRestr
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlFacetRestr);
+
+/**
+ * @defgroup CowlFacetRestr CowlFacetRestr API
+ * @{
  */
 
 /**
@@ -38,8 +43,6 @@ cowl_struct_decl(CowlFacetRestr);
  * @param facet The facet.
  * @param value The restriction value.
  * @return Facet restriction, or NULL on error.
- *
- * @public @memberof CowlFacetRestr
  */
 COWL_RETAINED
 COWL_INLINE
@@ -52,8 +55,6 @@ CowlFacetRestr *cowl_facet_restr(CowlIRI *facet, CowlLiteral *value) {
  *
  * @param restr The facet restriction.
  * @return The facet.
- *
- * @public @memberof CowlFacetRestr
  */
 COWL_PURE
 COWL_INLINE
@@ -66,14 +67,14 @@ CowlIRI *cowl_facet_restr_get_facet(CowlFacetRestr *restr) {
  *
  * @param restr The facet restriction.
  * @return The restriction value.
- *
- * @public @memberof CowlFacetRestr
  */
 COWL_PURE
 COWL_INLINE
 CowlLiteral *cowl_facet_restr_get_value(CowlFacetRestr *restr) {
     return (CowlLiteral *)cowl_get_field(restr, 1);
 }
+
+/// @}
 
 COWL_END_DECLS
 

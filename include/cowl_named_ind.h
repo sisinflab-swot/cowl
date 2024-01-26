@@ -17,18 +17,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlNamedInd);
-/// @endcond
-
 /**
  * Represents a [NamedIndividual] in the OWL 2 specification.
  *
  * [NamedIndividual]: https://www.w3.org/TR/owl2-syntax/#Named_Individuals
  *
+ * @superstruct{CowlIndividual,CowlEntity}
  * @struct CowlNamedInd
- * @extends CowlIndividual
- * @extends CowlEntity
+ */
+cowl_struct_decl(CowlNamedInd);
+
+/**
+ * @defgroup CowlNamedInd CowlNamedInd API
+ * @{
  */
 
 /**
@@ -36,8 +37,6 @@ cowl_struct_decl(CowlNamedInd);
  *
  * @param iri IRI of the individual.
  * @return Named individual, or NULL on error.
- *
- * @public @memberof CowlNamedInd
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,8 +49,6 @@ CowlNamedInd *cowl_named_ind(CowlIRI *iri) {
  *
  * @param string String representation of the IRI.
  * @return Named individual, or NULL on error.
- *
- * @public @memberof CowlNamedInd
  */
 COWL_RETAINED
 COWL_INLINE
@@ -60,29 +57,27 @@ CowlNamedInd *cowl_named_ind_from_string(UString string) {
 }
 
 /**
- * Returns a named individual given the static string representation of its IRI.
+ * Returns a named individual given the string literal representing its IRI.
  *
- * @param CSTR [char const[]] Static string.
- * @return [CowlNamedInd *] Named individual, or NULL on error.
- *
- * @public @related CowlNamedInd
+ * @param str @type{char const []} String literal.
+ * @return @type{#CowlNamedInd *} Named individual, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_named_ind_from_static(CSTR) cowl_named_ind_from_string(ustring_literal(CSTR))
+#define cowl_named_ind_from_static(str) cowl_named_ind_from_string(ustring_literal(str))
 
 /**
  * Gets the IRI of the named individual.
  *
  * @param ind The named individual.
  * @return IRI of the named individual.
- *
- * @public @memberof CowlNamedInd
  */
 COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_named_ind_get_iri(CowlNamedInd *ind) {
     return cowl_entity_get_iri((CowlEntity *)ind);
 }
+
+/// @}
 
 COWL_END_DECLS
 

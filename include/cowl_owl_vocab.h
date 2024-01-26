@@ -168,8 +168,6 @@ typedef struct CowlOWLVocab {
  * Returns the OWL 2 vocabulary.
  *
  * @return The OWL 2 vocabulary.
- *
- * @public @memberof CowlOWLVocab
  */
 COWL_API
 COWL_CONST

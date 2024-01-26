@@ -1,5 +1,0 @@
-==================
-Data Subproperties
-==================
-
-.. doxygenstruct:: CowlSubDataPropAxiom

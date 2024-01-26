@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlAxiom);
 /// @endcond
 
 /**
@@ -29,8 +28,14 @@ cowl_struct_decl(CowlAxiom);
  *
  * [Axiom]: https://www.w3.org/TR/owl2-syntax/#Axioms
  *
+ * @superstruct{CowlObject}
  * @struct CowlAxiom
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlAxiom);
+
+/**
+ * @defgroup CowlAxiom CowlAxiom API
+ * @{
  */
 
 /**
@@ -38,8 +43,6 @@ cowl_struct_decl(CowlAxiom);
  *
  * @param axiom The axiom.
  * @return Axiom type.
- *
- * @public @memberof CowlAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -52,8 +55,6 @@ CowlAxiomType cowl_axiom_get_type(CowlAnyAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -68,8 +69,6 @@ CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
  * @param operand The operand.
  * @param position Position where the operand should appear.
  * @return True if the axiom has the specified operand, false otherwise.
- *
- * @public @memberof CowlAxiom
  */
 COWL_API
 COWL_PURE
@@ -82,11 +81,11 @@ bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition 
  * @param position Position of the desired operands.
  * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlAxiom
  */
 COWL_API
 bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter);
+
+/// @}
 
 COWL_END_DECLS
 

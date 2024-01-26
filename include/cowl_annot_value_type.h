@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlAnnotValueType enumeration.
+ * Defines the CowlAnnotValueType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -17,18 +17,18 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of CowlAnnotValue.
+/// Represents the type of @type{#CowlAnnotValue}.
 typedef enum CowlAnnotValueType {
 
     /// @name Types
 
-    /// IRI.
+    /// @type{#CowlIRI} - IRI.
     COWL_AVT_IRI,
 
-    /// Literal.
+    /// @type{#CowlLiteral} - Literal.
     COWL_AVT_LITERAL,
 
-    /// Anonymous individual.
+    /// @type{#CowlAnonInd} - Anonymous individual.
     COWL_AVT_ANON_IND,
 
     /// @name Markers

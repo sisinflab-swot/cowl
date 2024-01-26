@@ -22,6 +22,11 @@
 COWL_BEGIN_DECLS
 
 /**
+ * @defgroup init Library initialization
+ * @{
+ */
+
+/**
  * Initializes the library.
  *
  * @return Return code.
@@ -40,6 +45,13 @@ cowl_ret cowl_init(void);
  */
 COWL_API
 void cowl_deinit(void);
+
+/// @}
+
+/**
+ * @defgroup config Library configuration
+ * @{
+ */
 
 /**
  * Sets the global error handler.
@@ -80,6 +92,8 @@ void cowl_set_reader(CowlReader reader);
  */
 COWL_API
 void cowl_set_writer(CowlWriter writer);
+
+/// @}
 
 COWL_END_DECLS
 

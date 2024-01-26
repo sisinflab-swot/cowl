@@ -23,8 +23,8 @@
 
 COWL_BEGIN_DECLS
 
-#define cowl_string_vocab(CSTR) cowl_string(ustring_literal(CSTR))
-#define cowl_string_vocab_intern(CSTR) cowl_string_opt(ustring_literal(CSTR), COWL_SO_INTERN)
+#define cowl_string_vocab(str) cowl_string(ustring_literal(str))
+#define cowl_string_vocab_intern(str) cowl_string_opt(ustring_literal(str), COWL_SO_INTERN)
 #define cowl_string_vocab_free(STR) ulib_free(STR)
 
 #define cowl_iri_vocab(NS_STR, REM_CSTR) cowl_iri_unvalidated((NS_STR), cowl_string_vocab(REM_CSTR))

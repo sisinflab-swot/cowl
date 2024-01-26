@@ -41,20 +41,25 @@ typedef struct CowlReader {
 
 } CowlReader;
 
+/**
+ * @defgroup CowlReader CowlReader API
+ * @{
+ */
+
 #ifdef COWL_READER_FUNCTIONAL
 
 /**
  * Returns the functional syntax reader.
  *
  * @return Functional syntax reader.
- *
- * @public @related CowlReader
  */
 COWL_API
 COWL_CONST
 CowlReader cowl_reader_functional(void);
 
 #endif // COWL_READER_FUNCTIONAL
+
+/// @}
 
 COWL_END_DECLS
 

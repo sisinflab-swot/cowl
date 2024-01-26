@@ -26,13 +26,12 @@ uhash_decl(CowlObjectTable);
 /**
  * Iterator API.
  *
- * A CowlIterator is a wrapper around a function that gets called for every element
+ * A @type{#CowlIterator} is a wrapper around a function that gets called for every element
  * matched by a query. The context provided while creating the iterator is passed to the
  * `for_each` function each time it is called.
  *
- * The iterator function returns a `boolean` that can be used to control iteration:
- * by returning `true` iteration proceeds to the next element,
- * while returning `false` causes it to stop.
+ * The iterator function returns a @type{bool} that can be used to control iteration: by returning
+ * true iteration proceeds to the next element, while returning false causes it to stop.
  */
 typedef struct CowlIterator {
 
@@ -45,6 +44,11 @@ typedef struct CowlIterator {
 } CowlIterator;
 
 /**
+ * @defgroup CowlIterator CowlIterator API
+ * @{
+ */
+
+/**
  * Initializes an iterator that stores objects in the specified vector.
  *
  * @param[out] vec Vector.
@@ -53,8 +57,6 @@ typedef struct CowlIterator {
  *
  * @note When using this iterator, iterator functions return false on error,
  *       e.g. when memory cannot be allocated.
- *
- * @public @related CowlIterator
  */
 COWL_API
 CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
@@ -68,8 +70,6 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
  *
  * @note When using this iterator, iterator functions return false on error,
  *       e.g. when memory cannot be allocated.
- *
- * @public @related CowlIterator
  */
 COWL_API
 CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set, bool retain);
@@ -79,8 +79,6 @@ CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set, bool retain);
  *
  * @param[out] count Object count.
  * @return Initialized iterator.
- *
- * @public @related CowlIterator
  */
 COWL_API
 CowlIterator cowl_iterator_count(ulib_uint *count);
@@ -93,11 +91,11 @@ CowlIterator cowl_iterator_count(ulib_uint *count);
  * @return Initialized iterator.
  *
  * @note When using this iterator, iterator functions return false if the element has been found.
- *
- * @public @related CowlIterator
  */
 COWL_API
 CowlIterator cowl_iterator_contains(CowlAny *object);
+
+/// @}
 
 COWL_END_DECLS
 

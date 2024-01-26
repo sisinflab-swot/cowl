@@ -1,5 +1,0 @@
-====================
-Object Subproperties
-====================
-
-.. doxygenstruct:: CowlSubObjPropAxiom

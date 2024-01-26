@@ -23,18 +23,24 @@ cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlSymTable);
-cowl_struct_decl(CowlIStream);
 /// @endcond
 
 /**
  * Ontology input stream.
  *
- * A lightweight way to access knowledge without deserializing ontologies into CowlOntology objects.
+ * A lightweight way to access knowledge without deserializing ontologies
+ * into @type{#CowlOntology} objects.
  *
- * @see CowlReader
+ * @see @type{#CowlReader}
  *
+ * @superstruct{CowlObject}
  * @struct CowlIStream
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlIStream);
+
+/**
+ * @defgroup CowlIStream CowlIStream API
+ * @{
  */
 
 /**
@@ -42,8 +48,6 @@ cowl_struct_decl(CowlIStream);
  *
  * @param stream The ontology input stream.
  * @return The manager.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 COWL_PURE
@@ -54,8 +58,6 @@ CowlManager *cowl_istream_get_manager(CowlIStream *stream);
  *
  * @param stream The ontology input stream.
  * @return The symbol table.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 COWL_PURE
@@ -67,8 +69,6 @@ CowlSymTable *cowl_istream_get_sym_table(CowlIStream *stream);
  * @param stream The ontology input stream.
  * @param iri The ontology IRI.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_handle_iri(CowlIStream *stream, CowlIRI *iri);
@@ -79,8 +79,6 @@ cowl_ret cowl_istream_handle_iri(CowlIStream *stream, CowlIRI *iri);
  * @param stream The ontology input stream.
  * @param version The version IRI.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_handle_version(CowlIStream *stream, CowlIRI *version);
@@ -91,8 +89,6 @@ cowl_ret cowl_istream_handle_version(CowlIStream *stream, CowlIRI *version);
  * @param stream The ontology input stream.
  * @param import The import IRI.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_handle_import(CowlIStream *stream, CowlIRI *import);
@@ -103,8 +99,6 @@ cowl_ret cowl_istream_handle_import(CowlIStream *stream, CowlIRI *import);
  * @param stream The ontology input stream.
  * @param annot The annotation.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_handle_annot(CowlIStream *stream, CowlAnnotation *annot);
@@ -115,8 +109,6 @@ cowl_ret cowl_istream_handle_annot(CowlIStream *stream, CowlAnnotation *annot);
  * @param stream The ontology input stream.
  * @param axiom The axiom.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom);
@@ -127,8 +119,6 @@ cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom);
  * @param stream The ontology input stream.
  * @param path The file path.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_process_path(CowlIStream *stream, UString path);
@@ -139,8 +129,6 @@ cowl_ret cowl_istream_process_path(CowlIStream *stream, UString path);
  * @param stream The ontology input stream.
  * @param file The file.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_process_file(CowlIStream *stream, FILE *file);
@@ -151,8 +139,6 @@ cowl_ret cowl_istream_process_file(CowlIStream *stream, FILE *file);
  * @param stream The ontology input stream.
  * @param string The string.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_process_string(CowlIStream *stream, UString const *string);
@@ -163,8 +149,6 @@ cowl_ret cowl_istream_process_string(CowlIStream *stream, UString const *string)
  * @param stream The ontology input stream.
  * @param istream The input stream.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream);
@@ -175,11 +159,11 @@ cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream);
  * @param stream The ontology input stream.
  * @param ontology The ontology.
  * @return Return code.
- *
- * @public @memberof CowlIStream
  */
 COWL_API
 cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *ontology);
+
+/// @}
 
 COWL_END_DECLS
 

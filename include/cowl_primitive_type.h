@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlPrimitiveType enumeration.
+ * Defines the CowlPrimitiveType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -17,33 +17,33 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of CowlPrimitive.
+/// Represents the type of @type{#CowlPrimitive}.
 typedef enum CowlPrimitiveType {
 
     /// @name Types
 
-    /// CowlClass - class.
+    /// @type{#CowlClass} - class.
     COWL_PT_CLASS,
 
-    /// CowlObjProp - object property.
+    /// @type{#CowlObjProp} - object property.
     COWL_PT_OBJ_PROP,
 
-    /// CowlDataProp - data property.
+    /// @type{#CowlDataProp} - data property.
     COWL_PT_DATA_PROP,
 
-    /// CowlAnnotProp - annotation property.
+    /// @type{#CowlAnnotProp} - annotation property.
     COWL_PT_ANNOT_PROP,
 
-    /// CowlNamedInd - named individual.
+    /// @type{#CowlNamedInd} - named individual.
     COWL_PT_NAMED_IND,
 
-    /// CowlAnonInd - anonymous individual.
+    /// @type{#CowlAnonInd} - anonymous individual.
     COWL_PT_ANON_IND,
 
-    /// CowlDatatype - datatype.
+    /// @type{#CowlDatatype} - datatype.
     COWL_PT_DATATYPE,
 
-    /// CowlIRI - IRI.
+    /// @type{#CowlIRI} - IRI.
     COWL_PT_IRI,
 
     /// @name Markers

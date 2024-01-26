@@ -1,5 +1,0 @@
-=========
-Datatypes
-=========
-
-.. doxygenstruct:: CowlDatatype

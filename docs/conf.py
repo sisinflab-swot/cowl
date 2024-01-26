@@ -13,10 +13,11 @@ swot_url = '@COWL_VENDOR_URL@'
 
 # Sphinx
 
-primary_domain = 'cpp'
+primary_domain = 'c'
 default_role = 'any'
-extensions = ['breathe', 'sphinx.ext.intersphinx']
+toc_object_entries = False
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+extensions = ['breathe', 'sphinx.ext.intersphinx']
 rst_prolog = f':github_url: {git_url}'
 rst_epilog = (
     f'.. _git_url: {git_url}\n'
@@ -31,6 +32,7 @@ html_theme = 'sphinx_rtd_theme'
 html_theme_options = {'logo_only': False}
 templates_path = ['@SPHINX_INPUT_DIRECTORY@/_templates']
 html_static_path = ['@SPHINX_INPUT_DIRECTORY@/_static', '@DOCS_IMAGES_DIRECTORY@']
+html_css_files = ['style.css']
 html_logo = logo
 html_short_title = f'{project} docs'
 html_context = {
@@ -53,9 +55,6 @@ intersphinx_mapping = {
 breathe_projects = {project: '@DOXYGEN_XML_OUTPUT_DIRECTORY@'}
 breathe_default_project = project
 breathe_default_members = ('members', 'undocmembers')
-
-
-# Setup
-
-def setup(app):
-    app.add_css_file('style.css')
+breathe_domain_by_extension = {
+    "h": "c",
+}

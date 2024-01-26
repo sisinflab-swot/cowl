@@ -17,18 +17,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlClass);
-/// @endcond
-
 /**
  * Represents a [Class] in the OWL 2 specification.
  *
  * [Class]: https://www.w3.org/TR/owl2-syntax/#Classes
  *
+ * @superstruct{CowlClsExp,CowlEntity}
  * @struct CowlClass
- * @extends CowlClsExp
- * @extends CowlEntity
+ */
+cowl_struct_decl(CowlClass);
+
+/**
+ * @defgroup CowlClass CowlClass API
+ * @{
  */
 
 /**
@@ -36,8 +37,6 @@ cowl_struct_decl(CowlClass);
  *
  * @param iri IRI of the class.
  * @return Class, or NULL on error.
- *
- * @public @memberof CowlClass
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,8 +49,6 @@ CowlClass *cowl_class(CowlIRI *iri) {
  *
  * @param string String representation of the IRI.
  * @return Class, or NULL on error.
- *
- * @public @memberof CowlClass
  */
 COWL_RETAINED
 COWL_INLINE
@@ -60,29 +57,27 @@ CowlClass *cowl_class_from_string(UString string) {
 }
 
 /**
- * Returns a class given the static string representation of its IRI.
+ * Returns a class given the string literal representing its IRI.
  *
- * @param CSTR [char const[]] Static string.
- * @return [CowlClass *] Class, or NULL on error.
- *
- * @public @related CowlClass
+ * @param str @type{char const[]} String literal.
+ * @return @type{#CowlClass *} Class, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_class_from_static(CSTR) cowl_class_from_string(ustring_literal(CSTR))
+#define cowl_class_from_static(str) cowl_class_from_string(ustring_literal(str))
 
 /**
  * Gets the IRI of the specified class.
  *
  * @param cls The class.
  * @return IRI of the class.
- *
- * @public @memberof CowlClass
  */
 COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_class_get_iri(CowlClass *cls) {
     return cowl_entity_get_iri((CowlEntity *)cls);
 }
+
+/// @}
 
 COWL_END_DECLS
 

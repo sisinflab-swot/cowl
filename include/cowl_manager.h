@@ -26,20 +26,19 @@ cowl_struct_decl(CowlIStream);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlOntologyId);
 cowl_struct_decl(CowlOStream);
-cowl_struct_decl(CowlManager);
 /// @endcond
 
 /**
  * Manages ontology documents.
  *
- * CowlManager supports multiple input sources, such as files, memory buffers, or
- * byte streams. It also supports multiple readers and writers,
- * either built-in or provided by the user.
- *
- * @see CowlReader
- *
+ * @superstruct{CowlObject}
  * @struct CowlManager
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlManager);
+
+/**
+ * @defgroup CowlManager CowlManager API
+ * @{
  */
 
 /**
@@ -48,9 +47,7 @@ cowl_struct_decl(CowlManager);
  * @return Manager, or NULL on error.
  *
  * @note You can specify the default reader and writer
- *       via `cowl_set_reader()` and `cowl_set_writer()`.
- *
- * @public @memberof CowlManager
+ *       via @func{#cowl_set_reader()} and @func{#cowl_set_writer()}.
  */
 COWL_API
 COWL_RETAINED
@@ -61,8 +58,6 @@ CowlManager *cowl_manager(void);
  *
  * @param manager The manager.
  * @param reader The reader.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
@@ -72,8 +67,6 @@ void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
  *
  * @param manager The manager.
  * @param writer The writer.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
@@ -83,8 +76,6 @@ void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
  *
  * @param manager The manager.
  * @param loader The import loader.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 void cowl_manager_set_import_loader(CowlManager *manager, CowlImportLoader loader);
@@ -94,8 +85,6 @@ void cowl_manager_set_import_loader(CowlManager *manager, CowlImportLoader loade
  *
  * @param manager The manager.
  * @param handler The error handler.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler);
@@ -107,8 +96,6 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
  * @param manager The manager.
  * @param id The ontology identifier.
  * @return Ontology with the specified identifier.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
@@ -120,8 +107,6 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
  * @param manager The manager.
  * @param path The file path.
  * @return The read ontology, or NULL on error.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
@@ -133,8 +118,6 @@ CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path);
  * @param manager The manager.
  * @param file The input file.
  * @return The read ontology, or NULL on error.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
@@ -146,8 +129,6 @@ CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file);
  * @param manager The manager.
  * @param string The input string.
  * @return The read ontology, or NULL on error.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
@@ -161,8 +142,6 @@ CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *stri
  * @return The read ontology, or NULL on error.
  *
  * @note The stream is not released by the manager, you must do it yourself.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
@@ -175,8 +154,6 @@ CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
  * @param ontology The ontology.
  * @param path The file path.
  * @return Return code.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, UString path);
@@ -188,8 +165,6 @@ cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, U
  * @param ontology The ontology.
  * @param file The output file.
  * @return Return code.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *ontology, FILE *file);
@@ -201,8 +176,6 @@ cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *ontology, F
  * @param ontology The ontology.
  * @param buf The string buffer.
  * @return Return code.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology, UStrBuf *buf);
@@ -216,8 +189,6 @@ cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology,
  * @return Return code.
  *
  * @note The stream is not released by the manager, you must do it yourself.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream);
@@ -228,8 +199,6 @@ cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology,
  * @param manager The manager.
  * @param handlers The handlers.
  * @return Ontology input stream.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
@@ -241,8 +210,6 @@ CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers 
  * @param manager The manager.
  * @param ontology The ontology.
  * @return Ontology input stream.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
@@ -254,12 +221,12 @@ CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOnto
  * @param manager The manager.
  * @param stream The output stream.
  * @return Ontology output stream.
- *
- * @public @memberof CowlManager
  */
 COWL_API
 COWL_RETAINED
 CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream);
+
+/// @}
 
 COWL_END_DECLS
 

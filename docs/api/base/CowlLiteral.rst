@@ -1,5 +1,0 @@
-========
-Literals
-========
-
-.. doxygenstruct:: CowlLiteral

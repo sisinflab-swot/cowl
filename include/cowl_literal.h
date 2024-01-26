@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlString);
-cowl_struct_decl(CowlLiteral);
 /// @endcond
 
 /**
@@ -29,19 +28,23 @@ cowl_struct_decl(CowlLiteral);
  *
  * [Literal]: https://www.w3.org/TR/owl2-syntax/#Literals
  *
+ * @superstruct{CowlAnnotValue}
  * @struct CowlLiteral
- * @extends CowlAnnotValue
+ */
+cowl_struct_decl(CowlLiteral);
+
+/**
+ * @defgroup CowlLiteral CowlLiteral API
+ * @{
  */
 
 /**
  * Returns a literal.
  *
- * @param dt [optional] The datatype.
+ * @param dt @type{optional} The datatype.
  * @param value The value.
- * @param lang [optional] The language tag.
+ * @param lang @type{optional} The language tag.
  * @return Literal, or NULL on error.
- *
- * @public @memberof CowlLiteral
  */
 COWL_API
 COWL_RETAINED
@@ -50,38 +53,32 @@ CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang)
 /**
  * Returns a literal given the string representations of its components.
  *
- * @param dt [optional] The datatype.
+ * @param dt @type{optional} The datatype.
  * @param value The value.
- * @param lang [optional] The language tag.
+ * @param lang @type{optional} The language tag.
  * @return Literal, or NULL on error.
- *
- * @public @memberof CowlLiteral
  */
 COWL_API
 COWL_RETAINED
 CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang);
 
 /**
- * Returns a literal given the static string representations of its components.
+ * Returns a literal given the string literals representing its components.
  *
- * @param DT [char const[], optional] The datatype.
- * @param VALUE [char const[]] The value.
- * @param LANG [char const[], optional] The language tag.
- * @return [CowlLiteral *] Literal, or NULL on error.
- *
- * @public @related CowlLiteral
+ * @param dt @type{char const[], optional} The datatype.
+ * @param value @type{char const []} The value.
+ * @param lang @type{char const[], optional} The language tag.
+ * @return @type{#CowlLiteral *} Literal, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_literal_from_static(DT, VALUE, LANG)                                                  \
-    cowl_literal_from_string(ustring_literal(DT), ustring_literal(VALUE), ustring_literal(LANG))
+#define cowl_literal_from_static(dt, value, lang)                                                  \
+    cowl_literal_from_string(ustring_literal(dt), ustring_literal(value), ustring_literal(lang))
 
 /**
  * Gets the datatype.
  *
  * @param literal The literal.
  * @return The datatype.
- *
- * @public @memberof CowlLiteral
  */
 COWL_API
 COWL_PURE
@@ -92,8 +89,6 @@ CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal);
  *
  * @param literal The literal.
  * @return The value.
- *
- * @public @memberof CowlLiteral
  */
 COWL_API
 COWL_PURE
@@ -104,12 +99,12 @@ CowlString *cowl_literal_get_value(CowlLiteral *literal);
  *
  * @param literal The literal.
  * @return The language tag.
- *
- * @public @memberof CowlLiteral
  */
 COWL_API
 COWL_PURE
 CowlString *cowl_literal_get_lang(CowlLiteral *literal);
+
+/// @}
 
 COWL_END_DECLS
 

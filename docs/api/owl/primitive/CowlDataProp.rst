@@ -1,5 +1,0 @@
-===============
-Data Properties
-===============
-
-.. doxygenstruct:: CowlDataProp

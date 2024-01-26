@@ -2,10 +2,6 @@ img.logo {
     width: 160px !important;
     height: 160px !important;
 }
-/* TODO: remove when the RTD theme fixes spacing for function args and return types */
-dt {
-    display: inline-block !important;
-}
 
 .swot-logos {
     width: 100%;
@@ -15,4 +11,32 @@ dt {
 .swot-logos img {
     height: 100%;
     margin-right: 10px;
+}
+
+.rst-content code.literal {
+    color: rgb(64, 64, 64);
+}
+
+.rst-content code.literal > a.reference {
+    color: inherit;
+    font-weight: 700;
+}
+
+@media (min-width: 1024px) {
+    .toctree-wrapper.two-col > ul {
+        column-count: 2;
+        column-rule: solid 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .toctree-wrapper.two-col-break-l1 > ul li.toctree-l1 {
+        break-inside: avoid-column;
+    }
+
+    .toctree-wrapper.two-col-break-l2 > ul li.toctree-l2 {
+        break-inside: avoid-column;
+    }
+
+    .toctree-wrapper.two-col-break-l3 > ul li.toctree-l3 {
+        break-inside: avoid-column;
+    }
 }

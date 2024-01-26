@@ -18,6 +18,11 @@
 COWL_BEGIN_DECLS
 
 /**
+ * @defgroup version Library version metadata
+ * @{
+ */
+
+/**
  * Returns the version of the library.
  *
  * @return Library version.
@@ -34,6 +39,8 @@ UVersion cowl_get_version(void);
 COWL_API
 COWL_RETAINED
 CowlString *cowl_get_version_string(void);
+
+/// @}
 
 COWL_END_DECLS
 

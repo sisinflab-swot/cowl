@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlClsExp);
-cowl_struct_decl(CowlObjCompl);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlObjCompl);
  *
  * [ObjectComplementOf]: https://www.w3.org/TR/owl2-syntax/#Complement_of_Class_Expressions
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlObjCompl
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlObjCompl);
+
+/**
+ * @defgroup CowlObjCompl CowlObjCompl API
+ * @{
  */
 
 /**
@@ -36,8 +41,6 @@ cowl_struct_decl(CowlObjCompl);
  *
  * @param operand The operand.
  * @return Class expression complement, or NULL on error.
- *
- * @public @memberof CowlObjCompl
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,14 +53,14 @@ CowlObjCompl *cowl_obj_compl(CowlAnyClsExp *operand) {
  *
  * @param exp The complement.
  * @return The operand.
- *
- * @public @memberof CowlObjCompl
  */
 COWL_PURE
 COWL_INLINE
 CowlClsExp *cowl_obj_compl_get_operand(CowlObjCompl *exp) {
     return (CowlClsExp *)cowl_get_field(exp, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

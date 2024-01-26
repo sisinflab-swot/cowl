@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlNAryData);
 /// @endcond
 
 /**
@@ -29,8 +28,14 @@ cowl_struct_decl(CowlNAryData);
  * [DataIntersectionOf]: https://www.w3.org/TR/owl2-syntax/#Intersection_of_Data_Ranges
  * [DataUnionOf]: https://www.w3.org/TR/owl2-syntax/#Union_of_Data_Ranges
  *
+ * @superstruct{CowlDataRange}
  * @struct CowlNAryData
- * @extends CowlDataRange
+ */
+cowl_struct_decl(CowlNAryData);
+
+/**
+ * @defgroup CowlNAryData CowlNAryData API
+ * @{
  */
 
 /**
@@ -39,8 +44,6 @@ cowl_struct_decl(CowlNAryData);
  * @param type N-ary data range type.
  * @param operands The operands.
  * @return N-ary data range, or NULL on error.
- *
- * @public @memberof CowlNAryData
  */
 COWL_RETAINED
 COWL_INLINE
@@ -54,8 +57,6 @@ CowlNAryData *cowl_nary_data(CowlNAryType type, CowlVector *operands) {
  * Gets the type of the specified N-ary data range.
  * @param range The data range.
  * @return The type.
- *
- * @public @memberof CowlNAryData
  */
 COWL_PURE
 COWL_INLINE
@@ -68,14 +69,14 @@ CowlNAryType cowl_nary_data_get_type(CowlNAryData *range) {
  *
  * @param range The data range.
  * @return The operands.
- *
- * @public @memberof CowlNAryData
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_data_get_operands(CowlNAryData *range) {
     return (CowlVector *)cowl_get_field(range, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

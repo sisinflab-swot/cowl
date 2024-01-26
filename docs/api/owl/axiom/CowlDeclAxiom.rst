@@ -1,5 +1,0 @@
-============
-Declarations
-============
-
-.. doxygenstruct:: CowlDeclAxiom

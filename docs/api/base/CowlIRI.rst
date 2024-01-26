@@ -1,5 +1,0 @@
-====
-IRIs
-====
-
-.. doxygenstruct:: CowlIRI

@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlObjPropExp);
-cowl_struct_decl(CowlDataRange);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlDataRange);
  *
  * [DataRange]: https://www.w3.org/TR/owl2-syntax/#Data_Ranges
  *
+ * @superstruct{CowlObject}
  * @struct CowlDataRange
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlDataRange);
+
+/**
+ * @defgroup CowlDataRange CowlDataRange API
+ * @{
  */
 
 /**
@@ -37,14 +42,14 @@ cowl_struct_decl(CowlDataRange);
  *
  * @param range The data range.
  * @return The type.
- *
- * @public @memberof CowlDataRange
  */
 COWL_PURE
 COWL_INLINE
 CowlDataRangeType cowl_data_range_get_type(CowlAnyDataRange *range) {
     return (CowlDataRangeType)(cowl_get_type(range) - COWL_OT_DR_DATATYPE);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlObjPropExp);
-cowl_struct_decl(CowlObjHasSelf);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlObjHasSelf);
  *
  * [ObjectHasSelf]: https://www.w3.org/TR/owl2-syntax/#Self-Restriction
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlObjHasSelf
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlObjHasSelf);
+
+/**
+ * @defgroup CowlObjHasSelf CowlObjHasSelf API
+ * @{
  */
 
 /**
@@ -36,8 +41,6 @@ cowl_struct_decl(CowlObjHasSelf);
  *
  * @param prop The property expression.
  * @return Restriction, or NULL on error.
- *
- * @public @memberof CowlObjHasSelf
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,14 +53,14 @@ CowlObjHasSelf *cowl_obj_has_self(CowlAnyObjPropExp *prop) {
  *
  * @param exp The restriction.
  * @return The object property expression.
- *
- * @public @memberof CowlObjHasSelf
  */
 COWL_PURE
 COWL_INLINE
 CowlObjPropExp *cowl_obj_has_self_get_prop(CowlObjHasSelf *exp) {
     return (CowlObjPropExp *)cowl_get_field(exp, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

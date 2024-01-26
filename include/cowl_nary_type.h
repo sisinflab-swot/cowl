@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlNAryType enumeration.
+ * Defines the CowlNAryType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -17,7 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of CowlNAryBool and CowlNAryData.
+/// Represents the type of @type{#CowlNAryBool} and @type{#CowlNAryData}.
 typedef enum CowlNAryType {
 
     /// @name Types

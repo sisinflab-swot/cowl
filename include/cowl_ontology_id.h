@@ -40,11 +40,14 @@ typedef struct CowlOntologyId {
 } CowlOntologyId;
 
 /**
+ * @defgroup CowlOntologyId CowlOntologyId API
+ * @{
+ */
+
+/**
  * Creates the ID of an anonymous ontology.
  *
  * @return ID of an anonymous ontology.
- *
- * @public @memberof CowlOntologyId
  */
 COWL_CONST
 COWL_INLINE
@@ -63,8 +66,6 @@ CowlOntologyId cowl_ontology_id_anonymous(void) {
  * @note Ontology IDs are considered equal if they have the same ontology IRI and version IRI.
  *       Since OWL 2 allows for both the ontology and version IRIs to be simultaneously empty,
  *       in that case the ontology IDs are considered different unless they are the same instance.
- *
- * @public @memberof CowlOntologyId
  */
 COWL_API
 COWL_PURE
@@ -75,12 +76,12 @@ bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs);
  *
  * @param id The ontology ID.
  * @return The hash value.
- *
- * @public @memberof CowlOntologyId
  */
 COWL_API
 COWL_PURE
 ulib_uint cowl_ontology_id_hash(CowlOntologyId id);
+
+/// @}
 
 COWL_END_DECLS
 

@@ -26,9 +26,8 @@ cowl_struct_decl(CowlOntology);
 /**
  * Provides a mechanism for generic handling of [ontology imports].
  *
- * The CowlImportLoader::load_ontology function should return the ontology
- * having the specified CowlIRI. Imports retrieval and loading is deliberately
- * left to the implementor.
+ * The `load_ontology` function should return the ontology that has the specified @type{#CowlIRI}.
+ * Imports retrieval and loading is deliberately left to the implementor.
  *
  * [ontology imports]: https://www.w3.org/TR/owl2-syntax/#Imports
  */

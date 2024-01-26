@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlSubAnnotPropAxiom);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
  *
  * [SubAnnotationPropertyOf]: https://www.w3.org/TR/owl2-syntax/#Annotation_Subproperties
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlSubAnnotPropAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlSubAnnotPropAxiom);
+
+/**
+ * @defgroup CowlSubAnnotPropAxiom CowlSubAnnotPropAxiom API
+ * @{
  */
 
 /**
@@ -37,10 +42,8 @@ cowl_struct_decl(CowlSubAnnotPropAxiom);
  *
  * @param sub The subproperty.
  * @param super The superproperty.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -55,8 +58,6 @@ cowl_sub_annot_prop_axiom(CowlAnnotProp *sub, CowlAnnotProp *super, CowlVector *
  *
  * @param axiom The axiom.
  * @return The subproperty.
- *
- * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -69,8 +70,6 @@ CowlAnnotProp *cowl_sub_annot_prop_axiom_get_sub(CowlSubAnnotPropAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The superproperty.
- *
- * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -83,14 +82,14 @@ CowlAnnotProp *cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom)
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlSubAnnotPropAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

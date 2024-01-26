@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlInvObjPropAxiom);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlInvObjPropAxiom);
  *
  * [InverseObjectProperties]: https://www.w3.org/TR/owl2-syntax/#Inverse_Object_Properties_2
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlInvObjPropAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlInvObjPropAxiom);
+
+/**
+ * @defgroup CowlInvObjPropAxiom CowlInvObjPropAxiom API
+ * @{
  */
 
 /**
@@ -37,10 +42,8 @@ cowl_struct_decl(CowlInvObjPropAxiom);
  *
  * @param first The first object property expression.
  * @param second The second object property expression.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlInvObjPropAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -55,8 +58,6 @@ cowl_inv_obj_prop_axiom(CowlAnyObjPropExp *first, CowlAnyObjPropExp *second, Cow
  *
  * @param axiom The axiom.
  * @return The first object property expression.
- *
- * @public @memberof CowlInvObjPropAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -69,8 +70,6 @@ CowlObjPropExp *cowl_inv_obj_prop_axiom_get_first_prop(CowlInvObjPropAxiom *axio
  *
  * @param axiom The axiom.
  * @return The second object property expression.
- *
- * @public @memberof CowlInvObjPropAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -83,14 +82,14 @@ CowlObjPropExp *cowl_inv_obj_prop_axiom_get_second_prop(CowlInvObjPropAxiom *axi
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlInvObjPropAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_inv_obj_prop_axiom_get_annot(CowlInvObjPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

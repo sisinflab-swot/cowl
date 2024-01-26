@@ -18,15 +18,17 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlPrimitive);
-/// @endcond
-
 /**
  * Represents a primitive, a collective term for entities, anonymous individuals, and IRIs.
  *
+ * @superstruct{CowlObject}
  * @struct CowlPrimitive
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlPrimitive);
+
+/**
+ * @defgroup CowlPrimitive CowlPrimitive API
+ * @{
  */
 
 /**
@@ -34,8 +36,6 @@ cowl_struct_decl(CowlPrimitive);
  *
  * @param primitive The primitive.
  * @return The type.
- *
- * @public @memberof CowlPrimitive
  */
 COWL_API
 COWL_PURE
@@ -46,14 +46,14 @@ CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive);
  *
  * @param primitive The primitive.
  * @return True if the primitive is an entity,
- *
- * @public @memberof CowlPrimitive
  */
 COWL_PURE
 COWL_INLINE
 bool cowl_primitive_is_entity(CowlAnyPrimitive *primitive) {
     return cowl_is_entity(primitive);
 }
+
+/// @}
 
 COWL_END_DECLS
 

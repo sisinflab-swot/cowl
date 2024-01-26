@@ -1,5 +1,0 @@
-=================
-Object Properties
-=================
-
-.. doxygenstruct:: CowlObjProp

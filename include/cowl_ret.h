@@ -47,7 +47,7 @@ typedef enum cowl_ret {
     /**
      * Input/output error, usually returned when a file or stream operation fails.
      *
-     * @note When this happens, *errno* is sometimes set to a more meaningful value.
+     * @note When this happens, `errno` is sometimes set to a more meaningful value.
      */
     COWL_ERR_IO,
 
@@ -71,7 +71,7 @@ typedef enum cowl_ret {
 } cowl_ret;
 
 /**
- * Converts `ustream_ret` into `cowl_ret`.
+ * Converts @type{#ustream_ret} into @type{#cowl_ret}.
  *
  * @param ret Return code.
  * @return Return value.
@@ -81,7 +81,7 @@ COWL_CONST
 cowl_ret cowl_ret_from_ustream(ustream_ret ret);
 
 /**
- * Converts `uvec_ret` into `cowl_ret`.
+ * Converts @type{#uvec_ret} into @type{#cowl_ret}.
  *
  * @param ret Return code.
  * @return Return value.
@@ -91,7 +91,7 @@ COWL_CONST
 cowl_ret cowl_ret_from_uvec(uvec_ret ret);
 
 /**
- * Converts `uhash_ret` into `cowl_ret`.
+ * Converts @type{#uhash_ret} into @type{#cowl_ret}.
  *
  * @param ret Return code.
  * @return Return value.

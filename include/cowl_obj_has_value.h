@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlObjPropExp);
-cowl_struct_decl(CowlObjHasValue);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlObjHasValue);
  *
  * [ObjectHasValue]: https://www.w3.org/TR/owl2-syntax/#Individual_Value_Restriction
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlObjHasValue
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlObjHasValue);
+
+/**
+ * @defgroup CowlObjHasValue CowlObjHasValue
+ * @{
  */
 
 /**
@@ -38,8 +43,6 @@ cowl_struct_decl(CowlObjHasValue);
  * @param prop The object property expression.
  * @param individual The individual.
  * @return Restriction, or NULL on error.
- *
- * @public @memberof CowlObjHasValue
  */
 COWL_RETAINED
 COWL_INLINE
@@ -52,8 +55,6 @@ CowlObjHasValue *cowl_obj_has_value(CowlAnyObjPropExp *prop, CowlAnyIndividual *
  *
  * @param exp The restriction.
  * @return The object property expression.
- *
- * @public @memberof CowlObjHasValue
  */
 COWL_PURE
 COWL_INLINE
@@ -66,14 +67,14 @@ CowlObjPropExp *cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
  *
  * @param exp The restriction.
  * @return The individual.
- *
- * @public @memberof CowlObjHasValue
  */
 COWL_PURE
 COWL_INLINE
 CowlIndividual *cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {
     return (CowlIndividual *)cowl_get_field(exp, 1);
 }
+
+/// @}
 
 COWL_END_DECLS
 

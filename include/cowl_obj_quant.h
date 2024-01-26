@@ -22,7 +22,6 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlString);
-cowl_struct_decl(CowlObjQuant);
 /// @endcond
 
 /**
@@ -31,8 +30,14 @@ cowl_struct_decl(CowlObjQuant);
  * [ObjectSomeValuesFrom]: https://www.w3.org/TR/owl2-syntax/#Existential_Quantification
  * [ObjectAllValuesFrom]: https://www.w3.org/TR/owl2-syntax/#Universal_Quantification
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlObjQuant
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlObjQuant);
+
+/**
+ * @defgroup CowlObjQuant CowlObjQuant API
+ * @{
  */
 
 /**
@@ -42,8 +47,6 @@ cowl_struct_decl(CowlObjQuant);
  * @param prop The object property.
  * @param filler Filler of the quantifier.
  * @return Object quantifier, or NULL on error.
- *
- * @public @memberof CowlObjQuant
  */
 COWL_API
 COWL_RETAINED
@@ -54,8 +57,6 @@ CowlObjQuant *cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAn
  *
  * @param restr The object quantifier.
  * @return The type of the object quantifier.
- *
- * @public @memberof CowlObjQuant
  */
 COWL_PURE
 COWL_INLINE
@@ -68,8 +69,6 @@ CowlQuantType cowl_obj_quant_get_type(CowlObjQuant *restr) {
  *
  * @param restr The object quantifier.
  * @return The object property.
- *
- * @public @memberof CowlObjQuant
  */
 COWL_PURE
 COWL_INLINE
@@ -82,12 +81,12 @@ CowlObjPropExp *cowl_obj_quant_get_prop(CowlObjQuant *restr) {
  *
  * @param restr The object quantifier.
  * @return Range of the object quantifier.
- *
- * @public @memberof CowlObjQuant
  */
 COWL_API
 COWL_PURE
 CowlClsExp *cowl_obj_quant_get_filler(CowlObjQuant *restr);
+
+/// @}
 
 COWL_END_DECLS
 

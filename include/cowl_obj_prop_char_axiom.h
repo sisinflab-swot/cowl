@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlObjPropExp);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlObjPropCharAxiom);
 /// @endcond
 
 /**
@@ -50,8 +49,14 @@ cowl_struct_decl(CowlObjPropCharAxiom);
  * [IrreflexiveObjectProperty]:
  * https://www.w3.org/TR/owl2-syntax/#Irreflexive_Object_Properties
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlObjPropCharAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlObjPropCharAxiom);
+
+/**
+ * @defgroup CowlObjPropCharAxiom CowlObjPropCharAxiom API
+ * @{
  */
 
 /**
@@ -59,10 +64,8 @@ cowl_struct_decl(CowlObjPropCharAxiom);
  *
  * @param type The type.
  * @param prop The object property expression.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlObjPropCharAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -78,8 +81,6 @@ cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop, CowlVe
  *
  * @param axiom The axiom.
  * @return The type.
- *
- * @public @memberof CowlObjPropCharAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -92,8 +93,6 @@ CowlCharAxiomType cowl_obj_prop_char_axiom_get_type(CowlObjPropCharAxiom *axiom)
  *
  * @param axiom The axiom.
  * @return The object property expression.
- *
- * @public @memberof CowlObjPropCharAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -106,14 +105,14 @@ CowlObjPropExp *cowl_obj_prop_char_axiom_get_prop(CowlObjPropCharAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlObjPropCharAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_obj_prop_char_axiom_get_annot(CowlObjPropCharAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -17,13 +17,19 @@
 
 COWL_BEGIN_DECLS
 
-/// Size of the CowlStringOpts type in bits.
+/// Size of the @type{#CowlStringOpts} type in bits.
 #define COWL_SO 8
+
+/**
+ * @defgroup CowlStringOpts CowlStringOpts API
+ * @{
+ */
 
 /**
  * String creation options.
  *
- * @see cowl_string_opt()
+ * @see @func{#cowl_string_opt()}
+ * @alias typedef UBit(N) CowlStringOpts;
  */
 typedef UBit(COWL_SO) CowlStringOpts;
 
@@ -35,6 +41,8 @@ typedef UBit(COWL_SO) CowlStringOpts;
 
 /// Intern the resulting string.
 #define COWL_SO_INTERN ubit_bit(COWL_SO, 1)
+
+/// @}
 
 COWL_END_DECLS
 

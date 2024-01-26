@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlDataProp);
-cowl_struct_decl(CowlDataPropExp);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlDataPropExp);
  *
  * [DataPropertyExpression]: https://www.w3.org/TR/owl2-syntax/#Data_Property_Expressions
  *
+ * @superstruct{CowlObject}
  * @struct CowlDataPropExp
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlDataPropExp);
+
+/**
+ * @defgroup CowlDataPropExp CowlDataPropExp API
+ * @{
  */
 
 /**
@@ -36,14 +41,14 @@ cowl_struct_decl(CowlDataPropExp);
  *
  * @param exp The data property expression.
  * @return The data property.
- *
- * @public @memberof CowlDataPropExp
  */
 COWL_PURE
 COWL_INLINE
 CowlDataProp *cowl_data_prop_exp_get_prop(CowlAnyDataPropExp *exp) {
     return (CowlDataProp *)exp;
 }
+
+/// @}
 
 COWL_END_DECLS
 

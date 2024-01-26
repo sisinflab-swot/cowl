@@ -17,24 +17,30 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
+/// Pointer to any @type{#CowlObject}.
 typedef CowlAny *CowlObjectPtr;
+
+/**
+ * @func{#UVec(T)} of @type{#CowlObject *} elements.
+ *
+ * @alias typedef UVec(CowlObjectPtr) UVec(CowlObjectPtr);
+ */
+
+/// @cond
 UVEC_DECL_EQUATABLE_SPEC(CowlObjectPtr, COWL_API)
-cowl_struct_decl(CowlVector);
 /// @endcond
 
 /**
- * UVec of CowlObject elements.
+ * Vector of @type{#CowlObject} elements.
  *
- * @struct UVec_CowlObjectPtr
- * @extends UVec
+ * @superstruct{CowlObject}
+ * @struct CowlVector
  */
+cowl_struct_decl(CowlVector);
 
 /**
- * Vector of CowlObject elements.
- *
- * @struct CowlVector
- * @extends CowlObject
+ * @defgroup CowlVector CowlVector API
+ * @{
  */
 
 /**
@@ -45,8 +51,6 @@ cowl_struct_decl(CowlVector);
  *
  * @note You must not use the raw vector after passing it to this function.
  * @note Elements in the raw vector are retained by this constructor.
- *
- * @public @memberof CowlVector
  */
 COWL_API
 COWL_RETAINED
@@ -55,9 +59,9 @@ CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec);
 /**
  * Returns a vector with no elements.
  *
- * @return [CowlVector*] Vector, or NULL on error.
+ * @return Vector, or NULL on error.
  *
- * @public @related CowlVector
+ * @alias COWL_RETAINED CowlVector *cowl_vector_empty(void);
  */
 COWL_RETAINED
 #define cowl_vector_empty() cowl_vector(NULL)
@@ -67,8 +71,6 @@ COWL_RETAINED
  *
  * @param vec The vector.
  * @return Underlying raw vector.
- *
- * @public @memberof CowlVector
  */
 COWL_API
 COWL_PURE
@@ -79,8 +81,6 @@ UVec(CowlObjectPtr) const *cowl_vector_get_data(CowlVector *vec);
  *
  * @param vec The vector.
  * @return Number of elements in the vector.
- *
- * @public @memberof CowlVector
  */
 COWL_PURE
 COWL_INLINE
@@ -94,8 +94,6 @@ ulib_uint cowl_vector_count(CowlVector *vec) {
  * @param vec The vector.
  * @param idx The index.
  * @return The element at the specified index.
- *
- * @public @memberof CowlVector
  */
 COWL_PURE
 COWL_INLINE
@@ -109,8 +107,6 @@ CowlAny *cowl_vector_get_item(CowlVector *vec, ulib_uint idx) {
  * @param vec The vector.
  * @param object The object.
  * @return True if the vector contains the specified element, false otherwise.
- *
- * @public @memberof CowlVector
  */
 COWL_PURE
 COWL_INLINE
@@ -121,12 +117,12 @@ bool cowl_vector_contains(CowlVector *vec, CowlAny *object) {
 /**
  * Iterates over the vector, executing the specified code block for each element.
  *
- * @param vec [CowlVector *] The vector.
- * @param obj [symbol] Name of the variable holding the current item and its index.
- *
- * @public @related CowlVector
+ * @param vec @type{#CowlVector *} The vector.
+ * @param obj @type{symbol} Name of the variable holding the current item and its index.
  */
 #define cowl_vector_foreach(vec, obj) uvec_foreach (CowlObjectPtr, cowl_vector_get_data(vec), obj)
+
+/// @}
 
 COWL_END_DECLS
 

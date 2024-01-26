@@ -1,5 +1,0 @@
-================
-Class Assertions
-================
-
-.. doxygenstruct:: CowlClsAssertAxiom

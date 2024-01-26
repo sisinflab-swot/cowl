@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlDataRange);
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlDatatypeDefAxiom);
 /// @endcond
 
 /**
@@ -29,8 +28,14 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
  *
  * [DatatypeDefinition]: https://www.w3.org/TR/owl2-syntax/#Datatype_Definitions
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlDatatypeDefAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlDatatypeDefAxiom);
+
+/**
+ * @defgroup CowlDatatypeDefAxiom CowlDatatypeDefAxiom API
+ * @{
  */
 
 /**
@@ -38,10 +43,8 @@ cowl_struct_decl(CowlDatatypeDefAxiom);
  *
  * @param dt The defined datatype.
  * @param range Range of the defined datatype.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -55,8 +58,6 @@ cowl_datatype_def_axiom(CowlDatatype *dt, CowlAnyDataRange *range, CowlVector *a
  *
  * @param axiom The axiom.
  * @return The datatype.
- *
- * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -68,8 +69,6 @@ CowlDatatype *cowl_datatype_def_axiom_get_datatype(CowlDatatypeDefAxiom *axiom) 
  * Gets the range of the defined datatype.
  * @param axiom The axiom.
  * @return The range.
- *
- * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -82,14 +81,14 @@ CowlDataRange *cowl_datatype_def_axiom_get_range(CowlDatatypeDefAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlDatatypeDefAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_datatype_def_axiom_get_annot(CowlDatatypeDefAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

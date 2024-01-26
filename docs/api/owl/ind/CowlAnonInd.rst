@@ -1,5 +1,0 @@
-=====================
-Anonymous Individuals
-=====================
-
-.. doxygenstruct:: CowlAnonInd

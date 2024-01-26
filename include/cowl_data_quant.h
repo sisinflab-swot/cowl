@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlDataRange);
 cowl_struct_decl(CowlDataPropExp);
-cowl_struct_decl(CowlDataQuant);
 /// @endcond
 
 /**
@@ -30,8 +29,14 @@ cowl_struct_decl(CowlDataQuant);
  * [DataSomeValuesFrom]: https://www.w3.org/TR/owl2-syntax/#Existential_Quantification_2
  * [DataAllValuesFrom]: https://www.w3.org/TR/owl2-syntax/#Universal_Quantification_2
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlDataQuant
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlDataQuant);
+
+/**
+ * @defgroup CowlDataQuant CowlDataQuant API
+ * @{
  */
 
 /**
@@ -41,8 +46,6 @@ cowl_struct_decl(CowlDataQuant);
  * @param prop The data property.
  * @param range Range of the quantifier.
  * @return Data quantifier, or NULL on error.
- *
- * @public @memberof CowlDataQuant
  */
 COWL_API
 COWL_RETAINED
@@ -54,8 +57,6 @@ cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *
  *
  * @param restr The data quantifier.
  * @return The type of the data quantifier.
- *
- * @public @memberof CowlDataQuant
  */
 COWL_PURE
 COWL_INLINE
@@ -68,8 +69,6 @@ CowlQuantType cowl_data_quant_get_type(CowlDataQuant *restr) {
  *
  * @param restr The data quantifier.
  * @return The data property.
- *
- * @public @memberof CowlDataQuant
  */
 COWL_PURE
 COWL_INLINE
@@ -82,12 +81,12 @@ CowlDataPropExp *cowl_data_quant_get_prop(CowlDataQuant *restr) {
  *
  * @param restr The data quantifier.
  * @return Range of the data quantifier.
- *
- * @public @memberof CowlDataQuant
  */
 COWL_API
 COWL_PURE
 CowlDataRange *cowl_data_quant_get_range(CowlDataQuant *restr);
+
+/// @}
 
 COWL_END_DECLS
 

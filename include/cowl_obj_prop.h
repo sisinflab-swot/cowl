@@ -17,18 +17,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlObjProp);
-/// @endcond
-
 /**
  * Represents an [ObjectProperty] in the OWL 2 specification.
  *
  * [ObjectProperty]: https://www.w3.org/TR/owl2-syntax/#Object_Properties
  *
+ * @superstruct{CowlObjPropExp,CowlEntity}
  * @struct CowlObjProp
- * @extends CowlObjPropExp
- * @extends CowlEntity
+ */
+cowl_struct_decl(CowlObjProp);
+
+/**
+ * @defgroup CowlObjProp CowlObjProp API
+ * @{
  */
 
 /**
@@ -36,8 +37,6 @@ cowl_struct_decl(CowlObjProp);
  *
  * @param iri IRI of the object property.
  * @return Object property, or NULL on error.
- *
- * @public @memberof CowlObjProp
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,8 +49,6 @@ CowlObjProp *cowl_obj_prop(CowlIRI *iri) {
  *
  * @param string String representation of the IRI.
  * @return Object property, or NULL on error.
- *
- * @public @memberof CowlObjProp
  */
 COWL_RETAINED
 COWL_INLINE
@@ -60,29 +57,27 @@ CowlObjProp *cowl_obj_prop_from_string(UString string) {
 }
 
 /**
- * Returns a object property given the static string representation of its IRI.
+ * Returns a object property given the string literal representing its IRI.
  *
- * @param CSTR [char const[]] Static string.
- * @return [CowlObjProp *] Object property, or NULL on error.
- *
- * @public @related CowlObjProp
+ * @param str @type{char const []} String literal.
+ * @return @type{#CowlObjProp *} Object property, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_obj_prop_from_static(CSTR) cowl_obj_prop_from_string(ustring_literal(CSTR))
+#define cowl_obj_prop_from_static(str) cowl_obj_prop_from_string(ustring_literal(str))
 
 /**
  * Gets the IRI of the specified object property.
  *
  * @param prop The object property.
  * @return The IRI.
- *
- * @public @memberof CowlObjProp
  */
 COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_obj_prop_get_iri(CowlObjProp *prop) {
     return cowl_entity_get_iri((CowlEntity *)prop);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -76,9 +76,9 @@
  * Checks whether the specified enum value is valid.
  *
  * @param T Enumeration name.
- * @param VAL Enumeration value.
+ * @param val Enumeration value.
  * @return True if the value is valid, false otherwise.
  */
-#define cowl_enum_value_is_valid(T, VAL) ((unsigned)(VAL) < COWL_##T##_COUNT)
+#define cowl_enum_value_is_valid(T, val) ((unsigned)(val) < COWL_##T##_COUNT)
 
 #endif // COWL_COMPAT_H

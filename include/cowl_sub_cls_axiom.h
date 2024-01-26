@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlSubClsAxiom);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlSubClsAxiom);
  *
  * [SubClassOf]: https://www.w3.org/TR/owl2-syntax/#Subclass_Axioms
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlSubClsAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlSubClsAxiom);
+
+/**
+ * @defgroup CowlSubClsAxiom CowlSubClsAxiom API
+ * @{
  */
 
 /**
@@ -37,10 +42,8 @@ cowl_struct_decl(CowlSubClsAxiom);
  *
  * @param sub The subclass.
  * @param super The superclass.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlSubClsAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -53,8 +56,6 @@ CowlSubClsAxiom *cowl_sub_cls_axiom(CowlAnyClsExp *sub, CowlAnyClsExp *super, Co
  *
  * @param axiom The axiom.
  * @return The subclass.
- *
- * @public @memberof CowlSubClsAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -67,8 +68,6 @@ CowlClsExp *cowl_sub_cls_axiom_get_sub(CowlSubClsAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The superclass.
- *
- * @public @memberof CowlSubClsAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -81,14 +80,14 @@ CowlClsExp *cowl_sub_cls_axiom_get_super(CowlSubClsAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlSubClsAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_sub_cls_axiom_get_annot(CowlSubClsAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

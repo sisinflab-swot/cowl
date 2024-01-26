@@ -43,14 +43,17 @@ typedef struct CowlErrorHandler {
 } CowlErrorHandler;
 
 /**
+ * @addtogroup CowlError
+ * @{
+ */
+
+/**
  * Handles an error by using the most specific error handler available.
  *
  * @param code Error code.
  * @param desc Error description.
  * @param origin Object that originated the error.
  * @return Error code.
- *
- * @public @related CowlErrorHandler
  */
 COWL_API
 cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin);
@@ -62,8 +65,6 @@ cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin);
  * @param origin Object that originated the error.
  * @param loc Error location.
  * @return Error code.
- *
- * @public @related CowlErrorHandler
  */
 COWL_API
 cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc);
@@ -74,8 +75,6 @@ cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc lo
  * @param code Error code.
  * @param origin Object that originated the error.
  * @return Error code.
- *
- * @public @related CowlErrorHandler
  */
 COWL_API
 cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin);
@@ -86,8 +85,6 @@ cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin);
  * @param code Error code.
  * @param origin Object that originated the error.
  * @return Error code.
- *
- * @public @related CowlErrorHandler
  */
 COWL_API
 cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin);
@@ -99,11 +96,11 @@ cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin);
  * @param reason Why the error was triggered.
  * @param origin Object that originated the error.
  * @return Error code.
- *
- * @public @related CowlErrorHandler
  */
 COWL_API
 cowl_ret cowl_handle_path_error(UString path, UString reason, CowlAny *origin);
+
+/// @}
 
 COWL_END_DECLS
 

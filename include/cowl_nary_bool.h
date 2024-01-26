@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlNAryBool);
 /// @endcond
 
 /**
@@ -30,8 +29,14 @@ cowl_struct_decl(CowlNAryBool);
  * [ObjectIntersectionOf]: https://www.w3.org/TR/owl2-syntax/#Intersection_of_Class_Expressions
  * [ObjectUnionOf]: https://www.w3.org/TR/owl2-syntax/#Union_of_Class_Expressions
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlNAryBool
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlNAryBool);
+
+/**
+ * @defgroup CowlNAryBool CowlNAryBool API
+ * @{
  */
 
 /**
@@ -40,8 +45,6 @@ cowl_struct_decl(CowlNAryBool);
  * @param type N-ary class expression type.
  * @param operands The operands.
  * @return Expression, or NULL on error.
- *
- * @public @memberof CowlNAryBool
  */
 COWL_RETAINED
 COWL_INLINE
@@ -56,8 +59,6 @@ CowlNAryBool *cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
  *
  * @param exp The expression.
  * @return The type.
- *
- * @public @memberof CowlNAryBool
  */
 COWL_PURE
 COWL_INLINE
@@ -70,14 +71,14 @@ CowlNAryType cowl_nary_bool_get_type(CowlNAryBool *exp) {
  *
  * @param exp The expression.
  * @return The operands.
- *
- * @public @memberof CowlNAryBool
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_bool_get_operands(CowlNAryBool *exp) {
     return (CowlVector *)cowl_get_field(exp, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

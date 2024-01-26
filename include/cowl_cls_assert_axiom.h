@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlClsAssertAxiom);
 /// @endcond
 
 /**
@@ -29,8 +28,14 @@ cowl_struct_decl(CowlClsAssertAxiom);
  *
  * [ClassAssertion]: https://www.w3.org/TR/owl2-syntax/#Class_Assertions
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlClsAssertAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlClsAssertAxiom);
+
+/**
+ * @defgroup CowlClsAssertAxiom CowlClsAssertAxiom API
+ * @{
  */
 
 /**
@@ -38,10 +43,8 @@ cowl_struct_decl(CowlClsAssertAxiom);
  *
  * @param exp The asserted class expression.
  * @param ind The assertion individual.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlClsAssertAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -55,8 +58,6 @@ cowl_cls_assert_axiom(CowlAnyClsExp *exp, CowlAnyIndividual *ind, CowlVector *an
  *
  * @param axiom The axiom.
  * @return The class expression.
- *
- * @public @memberof CowlClsAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -69,8 +70,6 @@ CowlClsExp *cowl_cls_assert_axiom_get_cls_exp(CowlClsAssertAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The individual.
- *
- * @public @memberof CowlClsAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -83,14 +82,14 @@ CowlIndividual *cowl_cls_assert_axiom_get_ind(CowlClsAssertAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlClsAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_cls_assert_axiom_get_annot(CowlClsAssertAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

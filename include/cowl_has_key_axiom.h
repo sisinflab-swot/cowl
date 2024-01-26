@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlClsExp);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlHasKeyAxiom);
 /// @endcond
 
 /**
@@ -29,8 +28,14 @@ cowl_struct_decl(CowlHasKeyAxiom);
  *
  * [HasKey]: https://www.w3.org/TR/owl2-syntax/#Keys
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlHasKeyAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlHasKeyAxiom);
+
+/**
+ * @defgroup CowlHasKeyAxiom CowlHasKeyAxiom API
+ * @{
  */
 
 /**
@@ -39,10 +44,8 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * @param cls_exp The class expression, instances of which this axiom acts as the key for.
  * @param obj_props Object property expressions that make up the key.
  * @param data_props Data property expressions that make up the key.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlHasKeyAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -59,8 +62,6 @@ CowlHasKeyAxiom *cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_prop
  *
  * @param axiom The axiom.
  * @return The class expression.
- *
- * @public @memberof CowlHasKeyAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -73,8 +74,6 @@ CowlClsExp *cowl_has_key_axiom_get_cls_exp(CowlHasKeyAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The object property expressions.
- *
- * @public @memberof CowlHasKeyAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -87,8 +86,6 @@ CowlVector *cowl_has_key_axiom_get_obj_props(CowlHasKeyAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The data property expressions.
- *
- * @public @memberof CowlHasKeyAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -101,14 +98,14 @@ CowlVector *cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlHasKeyAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

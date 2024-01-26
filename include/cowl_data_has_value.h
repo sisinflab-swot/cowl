@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlLiteral);
-cowl_struct_decl(CowlDataHasValue);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlDataHasValue);
  *
  * [DataHasValue]: https://www.w3.org/TR/owl2-syntax/#Literal_Value_Restriction
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlDataHasValue
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlDataHasValue);
+
+/**
+ * @defgroup CowlDataHasValue CowlDataHasValue API
+ * @{
  */
 
 /**
@@ -38,8 +43,6 @@ cowl_struct_decl(CowlDataHasValue);
  * @param prop The data property expression.
  * @param value The restriction value.
  * @return Restriction, or NULL on error.
- *
- * @public @memberof CowlDataHasValue
  */
 COWL_RETAINED
 COWL_INLINE
@@ -52,8 +55,6 @@ CowlDataHasValue *cowl_data_has_value(CowlAnyDataPropExp *prop, CowlLiteral *val
  *
  * @param restr The restriction.
  * @return The property.
- *
- * @public @memberof CowlDataHasValue
  */
 COWL_PURE
 COWL_INLINE
@@ -66,14 +67,14 @@ CowlDataPropExp *cowl_data_has_value_get_prop(CowlDataHasValue *restr) {
  *
  * @param restr The restriction.
  * @return The value.
- *
- * @public @memberof CowlDataHasValue
  */
 COWL_PURE
 COWL_INLINE
 CowlLiteral *cowl_data_has_value_get_value(CowlDataHasValue *restr) {
     return (CowlLiteral *)cowl_get_field(restr, 1);
 }
+
+/// @}
 
 COWL_END_DECLS
 

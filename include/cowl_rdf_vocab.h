@@ -75,8 +75,6 @@ typedef struct CowlRDFVocab {
  * Returns the RDF vocabulary.
  *
  * @return The RDF vocabulary.
- *
- * @public @memberof CowlRDFVocab
  */
 COWL_API
 COWL_CONST

@@ -1,5 +1,0 @@
-========================
-Annotation Subproperties
-========================
-
-.. doxygenstruct:: CowlSubAnnotPropAxiom

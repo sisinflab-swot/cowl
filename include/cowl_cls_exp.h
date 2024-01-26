@@ -18,17 +18,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlClsExp);
-/// @endcond
-
 /**
  * Represents a [ClassExpression] in the OWL 2 specification.
  *
  * [ClassExpression]: https://www.w3.org/TR/owl2-syntax/#Class_Expressions
  *
+ * @superstruct{CowlObject}
  * @struct CowlClsExp
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlClsExp);
+
+/**
+ * @defgroup CowlClsExp CowlClsExp API
+ * @{
  */
 
 /**
@@ -36,14 +38,14 @@ cowl_struct_decl(CowlClsExp);
  *
  * @param exp The class expression.
  * @return The type.
- *
- * @public @memberof CowlClsExp
  */
 COWL_PURE
 COWL_INLINE
 CowlClsExpType cowl_cls_exp_get_type(CowlAnyClsExp *exp) {
     return (CowlClsExpType)(cowl_get_type(exp) - COWL_OT_CE_CLASS);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlEntity);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlDeclAxiom);
 /// @endcond
 
 /**
@@ -28,18 +27,22 @@ cowl_struct_decl(CowlDeclAxiom);
  *
  * [Declaration]: https://www.w3.org/TR/owl2-syntax/#Entity_Declarations_and_Typing
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlDeclAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlDeclAxiom);
+
+/**
+ * @defgroup CowlDeclAxiom CowlDeclAxiom API
+ * @{
  */
 
 /**
  * Returns a declaration axiom.
  *
  * @param entity The declared entity.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlDeclAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -52,8 +55,6 @@ CowlDeclAxiom *cowl_decl_axiom(CowlAnyEntity *entity, CowlVector *annot) {
  *
  * @param axiom The axiom.
  * @return The entity.
- *
- * @public @memberof CowlDeclAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -66,14 +67,14 @@ CowlEntity *cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlDeclAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

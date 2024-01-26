@@ -22,7 +22,6 @@ cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlDataPropAssertAxiom);
 /// @endcond
 
 /**
@@ -35,8 +34,14 @@ cowl_struct_decl(CowlDataPropAssertAxiom);
  * [NegativeDataPropertyAssertion]:
  * https://www.w3.org/TR/owl2-syntax/#Negative_Data_Property_Assertions
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlDataPropAssertAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlDataPropAssertAxiom);
+
+/**
+ * @defgroup CowlDataPropAssertAxiom CowlDataPropAssertAxiom API
+ * @{
  */
 
 /**
@@ -45,10 +50,8 @@ cowl_struct_decl(CowlDataPropAssertAxiom);
  * @param prop The data property.
  * @param subj The assertion subject.
  * @param obj The assertion object.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -65,10 +68,8 @@ cowl_data_prop_assert_axiom(CowlAnyDataPropExp *prop, CowlAnyIndividual *subj, C
  * @param subj The assertion subject.
  * @param prop The data property.
  * @param obj The assertion object.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -84,8 +85,6 @@ cowl_neg_data_prop_assert_axiom(CowlAnyDataPropExp *prop, CowlAnyIndividual *sub
  *
  * @param axiom The axiom.
  * @return True if the assertion is negative, false otherwise.
- *
- * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -98,8 +97,6 @@ bool cowl_data_prop_assert_axiom_is_negative(CowlDataPropAssertAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The data property.
- *
- * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -112,8 +109,6 @@ CowlDataPropExp *cowl_data_prop_assert_axiom_get_prop(CowlDataPropAssertAxiom *a
  *
  * @param axiom The axiom.
  * @return The assertion subject.
- *
- * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -126,8 +121,6 @@ CowlIndividual *cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom 
  *
  * @param axiom The axiom.
  * @return The assertion object.
- *
- * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -140,14 +133,14 @@ CowlLiteral *cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axi
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlDataPropAssertAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -10,17 +10,17 @@ Welcome to Cowl's documentation!
 
    about/index
 
+.. rst-class:: two-col two-col-break-l1
 .. toctree::
    :caption: Getting started
 
    howto/index
    howto/examples
 
+.. rst-class:: two-col two-col-break-l2
 .. toctree::
    :caption: API docs
 
-   api/config/index
-   api/base/index
-   api/collections/index
-   api/owl/index
-   api/io/index
+   api/config
+   api/crud/index
+   api/model/index

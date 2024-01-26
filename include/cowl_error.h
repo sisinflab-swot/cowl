@@ -47,7 +47,11 @@ typedef struct CowlError {
 
 } CowlError;
 
-/// Syntax error.
+/**
+ * Syntax error.
+ *
+ * @superstruct{CowlError}
+ */
 typedef struct CowlSyntaxError {
 
     /// Base error.
@@ -59,16 +63,21 @@ typedef struct CowlSyntaxError {
 } CowlSyntaxError;
 
 /**
+ * @defgroup CowlError CowlError API
+ * @{
+ */
+
+/**
  * Returns a human-readable string representation of the specified error.
  *
  * @param error The error.
  * @return String representation, or NULL on error.
- *
- * @public @memberof CowlError
  */
 COWL_API
 COWL_RETAINED
 CowlString *cowl_error_to_string(CowlError const *error);
+
+/// @}
 
 COWL_END_DECLS
 

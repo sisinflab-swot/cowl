@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlDisjUnionAxiom);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  *
  * [DisjointUnion]: https://www.w3.org/TR/owl2-syntax/#Disjoint_Union_of_Class_Expressions
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlDisjUnionAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlDisjUnionAxiom);
+
+/**
+ * @defgroup CowlDisjUnionAxiom CowlDisjUnionAxiom API
+ * @{
  */
 
 /**
@@ -37,10 +42,8 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  *
  * @param cls The class which is equivalent to the disjoint union.
  * @param disjoints The class expressions which are operands of the disjoint union.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlDisjUnionAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -54,8 +57,6 @@ cowl_disj_union_axiom(CowlClass *cls, CowlVector *disjoints, CowlVector *annot) 
  *
  * @param axiom The axiom.
  * @return The class.
- *
- * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -67,8 +68,6 @@ CowlClass *cowl_disj_union_axiom_get_class(CowlDisjUnionAxiom *axiom) {
  * Gets the class expressions which are operands of the disjoint union.
  * @param axiom The axiom.
  * @return The class expressions.
- *
- * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -81,14 +80,14 @@ CowlVector *cowl_disj_union_axiom_get_disjoints(CowlDisjUnionAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlDisjUnionAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_disj_union_axiom_get_annot(CowlDisjUnionAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

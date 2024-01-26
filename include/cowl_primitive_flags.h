@@ -18,15 +18,19 @@
 
 COWL_BEGIN_DECLS
 
-/// Size of the CowlPrimitiveFlags type in bits.
+/// Size of the @type{#CowlPrimitiveFlags} type in bits.
 #define COWL_PF 8
 
 /**
- * @defgroup CowlPrimitiveFlags Flags to control iteration over primitives.
+ * @defgroup CowlPrimitiveFlags_type CowlPrimitiveFlags type and values
  * @{
  */
 
-/// Flags to control iteration over primitives.
+/**
+ * Flags to control iteration over primitives
+ *
+ * @alias typedef UBit(N) CowlPrimitiveFlags;
+ */
 typedef UBit(COWL_PF) CowlPrimitiveFlags;
 
 /// Iterate over no primitives.
@@ -64,13 +68,18 @@ typedef UBit(COWL_PF) CowlPrimitiveFlags;
     (COWL_PF_CLASS | COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP | COWL_PF_ANNOT_PROP |                   \
      COWL_PF_NAMED_IND | COWL_PF_DATATYPE)
 
+/// @}
+
+/**
+ * @defgroup CowlPrimitiveFlags_api CowlPrimitiveFlags API
+ * @{
+ */
+
 /**
  * Returns a bitmask with a bit set for the specified primitive type.
  *
  * @param type Primitive type.
  * @return Flags.
- *
- * @public
  */
 COWL_CONST
 COWL_INLINE
@@ -84,8 +93,6 @@ CowlPrimitiveFlags cowl_primitive_flags_from_type(CowlPrimitiveType type) {
  * @param flags Primitive flags.
  * @param type Primitive type.
  * @return True if the type is included in the flags, false otherwise.
- *
- * @public
  */
 COWL_CONST
 COWL_INLINE

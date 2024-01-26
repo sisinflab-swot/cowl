@@ -22,34 +22,34 @@ COWL_BEGIN_DECLS
  * @{
  */
 
-/// Placeholder for any CowlObject.
+/// Placeholder for any @type{#CowlObject}.
 typedef void CowlAny;
 
-/// Placeholder for any CowlAnnotValue.
+/// Placeholder for any @type{#CowlAnnotValue}.
 typedef void CowlAnyAnnotValue;
 
-/// Placeholder for any CowlAxiom.
+/// Placeholder for any @type{#CowlAxiom}.
 typedef void CowlAnyAxiom;
 
-/// Placeholder for any CowlClsExp.
+/// Placeholder for any @type{#CowlClsExp}.
 typedef void CowlAnyClsExp;
 
-/// Placeholder for any CowlDataPropExp.
+/// Placeholder for any @type{#CowlDataPropExp}.
 typedef void CowlAnyDataPropExp;
 
-/// Placeholder for any CowlDataRange.
+/// Placeholder for any @type{#CowlDataRange}.
 typedef void CowlAnyDataRange;
 
-/// Placeholder for any CowlEntity.
+/// Placeholder for any @type{#CowlEntity}.
 typedef void CowlAnyEntity;
 
-/// Placeholder for any CowlIndividual.
+/// Placeholder for any @type{#CowlIndividual}.
 typedef void CowlAnyIndividual;
 
-/// Placeholder for any CowlPrimitive.
+/// Placeholder for any @type{#CowlPrimitive}.
 typedef void CowlAnyPrimitive;
 
-/// Placeholder for any CowlObjPropExp.
+/// Placeholder for any @type{#CowlObjPropExp}.
 typedef void CowlAnyObjPropExp;
 
 /// @}

@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlQuantType enumeration.
+ * Defines the CowlQuantType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -17,7 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of CowlObjQuant and CowlDataQuant.
+/// Represents the type of @type{#CowlObjQuant} and @type{#CowlDataQuant}.
 typedef enum CowlQuantType {
 
     /// @name Types

@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlNAryDataPropAxiom);
 /// @endcond
 
 /**
@@ -30,8 +29,14 @@ cowl_struct_decl(CowlNAryDataPropAxiom);
  * [EquivalentDataProperties]: https://www.w3.org/TR/owl2-syntax/#Equivalent_Data_Properties
  * [DisjointDataProperties]: https://www.w3.org/TR/owl2-syntax/#Disjoint_Data_Properties
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlNAryDataPropAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlNAryDataPropAxiom);
+
+/**
+ * @defgroup CowlNAryDataPropAxiom CowlNAryDataPropAxiom API
+ * @{
  */
 
 /**
@@ -39,10 +44,8 @@ cowl_struct_decl(CowlNAryDataPropAxiom);
  *
  * @param type The type.
  * @param props The data properties.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlNAryDataPropAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -58,8 +61,6 @@ cowl_nary_data_prop_axiom(CowlNAryAxiomType type, CowlVector *props, CowlVector 
  *
  * @param axiom The axiom.
  * @return The type.
- *
- * @public @memberof CowlNAryDataPropAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -72,8 +73,6 @@ CowlNAryAxiomType cowl_nary_data_prop_axiom_get_type(CowlNAryDataPropAxiom *axio
  *
  * @param axiom The axiom.
  * @return The data properties.
- *
- * @public @memberof CowlNAryDataPropAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -86,14 +85,14 @@ CowlVector *cowl_nary_data_prop_axiom_get_props(CowlNAryDataPropAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlNAryDataPropAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_data_prop_axiom_get_annot(CowlNAryDataPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

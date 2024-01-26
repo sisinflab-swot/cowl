@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlDataRange);
-cowl_struct_decl(CowlDataCompl);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlDataCompl);
  *
  * [DataComplementOf]: https://www.w3.org/TR/owl2-syntax/#Complement_of_Data_Ranges
  *
+ * @superstruct{CowlDataRange}
  * @struct CowlDataCompl
- * @extends CowlDataRange
+ */
+cowl_struct_decl(CowlDataCompl);
+
+/**
+ * @defgroup CowlDataCompl CowlDataCompl API
+ * @{
  */
 
 /**
@@ -36,8 +41,6 @@ cowl_struct_decl(CowlDataCompl);
  *
  * @param operand The data range which this data range is a complement of.
  * @return Data range complement, or NULL on error.
- *
- * @public @memberof CowlDataCompl
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,14 +53,14 @@ CowlDataCompl *cowl_data_compl(CowlAnyDataRange *operand) {
  *
  * @param range The data range complement.
  * @return The operand.
- *
- * @public @memberof CowlDataCompl
  */
 COWL_PURE
 COWL_INLINE
 CowlDataRange *cowl_data_compl_get_operand(CowlDataCompl *range) {
     return (CowlDataRange *)cowl_get_field(range, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

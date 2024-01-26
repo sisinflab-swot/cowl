@@ -17,17 +17,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlAnnotProp);
-/// @endcond
-
 /**
  * Represents an [AnnotationProperty] in the OWL 2 specification.
  *
  * [AnnotationProperty]: https://www.w3.org/TR/owl2-syntax/#Annotation_Properties
  *
+ * @superstruct{CowlEntity}
  * @struct CowlAnnotProp
- * @extends CowlEntity
+ */
+cowl_struct_decl(CowlAnnotProp);
+
+/**
+ * @defgroup CowlAnnotProp CowlAnnotProp API
+ * @{
  */
 
 /**
@@ -35,8 +37,6 @@ cowl_struct_decl(CowlAnnotProp);
  *
  * @param iri IRI of the property.
  * @return Annotation property, or NULL on error.
- *
- * @public @memberof CowlAnnotProp
  */
 COWL_RETAINED
 COWL_INLINE
@@ -49,8 +49,6 @@ CowlAnnotProp *cowl_annot_prop(CowlIRI *iri) {
  *
  * @param string String representation of the IRI.
  * @return Annotation property, or NULL on error.
- *
- * @public @memberof CowlAnnotProp
  */
 COWL_RETAINED
 COWL_INLINE
@@ -59,29 +57,27 @@ CowlAnnotProp *cowl_annot_prop_from_string(UString string) {
 }
 
 /**
- * Returns an annotation property given the static string representation of its IRI.
+ * Returns an annotation property given the string literal representing its IRI.
  *
- * @param CSTR [char const[]] Static string.
- * @return [CowlAnnotProp *] Annotation property, or NULL on error.
- *
- * @public @related CowlAnnotProp
+ * @param str @type{char const[]} String literal.
+ * @return @type{#CowlAnnotProp *} Annotation property, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_annot_prop_from_static(CSTR) cowl_annot_prop_from_string(ustring_literal(CSTR))
+#define cowl_annot_prop_from_static(str) cowl_annot_prop_from_string(ustring_literal(str))
 
 /**
  * Gets the IRI of the specified annotation property.
  *
  * @param prop The annotation property.
  * @return IRI of the annotation property.
- *
- * @public @memberof CowlAnnotProp
  */
 COWL_PURE
 COWL_INLINE
 CowlIRI *cowl_annot_prop_get_iri(CowlAnnotProp *prop) {
     return cowl_entity_get_iri((CowlEntity *)prop);
 }
+
+/// @}
 
 COWL_END_DECLS
 

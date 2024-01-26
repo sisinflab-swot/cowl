@@ -96,14 +96,17 @@ typedef struct CowlWriter {
 
 } CowlWriter;
 
+/**
+ * @defgroup CowlWriter CowlWriter API
+ * @{
+ */
+
 #ifdef COWL_WRITER_FUNCTIONAL
 
 /**
  * Returns the functional syntax writer.
  *
  * @return Functional syntax writer.
- *
- * @public @related CowlWriter
  */
 COWL_API
 COWL_CONST
@@ -120,9 +123,7 @@ CowlWriter cowl_writer_functional(void);
  * @param object Object.
  * @return Return code.
  *
- * @note If no default writer is set, falls back to `cowl_write_debug`.
- *
- * @public @related CowlWriter
+ * @note If no default writer is set, falls back to @func{#cowl_write_debug()}.
  */
 COWL_API
 cowl_ret cowl_write(UOStream *stream, CowlAny *object);
@@ -135,8 +136,6 @@ cowl_ret cowl_write(UOStream *stream, CowlAny *object);
  * @param stream Output stream.
  * @param object Object.
  * @return Return code.
- *
- * @public @related CowlWriter
  */
 COWL_API
 ustream_ret cowl_write_debug(UOStream *stream, CowlAny *object);
@@ -147,8 +146,6 @@ ustream_ret cowl_write_debug(UOStream *stream, CowlAny *object);
  * @param stream Output stream.
  * @param string String.
  * @return Return code.
- *
- * @public @related CowlWriter
  */
 COWL_API
 ustream_ret cowl_write_string(UOStream *stream, CowlString *string);
@@ -159,8 +156,6 @@ ustream_ret cowl_write_string(UOStream *stream, CowlString *string);
  * @param stream Output stream.
  * @param iri IRI.
  * @return Return code.
- *
- * @public @related CowlWriter
  */
 COWL_API
 ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
@@ -171,8 +166,6 @@ ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
  * @param stream Output stream.
  * @param type Object type.
  * @return Return code.
- *
- * @public @related CowlWriter
  */
 COWL_API
 ustream_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
@@ -183,8 +176,6 @@ ustream_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
  * @param stream Output stream.
  * @param uint Unsigned integer.
  * @return Return code.
- *
- * @public @related CowlWriter
  */
 COWL_API
 ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
@@ -195,8 +186,6 @@ ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
  * @param stream Output stream.
  * @param error Error.
  * @return Return code.
- *
- * @public @related CowlWriter
  */
 COWL_API
 ustream_ret cowl_write_error(UOStream *stream, CowlError const *error);
@@ -204,11 +193,9 @@ ustream_ret cowl_write_error(UOStream *stream, CowlError const *error);
 /**
  * Writes a string to the specified output stream.
  *
- * @param stream [UOStream *] Output stream.
- * @param string [UString const *] String.
- * @return [ustream_ret] Return code.
- *
- * @public @related CowlWriter
+ * @param stream Output stream.
+ * @param string String.
+ * @return Return code.
  */
 COWL_INLINE
 ustream_ret cowl_write_ustring(UOStream *stream, UString const *string) {
@@ -218,11 +205,9 @@ ustream_ret cowl_write_ustring(UOStream *stream, UString const *string) {
 /**
  * Writes a string to the specified output stream.
  *
- * @param stream [UOStream *] Output stream.
- * @param string [char const *] String.
- * @return [ustream_ret] Return code.
- *
- * @public @related CowlWriter
+ * @param stream Output stream.
+ * @param string String.
+ * @return Return code.
  */
 COWL_INLINE
 ustream_ret cowl_write_cstring(UOStream *stream, char const *string) {
@@ -232,13 +217,13 @@ ustream_ret cowl_write_cstring(UOStream *stream, char const *string) {
 /**
  * Writes a string literal to the specified output stream.
  *
- * @param stream [UOStream *] Output stream.
- * @param string [char const[]] String.
- * @return [ustream_ret] Return code.
- *
- * @public @related CowlWriter
+ * @param stream @type{#UOStream *} Output stream.
+ * @param string @type{char const []} String literal.
+ * @return @type{#ustream_ret} Return code.
  */
 #define cowl_write_static(stream, string) uostream_write_literal(stream, string, NULL)
+
+/// @}
 
 COWL_END_DECLS
 

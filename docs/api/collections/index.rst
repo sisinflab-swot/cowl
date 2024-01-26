@@ -1,8 +1,0 @@
-===========
-Collections
-===========
-
-.. toctree::
-
-   vector
-   hash

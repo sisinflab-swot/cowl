@@ -388,8 +388,6 @@ typedef struct CowlXSDVocab {
  * Returns the XSD vocabulary.
  *
  * @return The XSD vocabulary.
- *
- * @public @memberof CowlXSDVocab
  */
 COWL_API
 COWL_CONST

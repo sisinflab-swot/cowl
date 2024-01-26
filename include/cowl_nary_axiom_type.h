@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlNAryAxiomType enumeration.
+ * Defines the CowlNAryAxiomType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -18,8 +18,8 @@
 COWL_BEGIN_DECLS
 
 /**
- * Represents the type of CowlNAryClsAxiom, CowlNAryObjPropAxiom,
- * CowlNAryDataPropAxiom and CowlNAryIndAxiom.
+ * Represents the type of @type{#CowlNAryClsAxiom}, @type{#CowlNAryObjPropAxiom},
+ * @type{#CowlNAryDataPropAxiom} and @type{#CowlNAryIndAxiom}.
  */
 typedef enum CowlNAryAxiomType {
 

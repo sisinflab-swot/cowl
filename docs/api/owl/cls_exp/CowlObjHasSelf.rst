@@ -1,5 +1,0 @@
-================
-Self Restriction
-================
-
-.. doxygenstruct:: CowlObjHasSelf

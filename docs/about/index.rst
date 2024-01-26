@@ -10,18 +10,15 @@ What is this?
 Motivation
 ==========
 
-Access to OWL 2 ontologies is currently limited to platforms supporting Java
-(via the `OWL API`_) or Python (through OWLReady_).
-owl-cpp_ also exists for other platforms, though it deserializes
+Access to OWL 2 ontologies is currently limited to platforms supporting Java (via the `OWL API`_)
+or Python (through OWLReady_). owl-cpp_ also exists for other platforms, though it deserializes
 ontologies into RDF triples rather than OWL axioms and constructs.
 
-Cowl aims to bring OWL support to most remaining platforms. In fact, it abides
-to some key principles which make it very portable:
+Cowl aims to bring OWL support to most remaining platforms. In fact, it abides to some
+key principles which make it very portable:
 
-- It is written in **standard C11** with no compiler-specific extensions and no platform-specific
-  API calls.
-- It is mostly **self-contained**, with no runtime dependencies other than
-  `uLib`_.
+- It is written in **standard C11** with no compiler- or platform-specific API calls.
+- It is **self-contained**, with no runtime dependencies other than `uLib`_.
 - It goes to great lengths to have a **tiny memory footprint** while being **very fast**,
   meaning it can run even on the most resource-constrained devices.
 

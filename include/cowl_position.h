@@ -17,7 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Size of the CowlPosition type in bits.
+/// Size of the @type{#CowlPosition} type in bits.
 #define COWL_PS 8
 
 /**
@@ -25,7 +25,11 @@ COWL_BEGIN_DECLS
  * @{
  */
 
-/// Position of a component in an OWL construct.
+/**
+ * Position of a component in an OWL construct.
+ *
+ * @alias typedef UBit(N) CowlPosition;
+ */
 typedef UBit(COWL_PS) CowlPosition;
 
 /// No position.
@@ -35,13 +39,13 @@ typedef UBit(COWL_PS) CowlPosition;
 #define COWL_PS_ANY ubit_all(COWL_PS)
 
 /// Left position.
-#define COWL_PS_LEFT ubit_bit(COWL_PF, 0)
+#define COWL_PS_LEFT ubit_bit(COWL_PS, 0)
 
 /// Right position.
-#define COWL_PS_RIGHT ubit_bit(COWL_PF, 1)
+#define COWL_PS_RIGHT ubit_bit(COWL_PS, 1)
 
 /// Middle position.
-#define COWL_PS_MIDDLE ubit_bit(COWL_PF, 2)
+#define COWL_PS_MIDDLE ubit_bit(COWL_PS, 2)
 
 /// Subject position.
 #define COWL_PS_SUBJECT COWL_PS_LEFT

@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlDataOneOf);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlDataOneOf);
  *
  * [DataOneOf]: https://www.w3.org/TR/owl2-syntax/#Enumeration_of_Literals
  *
+ * @superstruct{CowlDataRange}
  * @struct CowlDataOneOf
- * @extends CowlDataRange
+ */
+cowl_struct_decl(CowlDataOneOf);
+
+/**
+ * @defgroup CowlDataOneOf CowlDataOneOf API
+ * @{
  */
 
 /**
@@ -36,8 +41,6 @@ cowl_struct_decl(CowlDataOneOf);
  *
  * @param values The enumeration values.
  * @return Literal enumeration, or NULL on error.
- *
- * @public @memberof CowlDataOneOf
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,14 +53,14 @@ CowlDataOneOf *cowl_data_one_of(CowlVector *values) {
  *
  * @param range The literal enumeration.
  * @return The values.
- *
- * @public @memberof CowlDataOneOf
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_data_one_of_get_values(CowlDataOneOf *range) {
     return (CowlVector *)cowl_get_field(range, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

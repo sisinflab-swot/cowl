@@ -17,23 +17,27 @@
 
 COWL_BEGIN_DECLS
 
+/**
+ * @func{#UHash(T)} of @type{#CowlObject *} elements.
+ *
+ * @alias typedef UHash(CowlObjectTable) UHash(CowlObjectTable);
+ */
+
 /// @cond
 UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny *, CowlAny *, COWL_API)
-cowl_struct_decl(CowlTable);
 /// @endcond
 
 /**
- * UHash table of CowlObject elements.
+ * Hash table of @type{#CowlObject} elements.
  *
- * @struct UHash_CowlObjectTable
- * @extends UHash
+ * @superstruct{CowlObject}
+ * @struct CowlTable
  */
+cowl_struct_decl(CowlTable);
 
 /**
- * Hash table of CowlObject elements.
- *
- * @struct CowlTable
- * @extends CowlObject
+ * @defgroup CowlTable CowlTable API
+ * @{
  */
 
 /**
@@ -44,8 +48,6 @@ cowl_struct_decl(CowlTable);
  *
  * @note You must not use the raw hash table after passing it to this function.
  * @note Keys and values in the raw table are retained by this constructor.
- *
- * @public @memberof CowlTable
  */
 COWL_API
 COWL_RETAINED
@@ -54,9 +56,8 @@ CowlTable *cowl_table(UHash(CowlObjectTable) *table);
 /**
  * Returns an hash table with no elements.
  *
- * @return [CowlTable*] Hash table, or NULL on error.
- *
- * @public @related CowlTable
+ * @return Hash table, or NULL on error.
+ * @alias CowlTable *cowl_table_empty(void);
  */
 COWL_RETAINED
 #define cowl_table_empty() cowl_table(NULL)
@@ -66,8 +67,6 @@ COWL_RETAINED
  *
  * @param table The hash table.
  * @return Underlying raw hash table.
- *
- * @public @memberof CowlTable
  */
 COWL_API
 COWL_PURE
@@ -78,8 +77,6 @@ UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
  *
  * @param table The hash table.
  * @return Number of elements in The hash table.
- *
- * @public @memberof CowlTable
  */
 COWL_PURE
 COWL_INLINE
@@ -93,8 +90,6 @@ ulib_uint cowl_table_count(CowlTable *table) {
  * @param table The hash table.
  * @param key The key.
  * @return Value associated with the key, or NULL if the key is not present.
- *
- * @public @memberof CowlTable
  */
 COWL_PURE
 COWL_INLINE
@@ -107,8 +102,6 @@ CowlAny *cowl_table_get_value(CowlTable *table, CowlAny *key) {
  *
  * @param table The hash table.
  * @return One of the keys in the hash table.
- *
- * @public @memberof CowlTable
  */
 COWL_PURE
 COWL_INLINE
@@ -122,8 +115,6 @@ CowlAny *cowl_table_get_any(CowlTable *table) {
  * @param table The hash table.
  * @param key The key.
  * @return True if the object is contained in the hash table, false otherwise.
- *
- * @public @memberof CowlTable
  */
 COWL_PURE
 COWL_INLINE
@@ -134,13 +125,13 @@ bool cowl_table_contains(CowlTable *table, CowlAny *key) {
 /**
  * Iterates over the entries in the hash table.
  *
- * @param table [CowlTable *] The hash table.
- * @param obj [symbol] Name of the variable holding the current index, key and value.
- *
- * @public @related CowlTable
+ * @param table @type{#CowlTable *} The hash table.
+ * @param obj @type{symbol} Name of the variable holding the current index, key and value.
  */
 #define cowl_table_foreach(table, obj)                                                             \
     uhash_foreach (CowlObjectTable, cowl_table_get_data(table), obj)
+
+/// @}
 
 COWL_END_DECLS
 

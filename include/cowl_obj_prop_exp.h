@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlObjProp);
-cowl_struct_decl(CowlObjPropExp);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlObjPropExp);
  *
  * [ObjectPropertyExpression]: https://www.w3.org/TR/owl2-syntax/#Object_Property_Expressions
  *
+ * @superstruct{CowlObject}
  * @struct CowlObjPropExp
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlObjPropExp);
+
+/**
+ * @defgroup CowlObjPropExp CowlObjPropExp API
+ * @{
  */
 
 /**
@@ -36,8 +41,6 @@ cowl_struct_decl(CowlObjPropExp);
  *
  * @param exp The object property expression.
  * @return True if the expression is inverse, false otherwise.
- *
- * @public @memberof CowlObjPropExp
  */
 COWL_PURE
 COWL_INLINE
@@ -50,12 +53,12 @@ bool cowl_obj_prop_exp_is_inverse(CowlAnyObjPropExp *exp) {
  *
  * @param exp The object property expression.
  * @return The object property.
- *
- * @public @memberof CowlObjPropExp
  */
 COWL_API
 COWL_PURE
 CowlObjProp *cowl_obj_prop_exp_get_prop(CowlAnyObjPropExp *exp);
+
+/// @}
 
 COWL_END_DECLS
 

@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlAnnotPropRangeAxiom);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlAnnotPropRangeAxiom);
  *
  * [AnnotationPropertyRange]: https://www.w3.org/TR/owl2-syntax/#Annotation_Property_Range
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlAnnotPropRangeAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlAnnotPropRangeAxiom);
+
+/**
+ * @defgroup CowlAnnotPropRangeAxiom CowlAnnotPropRangeAxiom API
+ * @{
  */
 
 /**
@@ -37,10 +42,8 @@ cowl_struct_decl(CowlAnnotPropRangeAxiom);
  *
  * @param prop The annotation property.
  * @param range Range of the annotation property.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -55,8 +58,6 @@ cowl_annot_prop_range_axiom(CowlAnnotProp *prop, CowlIRI *range, CowlVector *ann
  *
  * @param axiom The axiom.
  * @return The annotation property.
- *
- * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -69,8 +70,6 @@ CowlAnnotProp *cowl_annot_prop_range_axiom_get_prop(CowlAnnotPropRangeAxiom *axi
  *
  * @param axiom The axiom.
  * @return Range of the annotation property.
- *
- * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -83,14 +82,14 @@ CowlIRI *cowl_annot_prop_range_axiom_get_range(CowlAnnotPropRangeAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlAnnotPropRangeAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_annot_prop_range_axiom_get_annot(CowlAnnotPropRangeAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -18,15 +18,17 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlString);
-/// @endcond
-
 /**
  * The string type.
  *
+ * @superstruct{CowlObject}
  * @struct CowlString
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlString);
+
+/**
+ * @defgroup CowlString CowlString
+ * @{
  */
 
 /**
@@ -36,11 +38,9 @@ cowl_struct_decl(CowlString);
  * @return String, or NULL on error.
  *
  * @note The buffer of the raw string must have been dynamically allocated.
- * @note Ownership of the raw string is transferred to the newly created CowlString,
+ * @note Ownership of the raw string is transferred to the newly created @type{#CowlString},
  *       meaning you must not deinitialize it.
- * @note Equivalent to `cowl_string_opt(string, COWL_SO_NONE)`.
- *
- * @public @memberof CowlString
+ * @note Equivalent to calling @func{#cowl_string_opt()} with @val{#COWL_SO_NONE}.
  */
 COWL_API
 COWL_RETAINED
@@ -51,41 +51,37 @@ CowlString *cowl_string(UString string);
  *
  * String creation is governed by the following options:
  *
- * - COWL_SO_COPY: if set, the raw string is copied internally, otherwise it is directly assigned.
- *                 Note that in the latter case the raw string must have been dynamically allocated,
- *                 and you must not deinitialize it after passing it to this method.
- * - COWL_SO_INTERN: if set, the CowlString is either created and added to an internal
- *                   instance pool, or if an instance with the same raw string already exists
- *                   in the pool, that instance is retained and returned. This entails that
- *                   all instances created with this flag are guaranteed to be unique in memory.
+ * - @val{#COWL_SO_COPY}: if set, the raw string is copied internally, otherwise it is directly
+ *                        assigned. Note that in the latter case the raw string must have been
+ *                        dynamically allocated, and you must not deinitialize it after passing it
+ *                        to this method.
+ * - @val{#COWL_SO_INTERN}: if set, the CowlString is either created and added to an internal
+ *                          instance pool, or if an instance with the same raw string already
+ *                          exists in the pool, that instance is retained and returned.
+ *                          This entails that all instances created with this flag are guaranteed
+ *                          to be unique in memory.
  *
  * @param string The underlying string object.
  * @param opts String creation options.
  * @return String, or NULL on error.
- *
- * @public @memberof CowlString
  */
 COWL_API
 COWL_RETAINED
 CowlString *cowl_string_opt(UString string, CowlStringOpts opts);
 
 /**
- * Returns a string from the specified static string.
+ * Returns a string from the specified literal string.
  *
- * @param CSTR [char const[]] The static string.
- * @return [CowlString *] String, or NULL on error.
- *
- * @public @related CowlString
+ * @param str @type{char const []} String literal.
+ * @return @type{#CowlString *} String, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_string_from_static(CSTR) cowl_string_opt(ustring_literal(CSTR), COWL_SO_COPY)
+#define cowl_string_from_static(str) cowl_string_opt(ustring_literal(str), COWL_SO_COPY)
 
 /**
  * Returns an empty string.
  *
  * @return String, or NULL on error.
- *
- * @public @memberof CowlString
  */
 COWL_API
 COWL_RETAINED
@@ -103,8 +99,6 @@ CowlString *cowl_string_empty(void);
  * @note The reference counts of the original string and that of the returned instance are not
  *       changed. This means you are still responsible for releasing the original string if
  *       you created it, and you should retain the returned string if you need to keep it alive.
- *
- * @public @memberof CowlString
  */
 COWL_API
 CowlString *cowl_string_intern(CowlString *string);
@@ -117,8 +111,6 @@ CowlString *cowl_string_intern(CowlString *string);
  *
  * @note As an optimization, if the string is deallocated due to the release call,
  *       then the original buffer is returned.
- *
- * @public @memberof CowlString
  */
 COWL_API
 char *cowl_string_release_copying_cstring(CowlString *string);
@@ -128,8 +120,6 @@ char *cowl_string_release_copying_cstring(CowlString *string);
  *
  * @param string The string.
  * @return The buffer.
- *
- * @public @memberof CowlString
  */
 COWL_API
 COWL_PURE
@@ -140,8 +130,6 @@ char const *cowl_string_get_cstring(CowlString *string);
  *
  * @param string The string.
  * @return The length.
- *
- * @public @memberof CowlString
  */
 COWL_API
 COWL_PURE
@@ -152,8 +140,6 @@ ulib_uint cowl_string_get_length(CowlString *string);
  *
  * @param string The string.
  * @return Underlying string object.
- *
- * @public @memberof CowlString
  */
 COWL_API
 COWL_PURE
@@ -165,8 +151,6 @@ UString const *cowl_string_get_raw(CowlString *string);
  * @param format Format string.
  * @param ... Format arguments.
  * @return String, or NULL on error.
- *
- * @public @memberof CowlString
  */
 COWL_API
 COWL_RETAINED
@@ -178,8 +162,6 @@ CowlString *cowl_string_with_format(char const *format, ...);
  * @param lhs LHS of the concatenation.
  * @param rhs RHS of the concatenation.
  * @return String, or NULL on error.
- *
- * @public @memberof CowlString
  */
 COWL_API
 COWL_RETAINED
@@ -192,8 +174,6 @@ CowlString *cowl_string_concat(CowlString *lhs, CowlString *rhs);
  * @param out Output value.
  * @param base Numeric base.
  * @return Return code.
- *
- * @public @memberof CowlString
  */
 COWL_INLINE
 cowl_ret cowl_string_to_int(CowlString *string, ulib_int *out, unsigned base) {
@@ -207,8 +187,6 @@ cowl_ret cowl_string_to_int(CowlString *string, ulib_int *out, unsigned base) {
  * @param out Output value.
  * @param base Numeric base.
  * @return Return code.
- *
- * @public @memberof CowlString
  */
 COWL_INLINE
 cowl_ret cowl_string_to_uint(CowlString *string, ulib_uint *out, unsigned base) {
@@ -221,13 +199,13 @@ cowl_ret cowl_string_to_uint(CowlString *string, ulib_uint *out, unsigned base) 
  * @param string The string.
  * @param out Output value.
  * @return Return code.
- *
- * @public @memberof CowlString
  */
 COWL_INLINE
 cowl_ret cowl_string_to_float(CowlString *string, ulib_float *out) {
     return ustring_to_float(*cowl_string_get_raw(string), out) == ULIB_OK ? COWL_OK : COWL_ERR;
 }
+
+/// @}
 
 COWL_END_DECLS
 

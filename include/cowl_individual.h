@@ -17,17 +17,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlIndividual);
-/// @endcond
-
 /**
  * Represents an [Individual] in the OWL 2 specification.
  *
  * [Individual]: https://www.w3.org/TR/owl2-syntax/#Individuals
  *
+ * @superstruct{CowlPrimitive}
  * @struct CowlIndividual
- * @extends CowlPrimitive
+ */
+cowl_struct_decl(CowlIndividual);
+
+/**
+ * @defgroup CowlIndividual CowlIndividual API
+ * @{
  */
 
 /**
@@ -35,14 +37,14 @@ cowl_struct_decl(CowlIndividual);
  *
  * @param ind The individual.
  * @return True if the underlying individual is named, false otherwise.
- *
- * @public @memberof CowlIndividual
  */
 COWL_PURE
 COWL_INLINE
 bool cowl_individual_is_named(CowlAnyIndividual *ind) {
     return cowl_get_type(ind) == COWL_OT_I_NAMED;
 }
+
+/// @}
 
 COWL_END_DECLS
 

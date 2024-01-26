@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlObjectType enumeration.
+ * Defines the CowlObjectType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -21,263 +21,258 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlString);
 /// @endcond
 
-/**
- * @defgroup CowlObjectType CowlObjectType
- * @{
- */
-
-/// Represents the type of CowlObject.
+/// Represents the type of @type{#CowlObject}.
 typedef enum CowlObjectType {
 
     /// @name Base types
 
-    /// CowlString - String.
+    /// @type{#CowlString} - String.
     COWL_OT_STRING = 0,
 
-    /// CowlVector - Vector.
+    /// @type{#CowlVector} - Vector.
     COWL_OT_VECTOR,
 
-    /// CowlTable - Hash table.
+    /// @type{#CowlTable} - Hash table.
     COWL_OT_TABLE,
 
-    /// CowlIRI - IRI.
+    /// @type{#CowlIRI} - IRI.
     COWL_OT_IRI,
 
-    /// CowlLiteral - Literal.
+    /// @type{#CowlLiteral} - Literal.
     COWL_OT_LITERAL,
 
-    /// CowlFacetRestr - Facet restriction.
+    /// @type{#CowlFacetRestr} - Facet restriction.
     COWL_OT_FACET_RESTR,
 
-    /// CowlOntology - Ontology.
+    /// @type{#CowlOntology} - Ontology.
     COWL_OT_ONTOLOGY,
 
-    /// CowlManager - Ontology manager.
+    /// @type{#CowlManager} - Ontology manager.
     COWL_OT_MANAGER,
 
-    /// CowlSymTable - Symbol table.
+    /// @type{#CowlSymTable} - Symbol table.
     COWL_OT_SYM_TABLE,
 
-    /// CowlIStream - Ontology input stream.
+    /// @type{#CowlIStream} - Ontology input stream.
     COWL_OT_ISTREAM,
 
-    /// CowlOStream - Ontology output stream.
+    /// @type{#CowlOStream} - Ontology output stream.
     COWL_OT_OSTREAM,
 
-    /// CowlAnnotation - Annotation.
+    /// @type{#CowlAnnotation} - Annotation.
     COWL_OT_ANNOTATION,
 
-    /// CowlAnnotProp - Annotation property.
+    /// @type{#CowlAnnotProp} - Annotation property.
     COWL_OT_ANNOT_PROP,
 
     /// @name Axioms
 
-    /// CowlDeclAxiom - Declaration.
+    /// @type{#CowlDeclAxiom} - Declaration.
     COWL_OT_A_DECL,
 
-    /// CowlDatatypeDefAxiom - Datatype definition.
+    /// @type{#CowlDatatypeDefAxiom} - Datatype definition.
     COWL_OT_A_DATATYPE_DEF,
 
-    /// CowlSubClsAxiom - Subclass.
+    /// @type{#CowlSubClsAxiom} - Subclass.
     COWL_OT_A_SUB_CLASS,
 
-    /// CowlNAryClsAxiom - Equivalent classes.
+    /// @type{#CowlNAryClsAxiom} - Equivalent classes.
     COWL_OT_A_EQUIV_CLASSES,
 
-    /// CowlNAryClsAxiom - Disjoint classes.
+    /// @type{#CowlNAryClsAxiom} - Disjoint classes.
     COWL_OT_A_DISJ_CLASSES,
 
-    /// CowlDisjUnionAxiom - Disjoint union.
+    /// @type{#CowlDisjUnionAxiom} - Disjoint union.
     COWL_OT_A_DISJ_UNION,
 
-    /// CowlClsAssertAxiom - Class assertion.
+    /// @type{#CowlClsAssertAxiom} - Class assertion.
     COWL_OT_A_CLASS_ASSERT,
 
-    /// CowlNAryIndAxiom - Same individual.
+    /// @type{#CowlNAryIndAxiom} - Same individual.
     COWL_OT_A_SAME_IND,
 
-    /// CowlNAryIndAxiom - Different individuals.
+    /// @type{#CowlNAryIndAxiom} - Different individuals.
     COWL_OT_A_DIFF_IND,
 
-    /// CowlObjPropAssertAxiom - Object property assertion.
+    /// @type{#CowlObjPropAssertAxiom} - Object property assertion.
     COWL_OT_A_OBJ_PROP_ASSERT,
 
-    /// CowlObjPropAssertAxiom - Negative object property assertion.
+    /// @type{#CowlObjPropAssertAxiom} - Negative object property assertion.
     COWL_OT_A_NEG_OBJ_PROP_ASSERT,
 
-    /// CowlDataPropAssertAxiom - Data property assertion.
+    /// @type{#CowlDataPropAssertAxiom} - Data property assertion.
     COWL_OT_A_DATA_PROP_ASSERT,
 
-    /// CowlDataPropAssertAxiom - Negative data property assertion.
+    /// @type{#CowlDataPropAssertAxiom} - Negative data property assertion.
     COWL_OT_A_NEG_DATA_PROP_ASSERT,
 
-    /// CowlSubObjPropAxiom - Object subproperty.
+    /// @type{#CowlSubObjPropAxiom} - Object subproperty.
     COWL_OT_A_SUB_OBJ_PROP,
 
-    /// CowlInvObjPropAxiom - Inverse object properties.
+    /// @type{#CowlInvObjPropAxiom} - Inverse object properties.
     COWL_OT_A_INV_OBJ_PROP,
 
-    /// CowlNAryObjPropAxiom - Equivalent object properties.
+    /// @type{#CowlNAryObjPropAxiom} - Equivalent object properties.
     COWL_OT_A_EQUIV_OBJ_PROP,
 
-    /// CowlNAryObjPropAxiom - Disjoint object properties.
+    /// @type{#CowlNAryObjPropAxiom} - Disjoint object properties.
     COWL_OT_A_DISJ_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Functional object property.
+    /// @type{#CowlObjPropCharAxiom} - Functional object property.
     COWL_OT_A_FUNC_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Inverse functional object property.
+    /// @type{#CowlObjPropCharAxiom} - Inverse functional object property.
     COWL_OT_A_INV_FUNC_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Symmetric object property.
+    /// @type{#CowlObjPropCharAxiom} - Symmetric object property.
     COWL_OT_A_SYMM_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Asymmetric object property.
+    /// @type{#CowlObjPropCharAxiom} - Asymmetric object property.
     COWL_OT_A_ASYMM_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Transitive object property.
+    /// @type{#CowlObjPropCharAxiom} - Transitive object property.
     COWL_OT_A_TRANS_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Reflexive object property.
+    /// @type{#CowlObjPropCharAxiom} - Reflexive object property.
     COWL_OT_A_REFL_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Irreflexive object property.
+    /// @type{#CowlObjPropCharAxiom} - Irreflexive object property.
     COWL_OT_A_IRREFL_OBJ_PROP,
 
-    /// CowlObjPropCharAxiom - Object property domain.
+    /// @type{#CowlObjPropCharAxiom} - Object property domain.
     COWL_OT_A_OBJ_PROP_DOMAIN,
 
-    /// CowlObjPropCharAxiom - Object property range.
+    /// @type{#CowlObjPropCharAxiom} - Object property range.
     COWL_OT_A_OBJ_PROP_RANGE,
 
-    /// CowlSubDataPropAxiom - Data subproperty.
+    /// @type{#CowlSubDataPropAxiom} - Data subproperty.
     COWL_OT_A_SUB_DATA_PROP,
 
-    /// CowlNAryDataPropAxiom - Equivalent data properties.
+    /// @type{#CowlNAryDataPropAxiom} - Equivalent data properties.
     COWL_OT_A_EQUIV_DATA_PROP,
 
-    /// CowlNAryDataPropAxiom - Disjoint data properties.
+    /// @type{#CowlNAryDataPropAxiom} - Disjoint data properties.
     COWL_OT_A_DISJ_DATA_PROP,
 
-    /// CowlFuncDataPropAxiom - Functional data property.
+    /// @type{#CowlFuncDataPropAxiom} - Functional data property.
     COWL_OT_A_FUNC_DATA_PROP,
 
-    /// CowlDataPropDomainAxiom - Data property domain.
+    /// @type{#CowlDataPropDomainAxiom} - Data property domain.
     COWL_OT_A_DATA_PROP_DOMAIN,
 
-    /// CowlDataPropRangeAxiom - Data property range.
+    /// @type{#CowlDataPropRangeAxiom} - Data property range.
     COWL_OT_A_DATA_PROP_RANGE,
 
-    /// CowlHasKeyAxiom - Has key.
+    /// @type{#CowlHasKeyAxiom} - Has key.
     COWL_OT_A_HAS_KEY,
 
-    /// CowlAnnotAssertAxiom - Annotation assertion.
+    /// @type{#CowlAnnotAssertAxiom} - Annotation assertion.
     COWL_OT_A_ANNOT_ASSERT,
 
-    /// CowlSubAnnotPropAxiom - Annotation subproperty.
+    /// @type{#CowlSubAnnotPropAxiom} - Annotation subproperty.
     COWL_OT_A_SUB_ANNOT_PROP,
 
-    /// CowlAnnotPropDomainAxiom - Annotation property domain.
+    /// @type{#CowlAnnotPropDomainAxiom} - Annotation property domain.
     COWL_OT_A_ANNOT_PROP_DOMAIN,
 
-    /// CowlAnnotPropRangeAxiom - Annotation property range.
+    /// @type{#CowlAnnotPropRangeAxiom} - Annotation property range.
     COWL_OT_A_ANNOT_PROP_RANGE,
 
     /// @name Class expressions
 
-    /// CowlClass - class.
+    /// @type{#CowlClass} - class.
     COWL_OT_CE_CLASS,
 
-    /// CowlObjQuant - "some values from" object property restriction.
+    /// @type{#CowlObjQuant} - "some values from" object property restriction.
     COWL_OT_CE_OBJ_SOME,
 
-    /// CowlObjQuant - "all values from" object property restriction.
+    /// @type{#CowlObjQuant} - "all values from" object property restriction.
     COWL_OT_CE_OBJ_ALL,
 
-    /// CowlObjCard - "minimum cardinality" object property restriction.
+    /// @type{#CowlObjCard} - "minimum cardinality" object property restriction.
     COWL_OT_CE_OBJ_MIN_CARD,
 
-    /// CowlObjCard - "maximum cardinality" object property restriction.
+    /// @type{#CowlObjCard} - "maximum cardinality" object property restriction.
     COWL_OT_CE_OBJ_MAX_CARD,
 
-    /// CowlObjCard - "exact cardinality" object property restriction.
+    /// @type{#CowlObjCard} - "exact cardinality" object property restriction.
     COWL_OT_CE_OBJ_EXACT_CARD,
 
-    /// CowlObjHasValue - "has value" object property restriction.
+    /// @type{#CowlObjHasValue} - "has value" object property restriction.
     COWL_OT_CE_OBJ_HAS_VALUE,
 
-    /// CowlObjHasSelf - "has self" object property restriction.
+    /// @type{#CowlObjHasSelf} - "has self" object property restriction.
     COWL_OT_CE_OBJ_HAS_SELF,
 
-    /// CowlDataQuant - "some values from" data property restriction.
+    /// @type{#CowlDataQuant} - "some values from" data property restriction.
     COWL_OT_CE_DATA_SOME,
 
-    /// CowlDataQuant - "all values from" data property restriction.
+    /// @type{#CowlDataQuant} - "all values from" data property restriction.
     COWL_OT_CE_DATA_ALL,
 
-    /// CowlDataCard - "min cardinality" data property restriction.
+    /// @type{#CowlDataCard} - "min cardinality" data property restriction.
     COWL_OT_CE_DATA_MIN_CARD,
 
-    /// CowlDataCard - "max cardinality" data property restriction.
+    /// @type{#CowlDataCard} - "max cardinality" data property restriction.
     COWL_OT_CE_DATA_MAX_CARD,
 
-    /// CowlDataCard - "exact cardinality" data property restriction.
+    /// @type{#CowlDataCard} - "exact cardinality" data property restriction.
     COWL_OT_CE_DATA_EXACT_CARD,
 
-    /// CowlDataHasValue - "has value" data property restriction.
+    /// @type{#CowlDataHasValue} - "has value" data property restriction.
     COWL_OT_CE_DATA_HAS_VALUE,
 
-    /// CowlNAryBool - Intersection of class expressions.
+    /// @type{#CowlNAryBool} - Intersection of class expressions.
     COWL_OT_CE_OBJ_INTERSECT,
 
-    /// CowlNAryBool - Union of class expressions.
+    /// @type{#CowlNAryBool} - Union of class expressions.
     COWL_OT_CE_OBJ_UNION,
 
-    /// CowlObjCompl - Complement of a class expression.
+    /// @type{#CowlObjCompl} - Complement of a class expression.
     COWL_OT_CE_OBJ_COMPL,
 
-    /// CowlObjOneOf - Enumeration of individuals.
+    /// @type{#CowlObjOneOf} - Enumeration of individuals.
     COWL_OT_CE_OBJ_ONE_OF,
 
     /// @name Data property expressions
 
-    /// CowlDataProp - Data property.
+    /// @type{#CowlDataProp} - Data property.
     COWL_OT_DPE_DATA_PROP,
 
     /// @name Data ranges
 
-    /// CowlDatatype - Datatype.
+    /// @type{#CowlDatatype} - Datatype.
     COWL_OT_DR_DATATYPE,
 
-    /// CowlDatatypeRestr - Datatype restriction.
+    /// @type{#CowlDatatypeRestr} - Datatype restriction.
     COWL_OT_DR_DATATYPE_RESTR,
 
-    /// CowlNAryData - Intersection of data ranges.
+    /// @type{#CowlNAryData} - Intersection of data ranges.
     COWL_OT_DR_DATA_INTERSECT,
 
-    /// CowlNAryData - Union of data ranges.
+    /// @type{#CowlNAryData} - Union of data ranges.
     COWL_OT_DR_DATA_UNION,
 
-    /// CowlDataCompl - Complement of data ranges.
+    /// @type{#CowlDataCompl} - Complement of data ranges.
     COWL_OT_DR_DATA_COMPL,
 
-    /// CowlDataOneOf - Enumeration of literals.
+    /// @type{#CowlDataOneOf} - Enumeration of literals.
     COWL_OT_DR_DATA_ONE_OF,
 
     /// @name Individuals
 
-    /// CowlAnonInd - Anonymous individual.
+    /// @type{#CowlAnonInd} - Anonymous individual.
     COWL_OT_I_ANONYMOUS,
 
-    /// CowlNamedInd - Named individual.
+    /// @type{#CowlNamedInd} - Named individual.
     COWL_OT_I_NAMED,
 
     /// @name Object property expressions
 
-    /// CowlObjProp - Object property.
+    /// @type{#CowlObjProp} - Object property.
     COWL_OT_OPE_OBJ_PROP,
 
-    /// CowlInvObjProp - Inverse object property.
+    /// @type{#CowlInvObjProp} - Inverse object property.
     COWL_OT_OPE_INV_OBJ_PROP,
 
     /// @name Markers
@@ -319,6 +314,11 @@ typedef enum CowlObjectType {
     COWL_OT_LAST_DR = COWL_OT_DR_DATA_ONE_OF
 
 } CowlObjectType;
+
+/**
+ * @defgroup CowlObjectType CowlObjectType API
+ * @{
+ */
 
 /**
  * Returns a human-readable string representation of the specified object type.

@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlCardType enumeration.
+ * Defines the CowlCardType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -17,7 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of CowlObjCard and CowlDataCard.
+/// Represents the type of @type{#CowlObjCard} and @type{#CowlDataCard}.
 typedef enum CowlCardType {
 
     /// @name Types

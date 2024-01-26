@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlNAryClsAxiom);
 /// @endcond
 
 /**
@@ -29,8 +28,14 @@ cowl_struct_decl(CowlNAryClsAxiom);
  * [EquivalentClasses]: https://www.w3.org/TR/owl2-syntax/#Equivalent_Classes
  * [DisjointClasses]: https://www.w3.org/TR/owl2-syntax/#Disjoint_Classes
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlNAryClsAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlNAryClsAxiom);
+
+/**
+ * @defgroup CowlNAryClsAxiom CowlNAryClsAxiom API
+ * @{
  */
 
 /**
@@ -38,10 +43,8 @@ cowl_struct_decl(CowlNAryClsAxiom);
  *
  * @param type N-ary class expression axiom type.
  * @param classes The classes.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlNAryClsAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -57,8 +60,6 @@ cowl_nary_cls_axiom(CowlNAryAxiomType type, CowlVector *classes, CowlVector *ann
  *
  * @param axiom The axiom.
  * @return The type.
- *
- * @public @memberof CowlNAryClsAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -71,8 +72,6 @@ CowlNAryAxiomType cowl_nary_cls_axiom_get_type(CowlNAryClsAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The classes.
- *
- * @public @memberof CowlNAryClsAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -85,14 +84,14 @@ CowlVector *cowl_nary_cls_axiom_get_classes(CowlNAryClsAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlNAryClsAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_cls_axiom_get_annot(CowlNAryClsAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

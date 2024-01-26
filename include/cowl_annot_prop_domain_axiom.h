@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlAnnotProp);
 cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlAnnotPropDomainAxiom);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlAnnotPropDomainAxiom);
  *
  * [AnnotationPropertyDomain]: https://www.w3.org/TR/owl2-syntax/#Annotation_Property_Domain
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlAnnotPropDomainAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlAnnotPropDomainAxiom);
+
+/**
+ * @defgroup CowlAnnotPropDomainAxiom CowlAnnotPropDomainAxiom API
+ * @{
  */
 
 /**
@@ -37,10 +42,8 @@ cowl_struct_decl(CowlAnnotPropDomainAxiom);
  *
  * @param prop The annotation property.
  * @param domain Domain of the annotation property.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -55,8 +58,6 @@ cowl_annot_prop_domain_axiom(CowlAnnotProp *prop, CowlIRI *domain, CowlVector *a
  *
  * @param axiom The axiom.
  * @return The annotation property.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -69,8 +70,6 @@ CowlAnnotProp *cowl_annot_prop_domain_axiom_get_prop(CowlAnnotPropDomainAxiom *a
  *
  * @param axiom The axiom.
  * @return Domain of the annotation property.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -83,14 +82,14 @@ CowlIRI *cowl_annot_prop_domain_axiom_get_domain(CowlAnnotPropDomainAxiom *axiom
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlAnnotPropDomainAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_annot_prop_domain_axiom_get_annot(CowlAnnotPropDomainAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

@@ -1,5 +1,0 @@
-==========
-Subclasses
-==========
-
-.. doxygenstruct:: CowlSubClsAxiom

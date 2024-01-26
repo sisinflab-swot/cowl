@@ -40,11 +40,14 @@ typedef struct CowlVocab {
 } CowlVocab;
 
 /**
+ * @defgroup CowlVocab CowlVocab API
+ * @{
+ */
+
+/**
  * Returns the vocabulary of reserved terms.
  *
  * @return Vocabulary of reserved terms.
- *
- * @public @memberof CowlVocab
  */
 COWL_API
 COWL_CONST
@@ -55,8 +58,6 @@ CowlVocab const *cowl_vocab(void);
  *
  * @param prefix The prefix.
  * @return True if the prefix is reserved, false otherwise.
- *
- * @public @related CowlVocab
  */
 COWL_API
 COWL_PURE
@@ -67,8 +68,6 @@ bool cowl_vocab_is_reserved_prefix(CowlString *prefix);
  *
  * @param ns The namespace.
  * @return True if the namespace is reserved, false otherwise.
- *
- * @public @related CowlVocab
  */
 COWL_API
 COWL_PURE
@@ -79,8 +78,6 @@ bool cowl_vocab_is_reserved_ns(CowlString *ns);
  *
  * @param prefix The prefix.
  * @return True if the prefix is reserved, false otherwise.
- *
- * @public @related CowlVocab
  */
 COWL_API
 COWL_PURE
@@ -91,12 +88,12 @@ bool cowl_vocab_is_reserved_prefix_raw(UString prefix);
  *
  * @param ns The namespace.
  * @return True if the namespace is reserved, false otherwise.
- *
- * @public @related CowlVocab
  */
 COWL_API
 COWL_PURE
 bool cowl_vocab_is_reserved_ns_raw(UString ns);
+
+/// @}
 
 COWL_END_DECLS
 

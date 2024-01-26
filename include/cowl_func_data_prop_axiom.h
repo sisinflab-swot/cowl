@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlDataPropExp);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlFuncDataPropAxiom);
 /// @endcond
 
 /**
@@ -28,18 +27,22 @@ cowl_struct_decl(CowlFuncDataPropAxiom);
  *
  * [FunctionalDataProperty]: https://www.w3.org/TR/owl2-syntax/#Functional_Data_Properties
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlFuncDataPropAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlFuncDataPropAxiom);
+
+/**
+ * @defgroup CowlFuncDataPropAxiom CowlFuncDataPropAxiom API
+ * @{
  */
 
 /**
  * Returns a functional data property axiom.
  *
  * @param prop The data property.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -52,8 +55,6 @@ CowlFuncDataPropAxiom *cowl_func_data_prop_axiom(CowlAnyDataPropExp *prop, CowlV
  *
  * @param axiom The axiom.
  * @return The data property.
- *
- * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -66,14 +67,14 @@ CowlDataPropExp *cowl_func_data_prop_axiom_get_prop(CowlFuncDataPropAxiom *axiom
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlFuncDataPropAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_func_data_prop_axiom_get_annot(CowlFuncDataPropAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

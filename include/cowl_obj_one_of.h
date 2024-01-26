@@ -19,7 +19,6 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlObjOneOf);
 /// @endcond
 
 /**
@@ -27,8 +26,14 @@ cowl_struct_decl(CowlObjOneOf);
  *
  * [ObjectOneOf]: https://www.w3.org/TR/owl2-syntax/#Enumeration_of_Individuals
  *
+ * @superstruct{CowlClsExp}
  * @struct CowlObjOneOf
- * @extends CowlClsExp
+ */
+cowl_struct_decl(CowlObjOneOf);
+
+/**
+ * @defgroup CowlObjOneOf CowlObjOneOf API
+ * @{
  */
 
 /**
@@ -36,8 +41,6 @@ cowl_struct_decl(CowlObjOneOf);
  *
  * @param inds The individuals.
  * @return Individual enumeration, or NULL on error.
- *
- * @public @memberof CowlObjOneOf
  */
 COWL_RETAINED
 COWL_INLINE
@@ -50,14 +53,14 @@ CowlObjOneOf *cowl_obj_one_of(CowlVector *inds) {
  *
  * @param exp The individual enumeration.
  * @return The individuals.
- *
- * @public @memberof CowlObjOneOf
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_obj_one_of_get_inds(CowlObjOneOf *exp) {
     return (CowlVector *)cowl_get_field(exp, 0);
 }
+
+/// @}
 
 COWL_END_DECLS
 

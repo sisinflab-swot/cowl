@@ -21,7 +21,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlIndividual);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlNAryIndAxiom);
 /// @endcond
 
 /**
@@ -30,8 +29,14 @@ cowl_struct_decl(CowlNAryIndAxiom);
  * [SameIndividuals]: https://www.w3.org/TR/owl2-syntax/#Individual_Equality
  * [DifferentIndividuals]: https://www.w3.org/TR/owl2-syntax/#Individual_Inequality
  *
+ * @superstruct{CowlAxiom}
  * @struct CowlNAryIndAxiom
- * @extends CowlAxiom
+ */
+cowl_struct_decl(CowlNAryIndAxiom);
+
+/**
+ * @defgroup CowlNAryIndAxiom CowlNAryIndAxiom API
+ * @{
  */
 
 /**
@@ -39,10 +44,8 @@ cowl_struct_decl(CowlNAryIndAxiom);
  *
  * @param type The type.
  * @param individuals The individuals.
- * @param annot [optional] The annotations.
+ * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
- *
- * @public @memberof CowlNAryIndAxiom
  */
 COWL_RETAINED
 COWL_INLINE
@@ -58,8 +61,6 @@ cowl_nary_ind_axiom(CowlNAryAxiomType type, CowlVector *individuals, CowlVector 
  *
  * @param axiom The axiom.
  * @return The type.
- *
- * @public @memberof CowlNAryIndAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -72,8 +73,6 @@ CowlNAryAxiomType cowl_nary_ind_axiom_get_type(CowlNAryIndAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The individuals.
- *
- * @public @memberof CowlNAryIndAxiom
  */
 COWL_PURE
 COWL_INLINE
@@ -86,14 +85,14 @@ CowlVector *cowl_nary_ind_axiom_get_individuals(CowlNAryIndAxiom *axiom) {
  *
  * @param axiom The axiom.
  * @return The annotations.
- *
- * @public @memberof CowlNAryIndAxiom
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_nary_ind_axiom_get_annot(CowlNAryIndAxiom *axiom) {
     return (CowlVector *)cowl_get_opt_field(axiom);
 }
+
+/// @}
 
 COWL_END_DECLS
 

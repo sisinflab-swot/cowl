@@ -18,7 +18,6 @@
 COWL_BEGIN_DECLS
 
 /// @cond
-cowl_struct_decl(CowlSymTable);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlTable);
 /// @endcond
@@ -26,7 +25,14 @@ cowl_struct_decl(CowlTable);
 /**
  * Maps symbols to OWL constructs.
  *
+ * @superstruct{CowlObject}
  * @struct CowlSymTable
+ */
+cowl_struct_decl(CowlSymTable);
+
+/**
+ * @defgroup CowlSymTable CowlSymTable API
+ * @{
  */
 
 /**
@@ -35,8 +41,6 @@ cowl_struct_decl(CowlTable);
  * @param st The symbol table.
  * @param reverse If true, the reversed map (namespaces to prefixes) is returned.
  * @return Prefix to namespace map, or NULL on error.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 COWL_PURE
@@ -48,8 +52,6 @@ CowlTable *cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse);
  * @param st The symbol table.
  * @param prefix The prefix.
  * @return Namespace associated with the prefix, or NULL if the prefix cannot be found.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 COWL_PURE
@@ -61,8 +63,6 @@ CowlString *cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix);
  * @param st The symbol table.
  * @param ns The namespace.
  * @return Prefix associated with the namespace, or NULL if the prefix cannot be found.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 COWL_PURE
@@ -76,8 +76,6 @@ CowlString *cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns);
  * @param ns The namespace.
  * @param overwrite If true, the new mapping overwrites the previous one.
  * @return Return code.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, CowlString *ns,
@@ -91,8 +89,6 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
  * @param ns The namespace.
  * @param overwrite If true, the new mapping overwrites the previous one.
  * @return Return code.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 cowl_ret
@@ -104,8 +100,6 @@ cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns,
  * @param st The symbol table.
  * @param prefix The prefix.
  * @return Return code.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix);
@@ -116,8 +110,6 @@ cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix);
  * @param st The symbol table.
  * @param ns The namespace.
  * @return Return code.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns);
@@ -129,8 +121,6 @@ cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns);
  * @param src The source symbol table.
  * @param overwrite If true, conflicting prefixes are overwritten in the destination.
  * @return Return code.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 cowl_ret cowl_sym_table_merge(CowlSymTable *dst, CowlSymTable *src, bool overwrite);
@@ -142,8 +132,6 @@ cowl_ret cowl_sym_table_merge(CowlSymTable *dst, CowlSymTable *src, bool overwri
  * @param ns The short namespace.
  * @param rem The remainder.
  * @return IRI instance, or NULL on error.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 COWL_RETAINED
@@ -155,12 +143,12 @@ CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem);
  * @param st The symbol table.
  * @param short_iri The short IRI.
  * @return IRI instance, or NULL on error.
- *
- * @public @memberof CowlSymTable
  */
 COWL_API
 COWL_RETAINED
 CowlIRI *cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri);
+
+/// @}
 
 COWL_END_DECLS
 

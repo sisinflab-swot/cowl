@@ -1,5 +1,0 @@
-=====================
-Annotation Assertions
-=====================
-
-.. doxygenstruct:: CowlAnnotAssertAxiom

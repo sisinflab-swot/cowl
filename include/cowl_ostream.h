@@ -20,18 +20,23 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlSymTable);
-cowl_struct_decl(CowlOStream);
 /// @endcond
 
 /**
  * Ontology output stream.
  *
- * A lightweight way to serialize knowledge without creating CowlOntology objects.
+ * A lightweight way to serialize knowledge without creating @type{#CowlOntology} objects.
  *
- * @see CowlWriter
+ * @see @type{#CowlWriter}
  *
+ * @superstruct{CowlObject}
  * @struct CowlOStream
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlOStream);
+
+/**
+ * @defgroup CowlOStream CowlOStream API
+ * @{
  */
 
 /**
@@ -39,8 +44,6 @@ cowl_struct_decl(CowlOStream);
  *
  * @param stream The ontology output stream.
  * @return The manager.
- *
- * @public @memberof CowlOStream
  */
 COWL_API
 COWL_PURE
@@ -51,8 +54,6 @@ CowlManager *cowl_ostream_get_manager(CowlOStream *stream);
  *
  * @param stream The ontology output stream.
  * @return The symbol table.
- *
- * @public @memberof CowlOStream
  */
 COWL_API
 COWL_PURE
@@ -64,8 +65,6 @@ CowlSymTable *cowl_ostream_get_sym_table(CowlOStream *stream);
  * @param stream The ontology output stream.
  * @param header The ontology header.
  * @return Return code.
- *
- * @public @memberof CowlOStream
  */
 COWL_API
 cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader header);
@@ -76,8 +75,6 @@ cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader heade
  * @param stream The ontology output stream.
  * @param axiom The axiom.
  * @return Return code.
- *
- * @public @memberof CowlOStream
  */
 COWL_API
 cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom);
@@ -87,8 +84,6 @@ cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom);
  *
  * @param stream The ontology output stream.
  * @return Return code.
- *
- * @public @memberof CowlOStream
  */
 COWL_API
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream);
@@ -99,11 +94,11 @@ cowl_ret cowl_ostream_write_footer(CowlOStream *stream);
  * @param stream The ontology output stream.
  * @param ontology The ontology.
  * @return Return code.
- *
- * @public @memberof CowlOStream
  */
 COWL_API
 cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *ontology);
+
+/// @}
 
 COWL_END_DECLS
 

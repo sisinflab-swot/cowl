@@ -1,5 +1,5 @@
 /**
- * Defines the #CowlCharAxiomType enumeration.
+ * Defines the CowlCharAxiomType enumeration.
  *
  * @author Ivano Bilenchi
  *
@@ -17,7 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of CowlObjPropCharAxiom.
+/// Represents the type of @type{#CowlObjPropCharAxiom}.
 typedef enum CowlCharAxiomType {
 
     /// @name Types

@@ -18,14 +18,16 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlObject);
-/// @endcond
-
 /**
  * The root pseudo-class.
  *
  * @struct CowlObject
+ */
+cowl_struct_decl(CowlObject);
+
+/**
+ * @defgroup CowlObject CowlObject API
+ * @{
  */
 
 /**
@@ -33,8 +35,6 @@ cowl_struct_decl(CowlObject);
  *
  * @param object The object.
  * @return Retained object.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_RETAINED
@@ -44,8 +44,6 @@ CowlAny *cowl_retain(CowlAny *object);
  * Releases the specified object.
  *
  * @param object The object.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 void cowl_release(CowlAny *object);
@@ -55,8 +53,6 @@ void cowl_release(CowlAny *object);
  *
  * @param object The object.
  * @return The type.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -67,8 +63,6 @@ CowlObjectType cowl_get_type(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is a primitive, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -79,8 +73,6 @@ bool cowl_is_primitive(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is an entity, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -91,8 +83,6 @@ bool cowl_is_entity(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is an axiom, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -103,8 +93,6 @@ bool cowl_is_axiom(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is a class expression, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -115,8 +103,6 @@ bool cowl_is_cls_exp(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is an object property expression, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -127,8 +113,6 @@ bool cowl_is_obj_prop_exp(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is a data property expression, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -139,8 +123,6 @@ bool cowl_is_data_prop_exp(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is an individual, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -151,8 +133,6 @@ bool cowl_is_individual(CowlAny *object);
  *
  * @param object The object
  * @return True if the object is a data range, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -163,8 +143,6 @@ bool cowl_is_data_range(CowlAny *object);
  *
  * @param object The object.
  * @return IRI or NULL.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -175,8 +153,6 @@ CowlIRI *cowl_get_iri(CowlAny *object);
  *
  * @param object The object.
  * @return IRI namespace or NULL.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -187,8 +163,6 @@ CowlString *cowl_get_ns(CowlAny *object);
  *
  * @param object The object.
  * @return IRI remainder or NULL.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -199,8 +173,6 @@ CowlString *cowl_get_rem(CowlAny *object);
  *
  * @param object The object.
  * @return String representation, or NULL on error.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_RETAINED
@@ -214,8 +186,6 @@ CowlString *cowl_to_string(CowlAny *object);
  *
  * @param object The object.
  * @return String representation, or NULL on error.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_RETAINED
@@ -227,8 +197,6 @@ CowlString *cowl_to_debug_string(CowlAny *object);
  * @param lhs LHS of the equality relation.
  * @param rhs RHS of the equality relation.
  * @return True if the equality relation holds, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -240,8 +208,6 @@ bool cowl_equals(CowlAny *lhs, CowlAny *rhs);
  * @param object The object.
  * @param iri_str IRI string.
  * @return True if the object has an IRI that matches the string, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -252,8 +218,6 @@ bool cowl_equals_iri_string(CowlAny *object, UString iri_str);
  *
  * @param object The object.
  * @return True if the object is reserved, false otherwise.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -264,8 +228,6 @@ bool cowl_is_reserved(CowlAny *object);
  *
  * @param object The object.
  * @return The hash value.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 COWL_PURE
@@ -278,8 +240,6 @@ ulib_uint cowl_hash(CowlAny *object);
  * @param flags Iteration flags.
  * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlObject
  */
 COWL_API
 bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
@@ -288,14 +248,15 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
  * Releases the specified objects.
  *
  * @param ... The objects.
- *
- * @public @related CowlObject
+ * @alias void cowl_release_all(...);
  */
 #define cowl_release_all(...)                                                                      \
     do {                                                                                           \
         CowlAny *p_cowl_release_all_##__LINE__[] = { __VA_ARGS__, NULL };                          \
         cowl_release_all_impl(p_cowl_release_all_##__LINE__);                                      \
     } while (0)
+
+/// @}
 
 COWL_END_DECLS
 

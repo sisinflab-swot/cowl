@@ -20,7 +20,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlDatatype);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlDatatypeRestr);
 /// @endcond
 
 /**
@@ -28,8 +27,14 @@ cowl_struct_decl(CowlDatatypeRestr);
  *
  * [DatatypeRestriction]: https://www.w3.org/TR/owl2-syntax/#Datatype_Restrictions
  *
+ * @superstruct{CowlDataRange}
  * @struct CowlDatatypeRestr
- * @extends CowlDataRange
+ */
+cowl_struct_decl(CowlDatatypeRestr);
+
+/**
+ * @defgroup CowlDatatypeRestr CowlDatatypeRestr API
+ * @{
  */
 
 /**
@@ -38,8 +43,6 @@ cowl_struct_decl(CowlDatatypeRestr);
  * @param datatype The datatype that this data range restricts.
  * @param restrictions Set of facet restrictions.
  * @return Datatype restriction, or NULL on error.
- *
- * @public @memberof CowlDatatypeRestr
  */
 COWL_RETAINED
 COWL_INLINE
@@ -52,8 +55,6 @@ CowlDatatypeRestr *cowl_datatype_restr(CowlDatatype *datatype, CowlVector *restr
  *
  * @param restr The datatype restriction.
  * @return The datatype.
- *
- * @public @memberof CowlDatatypeRestr
  */
 COWL_PURE
 COWL_INLINE
@@ -66,14 +67,14 @@ CowlDatatype *cowl_datatype_restr_get_datatype(CowlDatatypeRestr *restr) {
  *
  * @param restr The datatype restriction.
  * @return The facet restrictions.
- *
- * @public @memberof CowlDatatypeRestr
  */
 COWL_PURE
 COWL_INLINE
 CowlVector *cowl_datatype_restr_get_restrictions(CowlDatatypeRestr *restr) {
     return (CowlVector *)cowl_get_field(restr, 1);
 }
+
+/// @}
 
 COWL_END_DECLS
 

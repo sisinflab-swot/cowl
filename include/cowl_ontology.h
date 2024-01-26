@@ -28,7 +28,6 @@ cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlSymTable);
 cowl_struct_decl(CowlVector);
-cowl_struct_decl(CowlOntology);
 /// @endcond
 
 /**
@@ -36,8 +35,14 @@ cowl_struct_decl(CowlOntology);
  *
  * [Ontology]: https://www.w3.org/TR/owl2-syntax/#Ontologies
  *
+ * @superstruct{CowlObject}
  * @struct CowlOntology
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlOntology);
+
+/**
+ * @defgroup CowlOntology CowlOntology API
+ * @{
  */
 
 /**
@@ -45,8 +50,6 @@ cowl_struct_decl(CowlOntology);
  *
  * @param onto The ontology.
  * @return The manager.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -57,8 +60,6 @@ CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
  *
  * @param onto The ontology.
  * @return The symbol table.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -69,8 +70,6 @@ CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
  *
  * @param onto The ontology.
  * @return The ontology ID.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -81,8 +80,6 @@ CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
  *
  * @param onto The ontology.
  * @param iri The IRI.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
@@ -92,8 +89,6 @@ void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
  *
  * @param onto The ontology.
  * @param version The version IRI.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
@@ -103,8 +98,6 @@ void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
  *
  * @param onto The ontology.
  * @return The annotations.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -116,8 +109,6 @@ CowlVector *cowl_ontology_get_annot(CowlOntology *onto);
  * @param onto The ontology.
  * @param annot The annotation.
  * @return Return code.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
@@ -127,8 +118,6 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
  *
  * @param onto The ontology.
  * @param annot The annotation.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
@@ -139,8 +128,6 @@ void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
  * @param onto The ontology.
  * @param iri Import IRI.
  * @return Imported ontology.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -152,8 +139,6 @@ CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
  * @param onto The ontology.
  * @param import The imported ontology.
  * @return Import IRI.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -165,8 +150,6 @@ CowlIRI *cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
  * @param onto The ontology.
  * @param import IRI of the imported ontology.
  * @return Return code.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import);
@@ -176,8 +159,6 @@ cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import);
  *
  * @param onto The ontology.
  * @param import IRI of the imported ontology.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
@@ -188,8 +169,6 @@ void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
  * @param onto The ontology.
  * @param axiom The axiom.
  * @return Return code.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
@@ -199,8 +178,6 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  *
  * @param onto The ontology.
  * @param axiom The axiom.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
@@ -211,8 +188,6 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  * @param onto The ontology.
  * @param imports If true, the query recurses over imported ontologies.
  * @return Number of axioms.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -224,8 +199,6 @@ ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports);
  * @param onto The ontology.
  * @param imports If true, the query recurses over imported ontologies.
  * @return Number of imports.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -238,8 +211,6 @@ ulib_uint cowl_ontology_imports_count(CowlOntology *onto, bool imports);
  * @param type The axiom type.
  * @param imports If true, the query recurses over imported ontologies.
  * @return Number of axioms.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -252,8 +223,6 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
  * @param primitive The primitive.
  * @param imports If true, the query recurses over imported ontologies.
  * @return Number of axioms.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -267,8 +236,6 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPri
  * @param flags Primitive flags.
  * @param imports If true, the query recurses over imported ontologies.
  * @return Number of primitives.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -282,8 +249,6 @@ cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, boo
  * @param primitive The primitive.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the primitive is referenced by an axiom, false otherwise.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -296,8 +261,6 @@ bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive
  * @param axiom The axiom.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the ontology contains the axiom, false otherwise.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 COWL_PURE
@@ -311,8 +274,6 @@ bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool impor
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
@@ -325,8 +286,6 @@ bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags fla
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter, bool imports);
@@ -338,8 +297,6 @@ bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter, bool 
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 bool cowl_ontology_iterate_import_iris(CowlOntology *onto, CowlIterator *iter, bool imports);
@@ -351,8 +308,6 @@ bool cowl_ontology_iterate_import_iris(CowlOntology *onto, CowlIterator *iter, b
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter, bool imports);
@@ -365,8 +320,6 @@ bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter, bool i
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
@@ -380,8 +333,6 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
@@ -397,8 +348,6 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_API
 bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive,
@@ -413,8 +362,6 @@ bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primiti
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_INLINE
 bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
@@ -431,8 +378,6 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_INLINE
 bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
@@ -449,8 +394,6 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_INLINE
 bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
@@ -467,8 +410,6 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, 
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_INLINE
 bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_class,
@@ -485,8 +426,6 @@ bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_c
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
- *
- * @public @memberof CowlOntology
  */
 COWL_INLINE
 bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter,
@@ -494,6 +433,8 @@ bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, Cow
     return cowl_ontology_iterate_related(onto, ind, COWL_AT_CLASS_ASSERT, COWL_PS_LEFT, iter,
                                          imports);
 }
+
+/// @}
 
 COWL_END_DECLS
 

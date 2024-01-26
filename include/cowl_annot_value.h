@@ -18,17 +18,19 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlAnnotValue);
-/// @endcond
-
 /**
  * Represents annotation values, which can be either anonymous individuals, IRIs, or literals.
  *
- * @see CowlAnnotation
+ * @see @type{#CowlAnnotation}
  *
+ * @superstruct{CowlObject}
  * @struct CowlAnnotValue
- * @extends CowlObject
+ */
+cowl_struct_decl(CowlAnnotValue);
+
+/**
+ * @defgroup CowlAnnotValue CowlAnnotValue API
+ * @{
  */
 
 /**
@@ -36,12 +38,12 @@ cowl_struct_decl(CowlAnnotValue);
  *
  * @param value The annotation value.
  * @return The type.
- *
- * @public @memberof CowlAnnotValue
  */
 COWL_API
 COWL_PURE
 CowlAnnotValueType cowl_annot_value_get_type(CowlAnyAnnotValue *value);
+
+/// @}
 
 COWL_END_DECLS
 
