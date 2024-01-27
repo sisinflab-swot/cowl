@@ -169,6 +169,16 @@ COWL_PURE
 CowlString *cowl_get_rem(CowlAny *object);
 
 /**
+ * Returns the object's annotations.
+ *
+ * @param object The object.
+ * @return The annotations, or NULL if the object has no annotations.
+ */
+COWL_API
+COWL_PURE
+CowlVector *cowl_get_annot(CowlAny *object);
+
+/**
  * Returns the string representation of the specified object.
  *
  * @param object The object.

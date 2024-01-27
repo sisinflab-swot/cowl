@@ -217,6 +217,14 @@ CowlString *cowl_get_rem(CowlAny *object) {
     return iri ? cowl_iri_get_rem(iri) : NULL;
 }
 
+CowlVector *cowl_get_annot(CowlAny *object) {
+    CowlObjectType type = cowl_get_type(object);
+    if (type >= COWL_OT_FIRST_A && type <= COWL_OT_LAST_A) return cowl_axiom_get_annot(object);
+    if (type == COWL_OT_ANNOTATION) return cowl_annotation_get_annot(object);
+    if (type == COWL_OT_ONTOLOGY) return cowl_ontology_get_annot(object);
+    return NULL;
+}
+
 static cowl_ret cowl_write_debug_impl(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
