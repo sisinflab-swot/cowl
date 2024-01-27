@@ -13,7 +13,7 @@
 #ifndef COWL_ENTITY_TYPE_H
 #define COWL_ENTITY_TYPE_H
 
-#include "cowl_compat.h"
+#include "cowl_attrs.h"
 
 COWL_BEGIN_DECLS
 

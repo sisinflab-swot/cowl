@@ -13,7 +13,8 @@
 #ifndef COWL_RET_H
 #define COWL_RET_H
 
-#include "cowl_compat.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 
 COWL_BEGIN_DECLS
 

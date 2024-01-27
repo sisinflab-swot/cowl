@@ -20,7 +20,8 @@
 #include <string.h>
 
 #include "cowl_any.h"
-#include "cowl_compat.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 #include "cowl_ret.h"
 
 #endif // COWL_STD_H

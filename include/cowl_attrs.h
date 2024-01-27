@@ -1,5 +1,5 @@
 /**
- * Defines miscellaneous compatibility macros.
+ * Defines API attributes.
  *
  * @author Ivano Bilenchi
  *
@@ -10,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_COMPAT_H
-#define COWL_COMPAT_H
+#ifndef COWL_ATTRS_H
+#define COWL_ATTRS_H
 
 #include "ulib.h"
 
@@ -65,20 +65,4 @@
 /// Suppresses unused variable warnings.
 #define cowl_unused ulib_unused
 
-/**
- * Struct type forward declaration.
- *
- * @param NAME Name of the struct type.
- */
-#define cowl_struct_decl(NAME) typedef struct NAME NAME
-
-/**
- * Checks whether the specified enum value is valid.
- *
- * @param T Enumeration name.
- * @param val Enumeration value.
- * @return True if the value is valid, false otherwise.
- */
-#define cowl_enum_value_is_valid(T, val) ((unsigned)(val) < COWL_##T##_COUNT)
-
-#endif // COWL_COMPAT_H
+#endif // COWL_ATTRS_H

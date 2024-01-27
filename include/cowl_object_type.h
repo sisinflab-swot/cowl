@@ -13,7 +13,8 @@
 #ifndef COWL_OBJECT_TYPE_H
 #define COWL_OBJECT_TYPE_H
 
-#include "cowl_compat.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 
 COWL_BEGIN_DECLS
 
