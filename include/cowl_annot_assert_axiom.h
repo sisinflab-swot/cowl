@@ -93,18 +93,6 @@ CowlAnnotValue *cowl_annot_assert_axiom_get_value(CowlAnnotAssertAxiom *axiom) {
     return (CowlAnnotValue *)cowl_get_field(axiom, 2);
 }
 
-/**
- * Gets the annotations of the specified axiom.
- *
- * @param axiom The axiom.
- * @return The annotations.
- */
-COWL_PURE
-COWL_INLINE
-CowlVector *cowl_annot_assert_axiom_get_annot(CowlAnnotAssertAxiom *axiom) {
-    return (CowlVector *)cowl_get_opt_field(axiom);
-}
-
 /// @}
 
 COWL_END_DECLS

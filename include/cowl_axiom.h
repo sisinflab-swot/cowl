@@ -54,7 +54,7 @@ CowlAxiomType cowl_axiom_get_type(CowlAnyAxiom *axiom) {
  * Gets the annotations of the specified axiom.
  *
  * @param axiom The axiom.
- * @return The annotations.
+ * @return The annotations, or NULL if the axiom has no annotations.
  */
 COWL_PURE
 COWL_INLINE

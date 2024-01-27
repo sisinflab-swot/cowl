@@ -62,18 +62,6 @@ CowlEntity *cowl_decl_axiom_get_entity(CowlDeclAxiom *axiom) {
     return (CowlEntity *)cowl_get_field(axiom, 0);
 }
 
-/**
- * Gets the annotations of the specified axiom.
- *
- * @param axiom The axiom.
- * @return The annotations.
- */
-COWL_PURE
-COWL_INLINE
-CowlVector *cowl_decl_axiom_get_annot(CowlDeclAxiom *axiom) {
-    return (CowlVector *)cowl_get_opt_field(axiom);
-}
-
 /// @}
 
 COWL_END_DECLS

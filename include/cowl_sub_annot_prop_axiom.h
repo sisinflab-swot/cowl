@@ -77,18 +77,6 @@ CowlAnnotProp *cowl_sub_annot_prop_axiom_get_super(CowlSubAnnotPropAxiom *axiom)
     return (CowlAnnotProp *)cowl_get_field(axiom, 1);
 }
 
-/**
- * Gets the annotations of the specified axiom.
- *
- * @param axiom The axiom.
- * @return The annotations.
- */
-COWL_PURE
-COWL_INLINE
-CowlVector *cowl_sub_annot_prop_axiom_get_annot(CowlSubAnnotPropAxiom *axiom) {
-    return (CowlVector *)cowl_get_opt_field(axiom);
-}
-
 /// @}
 
 COWL_END_DECLS

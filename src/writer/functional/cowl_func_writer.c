@@ -9,6 +9,7 @@
  */
 
 #include "cowl_anon_ind.h"
+#include "cowl_axiom.h"
 #include "cowl_data_quant.h"
 #include "cowl_datatype.h"
 #include "cowl_decl_axiom.h"
@@ -219,7 +220,7 @@ static ustream_ret cowl_func_write_declaration(UOStream *s, CowlDeclAxiom *decl,
     cowl_write_object_type(s, COWL_OT_A_DECL);
     cowl_write_static(s, "(");
 
-    CowlVector *annot = cowl_decl_axiom_get_annot(decl);
+    CowlVector *annot = cowl_axiom_get_annot(decl);
     if (annot) {
         cowl_func_write_vector(s, annot, st);
         cowl_write_static(s, " ");
@@ -259,7 +260,7 @@ cowl_func_write_sub_obj_prop(UOStream *s, CowlSubObjPropAxiom *axiom, CowlSymTab
     cowl_write_object_type(s, COWL_OT_A_SUB_OBJ_PROP);
     cowl_write_static(s, "(");
 
-    void *temp = cowl_sub_obj_prop_axiom_get_annot(axiom);
+    void *temp = cowl_axiom_get_annot(axiom);
 
     if (temp) {
         cowl_func_write_vector(s, temp, st);
@@ -288,7 +289,7 @@ static ustream_ret cowl_func_write_has_key(UOStream *s, CowlHasKeyAxiom *axiom, 
     cowl_write_object_type(s, COWL_OT_A_HAS_KEY);
     cowl_write_static(s, "(");
 
-    void *temp = cowl_has_key_axiom_get_annot(axiom);
+    void *temp = cowl_axiom_get_annot(axiom);
     if (temp) {
         cowl_func_write_vector(s, temp, st);
         cowl_write_static(s, " ");

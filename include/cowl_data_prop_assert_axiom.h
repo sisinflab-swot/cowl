@@ -128,18 +128,6 @@ CowlLiteral *cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axi
     return (CowlLiteral *)cowl_get_field(axiom, 2);
 }
 
-/**
- * Gets the annotations of the specified axiom.
- *
- * @param axiom The axiom.
- * @return The annotations.
- */
-COWL_PURE
-COWL_INLINE
-CowlVector *cowl_data_prop_assert_axiom_get_annot(CowlDataPropAssertAxiom *axiom) {
-    return (CowlVector *)cowl_get_opt_field(axiom);
-}
-
 /// @}
 
 COWL_END_DECLS

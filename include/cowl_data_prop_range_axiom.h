@@ -78,18 +78,6 @@ CowlDataRange *cowl_data_prop_range_axiom_get_range(CowlDataPropRangeAxiom *axio
     return (CowlDataRange *)cowl_get_field(axiom, 1);
 }
 
-/**
- * Gets the annotations of the specified axiom.
- *
- * @param axiom The axiom.
- * @return The annotations.
- */
-COWL_PURE
-COWL_INLINE
-CowlVector *cowl_data_prop_range_axiom_get_annot(CowlDataPropRangeAxiom *axiom) {
-    return (CowlVector *)cowl_get_opt_field(axiom);
-}
-
 /// @}
 
 COWL_END_DECLS

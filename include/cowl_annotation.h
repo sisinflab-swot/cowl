@@ -80,7 +80,7 @@ CowlAnnotValue *cowl_annotation_get_value(CowlAnnotation *annot) {
  * Gets the annotations of the specified annotation.
  *
  * @param annot The annotation.
- * @return The annotations.
+ * @return The annotations, or NULL of the annotation has no annotations.
  */
 COWL_PURE
 COWL_INLINE

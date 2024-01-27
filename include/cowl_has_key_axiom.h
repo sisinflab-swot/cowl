@@ -93,18 +93,6 @@ CowlVector *cowl_has_key_axiom_get_data_props(CowlHasKeyAxiom *axiom) {
     return (CowlVector *)cowl_get_field(axiom, 2);
 }
 
-/**
- * Gets the annotations of the specified axiom.
- *
- * @param axiom The axiom.
- * @return The annotations.
- */
-COWL_PURE
-COWL_INLINE
-CowlVector *cowl_has_key_axiom_get_annot(CowlHasKeyAxiom *axiom) {
-    return (CowlVector *)cowl_get_opt_field(axiom);
-}
-
 /// @}
 
 COWL_END_DECLS
