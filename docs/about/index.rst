@@ -11,16 +11,21 @@ Motivation
 ==========
 
 Access to OWL 2 ontologies is currently limited to platforms supporting Java (via the `OWL API`_)
-or Python (through OWLReady_). owl-cpp_ also exists for other platforms, though it deserializes
-ontologies into RDF triples rather than OWL axioms and constructs.
+or Python (through OWLReady_). owl-cpp_ also exists for other platforms, though it is not
+actively maintained, and it deserializes ontologies into RDF triples rather than
+OWL axioms and constructs
 
-Cowl aims to bring OWL support to most remaining platforms. In fact, it abides to some
-key principles which make it very portable:
+Cowl aims to bring OWL support to most remaining platforms, with an explicit focus on
+embedded devices. In fact, it abides to some key principles which make it very portable:
 
 - It is written in **standard C11** with no compiler- or platform-specific API calls.
 - It is **self-contained**, with no runtime dependencies other than `uLib`_.
-- It goes to great lengths to have a **tiny memory footprint** while being **very fast**,
-  meaning it can run even on the most resource-constrained devices.
+- It goes to great lengths to have a **tiny memory footprint** while being **very fast**.
+
+The latter property not only allows Cowl to run on resource-constrained devices,
+but it makes it a great option for performance-critical applications, as it is able to handle
+very large ontologies much faster and using significantly less memory than other tools
+[SWEET22]_.
 
 Features
 ========
@@ -47,9 +52,9 @@ Publications
 
 Additional context about Cowl is provided in the following academic publications:
 
-- Ivano Bilenchi, Floriano Scioscia, Michele Ruta. |sweet2022|_.
-  *First International Workshop on the Semantic Web of EveryThing (SWEET 2022)*, co-located
-  with the *22nd International Conference on Web Engineering (ICWE 2022)*.
+.. [SWEET22] Ivano Bilenchi, Floriano Scioscia, Michele Ruta. |sweet2022|_.
+   *First International Workshop on the Semantic Web of EveryThing (SWEET 2022)*, co-located
+   with the *22nd International Conference on Web Engineering (ICWE 2022)*.
 
 License
 =======

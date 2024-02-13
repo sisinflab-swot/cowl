@@ -109,7 +109,7 @@ In order to query an ontology you must first deserialize it, which can be done v
 :struct:`CowlManager`. Cowl can use multiple readers, either built-in or provided by the user.
 For further information, refer to :ref:`the related documentation <reading>`.
 
-OWL ontologies may `import <owl imports>`_ other ontologies, which may involve loading them
+OWL ontologies may `import <OWL imports_>`_ other ontologies, which may involve loading them
 from mass storage or retrieving them from the network. Cowl's approach to imports reflects
 its :ref:`focus on portability <about>`, so ontology retrieval
 :ref:`is delegated to the end user <import>`.
