@@ -10,12 +10,12 @@ cmake_minimum_required(VERSION 3.18)
 
 set(COWL_VERSION_MAJOR 0)
 set(COWL_VERSION_MINOR 7)
-set(COWL_VERSION_PATCH 0)
+set(COWL_VERSION_PATCH 1)
 set(COWL_VERSION "${COWL_VERSION_MAJOR}.${COWL_VERSION_MINOR}.${COWL_VERSION_PATCH}")
 
 set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
 set(COWL_VENDOR_URL "http://swot.sisinflab.poliba.it")
-set(COWL_COPYRIGHT_YEAR "2019-2023")
+set(COWL_COPYRIGHT_YEAR "2019-2024")
 set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 
 project(Cowl

@@ -5,6 +5,37 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1] - 2024-02-13
+### Added
+- `CowlVocab` and related API.
+- `cowl-stats` tool.
+- `cowl_get_ns`, `cowl_get_rem`, `cowl_get_annot`.
+- `cowl_axiom_has_operand`, `cowl_axiom_iterate_operands`.
+- `cowl_object_type_to_string`, `cowl_object_type_to_ustring`.
+- `cowl_is_reserved`, `cowl_entity_is_reserved`, `cowl_iri_is_reserved`.
+- `cowl_ontology_iterate_related`.
+- `cowl_is_primitive`.
+- `cowl_iterator_contains`.
+- `cowl_write_cstring`.
+- `prefix` field to builtin vocabularies.
+- `COWL_PURE` and `COWL_CONST` function annotations.
+- Ability to install the library.
+
+### Changed
+- Marked APIs that return retained instances with `COWL_RETAINED`.
+- `cowl_get_iri` and related APIs now also work for IRIs and ontologies.
+- Added `retain` parameter to `cowl_iterator_vec` and `cowl_iterator_set`.
+- Disallowed passing NULL to `cowl_iterator_vec`, `cowl_iterator_set`, and `cowl_iterator_count`.
+- Renamed `COWL_PUBLIC` to `COWL_API`.
+- Improved the documentation.
+
+### Removed
+- Axiom-specific annotation getters, in favor of `cowl_axiom_get_annot`.
+- `COWL_PRIVATE`.
+
+### Fixed
+- Small `uLib` types were not being used when `COWL_EMBEDDED` option was set.
+
 ## [0.7.0] - 2023-05-31
 ### Added
 - Ontology output streams (`CowlOStream`).
@@ -144,7 +175,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `cowl_struct` and `cowl_enum`.
 
 ### Fixed
-- `COWL_LTO` and `COWL_EMBEDDED` CMake options are now correctly propagated to uLib.
+- `COWL_LTO` and `COWL_EMBEDDED` CMake options are now correctly propagated to `uLib`.
 - DataExactCardinality incorrectly parsed as DataMaxCardinality.
 - Error location not reported when using the default parser.
 
@@ -340,6 +371,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.7.1]: https://github.com/sisinflab-swot/cowl/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/sisinflab-swot/cowl/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/sisinflab-swot/cowl/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/sisinflab-swot/cowl/compare/v0.6.0...v0.6.1
