@@ -81,39 +81,33 @@ bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs) {
     return cowl_vector_equals_no_order(lhs, rhs);
 }
 
-static ulib_uint cowl_vector_hash_order(CowlVector *vec) {
+static ulib_uint cowl_vector_ordered_hash(CowlVector *vec) {
     ulib_uint hash = 0;
-
     uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         ulib_uint h = cowl_hash(*obj.item);
         hash = ulib_hash_combine(hash, h);
     }
-
     return hash;
 }
 
-static ulib_uint cowl_vector_hash_no_order(CowlVector *vec) {
+static ulib_uint cowl_vector_unordered_hash(CowlVector *vec) {
     ulib_uint hash = 0;
-
     uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         hash ^= cowl_hash(*obj.item);
     }
-
     return hash;
 }
 
 ulib_uint cowl_vector_hash(CowlVector *vec) {
-    if (cowl_vector_is_ordered(vec)) return cowl_vector_hash_order(vec);
-    return cowl_vector_hash_no_order(vec);
+    if (cowl_vector_is_ordered(vec)) return cowl_vector_ordered_hash(vec);
+    return cowl_vector_unordered_hash(vec);
 }
 
 bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter) {
     if (!vec) return true;
-
     uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         if (!cowl_iterate_primitives(*obj.item, flags, iter)) return false;
     }
-
     return true;
 }
 
@@ -130,11 +124,14 @@ cowl_ret cowl_vector_push(CowlVector *vec, CowlAny *object) {
 }
 
 bool cowl_vector_remove(CowlVector *vec, CowlAny *object) {
-    if (uvec_remove(CowlObjectPtr, &vec->data, object)) {
-        cowl_release(object);
-        return true;
+    bool removed = false;
+    if (cowl_vector_is_ordered(vec)) {
+        removed = uvec_remove(CowlObjectPtr, &vec->data, object);
+    } else {
+        removed = uvec_unordered_remove(CowlObjectPtr, &vec->data, object);
     }
-    return false;
+    if (removed) cowl_release(object);
+    return removed;
 }
 
 cowl_ret cowl_vector_shrink(CowlVector *vec) {

@@ -488,7 +488,7 @@ cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectT
 static void
 cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
     CowlVector *vec = uhmap_get(CowlObjectTable, map, primitive, NULL);
-    if (vec) uvec_remove(CowlObjectPtr, &vec->data, axiom);
+    if (vec) uvec_unordered_remove(CowlObjectPtr, &vec->data, axiom);
 }
 
 static bool cowl_ontology_primitive_axiom_adder(void *ctx, CowlAny *obj) {
@@ -527,7 +527,7 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     if (!onto->axioms_by_type[type]) return;
 
     UVec(CowlObjectPtr) *vec = &onto->axioms_by_type[type]->data;
-    if (!uvec_remove(CowlObjectPtr, vec, axiom)) return;
+    if (!uvec_unordered_remove(CowlObjectPtr, vec, axiom)) return;
 
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_remover };
