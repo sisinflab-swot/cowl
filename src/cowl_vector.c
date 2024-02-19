@@ -86,7 +86,7 @@ static ulib_uint cowl_vector_hash_order(CowlVector *vec) {
 
     uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         ulib_uint h = cowl_hash(*obj.item);
-        hash = uhash_combine_hash(hash, h);
+        hash = ulib_hash_combine(hash, h);
     }
 
     return hash;

@@ -30,7 +30,7 @@ bool cowl_primitive_equals(CowlAnyPrimitive *lhs, CowlAnyPrimitive *rhs) {
 COWL_CONST
 COWL_INLINE
 ulib_uint cowl_primitive_hash(CowlAnyPrimitive *primitive) {
-    return uhash_ptr_hash(primitive);
+    return ulib_hash_alloc_ptr(primitive);
 }
 
 COWL_END_DECLS

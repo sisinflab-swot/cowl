@@ -158,9 +158,9 @@ bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs) {
 }
 
 ulib_uint cowl_literal_hash(CowlLiteral *literal) {
-    ulib_uint hash = uhash_combine_hash(6151U, COWL_OT_LITERAL);
-    hash = uhash_combine_hash(hash, cowl_string_hash(cowl_literal_get_value(literal)));
-    hash = uhash_combine_hash(hash, uhash_ptr_hash(cowl_get_field(literal, 1)));
+    ulib_uint hash = ulib_hash_combine(6151U, COWL_OT_LITERAL);
+    hash = ulib_hash_combine(hash, cowl_string_hash(cowl_literal_get_value(literal)));
+    hash = ulib_hash_combine(hash, ulib_hash_alloc_ptr(cowl_get_field(literal, 1)));
     return hash;
 }
 

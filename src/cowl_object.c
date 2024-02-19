@@ -317,23 +317,23 @@ ulib_uint cowl_hash(CowlAny *object) {
             case COWL_OT_TABLE: return cowl_table_hash(object);
             case COWL_OT_LITERAL: return cowl_literal_hash(object);
             case COWL_OT_ONTOLOGY: return cowl_ontology_hash(object);
-            default: return uhash_ptr_hash(object);
+            default: return ulib_hash_alloc_ptr(object);
         }
     }
 
     ulib_byte n = type_flag_field_count(flags);
-    if (!n) return uhash_ptr_hash(object);
+    if (!n) return ulib_hash_alloc_ptr(object);
     if (cowl_has_opt_field(object)) ++n;
 
     CowlComposite *o = object;
-    ulib_uint hash = uhash_combine_hash(6151U, type);
+    ulib_uint hash = ulib_hash_combine(6151U, type);
 
     for (ulib_byte i = 0; i < n; ++i) {
-        hash = uhash_combine_hash(hash, cowl_hash(o->fields[i].obj));
+        hash = ulib_hash_combine(hash, cowl_hash(o->fields[i].obj));
     }
 
     if (type_flag_is_card_restr(flags)) {
-        hash = uhash_combine_hash(hash, cowl_get_uint_field(object));
+        hash = ulib_hash_combine(hash, cowl_get_uint_field(object));
     }
 
     return hash;

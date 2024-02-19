@@ -21,7 +21,7 @@ bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs) {
 ulib_uint cowl_ontology_id_hash(CowlOntologyId id) {
     if (id.iri) {
         ulib_uint hash = cowl_primitive_hash(id.iri);
-        if (id.version) hash = uhash_combine_hash(hash, cowl_primitive_hash(id.version));
+        if (id.version) hash = ulib_hash_combine(hash, cowl_primitive_hash(id.version));
         return hash;
     }
     if (id.version) return cowl_primitive_hash(id.version);
