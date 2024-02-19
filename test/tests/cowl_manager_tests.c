@@ -167,27 +167,27 @@ bool cowl_test_manager_edit_ontology(void) {
     CowlClass *a = cowl_class_from_static(ONTO_NS "A");
     CowlClass *b = cowl_class_from_static(ONTO_NS "B");
 
-    CowlDeclAxiom *decl_axiom = cowl_decl_axiom((CowlEntity *)a, NULL);
-    cowl_ret ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)decl_axiom);
+    CowlDeclAxiom *decl_axiom = cowl_decl_axiom(a, NULL);
+    cowl_ret ret = cowl_ontology_add_axiom(onto, decl_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
     cowl_release(decl_axiom);
 
-    decl_axiom = cowl_decl_axiom((CowlEntity *)b, NULL);
-    ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)decl_axiom);
+    decl_axiom = cowl_decl_axiom(b, NULL);
+    ret = cowl_ontology_add_axiom(onto, decl_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
     cowl_release(decl_axiom);
 
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
 
-    CowlSubClsAxiom *sub_axiom = cowl_sub_cls_axiom((CowlClsExp *)a, (CowlClsExp *)b, NULL);
+    CowlSubClsAxiom *sub_axiom = cowl_sub_cls_axiom(a, b, NULL);
     cowl_release_all(a, b);
 
-    ret = cowl_ontology_add_axiom(onto, (CowlAxiom *)sub_axiom);
+    ret = cowl_ontology_add_axiom(onto, sub_axiom);
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 3);
 
-    cowl_ontology_remove_axiom(onto, (CowlAxiom *)sub_axiom);
+    cowl_ontology_remove_axiom(onto, sub_axiom);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
 
     cowl_release_all(sub_axiom, onto, manager);
