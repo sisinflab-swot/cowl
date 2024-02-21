@@ -191,7 +191,7 @@ bool cowl_test_manager_edit_ontology(void) {
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 3);
 
-    cowl_ontology_remove_axiom(onto, sub_axiom);
+    utest_assert(cowl_ontology_remove_axiom(onto, sub_axiom));
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
 
     cowl_ontology_add_axiom(onto, sub_axiom);

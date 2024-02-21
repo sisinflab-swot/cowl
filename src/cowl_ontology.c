@@ -404,8 +404,9 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
     return ret;
 }
 
-void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
-    if (onto->annot) cowl_vector_remove(onto->annot, annot);
+bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
+    if (!onto->annot) return false;
+    return cowl_vector_remove(onto->annot, annot);
 }
 
 CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri) {
@@ -452,16 +453,17 @@ err:
     return COWL_ERR_IMPORT;
 }
 
-void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
-    if (!onto->imports) return;
+bool cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
+    if (!onto->imports) return false;
 
     UHash(CowlObjectTable) *tbl = &onto->imports->data;
     ulib_uint idx = uhash_get(CowlObjectTable, tbl, iri);
-    if (idx == UHASH_INDEX_MISSING) return;
+    if (idx == UHASH_INDEX_MISSING) return false;
 
     uhash_delete(CowlObjectTable, tbl, idx);
     cowl_release(iri);
     cowl_release(uhash_value(CowlObjectTable, tbl, idx));
+    return true;
 }
 
 static cowl_ret
@@ -522,18 +524,19 @@ end:
     return ret;
 }
 
-void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
+bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     CowlAxiomType type = cowl_axiom_get_type(axiom);
-    if (!onto->axioms_by_type[type]) return;
+    if (!onto->axioms_by_type[type]) return false;
 
     UVec(CowlObjectPtr) *vec = &onto->axioms_by_type[type]->data;
-    if (!uvec_unordered_remove(CowlObjectPtr, vec, axiom)) return;
+    if (!uvec_unordered_remove(CowlObjectPtr, vec, axiom)) return false;
 
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_remover };
     cowl_iterate_primitives(axiom, COWL_PF_ALL, &iter);
-
     cowl_release(axiom);
+
+    return true;
 }
 
 ulib_uint cowl_ontology_remove_axioms_where(CowlOntology *onto, CowlFilter *filter) {

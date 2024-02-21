@@ -118,9 +118,10 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot);
  *
  * @param onto The ontology.
  * @param annot The annotation.
+ * @return True if the annotation was removed (it was found), false otherwise.
  */
 COWL_API
-void cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
+bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
 
 /**
  * Gets an imported ontology given its import IRI.
@@ -159,9 +160,10 @@ cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import);
  *
  * @param onto The ontology.
  * @param import IRI of the imported ontology.
+ * @return True if the import was removed (it was found), false otherwise.
  */
 COWL_API
-void cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
+bool cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *import);
 
 /**
  * Adds an axiom to the ontology.
@@ -178,16 +180,16 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  *
  * @param onto The ontology.
  * @param axiom The axiom.
+ * @return True if the axiom was removed (it was found), false otherwise.
  */
 COWL_API
-void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
+bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
  * Removes the axioms matching the provided filter function.
  *
  * @param onto The ontology.
  * @param filter The filter.
- *
  * @return Number of removed axioms.
  */
 COWL_API
