@@ -183,6 +183,17 @@ COWL_API
 void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
+ * Removes the axioms matching the provided filter function.
+ *
+ * @param onto The ontology.
+ * @param filter The filter.
+ *
+ * @return Number of removed axioms.
+ */
+COWL_API
+ulib_uint cowl_ontology_remove_axioms_where(CowlOntology *onto, CowlFilter *filter);
+
+/**
  * Gets the number of axioms in the ontology.
  *
  * @param onto The ontology.

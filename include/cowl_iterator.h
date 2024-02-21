@@ -24,11 +24,14 @@ uhash_decl(CowlObjectTable);
 /// @endcond
 
 /**
- * Iterator API.
- *
- * A @type{#CowlIterator} is a wrapper around a function that gets called for every element
- * matched by a query. The context provided while creating the iterator is passed to the
- * `for_each` function each time it is called.
+ * @defgroup CowlIterator_types CowlIterator types
+ * @{
+ */
+
+/**
+ * Wrapper around a function that gets called for every element matched by a query.
+ * The context provided while creating the iterator is passed to the `for_each` function
+ * each time it is called.
  *
  * The iterator function returns a @type{bool} that can be used to control iteration: by returning
  * true iteration proceeds to the next element, while returning false causes it to stop.
@@ -38,13 +41,30 @@ typedef struct CowlIterator {
     /// The iterator context, can be anything.
     void *ctx;
 
-    /// Pointer to a function called by the iterator for every element.
+    /// Function called by the iterator for every element.
     bool (*for_each)(void *ctx, CowlAny *object);
 
 } CowlIterator;
 
 /**
- * @defgroup CowlIterator CowlIterator API
+ * Wrapper around a function called to filter objects according to user-defined criteria.
+ *
+ * @see @type{#CowlIterator}
+ */
+typedef struct CowlFilter {
+
+    /// Context, can be anything.
+    void *ctx;
+
+    /// Filter function.
+    bool (*filter)(void *ctx, CowlAny *object);
+
+} CowlFilter;
+
+/// @}
+
+/**
+ * @defgroup CowlIterator_api CowlIterator API
  * @{
  */
 

@@ -536,6 +536,24 @@ void cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     cowl_release(axiom);
 }
 
+ulib_uint cowl_ontology_remove_axioms_where(CowlOntology *onto, CowlFilter *filter) {
+    ulib_uint count = 0;
+    for (CowlAxiomType t = COWL_AT_FIRST; t < COWL_AT_COUNT; ++t) {
+        if (!onto->axioms_by_type[t]) continue;
+        UVec(CowlObjectPtr) *vec = &onto->axioms_by_type[t]->data;
+        uvec_foreach_reverse (CowlObjectPtr, vec, axiom) {
+            if (!filter->filter(filter->ctx, *axiom.item)) continue;
+            CowlAxiomCtx ctx = { .onto = onto, .axiom = *axiom.item };
+            CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_remover };
+            cowl_iterate_primitives(*axiom.item, COWL_PF_ALL, &iter);
+            cowl_release(*axiom.item);
+            uvec_unordered_remove_at(CowlObjectPtr, vec, axiom.i);
+            count++;
+        }
+    }
+    return count;
+}
+
 cowl_ret cowl_ontology_finalize(CowlOntology *onto) {
     cowl_ret ret = COWL_ERR_MEM;
     if (onto->annot && cowl_vector_shrink(onto->annot)) goto end;

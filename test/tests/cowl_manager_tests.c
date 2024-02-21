@@ -158,6 +158,10 @@ bool cowl_test_manager_write_ontology(void) {
     return true;
 }
 
+static bool filter_axiom(void *cls, CowlAny *axiom) {
+    return cowl_axiom_has_operand(axiom, cls, COWL_PS_ANY);
+}
+
 bool cowl_test_manager_edit_ontology(void) {
     CowlManager *manager = cowl_manager();
     CowlOntology *onto = cowl_manager_get_ontology(manager, NULL);
@@ -189,6 +193,12 @@ bool cowl_test_manager_edit_ontology(void) {
 
     cowl_ontology_remove_axiom(onto, sub_axiom);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
+
+    cowl_ontology_add_axiom(onto, sub_axiom);
+
+    CowlFilter filter = { a, filter_axiom };
+    utest_assert_uint(cowl_ontology_remove_axioms_where(onto, &filter), ==, 2);
+    utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 1);
 
     cowl_release_all(sub_axiom, onto, manager);
     return true;

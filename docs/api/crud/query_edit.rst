@@ -32,8 +32,9 @@ by the query. By providing a generic context pointer, you can plug any custom da
 Iteration can be stopped at any time, enabling early termination for queries such as
 finding the first construct that matches some condition.
 
-.. doxygenstruct:: CowlIterator
-.. doxygengroup:: CowlIterator
+.. doxygengroup:: CowlIterator_types
+   :content-only:
+.. doxygengroup:: CowlIterator_api
    :content-only:
 
 .. _editing:

@@ -10,6 +10,7 @@ ForEachMacros:
   - cowl_vector_foreach
   - cowl_table_foreach
   - uvec_foreach
+  - uvec_foreach_reverse
   - uhash_foreach
 IndentCaseLabels: true
 IndentWidth: 4
