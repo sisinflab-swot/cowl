@@ -56,6 +56,16 @@ Additional context about Cowl is provided in the following academic publications
    *First International Workshop on the Semantic Web of EveryThing (SWEET 2022)*, co-located
    with the *22nd International Conference on Web Engineering (ICWE 2022)*.
 
+Projects
+========
+
+This is a collection of notable projects using Cowl. If your project uses Cowl, we'd love to
+hear about it! Feel free to send us an email or `open an issue <git_url_>`_, and we will consider
+adding it to this list.
+
+- `Tiny-ME`_: reasoner and matchmaking engine for the Semantic Web of Everything.
+- `RDF::Cowl <RDFCowl_>`_: bindings of the Cowl library for the Perl programming language.
+
 License
 =======
 
@@ -66,7 +76,9 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _OWL API: https://github.com/owlcs/owlapi
 .. _owl-cpp: http://owl-cpp.sourceforge.net
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
+.. _RDFCowl: https://metacpan.org/pod/RDF::Cowl
 .. _semver: https://semver.org
 .. |sweet2022| replace:: **Cowl: a lightweight OWL library for the Semantic Web of Everything**
 .. _sweet2022: http://sisinflab.poliba.it/publications/2022/BSR22
+.. _Tiny-ME: https://swot.sisinflab.poliba.it/tinyme
 .. _uLib: https://github.com/IvanoBilenchi/ulib
