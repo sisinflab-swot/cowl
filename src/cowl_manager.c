@@ -209,7 +209,7 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
     if (id) {
         uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
             if (cowl_ontology_id_equals(cowl_ontology_get_id(*onto.item), *id)) {
-                return *onto.item;
+                return cowl_retain(*onto.item);
             }
         }
     }
