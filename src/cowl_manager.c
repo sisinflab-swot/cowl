@@ -240,12 +240,11 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId con
         cowl_ontology_set_version(onto, id->version);
     }
 
-    if (uvec_push(CowlObjectPtr, &manager->ontos, onto)) {
-        cowl_release(onto);
-        onto = NULL;
-    }
-
     return onto;
+}
+
+cowl_ret cowl_manager_add_ontology(CowlManager *manager, CowlOntology *onto) {
+    return uvec_push(CowlObjectPtr, &manager->ontos, onto) ? COWL_ERR_MEM : COWL_OK;
 }
 
 void cowl_manager_remove_ontology(CowlManager *manager, CowlOntology *onto) {

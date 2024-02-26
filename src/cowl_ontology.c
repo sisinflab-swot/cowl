@@ -25,10 +25,7 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
     if (!onto) return NULL;
 
     CowlSymTable *st = cowl_sym_table();
-    if (!st) {
-        ulib_free(onto);
-        return NULL;
-    }
+    if (!st || cowl_manager_add_ontology(manager, onto)) goto err;
 
     *onto = (CowlOntology){ 0 };
     onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
@@ -40,6 +37,11 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
     }
 
     return onto;
+
+err:
+    cowl_release(st);
+    ulib_free(onto);
+    return NULL;
 }
 
 void cowl_ontology_free(CowlOntology *onto) {

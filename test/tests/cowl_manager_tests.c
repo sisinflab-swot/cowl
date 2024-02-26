@@ -83,6 +83,7 @@ bool cowl_test_manager_read_ontology(void) {
 
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_not_null(onto);
+    utest_assert_uint(cowl_manager_ontology_count(manager), ==, 2);
 
     ulib_uint true_count = cowl_vector_count(cowl_ontology_get_annot(onto));
     true_count += cowl_ontology_imports_count(onto, false) + cowl_ontology_axiom_count(onto, false);
@@ -96,7 +97,10 @@ bool cowl_test_manager_read_ontology(void) {
     ret = cowl_manager_write_path(manager, onto, ustring_literal(COWL_ONTOLOGY_LOG));
     utest_assert_uint(ret, ==, COWL_OK);
 
-    cowl_release_all(manager, stream, onto);
+    cowl_release(onto);
+    utest_assert_uint(cowl_manager_ontology_count(manager), ==, 0);
+
+    cowl_release_all(manager, stream);
     return true;
 }
 
@@ -166,6 +170,7 @@ bool cowl_test_manager_edit_ontology(void) {
     CowlManager *manager = cowl_manager();
     CowlOntology *onto = cowl_manager_get_ontology(manager, NULL);
     utest_assert_not_null(onto);
+    utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 0);
 
     CowlClass *a = cowl_class_from_static(ONTO_NS "A");
