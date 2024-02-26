@@ -90,6 +90,16 @@ COWL_API
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler);
 
 /**
+ * Returns the number of ontologies managed by this manager.
+ *
+ * @param manager The manager.
+ * @return Number of ontologies.
+ */
+COWL_API
+COWL_PURE
+ulib_uint cowl_manager_ontology_count(CowlManager *manager);
+
+/**
  * Iterates over the ontologies held by the manager.
  *
  * @param manager The manager.

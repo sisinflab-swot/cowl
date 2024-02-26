@@ -206,6 +206,10 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
     manager->handler = handler;
 }
 
+ulib_uint cowl_manager_ontology_count(CowlManager *manager) {
+    return uvec_count(CowlObjectPtr, &manager->ontos);
+}
+
 bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter) {
     uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
         if (!cowl_iterate(iter, *onto.item)) return false;
