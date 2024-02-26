@@ -90,16 +90,39 @@ COWL_API
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler);
 
 /**
+ * Iterates over the ontologies held by the manager.
+ *
+ * @param manager The manager.
+ * @param iter The iterator.
+ * @return True if iteration was completed, false if it was stopped.
+ */
+COWL_API
+bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter);
+
+/**
  * Gets the ontology with the specified identifier.
  * If no existing ontology has the specified identifier, a new ontology is returned.
  *
  * @param manager The manager.
  * @param id The ontology identifier.
  * @return Ontology with the specified identifier.
+ *
+ * @note You can pass NULL as the ontology identifier, in which case the function returns
+ *       a new anonymous ontology.
  */
 COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
+
+/**
+ * Gets the ontology with the specified identifier, if it exists.
+ *
+ * @param manager The manager.
+ * @param id The ontology identifier.
+ * @return Ontology with the specified identifier, or NULL if it does not exist.
+ */
+COWL_API
+CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlOntologyId const *id);
 
 /**
  * Reads an ontology from the file at the specified path.

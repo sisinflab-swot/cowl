@@ -10,6 +10,7 @@
 
 #include "cowl_config_private.h"
 #include "cowl_istream_private.h"
+#include "cowl_iterator_private.h"
 #include "cowl_manager_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_ostream_private.h"
@@ -205,13 +206,26 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
     manager->handler = handler;
 }
 
+bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter) {
+    uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
+        if (!cowl_iterate(iter, *onto.item)) return false;
+    }
+    return true;
+}
+
+CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlOntologyId const *id) {
+    uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
+        if (cowl_ontology_id_equals(cowl_ontology_get_id(*onto.item), *id)) {
+            return *onto.item;
+        }
+    }
+    return NULL;
+}
+
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id) {
     if (id) {
-        uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
-            if (cowl_ontology_id_equals(cowl_ontology_get_id(*onto.item), *id)) {
-                return cowl_retain(*onto.item);
-            }
-        }
+        CowlOntology *onto = cowl_manager_retrieve_ontology(manager, id);
+        if (onto) return cowl_retain(onto);
     }
 
     CowlOntology *onto = cowl_ontology(manager);
