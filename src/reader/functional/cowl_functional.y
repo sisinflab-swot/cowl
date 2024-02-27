@@ -257,7 +257,10 @@ iri
 // Ontologies
 
 ontology_document
-    : prefix_declarations ontology
+    : prefix_declarations ontology {
+        // Suppress warning about unused yynerrs (Bison <= 3.8.2)
+        (void)yynerrs;
+    }
 ;
 
 prefix_declarations
