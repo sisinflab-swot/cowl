@@ -32,6 +32,25 @@ typedef struct CowlOntologyHeader {
 
 } CowlOntologyHeader;
 
+/**
+ * @defgroup CowlOntologyHeader CowlOntologyHeader API
+ * @{
+ */
+
+/**
+ * Returns an empty ontology header.
+ *
+ * @return Empty ontology header.
+ */
+COWL_CONST
+COWL_INLINE
+CowlOntologyHeader cowl_ontology_header_empty(void) {
+    CowlOntologyHeader header = { cowl_ontology_id_anonymous(), NULL, NULL };
+    return header;
+}
+
+/// @}
+
 COWL_END_DECLS
 
 #endif // COWL_ONTOLOGY_HEADER_H

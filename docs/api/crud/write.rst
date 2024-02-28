@@ -43,6 +43,9 @@ ontology document must be serialized via the :struct:`CowlOStream` API. Similarl
 you can retrieve a :struct:`CowlOStream` instance via :func:`cowl_manager_get_ostream()`.
 
 .. doxygenstruct:: CowlStreamWriter
+.. doxygenstruct:: CowlOntologyHeader
+.. doxygengroup:: CowlOntologyHeader
+   :content-only:
 .. doxygenstruct:: CowlOStream
 .. doxygengroup:: CowlOStream
    :content-only:
