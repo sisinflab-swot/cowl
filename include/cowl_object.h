@@ -149,6 +149,17 @@ COWL_PURE
 CowlIRI *cowl_get_iri(CowlAny *object);
 
 /**
+ * Checks if the object has the specified IRI.
+ *
+ * @param object The object.
+ * @param iri The IRI.
+ * @return True if the object has the specified IRI, false otherwise.
+ */
+COWL_API
+COWL_PURE
+bool cowl_has_iri(CowlAny *object, CowlIRI *iri);
+
+/**
  * Returns the namespace of the object's IRI.
  *
  * @param object The object.

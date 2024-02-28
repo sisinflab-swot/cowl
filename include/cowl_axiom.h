@@ -75,6 +75,18 @@ COWL_PURE
 bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position);
 
 /**
+ * Checks if the axiom has an operand with the specified IRI.
+ *
+ * @param axiom The axiom.
+ * @param iri The IRI.
+ * @param position Position where the operand should appear.
+ * @return True if the axiom has an operand with the specified IRI, false otherwise.
+ */
+COWL_API
+COWL_PURE
+bool cowl_axiom_has_operand_with_iri(CowlAnyAxiom *axiom, CowlIRI *iri, CowlPosition position);
+
+/**
  * Iterates over the operands of the specified axiom.
  *
  * @param axiom The axiom.

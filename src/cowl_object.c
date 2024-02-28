@@ -207,6 +207,10 @@ CowlIRI *cowl_get_iri(CowlAny *object) {
     return type == COWL_OT_ONTOLOGY ? cowl_ontology_get_id(object).iri : NULL;
 }
 
+bool cowl_has_iri(CowlAny *object, CowlIRI *iri) {
+    return cowl_primitive_equals(cowl_get_iri(object), iri);
+}
+
 CowlString *cowl_get_ns(CowlAny *object) {
     CowlIRI *iri = cowl_get_iri(object);
     return iri ? cowl_iri_get_ns(iri) : NULL;

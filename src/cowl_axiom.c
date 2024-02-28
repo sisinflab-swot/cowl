@@ -17,6 +17,15 @@ bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition 
     return !cowl_axiom_iterate_operands(axiom, position, &iter);
 }
 
+static bool has_iri(void *iri, CowlAny *object) {
+    return !cowl_has_iri(object, iri);
+}
+
+bool cowl_axiom_has_operand_with_iri(CowlAnyAxiom *axiom, CowlIRI *iri, CowlPosition position) {
+    CowlIterator iter = { .ctx = iri, .for_each = has_iri };
+    return !cowl_axiom_iterate_operands(axiom, position, &iter);
+}
+
 static inline bool index_allowed(unsigned n, unsigned i, CowlPosition position) {
     CowlPosition const positions[][3] = {
         { COWL_PS_ANY },
