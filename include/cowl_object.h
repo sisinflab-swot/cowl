@@ -160,6 +160,17 @@ COWL_PURE
 bool cowl_has_iri(CowlAny *object, CowlIRI *iri);
 
 /**
+ * Checks if the object has an IRI that matches the specified string.
+ *
+ * @param object The object.
+ * @param iri_str IRI string.
+ * @return True if the object has an IRI that matches the string, false otherwise.
+ */
+COWL_API
+COWL_PURE
+bool cowl_has_iri_string(CowlAny *object, UString iri_str);
+
+/**
  * Returns the namespace of the object's IRI.
  *
  * @param object The object.
@@ -222,17 +233,6 @@ CowlString *cowl_to_debug_string(CowlAny *object);
 COWL_API
 COWL_PURE
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs);
-
-/**
- * Checks if the object has an IRI that matches the specified string.
- *
- * @param object The object.
- * @param iri_str IRI string.
- * @return True if the object has an IRI that matches the string, false otherwise.
- */
-COWL_API
-COWL_PURE
-bool cowl_equals_iri_string(CowlAny *object, UString iri_str);
 
 /**
  * Checks whether the object is reserved, i.e. if its IRI is in the reserved vocabulary.

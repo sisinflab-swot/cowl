@@ -211,6 +211,18 @@ bool cowl_has_iri(CowlAny *object, CowlIRI *iri) {
     return cowl_primitive_equals(cowl_get_iri(object), iri);
 }
 
+bool cowl_has_iri_string(CowlAny *object, UString iri_str) {
+    CowlIRI *iri = cowl_get_iri(object);
+    if (!iri) return false;
+
+    CowlString *ns = cowl_iri_get_ns(iri), *rem = cowl_iri_get_rem(iri);
+    ulib_uint ns_len = cowl_string_get_length(ns), rem_len = cowl_string_get_length(rem);
+
+    if (ustring_length(iri_str) != ns_len + rem_len) return false;
+    if (!ustring_ends_with(iri_str, *cowl_string_get_raw(rem))) return false;
+    return ustring_starts_with(iri_str, *cowl_string_get_raw(ns));
+}
+
 CowlString *cowl_get_ns(CowlAny *object) {
     CowlIRI *iri = cowl_get_iri(object);
     return iri ? cowl_iri_get_ns(iri) : NULL;
@@ -290,18 +302,6 @@ bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
     }
 
     return true;
-}
-
-bool cowl_equals_iri_string(CowlAny *object, UString iri_str) {
-    CowlIRI *iri = cowl_get_iri(object);
-    if (!iri) return false;
-
-    CowlString *ns = cowl_iri_get_ns(iri), *rem = cowl_iri_get_rem(iri);
-    ulib_uint ns_len = cowl_string_get_length(ns), rem_len = cowl_string_get_length(rem);
-
-    if (ustring_length(iri_str) != ns_len + rem_len) return false;
-    if (!ustring_ends_with(iri_str, *cowl_string_get_raw(rem))) return false;
-    return ustring_starts_with(iri_str, *cowl_string_get_raw(ns));
 }
 
 bool cowl_is_reserved(CowlAny *object) {
