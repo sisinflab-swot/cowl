@@ -26,3 +26,5 @@ StatementMacros:
 TypenameMacros:
   - UHash
   - UVec
+WhitespaceSensitiveMacros:
+  - COWL_DEPRECATED

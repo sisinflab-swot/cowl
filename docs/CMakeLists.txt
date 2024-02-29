@@ -31,6 +31,7 @@ set(DOXYGEN_GENERATE_XML YES)
 set(DOXYGEN_MACRO_EXPANSION YES)
 set(DOXYGEN_PREDEFINED ${COWL_PUBLIC_DEFINES}
     "COWL_RETAINED=/** @note You must release the returned object via <tt>#cowl_release()</tt>. */"
+    "COWL_DEPRECATED(msg)=/** @@deprecated msg */"
     "COWL_INLINE=")
 set(DOXYGEN_INCLUDE_PATH ${COWL_PUBLIC_HEADERS_DIRS} ${ULIB_DIRS})
 set(DOXYGEN_OUTPUT_DIRECTORY "${DOCS_OUTPUT_DIRECTORY}/doxygen")

@@ -62,6 +62,33 @@
 /// Marks functions that return retained instances.
 #define COWL_RETAINED // No-op
 
+/**
+ * Marks deprecated APIs.
+ *
+ * Deprecated APIs are usually replaced by alternatives, and will be removed in later
+ * major versions of the library.
+ *
+ * @param msg Deprecation message.
+ * @def COWL_DEPRECATED
+ */
+
+/**
+ * Marks deprecated macros.
+ *
+ * Deprecated macros are usually replaced by alternatives, and will be removed in later
+ * major versions of the library.
+ *
+ * @def COWL_DEPRECATED_MACRO
+ */
+
+#ifndef COWL_NO_DEPRECATED
+#define COWL_DEPRECATED(msg) ULIB_DEPRECATED(msg)
+#define COWL_DEPRECATED_MACRO ULIB_DEPRECATED_MACRO
+#else
+#define COWL_DEPRECATED(MSG)
+#define COWL_DEPRECATED_MACRO
+#endif
+
 /// Suppresses unused variable warnings.
 #define cowl_unused ulib_unused
 
