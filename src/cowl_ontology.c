@@ -531,7 +531,19 @@ bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     if (!onto->axioms_by_type[type]) return false;
 
     UVec(CowlObjectPtr) *vec = &onto->axioms_by_type[type]->data;
-    if (!uvec_unordered_remove(CowlObjectPtr, vec, axiom)) return false;
+    bool found = false;
+
+    // We could just use uvec_unordered_remove, though looking for axioms to remove in reverse
+    // is desirable as recently added axioms are likely to be at the top of the vector.
+    uvec_foreach_reverse (CowlObjectPtr, vec, a) {
+        if (cowl_equals(axiom, *a.item)) {
+            uvec_unordered_remove_at(CowlObjectPtr, vec, a.i);
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) return false;
 
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_remover };
