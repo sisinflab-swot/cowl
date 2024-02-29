@@ -227,3 +227,8 @@ CowlIRI *cowl_sym_table_parse_short_iri(CowlSymTable *st, UString short_iri) {
     UString rem = ustring_wrap(str + ns_length + 1, str_length - (ns_length + 1));
     return cowl_sym_table_get_iri(st, ns, rem);
 }
+
+CowlIRI *cowl_sym_table_parse_iri(CowlSymTable *st, UString str) {
+    CowlIRI *iri = cowl_sym_table_parse_short_iri(st, str);
+    return iri ? iri : cowl_iri_from_string(str);
+}

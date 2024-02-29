@@ -149,6 +149,18 @@ COWL_RETAINED
 CowlIRI *cowl_sym_table_parse_short_iri(CowlSymTable *st, UString short_iri);
 
 /**
+ * Parses an IRI from the specified string, which must be the representation of either
+ * a short or a full IRI.
+ *
+ * @param st The symbol table.
+ * @param str The IRI string.
+ * @return IRI instance, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlIRI *cowl_sym_table_parse_iri(CowlSymTable *st, UString str);
+
+/**
  * Retrieves the full IRI associated with the specified short IRI.
  *
  * @param st The symbol table.
