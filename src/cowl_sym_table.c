@@ -204,16 +204,16 @@ cowl_ret cowl_sym_table_merge(CowlSymTable *st, CowlSymTable *other, bool overwr
     return COWL_OK;
 }
 
-CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) {
-    CowlString ns_local = cowl_string_init(ns);
-    CowlString *ns_str = cowl_sym_table_get_ns(st, &ns_local);
-    if (!ns_str) return NULL;
+CowlIRI *cowl_sym_table_get_iri(CowlSymTable *st, UString prefix, UString rem) {
+    CowlString prefix_local = cowl_string_init(prefix);
+    CowlString *prefix_str = cowl_sym_table_get_ns(st, &prefix_local);
+    if (!prefix_str) return NULL;
 
     ulib_uint const rem_length = ustring_length(rem);
     CowlString *rem_str = rem_length ? cowl_string_opt(rem, COWL_SO_COPY) : cowl_string_empty();
     if (!rem_str) return NULL;
 
-    CowlIRI *iri = cowl_iri(ns_str, rem_str);
+    CowlIRI *iri = cowl_iri(prefix_str, rem_str);
     cowl_release(rem_str);
     return iri;
 }
@@ -225,5 +225,5 @@ CowlIRI *cowl_sym_table_parse_short_iri(CowlSymTable *st, UString short_iri) {
 
     UString ns = ustring_wrap(str, ns_length);
     UString rem = ustring_wrap(str + ns_length + 1, str_length - (ns_length + 1));
-    return cowl_sym_table_get_full_iri(st, ns, rem);
+    return cowl_sym_table_get_iri(st, ns, rem);
 }
