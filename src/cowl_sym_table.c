@@ -218,7 +218,7 @@ CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) 
     return iri;
 }
 
-CowlIRI *cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri) {
+CowlIRI *cowl_sym_table_parse_short_iri(CowlSymTable *st, UString short_iri) {
     char const *str = ustring_data(short_iri);
     ulib_uint const str_length = ustring_length(short_iri);
     ulib_uint const ns_length = ustring_index_of(short_iri, ':');

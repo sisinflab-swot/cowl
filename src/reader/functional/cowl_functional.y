@@ -238,7 +238,7 @@ full_iri
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_sym_table_parse_full_iri(cowl_istream_get_sym_table(stream), $1);
+        $$ = cowl_sym_table_parse_short_iri(cowl_istream_get_sym_table(stream), $1);
         if (!$$) {
             UString comp[] = { ustring_literal("failed to resolve "), $1 };
             UString err_str = ustring_concat(comp, ulib_array_count(comp));
