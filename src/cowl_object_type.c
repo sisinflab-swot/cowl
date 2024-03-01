@@ -101,3 +101,10 @@ UString cowl_object_type_to_ustring(CowlObjectType type) {
 CowlString *cowl_object_type_to_string(CowlObjectType type) {
     return cowl_string_opt(cowl_object_type_to_ustring(type), COWL_SO_COPY);
 }
+
+CowlObjectType cowl_object_type_from_string(UString string) {
+    for (CowlObjectType t = COWL_OT_FIRST; t < COWL_OT_COUNT; ++t) {
+        if (ustring_equals(string, cowl_object_type_to_ustring(t))) return t;
+    }
+    return COWL_OT_COUNT;
+}

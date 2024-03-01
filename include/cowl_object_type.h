@@ -343,6 +343,16 @@ COWL_API
 COWL_RETAINED
 CowlString *cowl_object_type_to_string(CowlObjectType type);
 
+/**
+ * Returns the object type given its string representation.
+ *
+ * @param string String representation.
+ * @return Object type, or an invalid object type (>=@val{#COWL_OT_COUNT}) on error.
+ */
+COWL_API
+COWL_PURE
+CowlObjectType cowl_object_type_from_string(UString string);
+
 /// @}
 
 COWL_END_DECLS
