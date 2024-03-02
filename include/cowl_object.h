@@ -255,6 +255,17 @@ COWL_PURE
 ulib_uint cowl_hash(CowlAny *object);
 
 /**
+ * Checks whether the object references the specified primitive.
+ *
+ * @param object The object.
+ * @param primitive The primitive.
+ * @return True if the object references the primitive, false otherwise.
+ */
+COWL_API
+COWL_PURE
+bool cowl_has_primitive(CowlAny *object, CowlAnyPrimitive *primitive);
+
+/**
  * Iterates over the primitives referenced by the specified object.
  *
  * @param object The object.

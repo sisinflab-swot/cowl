@@ -343,6 +343,12 @@ ulib_uint cowl_hash(CowlAny *object) {
     return hash;
 }
 
+bool cowl_has_primitive(CowlAny *object, CowlAnyPrimitive *primitive) {
+    CowlIterator iter = cowl_iterator_contains(primitive);
+    CowlPrimitiveType t = cowl_primitive_get_type(primitive);
+    return !cowl_iterate_primitives(object, cowl_primitive_flags_from_type(t), &iter);
+}
+
 static inline bool
 iterate_pf(CowlPrimitiveFlags type, CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
     return ubit_is_set(COWL_PF, flags, type) ? cowl_iterate(iter, object) : true;

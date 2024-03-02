@@ -97,6 +97,19 @@ bool cowl_axiom_has_operand_with_iri(CowlAnyAxiom *axiom, CowlIRI *iri, CowlPosi
 COWL_API
 bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter);
 
+/**
+ * Checks whether the axiom references the specified primitive.
+ *
+ * @param axiom The axiom.
+ * @param position Position of the desired primitive.
+ * @param primitive The primitive.
+ * @return True if the axiom references the primitive, false otherwise.
+ */
+COWL_API
+COWL_PURE
+bool cowl_axiom_has_primitive(CowlAnyAxiom *axiom, CowlPosition position,
+                              CowlAnyPrimitive *primitive);
+
 /// @}
 
 COWL_END_DECLS

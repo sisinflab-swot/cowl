@@ -10,6 +10,7 @@
 
 #include "cowl_axiom.h"
 #include "cowl_iterator_private.h"
+#include "cowl_primitive_private.h"
 #include "cowl_vector.h"
 
 bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position) {
@@ -52,4 +53,16 @@ bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, Cow
     }
 
     return true;
+}
+
+static bool operand_has_primitive(void *primitive, CowlAny *operand) {
+    if (cowl_primitive_equals(operand, primitive)) return false;
+    return !cowl_has_primitive(operand, primitive);
+}
+
+bool cowl_axiom_has_primitive(CowlAnyAxiom *axiom, CowlPosition position,
+                              CowlAnyPrimitive *primitive) {
+    if (position == COWL_PS_ANY) return cowl_has_primitive(axiom, primitive);
+    CowlIterator iter = { .ctx = primitive, .for_each = operand_has_primitive };
+    return !cowl_axiom_iterate_operands(axiom, position, &iter);
 }
