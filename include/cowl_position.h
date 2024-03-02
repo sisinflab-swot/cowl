@@ -47,13 +47,13 @@ typedef UBit(COWL_PS) CowlPosition;
 /// Middle position.
 #define COWL_PS_MIDDLE ubit_bit(COWL_PS, 2)
 
-/// Subject position.
-#define COWL_PS_SUBJECT COWL_PS_LEFT
+/// Subject position in assertion axioms.
+#define COWL_PS_SUBJECT COWL_PS_MIDDLE
 
-/// Predicate position.
-#define COWL_PS_PREDICATE COWL_PS_MIDDLE
+/// Predicate position in assertion axioms.
+#define COWL_PS_PREDICATE COWL_PS_LEFT
 
-/// Object position.
+/// Object position in assertion axioms.
 #define COWL_PS_OBJECT COWL_PS_RIGHT
 
 /// @}
