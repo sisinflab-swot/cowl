@@ -24,6 +24,7 @@
 #include "cowl_any.h"
 #include "cowl_attrs.h"
 #include "cowl_axiom.h"
+#include "cowl_axiom_flags.h"
 #include "cowl_axiom_type.h"
 #include "cowl_card_type.h"
 #include "cowl_char_axiom_type.h"

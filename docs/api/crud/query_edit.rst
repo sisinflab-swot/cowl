@@ -37,6 +37,11 @@ finding the first construct that matches some condition.
 .. doxygengroup:: CowlIterator_api
    :content-only:
 
+.. doxygengroup:: CowlAxiomFlags_type
+   :content-only:
+.. doxygengroup:: CowlAxiomFlags_api
+   :content-only:
+
 .. _editing:
 
 Editing ontologies

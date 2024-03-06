@@ -139,6 +139,15 @@ ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType t
     return count;
 }
 
+ulib_uint
+cowl_ontology_axiom_count_for_types(CowlOntology *onto, CowlAxiomFlags types, bool imports) {
+    ulib_uint count = 0;
+    cowl_axiom_flags_foreach_type (types, type) {
+        count += cowl_ontology_axiom_count_for_type(onto, type, imports);
+    }
+    return count;
+}
+
 ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                   bool imports) {
     CowlPrimitiveType type = cowl_primitive_get_type(primitive);
@@ -283,6 +292,14 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
         });
     }
 
+    return true;
+}
+
+bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags types,
+                                           CowlIterator *iter, bool imports) {
+    cowl_axiom_flags_foreach_type (types, type) {
+        if (!cowl_ontology_iterate_axioms_of_type(onto, type, iter, imports)) return false;
+    }
     return true;
 }
 

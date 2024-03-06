@@ -13,6 +13,7 @@
 #ifndef COWL_ONTOLOGY_H
 #define COWL_ONTOLOGY_H
 
+#include "cowl_axiom_flags.h"
 #include "cowl_axiom_type.h"
 #include "cowl_iterator.h"
 #include "cowl_object.h"
@@ -230,6 +231,19 @@ COWL_PURE
 ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type, bool imports);
 
 /**
+ * Gets the number of axioms of the specified types.
+ *
+ * @param onto The ontology.
+ * @param types The axiom types.
+ * @param imports If true, the query recurses over imported ontologies.
+ * @return Number of axioms.
+ */
+COWL_API
+COWL_PURE
+ulib_uint
+cowl_ontology_axiom_count_for_types(CowlOntology *onto, CowlAxiomFlags types, bool imports);
+
+/**
  * Gets the number of axioms referencing the specified primitive.
  *
  * @param onto The ontology.
@@ -339,6 +353,19 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
                                           CowlIterator *iter, bool imports);
 
 /**
+ * Iterates over the axiom of some types.
+ *
+ * @param onto The ontology.
+ * @param types The axiom types.
+ * @param iter The iterator.
+ * @param imports If true, the query recurses over imported ontologies.
+ * @return True if the iteration was completed, false if it was stopped.
+ */
+COWL_API
+bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags types,
+                                           CowlIterator *iter, bool imports);
+
+/**
  * Iterates over the axioms referencing the specified primitive.
  *
  * @param onto The ontology.
@@ -356,7 +383,7 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
  *
  * @param onto The ontology.
  * @param primitive The primitive.
- * @param type
+ * @param type Axiom type.
  * @param position Position of the related constructs.
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.

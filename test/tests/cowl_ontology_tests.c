@@ -42,51 +42,50 @@ static ulib_uint const test_onto_axiom_count = 571;
 static ulib_uint const test_primitives_count[] = { 105, 48, 72, 27, 18, 1, 46, 12 };
 static ulib_uint const test_primitive_axiom_count[] = { 16, 4, 4, 2, 2, 1, 2, 8 };
 
-static ulib_uint *test_onto_axiom_counts(void) {
-    static ulib_uint counts[COWL_AT_COUNT] = { 0 };
+static ulib_uint axiom_counts_by_type[COWL_AT_COUNT] = { 0 };
 
-    counts[COWL_AT_DECL] = 264;
-    counts[COWL_AT_DATATYPE_DEF] = 2;
-    counts[COWL_AT_SUB_CLASS] = 35;
-    counts[COWL_AT_EQUIV_CLASSES] = 4;
-    counts[COWL_AT_DISJ_CLASSES] = 4;
-    counts[COWL_AT_DISJ_UNION] = 1;
-    counts[COWL_AT_CLASS_ASSERT] = 2;
-    counts[COWL_AT_SAME_IND] = 1;
-    counts[COWL_AT_DIFF_IND] = 1;
-    counts[COWL_AT_OBJ_PROP_ASSERT] = 1;
-    counts[COWL_AT_NEG_OBJ_PROP_ASSERT] = 1;
-    counts[COWL_AT_DATA_PROP_ASSERT] = 2;
-    counts[COWL_AT_NEG_DATA_PROP_ASSERT] = 1;
-    counts[COWL_AT_SUB_OBJ_PROP] = 2;
-    counts[COWL_AT_INV_OBJ_PROP] = 1;
-    counts[COWL_AT_EQUIV_OBJ_PROP] = 2;
-    counts[COWL_AT_DISJ_OBJ_PROP] = 2;
-    counts[COWL_AT_FUNC_OBJ_PROP] = 1;
-    counts[COWL_AT_INV_FUNC_OBJ_PROP] = 1;
-    counts[COWL_AT_SYMM_OBJ_PROP] = 1;
-    counts[COWL_AT_ASYMM_OBJ_PROP] = 1;
-    counts[COWL_AT_TRANS_OBJ_PROP] = 1;
-    counts[COWL_AT_REFL_OBJ_PROP] = 1;
-    counts[COWL_AT_IRREFL_OBJ_PROP] = 1;
-    counts[COWL_AT_OBJ_PROP_DOMAIN] = 39;
-    counts[COWL_AT_OBJ_PROP_RANGE] = 39;
-    counts[COWL_AT_SUB_DATA_PROP] = 1;
-    counts[COWL_AT_EQUIV_DATA_PROP] = 1;
-    counts[COWL_AT_DISJ_DATA_PROP] = 2;
-    counts[COWL_AT_FUNC_DATA_PROP] = 1;
-    counts[COWL_AT_DATA_PROP_DOMAIN] = 66;
-    counts[COWL_AT_DATA_PROP_RANGE] = 66;
-    counts[COWL_AT_HAS_KEY] = 1;
-    counts[COWL_AT_ANNOT_ASSERT] = 19;
-    counts[COWL_AT_SUB_ANNOT_PROP] = 1;
-    counts[COWL_AT_ANNOT_PROP_DOMAIN] = 1;
-    counts[COWL_AT_ANNOT_PROP_RANGE] = 1;
-
-    return counts;
+static void axiom_counts_by_type_init(void) {
+    axiom_counts_by_type[COWL_AT_DECL] = 264;
+    axiom_counts_by_type[COWL_AT_DATATYPE_DEF] = 2;
+    axiom_counts_by_type[COWL_AT_SUB_CLASS] = 35;
+    axiom_counts_by_type[COWL_AT_EQUIV_CLASSES] = 4;
+    axiom_counts_by_type[COWL_AT_DISJ_CLASSES] = 4;
+    axiom_counts_by_type[COWL_AT_DISJ_UNION] = 1;
+    axiom_counts_by_type[COWL_AT_CLASS_ASSERT] = 2;
+    axiom_counts_by_type[COWL_AT_SAME_IND] = 1;
+    axiom_counts_by_type[COWL_AT_DIFF_IND] = 1;
+    axiom_counts_by_type[COWL_AT_OBJ_PROP_ASSERT] = 1;
+    axiom_counts_by_type[COWL_AT_NEG_OBJ_PROP_ASSERT] = 1;
+    axiom_counts_by_type[COWL_AT_DATA_PROP_ASSERT] = 2;
+    axiom_counts_by_type[COWL_AT_NEG_DATA_PROP_ASSERT] = 1;
+    axiom_counts_by_type[COWL_AT_SUB_OBJ_PROP] = 2;
+    axiom_counts_by_type[COWL_AT_INV_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_EQUIV_OBJ_PROP] = 2;
+    axiom_counts_by_type[COWL_AT_DISJ_OBJ_PROP] = 2;
+    axiom_counts_by_type[COWL_AT_FUNC_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_INV_FUNC_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_SYMM_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_ASYMM_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_TRANS_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_REFL_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_IRREFL_OBJ_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_OBJ_PROP_DOMAIN] = 39;
+    axiom_counts_by_type[COWL_AT_OBJ_PROP_RANGE] = 39;
+    axiom_counts_by_type[COWL_AT_SUB_DATA_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_EQUIV_DATA_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_DISJ_DATA_PROP] = 2;
+    axiom_counts_by_type[COWL_AT_FUNC_DATA_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_DATA_PROP_DOMAIN] = 66;
+    axiom_counts_by_type[COWL_AT_DATA_PROP_RANGE] = 66;
+    axiom_counts_by_type[COWL_AT_HAS_KEY] = 1;
+    axiom_counts_by_type[COWL_AT_ANNOT_ASSERT] = 19;
+    axiom_counts_by_type[COWL_AT_SUB_ANNOT_PROP] = 1;
+    axiom_counts_by_type[COWL_AT_ANNOT_PROP_DOMAIN] = 1;
+    axiom_counts_by_type[COWL_AT_ANNOT_PROP_RANGE] = 1;
 }
 
 bool cowl_test_ontology_init(void) {
+    axiom_counts_by_type_init();
     CowlManager *manager = cowl_manager();
     CowlImportLoader loader = { manager, cowl_test_load_import };
     cowl_manager_set_import_loader(manager, loader);
@@ -125,13 +124,27 @@ bool cowl_test_ontology_imports_count(void) {
 }
 
 bool cowl_test_ontology_axiom_count_for_type(void) {
-    ulib_uint *expected_axiom_counts = test_onto_axiom_counts();
-
     for (ulib_uint type = COWL_AT_FIRST; type < COWL_AT_COUNT; ++type) {
-        ulib_uint expected_count = expected_axiom_counts[type];
+        ulib_uint expected_count = axiom_counts_by_type[type];
         ulib_uint count = cowl_ontology_axiom_count_for_type(onto, (CowlAxiomType)type, true);
         utest_assert_uint(count, ==, expected_count);
     }
+
+    return true;
+}
+
+bool cowl_test_ontology_axiom_count_for_types(void) {
+
+    ulib_uint expected = axiom_counts_by_type[COWL_AT_SUB_CLASS] +
+                         axiom_counts_by_type[COWL_AT_OBJ_PROP_ASSERT] +
+                         axiom_counts_by_type[COWL_AT_ANNOT_ASSERT];
+    CowlAxiomFlags types = COWL_AF_SUB_CLASS | COWL_AF_OBJ_PROP_ASSERT | COWL_AF_ANNOT_ASSERT;
+    ulib_uint count = cowl_ontology_axiom_count_for_types(onto, types, true);
+    utest_assert_uint(count, ==, expected);
+
+    expected = test_onto_axiom_count;
+    count = cowl_ontology_axiom_count_for_types(onto, COWL_AF_ALL, true);
+    utest_assert_uint(count, ==, expected);
 
     return true;
 }

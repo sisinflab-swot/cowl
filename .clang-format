@@ -7,6 +7,7 @@ AllowShortLoopsOnASingleLine: true
 ColumnLimit: 100
 Cpp11BracedListStyle: false
 ForEachMacros:
+  - cowl_axiom_flags_foreach_type
   - cowl_vector_foreach
   - cowl_table_foreach
   - uvec_foreach
