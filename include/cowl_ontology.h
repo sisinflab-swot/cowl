@@ -25,6 +25,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotation);
+cowl_struct_decl(CowlAxiomIndex);
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlSymTable);
@@ -377,6 +378,21 @@ bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags ty
 COWL_API
 bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                 CowlIterator *iter, bool imports);
+
+/**
+ * Iterates over the axioms matching the specified index.
+ *
+ * @param onto The ontology.
+ * @param index The index.
+ * @param iter The iterator.
+ * @param imports If true, the query recurses over imported ontologies.
+ * @return True if the iteration was completed, false if it was stopped.
+ *
+ * @note The index must not be used anymore after calling this function.
+ */
+COWL_API
+bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomIndex *index,
+                                           CowlIterator *iter, bool imports);
 
 /**
  * Iterates over the constructs that are related to the specified primitive by some axiom.
