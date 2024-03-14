@@ -7,8 +7,10 @@ on:
 env:
   build_dir: build
   build_config: Release
-  cflags_gnuc: -Werror -fsanitize=address
-  lflags_gnuc: -fsanitize=address
+  cflags_gnuc: -Werror
+  lflags_gnuc: ''
+  cflags_clang: -Werror -fsanitize=address
+  lflags_clang: -fsanitize=address
   cflags_msvc: /WX
   lflags_msvc: ''
   doxygen_version: ${{secrets.doxygen_version}}
@@ -35,14 +37,15 @@ jobs:
             echo 'cflags="${{env.cflags_msvc}}"' >> $GITHUB_ENV
             echo 'lflags="${{env.lflags_msvc}}"' >> $GITHUB_ENV
             choco install winflexbison3
-          else
+          elif [ $RUNNER_OS == 'Linux' ]; then
             echo 'cflags="${{env.cflags_gnuc}}"' >> $GITHUB_ENV
             echo 'lflags="${{env.lflags_gnuc}}"' >> $GITHUB_ENV
-            if [ $RUNNER_OS == 'macOS' ]; then
-              brew install flex bison
-              echo '/usr/local/opt/bison/bin' >> $GITHUB_PATH
-              echo '/usr/local/opt/flex/bin' >> $GITHUB_PATH
-            fi
+          elif [ $RUNNER_OS == 'macOS' ]; then
+            echo 'cflags="${{env.cflags_clang}}"' >> $GITHUB_ENV
+            echo 'lflags="${{env.lflags_clang}}"' >> $GITHUB_ENV
+            brew install flex bison
+            echo '/usr/local/opt/bison/bin' >> $GITHUB_PATH
+            echo '/usr/local/opt/flex/bin' >> $GITHUB_PATH
           fi
         shell: bash
 
