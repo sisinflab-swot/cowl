@@ -60,8 +60,8 @@ static bool operand_has_primitive(void *primitive, CowlAny *operand) {
     return !cowl_has_primitive(operand, primitive);
 }
 
-bool cowl_axiom_has_primitive(CowlAnyAxiom *axiom, CowlPosition position,
-                              CowlAnyPrimitive *primitive) {
+bool cowl_axiom_has_primitive(CowlAnyAxiom *axiom, CowlAnyPrimitive *primitive,
+                              CowlPosition position) {
     if (position == COWL_PS_ANY) return cowl_has_primitive(axiom, primitive);
     CowlIterator iter = { .ctx = primitive, .for_each = operand_has_primitive };
     return !cowl_axiom_iterate_operands(axiom, position, &iter);
