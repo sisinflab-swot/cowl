@@ -191,11 +191,15 @@ bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  * Removes the axioms matching the provided filter function.
  *
  * @param onto The ontology.
+ * @param index The index.
  * @param filter The filter.
  * @return Number of removed axioms.
+ *
+ * @note The index must not be used anymore after calling this function.
  */
 COWL_API
-ulib_uint cowl_ontology_remove_axioms_where(CowlOntology *onto, CowlFilter *filter);
+ulib_uint
+cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomIndex *index, CowlFilter *filter);
 
 /**
  * Gets the number of axioms in the ontology.

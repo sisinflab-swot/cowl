@@ -18,10 +18,6 @@
 
 COWL_BEGIN_DECLS
 
-/// @cond
-uvec_decl(CowlObjectPtr);
-/// @endcond
-
 /// Axiom index parameters.
 typedef struct CowlAxiomIndex {
 
@@ -41,12 +37,13 @@ typedef struct CowlAxiomIndex {
 /**
  * Returns a new axiom index.
  *
+ * @param types Axiom types.
  * @return Axiom index.
  */
 COWL_CONST
 COWL_INLINE
-CowlAxiomIndex cowl_axiom_index(void) {
-    CowlAxiomIndex ret = { COWL_AF_ALL, uvec(CowlObjectPtr) };
+CowlAxiomIndex cowl_axiom_index(CowlAxiomFlags types) {
+    CowlAxiomIndex ret = { types, uvec(CowlObjectPtr) };
     return ret;
 }
 
