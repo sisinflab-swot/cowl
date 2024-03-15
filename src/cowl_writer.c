@@ -21,7 +21,7 @@
 
 cowl_ret cowl_write(UOStream *stream, CowlAny *object) {
     CowlWriter writer = cowl_get_writer();
-    if (writer.write) return writer.write(stream, object);
+    if (cowl_writer_can_write_object(&writer)) return writer.write(stream, object);
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
 

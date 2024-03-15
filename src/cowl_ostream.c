@@ -9,6 +9,7 @@
  */
 
 #include "cowl_manager_private.h"
+#include "cowl_ontology.h"
 #include "cowl_ostream_private.h"
 #include "cowl_sym_table_private.h"
 
@@ -46,52 +47,107 @@ CowlSymTable *cowl_ostream_get_sym_table(CowlOStream *stream) {
     return stream->st;
 }
 
-static cowl_ret handle_stream_writer_not_implemented(CowlOStream *stream, CowlWriter *writer) {
-    UString desc = ustring_with_format("%s writer does not support stream serialization",
-                                       writer->name);
+static cowl_ret handle_stream_writer_not_implemented(CowlOStream *stream, char const *name) {
+    UString comp[] = {
+        ustring_wrap_buf(name),
+        ustring_literal(" writer does not support stream serialization"),
+    };
+    UString desc = ustring_concat(comp, ulib_array_count(comp));
     cowl_handle_error(COWL_ERR, desc, stream);
+    ustring_deinit(&desc);
     return COWL_ERR;
 }
 
-cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader header) {
-    CowlWriter writer = cowl_manager_get_writer(stream->manager);
+cowl_ret
+cowl_ostream_write_header(cowl_unused CowlOStream *stream, cowl_unused CowlOntologyHeader header) {
+    CowlWriter w = cowl_manager_get_writer(stream->manager);
+    CowlStreamWriter writer = w.stream;
 
-    if (!writer.stream.write_header) {
-        return handle_stream_writer_not_implemented(stream, &writer);
+    if (!writer.write_header) {
+        return handle_stream_writer_not_implemented(stream, w.name);
     }
 
-    cowl_ret ret = writer.stream.write_header(stream->stream, stream->st, header);
+    cowl_ret ret = writer.write_header(stream->stream, stream->st, header);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
 
 cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom) {
-    CowlWriter writer = cowl_manager_get_writer(stream->manager);
+    CowlWriter w = cowl_manager_get_writer(stream->manager);
+    CowlStreamWriter writer = w.stream;
 
-    if (!writer.stream.write_axiom) {
-        return handle_stream_writer_not_implemented(stream, &writer);
+    if (!writer.write_axiom) {
+        return handle_stream_writer_not_implemented(stream, w.name);
     }
 
-    cowl_ret ret = writer.stream.write_axiom(stream->stream, stream->st, axiom);
+    cowl_ret ret = writer.write_axiom(stream->stream, stream->st, axiom);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
 
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream) {
-    CowlWriter writer = cowl_manager_get_writer(stream->manager);
+    CowlWriter w = cowl_manager_get_writer(stream->manager);
+    CowlStreamWriter writer = w.stream;
 
-    if (!writer.stream.write_footer) {
-        return handle_stream_writer_not_implemented(stream, &writer);
+    if (!writer.write_footer) {
+        return handle_stream_writer_not_implemented(stream, w.name);
     }
 
-    cowl_ret ret = writer.stream.write_footer(stream->stream, stream->st);
+    cowl_ret ret = writer.write_footer(stream->stream, stream->st);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
 
+struct WriteAxiomCtx {
+    cowl_ret *ret;
+    CowlOStream *stream;
+};
+
+static bool axiom_writer(void *ctx, CowlAnyAxiom *axiom) {
+    struct WriteAxiomCtx *actx = ctx;
+    return (*actx->ret = cowl_ostream_write_axiom(actx->stream, axiom)) == COWL_OK;
+}
+
+static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOntology *ontology) {
+    cowl_ret ret = COWL_ERR_MEM;
+
+    CowlSymTable *st = cowl_ostream_get_sym_table(stream);
+    if (cowl_sym_table_merge(st, cowl_ontology_get_sym_table(ontology), true)) goto end;
+
+    UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
+    CowlIterator iter = cowl_iterator_vec(&imports, false);
+    if (!cowl_ontology_iterate_import_iris(ontology, &iter, false)) goto end;
+
+    CowlOntologyHeader header = {
+        .id = cowl_ontology_get_id(ontology),
+        .imports = &imports,
+        .annotations = cowl_vector_get_data(cowl_ontology_get_annot(ontology)),
+    };
+
+    ret = cowl_ostream_write_header(stream, header);
+    if (ret) goto end;
+    struct WriteAxiomCtx ctx = { .ret = &ret, .stream = stream };
+    iter.ctx = &ctx;
+    iter.for_each = axiom_writer;
+    cowl_ontology_iterate_axioms(ontology, &iter, false);
+    if (ret) goto end;
+    ret = cowl_ostream_write_footer(stream);
+
+end:
+    uvec_deinit(CowlObjectPtr, &imports);
+    return ret;
+}
+
 cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *ontology) {
+    cowl_ret ret = COWL_OK;
     CowlWriter writer = cowl_manager_get_writer(stream->manager);
-    cowl_ret ret = writer.write_ontology(stream->stream, ontology);
+    if (cowl_writer_can_write_ontology(&writer)) {
+        ret = writer.write_ontology(stream->stream, ontology);
+    } else if (cowl_writer_can_write_stream(&writer)) {
+        ret = cowl_ostream_write_ontology_stream(stream, ontology);
+    } else {
+        return cowl_handle_error(COWL_ERR, ustring_literal("Invalid writer"), stream);
+    }
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }

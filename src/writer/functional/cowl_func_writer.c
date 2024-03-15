@@ -14,31 +14,22 @@
 #include "cowl_datatype.h"
 #include "cowl_decl_axiom.h"
 #include "cowl_has_key_axiom.h"
-#include "cowl_iri.h"
 #include "cowl_literal.h"
 #include "cowl_obj_quant.h"
-#include "cowl_ontology.h"
 #include "cowl_primitive_private.h"
-#include "cowl_rdf_vocab.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sym_table.h"
 #include "cowl_table.h"
 #include "cowl_vocab.h"
 #include "cowl_writer.h"
-#include "cowl_xsd_vocab.h"
 
 static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *st);
-static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto);
 static ustream_ret
 cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader header, CowlSymTable *st);
 static ustream_ret cowl_func_write_onto_footer(UOStream *s);
 
 static cowl_ret cowl_func_write(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_func_write_obj(stream, object, NULL));
-}
-
-static cowl_ret cowl_func_write_ontology(UOStream *stream, CowlOntology *onto) {
-    return cowl_ret_from_ustream(cowl_func_write_onto(stream, onto));
 }
 
 static cowl_ret
@@ -58,7 +49,6 @@ static cowl_ret cowl_func_write_footer(UOStream *stream, cowl_unused CowlSymTabl
 
 static CowlWriter const cowl_func_writer = {
     .name = "functional",
-    .write_ontology = cowl_func_write_ontology,
     .write = cowl_func_write,
     .stream = {
         .write_header = cowl_func_write_header,
@@ -344,15 +334,6 @@ static ustream_ret cowl_func_write_prefix(UOStream *s, CowlString *prefix, CowlS
     return s->state;
 }
 
-static bool axiom_writer(void *ctx, void *obj) {
-    void **array = ctx;
-    UOStream *s = array[0];
-    CowlSymTable *st = array[1];
-    cowl_func_write_obj(s, obj, st);
-    cowl_write_static(s, "\n");
-    return s->state == USTREAM_OK;
-}
-
 static ustream_ret
 cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader header, CowlSymTable *st) {
     CowlTable *prefixes = cowl_sym_table_get_prefix_ns_map(st, false);
@@ -392,30 +373,6 @@ static ustream_ret cowl_func_write_onto_footer(UOStream *s) {
     return s->state;
 }
 
-static ustream_ret cowl_func_write_onto(UOStream *s, CowlOntology *onto) {
-    UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
-    CowlIterator iter = cowl_iterator_vec(&imports, false);
-    if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) return USTREAM_ERR_MEM;
-
-    CowlOntologyHeader header = {
-        .id = cowl_ontology_get_id(onto),
-        .imports = &imports,
-        .annotations = cowl_vector_get_data(cowl_ontology_get_annot(onto)),
-    };
-
-    CowlSymTable *st = cowl_ontology_get_sym_table(onto);
-    cowl_func_write_onto_header(s, header, st);
-    uvec_deinit(CowlObjectPtr, &imports);
-
-    void *ctx[] = { s, st };
-    iter.ctx = ctx;
-    iter.for_each = axiom_writer;
-    cowl_ontology_iterate_axioms(onto, &iter, false);
-
-    cowl_func_write_onto_footer(s);
-    return s->state;
-}
-
 static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *st) {
     CowlObjectType type = cowl_get_type(obj);
     switch (type) {
@@ -425,7 +382,7 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         case COWL_OT_IRI: return cowl_func_write_iri(s, obj, st);
         case COWL_OT_LITERAL: return cowl_func_write_literal(s, obj, st);
         case COWL_OT_FACET_RESTR: return cowl_func_write_facet_restr(s, obj, st);
-        case COWL_OT_ONTOLOGY: return cowl_func_write_onto(s, obj);
+        case COWL_OT_ONTOLOGY:
         case COWL_OT_MANAGER:
         case COWL_OT_SYM_TABLE:
         case COWL_OT_ISTREAM:

@@ -134,7 +134,6 @@ bool cowl_test_ontology_axiom_count_for_type(void) {
 }
 
 bool cowl_test_ontology_axiom_count_for_types(void) {
-
     ulib_uint expected = axiom_counts_by_type[COWL_AT_SUB_CLASS] +
                          axiom_counts_by_type[COWL_AT_OBJ_PROP_ASSERT] +
                          axiom_counts_by_type[COWL_AT_ANNOT_ASSERT];

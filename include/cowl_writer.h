@@ -72,7 +72,9 @@ typedef struct CowlWriter {
      * @param ontology Ontology.
      * @return Return code.
      *
-     * @note This member is mandatory.
+     * @note Should only be implemented by writers that either require the ontology object
+     *       as a whole, or that can more efficiently encode the ontology if they
+     *       have access to it. In all other cases, it is best left unimplemented.
      */
     cowl_ret (*write_ontology)(UOStream *stream, CowlOntology *ontology);
 
@@ -83,14 +85,16 @@ typedef struct CowlWriter {
      * @param object Object to write.
      * @return Return code.
      *
-     * @note This member is optional.
+     * @note Should only be implemented by writers used as default writers
+     *       (i.e. passed to @func{cowl_set_writer()}), so that they are able to write
+     *       the string representation of arbitrary objects.
      */
     cowl_ret (*write)(UOStream *stream, CowlAny *object);
 
     /**
      * Contains the streaming implementation of this writer.
      *
-     * @note This member is optional.
+     * @note This is the preferred implementation for writers.
      */
     CowlStreamWriter stream;
 
@@ -113,6 +117,42 @@ COWL_CONST
 CowlWriter cowl_writer_functional(void);
 
 #endif // COWL_WRITER_FUNCTIONAL
+
+/**
+ * Checks whether the writer supports stream writing.
+ *
+ * @param writer The writer.
+ * @return True if the writer supports stream writing, false otherwise.
+ */
+COWL_PURE
+COWL_INLINE
+bool cowl_writer_can_write_stream(CowlWriter const *writer) {
+    return writer->stream.write_header && writer->stream.write_axiom && writer->stream.write_footer;
+}
+
+/**
+ * Checks whether the writer supports writing arbitrary objects.
+ *
+ * @param writer The writer.
+ * @return True if the writer supports writing objects, false otherwise.
+ */
+COWL_PURE
+COWL_INLINE
+bool cowl_writer_can_write_object(CowlWriter const *writer) {
+    return writer->write != NULL;
+}
+
+/**
+ * Checks whether the writer has a specialized method to write ontologies.
+ *
+ * @param writer The writer.
+ * @return True if the writer has a specialized method to write ontologies, false otherwise.
+ */
+COWL_PURE
+COWL_INLINE
+bool cowl_writer_can_write_ontology(CowlWriter const *writer) {
+    return writer->write_ontology != NULL;
+}
 
 // High-level write functions
 

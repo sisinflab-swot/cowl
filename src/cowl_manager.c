@@ -21,7 +21,6 @@ CowlManager *cowl_manager(void) {
     if (!manager) return NULL;
     *manager = (CowlManager){
         .super = COWL_OBJECT_INIT(COWL_OT_MANAGER),
-        .reader = { 0 },
         .ontos = uvec(CowlObjectPtr),
     };
     return manager;
