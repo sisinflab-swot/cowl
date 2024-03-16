@@ -8,8 +8,8 @@
  * @file
  */
 
+#include "cowl_config.h"
 #include "cowl_anon_ind_private.h"
-#include "cowl_config_private.h"
 #include "cowl_entity_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_reader.h"

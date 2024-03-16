@@ -27,12 +27,8 @@ struct CowlManager {
 };
 
 void cowl_manager_free(CowlManager *manager);
-COWL_PURE CowlReader cowl_manager_get_reader(CowlManager *manager);
-COWL_PURE CowlWriter cowl_manager_get_writer(CowlManager *manager);
 cowl_ret cowl_manager_add_ontology(CowlManager *manager, CowlOntology *onto);
 void cowl_manager_remove_ontology(CowlManager *manager, CowlOntology *onto);
-COWL_PURE CowlImportLoader cowl_manager_get_import_loader(CowlManager *manager);
-COWL_PURE CowlErrorHandler cowl_manager_get_error_handler(CowlManager *manager);
 
 COWL_END_DECLS
 

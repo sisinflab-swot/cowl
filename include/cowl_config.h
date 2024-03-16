@@ -54,24 +54,12 @@ void cowl_deinit(void);
  */
 
 /**
- * Sets the global error handler.
+ * Gets the default reader.
  *
- * @param handler The error handler.
- *
- * @note This function must be called again if you reinitialize the library after deinitializing it.
+ * @return The default reader.
  */
 COWL_API
-void cowl_set_error_handler(CowlErrorHandler handler);
-
-/**
- * Sets the global import loader.
- *
- * @param loader The import loader.
- *
- * @note This function must be called again if you reinitialize the library after deinitializing it.
- */
-COWL_API
-void cowl_set_import_loader(CowlImportLoader loader);
+CowlReader cowl_get_reader(void);
 
 /**
  * Sets the default reader.
@@ -84,6 +72,14 @@ COWL_API
 void cowl_set_reader(CowlReader reader);
 
 /**
+ * Gets the default writer.
+ *
+ * @return The default writer.
+ */
+COWL_API
+CowlWriter cowl_get_writer(void);
+
+/**
  * Sets the default writer.
  *
  * @param writer The writer.
@@ -92,6 +88,42 @@ void cowl_set_reader(CowlReader reader);
  */
 COWL_API
 void cowl_set_writer(CowlWriter writer);
+
+/**
+ * Gets the global error handler.
+ *
+ * @return The global error handler.
+ */
+COWL_API
+CowlErrorHandler cowl_get_error_handler(void);
+
+/**
+ * Sets the global error handler.
+ *
+ * @param handler The error handler.
+ *
+ * @note This function must be called again if you reinitialize the library after deinitializing it.
+ */
+COWL_API
+void cowl_set_error_handler(CowlErrorHandler handler);
+
+/**
+ * Gets the global import loader.
+ *
+ * @return The global import loader.
+ */
+COWL_API
+CowlImportLoader cowl_get_import_loader(void);
+
+/**
+ * Sets the global import loader.
+ *
+ * @param loader The import loader.
+ *
+ * @note This function must be called again if you reinitialize the library after deinitializing it.
+ */
+COWL_API
+void cowl_set_import_loader(CowlImportLoader loader);
 
 /// @}
 

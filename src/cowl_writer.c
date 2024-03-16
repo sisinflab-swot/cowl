@@ -9,7 +9,7 @@
  */
 
 #include "cowl_writer.h"
-#include "cowl_config_private.h"
+#include "cowl_config.h"
 #include "cowl_cstring.h"
 #include "cowl_iri.h"
 #include "cowl_manager_private.h"

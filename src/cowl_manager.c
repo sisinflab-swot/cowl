@@ -8,7 +8,7 @@
  * @file
  */
 
-#include "cowl_config_private.h"
+#include "cowl_config.h"
 #include "cowl_istream_private.h"
 #include "cowl_iterator_private.h"
 #include "cowl_manager_private.h"

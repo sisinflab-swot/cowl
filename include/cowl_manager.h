@@ -54,6 +54,15 @@ COWL_RETAINED
 CowlManager *cowl_manager(void);
 
 /**
+ * Gets the reader.
+ *
+ * @param manager The manager.
+ * @return The reader.
+ */
+COWL_API
+CowlReader cowl_manager_get_reader(CowlManager *manager);
+
+/**
  * Sets the reader.
  *
  * @param manager The manager.
@@ -61,6 +70,15 @@ CowlManager *cowl_manager(void);
  */
 COWL_API
 void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
+
+/**
+ * Gets the writer.
+ *
+ * @param manager The manager.
+ * @return The writer.
+ */
+COWL_API
+CowlWriter cowl_manager_get_writer(CowlManager *manager);
 
 /**
  * Sets the writer.
@@ -72,6 +90,15 @@ COWL_API
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
 
 /**
+ * Gets the import loader.
+ *
+ * @param manager The manager.
+ * @return The import loader.
+ */
+COWL_API
+CowlImportLoader cowl_manager_get_import_loader(CowlManager *manager);
+
+/**
  * Sets the import loader.
  *
  * @param manager The manager.
@@ -79,6 +106,15 @@ void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
  */
 COWL_API
 void cowl_manager_set_import_loader(CowlManager *manager, CowlImportLoader loader);
+
+/**
+ * Gets the error handler.
+ *
+ * @param manager The manager.
+ * @return The error handler.
+ */
+COWL_API
+CowlErrorHandler cowl_manager_get_error_handler(CowlManager *manager);
 
 /**
  * Sets the error handler.
