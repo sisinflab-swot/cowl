@@ -245,27 +245,34 @@ static cowl_ret cowl_write_debug_impl(UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
 
-static CowlString *cowl_to_string_impl(CowlAny *object, cowl_ret (*fun)(UOStream *, CowlAny *)) {
+static UString cowl_to_ustring_impl(CowlAny *object, cowl_ret (*fun)(UOStream *, CowlAny *)) {
     UOStream stream;
     UStrBuf buf = ustrbuf();
     if (uostream_to_strbuf(&stream, &buf) || fun(&stream, object)) goto err;
-
-    CowlString *string = cowl_string(ustrbuf_to_ustring(&buf));
+    UString ret = ustrbuf_to_ustring(&buf);
     uostream_deinit(&stream);
-    return string;
+    return ret;
 
 err:
     uostream_deinit(&stream);
     ustrbuf_deinit(&buf);
-    return NULL;
+    return ustring_null;
 }
 
 CowlString *cowl_to_string(CowlAny *object) {
-    return cowl_to_string_impl(object, cowl_write);
+    return cowl_string(cowl_to_ustring(object));
+}
+
+UString cowl_to_ustring(CowlAny *object) {
+    return cowl_to_ustring_impl(object, cowl_write);
 }
 
 CowlString *cowl_to_debug_string(CowlAny *object) {
-    return cowl_to_string_impl(object, cowl_write_debug_impl);
+    return cowl_string(cowl_to_debug_ustring(object));
+}
+
+UString cowl_to_debug_ustring(CowlAny *object) {
+    return cowl_to_ustring_impl(object, cowl_write_debug_impl);
 }
 
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {

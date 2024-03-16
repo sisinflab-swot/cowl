@@ -211,6 +211,17 @@ COWL_RETAINED
 CowlString *cowl_to_string(CowlAny *object);
 
 /**
+ * Returns the string representation of the specified object.
+ *
+ * @param object The object.
+ * @return String representation, or @val{#ustring_null} on error.
+ *
+ * @destructor{ustring_deinit}
+ */
+COWL_API
+UString cowl_to_ustring(CowlAny *object);
+
+/**
  * Returns a debug string representation of the specified object.
  *
  * The debug string includes internal details such as the object's address,
@@ -222,6 +233,20 @@ CowlString *cowl_to_string(CowlAny *object);
 COWL_API
 COWL_RETAINED
 CowlString *cowl_to_debug_string(CowlAny *object);
+
+/**
+ * Returns a debug string representation of the specified object.
+ *
+ * The debug string includes internal details such as the object's address,
+ * type and reference count.
+ *
+ * @param object The object.
+ * @return String representation, or @val{#ustring_null} on error.
+ *
+ * @destructor{ustring_deinit}
+ */
+COWL_API
+UString cowl_to_debug_ustring(CowlAny *object);
 
 /**
  * Equality function.

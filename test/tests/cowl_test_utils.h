@@ -25,12 +25,12 @@ uvec_decl(CowlError);
     utest_assert_wrap(                                                                             \
         cowl_equals(LHS, RHS),                                                                     \
         {                                                                                          \
-            CowlString *T##_lhs_str = cowl_to_string(LHS);                                         \
-            CowlString *T##_rhs_str = cowl_to_string(RHS);                                         \
-            printf(" must be equal to \"%s\", found \"%s\".",                                      \
-                   cowl_string_get_cstring(T##_rhs_str), cowl_string_get_cstring(T##_lhs_str));    \
-            cowl_release(T##_lhs_str);                                                             \
-            cowl_release(T##_rhs_str);                                                             \
+            UString T##_lhs_str = cowl_to_ustring(LHS);                                            \
+            UString T##_rhs_str = cowl_to_ustring(RHS);                                            \
+            printf(" must be equal to \"%s\", found \"%s\".", ustring_data(T##_rhs_str),           \
+                   ustring_data(T##_lhs_str));                                                     \
+            ustring_deinit(&T##_lhs_str);                                                          \
+            ustring_deinit(&T##_rhs_str);                                                          \
         },                                                                                         \
         #LHS)
 
@@ -38,9 +38,9 @@ uvec_decl(CowlError);
     utest_assert_wrap(                                                                             \
         !cowl_equals(LHS, RHS),                                                                    \
         {                                                                                          \
-            CowlString *T##_rhs_str = cowl_to_string(RHS);                                         \
-            printf(" must not be equal to \"%s\".", cowl_string_get_cstring(T##_rhs_str));         \
-            cowl_release(T##_rhs_str);                                                             \
+            UString T##_rhs_str = cowl_to_ustring(RHS);                                            \
+            printf(" must not be equal to \"%s\".", ustring_data(T##_rhs_str));                    \
+            ustring_deinit(&T##_rhs_str);                                                          \
         },                                                                                         \
         #LHS)
 
