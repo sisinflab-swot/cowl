@@ -104,11 +104,25 @@ COWL_API
 CowlString *cowl_string_intern(CowlString *string);
 
 /**
+ * Releases the specified string, returning its raw string as a copy.
+ *
+ * @param string The string.
+ * @return Copy of the underlying string object.
+ *
+ * @destructor{ustring_deinit}
+ * @note As an optimization, if the string is deallocated due to the release call,
+ *       then the original raw string is returned.
+ */
+COWL_API
+UString cowl_string_release_copying_raw(CowlString *string);
+
+/**
  * Releases the specified string, returning its buffer as a copy.
  *
  * @param string The string.
  * @return The copied buffer.
  *
+ * @destructor{ulib_free}
  * @note As an optimization, if the string is deallocated due to the release call,
  *       then the original buffer is returned.
  */

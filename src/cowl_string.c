@@ -180,14 +180,19 @@ void cowl_string_free(CowlString *string) {
 }
 
 char *cowl_string_release_copying_cstring(CowlString *string) {
-    if (!string) return NULL;
-    char *ret;
+    UString raw = cowl_string_release_copying_raw(string);
+    return ustring_is_null(raw) ? NULL : ustring_deinit_return_data(&raw);
+}
+
+UString cowl_string_release_copying_raw(CowlString *string) {
+    if (!string) return ustring_null;
+    UString ret;
     ulib_uint ref = cowl_object_decr_ref(string);
 
     if (ref) {
-        ret = ulib_str_dup(ustring_data(string->raw_string), ustring_length(string->raw_string));
+        ret = ustring_dup(string->raw_string);
     } else {
-        ret = ustring_deinit_return_data(&string->raw_string);
+        ret = string->raw_string;
         string->raw_string = ustring_null;
         cowl_string_free(string);
     }
