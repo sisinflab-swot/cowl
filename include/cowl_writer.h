@@ -69,14 +69,14 @@ typedef struct CowlWriter {
      * Pointer to a function that writes an ontology to an output stream.
      *
      * @param stream Output stream.
-     * @param ontology Ontology.
+     * @param onto Ontology.
      * @return Return code.
      *
      * @note Should only be implemented by writers that either require the ontology object
      *       as a whole, or that can more efficiently encode the ontology if they
      *       have access to it. In all other cases, it is best left unimplemented.
      */
-    cowl_ret (*write_ontology)(UOStream *stream, CowlOntology *ontology);
+    cowl_ret (*write_ontology)(UOStream *stream, CowlOntology *onto);
 
     /**
      * Pointer to a function that writes an object to an output stream.

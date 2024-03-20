@@ -157,11 +157,11 @@ cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream);
  * Streams through the specified ontology.
  *
  * @param stream The ontology input stream.
- * @param ontology The ontology.
+ * @param onto The ontology.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *ontology);
+cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *onto);
 
 /// @}
 

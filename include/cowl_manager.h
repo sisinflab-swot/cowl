@@ -220,47 +220,47 @@ CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *stream);
  * Writes the ontology to the file at the specified path.
  *
  * @param manager The manager.
- * @param ontology The ontology.
+ * @param onto The ontology.
  * @param path The file path.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, UString path);
+cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *onto, UString path);
 
 /**
  * Writes the ontology to the specified file.
  *
  * @param manager The manager.
- * @param ontology The ontology.
+ * @param onto The ontology.
  * @param file The output file.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *ontology, FILE *file);
+cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *onto, FILE *file);
 
 /**
  * Writes the ontology to the specified string buffer.
  *
  * @param manager The manager.
- * @param ontology The ontology.
+ * @param onto The ontology.
  * @param buf The string buffer.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology, UStrBuf *buf);
+cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *onto, UStrBuf *buf);
 
 /**
  * Writes the ontology to the specified output stream.
  *
  * @param manager The manager.
- * @param ontology The ontology.
+ * @param onto The ontology.
  * @param stream The output stream.
  * @return Return code.
  *
  * @note The stream is not released by the manager, you must do it yourself.
  */
 COWL_API
-cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream);
+cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *onto, UOStream *stream);
 
 /**
  * Returns an ontology input stream.
@@ -277,12 +277,12 @@ CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers 
  * Returns an ontology input stream that stores constructs in the specified ontology.
  *
  * @param manager The manager.
- * @param ontology The ontology.
+ * @param onto The ontology.
  * @return Ontology input stream.
  */
 COWL_API
 COWL_RETAINED
-CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOntology *ontology);
+CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOntology *onto);
 
 /**
  * Returns an ontology output stream.

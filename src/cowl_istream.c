@@ -112,18 +112,18 @@ static bool onto_stream_handle_axiom(void *ctx, CowlAny *axiom) {
     return (*((cowl_ret *)c[0]) = handle->axiom(handle->ctx, axiom)) == COWL_OK;
 }
 
-cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *ontology) {
+cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *onto) {
     cowl_ret ret = COWL_OK;
     CowlIStreamHandlers *handle = &stream->handlers;
 
     if (handle->iri || handle->version) {
-        CowlOntologyId id = cowl_ontology_get_id(ontology);
+        CowlOntologyId id = cowl_ontology_get_id(onto);
         if (handle->iri && (ret = handle->iri(handle->ctx, id.iri))) return ret;
         if (handle->version && (ret = handle->version(handle->ctx, id.version))) return ret;
     }
 
     if (handle->annot) {
-        CowlVector *annotations = cowl_ontology_get_annot(ontology);
+        CowlVector *annotations = cowl_ontology_get_annot(onto);
         cowl_vector_foreach (annotations, annot) {
             if ((ret = handle->annot(handle->ctx, *annot.item))) return ret;
         }
@@ -132,13 +132,13 @@ cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *ontolo
     if (handle->import) {
         void *ctx[] = { &ret, handle };
         CowlIterator iter = { ctx, onto_stream_handle_import };
-        if (!cowl_ontology_iterate_import_iris(ontology, &iter, false)) return ret;
+        if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) return ret;
     }
 
     if (handle->axiom) {
         void *ctx[] = { &ret, handle };
         CowlIterator iter = { ctx, onto_stream_handle_axiom };
-        if (!cowl_ontology_iterate_axioms(ontology, &iter, false)) return ret;
+        if (!cowl_ontology_iterate_axioms(onto, &iter, false)) return ret;
     }
 
     return ret;

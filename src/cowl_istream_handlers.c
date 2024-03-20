@@ -33,9 +33,9 @@ static cowl_ret store_axiom(void *ctx, CowlAnyAxiom *axiom) {
     return cowl_ontology_add_axiom(ctx, axiom);
 }
 
-CowlIStreamHandlers cowl_istream_handlers_to_ontology(CowlOntology *ontology) {
+CowlIStreamHandlers cowl_istream_handlers_to_ontology(CowlOntology *onto) {
     return (CowlIStreamHandlers){
-        .ctx = ontology,
+        .ctx = onto,
         .iri = store_iri,
         .version = store_version,
         .import = store_import,

@@ -116,30 +116,30 @@ err:
     return NULL;
 }
 
-cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *ontology, UString path) {
+cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *onto, UString path) {
     UOStream stream;
     uostream_to_path(&stream, ustring_data(path));
-    cowl_ret ret = cowl_manager_write_stream_deinit(manager, ontology, &stream);
+    cowl_ret ret = cowl_manager_write_stream_deinit(manager, onto, &stream);
     if (ret) cowl_handle_path_error(path, ustring_literal("failed to write ontology"), manager);
     return ret;
 }
 
-cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *ontology, FILE *file) {
+cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *onto, FILE *file) {
     UOStream stream;
     uostream_to_file(&stream, file);
-    return cowl_manager_write_stream_deinit(manager, ontology, &stream);
+    return cowl_manager_write_stream_deinit(manager, onto, &stream);
 }
 
-cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *ontology, UStrBuf *buf) {
+cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *onto, UStrBuf *buf) {
     UOStream stream;
     uostream_to_strbuf(&stream, buf);
-    return cowl_manager_write_stream_deinit(manager, ontology, &stream);
+    return cowl_manager_write_stream_deinit(manager, onto, &stream);
 }
 
-cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *ontology, UOStream *stream) {
+cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *onto, UOStream *stream) {
     if (stream->state) return cowl_handle_stream_error(stream->state, manager);
     CowlOStream *ostream = cowl_manager_get_ostream(manager, stream);
-    cowl_ret ret = cowl_ostream_write_ontology(ostream, ontology);
+    cowl_ret ret = cowl_ostream_write_ontology(ostream, onto);
     cowl_release(ostream);
     return ret;
 }
@@ -173,16 +173,16 @@ static cowl_ret store_axiom(void *ctx, CowlAnyAxiom *axiom) {
     return cowl_ontology_add_axiom(ctx, axiom);
 }
 
-CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOntology *ontology) {
+CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOntology *onto) {
     CowlIStreamHandlers handlers = {
-        .ctx = ontology,
+        .ctx = onto,
         .iri = store_iri,
         .version = store_version,
         .import = store_import,
         .annot = store_annot,
         .axiom = store_axiom,
     };
-    return cowl_istream(manager, ontology->st, handlers);
+    return cowl_istream(manager, onto->st, handlers);
 }
 
 CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream) {
