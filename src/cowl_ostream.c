@@ -108,29 +108,37 @@ static bool axiom_writer(void *ctx, CowlAnyAxiom *axiom) {
     return (*actx->ret = cowl_ostream_write_axiom(actx->stream, axiom)) == COWL_OK;
 }
 
-static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOntology *ontology) {
-    cowl_ret ret = COWL_ERR_MEM;
+static cowl_ret cowl_ostream_write_ontology_store(CowlOStream *stream, CowlOntology *onto) {
+    cowl_ret ret;
+    CowlSymTable *st = cowl_ontology_get_sym_table(onto);
+    if ((ret = cowl_sym_table_merge(st, cowl_ostream_get_sym_table(stream), false))) return ret;
+    CowlWriter writer = cowl_manager_get_writer(stream->manager);
+    return writer.write_ontology(stream->stream, onto);
+}
 
+static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOntology *onto) {
+    cowl_ret ret;
     CowlSymTable *st = cowl_ostream_get_sym_table(stream);
-    if (cowl_sym_table_merge(st, cowl_ontology_get_sym_table(ontology), true)) goto end;
+    if ((ret = cowl_sym_table_merge(st, cowl_ontology_get_sym_table(onto), true))) goto end;
 
     UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
     CowlIterator iter = cowl_iterator_vec(&imports, false);
-    if (!cowl_ontology_iterate_import_iris(ontology, &iter, false)) goto end;
+    if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) {
+        ret = COWL_ERR_MEM;
+        goto end;
+    }
 
     CowlOntologyHeader header = {
-        .id = cowl_ontology_get_id(ontology),
+        .id = cowl_ontology_get_id(onto),
         .imports = &imports,
-        .annotations = cowl_vector_get_data(cowl_ontology_get_annot(ontology)),
+        .annotations = cowl_vector_get_data(cowl_ontology_get_annot(onto)),
     };
+    if ((ret = cowl_ostream_write_header(stream, header))) goto end;
 
-    ret = cowl_ostream_write_header(stream, header);
-    if (ret) goto end;
     struct WriteAxiomCtx ctx = { .ret = &ret, .stream = stream };
     iter.ctx = &ctx;
     iter.for_each = axiom_writer;
-    cowl_ontology_iterate_axioms(ontology, &iter, false);
-    if (ret) goto end;
+    if (!cowl_ontology_iterate_axioms(onto, &iter, false)) goto end;
     ret = cowl_ostream_write_footer(stream);
 
 end:
@@ -138,13 +146,13 @@ end:
     return ret;
 }
 
-cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *ontology) {
+cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *onto) {
     cowl_ret ret = COWL_OK;
     CowlWriter writer = cowl_manager_get_writer(stream->manager);
     if (cowl_writer_can_write_ontology(&writer)) {
-        ret = writer.write_ontology(stream->stream, ontology);
+        ret = cowl_ostream_write_ontology_store(stream, onto);
     } else if (cowl_writer_can_write_stream(&writer)) {
-        ret = cowl_ostream_write_ontology_stream(stream, ontology);
+        ret = cowl_ostream_write_ontology_stream(stream, onto);
     } else {
         return cowl_handle_error(COWL_ERR, ustring_literal("Invalid writer"), stream);
     }

@@ -92,11 +92,11 @@ cowl_ret cowl_ostream_write_footer(CowlOStream *stream);
  * Writes the specified ontology to the stream.
  *
  * @param stream The ontology output stream.
- * @param ontology The ontology.
+ * @param onto The ontology.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *ontology);
+cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *onto);
 
 /// @}
 
