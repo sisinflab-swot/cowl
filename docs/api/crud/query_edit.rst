@@ -42,6 +42,10 @@ finding the first construct that matches some condition.
 .. doxygengroup:: CowlAxiomFlags_api
    :content-only:
 
+.. doxygenstruct:: CowlAxiomFilter
+.. doxygengroup:: CowlAxiomFilter
+   :content-only:
+
 .. _editing:
 
 Editing ontologies

@@ -330,16 +330,17 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
 }
 
 static CowlAnyPrimitive *
-cowl_ontology_best_primitive_for_index(CowlOntology *onto, CowlAxiomIndex *index, bool imports) {
-    if (!ubit_is_any_set(COWL_AF, index->types, COWL_AF_ALL)) {
-        // No types specified in the index.
+cowl_ontology_best_primitive_for_filter(CowlOntology *onto, CowlAxiomFilter *filter, bool imports) {
+    if (cowl_axiom_flags_has_no_types(filter->types)) {
+        // No types specified in the filter.
+        filter->types = COWL_AF_NONE;
         return NULL;
     }
 
     CowlAnyPrimitive *best = NULL;
     ulib_uint count = ULIB_UINT_MAX;
 
-    uvec_foreach (CowlObjectPtr, &index->primitives, p) {
+    uvec_foreach (CowlObjectPtr, &filter->primitives, p) {
         ulib_uint c = cowl_ontology_axiom_count_for_primitive(onto, *p.item, true);
         if (c < count) {
             best = *p.item;
@@ -347,96 +348,84 @@ cowl_ontology_best_primitive_for_index(CowlOntology *onto, CowlAxiomIndex *index
         }
     }
 
-    if (!ubit_is_set(COWL_AF, index->types, COWL_AF_ALL)) {
-        ulib_uint c = cowl_ontology_axiom_count_for_types(onto, index->types, imports);
+    if (cowl_axiom_flags_has_all_types(filter->types)) {
+        filter->types = COWL_AF_ALL;
+    } else {
+        ulib_uint c = cowl_ontology_axiom_count_for_types(onto, filter->types, imports);
         if (c < count) best = NULL;
     }
 
     if (!count) {
         // Index matches an empty set of axioms.
-        index->types = COWL_AF_NONE;
+        filter->types = COWL_AF_NONE;
         return NULL;
-    }
-
-    if (best) {
-        // We will be iterating over this primitive's index,
-        // no need to check for it in the iterator.
-        cowl_axiom_index_remove_primitive(index, best);
     }
 
     return best;
 }
 
 struct MatchingCtx {
-    CowlAxiomIndex *index;
+    CowlAxiomFilter *filter;
     CowlIterator *iter;
 };
 
-static bool for_each_check_type(void *ctx, CowlAnyAxiom *axiom) {
+static bool for_each_filter(void *ctx, CowlAnyAxiom *axiom) {
     struct MatchingCtx *mctx = ctx;
-    if (!cowl_axiom_index_matches_types(mctx->index, axiom)) return true;
+    if (!cowl_axiom_filter_matches(mctx->filter, axiom)) return true;
     return cowl_iterate(mctx->iter, axiom);
 }
 
-static bool for_each_check_primitives(void *ctx, CowlAnyAxiom *axiom) {
-    struct MatchingCtx *mctx = ctx;
-    if (!cowl_axiom_index_matches_primitives(mctx->index, axiom)) return true;
-    return cowl_iterate(mctx->iter, axiom);
-}
-
-static bool for_each_check_both(void *ctx, CowlAnyAxiom *axiom) {
-    struct MatchingCtx *mctx = ctx;
-    if (!cowl_axiom_index_matches(mctx->index, axiom)) return true;
-    return cowl_iterate(mctx->iter, axiom);
-}
-
-bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomIndex *index,
+bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilter *filter,
                                            CowlIterator *iter, bool imports) {
     bool ret = true;
-    CowlAxiomIndex idx = cowl_axiom_index_move(index);
+    CowlAxiomFilter f = cowl_axiom_filter_move(filter);
 
     struct MatchingCtx ctx = {
-        .index = &idx,
+        .filter = &f,
         .iter = iter,
     };
 
-    CowlAnyPrimitive *best = cowl_ontology_best_primitive_for_index(onto, &idx, imports);
-    if (!best && idx.types == COWL_AF_NONE) goto end;
+    CowlAnyPrimitive *best = cowl_ontology_best_primitive_for_filter(onto, &f, imports);
+    if (f.types == COWL_AF_NONE) goto end;
 
-    bool check_types = !ubit_is_set(COWL_AF, idx.types, COWL_AF_ALL);
-    bool check_primitives = !!uvec_count(CowlObjectPtr, &idx.primitives);
+    UBit(8) const NONE = ubit_none(8);
+    UBit(8) const TYPES = ubit_bit(8, 0);
+    UBit(8) const PRIMITIVES = ubit_bit(8, 1);
+    UBit(8) const FILTER = ubit_bit(8, 2);
+    UBit(8) check = NONE;
+
+    if (f.types != COWL_AF_ALL) check = ubit_set(8, check, TYPES);
+    if (uvec_count(CowlObjectPtr, &f.primitives)) check = ubit_set(8, check, PRIMITIVES);
+    if (f.closure.filter) check = ubit_set(8, check, FILTER);
 
     if (best) {
-        // Iterate over axioms referencing the primitive.
-        if (check_types && check_primitives) {
-            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_check_both };
-            ret = cowl_ontology_iterate_axioms_for_primitive(onto, best, &l_iter, imports);
-        } else if (check_types) {
-            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_check_type };
-            ret = cowl_ontology_iterate_axioms_for_primitive(onto, best, &l_iter, imports);
-        } else if (check_primitives) {
-            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_check_primitives };
+        // We will be iterating only over axioms that reference this primitive.
+        cowl_axiom_filter_remove_primitive(filter, best);
+        if (check) {
+            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_filter };
             ret = cowl_ontology_iterate_axioms_for_primitive(onto, best, &l_iter, imports);
         } else {
             ret = cowl_ontology_iterate_axioms_for_primitive(onto, best, iter, imports);
         }
     } else {
-        // Iterate over axiom of the specified types.
-        if (check_types && check_primitives) {
-            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_check_primitives };
-            ret = cowl_ontology_iterate_axioms_of_types(onto, idx.types, &l_iter, imports);
-        } else if (check_types) {
-            ret = cowl_ontology_iterate_axioms_of_types(onto, idx.types, iter, imports);
-        } else if (check_primitives) {
-            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_check_primitives };
-            ret = cowl_ontology_iterate_axioms(onto, &l_iter, imports);
-        } else {
+        // We will be iterating only over axioms of the specified types.
+        CowlAxiomFlags types = f.types;
+        f.types = COWL_AF_ALL;
+        if (check == NONE) {
             ret = cowl_ontology_iterate_axioms(onto, iter, imports);
+        } else if (check == TYPES) {
+            ret = cowl_ontology_iterate_axioms_of_types(onto, types, iter, imports);
+        } else if (ubit_is_set(8, check, TYPES)) {
+            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_filter };
+            ret = cowl_ontology_iterate_axioms_of_types(onto, types, &l_iter, imports);
+        } else {
+            CowlIterator l_iter = { .ctx = &ctx, .for_each = for_each_filter };
+            ret = cowl_ontology_iterate_axioms(onto, &l_iter, imports);
         }
     }
 
 end:
-    cowl_axiom_index_deinit(&idx);
+    cowl_axiom_filter_deinit(&f);
     return ret;
 }
 
@@ -694,38 +683,33 @@ bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     return false;
 }
 
-ulib_uint cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomIndex *index,
-                                               CowlFilter *filter) {
+ulib_uint cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomFilter *filter) {
     ulib_uint count = 0;
-    CowlAxiomIndex idx = cowl_axiom_index_move(index);
-    CowlAnyPrimitive *best = cowl_ontology_best_primitive_for_index(onto, &idx, false);
-    if (!best && idx.types == COWL_AF_NONE) goto end;
+    CowlAxiomFilter f = cowl_axiom_filter_move(filter);
+    if (f.types == COWL_AF_NONE) goto end;
 
-    bool check_types = !ubit_is_set(COWL_AF, idx.types, COWL_AF_ALL);
-    bool check_primitives = !!uvec_count(CowlObjectPtr, &idx.primitives);
-
+    CowlAnyPrimitive *best = cowl_ontology_best_primitive_for_filter(onto, &f, false);
     if (best) {
         // Iterate over axioms referencing the primitive.
-        CowlPrimitiveType type = cowl_primitive_get_type(best);
-        UHash(CowlObjectTable) *table = &onto->refs[type];
+        cowl_axiom_filter_remove_primitive(filter, best);
+        UHash(CowlObjectTable) *table = &onto->refs[cowl_primitive_get_type(best)];
         CowlVector *vec = uhmap_get(CowlObjectTable, table, best, NULL);
         uvec_foreach_reverse (CowlObjectPtr, &vec->data, axiom) {
             CowlAnyAxiom *a = *axiom.item;
-            if (check_types && !cowl_axiom_index_matches_types(&idx, a)) continue;
-            if (check_primitives && !cowl_axiom_index_matches_primitives(&idx, a)) continue;
-            if (filter && !filter->filter(filter->ctx, a)) continue;
+            if (!cowl_axiom_filter_matches(&f, a)) continue;
             cowl_ontology_remove_axiom_ptr(onto, a);
             count++;
         }
     } else {
-        // Iterate over axiom of the specified types.
-        cowl_axiom_flags_foreach_type (idx.types, type) {
+        // Iterate over axioms of the specified types.
+        CowlAxiomFlags types = f.types;
+        f.types = COWL_AF_ALL;
+        cowl_axiom_flags_foreach_type (types, type) {
             CowlVector *vec = onto->axioms_by_type[type];
             if (!vec) continue;
             uvec_foreach_reverse (CowlObjectPtr, &vec->data, axiom) {
                 CowlAnyAxiom *a = *axiom.item;
-                if (check_primitives && !cowl_axiom_index_matches_primitives(&idx, a)) continue;
-                if (filter && !filter->filter(filter->ctx, a)) continue;
+                if (!cowl_axiom_filter_matches(&f, a)) continue;
                 cowl_ontology_remove_axiom_ptr(onto, a);
                 count++;
             }
@@ -733,7 +717,7 @@ ulib_uint cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomInde
     }
 
 end:
-    cowl_axiom_index_deinit(&idx);
+    cowl_axiom_filter_deinit(&f);
     return count;
 }
 

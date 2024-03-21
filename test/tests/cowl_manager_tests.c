@@ -10,13 +10,12 @@
 
 #include "cowl_manager_tests.h"
 #include "cowl_axiom.h"
-#include "cowl_axiom_index.h"
+#include "cowl_axiom_filter.h"
 #include "cowl_class.h"
 #include "cowl_decl_axiom.h"
 #include "cowl_istream.h"
 #include "cowl_manager.h"
 #include "cowl_ontology.h"
-#include "cowl_string.h"
 #include "cowl_sub_cls_axiom.h"
 #include "cowl_sym_table.h"
 #include "cowl_table.h"
@@ -202,11 +201,12 @@ bool cowl_test_manager_edit_ontology(void) {
 
     cowl_ontology_add_axiom(onto, sub_axiom);
 
-    CowlFilter filter = { a, filter_axiom };
-    CowlAxiomIndex index = cowl_axiom_index(COWL_AF_DECL | COWL_AF_SUB_CLASS);
-    cowl_axiom_index_add_primitive(&index, a);
+    CowlAxiomFilter af = cowl_axiom_filter(COWL_AF_DECL | COWL_AF_SUB_CLASS);
+    cowl_axiom_filter_add_primitive(&af, a);
+    CowlFilter closure = { a, filter_axiom };
+    cowl_axiom_filter_set_closure(&af, closure);
 
-    utest_assert_uint(cowl_ontology_remove_axioms_matching(onto, &index, &filter), ==, 2);
+    utest_assert_uint(cowl_ontology_remove_axioms_matching(onto, &af), ==, 2);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 1);
 
     cowl_release_all(sub_axiom, onto, manager);

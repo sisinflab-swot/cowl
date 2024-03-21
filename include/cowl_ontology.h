@@ -25,7 +25,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlAnnotation);
-cowl_struct_decl(CowlAxiomIndex);
+cowl_struct_decl(CowlAxiomFilter);
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlSymTable);
@@ -191,15 +191,13 @@ bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  * Removes the axioms matching the provided filter function.
  *
  * @param onto The ontology.
- * @param index The index.
  * @param filter The filter.
  * @return Number of removed axioms.
  *
- * @note The index must not be used anymore after calling this function.
+ * @note The filter must not be used anymore after calling this function.
  */
 COWL_API
-ulib_uint
-cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomIndex *index, CowlFilter *filter);
+ulib_uint cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomFilter *filter);
 
 /**
  * Gets the number of axioms in the ontology.
@@ -384,18 +382,18 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
                                                 CowlIterator *iter, bool imports);
 
 /**
- * Iterates over the axioms matching the specified index.
+ * Iterates over the axioms matching the specified filter.
  *
  * @param onto The ontology.
- * @param index The index.
+ * @param filter The filter.
  * @param iter The iterator.
  * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  *
- * @note The index must not be used anymore after calling this function.
+ * @note The filter must not be used anymore after calling this function.
  */
 COWL_API
-bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomIndex *index,
+bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilter *filter,
                                            CowlIterator *iter, bool imports);
 
 /**

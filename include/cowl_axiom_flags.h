@@ -197,6 +197,30 @@ bool cowl_axiom_flags_has_type(CowlAxiomFlags flags, CowlAxiomType type) {
 }
 
 /**
+ * Checks whether the flags match all axiom types.
+ *
+ * @param flags Axiom flags.
+ * @return True if the flags match all axiom types, false otherwise.
+ */
+COWL_CONST
+COWL_INLINE
+bool cowl_axiom_flags_has_all_types(CowlAxiomFlags flags) {
+    return ubit_is_set(COWL_AF, flags, COWL_AF_ALL);
+}
+
+/**
+ * Checks whether the flags match no axiom types.
+ *
+ * @param flags Axiom flags.
+ * @return True if the flags match no axiom types, false otherwise.
+ */
+COWL_CONST
+COWL_INLINE
+bool cowl_axiom_flags_has_no_types(CowlAxiomFlags flags) {
+    return !ubit_is_any_set(COWL_AF, flags, COWL_AF_ALL);
+}
+
+/**
  * Iterates over the flags, executing the specified code block for each axiom type.
  *
  * @param flags Axiom flags.
