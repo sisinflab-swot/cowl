@@ -7,8 +7,8 @@ on:
 env:
   build_dir: build
   build_config: Release
-  cflags_gnuc: -Werror
-  lflags_gnuc: ''
+  cflags_gnuc: -Werror -fsanitize=address
+  lflags_gnuc: -fsanitize=address
   cflags_clang: -Werror -fsanitize=address
   lflags_clang: -fsanitize=address
   cflags_msvc: /WX
