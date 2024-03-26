@@ -585,8 +585,8 @@ bool cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
     return true;
 }
 
-COWL_INLINE cowl_ret cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom,
-                                           UHash(CowlObjectTable) *map) {
+static inline cowl_ret
+cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
     ulib_uint idx;
     uhash_ret ret = uhash_put(CowlObjectTable, map, primitive, &idx);
     if (ret == UHASH_ERR) return COWL_ERR_MEM;
@@ -629,7 +629,7 @@ end:
     return ret;
 }
 
-COWL_INLINE void
+static inline void
 cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
     CowlVector *vec = uhmap_get(CowlObjectTable, map, primitive, NULL);
     if (!vec) return;
