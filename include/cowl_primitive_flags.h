@@ -37,7 +37,7 @@ typedef UBit(COWL_PF) CowlPrimitiveFlags;
 #define COWL_PF_NONE ubit_none(COWL_PF)
 
 /// Iterate over all primitives.
-#define COWL_PF_ALL ubit_all(COWL_PF)
+#define COWL_PF_ALL ubit(COWL_PF, ubit_bit(COWL_PF, COWL_PT_COUNT) - 1)
 
 /// Iterate over classes.
 #define COWL_PF_CLASS ubit_bit(COWL_PF, 0)

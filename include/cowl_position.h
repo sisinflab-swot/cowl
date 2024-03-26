@@ -35,9 +35,6 @@ typedef UBit(COWL_PS) CowlPosition;
 /// No position.
 #define COWL_PS_NONE ubit_none(COWL_PS)
 
-/// Any position.
-#define COWL_PS_ANY ubit_all(COWL_PS)
-
 /// Left position.
 #define COWL_PS_LEFT ubit_bit(COWL_PS, 0)
 
@@ -46,6 +43,9 @@ typedef UBit(COWL_PS) CowlPosition;
 
 /// Middle position.
 #define COWL_PS_MIDDLE ubit_bit(COWL_PS, 2)
+
+/// Any position.
+#define COWL_PS_ANY ubit(COWL_PS, COWL_PS_LEFT | COWL_PS_MIDDLE | COWL_PS_RIGHT)
 
 /// Subject position in assertion axioms.
 #define COWL_PS_SUBJECT COWL_PS_MIDDLE
