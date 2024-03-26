@@ -69,6 +69,18 @@ typedef struct CowlFilter {
  */
 
 /**
+ * Call the iterator on a single object.
+ *
+ * @param iter The iterator.
+ * @param object The object.
+ * @return Return value of the iterator function.
+ */
+COWL_INLINE
+bool cowl_iterator_call(CowlIterator const *iter, CowlAny *object) {
+    return iter->for_each(iter->ctx, object);
+}
+
+/**
  * Initializes an iterator that stores objects in the specified vector.
  *
  * @param[out] vec Vector.

@@ -18,7 +18,6 @@
 #include "cowl_entity_private.h"
 #include "cowl_iri_private.h"
 #include "cowl_istream_private.h"
-#include "cowl_iterator_private.h"
 #include "cowl_literal_private.h"
 #include "cowl_manager_private.h"
 #include "cowl_object_private.h"

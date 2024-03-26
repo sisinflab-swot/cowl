@@ -9,7 +9,6 @@
  */
 
 #include "cowl_axiom.h"
-#include "cowl_iterator_private.h"
 #include "cowl_primitive_private.h"
 #include "cowl_vector.h"
 
@@ -45,10 +44,10 @@ bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, Cow
         CowlAny *op = fields[i];
         if (cowl_get_type(op) == COWL_OT_VECTOR) {
             cowl_vector_foreach (op, obj) {
-                if (!cowl_iterate(iter, *obj.item)) return false;
+                if (!cowl_iterator_call(iter, *obj.item)) return false;
             }
         } else {
-            if (!cowl_iterate(iter, op)) return false;
+            if (!cowl_iterator_call(iter, op)) return false;
         }
     }
 

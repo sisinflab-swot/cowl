@@ -10,7 +10,6 @@
 
 #include "cowl_config.h"
 #include "cowl_istream_private.h"
-#include "cowl_iterator_private.h"
 #include "cowl_manager_private.h"
 #include "cowl_ontology_private.h"
 #include "cowl_ostream_private.h"
@@ -211,7 +210,7 @@ ulib_uint cowl_manager_ontology_count(CowlManager *manager) {
 
 bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter) {
     uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
-        if (!cowl_iterate(iter, *onto.item)) return false;
+        if (!cowl_iterator_call(iter, *onto.item)) return false;
     }
     return true;
 }

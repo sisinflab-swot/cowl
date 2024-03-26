@@ -358,7 +358,7 @@ bool cowl_has_primitive(CowlAny *object, CowlAnyPrimitive *primitive) {
 
 static inline bool
 iterate_pf(CowlPrimitiveFlags type, CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    return ubit_is_set(COWL_PF, flags, type) ? cowl_iterate(iter, object) : true;
+    return ubit_is_set(COWL_PF, flags, type) ? cowl_iterator_call(iter, object) : true;
 }
 
 static inline bool

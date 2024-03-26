@@ -8,7 +8,7 @@
  * @file
  */
 
-#include "cowl_iterator_private.h"
+#include "cowl_iterator.h"
 #include "cowl_table.h"
 #include "cowl_vector.h"
 
