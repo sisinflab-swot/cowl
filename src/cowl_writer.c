@@ -116,7 +116,7 @@ ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
     UString str = cowl_ret_to_ustring(error->code);
     cowl_write_ustring(s, &str);
 
-    if (error->description) {
+    if (error->description && !ustring_equals(*cowl_string_get_raw(error->description), str)) {
         cowl_write_static(s, ": ");
         cowl_write_string(s, error->description);
     }
