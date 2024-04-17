@@ -77,6 +77,17 @@ COWL_API
 COWL_RETAINED
 CowlString *cowl_error_to_string(CowlError const *error);
 
+/**
+ * Returns a human-readable string representation of the specified error.
+ *
+ * @param error The error.
+ * @return String representation, or ustring_null on error.
+ *
+ * @destructor{ustring_deinit}
+ */
+COWL_API
+UString cowl_error_to_ustring(CowlError const *error);
+
 /// @}
 
 COWL_END_DECLS

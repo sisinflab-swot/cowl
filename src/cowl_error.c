@@ -13,16 +13,20 @@
 #include "cowl_writer.h"
 
 CowlString *cowl_error_to_string(CowlError const *error) {
+    return cowl_string(cowl_error_to_ustring(error));
+}
+
+UString cowl_error_to_ustring(CowlError const *error) {
     UOStream stream;
     UStrBuf buf = ustrbuf();
     if (uostream_to_strbuf(&stream, &buf) || cowl_write_error(&stream, error)) goto err;
 
-    CowlString *string = cowl_string(ustrbuf_to_ustring(&buf));
+    UString string = ustrbuf_to_ustring(&buf);
     uostream_deinit(&stream);
     return string;
 
 err:
     uostream_deinit(&stream);
     ustrbuf_deinit(&buf);
-    return NULL;
+    return ustring_null;
 }
