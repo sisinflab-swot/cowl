@@ -227,9 +227,11 @@ bool cowl_axiom_flags_has_no_types(CowlAxiomFlags flags) {
  * @param type Name of the variable holding the axiom type.
  */
 #define cowl_axiom_flags_foreach_type(flags, type)                                                 \
+    /** NOLINTBEGIN(clang-analyzer-optin.core.EnumCastOutOfRange) */                               \
     for (CowlAxiomType type = ubit_first_set(COWL_AF, flags); type < COWL_AT_COUNT;                \
          (type = ubit_first_set(COWL_AF,                                                           \
-                                ubit_unset(COWL_AF, flags, ubit_bit(COWL_AF, type + 1) - 1))))
+                                ubit_unset(COWL_AF, flags, ubit_bit(COWL_AF, type + 1) - 1))))     \
+    /** NOLINTEND(clang-analyzer-optin.core.EnumCastOutOfRange) */
 
 /// @}
 

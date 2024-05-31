@@ -119,9 +119,9 @@ static cowl_ret cowl_ostream_write_ontology_store(CowlOStream *stream, CowlOntol
 static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOntology *onto) {
     cowl_ret ret;
     CowlSymTable *st = cowl_ostream_get_sym_table(stream);
+    UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
     if ((ret = cowl_sym_table_merge(st, cowl_ontology_get_sym_table(onto), true))) goto end;
 
-    UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
     CowlIterator iter = cowl_iterator_vec(&imports, false);
     if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) {
         ret = COWL_ERR_MEM;

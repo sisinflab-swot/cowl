@@ -1,5 +1,8 @@
-Checks: '-*,
-clang-analyzer-*,
-modernize-*, -modernize-macro-to-enum, -modernize-redundant-void-arg,
-performance-*,
-portability-*'
+---
+Checks: >
+  -*,
+  clang-analyzer-*,
+  -clang-analyzer-cplusplus-*,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  performance-*,
+  portability-*

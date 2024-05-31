@@ -4,7 +4,7 @@
 
 # CMake
 
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.24)
 
 # Project
 
@@ -28,6 +28,7 @@ project(Cowl
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
+option(COWL_CLANG_TIDY "Enable clang-tidy, if available" OFF)
 option(COWL_ENTITY_IDS "Associate increasing unique identifiers to entities" OFF)
 set(COWL_LIBRARY_TYPE "STATIC" CACHE STRING "Type of library to build.")
 set(COWL_READERS "functional" CACHE STRING "List of enabled built-in readers (semicolon-separated)")
@@ -55,6 +56,13 @@ set(COWL_HEADERS_OUT_DIR "${COWL_OUTPUT_DIR}/include")
 # Target settings
 
 set(COWL_COMPILE_FEATURES c_std_11)
+
+if(COWL_CLANG_TIDY)
+    set(COWL_CLANG_TIDY_COMMAND "clang-tidy")
+    if(CMAKE_COMPILE_WARNING_AS_ERROR)
+        list(APPEND COWL_CLANG_TIDY_COMMAND "-warnings-as-errors=*")
+    endif()
+endif()
 
 if(COWL_ENTITY_IDS)
     list(APPEND COWL_PUBLIC_DEFINES COWL_ENTITY_IDS=1)
@@ -174,6 +182,10 @@ endif()
 
 if(COWL_LTO_ENABLED)
     set_property(TARGET cowl PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
+endif()
+
+if(COWL_CLANG_TIDY_COMMAND)
+    set_property(TARGET cowl PROPERTY C_CLANG_TIDY "${COWL_CLANG_TIDY_COMMAND}")
 endif()
 
 install(TARGETS cowl ulib)

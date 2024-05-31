@@ -1,4 +1,4 @@
-name: Build and test
+name: CI pipeline
 
 on:
   push:
@@ -7,22 +7,42 @@ on:
 env:
   build_dir: build
   build_config: Release
-  cflags_gnuc: -Werror -fsanitize=address
-  lflags_gnuc: -fsanitize=address
-  cflags_clang: -Werror -fsanitize=address
-  lflags_clang: -fsanitize=address
-  cflags_msvc: /WX
-  lflags_msvc: ''
-  doxygen_version: ${{secrets.doxygen_version}}
 
 jobs:
-  build:
-    name: Build and test
+  analyze:
+    name: Run analyzers
+    runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          submodules: recursive
+      - name: Run pre-commit
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install pre-commit
+          pre-commit run --from-ref=HEAD~1 --to-ref=HEAD
+      - name: Configure CMake
+        run: >
+          CC=clang cmake -B ${{env.build_dir}}
+          -DULIB_CLANG_TIDY=ON
+          -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
+      - name: Build
+        run: cmake --build ${{env.build_dir}}
+
+  test:
+    name: Test
     runs-on: ${{matrix.os}}
+
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os:
+          - ${{vars.ubuntu_runner || 'ubuntu-latest'}}
+          - ${{vars.windows_runner || 'windows-latest'}}
+          - ${{vars.macos_runner || 'macos-latest'}}
         lib_type: [STATIC, SHARED]
 
     steps:
@@ -34,18 +54,11 @@ jobs:
       - name: Configure runner
         run: |
           if [ $RUNNER_OS == 'Windows' ]; then
-            echo 'cflags="${{env.cflags_msvc}}"' >> $GITHUB_ENV
-            echo 'lflags="${{env.lflags_msvc}}"' >> $GITHUB_ENV
             choco install winflexbison3
-          elif [ $RUNNER_OS == 'Linux' ]; then
-            echo 'cflags="${{env.cflags_gnuc}}"' >> $GITHUB_ENV
-            echo 'lflags="${{env.lflags_gnuc}}"' >> $GITHUB_ENV
           elif [ $RUNNER_OS == 'macOS' ]; then
-            echo 'cflags="${{env.cflags_clang}}"' >> $GITHUB_ENV
-            echo 'lflags="${{env.lflags_clang}}"' >> $GITHUB_ENV
             brew install flex bison
-            echo '/usr/local/opt/bison/bin' >> $GITHUB_PATH
-            echo '/usr/local/opt/flex/bin' >> $GITHUB_PATH
+            echo "$(brew --prefix flex)/bin" >> $GITHUB_PATH
+            echo "$(brew --prefix bison)/bin" >> $GITHUB_PATH
           fi
         shell: bash
 
@@ -53,15 +66,12 @@ jobs:
         run: >
           cmake -B ${{env.build_dir}}
           -DULIB_LEAKS=ON
+          -DULIB_SANITIZERS=ON
           -DULIB_LIBRARY_TYPE=${{matrix.lib_type}}
           -DCOWL_LIBRARY_TYPE=${{matrix.lib_type}}
           -DCOWL_ENTITY_IDS=ON
           -DCMAKE_SYSTEM_VERSION=''
           -DCMAKE_BUILD_TYPE=${{env.build_config}}
-          -DCMAKE_C_FLAGS=${{env.cflags}}
-          -DCMAKE_CXX_FLAGS=${{env.cflags}}
-          -DCMAKE_SHARED_LINKER_FLAGS=${{env.lflags}}
-          -DCMAKE_EXE_LINKER_FLAGS=${{env.lflags}}
 
       - name: Build
         run: >
@@ -69,9 +79,9 @@ jobs:
           --config ${{env.build_config}}
           --target cowl-test cowl-cpp-test cowl-bench cowl-examples cowl-tools
 
-      - name: Configure tests
+      - name: Configure tests (Windows)
         working-directory: ${{env.build_dir}}
-        if: matrix.os == 'windows-latest'
+        if: runner.os == 'Windows'
         run: |
           mv test/${{env.build_config}}/*.exe test
           mv examples/${{env.build_config}}/*.exe examples
@@ -112,7 +122,7 @@ jobs:
 
   docs:
     name: Generate the documentation
-    runs-on: macos-latest
+    runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
 
     steps:
       - name: Checkout repository
@@ -120,19 +130,11 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Configure runner
-        run: |
-          brew update
-          if [ -z ${{env.doxygen_version}} ]; then
-            brew install doxygen
-          else
-            brew tap-new cowl/doxygen
-            brew extract --version=${{env.doxygen_version}} doxygen cowl/doxygen
-            brew install doxygen@${{env.doxygen_version}}
-          fi
-          pip3 install -U Sphinx sphinx-rtd-theme breathe
-
       - name: Build docs
         run: |
-          cmake -B ${{env.build_dir}} -DCOWL_READERS=''
+          sudo apt install doxygen
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install Sphinx sphinx-rtd-theme breathe
+          cmake -B ${{env.build_dir}} -DCOWL_READERS=OFF -DCOWL_WRITERS=OFF
           cmake --build ${{env.build_dir}} --target cowl-docs
