@@ -9,7 +9,8 @@
  */
 
 #include "cowl_version_tests.h"
-#include "cowl_version.h"
+#include "cowl.h"
+#include "ulib.h"
 
 bool cowl_test_version(void) {
     UVersion v = cowl_get_version(), zero = { 0 };

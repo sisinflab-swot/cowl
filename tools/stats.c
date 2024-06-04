@@ -11,6 +11,11 @@
  */
 
 #include "cowl.h"
+#include "ulib.h"
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static inline void log_error(char const *fmt, ...) {
     va_list args;

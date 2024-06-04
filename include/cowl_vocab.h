@@ -15,10 +15,13 @@
 
 #include "cowl_entity.h"
 #include "cowl_iri.h"
+
+// IWYU pragma: begin_exports
 #include "cowl_owl_vocab.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_rdfs_vocab.h"
 #include "cowl_xsd_vocab.h"
+// IWYU pragma: end_exports
 
 COWL_BEGIN_DECLS
 

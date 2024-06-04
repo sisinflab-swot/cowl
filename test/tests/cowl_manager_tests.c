@@ -9,18 +9,10 @@
  */
 
 #include "cowl_manager_tests.h"
-#include "cowl_axiom.h"
-#include "cowl_axiom_filter.h"
-#include "cowl_class.h"
-#include "cowl_decl_axiom.h"
-#include "cowl_istream.h"
-#include "cowl_manager.h"
-#include "cowl_ontology.h"
-#include "cowl_sub_cls_axiom.h"
-#include "cowl_sym_table.h"
-#include "cowl_table.h"
+#include "cowl.h"
 #include "cowl_test_utils.h"
-#include "cowl_vector.h"
+#include "ulib.h"
+#include <stddef.h>
 
 // Utils
 

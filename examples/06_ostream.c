@@ -14,6 +14,9 @@
  */
 
 #include "cowl.h"
+#include "ulib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define PATH "porcini_pizza.owl"
 

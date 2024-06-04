@@ -4,5 +4,7 @@ Checks: >
   clang-analyzer-*,
   -clang-analyzer-cplusplus-*,
   -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  misc-header-include-cycle,
+  misc-include-cleaner,
   performance-*,
   portability-*

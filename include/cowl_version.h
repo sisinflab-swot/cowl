@@ -13,9 +13,14 @@
 #ifndef COWL_VERSION_H
 #define COWL_VERSION_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 
 COWL_BEGIN_DECLS
+
+/// @cond
+cowl_struct_decl(CowlString);
+/// @endcond
 
 /**
  * @defgroup version Library version metadata

@@ -17,7 +17,6 @@
 #include "cowl_datatype.h"
 #include "cowl_iri_private.h"
 #include "cowl_obj_prop.h"
-#include "cowl_std.h"
 #include "cowl_string.h"
 #include "cowl_vocab.h"
 

@@ -14,6 +14,7 @@
 #include "cowl_ontology_tests.h"
 #include "cowl_string_tests.h"
 #include "cowl_version_tests.h"
+#include "ulib.h"
 
 utest_main({
     cowl_init();

@@ -8,7 +8,8 @@
  * @file
  */
 
-#include "cowl_rdfs_vocab_private.h"
+#include "cowl_rdfs_vocab.h"
+#include "cowl_ret.h"
 #include "cowl_vocab_private.h"
 
 static CowlRDFSVocab vocab;

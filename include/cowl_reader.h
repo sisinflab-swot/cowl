@@ -13,7 +13,9 @@
 #ifndef COWL_READER_H
 #define COWL_READER_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
+#include "cowl_ret.h"
 
 COWL_BEGIN_DECLS
 

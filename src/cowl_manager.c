@@ -8,12 +8,29 @@
  * @file
  */
 
+#include "cowl_any.h"
 #include "cowl_config.h"
+#include "cowl_error_handler.h"
+#include "cowl_istream.h"
+#include "cowl_istream_handlers.h"
 #include "cowl_istream_private.h"
+#include "cowl_iterator.h"
 #include "cowl_manager_private.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_ontology.h"
+#include "cowl_ontology_id.h"
 #include "cowl_ontology_private.h"
+#include "cowl_ostream.h"
 #include "cowl_ostream_private.h"
+#include "cowl_reader.h"
+#include "cowl_ret.h"
 #include "cowl_sym_table_private.h"
+#include "cowl_vector.h"
+#include "cowl_writer.h"
+#include "ulib.h"
+#include <stdio.h>
 
 CowlManager *cowl_manager(void) {
     CowlManager *manager = ulib_alloc(manager);

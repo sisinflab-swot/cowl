@@ -8,7 +8,11 @@
  * @file
  */
 
-#include "cowl_primitive_private.h"
+#include "cowl_primitive.h"
+#include "cowl_any.h"
+#include "cowl_object.h"
+#include "cowl_object_type.h"
+#include "cowl_primitive_type.h"
 
 CowlPrimitiveType cowl_primitive_get_type(CowlAnyPrimitive *primitive) {
     switch (cowl_get_type(primitive)) {

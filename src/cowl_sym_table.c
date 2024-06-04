@@ -8,11 +8,21 @@
  * @file
  */
 
+#include "cowl_sym_table.h"
+#include "cowl_any.h"
 #include "cowl_iri.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_ret.h"
+#include "cowl_string.h"
 #include "cowl_string_private.h"
 #include "cowl_sym_table_private.h"
+#include "cowl_table.h"
 #include "cowl_table_private.h"
 #include "cowl_vocab.h"
+#include "ulib.h"
+#include <stddef.h>
 
 static inline bool cowl_sym_table_is_dirty(CowlSymTable *st) {
     return cowl_object_bit_get(st);

@@ -11,7 +11,8 @@
 #ifndef COWL_CSTRING_H
 #define COWL_CSTRING_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
+#include <stddef.h>
 
 COWL_BEGIN_DECLS
 

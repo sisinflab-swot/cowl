@@ -8,8 +8,39 @@
  * @file
  */
 
+#include "cowl_object.h"
+#include "cowl_annotation.h"
+#include "cowl_anon_ind_private.h"
+#include "cowl_any.h"
+#include "cowl_axiom.h"
+#include "cowl_entity.h"
+#include "cowl_entity_private.h"
+#include "cowl_iri.h"
+#include "cowl_iri_private.h"
+#include "cowl_istream_private.h"
+#include "cowl_iterator.h"
+#include "cowl_literal_private.h"
+#include "cowl_manager_private.h"
+#include "cowl_object_flags.h"
 #include "cowl_object_private.h"
-#include "cowl_private.h"
+#include "cowl_object_type.h"
+#include "cowl_ontology.h"
+#include "cowl_ontology_private.h"
+#include "cowl_ostream_private.h"
+#include "cowl_primitive.h"
+#include "cowl_primitive_flags.h"
+#include "cowl_primitive_private.h"
+#include "cowl_primitive_type.h"
+#include "cowl_ret.h"
+#include "cowl_string.h"
+#include "cowl_string_private.h"
+#include "cowl_sym_table_private.h"
+#include "cowl_table_private.h"
+#include "cowl_vector.h"
+#include "cowl_vector_private.h"
+#include "cowl_writer.h"
+#include "ulib.h"
+#include <stddef.h>
 
 /*
  * Type flags have the following structure:

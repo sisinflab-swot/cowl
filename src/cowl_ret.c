@@ -10,6 +10,7 @@
 
 #include "cowl_ret.h"
 #include "cowl_string.h"
+#include "ulib.h"
 
 UString cowl_ret_to_ustring(cowl_ret ret) {
     switch (ret) {

@@ -11,6 +11,7 @@
 #include "cowl_error.h"
 #include "cowl_string.h"
 #include "cowl_writer.h"
+#include "ulib.h"
 
 CowlString *cowl_error_to_string(CowlError const *error) {
     return cowl_string(cowl_error_to_ustring(error));

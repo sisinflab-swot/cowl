@@ -8,9 +8,17 @@
  * @file
  */
 
+#include "cowl_string.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_ret.h"
 #include "cowl_string_private.h"
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
 #include "cowl_table_private.h"
+#include "ulib.h"
 #include <stdarg.h>
+#include <stddef.h>
 
 static UHash(CowlObjectTable) inst_tbl;
 static CowlString *empty = NULL;

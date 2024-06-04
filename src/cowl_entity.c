@@ -8,10 +8,19 @@
  * @file
  */
 
+#include "cowl_entity.h"
+#include "cowl_any.h"
 #include "cowl_entity_private.h"
+#include "cowl_entity_type.h"
 #include "cowl_iri.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
 #include "cowl_primitive_private.h"
-#include "cowl_table.h"
+#include "cowl_ret.h"
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "ulib.h"
+#include <stddef.h>
 
 static UHash(CowlObjectTable) inst_tbl;
 

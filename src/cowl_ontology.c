@@ -8,8 +8,38 @@
  * @file
  */
 
+#include "cowl_ontology.h"
+#include "cowl_any.h"
+#include "cowl_axiom.h"
+#include "cowl_axiom_filter.h"
+#include "cowl_axiom_filter_private.h"
+#include "cowl_axiom_flags.h"
+#include "cowl_axiom_type.h"
+#include "cowl_entity.h"
+#include "cowl_error_handler.h"
+#include "cowl_import_loader.h"
+#include "cowl_iterator.h"
+#include "cowl_manager.h"
+#include "cowl_manager_private.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_ontology_id.h"
 #include "cowl_ontology_private.h"
-#include "cowl_private.h"
+#include "cowl_position.h"
+#include "cowl_primitive.h"
+#include "cowl_primitive_flags.h"
+#include "cowl_primitive_private.h"
+#include "cowl_primitive_type.h"
+#include "cowl_ret.h"
+#include "cowl_sym_table.h"
+#include "cowl_sym_table_private.h"
+#include "cowl_table.h"
+#include "cowl_table_private.h"
+#include "cowl_vector.h"
+#include "cowl_vector_private.h"
+#include "ulib.h"
+#include <stddef.h>
 
 #define cowl_ontology_foreach_import(ONTO, IMPORT, CODE)                                           \
     do {                                                                                           \

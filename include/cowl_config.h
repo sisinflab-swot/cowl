@@ -16,7 +16,6 @@
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
 #include "cowl_reader.h"
-#include "cowl_std.h"
 #include "cowl_writer.h"
 
 COWL_BEGIN_DECLS

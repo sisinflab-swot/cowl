@@ -13,7 +13,8 @@
 #ifndef COWL_XSD_VOCAB_H
 #define COWL_XSD_VOCAB_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 
 COWL_BEGIN_DECLS
 

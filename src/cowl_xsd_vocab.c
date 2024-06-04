@@ -8,8 +8,11 @@
  * @file
  */
 
+#include "cowl_xsd_vocab.h"
+#include "cowl_ret.h"
 #include "cowl_vocab_private.h"
 #include "cowl_xsd_vocab_private.h"
+#include <stddef.h>
 
 static CowlXSDVocab vocab;
 

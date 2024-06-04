@@ -9,9 +9,9 @@
  */
 
 #include "cowl_iri_tests.h"
-#include "cowl_iri.h"
-#include "cowl_string.h"
+#include "cowl.h"
 #include "cowl_test_utils.h"
+#include "ulib.h"
 
 #define COWL_TEST_IRI_NS "http://site.com/ontology.owl#"
 #define COWL_TEST_IRI_REM "remainder"

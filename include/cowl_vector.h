@@ -13,6 +13,7 @@
 #ifndef COWL_VECTOR_H
 #define COWL_VECTOR_H
 
+#include "cowl_any.h"
 #include "cowl_object.h"
 
 COWL_BEGIN_DECLS

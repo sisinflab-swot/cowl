@@ -10,6 +10,7 @@
 
 #include "cowl_object_type.h"
 #include "cowl_string.h"
+#include "ulib.h"
 
 UString cowl_object_type_to_ustring(CowlObjectType type) {
     switch (type) {

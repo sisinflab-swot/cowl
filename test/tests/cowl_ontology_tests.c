@@ -9,21 +9,10 @@
  */
 
 #include "cowl_ontology_tests.h"
-#include "cowl_annot_prop.h"
-#include "cowl_class.h"
-#include "cowl_data_one_of.h"
-#include "cowl_data_prop.h"
-#include "cowl_datatype.h"
-#include "cowl_datatype_def_axiom.h"
-#include "cowl_iri.h"
-#include "cowl_literal.h"
-#include "cowl_manager.h"
-#include "cowl_named_ind.h"
-#include "cowl_obj_prop.h"
-#include "cowl_ontology.h"
-#include "cowl_string.h"
+#include "cowl.h"
 #include "cowl_test_utils.h"
-#include "cowl_vector.h"
+#include "ulib.h"
+#include <stddef.h>
 
 #define test_onto_iri "http://visualdataweb.de/ontobench/ontology/1/"
 #define test_class "Class1"

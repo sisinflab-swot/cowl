@@ -9,13 +9,23 @@
  */
 
 #include "cowl_writer.h"
+#include "cowl_any.h"
 #include "cowl_config.h"
 #include "cowl_cstring.h"
+#include "cowl_error.h"
 #include "cowl_iri.h"
-#include "cowl_manager_private.h"
+#include "cowl_macros.h"
+#include "cowl_manager.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
 #include "cowl_ontology.h"
 #include "cowl_reader.h"
-#include "cowl_string_private.h"
+#include "cowl_ret.h"
+#include "cowl_string.h"
+#include "ulib.h"
+#include <stddef.h>
+#include <string.h>
 
 #define UINT_MAX_DIGITS 20
 
@@ -35,7 +45,7 @@ ustream_ret cowl_write_debug(UOStream *s, CowlAny *obj) {
 }
 
 ustream_ret cowl_write_string(UOStream *stream, CowlString *string) {
-    return uostream_write_string(stream, &string->raw_string, NULL);
+    return uostream_write_string(stream, cowl_string_get_raw(string), NULL);
 }
 
 ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri) {
@@ -46,8 +56,7 @@ ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri) {
 
 ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint) {
     char buf[UINT_MAX_DIGITS + 1];
-    size_t len = cowl_str_from_uint(uint, buf);
-    return uostream_write(stream, buf, len, NULL);
+    return uostream_write(stream, buf, cowl_str_from_uint(uint, buf), NULL);
 }
 
 ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {

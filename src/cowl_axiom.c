@@ -9,8 +9,16 @@
  */
 
 #include "cowl_axiom.h"
+#include "cowl_any.h"
+#include "cowl_impl.h"
+#include "cowl_iri.h"
+#include "cowl_iterator.h"
+#include "cowl_object.h"
+#include "cowl_object_type.h"
+#include "cowl_position.h"
 #include "cowl_primitive_private.h"
 #include "cowl_vector.h"
+#include "ulib.h"
 
 bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position) {
     CowlIterator iter = cowl_iterator_contains(operand);

@@ -11,7 +11,8 @@
 #ifndef COWL_MANAGER_TESTS_H
 #define COWL_MANAGER_TESTS_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
+#include <stdbool.h>
 
 COWL_BEGIN_DECLS
 

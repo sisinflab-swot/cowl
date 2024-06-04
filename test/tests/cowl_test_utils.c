@@ -9,7 +9,8 @@
  */
 
 #include "cowl_test_utils.h"
-#include "cowl_manager.h"
+#include "cowl.h"
+#include "ulib.h"
 
 // Import loader
 

@@ -9,6 +9,10 @@
  */
 
 #include "cowl_annot_value.h"
+#include "cowl_annot_value_type.h"
+#include "cowl_any.h"
+#include "cowl_object.h"
+#include "cowl_object_type.h"
 
 CowlAnnotValueType cowl_annot_value_get_type(CowlAnyAnnotValue *value) {
     switch (cowl_get_type(value)) {

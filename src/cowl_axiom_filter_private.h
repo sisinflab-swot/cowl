@@ -11,6 +11,7 @@
 #ifndef COWL_AXIOM_FILTER_PRIVATE_H
 #define COWL_AXIOM_FILTER_PRIVATE_H
 
+#include "cowl_axiom.h"
 #include "cowl_axiom_filter.h"
 
 COWL_BEGIN_DECLS

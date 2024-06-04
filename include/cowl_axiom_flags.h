@@ -14,7 +14,6 @@
 #define COWL_AXIOM_FLAGS_H
 
 #include "cowl_axiom_type.h"
-#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 

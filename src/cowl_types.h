@@ -29,7 +29,6 @@
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
 #include "cowl_reader.h"
-#include "cowl_std.h"
 #include "cowl_version.h"
 #include "cowl_writer.h"
 

@@ -8,7 +8,17 @@
  * @file
  */
 
+#include "cowl_vector.h"
+#include "cowl_any.h"
+#include "cowl_iterator.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_primitive_flags.h"
+#include "cowl_ret.h"
 #include "cowl_vector_private.h"
+#include "ulib.h"
+#include <stddef.h>
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 

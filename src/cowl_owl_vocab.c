@@ -8,7 +8,9 @@
  * @file
  */
 
+#include "cowl_owl_vocab.h"
 #include "cowl_owl_vocab_private.h"
+#include "cowl_ret.h"
 #include "cowl_vocab_private.h"
 
 static CowlOWLVocab vocab;

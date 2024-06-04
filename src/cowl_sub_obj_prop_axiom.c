@@ -9,6 +9,9 @@
  */
 
 #include "cowl_sub_obj_prop_axiom.h"
+#include "cowl_any.h"
+#include "cowl_impl.h"
+#include "cowl_object_type.h"
 #include "cowl_vector_private.h"
 
 CowlSubObjPropAxiom *

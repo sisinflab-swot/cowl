@@ -9,6 +9,7 @@
  */
 
 #include "cowl_xml_utils.h"
+#include "ulib.h"
 
 #define IS_NCNAME_START_CHAR(C)                                                                    \
     (((C) >= 'A' && (C) <= 'Z') || (C) == '_' || ((C) >= 'a' && (C) <= 'z') || (C) >= 0x80)

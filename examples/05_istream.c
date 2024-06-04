@@ -12,6 +12,9 @@
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
 #include "cowl.h"
+#include "ulib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define ONTO "example_pizza.owl"
 #define NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"

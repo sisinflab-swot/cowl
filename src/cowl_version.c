@@ -10,6 +10,7 @@
 
 #include "cowl_version.h"
 #include "cowl_string.h"
+#include "ulib.h"
 
 #ifndef COWL_VERSION_MAJOR
 #define COWL_VERSION_MAJOR 0

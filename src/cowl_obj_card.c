@@ -9,7 +9,14 @@
  */
 
 #include "cowl_obj_card.h"
+#include "cowl_any.h"
+#include "cowl_card_type.h"
+#include "cowl_impl.h"
+#include "cowl_macros.h"
+#include "cowl_object_type.h"
 #include "cowl_owl_vocab.h"
+#include "ulib.h"
+#include <stddef.h>
 
 CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler,
                            ulib_uint cardinality) {

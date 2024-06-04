@@ -9,11 +9,17 @@
  */
 
 #include "cowl_vocab.h"
+#include "cowl_owl_vocab.h"
 #include "cowl_owl_vocab_private.h"
+#include "cowl_rdf_vocab.h"
 #include "cowl_rdf_vocab_private.h"
+#include "cowl_rdfs_vocab.h"
 #include "cowl_rdfs_vocab_private.h"
+#include "cowl_ret.h"
 #include "cowl_string_private.h"
+#include "cowl_xsd_vocab.h"
 #include "cowl_xsd_vocab_private.h"
+#include "ulib.h"
 
 static CowlVocab vocab;
 

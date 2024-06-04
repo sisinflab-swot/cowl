@@ -9,8 +9,9 @@
  */
 
 #include "cowl_string_tests.h"
-#include "cowl_string_private.h"
+#include "cowl.h"
 #include "cowl_test_utils.h"
+#include "ulib.h"
 
 #define COWL_TEST_STRING "test_string"
 

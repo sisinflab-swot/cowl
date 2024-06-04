@@ -13,6 +13,7 @@
 
 #include "cowl_anon_ind.h"
 #include "cowl_object_private.h"
+#include "cowl_ret.h"
 
 COWL_BEGIN_DECLS
 

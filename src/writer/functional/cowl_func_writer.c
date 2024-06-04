@@ -9,19 +9,32 @@
  */
 
 #include "cowl_anon_ind.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
 #include "cowl_axiom.h"
 #include "cowl_data_quant.h"
 #include "cowl_datatype.h"
 #include "cowl_decl_axiom.h"
+#include "cowl_entity.h"
 #include "cowl_has_key_axiom.h"
+#include "cowl_impl.h"
+#include "cowl_iri.h"
 #include "cowl_literal.h"
 #include "cowl_obj_quant.h"
+#include "cowl_object.h"
+#include "cowl_object_type.h"
+#include "cowl_ontology_header.h"
+#include "cowl_ontology_id.h"
 #include "cowl_primitive_private.h"
+#include "cowl_ret.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_sym_table.h"
 #include "cowl_table.h"
+#include "cowl_vector.h"
 #include "cowl_vocab.h"
 #include "cowl_writer.h"
+#include "ulib.h"
+#include <stddef.h>
 
 static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *st);
 static ustream_ret

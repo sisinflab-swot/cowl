@@ -9,8 +9,12 @@
  */
 
 #include "cowl_iterator.h"
-#include "cowl_table.h"
-#include "cowl_vector.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_object.h"
+#include "cowl_table.h"  // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_vector.h" // IWYU pragma: keep, needed for UVec(CowlObjectPtr)
+#include "ulib.h"
 
 static bool for_each_store_vec(void *vec, CowlAny *obj) {
     return uvec_push(CowlObjectPtr, vec, obj) != UVEC_ERR;

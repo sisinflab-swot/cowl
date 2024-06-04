@@ -9,6 +9,9 @@
  */
 
 #include "cowl.h"
+#include "ulib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static bool count_constructs(void *ctx, cowl_unused CowlAny *obj) {
     (*((ulib_uint *)ctx))++;

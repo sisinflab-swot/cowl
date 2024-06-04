@@ -11,7 +11,7 @@
 #ifndef COWL_XML_UTILS_H
 #define COWL_XML_UTILS_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
 
 COWL_BEGIN_DECLS
 

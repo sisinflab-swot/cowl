@@ -11,7 +11,7 @@
 #ifndef COWL_OBJECT_FLAGS_H
 #define COWL_OBJECT_FLAGS_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
 
 COWL_BEGIN_DECLS
 

@@ -9,7 +9,11 @@
  */
 
 #include "cowl_func_yylexer.h"
+#include "cowl_func_yyparser.h"
 #include "cowl_reader.h"
+#include "cowl_ret.h"
+#include "ulib.h"
+#include <stddef.h>
 
 static cowl_ret cowl_func_reader_read(UIStream *istream, CowlIStream *stream) {
     void *scanner;

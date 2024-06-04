@@ -12,6 +12,7 @@
 #define COWL_RDF_VOCAB_PRIVATE_H
 
 #include "cowl_rdf_vocab.h"
+#include "cowl_ret.h"
 
 COWL_BEGIN_DECLS
 

@@ -10,10 +10,18 @@
 
 #include "cowl_literal.h"
 #include "cowl_datatype.h"
+#include "cowl_impl.h"
+#include "cowl_iterator.h"
+#include "cowl_object.h"
 #include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_primitive_flags.h"
 #include "cowl_rdf_vocab.h"
+#include "cowl_string.h"
 #include "cowl_string_private.h"
 #include "cowl_xsd_vocab.h"
+#include "ulib.h"
+#include <stddef.h>
 
 static inline bool cowl_literal_is_lang_string(CowlLiteral *literal) {
     return cowl_object_bit_get(literal);

@@ -14,7 +14,6 @@
 #define COWL_IMPORT_LOADER_H
 
 #include "cowl_error.h"
-#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 

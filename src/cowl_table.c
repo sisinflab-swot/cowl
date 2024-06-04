@@ -8,9 +8,18 @@
  * @file
  */
 
-#include "cowl_primitive_private.h"
-#include "cowl_string_private.h"
+#include "cowl_table.h"
+#include "cowl_any.h"
+#include "cowl_iterator.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_primitive_flags.h"
+#include "cowl_primitive_private.h" // IWYU pragma: keep, needed for cowl_primitive_equals
+#include "cowl_string_private.h"    // IWYU pragma: keep, needed for cowl_string_equals
 #include "cowl_table_private.h"
+#include "ulib.h"
+#include <stddef.h>
 
 UHASH_IMPL_PI(CowlObjectTable, cowl_hash, cowl_equals)
 

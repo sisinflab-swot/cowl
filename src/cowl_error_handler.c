@@ -9,12 +9,20 @@
  */
 
 #include "cowl_error_handler.h"
+#include "cowl_any.h"
+#include "cowl_error.h"
 #include "cowl_iri.h"
 #include "cowl_istream.h"
-#include "cowl_manager_private.h"
+#include "cowl_manager.h"
+#include "cowl_object.h"
+#include "cowl_object_type.h"
 #include "cowl_ontology.h"
 #include "cowl_ostream.h"
+#include "cowl_ret.h"
+#include "cowl_string.h"
 #include "cowl_string_private.h"
+#include "ulib.h"
+#include <stddef.h>
 
 static CowlErrorHandler cowl_best_error_handler(CowlAny *origin) {
     CowlManager *manager = NULL;

@@ -13,12 +13,16 @@
 #ifndef COWL_OSTREAM_H
 #define COWL_OSTREAM_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
+#include "cowl_ontology_header.h"
+#include "cowl_ret.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlManager);
+cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlSymTable);
 /// @endcond
 

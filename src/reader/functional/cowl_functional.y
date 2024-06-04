@@ -31,7 +31,6 @@
 }
 
 %code requires {
-    #include "cowl_std.h"
     #include "cowl_types.h"
 
     #ifndef YY_TYPEDEF_YY_SCANNER_T
@@ -43,7 +42,13 @@
 %code top {
     #include "cowl_func_yyparser.h"
     #include "cowl_func_yylexer.h"
-    #include "cowl_private.h"
+    #include "cowl.h"
+    #include "cowl_ontology_private.h"
+    #include "cowl_ostream_private.h"
+    #include "cowl_vector_private.h"
+    #include "ulib.h"
+    #include <stddef.h>
+    #include <string.h>
 
     #define COWL_HANDLE_ERROR(CODE) cowl_handle_error_code((CODE), stream)
     #define COWL_HANDLE_MEM_ERROR() cowl_handle_error_code(COWL_ERR_MEM, stream)

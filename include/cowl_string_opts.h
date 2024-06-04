@@ -13,7 +13,7 @@
 #ifndef COWL_STRING_OPTS_H
 #define COWL_STRING_OPTS_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
 
 COWL_BEGIN_DECLS
 

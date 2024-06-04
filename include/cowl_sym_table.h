@@ -13,7 +13,9 @@
 #ifndef COWL_SYM_TABLE_H
 #define COWL_SYM_TABLE_H
 
-#include "cowl_std.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
+#include "cowl_ret.h"
 
 COWL_BEGIN_DECLS
 

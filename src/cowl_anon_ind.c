@@ -8,9 +8,18 @@
  * @file
  */
 
+#include "cowl_anon_ind.h"
 #include "cowl_anon_ind_private.h"
+#include "cowl_any.h"
+#include "cowl_object.h"
+#include "cowl_object_private.h"
+#include "cowl_object_type.h"
+#include "cowl_ret.h"
+#include "cowl_string.h"
 #include "cowl_string_private.h"
-#include "cowl_table.h"
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "ulib.h"
+#include <stddef.h>
 
 static ulib_uint const rand_id_len = P_USTRING_SIZE - 1;
 

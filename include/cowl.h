@@ -13,6 +13,8 @@
 #ifndef COWL_H
 #define COWL_H
 
+// IWYU pragma: begin_exports
+
 #include "cowl_annot_assert_axiom.h"
 #include "cowl_annot_prop.h"
 #include "cowl_annot_prop_domain_axiom.h"
@@ -99,13 +101,13 @@
 #include "cowl_owl_vocab.h"
 #include "cowl_position.h"
 #include "cowl_primitive.h"
+#include "cowl_primitive_flags.h"
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_rdfs_vocab.h"
 #include "cowl_reader.h"
 #include "cowl_ret.h"
-#include "cowl_std.h"
 #include "cowl_string.h"
 #include "cowl_string_opts.h"
 #include "cowl_sub_annot_prop_axiom.h"
@@ -119,5 +121,7 @@
 #include "cowl_vocab.h"
 #include "cowl_writer.h"
 #include "cowl_xsd_vocab.h"
+
+// IWYU pragma: end_exports
 
 #endif // COWL_H

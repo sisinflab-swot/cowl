@@ -10,6 +10,9 @@
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
 #include "cowl.h"
+#include "ulib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define IN_PATH "example_pizza.owl"
 #define OUT_PATH "example_pizza_new.owl"

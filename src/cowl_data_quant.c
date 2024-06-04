@@ -9,7 +9,13 @@
  */
 
 #include "cowl_data_quant.h"
+#include "cowl_any.h"
+#include "cowl_impl.h"
+#include "cowl_macros.h"
+#include "cowl_object_type.h"
+#include "cowl_quant_type.h"
 #include "cowl_rdfs_vocab.h"
+#include <stddef.h>
 
 CowlDataQuant *
 cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range) {

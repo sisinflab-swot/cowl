@@ -9,7 +9,10 @@
  */
 
 #include "cowl_istream_handlers.h"
+#include "cowl_any.h"
+#include "cowl_iri.h"
 #include "cowl_ontology.h"
+#include "cowl_ret.h"
 
 static cowl_ret store_iri(void *ctx, CowlIRI *iri) {
     cowl_ontology_set_iri(ctx, iri);

@@ -9,6 +9,8 @@
  */
 
 #include "cowl_cstring.h"
+#include "ulib.h"
+#include <stddef.h>
 
 size_t cowl_str_from_uint(ulib_uint uint, char *buf) {
     char *cur = buf;

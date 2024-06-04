@@ -14,7 +14,8 @@
 #define COWL_STRING_H
 
 #include "cowl_object.h"
-#include "cowl_string_opts.h"
+#include "cowl_ret.h"
+#include "cowl_string_opts.h" // IWYU pragma: export
 
 COWL_BEGIN_DECLS
 

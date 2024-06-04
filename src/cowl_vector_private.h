@@ -12,6 +12,7 @@
 #define COWL_VECTOR_PRIVATE_H
 
 #include "cowl_object_private.h"
+#include "cowl_ret.h"
 #include "cowl_vector.h"
 
 COWL_BEGIN_DECLS

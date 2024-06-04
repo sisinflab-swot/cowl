@@ -21,7 +21,11 @@
 }
 
 %{
+    #include "cowl_attrs.h"
     #include "cowl_cstring.h"
+    #include "ulib.h"
+    #include <stddef.h>
+    #include <stdint.h>
 
     #define YY_INPUT(buf, result, max_size) do {                                                    \
         size_t cowl_yyinput_read;                                                                   \

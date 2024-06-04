@@ -10,6 +10,7 @@
 
 #include "cowl_ontology_id.h"
 #include "cowl_primitive_private.h"
+#include "ulib.h"
 
 bool cowl_ontology_id_equals(CowlOntologyId lhs, CowlOntologyId rhs) {
     if (lhs.iri != rhs.iri && !cowl_primitive_equals(lhs.iri, rhs.iri)) return false;

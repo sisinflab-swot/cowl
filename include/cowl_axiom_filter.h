@@ -14,6 +14,7 @@
 #define COWL_AXIOM_FILTER_H
 
 #include "cowl_axiom_flags.h"
+#include "cowl_ret.h"
 #include "cowl_vector.h"
 
 COWL_BEGIN_DECLS

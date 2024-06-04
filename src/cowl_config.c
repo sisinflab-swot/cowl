@@ -11,11 +11,15 @@
 #include "cowl_config.h"
 #include "cowl_anon_ind_private.h"
 #include "cowl_entity_private.h"
+#include "cowl_error_handler.h"
+#include "cowl_import_loader.h"
 #include "cowl_iri_private.h"
 #include "cowl_reader.h"
+#include "cowl_ret.h"
 #include "cowl_string_private.h"
 #include "cowl_vocab_private.h"
 #include "cowl_writer.h"
+#include "ulib.h"
 
 static bool cowl_initialized = false;
 static CowlErrorHandler global_error_handler;

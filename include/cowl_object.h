@@ -14,7 +14,6 @@
 #define COWL_OBJECT_H
 
 #include "cowl_impl.h"
-#include "cowl_std.h"
 
 COWL_BEGIN_DECLS
 
