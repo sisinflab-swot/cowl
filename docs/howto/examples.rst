@@ -41,12 +41,17 @@ Recursive queries
 
 .. literalinclude:: ../../examples/03_recursive_query.c
 
+Advanced queries
+----------------
+
+.. literalinclude:: ../../examples/04_advanced_query.c
+
 Editing and writing ontologies
 ==============================
 
 Related documentation: :ref:`ontology editing <editing>`, :ref:`ontology writing <writing>`
 
-.. literalinclude:: ../../examples/04_editing.c
+.. literalinclude:: ../../examples/05_editing.c
 
 Ontology streams
 ================
@@ -56,9 +61,9 @@ Related documentation: :ref:`input streams <istream>`, :ref:`output streams <ost
 Input streams
 -------------
 
-.. literalinclude:: ../../examples/05_istream.c
+.. literalinclude:: ../../examples/06_istream.c
 
 Output streams
 --------------
 
-.. literalinclude:: ../../examples/06_ostream.c
+.. literalinclude:: ../../examples/07_ostream.c
