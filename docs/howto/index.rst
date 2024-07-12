@@ -9,34 +9,23 @@ How-to
 Building from source
 ====================
 
-Cowl can be built and run on **Windows**, **macOS** and **Linux**. It has also been successfully
-deployed to a wider range of platforms, including microcontroller units
-(such as Arduino_ and ST_ boards), with relatively minor build system setup.
-It can be compiled either as a **static** or **dynamic library**.
+Cowl can be built and run on **Windows**, **macOS**, and **Linux**. It has also been successfully
+deployed to a wider range of platforms, including microcontrollers such as Arduino_ and ST_ boards,
+with relatively minor build system setup.
 
 Requirements
 ------------
 
 In order to compile the library, you will need at a minimum:
 
-- GCC_, LLVM_ or MSVC_, any fairly recent version.
-- CMake_ version 3.18 or later.
+- **Compiler:** GCC_, LLVM_, or MSVC_
+- **Build system:** CMake_
 
-There are additional requirements depending on which additional components
-you would like to build or compile (e.g. :ref:`readers <reading>`).
+There are additional requirements depending on which optional components
+you would like to build (e.g. :ref:`readers <reading>`):
 
-**Functional reader:**
-
-- Flex_ version 2.6.4 or later.
-- Bison_ version 3.0 or later.
-
-**Documentation:**
-
-- Doxygen_ version 1.8 or later.
-- *(optional)* Sphinx_ version 2.0 or later, Breathe_ and the `Read The Docs Theme`_.
-
-Sphinx is optional as Doxygen will already generate some form of HTML docs,
-though not as fancy as the ones you are viewing.
+- **Functional syntax reader**: Flex_, Bison_
+- **Documentation**: Doxygen_, Sphinx_, Breathe_, `Read The Docs Theme`_
 
 Downloading the sources
 -----------------------
@@ -58,11 +47,14 @@ The following commands allow you to build Cowl:
    # Generate the build system
    cmake -B cmake-build -DCMAKE_BUILD_TYPE=Release
 
-   # [Optional] Edit build settings (build type, optimization options, etc.)
+   # [Optional] Edit build settings (library type, optimization options, etc.)
    ccmake cmake-build
 
    # Build the library
    cmake --build cmake-build --config Release
+
+   # [Optional] Build the examples
+   cmake --build cmake-build --target cowl-examples
 
    # [Optional] Build the documentation
    cmake --build cmake-build --target cowl-docs
@@ -100,7 +92,7 @@ API initialization
 
 Before making any API call, you **must** invoke :func:`cowl_init()`, which is
 needed in order to initialize the library's internal state.
-Calling API members without initializing the API is undefined behavior.
+Calling any API function before initializing the API is undefined behavior.
 
 Ontology deserialization
 ------------------------
@@ -161,7 +153,7 @@ Pseudo-inheritance
 ------------------
 
 Since the `OWL 2 specification`_ is highly hierarchical, the API makes extensive use
-of pseudo-inheritance for structs. Every data structure pseudo-inherits from :struct:`CowlObject`,
+of pseudo-inheritance for structs. Most data structures pseudo-inherit from :struct:`CowlObject`,
 whose concrete type can be queried via :func:`cowl_get_type()`.
 Pseudo-inheritance allows you, as an example, to cast a :struct:`CowlClass` to :struct:`CowlClsExp`
 or :struct:`CowlObject` and back. Of course, if the API returns a base pseudo-class

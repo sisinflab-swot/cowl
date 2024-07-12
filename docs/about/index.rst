@@ -13,7 +13,7 @@ Motivation
 Access to OWL 2 ontologies is currently limited to platforms supporting Java (via the `OWL API`_)
 or Python (through OWLReady_). owl-cpp_ also exists for other platforms, though it is not
 actively maintained, and it deserializes ontologies into RDF triples rather than
-OWL axioms and constructs
+OWL axioms and constructs.
 
 Cowl aims to bring OWL support to most remaining platforms, with an explicit focus on
 embedded devices. In fact, it abides to some key principles which make it very portable:
