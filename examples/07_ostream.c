@@ -56,7 +56,7 @@ int main(void) {
     uvec_push(CowlObjectPtr, &imports, import_iri);
 
     CowlOntologyHeader header = {
-        .id = { iri },
+        .iri = iri,
         .imports = &imports,
     };
 

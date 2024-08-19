@@ -235,7 +235,7 @@ CowlIRI *cowl_get_iri(CowlAny *object) {
     CowlObjectType type = cowl_get_type(object);
     if (type_is_entity(type)) return cowl_entity_get_iri(object);
     if (type == COWL_OT_IRI) return object;
-    return type == COWL_OT_ONTOLOGY ? cowl_ontology_get_id(object).iri : NULL;
+    return type == COWL_OT_ONTOLOGY ? cowl_ontology_get_iri(object) : NULL;
 }
 
 bool cowl_has_iri(CowlAny *object, CowlIRI *iri) {

@@ -128,10 +128,14 @@ cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *onto) 
     cowl_ret ret = COWL_OK;
     CowlIStreamHandlers *handle = &stream->handlers;
 
-    if (handle->iri || handle->version) {
-        CowlOntologyId id = cowl_ontology_get_id(onto);
-        if (handle->iri && (ret = handle->iri(handle->ctx, id.iri))) return ret;
-        if (handle->version && (ret = handle->version(handle->ctx, id.version))) return ret;
+    if (handle->iri) {
+        CowlIRI *iri = cowl_ontology_get_iri(onto);
+        if (iri && (ret = handle->iri(handle->ctx, iri))) return ret;
+    }
+
+    if (handle->version) {
+        CowlIRI *version = cowl_ontology_get_version(onto);
+        if (version && (ret = handle->version(handle->ctx, version))) return ret;
     }
 
     if (handle->annot) {

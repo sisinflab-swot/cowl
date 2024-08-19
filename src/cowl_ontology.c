@@ -24,7 +24,6 @@
 #include "cowl_object.h"
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
-#include "cowl_ontology_id.h"
 #include "cowl_ontology_private.h"
 #include "cowl_position.h"
 #include "cowl_primitive.h"
@@ -79,8 +78,8 @@ void cowl_ontology_free(CowlOntology *onto) {
     cowl_release(onto->manager);
     cowl_release(onto->st);
 
-    cowl_release(onto->id.iri);
-    cowl_release(onto->id.version);
+    cowl_release(onto->iri);
+    cowl_release(onto->version);
 
     cowl_release(onto->imports);
     cowl_release(onto->annot);
@@ -107,8 +106,12 @@ CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto) {
     return onto->st;
 }
 
-CowlOntologyId cowl_ontology_get_id(CowlOntology *onto) {
-    return onto->id;
+CowlIRI *cowl_ontology_get_iri(CowlOntology *onto) {
+    return onto->iri;
+}
+
+CowlIRI *cowl_ontology_get_version(CowlOntology *onto) {
+    return onto->version;
 }
 
 CowlVector *cowl_ontology_get_annot(CowlOntology *onto) {
@@ -117,16 +120,15 @@ CowlVector *cowl_ontology_get_annot(CowlOntology *onto) {
 
 bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
     if (lhs == rhs) return true;
-
-    // If the ontology IRIs are both NULL, then both ontologies are anonymous.
-    // If they were equal, they would have passed the pointer equality check.
-    if (!(lhs->id.iri || rhs->id.iri)) return false;
-
-    return cowl_ontology_id_equals(lhs->id, rhs->id);
+    if (!(lhs->iri || rhs->iri)) return false;
+    return lhs->iri == rhs->iri && lhs->version == rhs->version;
 }
 
 ulib_uint cowl_ontology_hash(CowlOntology *onto) {
-    return cowl_ontology_id_hash(onto->id);
+    if (!onto->iri) return 0;
+    ulib_uint hash = cowl_primitive_hash(onto->iri);
+    if (onto->version) hash = ulib_hash_combine(hash, cowl_primitive_hash(onto->version));
+    return hash;
 }
 
 ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports) {
@@ -503,13 +505,13 @@ bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primiti
 }
 
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {
-    cowl_release(onto->id.iri);
-    onto->id.iri = iri ? cowl_retain(iri) : NULL;
+    cowl_release(onto->iri);
+    onto->iri = iri ? cowl_retain(iri) : NULL;
 }
 
 void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version) {
-    cowl_release(onto->id.version);
-    onto->id.version = version ? cowl_retain(version) : NULL;
+    cowl_release(onto->version);
+    onto->version = version ? cowl_retain(version) : NULL;
 }
 
 typedef struct CowlAxiomCtx {

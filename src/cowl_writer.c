@@ -88,9 +88,13 @@ ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
                 break;
             }
             case COWL_OT_ONTOLOGY: {
-                CowlOntology *onto = error->origin;
-                cowl_write_static(s, "ontology ");
-                cowl_write_iri(s, cowl_ontology_get_id(onto).iri);
+                CowlIRI *iri = cowl_ontology_get_iri(error->origin);
+                if (iri) {
+                    cowl_write_static(s, "ontology ");
+                    cowl_write_iri(s, iri);
+                } else {
+                    cowl_write_static(s, "anonymous ontology");
+                }
                 break;
             }
             default: {

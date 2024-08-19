@@ -160,7 +160,7 @@ static bool filter_axiom(void *cls, CowlAny *axiom) {
 
 bool cowl_test_manager_edit_ontology(void) {
     CowlManager *manager = cowl_manager();
-    CowlOntology *onto = cowl_manager_get_ontology(manager, NULL);
+    CowlOntology *onto = cowl_manager_new_ontology(manager);
     utest_assert_not_null(onto);
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 0);

@@ -17,7 +17,6 @@
 #include "cowl_axiom_type.h"
 #include "cowl_iterator.h"
 #include "cowl_object.h"
-#include "cowl_ontology_id.h"
 #include "cowl_position.h"
 #include "cowl_ret.h"
 
@@ -68,14 +67,14 @@ COWL_PURE
 CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
 
 /**
- * Gets the ontology ID.
+ * Gets the IRI of the ontology.
  *
  * @param onto The ontology.
- * @return The ontology ID.
+ * @return The ontology IRI.
  */
 COWL_API
 COWL_PURE
-CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
+CowlIRI *cowl_ontology_get_iri(CowlOntology *onto);
 
 /**
  * Sets the IRI of the ontology.
@@ -85,6 +84,16 @@ CowlOntologyId cowl_ontology_get_id(CowlOntology *onto);
  */
 COWL_API
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
+
+/**
+ * Gets the version of the ontology.
+ *
+ * @param onto The ontology.
+ * @return The version IRI.
+ */
+COWL_API
+COWL_PURE
+CowlIRI *cowl_ontology_get_version(CowlOntology *onto);
 
 /**
  * Sets the version IRI of the ontology.

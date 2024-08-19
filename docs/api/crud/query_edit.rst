@@ -14,10 +14,6 @@ to retrieve, add, or remove axioms, annotations, and other constructs.
 .. doxygengroup:: CowlOntology
    :content-only:
 
-.. doxygenstruct:: CowlOntologyId
-.. doxygengroup:: CowlOntologyId
-   :content-only:
-
 .. _querying:
 
 Querying ontologies
@@ -53,8 +49,7 @@ Editing ontologies
 
 Ontologies can be edited by adding or removing axioms, annotations and other constructs,
 as allowed by the :struct:`CowlOntology` API. They can also be created from scratch by calling
-:func:`cowl_manager_get_ontology()` and specifying a unique :struct:`CowlOntologyId`
-or a ``NULL`` one, in which case an anonymous ontology is created.
+:func:`cowl_manager_new_ontology()`.
 
 Access to syntactical details that are not relevant to logic, such as the mapping between
 prefixed and full IRIs, is provided by a :struct:`CowlSymTable` instance retrievable by calling

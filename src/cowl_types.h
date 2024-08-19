@@ -24,7 +24,6 @@
 #include "cowl_nary_axiom_type.h"
 #include "cowl_nary_type.h"
 #include "cowl_object_type.h"
-#include "cowl_ontology_id.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"

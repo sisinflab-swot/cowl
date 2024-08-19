@@ -13,6 +13,7 @@
 #ifndef COWL_MANAGER_H
 #define COWL_MANAGER_H
 
+#include "cowl_attrs.h"
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
 #include "cowl_istream_handlers.h"
@@ -24,7 +25,6 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlIStream);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlOntologyId);
 cowl_struct_decl(CowlOStream);
 /// @endcond
 
@@ -146,29 +146,41 @@ COWL_API
 bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter);
 
 /**
- * Gets the ontology with the specified identifier.
- * If no existing ontology has the specified identifier, a new ontology is returned.
+ * Returns a new empty ontology.
  *
  * @param manager The manager.
- * @param id The ontology identifier.
- * @return Ontology with the specified identifier.
+ * @return New ontology.
+ */
+COWL_API
+COWL_RETAINED
+CowlOntology *cowl_manager_new_ontology(CowlManager *manager);
+
+/**
+ * Gets the ontology with the specified IRI and version.
+ * If no existing ontology has the specified IRI and version, a new ontology is returned.
  *
- * @note You can pass NULL as the ontology identifier, in which case the function returns
+ * @param manager The manager.
+ * @param iri The ontology IRI.
+ * @param version The ontology version.
+ * @return Ontology with the specified IRI and version.
+ *
+ * @note You can pass NULL as the IRI and version, in which case the function returns
  *       a new anonymous ontology.
  */
 COWL_API
 COWL_RETAINED
-CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id);
+CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
 
 /**
- * Gets the ontology with the specified identifier, if it exists.
+ * Gets the ontology with the specified IRI and version, if it exists.
  *
  * @param manager The manager.
- * @param id The ontology identifier.
- * @return Ontology with the specified identifier, or NULL if it does not exist.
+ * @param iri The ontology IRI.
+ * @param version The ontology version.
+ * @return Ontology with the specified IRI and version, or NULL if it does not exist.
  */
 COWL_API
-CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlOntologyId const *id);
+CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
 
 /**
  * Reads an ontology from the file at the specified path.

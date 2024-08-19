@@ -13,7 +13,6 @@
 #ifndef COWL_ONTOLOGY_HEADER_H
 #define COWL_ONTOLOGY_HEADER_H
 
-#include "cowl_ontology_id.h"
 #include "cowl_vector.h"
 
 COWL_BEGIN_DECLS
@@ -21,8 +20,11 @@ COWL_BEGIN_DECLS
 /// Models an ontology header.
 typedef struct CowlOntologyHeader {
 
-    /// Ontology identifier.
-    CowlOntologyId id;
+    /// Ontology IRI.
+    CowlIRI *iri;
+
+    /// Ontology version.
+    CowlIRI *version;
 
     /// Import IRIs.
     UVec(CowlObjectPtr) const *imports;
@@ -45,7 +47,7 @@ typedef struct CowlOntologyHeader {
 COWL_CONST
 COWL_INLINE
 CowlOntologyHeader cowl_ontology_header_empty(void) {
-    CowlOntologyHeader header = { cowl_ontology_id_anonymous(), NULL, NULL };
+    CowlOntologyHeader header = { NULL, NULL, NULL, NULL };
     return header;
 }
 

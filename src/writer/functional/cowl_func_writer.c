@@ -24,7 +24,6 @@
 #include "cowl_object.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology_header.h"
-#include "cowl_ontology_id.h"
 #include "cowl_primitive_private.h"
 #include "cowl_ret.h"
 #include "cowl_sub_obj_prop_axiom.h"
@@ -325,12 +324,12 @@ static ustream_ret cowl_func_write_import(UOStream *s, CowlIRI *iri) {
     return s->state;
 }
 
-static ustream_ret cowl_func_write_onto_id(UOStream *s, CowlOntologyId *id) {
-    if (id->iri) cowl_func_write_full_iri(s, id->iri);
+static ustream_ret cowl_func_write_onto_iri_version(UOStream *s, CowlIRI *iri, CowlIRI *version) {
+    if (iri) cowl_func_write_full_iri(s, iri);
 
-    if (id->version) {
-        if (id->iri) cowl_write_static(s, " ");
-        cowl_func_write_full_iri(s, id->version);
+    if (version) {
+        if (iri) cowl_write_static(s, " ");
+        cowl_func_write_full_iri(s, version);
     }
 
     return s->state;
@@ -360,7 +359,7 @@ cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader header, CowlSymTable
     cowl_write_static(s, "Ontology");
     cowl_write_static(s, "(");
 
-    cowl_func_write_onto_id(s, &header.id);
+    cowl_func_write_onto_iri_version(s, header.iri, header.version);
     cowl_write_static(s, "\n");
 
     if (header.imports) {

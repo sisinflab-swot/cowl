@@ -89,14 +89,11 @@ bool cowl_test_ontology_deinit(void) {
     return true;
 }
 
-bool cowl_test_ontology_get_id(void) {
+bool cowl_test_ontology_get_iri_version(void) {
     CowlIRI *expected_onto_iri = cowl_iri_from_static(test_onto_iri);
-    cowl_assert_equal(iri, cowl_get_iri(onto), expected_onto_iri);
-
-    CowlOntologyId id = cowl_ontology_get_id(onto);
-    cowl_assert_equal(iri, id.iri, expected_onto_iri);
+    cowl_assert_equal(iri, cowl_ontology_get_iri(onto), expected_onto_iri);
+    utest_assert_ptr(cowl_ontology_get_version(onto), ==, NULL);
     cowl_release(expected_onto_iri);
-
     return true;
 }
 

@@ -20,7 +20,6 @@
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology.h"
-#include "cowl_ontology_id.h"
 #include "cowl_ontology_private.h"
 #include "cowl_ostream.h"
 #include "cowl_ostream_private.h"
@@ -232,30 +231,33 @@ bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter) {
     return true;
 }
 
-CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlOntologyId const *id) {
+CowlOntology *cowl_manager_new_ontology(CowlManager *manager) {
+    return cowl_ontology(manager);
+}
+
+CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version) {
+    if (iri) {
+        CowlOntology *onto = cowl_manager_retrieve_ontology(manager, iri, version);
+        if (onto) return cowl_retain(onto);
+    }
+
+    CowlOntology *onto = cowl_manager_new_ontology(manager);
+    if (!onto) return NULL;
+
+    if (iri) cowl_ontology_set_iri(onto, iri);
+    if (version) cowl_ontology_set_version(onto, version);
+
+    return onto;
+}
+
+CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version) {
     uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
-        if (cowl_ontology_id_equals(cowl_ontology_get_id(*onto.item), *id)) {
+        if (cowl_ontology_get_iri(*onto.item) == iri &&
+            cowl_ontology_get_version(*onto.item) == version) {
             return *onto.item;
         }
     }
     return NULL;
-}
-
-CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlOntologyId const *id) {
-    if (id) {
-        CowlOntology *onto = cowl_manager_retrieve_ontology(manager, id);
-        if (onto) return cowl_retain(onto);
-    }
-
-    CowlOntology *onto = cowl_ontology(manager);
-    if (!onto) return NULL;
-
-    if (id) {
-        cowl_ontology_set_iri(onto, id->iri);
-        cowl_ontology_set_version(onto, id->version);
-    }
-
-    return onto;
 }
 
 cowl_ret cowl_manager_add_ontology(CowlManager *manager, CowlOntology *onto) {

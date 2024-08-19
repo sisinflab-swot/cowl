@@ -144,7 +144,8 @@ static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOnto
     }
 
     CowlOntologyHeader header = {
-        .id = cowl_ontology_get_id(onto),
+        .iri = cowl_ontology_get_iri(onto),
+        .version = cowl_ontology_get_version(onto),
         .imports = &imports,
         .annotations = cowl_vector_get_data(cowl_ontology_get_annot(onto)),
     };
