@@ -1,3 +1,5 @@
 ---
 Diagnostics:
-  Suppress: unused-includes
+  MissingIncludes: Strict
+  Includes:
+    IgnoreHeader: sys/_types/_size_t\.h

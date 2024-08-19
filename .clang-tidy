@@ -8,3 +8,5 @@ Checks: >
   misc-include-cleaner,
   performance-*,
   portability-*
+CheckOptions:
+  misc-include-cleaner.IgnoreHeaders: sys/_types/_size_t\.h
