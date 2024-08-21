@@ -11,7 +11,8 @@
 #ifndef COWL_ANON_IND_PRIVATE_H
 #define COWL_ANON_IND_PRIVATE_H
 
-#include "cowl_anon_ind.h"
+#include "cowl_anon_ind.h" // IWYU pragma: export
+#include "cowl_attrs.h"
 #include "cowl_object_private.h"
 #include "cowl_ret.h"
 

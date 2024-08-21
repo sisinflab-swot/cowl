@@ -13,7 +13,9 @@
 #ifndef COWL_PRIMITIVE_FLAGS_H
 #define COWL_PRIMITIVE_FLAGS_H
 
+#include "cowl_attrs.h"
 #include "cowl_primitive_type.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

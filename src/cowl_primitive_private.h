@@ -11,7 +11,11 @@
 #ifndef COWL_PRIMITIVE_PRIVATE_H
 #define COWL_PRIMITIVE_PRIVATE_H
 
-#include "cowl_primitive.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_primitive.h" // IWYU pragma: export
+#include "cowl_primitive_type.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

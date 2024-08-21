@@ -11,7 +11,8 @@
 #ifndef COWL_RDF_VOCAB_PRIVATE_H
 #define COWL_RDF_VOCAB_PRIVATE_H
 
-#include "cowl_rdf_vocab.h"
+#include "cowl_attrs.h"
+#include "cowl_rdf_vocab.h" // IWYU pragma: export
 #include "cowl_ret.h"
 
 COWL_BEGIN_DECLS

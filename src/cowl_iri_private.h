@@ -11,8 +11,10 @@
 #ifndef COWL_IRI_PRIVATE_H
 #define COWL_IRI_PRIVATE_H
 
-#include "cowl_iri.h"
+#include "cowl_attrs.h"
+#include "cowl_iri.h" // IWYU pragma: export
 #include "cowl_object_private.h"
+#include "cowl_ret.h"
 
 COWL_BEGIN_DECLS
 

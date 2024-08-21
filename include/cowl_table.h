@@ -13,7 +13,11 @@
 #ifndef COWL_TABLE_H
 #define COWL_TABLE_H
 
-#include "cowl_object.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
+#include "ulib.h"
+#include <stddef.h>
 
 COWL_BEGIN_DECLS
 

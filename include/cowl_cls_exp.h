@@ -13,8 +13,12 @@
 #ifndef COWL_CLS_EXP_H
 #define COWL_CLS_EXP_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
 #include "cowl_cls_exp_type.h"
+#include "cowl_macros.h"
 #include "cowl_object.h"
+#include "cowl_object_type.h"
 
 COWL_BEGIN_DECLS
 

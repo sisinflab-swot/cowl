@@ -11,8 +11,11 @@
 #ifndef COWL_OBJECT_PRIVATE_H
 #define COWL_OBJECT_PRIVATE_H
 
-#include "cowl_object.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_object.h" // IWYU pragma: export
 #include "cowl_object_flags.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

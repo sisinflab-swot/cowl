@@ -14,7 +14,8 @@
 #define COWL_ITERATOR_H
 
 #include "cowl_any.h"
-#include "cowl_primitive_flags.h"
+#include "cowl_attrs.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

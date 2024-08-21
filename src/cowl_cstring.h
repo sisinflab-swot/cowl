@@ -12,6 +12,7 @@
 #define COWL_CSTRING_H
 
 #include "cowl_attrs.h"
+#include "ulib.h"
 #include <stddef.h>
 
 COWL_BEGIN_DECLS

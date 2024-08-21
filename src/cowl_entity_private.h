@@ -11,9 +11,15 @@
 #ifndef COWL_ENTITY_PRIVATE_H
 #define COWL_ENTITY_PRIVATE_H
 
-#include "cowl_entity.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_entity.h" // IWYU pragma: export
 #include "cowl_object_private.h"
 #include "cowl_ret.h"
+
+#if COWL_ENTITY_IDS
+#include "ulib.h"
+#endif
 
 COWL_BEGIN_DECLS
 

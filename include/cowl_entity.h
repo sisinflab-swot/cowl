@@ -13,8 +13,12 @@
 #ifndef COWL_ENTITY_H
 #define COWL_ENTITY_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
 #include "cowl_entity_type.h"
-#include "cowl_object.h"
+#include "cowl_impl.h"
+#include "cowl_macros.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

@@ -11,8 +11,12 @@
 #ifndef COWL_TABLE_PRIVATE_H
 #define COWL_TABLE_PRIVATE_H
 
+#include "cowl_attrs.h"
+#include "cowl_iterator.h"
 #include "cowl_object_private.h"
-#include "cowl_table.h"
+#include "cowl_primitive_flags.h"
+#include "cowl_table.h" // IWYU pragma: export
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

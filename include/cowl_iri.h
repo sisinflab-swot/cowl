@@ -13,14 +13,12 @@
 #ifndef COWL_IRI_H
 #define COWL_IRI_H
 
-#include "cowl_object.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 #include "cowl_string.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
-
-/// @cond
-cowl_struct_decl(CowlString);
-/// @endcond
 
 /**
  * Represents [International Resource Identifiers].

@@ -13,9 +13,11 @@
 #ifndef COWL_STRING_H
 #define COWL_STRING_H
 
-#include "cowl_object.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 #include "cowl_ret.h"
 #include "cowl_string_opts.h" // IWYU pragma: export
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

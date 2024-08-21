@@ -13,7 +13,9 @@
 #ifndef COWL_AXIOM_FLAGS_H
 #define COWL_AXIOM_FLAGS_H
 
+#include "cowl_attrs.h"
 #include "cowl_axiom_type.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

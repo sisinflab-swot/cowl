@@ -11,7 +11,10 @@
 #ifndef COWL_TYPES_H
 #define COWL_TYPES_H
 
+// IWYU pragma: begin_exports
+
 #include "cowl_annot_value_type.h"
+#include "cowl_attrs.h"
 #include "cowl_axiom_type.h"
 #include "cowl_card_type.h"
 #include "cowl_char_axiom_type.h"
@@ -21,6 +24,7 @@
 #include "cowl_error.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_iterator.h"
+#include "cowl_macros.h"
 #include "cowl_nary_axiom_type.h"
 #include "cowl_nary_type.h"
 #include "cowl_object_type.h"
@@ -28,8 +32,12 @@
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
 #include "cowl_reader.h"
+#include "cowl_ret.h"
 #include "cowl_version.h"
 #include "cowl_writer.h"
+#include "ulib.h"
+
+// IWYU pragma: end_exports
 
 COWL_BEGIN_DECLS
 

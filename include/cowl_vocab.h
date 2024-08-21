@@ -13,8 +13,8 @@
 #ifndef COWL_VOCAB_H
 #define COWL_VOCAB_H
 
-#include "cowl_entity.h"
-#include "cowl_iri.h"
+#include "cowl_attrs.h"
+#include "ulib.h"
 
 // IWYU pragma: begin_exports
 #include "cowl_owl_vocab.h"

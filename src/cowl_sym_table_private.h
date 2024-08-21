@@ -11,8 +11,10 @@
 #ifndef COWL_SYM_TABLE_PRIVATE_H
 #define COWL_SYM_TABLE_PRIVATE_H
 
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 #include "cowl_object_private.h"
-#include "cowl_sym_table.h"
+#include "cowl_sym_table.h" // IWYU pragma: export
 
 COWL_BEGIN_DECLS
 

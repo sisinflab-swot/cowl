@@ -11,7 +11,6 @@
 #include "cowl_error_handler.h"
 #include "cowl_any.h"
 #include "cowl_error.h"
-#include "cowl_iri.h"
 #include "cowl_istream.h"
 #include "cowl_manager.h"
 #include "cowl_object.h"

@@ -11,8 +11,11 @@
 #ifndef COWL_STRING_PRIVATE_H
 #define COWL_STRING_PRIVATE_H
 
+#include "cowl_attrs.h"
 #include "cowl_object_private.h"
-#include "cowl_string.h"
+#include "cowl_ret.h"
+#include "cowl_string.h" // IWYU pragma: export
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

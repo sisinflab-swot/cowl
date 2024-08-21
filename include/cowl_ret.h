@@ -15,14 +15,12 @@
 
 #include "cowl_attrs.h"
 #include "cowl_macros.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlString);
-typedef enum uhash_ret uhash_ret;
-typedef enum ustream_ret ustream_ret;
-typedef enum uvec_ret uvec_ret;
 /// @endcond
 
 /**

@@ -11,8 +11,13 @@
 #ifndef COWL_AXIOM_FILTER_PRIVATE_H
 #define COWL_AXIOM_FILTER_PRIVATE_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
 #include "cowl_axiom.h"
-#include "cowl_axiom_filter.h"
+#include "cowl_axiom_filter.h" // IWYU pragma: export
+#include "cowl_axiom_flags.h"
+#include "cowl_object.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

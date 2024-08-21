@@ -13,6 +13,9 @@
 #ifndef COWL_PRIMITIVE_H
 #define COWL_PRIMITIVE_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 #include "cowl_object.h"
 #include "cowl_primitive_type.h"
 

@@ -13,13 +13,14 @@
 #ifndef COWL_LITERAL_H
 #define COWL_LITERAL_H
 
-#include "cowl_object.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 
 /// @cond
 cowl_struct_decl(CowlDatatype);
-cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlString);
 /// @endcond
 

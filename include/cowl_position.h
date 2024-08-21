@@ -14,6 +14,7 @@
 #define COWL_POSITION_H
 
 #include "cowl_attrs.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

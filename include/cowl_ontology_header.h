@@ -13,9 +13,17 @@
 #ifndef COWL_ONTOLOGY_HEADER_H
 #define COWL_ONTOLOGY_HEADER_H
 
-#include "cowl_vector.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
+#include "ulib.h"
+#include <stddef.h>
 
 COWL_BEGIN_DECLS
+
+/// @cond
+cowl_struct_decl(CowlIRI);
+uvec_decl(CowlObjectPtr);
+/// @endcond
 
 /// Models an ontology header.
 typedef struct CowlOntologyHeader {

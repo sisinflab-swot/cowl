@@ -11,9 +11,15 @@
 #ifndef COWL_LITERAL_PRIVATE_H
 #define COWL_LITERAL_PRIVATE_H
 
-#include "cowl_literal.h"
+#include "cowl_attrs.h"
+#include "cowl_literal.h" // IWYU pragma: export
+#include "cowl_macros.h"
+#include "cowl_primitive_flags.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
+
+cowl_struct_decl(CowlIterator);
 
 void cowl_literal_free(CowlLiteral *literal);
 COWL_PURE bool cowl_literal_equals(CowlLiteral *lhs, CowlLiteral *rhs);

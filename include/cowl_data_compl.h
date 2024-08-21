@@ -13,7 +13,11 @@
 #ifndef COWL_DATA_COMPL_H
 #define COWL_DATA_COMPL_H
 
-#include "cowl_object.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_impl.h"
+#include "cowl_macros.h"
+#include "cowl_object_type.h"
 
 COWL_BEGIN_DECLS
 

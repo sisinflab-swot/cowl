@@ -12,6 +12,7 @@
 #define COWL_OBJECT_FLAGS_H
 
 #include "cowl_attrs.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

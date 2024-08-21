@@ -13,6 +13,7 @@
 
 #include "cowl_attrs.h"
 #include "cowl_macros.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

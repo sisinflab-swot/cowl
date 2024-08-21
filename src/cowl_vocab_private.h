@@ -11,6 +11,12 @@
 #ifndef COWL_VOCAB_PRIVATE_H
 #define COWL_VOCAB_PRIVATE_H
 
+#include "cowl_attrs.h"
+#include "cowl_ret.h"
+#include "cowl_vocab.h" // IWYU pragma: export
+#include "ulib.h"
+
+// IWYU pragma: begin_exports
 #include "cowl_annot_prop.h"
 #include "cowl_class.h"
 #include "cowl_data_prop.h"
@@ -18,7 +24,7 @@
 #include "cowl_iri_private.h"
 #include "cowl_obj_prop.h"
 #include "cowl_string.h"
-#include "cowl_vocab.h"
+// IWYU pragma: end_exports
 
 COWL_BEGIN_DECLS
 

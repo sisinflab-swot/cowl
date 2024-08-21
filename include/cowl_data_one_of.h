@@ -13,7 +13,10 @@
 #ifndef COWL_COWL_DATA_ONE_OF_H
 #define COWL_COWL_DATA_ONE_OF_H
 
-#include "cowl_object.h"
+#include "cowl_attrs.h"
+#include "cowl_impl.h"
+#include "cowl_macros.h"
+#include "cowl_object_type.h"
 
 COWL_BEGIN_DECLS
 

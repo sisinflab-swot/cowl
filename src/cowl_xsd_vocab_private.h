@@ -11,7 +11,9 @@
 #ifndef COWL_XSD_VOCAB_PRIVATE_H
 #define COWL_XSD_VOCAB_PRIVATE_H
 
-#include "cowl_xsd_vocab.h"
+#include "cowl_attrs.h"
+#include "cowl_ret.h"
+#include "cowl_xsd_vocab.h" // IWYU pragma: export
 
 COWL_BEGIN_DECLS
 

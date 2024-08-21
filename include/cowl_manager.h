@@ -17,8 +17,13 @@
 #include "cowl_error_handler.h"
 #include "cowl_import_loader.h"
 #include "cowl_istream_handlers.h"
+#include "cowl_iterator.h"
+#include "cowl_macros.h"
 #include "cowl_reader.h"
+#include "cowl_ret.h"
 #include "cowl_writer.h"
+#include "ulib.h"
+#include <stdio.h>
 
 COWL_BEGIN_DECLS
 

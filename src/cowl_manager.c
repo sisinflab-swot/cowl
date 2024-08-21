@@ -11,6 +11,7 @@
 #include "cowl_any.h"
 #include "cowl_config.h"
 #include "cowl_error_handler.h"
+#include "cowl_import_loader.h"
 #include "cowl_istream.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_istream_private.h"

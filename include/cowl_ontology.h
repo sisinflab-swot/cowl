@@ -13,12 +13,16 @@
 #ifndef COWL_ONTOLOGY_H
 #define COWL_ONTOLOGY_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
 #include "cowl_axiom_flags.h"
 #include "cowl_axiom_type.h"
 #include "cowl_iterator.h"
-#include "cowl_object.h"
+#include "cowl_macros.h"
 #include "cowl_position.h"
+#include "cowl_primitive_flags.h"
 #include "cowl_ret.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 
@@ -26,6 +30,7 @@ COWL_BEGIN_DECLS
 cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAxiomFilter);
 cowl_struct_decl(CowlClass);
+cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlSymTable);
 cowl_struct_decl(CowlVector);

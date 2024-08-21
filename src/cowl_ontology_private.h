@@ -11,11 +11,16 @@
 #ifndef COWL_ONTOLOGY_PRIVATE_H
 #define COWL_ONTOLOGY_PRIVATE_H
 
+#include "cowl_attrs.h"
 #include "cowl_axiom_type.h"
+#include "cowl_macros.h"
 #include "cowl_object_private.h"
-#include "cowl_ontology.h"
+#include "cowl_ontology.h" // IWYU pragma: export
+#include "cowl_primitive_type.h"
+#include "cowl_ret.h"
 #include "cowl_table.h"
 #include "cowl_vector.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

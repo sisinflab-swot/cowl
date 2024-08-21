@@ -13,7 +13,11 @@
 #ifndef COWL_ERROR_HANDLER_H
 #define COWL_ERROR_HANDLER_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
 #include "cowl_error.h"
+#include "cowl_ret.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

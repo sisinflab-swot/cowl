@@ -7,6 +7,7 @@ Checks: >
   misc-header-include-cycle,
   misc-include-cleaner,
   performance-*,
+  -performance-enum-size,
   portability-*
 CheckOptions:
   misc-include-cleaner.IgnoreHeaders: sys/_types/_size_t\.h

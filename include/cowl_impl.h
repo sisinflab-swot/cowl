@@ -15,9 +15,12 @@
 #ifndef COWL_IMPL_H
 #define COWL_IMPL_H
 
-#include "cowl_iterator.h"
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_macros.h"
 #include "cowl_object_type.h"
-#include "cowl_primitive_flags.h"
+#include "ulib.h"
+#include <stddef.h>
 
 COWL_BEGIN_DECLS
 

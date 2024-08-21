@@ -11,9 +11,14 @@
 #ifndef COWL_VECTOR_PRIVATE_H
 #define COWL_VECTOR_PRIVATE_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
+#include "cowl_iterator.h"
 #include "cowl_object_private.h"
+#include "cowl_primitive_flags.h"
 #include "cowl_ret.h"
-#include "cowl_vector.h"
+#include "cowl_vector.h" // IWYU pragma: export
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 

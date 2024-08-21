@@ -11,8 +11,10 @@
 #ifndef COWL_ISTREAM_PRIVATE_H
 #define COWL_ISTREAM_PRIVATE_H
 
-#include "cowl_istream.h"
+#include "cowl_attrs.h"
+#include "cowl_istream.h" // IWYU pragma: export
 #include "cowl_istream_handlers.h"
+#include "cowl_macros.h"
 #include "cowl_object_private.h"
 
 COWL_BEGIN_DECLS

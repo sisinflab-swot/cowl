@@ -13,7 +13,10 @@
 #ifndef COWL_DATA_PROP_EXP_H
 #define COWL_DATA_PROP_EXP_H
 
+#include "cowl_any.h"
+#include "cowl_attrs.h"
 #include "cowl_data_prop.h"
+#include "cowl_macros.h"
 
 COWL_BEGIN_DECLS
 

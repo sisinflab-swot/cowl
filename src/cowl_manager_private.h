@@ -11,9 +11,16 @@
 #ifndef COWL_MANAGER_PRIVATE_H
 #define COWL_MANAGER_PRIVATE_H
 
-#include "cowl_manager.h"
+#include "cowl_attrs.h"
+#include "cowl_error_handler.h"
+#include "cowl_import_loader.h"
+#include "cowl_manager.h" // IWYU pragma: export
 #include "cowl_object_private.h"
-#include "cowl_vector.h"
+#include "cowl_reader.h"
+#include "cowl_ret.h"
+#include "cowl_vector.h" // IWYU pragma: keep, needed for UVec(CowlObjectPtr)
+#include "cowl_writer.h"
+#include "ulib.h"
 
 COWL_BEGIN_DECLS
 
