@@ -69,4 +69,4 @@ set(COWL_SOURCES ${COWL_SOURCES} PARENT_SCOPE)
 set_source_files_properties(${FLEX_COWL_FUNC_LEXER_OUTPUTS}
                             ${BISON_COWL_FUNC_PARSER_OUTPUT_SOURCE}
                             DIRECTORY "${COWL_PROJECT_DIR}"
-                            PROPERTIES GENERATED ON)
+                            PROPERTIES GENERATED ON SKIP_LINTING ON)

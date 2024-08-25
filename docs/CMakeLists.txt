@@ -1,12 +1,11 @@
 # Files and directories
 
 set(DOCS_IMAGES_DIRECTORY "${COWL_DOCS_DIR}/img")
-set(DOCS_OUTPUT_DIRECTORY "${COWL_OUTPUT_DIR}/docs")
 set(SPHINX_INPUT_DIRECTORY "${COWL_DOCS_DIR}")
 set(DOXYGEN_UTILS_DIRECTORY "${COWL_DOCS_DIR}/doxygen")
 set(COWL_ICON "${DOCS_IMAGES_DIRECTORY}/cowl_logo.png")
-list(APPEND CMAKE_MODULE_PATH "${COWL_DOCS_DIR}/cmake")
-get_target_property(ULIB_DIRS ulib INTERFACE_INCLUDE_DIRECTORIES)
+set(ULIB_PUBLIC_HEADERS_DIR "${COWL_ULIB_DIR}/include")
+file(GLOB ULIB_PUBLIC_HEADERS CONFIGURE_DEPENDS "${ULIB_PUBLIC_HEADERS_DIR}/*.h")
 
 # Doxygen configuration
 
@@ -33,8 +32,8 @@ set(DOXYGEN_PREDEFINED ${COWL_PUBLIC_DEFINES}
     "COWL_RETAINED=/** @note You must release the returned object via <tt>#cowl_release()</tt>. */"
     "COWL_DEPRECATED(msg)=/** @@deprecated msg */"
     "COWL_INLINE=")
-set(DOXYGEN_INCLUDE_PATH ${COWL_PUBLIC_HEADERS_DIRS} ${ULIB_DIRS})
-set(DOXYGEN_OUTPUT_DIRECTORY "${DOCS_OUTPUT_DIRECTORY}/doxygen")
+set(DOXYGEN_INCLUDE_PATH ${COWL_PUBLIC_HEADERS_DIRS} ${ULIB_PUBLIC_HEADERS_DIR})
+set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
 set(DOXYGEN_XML_OUTPUT_DIRECTORY "${DOXYGEN_OUTPUT_DIRECTORY}/xml")
 set(DOXYGEN_ALIASES
     [[destructor{1}="@note The returned object must be destroyed by calling <tt>#\1()</tt>."]]
@@ -48,12 +47,12 @@ set(DOXYGEN_ALIASES
 )
 set(DOXYGEN_VERBATIM_VARS DOXYGEN_ALIASES)
 
-find_program(PYTHON
+find_program(DOXYGEN_PYTHON
              NAMES python3 python
-             DOC "Path to the Python interpreter")
+             DOC "Path to the Python interpreter used to run Doxygen input filters")
 
-if(NOT PYTHON STREQUAL "PYTHON-NOTFOUND")
-    set(DOXYGEN_INPUT_FILTER "${PYTHON} ${DOXYGEN_UTILS_DIRECTORY}/alias.py")
+if(DOXYGEN_PYTHON)
+    set(DOXYGEN_INPUT_FILTER "${DOXYGEN_PYTHON} ${COWL_ULIB_UTILS_DIR}/doxygen/alias.py")
 endif()
 
 # Documentation targets
@@ -70,12 +69,12 @@ if(DOXYGEN_FOUND)
 
         set(DOXYGEN_TARGET_NAME cowl-doxygen)
         sphinx_add_docs("${DOCS_TARGET_NAME}" "${SPHINX_INPUT_DIRECTORY}" ARGS -W
-                        COMMENT "Generate documentation via Sphinx")
+                        COMMENT "Generating documentation via Sphinx")
         add_dependencies("${DOCS_TARGET_NAME}" "${DOXYGEN_TARGET_NAME}" ulib-docs)
     else()
         set(DOXYGEN_TARGET_NAME "${DOCS_TARGET_NAME}")
     endif()
 
-    doxygen_add_docs("${DOXYGEN_TARGET_NAME}" ${COWL_PUBLIC_HEADERS}
-                     COMMENT "Generate documentation via Doxygen")
+    doxygen_add_docs("${DOXYGEN_TARGET_NAME}" ${COWL_PUBLIC_HEADERS} ${ULIB_PUBLIC_HEADERS}
+                     COMMENT "Generating documentation via Doxygen")
 endif()

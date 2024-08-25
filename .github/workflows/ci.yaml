@@ -27,10 +27,12 @@ jobs:
       - name: Configure CMake
         run: >
           CC=clang cmake -B ${{env.build_dir}}
+          -DCOWL_CPP_TESTS=OFF
+          -DCOWL_LTO=OFF
           -DCOWL_CLANG_TIDY=ON
           -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
       - name: Build
-        run: cmake --build ${{env.build_dir}}
+        run: cmake --build ${{env.build_dir}} --target cowl-test cowl-bench cowl-examples cowl-tools
 
   test:
     name: Test
@@ -79,6 +81,11 @@ jobs:
           cmake --build ${{env.build_dir}}
           --config ${{env.build_config}}
           --target cowl-test cowl-cpp-test cowl-bench cowl-examples cowl-tools
+
+      - name: Debug
+        if: ${{always()}}
+        run: sed '4019q;d' ${{env.build_dir}}/src/reader/functional/cowl_func_yyparser.c
+        shell: bash
 
       - name: Configure tests (Windows)
         working-directory: ${{env.build_dir}}

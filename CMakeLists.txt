@@ -24,7 +24,7 @@ project(Cowl
         HOMEPAGE_URL "${COWL_VENDOR_URL}/cowl"
         LANGUAGES C)
 
-# Options
+# Cache variables
 
 option(COWL_EMBEDDED "Enable optimizations for embedded platforms" OFF)
 option(COWL_LTO "Enable link-time optimization, if available" ON)
@@ -38,9 +38,10 @@ set(COWL_WRITERS "functional" CACHE STRING "List of enabled built-in writers (se
 
 set(COWL_PROJECT_DIR "${CMAKE_CURRENT_LIST_DIR}")
 set(COWL_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}")
-set(COWL_PUBLIC_HEADERS_DIR "${COWL_PROJECT_DIR}/include")
 set(COWL_LIB_DIR "${COWL_PROJECT_DIR}/lib")
 set(COWL_SRC_DIR "${COWL_PROJECT_DIR}/src")
+set(COWL_PUBLIC_HEADERS_DIR "${COWL_PROJECT_DIR}/include")
+set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}")
 set(COWL_READER_DIR "${COWL_SRC_DIR}/reader")
 set(COWL_WRITER_DIR "${COWL_SRC_DIR}/writer")
 
@@ -50,18 +51,18 @@ set(COWL_EXAMPLES_DIR "${COWL_PROJECT_DIR}/examples")
 set(COWL_TEST_DIR "${COWL_PROJECT_DIR}/test")
 set(COWL_TOOLS_DIR "${COWL_PROJECT_DIR}/tools")
 
+set(COWL_ULIB_DIR "${COWL_LIB_DIR}/ulib")
+set(COWL_ULIB_UTILS_DIR "${COWL_ULIB_DIR}/utils")
+
 set(COWL_HEADERS_OUT_DIR "${COWL_OUTPUT_DIR}/include")
+
+# CMake settings
+
+list(APPEND CMAKE_MODULE_PATH "${COWL_ULIB_UTILS_DIR}/cmake")
 
 # Target settings
 
 set(COWL_COMPILE_FEATURES c_std_11)
-
-if(COWL_CLANG_TIDY)
-    set(COWL_CLANG_TIDY_COMMAND "clang-tidy")
-    if(CMAKE_COMPILE_WARNING_AS_ERROR)
-        list(APPEND COWL_CLANG_TIDY_COMMAND "-warnings-as-errors=*")
-    endif()
-endif()
 
 if(COWL_ENTITY_IDS)
     list(APPEND COWL_PUBLIC_DEFINES COWL_ENTITY_IDS=1)
@@ -84,33 +85,31 @@ if(COWL_LTO)
     check_ipo_supported(RESULT COWL_LTO_ENABLED)
 endif()
 
+if(COWL_CLANG_TIDY)
+    find_package(ClangTidy REQUIRED)
+endif()
+
 # uLib
 
 option(ULIB_TINY "" ${COWL_EMBEDDED})
 option(ULIB_LTO "" ${COWL_LTO})
 
 if(NOT TARGET ulib)
-    add_subdirectory("${COWL_LIB_DIR}/ulib" EXCLUDE_FROM_ALL)
+    add_subdirectory("${COWL_ULIB_DIR}" EXCLUDE_FROM_ALL)
 endif()
 
-# Header dirs
+# Sources
 
 set(COWL_PUBLIC_HEADERS_DIRS "${COWL_PUBLIC_HEADERS_DIR}")
 set(COWL_PRIVATE_HEADERS_DIRS "${COWL_SRC_DIR}")
 
-# Header files
-
 file(GLOB COWL_PUBLIC_HEADERS CONFIGURE_DEPENDS "${COWL_PUBLIC_HEADERS_DIR}/*.h")
-get_target_property(COWL_ULIB_HEADERS ulib PUBLIC_HEADER)
-list(APPEND COWL_PUBLIC_HEADERS ${COWL_ULIB_HEADERS})
-
-# Sources
-
+file(GLOB COWL_PRIVATE_HEADERS CONFIGURE_DEPENDS "${COWL_PRIVATE_HEADERS_DIR}/*.h")
 file(GLOB COWL_SOURCES CONFIGURE_DEPENDS "${COWL_SRC_DIR}/*.c")
 
-###############
-### Targets ###
-###############
+###########
+# Targets #
+###########
 
 # Readers
 
@@ -156,9 +155,18 @@ endif()
 
 # Library
 
-add_library(cowl ${COWL_LIBRARY_TYPE} ${COWL_SOURCES})
+add_library(cowl ${COWL_LIBRARY_TYPE})
+target_sources(cowl
+               PRIVATE ${COWL_SOURCES}
+               PRIVATE FILE_SET private_headers
+                       TYPE HEADERS
+                       BASE_DIRS ${COWL_PRIVATE_HEADERS_DIRS}
+                       FILES ${COWL_PRIVATE_HEADERS}
+               PUBLIC FILE_SET public_headers
+                      TYPE HEADERS
+                      BASE_DIRS ${COWL_PUBLIC_HEADERS_DIRS}
+                      FILES ${COWL_PUBLIC_HEADERS})
 set_target_properties(cowl PROPERTIES
-                      PUBLIC_HEADER "${COWL_PUBLIC_HEADERS}"
                       C_VISIBILITY_PRESET hidden
                       VISIBILITY_INLINES_HIDDEN ON)
 target_compile_features(cowl PRIVATE ${COWL_COMPILE_FEATURES})
@@ -166,9 +174,6 @@ target_compile_options(cowl PRIVATE ${COWL_WARNING_OPTIONS})
 target_compile_definitions(cowl
                            PUBLIC ${COWL_PUBLIC_DEFINES}
                            PRIVATE ${COWL_PRIVATE_DEFINES})
-target_include_directories(cowl
-                           PUBLIC ${COWL_PUBLIC_HEADERS_DIRS}
-                           PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_link_libraries(cowl PUBLIC ulib)
 add_dependencies(cowl cowl-readers)
 
@@ -180,11 +185,11 @@ if(COWL_LTO_ENABLED)
     set_property(TARGET cowl PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
 endif()
 
-if(COWL_CLANG_TIDY_COMMAND)
-    set_property(TARGET cowl PROPERTY C_CLANG_TIDY "${COWL_CLANG_TIDY_COMMAND}")
+if(COWL_CLANG_TIDY)
+    clang_tidy_check(cowl)
 endif()
 
-install(TARGETS cowl ulib)
+install(TARGETS cowl ulib FILE_SET public_headers)
 
 # Subprojects
 

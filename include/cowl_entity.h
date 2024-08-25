@@ -18,7 +18,6 @@
 #include "cowl_entity_type.h"
 #include "cowl_impl.h"
 #include "cowl_macros.h"
-#include "ulib.h"
 
 COWL_BEGIN_DECLS
 
@@ -72,6 +71,8 @@ COWL_PURE
 bool cowl_entity_is_reserved(CowlAnyEntity *entity);
 
 #if COWL_ENTITY_IDS
+
+#include "ulib.h"
 
 /**
  * Gets the increasing unique identifier associated to the specified entity.
