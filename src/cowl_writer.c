@@ -27,7 +27,7 @@
 #include <stddef.h>
 #include <string.h>
 
-#define UINT_MAX_DIGITS 20
+#define UINT_MAX_DIGITS 20 // NOLINT(modernize-macro-to-enum)
 
 cowl_ret cowl_write(UOStream *stream, CowlAny *object) {
     CowlWriter writer = cowl_get_writer();

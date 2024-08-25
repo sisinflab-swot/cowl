@@ -499,9 +499,8 @@ bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primiti
 
     if (cowl_vector_count(at) < cowl_vector_count(ar)) {
         return cowl_ontology_iterate_axioms_of_type(onto, type, iter, imports);
-    } else {
-        return cowl_ontology_iterate_axioms_for_primitive(onto, primitive, &l_iter, imports);
     }
+    return cowl_ontology_iterate_axioms_for_primitive(onto, primitive, &l_iter, imports);
 }
 
 void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {
@@ -572,27 +571,27 @@ CowlIRI *cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import) 
     return NULL;
 }
 
-cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *iri) {
+cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import) {
     ulib_uint idx = UHASH_INDEX_MISSING;
     UHash(CowlObjectTable) map = uhmap_pi(CowlObjectTable, cowl_primitive_hash,
                                           cowl_primitive_equals);
     if (!onto->imports && !(onto->imports = cowl_table(&map))) goto err;
 
     UHash(CowlObjectTable) *tbl = &onto->imports->data;
-    uhash_ret hret = uhash_put(CowlObjectTable, tbl, iri, &idx);
+    uhash_ret hret = uhash_put(CowlObjectTable, tbl, import, &idx);
 
     if (hret == UHASH_INSERTED) {
-        cowl_retain(iri);
+        cowl_retain(import);
     } else if (hret == UHASH_PRESENT) {
         return COWL_OK;
     } else {
         goto err;
     }
 
-    CowlOntology *import = NULL;
+    CowlOntology *import_onto = NULL;
     CowlImportLoader loader = cowl_manager_get_import_loader(onto->manager);
-    if (loader.load_ontology && !(import = loader.load_ontology(loader.ctx, iri))) goto err;
-    uhash_value(CowlObjectTable, tbl, idx) = import;
+    if (loader.load_ontology && !(import_onto = loader.load_ontology(loader.ctx, import))) goto err;
+    uhash_value(CowlObjectTable, tbl, idx) = import_onto;
 
     return COWL_OK;
 

@@ -184,7 +184,7 @@ bool cowl_test_ontology_axiom_count_for_primitive(void) {
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_IRI]);
 
-    CowlIterator iter = { &primitive, cowl_test_get_first_anon_ind };
+    CowlIterator iter = { (void *)&primitive, cowl_test_get_first_anon_ind };
     cowl_ontology_iterate_primitives(onto, COWL_PF_ANON_IND, &iter, true);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive, true);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_ANON_IND]);

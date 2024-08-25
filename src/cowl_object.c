@@ -54,10 +54,14 @@
  */
 
 #define TF_FC(field_count) (field_count)
-#define TF_NONE 0x0U
-#define TF_PRIMITIVE 0x4U
-#define TF_ENTITY 0x8U
-#define TF_CARD_RESTR 0x10U
+
+enum {
+    TF_NONE = 0x0U,
+    TF_FIELD_COUNT = 0x3U,
+    TF_PRIMITIVE = 0x4U,
+    TF_ENTITY = 0x8U,
+    TF_CARD_RESTR = 0x10U,
+};
 
 static ulib_byte type_flags[COWL_OT_COUNT] = {
     [COWL_OT_STRING] = TF_NONE,
@@ -142,17 +146,18 @@ static ulib_byte type_flags[COWL_OT_COUNT] = {
 };
 
 #define type_flag_is_special(f) (!(f))
-#define type_flag_is_primitive(f) ((f) & (0x4U))
-#define type_flag_is_entity(f) ((f) & (0x8U))
-#define type_flag_is_card_restr(f) ((f) & (0x10U))
-#define type_flag_field_count(f) ((f) & (0x3U))
+#define type_flag_is_primitive(f) ((f) & TF_PRIMITIVE)
+#define type_flag_is_entity(f) ((f) & TF_ENTITY)
+#define type_flag_is_card_restr(f) ((f) & TF_CARD_RESTR)
+#define type_flag_field_count(f) ((f) & TF_FIELD_COUNT)
 
 #define type_is_primitive(t) type_flag_is_primitive(type_flags[t])
 #define type_is_entity(t) type_flag_is_entity(type_flags[t])
 #define type_field_count(t) type_flag_field_count(type_flags[t])
 
 CowlAny *cowl_retain(CowlAny *object) {
-    return cowl_object_incr_ref(object);
+    cowl_object_incr_ref(object);
+    return object;
 }
 
 static inline void release_impl(CowlObjectType type, CowlComposite *object) {
@@ -246,8 +251,10 @@ bool cowl_has_iri_string(CowlAny *object, UString iri_str) {
     CowlIRI *iri = cowl_get_iri(object);
     if (!iri) return false;
 
-    CowlString *ns = cowl_iri_get_ns(iri), *rem = cowl_iri_get_rem(iri);
-    ulib_uint ns_len = cowl_string_get_length(ns), rem_len = cowl_string_get_length(rem);
+    CowlString *ns = cowl_iri_get_ns(iri);
+    CowlString *rem = cowl_iri_get_rem(iri);
+    ulib_uint ns_len = cowl_string_get_length(ns);
+    ulib_uint rem_len = cowl_string_get_length(rem);
 
     if (ustring_length(iri_str) != ns_len + rem_len) return false;
     if (!ustring_ends_with(iri_str, *cowl_string_get_raw(rem))) return false;
@@ -330,7 +337,9 @@ bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
     if (has_opt != cowl_has_opt_field(rhs)) return false;
     if (has_opt) ++n;
 
-    CowlComposite *l = lhs, *r = rhs;
+    CowlComposite *l = lhs;
+    CowlComposite *r = rhs;
+
     for (ulib_byte i = 0; i < n; ++i) {
         if (!cowl_equals(l->fields[i].obj, r->fields[i].obj)) return false;
     }

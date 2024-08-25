@@ -35,14 +35,36 @@ typedef struct CowlComposite {
     ((CowlObject){ .flags = cowl_object_flags(TYPE, HAS_BIT) })
 #define COWL_OBJECT_INIT(TYPE) COWL_OBJECT_BIT_INIT(TYPE, 0)
 
-#define cowl_object_get_ref(o) cowl_object_flags_get_ref(((CowlObject *)(o))->flags)
-#define cowl_object_incr_ref(o) (cowl_object_flags_incr_ref(((CowlObject *)(o))->flags), (o))
-#define cowl_object_decr_ref(o)                                                                    \
-    (cowl_object_flags_decr_ref(((CowlObject *)(o))->flags), cowl_object_get_ref(o))
+ULIB_INLINE
+ulib_uint cowl_object_get_ref(CowlAny *o) {
+    return cowl_object_flags_get_ref(((CowlObject *)o)->flags);
+}
 
-#define cowl_object_bit_get(o) cowl_object_flags_has_bit(((CowlObject *)(o))->flags)
-#define cowl_object_bit_set(o) cowl_object_flags_set_bit(((CowlObject *)(o))->flags)
-#define cowl_object_bit_unset(o) cowl_object_flags_unset_bit(((CowlObject *)(o))->flags)
+ULIB_INLINE
+void cowl_object_incr_ref(CowlAny *o) {
+    cowl_object_flags_incr_ref(((CowlObject *)o)->flags);
+}
+
+ULIB_INLINE
+ulib_uint cowl_object_decr_ref(CowlAny *o) {
+    cowl_object_flags_decr_ref(((CowlObject *)o)->flags);
+    return cowl_object_flags_get_ref(((CowlObject *)o)->flags);
+}
+
+ULIB_INLINE
+bool cowl_object_bit_get(CowlAny *o) {
+    return cowl_object_flags_has_bit(((CowlObject *)o)->flags);
+}
+
+ULIB_INLINE
+void cowl_object_bit_set(CowlAny *o) {
+    cowl_object_flags_set_bit(((CowlObject *)o)->flags);
+}
+
+ULIB_INLINE
+void cowl_object_bit_unset(CowlAny *o) {
+    cowl_object_flags_unset_bit(((CowlObject *)o)->flags);
+}
 
 COWL_END_DECLS
 

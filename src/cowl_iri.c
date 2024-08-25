@@ -83,7 +83,7 @@ CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
         }
     } else if (ret == UHASH_PRESENT) {
         val = uhash_key(CowlObjectTable, &inst_tbl, idx);
-        (void)cowl_object_incr_ref(val);
+        cowl_object_incr_ref(val);
     }
 
     return val;

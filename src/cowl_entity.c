@@ -70,7 +70,7 @@ static CowlEntity *cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
         ulib_free(entity);
         return NULL;
     }
-    (void)cowl_object_incr_ref(entity);
+    cowl_object_incr_ref(entity);
 #endif
 
     entity->iri = cowl_retain(iri);
@@ -101,7 +101,7 @@ CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
         }
     } else if (ret == UHASH_PRESENT) {
         entity = uhash_key(CowlObjectTable, &inst_tbl, idx);
-        (void)cowl_object_incr_ref(entity);
+        cowl_object_incr_ref(entity);
     }
 
     return entity;

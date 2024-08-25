@@ -151,7 +151,8 @@ static ustream_ret cowl_func_write_vector(UOStream *s, CowlVector *vec, CowlSymT
 
 static ustream_ret cowl_func_write_table(UOStream *s, CowlTable *table, CowlSymTable *st) {
     if (!table) return s->state;
-    ulib_uint current = 0, last = cowl_table_count(table) - 1;
+    ulib_uint current = 0;
+    ulib_uint last = cowl_table_count(table) - 1;
 
     cowl_table_foreach (table, obj) {
         cowl_func_write_obj(s, *obj.key, st);
@@ -423,9 +424,8 @@ static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *
         default: {
             if (type >= COWL_OT_FIRST_A && type <= COWL_OT_LAST_A) {
                 return cowl_func_write_annot_construct(s, obj, st);
-            } else {
-                return cowl_func_write_construct(s, obj, st);
             }
+            return cowl_func_write_construct(s, obj, st);
         }
     }
 }

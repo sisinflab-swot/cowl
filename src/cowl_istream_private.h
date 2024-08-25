@@ -29,7 +29,7 @@ struct CowlIStream {
     CowlSymTable *st;
 };
 
-CowlIStream *cowl_istream(CowlManager *manager, CowlSymTable *st, CowlIStreamHandlers config);
+CowlIStream *cowl_istream(CowlManager *manager, CowlSymTable *st, CowlIStreamHandlers handlers);
 void cowl_istream_free(CowlIStream *stream);
 
 COWL_END_DECLS

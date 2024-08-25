@@ -1,13 +1,24 @@
 ---
 Checks: >
   -*,
+  bugprone-*,
+  -bugprone-assignment-in-if-condition,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-implicit-widening-of-multiplication-result,
+  -bugprone-macro-parentheses,
   clang-analyzer-*,
   -clang-analyzer-cplusplus-*,
   -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
-  misc-header-include-cycle,
-  misc-include-cleaner,
+  misc-*,
+  -misc-no-recursion,
+  modernize-*,
   performance-*,
   -performance-enum-size,
-  portability-*
+  portability-*,
+  readability-*,
+  -readability-identifier-length,
+  -readability-magic-numbers
 CheckOptions:
   misc-include-cleaner.IgnoreHeaders: sys/_types/_size_t\.h
+  readability-braces-around-statements.ShortStatementLines: 2
+  readability-function-cognitive-complexity.IgnoreMacros: true

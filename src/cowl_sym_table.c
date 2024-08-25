@@ -39,7 +39,9 @@ static inline void cowl_sym_table_set_clean(CowlSymTable *st) {
 static cowl_ret cowl_update_reverse_map(CowlSymTable *st) {
     if (!cowl_sym_table_is_dirty(st)) return COWL_OK;
 
-    CowlTable *h1 = st->prefix_ns_map, *h2 = st->ns_prefix_map;
+    CowlTable *h1 = st->prefix_ns_map;
+    CowlTable *h2 = st->ns_prefix_map;
+
     cowl_table_foreach (h1, e) {
         if (uhmap_set(CowlObjectTable, &h2->data, *e.val, *e.key, NULL) == UHASH_ERR) {
             return COWL_ERR_MEM;
@@ -176,7 +178,8 @@ cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix) 
     if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_ERR;
 
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, false);
-    CowlAny *ex_key, *ex_value;
+    CowlAny *ex_key;
+    CowlAny *ex_value;
 
     if (uhmap_pop(CowlObjectTable, &table->data, prefix, &ex_key, &ex_value)) {
         table = cowl_sym_table_get_prefix_ns_map(st, true);
@@ -192,7 +195,8 @@ cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns) {
     if (cowl_vocab_is_reserved_ns(ns)) return COWL_ERR;
 
     CowlTable *table = cowl_sym_table_get_prefix_ns_map(st, true);
-    CowlAny *ex_key, *ex_value;
+    CowlAny *ex_key;
+    CowlAny *ex_value;
 
     if (uhmap_pop(CowlObjectTable, &table->data, ns, &ex_key, &ex_value)) {
         table = cowl_sym_table_get_prefix_ns_map(st, false);
@@ -204,11 +208,11 @@ cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns) {
     return COWL_OK;
 }
 
-cowl_ret cowl_sym_table_merge(CowlSymTable *st, CowlSymTable *other, bool overwrite) {
-    CowlTable *table = cowl_sym_table_get_prefix_ns_map(other, false);
+cowl_ret cowl_sym_table_merge(CowlSymTable *dst, CowlSymTable *src, bool overwrite) {
+    CowlTable *table = cowl_sym_table_get_prefix_ns_map(src, false);
     cowl_table_foreach (table, e) {
         if (cowl_vocab_is_reserved_prefix(*e.key)) continue;
-        cowl_ret ret = cowl_sym_table_register_prefix(st, *e.key, *e.val, overwrite);
+        cowl_ret ret = cowl_sym_table_register_prefix(dst, *e.key, *e.val, overwrite);
         if (ret) return ret;
     }
     return COWL_OK;
