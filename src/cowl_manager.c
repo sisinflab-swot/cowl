@@ -252,13 +252,13 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, Cowl
 }
 
 CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version) {
+    CowlOntology *match = NULL;
     uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
-        if (cowl_ontology_get_iri(*onto.item) == iri &&
-            cowl_ontology_get_version(*onto.item) == version) {
-            return *onto.item;
-        }
+        if (cowl_ontology_get_iri(*onto.item) != iri) continue;
+        match = *onto.item;
+        if (cowl_ontology_get_version(*onto.item) == version) break;
     }
-    return NULL;
+    return match;
 }
 
 cowl_ret cowl_manager_add_ontology(CowlManager *manager, CowlOntology *onto) {

@@ -172,6 +172,7 @@ CowlOntology *cowl_manager_new_ontology(CowlManager *manager);
  * @note You can pass NULL as the IRI and version, in which case the function returns
  *       a new anonymous ontology.
  */
+COWL_DEPRECATED(Use @func{cowl_manager_retrieve_ontology()} or @func{cowl_manager_new_ontology()}.)
 COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
@@ -183,6 +184,9 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, Cowl
  * @param iri The ontology IRI.
  * @param version The ontology version.
  * @return Ontology with the specified IRI and version, or NULL if it does not exist.
+ *
+ * @note Passing NULL as the version retrieves the ontology with the specified IRI
+ *       and either NULL version (if it exists) or any other version.
  */
 COWL_API
 CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
