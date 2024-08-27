@@ -128,6 +128,22 @@ CowlIterator cowl_iterator_count(ulib_uint *count);
 COWL_API
 CowlIterator cowl_iterator_contains(CowlAny *object);
 
+/**
+ * Initializes an iterator that retains all objects it iterates on.
+ *
+ * @return Initialized iterator.
+ */
+COWL_API
+CowlIterator cowl_iterator_retain(void);
+
+/**
+ * Initializes an iterator that releases all objects it iterates on.
+ *
+ * @return Initialized iterator.
+ */
+COWL_API
+CowlIterator cowl_iterator_release(void);
+
 /// @}
 
 COWL_END_DECLS
