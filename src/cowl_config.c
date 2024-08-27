@@ -82,6 +82,7 @@ CowlErrorHandler cowl_get_error_handler(void) {
 }
 
 void cowl_set_error_handler(CowlErrorHandler handler) {
+    if (global_error_handler.free) global_error_handler.free(global_error_handler.ctx);
     global_error_handler = handler;
 }
 

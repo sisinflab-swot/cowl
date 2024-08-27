@@ -215,11 +215,13 @@ void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer) {
 }
 
 void cowl_manager_set_import_resolver(CowlManager *manager, CowlImportResolver resolver) {
+    if (manager->resolver.free) manager->resolver.free(manager->resolver.ctx);
     if (!resolver.resolve_import) resolver = cowl_import_resolver_default(manager);
     manager->resolver = resolver;
 }
 
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler) {
+    if (manager->handler.free) manager->handler.free(manager->handler.ctx);
     manager->handler = handler;
 }
 
