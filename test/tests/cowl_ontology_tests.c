@@ -76,8 +76,7 @@ static void axiom_counts_by_type_init(void) {
 bool cowl_test_ontology_init(void) {
     axiom_counts_by_type_init();
     CowlManager *manager = cowl_manager();
-    CowlImportLoader loader = { manager, cowl_test_load_import };
-    cowl_manager_set_import_loader(manager, loader);
+    cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
     onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     cowl_release(manager);
     utest_assert_critical(onto);
@@ -85,7 +84,8 @@ bool cowl_test_ontology_init(void) {
 }
 
 bool cowl_test_ontology_deinit(void) {
-    cowl_release(onto);
+    CowlIterator iter = cowl_iterator_release();
+    cowl_manager_iterate_ontologies(cowl_ontology_get_manager(onto), &iter);
     return true;
 }
 

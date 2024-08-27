@@ -36,12 +36,12 @@ Handling imports
 ================
 
 Cowl delegates locating and loading imported ontologies to the end user via the
-:struct:`CowlImportLoader` interface. Import loaders can be either provided locally
-to specific objects (such as via :func:`cowl_manager_set_import_loader()`),
-or you can opt to specify a global import loader via :func:`cowl_set_import_loader`.
-If you do both, Cowl prioritizes local loaders, as you would expect.
+:struct:`CowlImportResolver` interface. Import resolvers can be provided to :struct:`CowlManager`
+instances via :func:`cowl_manager_set_import_resolver()`. By default, :struct:`CowlManager` will
+attempt to resolve imports based on the IRIs of ontologies it is currently responsible for,
+i.e. those that have been loaded or created through it.
 
-.. doxygenstruct:: CowlImportLoader
+.. doxygenstruct:: CowlImportResolver
 
 .. _istream:
 

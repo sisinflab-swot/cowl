@@ -23,16 +23,9 @@
  * the imported ontology from the local filesystem. In this example
  * we just return a generic local "import.owl" ontology, disregarding its IRI.
  */
-static CowlOntology *load_import(cowl_unused void *ctx, cowl_unused CowlIRI *iri) {
-    CowlOntology *import = NULL;
-    CowlManager *manager = cowl_manager();
-
-    if (manager) {
-        import = cowl_manager_read_path(manager, ustring_literal(IMPORT));
-        cowl_release(manager);
-    }
-
-    return import;
+static CowlOntology *resolve_import(void *ctx, cowl_unused CowlIRI *iri) {
+    // In this example, the manager is passed as the resolver's context.
+    return cowl_manager_read_path(ctx, ustring_literal(IMPORT));
 }
 
 /*
@@ -51,10 +44,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    // Setup a global error handler and import loader.
-    CowlImportLoader loader = { NULL, load_import };
-    cowl_set_import_loader(loader);
-
+    // Setup a global error handler.
     UOStream stream;
     if (uostream_to_path(&stream, LOG)) {
         fprintf(stderr, "Failed to open " LOG "\n");
@@ -64,13 +54,21 @@ int main(void) {
     CowlErrorHandler handler = { &stream, handle_error };
     cowl_set_error_handler(handler);
 
-    // Read the ontology from file.
     CowlManager *manager = cowl_manager();
 
     if (!manager) {
         return EXIT_FAILURE;
     }
 
+    // Setup a custom import resolver.
+    //
+    // Note that the manager will already attempt to resolve imports based on the
+    // IRIs of ontologies it is currently responsible for. A custom resolver is only
+    // needed if you need to override this behavior.
+    CowlImportResolver resolver = { manager, resolve_import };
+    cowl_manager_set_import_resolver(manager, resolver);
+
+    // Read the ontology from file.
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
 
     if (!onto) {

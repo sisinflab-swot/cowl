@@ -53,9 +53,7 @@ static cowl_ret count_axiom(void *ctx, cowl_unused CowlAnyAxiom *obj) {
 bool cowl_test_manager_read_ontology(void) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
-
-    CowlImportLoader loader = { manager, cowl_test_load_import };
-    cowl_manager_set_import_loader(manager, loader);
+    CowlOntology *import = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
 
     ulib_uint count = 0;
     CowlIStreamHandlers handlers = { &count };
@@ -90,6 +88,9 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_uint(ret, ==, COWL_OK);
 
     cowl_release(onto);
+    utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
+
+    cowl_release(import);
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 0);
 
     cowl_release_all(manager, stream);

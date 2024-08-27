@@ -13,7 +13,7 @@
 
 #include "cowl_attrs.h"
 #include "cowl_error_handler.h"
-#include "cowl_import_loader.h"
+#include "cowl_import_resolver.h"
 #include "cowl_manager.h" // IWYU pragma: export
 #include "cowl_object_private.h"
 #include "cowl_reader.h"
@@ -29,7 +29,7 @@ struct CowlManager {
     CowlReader reader;
     CowlWriter writer;
     CowlErrorHandler handler;
-    CowlImportLoader loader;
+    CowlImportResolver resolver;
     UVec(CowlObjectPtr) ontos;
 };
 

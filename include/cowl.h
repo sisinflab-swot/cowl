@@ -60,7 +60,7 @@
 #include "cowl_facet_restr.h"
 #include "cowl_func_data_prop_axiom.h"
 #include "cowl_has_key_axiom.h"
-#include "cowl_import_loader.h"
+#include "cowl_import_resolver.h"
 #include "cowl_individual.h"
 #include "cowl_inv_obj_prop.h"
 #include "cowl_inv_obj_prop_axiom.h"

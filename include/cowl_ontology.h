@@ -17,6 +17,7 @@
 #include "cowl_attrs.h"
 #include "cowl_axiom_flags.h"
 #include "cowl_axiom_type.h"
+#include "cowl_import_resolver.h"
 #include "cowl_iterator.h"
 #include "cowl_macros.h"
 #include "cowl_position.h"
@@ -140,26 +141,15 @@ COWL_API
 bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot);
 
 /**
- * Gets an imported ontology given its import IRI.
+ * Checks if the given ontology has an import with the specified IRI.
  *
  * @param onto The ontology.
- * @param iri Import IRI.
- * @return Imported ontology.
+ * @param import IRI of the imported ontology.
+ * @return True if the ontology has the specified import, false otherwise.
  */
 COWL_API
 COWL_PURE
-CowlOntology *cowl_ontology_get_import(CowlOntology *onto, CowlIRI *iri);
-
-/**
- * Gets the import IRI of an imported ontology.
- *
- * @param onto The ontology.
- * @param import The imported ontology.
- * @return Import IRI.
- */
-COWL_API
-COWL_PURE
-CowlIRI *cowl_ontology_get_import_iri(CowlOntology *onto, CowlOntology *import);
+bool cowl_ontology_has_import(CowlOntology *onto, CowlIRI *import);
 
 /**
  * Adds an import to the ontology.

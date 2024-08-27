@@ -51,8 +51,6 @@ uvec_decl(CowlError);
 #define COWL_TEST_ONTOLOGY "test_onto.owl"
 #define COWL_TEST_IMPORT "test_import.owl"
 
-CowlOntology *cowl_test_load_import(void *ctx, CowlIRI *iri);
-
 COWL_END_DECLS
 
 #endif // COWL_TEST_UTILS_H

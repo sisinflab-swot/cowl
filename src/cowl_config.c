@@ -12,7 +12,6 @@
 #include "cowl_anon_ind_private.h"
 #include "cowl_entity_private.h"
 #include "cowl_error_handler.h"
-#include "cowl_import_loader.h"
 #include "cowl_iri_private.h"
 #include "cowl_reader.h"
 #include "cowl_ret.h"
@@ -23,7 +22,6 @@
 
 static bool cowl_initialized = false;
 static CowlErrorHandler global_error_handler;
-static CowlImportLoader global_import_loader;
 static CowlReader global_reader;
 static CowlWriter global_writer;
 
@@ -41,7 +39,6 @@ static CowlWriter global_writer;
 
 static void cowl_config_init(void) {
     global_error_handler = (CowlErrorHandler){ 0 };
-    global_import_loader = (CowlImportLoader){ 0 };
     global_reader = cowl_default_reader();
     global_writer = cowl_default_writer();
 
@@ -51,7 +48,6 @@ static void cowl_config_init(void) {
 
 static void cowl_config_deinit(void) {
     if (global_error_handler.free) global_error_handler.free(global_error_handler.ctx);
-    if (global_import_loader.free) global_import_loader.free(global_import_loader.ctx);
 }
 
 cowl_ret cowl_init(void) {
@@ -87,17 +83,6 @@ CowlErrorHandler cowl_get_error_handler(void) {
 
 void cowl_set_error_handler(CowlErrorHandler handler) {
     global_error_handler = handler;
-}
-
-CowlImportLoader cowl_get_import_loader(void) {
-    return (CowlImportLoader){
-        .ctx = global_import_loader.ctx,
-        .load_ontology = global_import_loader.load_ontology,
-    };
-}
-
-void cowl_set_import_loader(CowlImportLoader loader) {
-    global_import_loader = loader;
 }
 
 CowlReader cowl_get_reader(void) {

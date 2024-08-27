@@ -15,7 +15,6 @@
 
 #include "cowl_attrs.h"
 #include "cowl_error_handler.h"
-#include "cowl_import_loader.h"
 #include "cowl_reader.h"
 #include "cowl_ret.h"
 #include "cowl_writer.h"
@@ -107,24 +106,6 @@ CowlErrorHandler cowl_get_error_handler(void);
  */
 COWL_API
 void cowl_set_error_handler(CowlErrorHandler handler);
-
-/**
- * Gets the global import loader.
- *
- * @return The global import loader.
- */
-COWL_API
-CowlImportLoader cowl_get_import_loader(void);
-
-/**
- * Sets the global import loader.
- *
- * @param loader The import loader.
- *
- * @note This function must be called again if you reinitialize the library after deinitializing it.
- */
-COWL_API
-void cowl_set_import_loader(CowlImportLoader loader);
 
 /// @}
 
