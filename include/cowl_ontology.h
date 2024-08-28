@@ -63,6 +63,16 @@ COWL_PURE
 CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
 
 /**
+ * Sets the manager of this ontology.
+ *
+ * @param onto The ontology.
+ * @param manager The manager.
+ * @return Return code.
+ */
+COWL_API
+cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager);
+
+/**
  * Gets the symbol table of this ontology.
  *
  * @param onto The ontology.

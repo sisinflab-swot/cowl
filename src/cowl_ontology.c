@@ -127,6 +127,14 @@ CowlManager *cowl_ontology_get_manager(CowlOntology *onto) {
     return onto->manager;
 }
 
+cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager) {
+    if (onto->manager == manager) return COWL_OK;
+    cowl_manager_remove_ontology(onto->manager, onto);
+    cowl_release(onto->manager);
+    onto->manager = cowl_retain(manager);
+    return cowl_manager_add_ontology(manager, onto);
+}
+
 CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto) {
     return onto->st;
 }

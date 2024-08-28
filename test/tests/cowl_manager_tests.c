@@ -87,13 +87,21 @@ bool cowl_test_manager_read_ontology(void) {
     ret = cowl_manager_write_path(manager, onto, ustring_literal(COWL_ONTOLOGY_LOG));
     utest_assert_uint(ret, ==, COWL_OK);
 
-    cowl_release(onto);
+    CowlManager *other_manager = cowl_manager();
+    utest_assert_not_null(other_manager);
+
+    ret = cowl_ontology_set_manager(onto, other_manager);
+    utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
+    utest_assert_uint(cowl_manager_ontology_count(other_manager), ==, 1);
+
+    cowl_release(onto);
+    utest_assert_uint(cowl_manager_ontology_count(other_manager), ==, 0);
 
     cowl_release(import);
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 0);
 
-    cowl_release_all(manager, stream);
+    cowl_release_all(manager, other_manager, stream);
     return true;
 }
 
