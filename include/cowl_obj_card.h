@@ -21,6 +21,7 @@
 #include "cowl_object.h"
 #include "cowl_object_type.h"
 #include "ulib.h"
+#include <stddef.h>
 
 COWL_BEGIN_DECLS
 
@@ -56,10 +57,14 @@ cowl_struct_decl(CowlObjCard);
  * @param cardinality Cardinality of the restriction.
  * @return Restriction, or NULL on error.
  */
-COWL_API
 COWL_RETAINED
+COWL_INLINE
 CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler,
-                           ulib_uint cardinality);
+                           ulib_uint cardinality) {
+    if (!cowl_enum_value_is_valid(CT, type)) return NULL;
+    CowlObjectType t = (CowlObjectType)(COWL_OT_CE_OBJ_MIN_CARD + (CowlObjectType)type);
+    return (CowlObjCard *)cowl_get_impl_1_uint_opt(t, prop, cardinality, filler);
+}
 
 /**
  * Gets the type of the specified object property cardinality restriction.
@@ -91,9 +96,11 @@ CowlObjPropExp *cowl_obj_card_get_prop(CowlObjCard *restr) {
  * @param restr The restriction.
  * @return The filler.
  */
-COWL_API
 COWL_PURE
-CowlClsExp *cowl_obj_card_get_filler(CowlObjCard *restr);
+COWL_INLINE
+CowlClsExp *cowl_obj_card_get_filler(CowlObjCard *restr) {
+    return (CowlClsExp *)cowl_get_opt_field(restr);
+}
 
 /**
  * Gets the cardinality of the restriction.
