@@ -202,6 +202,9 @@ ustream_ret cowl_write_string(UOStream *stream, CowlString *string);
  * @param stream Output stream.
  * @param iri IRI.
  * @return Return code.
+ *
+ * @note The IRI is written as the concatenation of the namespace and the remainder,
+ *       without any additional markup (e.g. angle brackets).
  */
 COWL_API
 ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);

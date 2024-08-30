@@ -15,6 +15,7 @@
 #include "cowl_attrs.h"
 #include "cowl_object.h" // IWYU pragma: export
 #include "cowl_object_flags.h"
+#include "cowl_ret.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS
@@ -65,6 +66,8 @@ ULIB_INLINE
 void cowl_object_bit_unset(CowlAny *o) {
     cowl_object_flags_unset_bit(((CowlObject *)o)->flags);
 }
+
+UString cowl_object_to_ustring_impl(CowlAny *object, cowl_ret (*writer)(UOStream *, CowlAny *));
 
 COWL_END_DECLS
 

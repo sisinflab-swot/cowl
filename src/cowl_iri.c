@@ -19,6 +19,7 @@
 #include "cowl_string_private.h"
 #include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
 #include "cowl_vocab.h"
+#include "cowl_writer.h"
 #include "cowl_xml_utils.h"
 #include "ulib.h"
 #include <stddef.h>
@@ -168,4 +169,16 @@ CowlString *cowl_iri_get_rem(CowlIRI *iri) {
 
 bool cowl_iri_is_reserved(CowlIRI *iri) {
     return cowl_vocab_is_reserved_ns(iri->ns);
+}
+
+CowlString *cowl_iri_to_string(CowlIRI *iri) {
+    return cowl_string(cowl_iri_to_ustring(iri));
+}
+
+static cowl_ret write_iri(UOStream *stream, CowlAny *iri) {
+    return cowl_ret_from_ustream(cowl_write_iri(stream, iri));
+}
+
+UString cowl_iri_to_ustring(CowlIRI *iri) {
+    return cowl_object_to_ustring_impl(iri, write_iri);
 }

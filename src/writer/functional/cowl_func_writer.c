@@ -181,11 +181,11 @@ static ustream_ret cowl_func_write_short_iri(UOStream *stream, CowlString *pfx, 
 }
 
 static ustream_ret cowl_func_write_iri(UOStream *stream, CowlIRI *iri, CowlSymTable *st) {
-    if (!st) return cowl_write_iri(stream, iri);
+    CowlString *prefix;
 
-    CowlString *pfx;
-    if (cowl_iri_has_rem(iri) && (pfx = cowl_sym_table_get_prefix(st, cowl_iri_get_ns(iri)))) {
-        return cowl_func_write_short_iri(stream, pfx, cowl_iri_get_rem(iri));
+    if (st && cowl_iri_has_rem(iri) &&
+        (prefix = cowl_sym_table_get_prefix(st, cowl_iri_get_ns(iri)))) {
+        return cowl_func_write_short_iri(stream, prefix, cowl_iri_get_rem(iri));
     }
 
     return cowl_func_write_full_iri(stream, iri);
