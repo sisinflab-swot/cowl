@@ -13,6 +13,7 @@
 #include "cowl_anon_ind_private.h"
 #include "cowl_any.h"
 #include "cowl_axiom.h"
+#include "cowl_data_quant_private.h"
 #include "cowl_entity.h"
 #include "cowl_entity_private.h"
 #include "cowl_iri.h"
@@ -21,6 +22,7 @@
 #include "cowl_iterator.h"
 #include "cowl_literal_private.h"
 #include "cowl_manager_private.h"
+#include "cowl_obj_quant_private.h"
 #include "cowl_object_flags.h"
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
@@ -426,6 +428,10 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
         case COWL_OT_I_NAMED: return iterate_pf(COWL_PF_NAMED_IND, object, flags, iter);
         case COWL_OT_I_ANONYMOUS: return iterate_pf(COWL_PF_ANON_IND, object, flags, iter);
         case COWL_OT_OPE_OBJ_PROP: return iterate_pf(COWL_PF_OBJ_PROP, object, flags, iter);
+        case COWL_OT_CE_OBJ_SOME:
+        case COWL_OT_CE_OBJ_ALL: return cowl_obj_quant_iterate_primitives(object, flags, iter);
+        case COWL_OT_CE_DATA_SOME:
+        case COWL_OT_CE_DATA_ALL: return cowl_data_quant_iterate_primitives(object, flags, iter);
         case COWL_OT_ONTOLOGY: return cowl_ontology_iterate_primitives(object, flags, iter, false);
         default: return iterate_impl(type, object, flags, iter);
     }

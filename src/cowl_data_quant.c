@@ -8,11 +8,14 @@
  * @file
  */
 
-#include "cowl_data_quant.h"
 #include "cowl_any.h"
+#include "cowl_data_quant_private.h"
 #include "cowl_impl.h"
+#include "cowl_iterator.h"
 #include "cowl_macros.h"
+#include "cowl_object.h"
 #include "cowl_object_type.h"
+#include "cowl_primitive_flags.h"
 #include "cowl_quant_type.h"
 #include "cowl_rdfs_vocab.h"
 #include <stddef.h>
@@ -27,4 +30,10 @@ cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *
 CowlDataRange *cowl_data_quant_get_range(CowlDataQuant *restr) {
     CowlDataRange *range = cowl_get_opt_field(restr);
     return range ? range : (CowlDataRange *)cowl_rdfs_vocab()->dt.literal;
+}
+
+bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,
+                                        CowlIterator *iter) {
+    return (cowl_iterate_primitives(cowl_data_quant_get_prop(restr), flags, iter) &&
+            cowl_iterate_primitives(cowl_data_quant_get_range(restr), flags, iter));
 }
