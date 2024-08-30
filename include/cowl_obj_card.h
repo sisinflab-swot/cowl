@@ -79,6 +79,18 @@ CowlCardType cowl_obj_card_get_type(CowlObjCard *restr) {
 }
 
 /**
+ * Checks if the specified object property cardinality restriction has a filler.
+ *
+ * @param restr The restriction.
+ * @return True if the restriction has a filler, false otherwise.
+ */
+COWL_PURE
+COWL_INLINE
+bool cowl_obj_card_is_qualified(CowlObjCard *restr) {
+    return cowl_has_opt_field(restr);
+}
+
+/**
  * Gets the property of the restriction.
  *
  * @param restr The restriction.

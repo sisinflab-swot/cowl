@@ -79,6 +79,18 @@ CowlCardType cowl_data_card_get_type(CowlDataCard *restr) {
 }
 
 /**
+ * Checks if the specified data property cardinality restriction has a range.
+ *
+ * @param restr The restriction.
+ * @return True if the restriction has a range, false otherwise.
+ */
+COWL_PURE
+COWL_INLINE
+bool cowl_data_card_is_qualified(CowlDataCard *restr) {
+    return cowl_has_opt_field(restr);
+}
+
+/**
  * Gets the property of the restriction.
  *
  * @param restr The restriction.
