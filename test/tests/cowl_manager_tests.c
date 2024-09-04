@@ -125,7 +125,8 @@ static bool cowl_test_manager_write_ontology_path(UString path) {
     utest_assert_not_null(onto_out);
 
     // Check that the written ontology is syntactically equal to the test ontology.
-    cowl_assert_equal(ontology, onto_in, onto_out);
+    utest_assert_ptr(cowl_ontology_get_iri(onto_in), ==, cowl_ontology_get_iri(onto_out));
+    utest_assert_ptr(cowl_ontology_get_version(onto_in), ==, cowl_ontology_get_version(onto_out));
 
     UVec(CowlObjectPtr) imports_in = uvec(CowlObjectPtr);
     CowlIterator iter = cowl_iterator_vec(&imports_in, false);

@@ -151,19 +151,6 @@ CowlVector *cowl_ontology_get_annot(CowlOntology *onto) {
     return onto->annot ? onto->annot : (onto->annot = cowl_vector_ordered_empty());
 }
 
-bool cowl_ontology_equals(CowlOntology *lhs, CowlOntology *rhs) {
-    if (lhs == rhs) return true;
-    if (!(lhs->iri || rhs->iri)) return false;
-    return lhs->iri == rhs->iri && lhs->version == rhs->version;
-}
-
-ulib_uint cowl_ontology_hash(CowlOntology *onto) {
-    if (!onto->iri) return 0;
-    ulib_uint hash = cowl_primitive_hash(onto->iri);
-    if (onto->version) hash = ulib_hash_combine(hash, cowl_primitive_hash(onto->version));
-    return hash;
-}
-
 ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports) {
     ulib_uint count = 0;
 

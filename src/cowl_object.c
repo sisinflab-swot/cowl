@@ -327,7 +327,6 @@ bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
             case COWL_OT_VECTOR: return cowl_vector_equals(lhs, rhs);
             case COWL_OT_TABLE: return cowl_table_equals(lhs, rhs);
             case COWL_OT_LITERAL: return cowl_literal_equals(lhs, rhs);
-            case COWL_OT_ONTOLOGY: return cowl_ontology_equals(lhs, rhs);
             default: return lhs == rhs;
         }
     }
@@ -369,7 +368,6 @@ ulib_uint cowl_hash(CowlAny *object) {
             case COWL_OT_VECTOR: return cowl_vector_hash(object);
             case COWL_OT_TABLE: return cowl_table_hash(object);
             case COWL_OT_LITERAL: return cowl_literal_hash(object);
-            case COWL_OT_ONTOLOGY: return cowl_ontology_hash(object);
             default: return ulib_hash_alloc_ptr(object);
         }
     }
