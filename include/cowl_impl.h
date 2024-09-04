@@ -138,7 +138,7 @@ COWL_RETAINED
 CowlAnyEntity *cowl_entity_from_string_impl(CowlObjectType type, UString string);
 
 COWL_API
-void cowl_release_all_impl(CowlAny **objects);
+void cowl_release_all_impl(CowlAny **objects, size_t count);
 
 COWL_API
 CowlAny **cowl_get_fields(CowlAny *object, unsigned *count);

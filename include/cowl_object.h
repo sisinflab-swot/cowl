@@ -320,8 +320,9 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
  */
 #define cowl_release_all(...)                                                                      \
     do {                                                                                           \
-        CowlAny *p_cowl_release_all_##__LINE__[] = { __VA_ARGS__, NULL };                          \
-        cowl_release_all_impl(p_cowl_release_all_##__LINE__);                                      \
+        CowlAny *p_cowl_release_all_##__LINE__[] = { __VA_ARGS__ };                                \
+        cowl_release_all_impl(p_cowl_release_all_##__LINE__,                                       \
+                              ulib_array_count(p_cowl_release_all_##__LINE__));                    \
     } while (0)
 
 /// @}

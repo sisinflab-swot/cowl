@@ -475,9 +475,9 @@ CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint va
     return obj;
 }
 
-void cowl_release_all_impl(CowlAny **objects) {
-    while (*objects) {
-        cowl_release(*(objects++));
+void cowl_release_all_impl(CowlAny **objects, size_t count) {
+    while (count--) {
+        cowl_release(objects[count]);
     }
 }
 
