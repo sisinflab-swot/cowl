@@ -27,7 +27,6 @@ jobs:
       - name: Configure CMake
         run: >
           CC=clang cmake -B ${{env.build_dir}}
-          -DCOWL_CPP_TESTS=OFF
           -DCOWL_LTO=OFF
           -DCOWL_CLANG_TIDY=ON
           -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
@@ -72,6 +71,7 @@ jobs:
           -DULIB_LIBRARY_TYPE=${{matrix.lib_type}}
           -DCOWL_LIBRARY_TYPE=${{matrix.lib_type}}
           -DCOWL_ENTITY_IDS=ON
+          -DCOWL_CPP_TESTS=ON
           -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
           -DCMAKE_SYSTEM_VERSION=''
           -DCMAKE_BUILD_TYPE=${{env.build_config}}

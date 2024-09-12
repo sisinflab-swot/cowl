@@ -1,6 +1,6 @@
 # Configuration
 
-option(COWL_CPP_TESTS "Enable C++ tests" ON)
+option(COWL_CPP_TESTS "Enable C++ tests" OFF)
 
 # Output setup
 
