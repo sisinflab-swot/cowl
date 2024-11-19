@@ -21,6 +21,10 @@ add_executable(cowl-bench EXCLUDE_FROM_ALL)
 target_sources(cowl-bench PRIVATE "${COWL_TEST_DIR}/bench.c")
 target_link_libraries(cowl-bench PRIVATE cowl)
 
+if(COWL_LTO_ENABLED)
+    set_target_properties(cowl-bench PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+
 if(COWL_CLANG_TIDY)
     clang_tidy_check(cowl-bench)
 endif()
@@ -35,6 +39,10 @@ target_sources(cowl-test
                        FILES ${COWL_TEST_HEADERS})
 target_include_directories(cowl-test PRIVATE ${COWL_PRIVATE_HEADERS_DIRS})
 target_link_libraries(cowl-test PRIVATE cowl)
+
+if(COWL_LTO_ENABLED)
+    set_target_properties(cowl-test PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
 
 if(COWL_CLANG_TIDY)
     clang_tidy_check(cowl-test)

@@ -12,6 +12,10 @@ target_sources(cowl-stats PRIVATE "${COWL_TOOLS_DIR}/stats.c")
 target_link_libraries(cowl-stats PRIVATE cowl)
 add_dependencies(cowl-tools cowl-stats)
 
+if(COWL_LTO_ENABLED)
+    set_target_properties(cowl-stats PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+
 if(COWL_CLANG_TIDY)
     clang_tidy_check(cowl-stats)
 endif()
