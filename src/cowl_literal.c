@@ -77,7 +77,7 @@ static inline bool is_lang_datatype(CowlDatatype *dt) {
 }
 
 static CowlLiteral *cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    CowlComposite *literal = ulib_malloc(sizeof(*literal) + 2 * sizeof(*literal->fields));
+    CowlComposite *literal = ulib_malloc(sizeof(*literal) + (2 * sizeof(*literal->fields)));
     if (!literal) return NULL;
 
     literal->super = COWL_OBJECT_BIT_INIT(COWL_OT_LITERAL, lang);

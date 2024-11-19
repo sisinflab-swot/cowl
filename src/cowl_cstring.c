@@ -16,7 +16,7 @@ size_t cowl_str_from_uint(ulib_uint uint, char *buf) {
     char *cur = buf;
 
     do {
-        *(cur++) = (char)(uint % 10 + '0');
+        *(cur++) = (char)((uint % 10) + '0');
         uint /= 10;
     } while (uint);
 

@@ -437,7 +437,7 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
 
 CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
     ulib_byte const n = type_field_count(type);
-    CowlComposite *o = ulib_malloc(sizeof(*o) + (opt ? n + 1 : n) * sizeof(*o->fields));
+    CowlComposite *o = ulib_malloc(sizeof(*o) + ((opt ? n + 1 : n) * sizeof(*o->fields)));
     if (!o) return NULL;
 
     o->super = COWL_OBJECT_BIT_INIT(type, opt);
@@ -457,7 +457,7 @@ CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector 
 CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
     ulib_byte const n = type_field_count(type);
     ulib_byte data_size = opt ? n + 2 : n + 1;
-    CowlComposite *obj = ulib_malloc(sizeof(*obj) + data_size * sizeof(*obj->fields));
+    CowlComposite *obj = ulib_malloc(sizeof(*obj) + (data_size * sizeof(*obj->fields)));
     if (!obj) return NULL;
 
     obj->super = COWL_OBJECT_BIT_INIT(type, opt);
