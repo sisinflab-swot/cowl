@@ -17,6 +17,8 @@
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_ret.h"
 #include "cowl_string_private.h"
+#include "cowl_xml_vocab.h"
+#include "cowl_xml_vocab_private.h"
 #include "cowl_xsd_vocab.h"
 #include "cowl_xsd_vocab_private.h"
 #include "ulib.h"
@@ -29,11 +31,12 @@ CowlVocab const *cowl_vocab(void) {
 
 cowl_ret cowl_vocab_init(void) {
     if (cowl_owl_vocab_init() || cowl_rdf_vocab_init() || cowl_rdfs_vocab_init() ||
-        cowl_xsd_vocab_init())
+        cowl_xml_vocab_init() || cowl_xsd_vocab_init())
         return COWL_ERR_MEM;
     vocab.owl = cowl_owl_vocab();
     vocab.rdf = cowl_rdf_vocab();
     vocab.rdfs = cowl_rdfs_vocab();
+    vocab.xml = cowl_xml_vocab();
     vocab.xsd = cowl_xsd_vocab();
     return COWL_OK;
 }
@@ -42,6 +45,7 @@ void cowl_vocab_deinit(void) {
     cowl_owl_vocab_deinit();
     cowl_rdf_vocab_deinit();
     cowl_rdfs_vocab_deinit();
+    cowl_xml_vocab_deinit();
     cowl_xsd_vocab_deinit();
 }
 

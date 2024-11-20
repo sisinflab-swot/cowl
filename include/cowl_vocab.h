@@ -20,6 +20,7 @@
 #include "cowl_owl_vocab.h"
 #include "cowl_rdf_vocab.h"
 #include "cowl_rdfs_vocab.h"
+#include "cowl_xml_vocab.h"
 #include "cowl_xsd_vocab.h"
 // IWYU pragma: end_exports
 
@@ -36,6 +37,9 @@ typedef struct CowlVocab {
 
     /// RDFS vocabulary.
     CowlRDFSVocab const *rdfs;
+
+    /// XML vocabulary.
+    CowlXMLVocab const *xml;
 
     /// XSD vocabulary.
     CowlXSDVocab const *xsd;
