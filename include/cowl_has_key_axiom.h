@@ -17,8 +17,6 @@
 #include "cowl_attrs.h"
 #include "cowl_impl.h"
 #include "cowl_macros.h"
-#include "cowl_object_type.h"
-#include "cowl_vector.h"
 
 COWL_BEGIN_DECLS
 
@@ -46,20 +44,15 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * Returns a 'has key' axiom.
  *
  * @param cls_exp The class expression, instances of which this axiom acts as the key for.
- * @param obj_props Object property expressions that make up the key.
- * @param data_props Data property expressions that make up the key.
+ * @param obj_props @type{optional} Object property expressions that make up the key.
+ * @param data_props @type{optional} Data property expressions that make up the key.
  * @param annot @type{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
+COWL_API
 COWL_RETAINED
-COWL_INLINE
 CowlHasKeyAxiom *cowl_has_key_axiom(CowlAnyClsExp *cls_exp, CowlVector *obj_props,
-                                    CowlVector *data_props, CowlVector *annot) {
-    if (!obj_props) obj_props = cowl_vector_empty();
-    if (!data_props) data_props = cowl_vector_empty();
-    return (CowlHasKeyAxiom *)cowl_get_impl_3_annot(COWL_OT_A_HAS_KEY, cls_exp, obj_props,
-                                                    data_props, annot);
-}
+                                    CowlVector *data_props, CowlVector *annot);
 
 /**
  * Gets the class expression, instances of which this axiom acts as the key for.

@@ -50,7 +50,7 @@ cowl_struct_decl(CowlVector);
 /**
  * Returns a vector.
  *
- * @param vec Underlying raw vector.
+ * @param data Underlying raw vector.
  * @return Vector, or NULL on error.
  *
  * @note You must not use the raw vector after passing it to this function.
@@ -58,7 +58,7 @@ cowl_struct_decl(CowlVector);
  */
 COWL_API
 COWL_RETAINED
-CowlVector *cowl_vector(UVec(CowlObjectPtr) *vec);
+CowlVector *cowl_vector(UVec(CowlObjectPtr) *data);
 
 /**
  * Returns a vector with no elements.

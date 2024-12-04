@@ -26,7 +26,7 @@
 static CowlOntology *onto = NULL;
 
 static ulib_uint const test_onto_imports_count = 1;
-static ulib_uint const test_onto_axiom_count = 571;
+static ulib_uint const test_onto_axiom_count = 573;
 
 static ulib_uint const test_primitives_count[] = { 106, 48, 72, 27, 18, 1, 46, 12 };
 static ulib_uint const test_primitive_axiom_count[] = { 16, 4, 4, 2, 2, 1, 2, 8 };
@@ -66,7 +66,7 @@ static void axiom_counts_by_type_init(void) {
     axiom_counts_by_type[COWL_AT_FUNC_DATA_PROP] = 1;
     axiom_counts_by_type[COWL_AT_DATA_PROP_DOMAIN] = 66;
     axiom_counts_by_type[COWL_AT_DATA_PROP_RANGE] = 66;
-    axiom_counts_by_type[COWL_AT_HAS_KEY] = 1;
+    axiom_counts_by_type[COWL_AT_HAS_KEY] = 3;
     axiom_counts_by_type[COWL_AT_ANNOT_ASSERT] = 19;
     axiom_counts_by_type[COWL_AT_SUB_ANNOT_PROP] = 1;
     axiom_counts_by_type[COWL_AT_ANNOT_PROP_DOMAIN] = 1;

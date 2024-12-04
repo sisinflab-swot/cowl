@@ -34,6 +34,8 @@ EquivalentObjectProperties(:ObjectPropertyA ObjectInverseOf(:ObjectPropertyB))
 
 SubClassOf(:ClassA ObjectAllValuesFrom(:ObjectPropertyA owl:Thing))
 SubClassOf(:ClassA ObjectSomeValuesFrom(:ObjectPropertyA owl:Thing))
+HasKey(:ClassA (:ObjectPropertyA) ())
+HasKey(:ClassA () (:DataPropertyA))
 
 
 ############################
