@@ -121,6 +121,10 @@ bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, C
     return true;
 }
 
+cowl_ret cowl_vector_reserve(CowlVector *vec, ulib_uint capacity) {
+    return uvec_reserve(CowlObjectPtr, &vec->data, capacity) ? COWL_ERR_MEM : COWL_OK;
+}
+
 cowl_ret cowl_vector_add(CowlVector *vec, CowlAny *object) {
     if (uvec_push(CowlObjectPtr, &vec->data, object)) return COWL_ERR_MEM;
     cowl_retain(object);

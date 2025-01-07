@@ -33,6 +33,7 @@ struct CowlVector {
 CowlVector *cowl_vector_ordered_empty(void);
 void cowl_vector_free(CowlVector *vec);
 void cowl_vector_release_ex(CowlVector *vec, bool release_elements);
+cowl_ret cowl_vector_reserve(CowlVector *vec, ulib_uint capacity);
 cowl_ret cowl_vector_add(CowlVector *vec, CowlAny *object);
 cowl_ret cowl_vector_push(CowlVector *vec, CowlAny *object);
 bool cowl_vector_remove(CowlVector *vec, CowlAny *object);
