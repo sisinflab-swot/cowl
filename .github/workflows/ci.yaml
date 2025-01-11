@@ -2,7 +2,9 @@ name: CI pipeline
 
 on:
   push:
-    branches: [dev]
+    branches:
+      - dev
+      - 'dev-*'
 
 env:
   build_dir: build
@@ -84,7 +86,7 @@ jobs:
 
       - name: Debug
         if: ${{always()}}
-        run: sed '4019q;d' ${{env.build_dir}}/src/reader/functional/cowl_func_yyparser.c
+        run: sed '4019q;d' ${{env.build_dir}}/src/formats/functional/reader/cowl_func_yyparser.c
         shell: bash
 
       - name: Configure tests (Windows)

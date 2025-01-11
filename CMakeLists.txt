@@ -42,8 +42,7 @@ set(COWL_LIB_DIR "${COWL_PROJECT_DIR}/lib")
 set(COWL_SRC_DIR "${COWL_PROJECT_DIR}/src")
 set(COWL_PUBLIC_HEADERS_DIR "${COWL_PROJECT_DIR}/include")
 set(COWL_PRIVATE_HEADERS_DIR "${COWL_SRC_DIR}")
-set(COWL_READER_DIR "${COWL_SRC_DIR}/reader")
-set(COWL_WRITER_DIR "${COWL_SRC_DIR}/writer")
+set(COWL_FORMATS_DIR "${COWL_SRC_DIR}/formats")
 
 set(COWL_DATA_DIR "${COWL_PROJECT_DIR}/data")
 set(COWL_DOCS_DIR "${COWL_PROJECT_DIR}/docs")
@@ -121,7 +120,7 @@ if(COWL_READERS)
         set(READER_OPT "COWL_READER_${READER_OPT}")
         string(TOLOWER "${READER}" READER)
 
-        add_subdirectory("${COWL_READER_DIR}/${READER}")
+        add_subdirectory("${COWL_FORMATS_DIR}/${READER}/reader")
         list(APPEND COWL_READER_DEFINES "${READER_OPT}")
     endforeach()
 
@@ -135,13 +134,15 @@ endif()
 
 # Writers
 
+add_custom_target(cowl-writers COMMENT "Generate builtin writers.")
+
 if(COWL_WRITERS)
     foreach(WRITER IN LISTS COWL_WRITERS)
         string(TOUPPER "${WRITER}" WRITER_OPT)
         set(WRITER_OPT "COWL_WRITER_${WRITER_OPT}")
         string(TOLOWER "${WRITER}" WRITER)
 
-        add_subdirectory("${COWL_WRITER_DIR}/${WRITER}")
+        add_subdirectory("${COWL_FORMATS_DIR}/${WRITER}/writer")
         list(APPEND COWL_WRITER_DEFINES "${WRITER_OPT}")
     endforeach()
 
@@ -175,7 +176,7 @@ target_compile_definitions(cowl
                            PUBLIC ${COWL_PUBLIC_DEFINES}
                            PRIVATE ${COWL_PRIVATE_DEFINES})
 target_link_libraries(cowl PUBLIC ulib)
-add_dependencies(cowl cowl-readers)
+add_dependencies(cowl cowl-readers cowl-writers)
 
 if(COWL_LIBRARY_TYPE STREQUAL "SHARED")
     target_compile_definitions(cowl PUBLIC COWL_SHARED)

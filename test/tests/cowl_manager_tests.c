@@ -13,6 +13,7 @@
 #include "cowl_test_utils.h"
 #include "ulib.h"
 #include <stddef.h>
+#include <stdio.h>
 
 // Utils
 
@@ -105,18 +106,54 @@ bool cowl_test_manager_read_ontology(void) {
     return true;
 }
 
-static bool cowl_test_manager_write_ontology_path(UString path) {
+static bool equal_ontologies(CowlOntology *a, CowlOntology *b) {
+    if (cowl_ontology_get_iri(a) != cowl_ontology_get_iri(b)) return false;
+    if (cowl_ontology_get_version(a) != cowl_ontology_get_version(b)) return false;
+
+    UVec(CowlObjectPtr) imports_a = uvec(CowlObjectPtr);
+    CowlIterator iter = cowl_iterator_vec(&imports_a, false);
+    cowl_ontology_iterate_import_iris(a, &iter, false);
+
+    UVec(CowlObjectPtr) imports_b = uvec(CowlObjectPtr);
+    iter = cowl_iterator_vec(&imports_b, false);
+    cowl_ontology_iterate_import_iris(b, &iter, false);
+
+    bool equal = uvec_equals(CowlObjectPtr, &imports_a, &imports_b);
+
+    uvec_deinit(CowlObjectPtr, &imports_a);
+    uvec_deinit(CowlObjectPtr, &imports_b);
+
+    if (!equal) return false;
+
+    CowlVector *annot_a = cowl_ontology_get_annot(a);
+    CowlVector *annot_b = cowl_ontology_get_annot(b);
+    if (!cowl_equals(annot_a, annot_b)) return false;
+
+    UHash(CowlObjectTable) axioms_a = uhset(CowlObjectTable);
+    iter = cowl_iterator_set(&axioms_a, false);
+    cowl_ontology_iterate_axioms(a, &iter, false);
+
+    UHash(CowlObjectTable) axioms_b = uhset(CowlObjectTable);
+    iter = cowl_iterator_set(&axioms_b, false);
+    cowl_ontology_iterate_axioms(b, &iter, false);
+
+    equal = uhset_equals(CowlObjectTable, &axioms_a, &axioms_b);
+
+    uhash_deinit(CowlObjectTable, &axioms_a);
+    uhash_deinit(CowlObjectTable, &axioms_b);
+
+    return equal;
+}
+
+static bool test_format(UString path, CowlReader reader, CowlWriter writer) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
 
     CowlOntology *onto_in = cowl_manager_read_path(manager, path);
     utest_assert_not_null(onto_in);
 
-    CowlSymTable *st = cowl_ontology_get_sym_table(onto_in);
-    cowl_sym_table_register_prefix_raw(st, ustring_literal("dc"),
-                                       ustring_literal("http://purl.org/dc/elements/1.1/"), false);
-    cowl_sym_table_register_prefix_raw(st, ustring_literal("dcterms"),
-                                       ustring_literal("http://purl.org/dc/terms/"), false);
+    cowl_manager_set_reader(manager, reader);
+    cowl_manager_set_writer(manager, writer);
 
     cowl_ret ret = cowl_manager_write_path(manager, onto_in, ustring_literal(COWL_ONTOLOGY_OUT));
     utest_assert_uint(ret, ==, COWL_OK);
@@ -124,43 +161,37 @@ static bool cowl_test_manager_write_ontology_path(UString path) {
     CowlOntology *onto_out = cowl_manager_read_path(manager, ustring_literal(COWL_ONTOLOGY_OUT));
     utest_assert_not_null(onto_out);
 
-    // Check that the written ontology is syntactically equal to the test ontology.
-    utest_assert_ptr(cowl_ontology_get_iri(onto_in), ==, cowl_ontology_get_iri(onto_out));
-    utest_assert_ptr(cowl_ontology_get_version(onto_in), ==, cowl_ontology_get_version(onto_out));
+    bool equal = equal_ontologies(onto_in, onto_out);
 
-    UVec(CowlObjectPtr) imports_in = uvec(CowlObjectPtr);
-    CowlIterator iter = cowl_iterator_vec(&imports_in, false);
-    cowl_ontology_iterate_import_iris(onto_in, &iter, false);
-    UVec(CowlObjectPtr) imports_out = uvec(CowlObjectPtr);
-    iter = cowl_iterator_vec(&imports_out, false);
-    cowl_ontology_iterate_import_iris(onto_out, &iter, false);
-    utest_assert(uvec_equals(CowlObjectPtr, &imports_in, &imports_out));
-    uvec_deinit(CowlObjectPtr, &imports_in);
-    uvec_deinit(CowlObjectPtr, &imports_out);
+    if (!equal) {
+        cowl_manager_set_writer(manager, cowl_writer_functional());
+        cowl_manager_write_path(manager, onto_in, ustring_literal(COWL_ONTOLOGY_LOG));
+    }
 
-    CowlVector *annot_in = cowl_ontology_get_annot(onto_in);
-    CowlVector *annot_out = cowl_ontology_get_annot(onto_out);
-    cowl_assert_equal(vector, annot_in, annot_out);
-
-    UHash(CowlObjectTable) axioms_in = uhset(CowlObjectTable);
-    iter = cowl_iterator_set(&axioms_in, false);
-    cowl_ontology_iterate_axioms(onto_in, &iter, false);
-
-    UHash(CowlObjectTable) axioms_out = uhset(CowlObjectTable);
-    iter = cowl_iterator_set(&axioms_out, false);
-    cowl_ontology_iterate_axioms(onto_out, &iter, false);
-
-    utest_assert(uhset_equals(CowlObjectTable, &axioms_in, &axioms_out));
-
-    uhash_deinit(CowlObjectTable, &axioms_in);
-    uhash_deinit(CowlObjectTable, &axioms_out);
+    utest_assert(equal);
     cowl_release_all(onto_in, onto_out, manager);
     return true;
 }
 
 bool cowl_test_manager_write_ontology(void) {
-    utest_assert(cowl_test_manager_write_ontology_path(ustring_literal(COWL_TEST_ONTOLOGY)));
-    utest_assert(cowl_test_manager_write_ontology_path(ustring_literal(COWL_TEST_IMPORT)));
+    UString const onto_path = ustring_literal(COWL_TEST_ONTOLOGY);
+    UString const import_path = ustring_literal(COWL_TEST_IMPORT);
+
+    struct {
+        CowlReader reader;
+        CowlWriter writer;
+    } const formats[] = {
+#if COWL_READER_FUNCTIONAL && COWL_WRITER_FUNCTIONAL
+        { cowl_reader_functional(), cowl_writer_functional() },
+#endif
+    };
+
+    for (ulib_uint i = 0; i < ulib_array_count(formats); ++i) {
+        printf("Testing %s format.\n", formats[i].reader.name);
+        utest_assert(test_format(onto_path, formats[i].reader, formats[i].writer));
+        utest_assert(test_format(import_path, formats[i].reader, formats[i].writer));
+    }
+
     return true;
 }
 
