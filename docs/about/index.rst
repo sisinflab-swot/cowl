@@ -25,7 +25,7 @@ embedded devices. In fact, it abides to some key principles which make it very p
 The latter property not only allows Cowl to run on resource-constrained devices,
 but it makes it a great option for performance-critical applications, as it is able to handle
 very large ontologies much faster and using significantly less memory than other tools
-[SWEET22]_.
+[EIOT25]_ [SWEET22]_.
 
 Features
 ========
@@ -51,6 +51,10 @@ Publications
 ============
 
 Additional context about Cowl is provided in the following academic publications:
+
+.. [EIOT25] Ivano Bilenchi, Filippo Gramegna, Giuseppe Loseto, Saverio Ieva,
+   Floriano Scioscia, Michele Ruta. |eiot2025|_.
+   *Elsevier Internet of Things Journal, volume 29, January 2025*. **[core publication]**
 
 .. [SWEET22] Ivano Bilenchi, Floriano Scioscia, Michele Ruta. |sweet2022|_.
    *First International Workshop on the Semantic Web of EveryThing (SWEET 2022)*, co-located
@@ -78,7 +82,9 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
 .. _RDFCowl: https://metacpan.org/pod/RDF::Cowl
 .. _semver: https://semver.org
+.. |eiot2025| replace:: **Cowl: pushing OWL 2 over the Edge**
+.. _eiot2025: https://doi.org/10.1016/j.iot.2024.101439
 .. |sweet2022| replace:: **Cowl: a lightweight OWL library for the Semantic Web of Everything**
-.. _sweet2022: http://sisinflab.poliba.it/publications/2022/BSR22
+.. _sweet2022: https://doi.org/10.1007/978-3-031-25380-5_8
 .. _Tiny-ME: https://swot.sisinflab.poliba.it/tinyme
 .. _uLib: https://github.com/IvanoBilenchi/ulib
