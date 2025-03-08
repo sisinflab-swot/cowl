@@ -20,25 +20,27 @@ jobs:
         with:
           fetch-depth: 2
           submodules: recursive
+
       - name: Run pre-commit
         run: |
           python -m venv .venv
           source .venv/bin/activate
           pip install pre-commit
           pre-commit run --from-ref=HEAD~1 --to-ref=HEAD
+
       - name: Configure CMake
         run: >
           CC=clang cmake -B ${{env.build_dir}}
           -DCOWL_LTO=OFF
           -DCOWL_CLANG_TIDY=ON
           -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
+
       - name: Build
         run: cmake --build ${{env.build_dir}} --target cowl-test cowl-bench cowl-examples cowl-tools
 
   test:
     name: Test
     runs-on: ${{matrix.os}}
-
     strategy:
       fail-fast: false
       matrix:
@@ -47,7 +49,6 @@ jobs:
           - ${{vars.windows_runner || 'windows-latest'}}
           - ${{vars.macos_runner || 'macos-latest'}}
         lib_type: [STATIC, SHARED]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -133,7 +134,6 @@ jobs:
   docs:
     name: Generate the documentation
     runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
