@@ -10,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_MACROS_H
-#define COWL_MACROS_H
+#ifndef COWL_UTILS_H
+#define COWL_UTILS_H
 
 #include "cowl_attrs.h"
 
@@ -35,4 +35,4 @@ COWL_BEGIN_DECLS
 
 COWL_END_DECLS
 
-#endif // COWL_MACROS_H
+#endif // COWL_UTILS_H

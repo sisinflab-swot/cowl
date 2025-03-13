@@ -18,9 +18,9 @@
 #include "cowl_import_resolver.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_iterator.h"
-#include "cowl_macros.h"
 #include "cowl_reader.h"
 #include "cowl_ret.h"
+#include "cowl_utils.h"
 #include "cowl_writer.h"
 #include "ulib.h"
 #include <stdio.h>

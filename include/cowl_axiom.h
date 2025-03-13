@@ -18,10 +18,10 @@
 #include "cowl_axiom_type.h"
 #include "cowl_impl.h"
 #include "cowl_iterator.h"
-#include "cowl_macros.h"
 #include "cowl_object.h"
 #include "cowl_object_type.h"
 #include "cowl_position.h"
+#include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
 

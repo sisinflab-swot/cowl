@@ -13,8 +13,8 @@
 
 #include "cowl_attrs.h"
 #include "cowl_literal.h" // IWYU pragma: export
-#include "cowl_macros.h"
 #include "cowl_primitive_flags.h"
+#include "cowl_utils.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS

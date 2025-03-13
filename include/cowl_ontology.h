@@ -19,10 +19,10 @@
 #include "cowl_axiom_type.h"
 #include "cowl_import_resolver.h"
 #include "cowl_iterator.h"
-#include "cowl_macros.h"
 #include "cowl_position.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_ret.h"
+#include "cowl_utils.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS

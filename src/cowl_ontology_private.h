@@ -13,12 +13,12 @@
 
 #include "cowl_attrs.h"
 #include "cowl_axiom_type.h"
-#include "cowl_macros.h"
 #include "cowl_object_private.h"
 #include "cowl_ontology.h" // IWYU pragma: export
 #include "cowl_primitive_type.h"
 #include "cowl_ret.h"
 #include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_utils.h"
 #include "cowl_vector.h"
 #include "ulib.h"
 

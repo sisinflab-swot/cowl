@@ -14,7 +14,7 @@
 #define COWL_RET_H
 
 #include "cowl_attrs.h"
-#include "cowl_macros.h"
+#include "cowl_utils.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS

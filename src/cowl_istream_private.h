@@ -14,8 +14,8 @@
 #include "cowl_attrs.h"
 #include "cowl_istream.h" // IWYU pragma: export
 #include "cowl_istream_handlers.h"
-#include "cowl_macros.h"
 #include "cowl_object_private.h"
+#include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
 

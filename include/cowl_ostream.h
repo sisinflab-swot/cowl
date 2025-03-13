@@ -15,9 +15,9 @@
 
 #include "cowl_any.h"
 #include "cowl_attrs.h"
-#include "cowl_macros.h"
 #include "cowl_ontology_header.h"
 #include "cowl_ret.h"
+#include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
 

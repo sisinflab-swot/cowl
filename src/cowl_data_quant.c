@@ -12,12 +12,12 @@
 #include "cowl_data_quant_private.h"
 #include "cowl_impl.h"
 #include "cowl_iterator.h"
-#include "cowl_macros.h"
 #include "cowl_object.h"
 #include "cowl_object_type.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_quant_type.h"
 #include "cowl_rdfs_vocab.h"
+#include "cowl_utils.h"
 #include <stddef.h>
 
 CowlDataQuant *

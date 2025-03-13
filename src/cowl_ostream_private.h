@@ -12,9 +12,9 @@
 #define COWL_OSTREAM_PRIVATE_H
 
 #include "cowl_attrs.h"
-#include "cowl_macros.h"
 #include "cowl_object_private.h"
 #include "cowl_ostream.h" // IWYU pragma: export
+#include "cowl_utils.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS

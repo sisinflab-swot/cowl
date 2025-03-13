@@ -15,8 +15,8 @@
 
 #include "cowl_attrs.h"
 #include "cowl_impl.h"
-#include "cowl_macros.h"
 #include "cowl_object_type.h"
+#include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
 

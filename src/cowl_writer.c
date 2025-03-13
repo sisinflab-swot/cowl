@@ -14,7 +14,6 @@
 #include "cowl_cstring.h"
 #include "cowl_error.h"
 #include "cowl_iri.h"
-#include "cowl_macros.h"
 #include "cowl_manager.h"
 #include "cowl_object.h"
 #include "cowl_object_private.h"
@@ -23,6 +22,7 @@
 #include "cowl_reader.h"
 #include "cowl_ret.h"
 #include "cowl_string.h"
+#include "cowl_utils.h"
 #include "ulib.h"
 #include <stddef.h>
 #include <string.h>

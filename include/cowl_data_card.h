@@ -17,9 +17,9 @@
 #include "cowl_attrs.h"
 #include "cowl_card_type.h"
 #include "cowl_impl.h"
-#include "cowl_macros.h"
 #include "cowl_object.h"
 #include "cowl_object_type.h"
+#include "cowl_utils.h"
 #include "ulib.h"
 #include <stddef.h>
 
