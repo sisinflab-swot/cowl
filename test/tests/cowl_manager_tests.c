@@ -18,7 +18,6 @@
 // Utils
 
 #define ONTO_NS "http://onto.owl#"
-#define COWL_ONTOLOGY_LOG COWL_TEST_ONTOLOGY ".log"
 #define COWL_ONTOLOGY_OUT "test_onto_out.owl"
 
 static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
@@ -52,6 +51,8 @@ static cowl_ret count_axiom(void *ctx, cowl_unused CowlAnyAxiom *obj) {
 }
 
 bool cowl_test_manager_read_ontology(void) {
+    UString const log_path = ustring_literal("test_manager_read_ontology.log");
+
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
     CowlOntology *import = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
@@ -67,7 +68,7 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_uint(ret, ==, COWL_OK);
 
     UOStream ostream;
-    utest_assert_critical(uostream_to_path(&ostream, COWL_ONTOLOGY_LOG) == USTREAM_OK);
+    utest_assert_critical(uostream_to_path(&ostream, ustring_data(log_path)) == USTREAM_OK);
 
     CowlErrorHandler handler = { &ostream, cowl_test_manager_write_error };
     cowl_manager_set_error_handler(manager, handler);
@@ -85,7 +86,7 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(count, ==, true_count);
 
-    ret = cowl_manager_write_path(manager, onto, ustring_literal(COWL_ONTOLOGY_LOG));
+    ret = cowl_manager_write_path(manager, onto, log_path);
     utest_assert_uint(ret, ==, COWL_OK);
 
     CowlManager *other_manager = cowl_manager();
@@ -106,43 +107,111 @@ bool cowl_test_manager_read_ontology(void) {
     return true;
 }
 
-static bool equal_ontologies(CowlOntology *a, CowlOntology *b) {
-    if (cowl_ontology_get_iri(a) != cowl_ontology_get_iri(b)) return false;
-    if (cowl_ontology_get_version(a) != cowl_ontology_get_version(b)) return false;
+static inline bool diff_iri_version(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
+    bool different = false;
+    if (cowl_ontology_get_iri(a) != cowl_ontology_get_iri(b)) {
+        cowl_ontology_set_iri(diff, cowl_ontology_get_iri(a));
+        different = true;
+    }
+    if (cowl_ontology_get_version(a) != cowl_ontology_get_version(b)) {
+        cowl_ontology_set_version(diff, cowl_ontology_get_version(a));
+        different = true;
+    }
+    return different;
+}
 
-    UVec(CowlObjectPtr) imports_a = uvec(CowlObjectPtr);
-    CowlIterator iter = cowl_iterator_vec(&imports_a, false);
+static inline bool diff_annotations(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
+    bool different = false;
+    cowl_vector_foreach (cowl_ontology_get_annot(a), annot) {
+        if (!cowl_vector_contains(cowl_ontology_get_annot(b), *annot.item)) {
+            cowl_ontology_add_annot(diff, (CowlAnnotation *)*annot.item);
+            different = true;
+        }
+    }
+    return different;
+}
+
+static inline bool diff_imports(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
+    bool different = false;
+
+    UHash(CowlObjectTable) a_set = uhset(CowlObjectTable);
+    UHash(CowlObjectTable) b_set = uhset(CowlObjectTable);
+
+    CowlIterator iter = cowl_iterator_set(&a_set, false);
     cowl_ontology_iterate_import_iris(a, &iter, false);
 
-    UVec(CowlObjectPtr) imports_b = uvec(CowlObjectPtr);
-    iter = cowl_iterator_vec(&imports_b, false);
+    iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_import_iris(b, &iter, false);
 
-    bool equal = uvec_equals(CowlObjectPtr, &imports_a, &imports_b);
+    uhset_diff(CowlObjectTable, &a_set, &b_set);
+    uhash_foreach (CowlObjectTable, &a_set, i) {
+        cowl_ontology_add_import(diff, (CowlIRI *)*i.key);
+        different = true;
+    }
 
-    uvec_deinit(CowlObjectPtr, &imports_a);
-    uvec_deinit(CowlObjectPtr, &imports_b);
+    uhash_deinit(CowlObjectTable, &a_set);
+    uhash_deinit(CowlObjectTable, &b_set);
 
-    if (!equal) return false;
+    return different;
+}
 
-    CowlVector *annot_a = cowl_ontology_get_annot(a);
-    CowlVector *annot_b = cowl_ontology_get_annot(b);
-    if (!cowl_equals(annot_a, annot_b)) return false;
+static inline bool diff_axioms(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
+    bool different = false;
 
-    UHash(CowlObjectTable) axioms_a = uhset(CowlObjectTable);
-    iter = cowl_iterator_set(&axioms_a, false);
+    UHash(CowlObjectTable) a_set = uhset(CowlObjectTable);
+    UHash(CowlObjectTable) b_set = uhset(CowlObjectTable);
+
+    CowlIterator iter = cowl_iterator_set(&a_set, false);
     cowl_ontology_iterate_axioms(a, &iter, false);
 
-    UHash(CowlObjectTable) axioms_b = uhset(CowlObjectTable);
-    iter = cowl_iterator_set(&axioms_b, false);
+    iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_axioms(b, &iter, false);
 
-    equal = uhset_equals(CowlObjectTable, &axioms_a, &axioms_b);
+    uhset_diff(CowlObjectTable, &a_set, &b_set);
+    uhash_foreach (CowlObjectTable, &a_set, i) {
+        cowl_ontology_add_axiom(diff, *i.key);
+        different = true;
+    }
 
-    uhash_deinit(CowlObjectTable, &axioms_a);
-    uhash_deinit(CowlObjectTable, &axioms_b);
+    uhash_deinit(CowlObjectTable, &a_set);
+    uhash_deinit(CowlObjectTable, &b_set);
 
-    return equal;
+    return different;
+}
+
+static bool diff_ontologies(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
+    bool different = false;
+    different |= diff_iri_version(a, b, diff);
+    different |= diff_annotations(a, b, diff);
+    different |= diff_imports(a, b, diff);
+    different |= diff_axioms(a, b, diff);
+    return different;
+}
+
+static bool ontologies_differ(CowlOntology *a, CowlOntology *b, CowlOntology *a_minus_b,
+                              CowlOntology *b_minus_a) {
+    bool different = false;
+    different |= diff_ontologies(a, b, a_minus_b);
+    different |= diff_ontologies(b, a, b_minus_a);
+    return different;
+}
+
+static void log_diff(char const *reader, char const *path, CowlOntology *out,
+                     CowlOntology *in_minus_out, CowlOntology *out_minus_in) {
+    CowlManager *manager = cowl_ontology_get_manager(out);
+    cowl_manager_set_writer(manager, cowl_get_writer());
+
+    UString out_path = ustring_with_format("%s_%s.log", reader, path);
+    cowl_manager_write_path(manager, out, out_path);
+    ustring_deinit(&out_path);
+
+    out_path = ustring_with_format("%s_%s_in_out_diff.log", reader, path);
+    cowl_manager_write_path(manager, in_minus_out, out_path);
+    ustring_deinit(&out_path);
+
+    out_path = ustring_with_format("%s_%s_out_in_diff.log", reader, path);
+    cowl_manager_write_path(manager, out_minus_in, out_path);
+    ustring_deinit(&out_path);
 }
 
 static bool test_format(UString path, CowlReader reader, CowlWriter writer) {
@@ -161,15 +230,14 @@ static bool test_format(UString path, CowlReader reader, CowlWriter writer) {
     CowlOntology *onto_out = cowl_manager_read_path(manager, ustring_literal(COWL_ONTOLOGY_OUT));
     utest_assert_not_null(onto_out);
 
-    bool equal = equal_ontologies(onto_in, onto_out);
+    CowlOntology *in_minus_out = cowl_manager_new_ontology(manager);
+    CowlOntology *out_minus_in = cowl_manager_new_ontology(manager);
 
-    if (!equal) {
-        cowl_manager_set_writer(manager, cowl_writer_functional());
-        cowl_manager_write_path(manager, onto_in, ustring_literal(COWL_ONTOLOGY_LOG));
-    }
+    bool differ = ontologies_differ(onto_in, onto_out, in_minus_out, out_minus_in);
+    if (differ) log_diff(reader.name, ustring_data(path), onto_out, in_minus_out, out_minus_in);
 
-    utest_assert(equal);
-    cowl_release_all(onto_in, onto_out, manager);
+    utest_assert_false(differ);
+    cowl_release_all(onto_in, onto_out, in_minus_out, out_minus_in, manager);
     return true;
 }
 
