@@ -23,7 +23,7 @@
 #include "ulib.h"
 #include <stddef.h>
 
-static CowlErrorHandler cowl_best_error_handler(CowlAny *origin) {
+static CowlErrorHandler const *best_error_handler(CowlAny *origin) {
     CowlManager *manager = NULL;
 
     switch (cowl_get_type(origin)) {
@@ -37,14 +37,20 @@ static CowlErrorHandler cowl_best_error_handler(CowlAny *origin) {
     return cowl_manager_get_error_handler(manager);
 }
 
+void cowl_error_handler_free_ctx(CowlErrorHandler *handler) {
+    if (!(handler->free && handler->ctx)) return;
+    handler->free(handler->ctx);
+    handler->ctx = NULL;
+}
+
 cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
     if (code == COWL_ERR_SYNTAX) {
         cowl_handle_syntax_error(desc, origin, (CowlErrorLoc){ 0 });
         return code;
     }
 
-    CowlErrorHandler handler = cowl_best_error_handler(origin);
-    if (!handler.handle_error) return code;
+    CowlErrorHandler const *handler = best_error_handler(origin);
+    if (!handler->handle_error) return code;
 
     if (ustring_is_empty(desc)) desc = cowl_ret_to_ustring(code);
     CowlString description = cowl_string_init(desc);
@@ -55,13 +61,13 @@ cowl_ret cowl_handle_error(cowl_ret code, UString desc, CowlAny *origin) {
         .description = cowl_string_get_length(&description) ? &description : NULL,
     };
 
-    handler.handle_error(handler.ctx, &error);
+    handler->handle_error(handler->ctx, &error);
     return code;
 }
 
 cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc loc) {
-    CowlErrorHandler handler = cowl_best_error_handler(origin);
-    if (!handler.handle_error) return COWL_ERR_SYNTAX;
+    CowlErrorHandler const *handler = best_error_handler(origin);
+    if (!handler->handle_error) return COWL_ERR_SYNTAX;
 
     bool release_source = false;
 
@@ -81,7 +87,7 @@ cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc lo
         .loc = loc,
     };
 
-    handler.handle_error(handler.ctx, (CowlError *)&error);
+    handler->handle_error(handler->ctx, (CowlError *)&error);
     if (release_source) cowl_release(loc.source);
     return COWL_ERR_SYNTAX;
 }

@@ -44,26 +44,28 @@ CowlManager *cowl_manager(void) {
 }
 
 void cowl_manager_free(CowlManager *manager) {
-    if (manager->resolver.free) manager->resolver.free(manager->resolver.ctx);
-    if (manager->handler.free) manager->handler.free(manager->handler.ctx);
+    cowl_reader_free_ctx(&manager->reader);
+    cowl_writer_free_ctx(&manager->writer);
+    cowl_import_resolver_free_ctx(&manager->resolver);
+    cowl_error_handler_free_ctx(&manager->handler);
     uvec_deinit(CowlObjectPtr, &manager->ontos);
     ulib_free(manager);
 }
 
-CowlReader cowl_manager_get_reader(CowlManager *manager) {
-    return manager->reader.name ? manager->reader : cowl_get_reader();
+CowlReader const *cowl_manager_get_reader(CowlManager *manager) {
+    return manager->reader.name ? &manager->reader : cowl_get_reader();
 }
 
-CowlWriter cowl_manager_get_writer(CowlManager *manager) {
-    return manager->writer.name ? manager->writer : cowl_get_writer();
+CowlWriter const *cowl_manager_get_writer(CowlManager *manager) {
+    return manager->writer.name ? &manager->writer : cowl_get_writer();
 }
 
-CowlErrorHandler cowl_manager_get_error_handler(CowlManager *manager) {
-    return manager->handler.handle_error ? manager->handler : cowl_get_error_handler();
+CowlErrorHandler const *cowl_manager_get_error_handler(CowlManager *manager) {
+    return manager->handler.handle_error ? &manager->handler : cowl_get_error_handler();
 }
 
-CowlImportResolver cowl_manager_get_import_resolver(CowlManager *manager) {
-    return manager->resolver;
+CowlImportResolver const *cowl_manager_get_import_resolver(CowlManager *manager) {
+    return &manager->resolver;
 }
 
 static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStream *istream) {
@@ -207,21 +209,23 @@ CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream) {
 }
 
 void cowl_manager_set_reader(CowlManager *manager, CowlReader reader) {
+    cowl_reader_free_ctx(&manager->reader);
     manager->reader = reader;
 }
 
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer) {
+    cowl_writer_free_ctx(&manager->writer);
     manager->writer = writer;
 }
 
 void cowl_manager_set_import_resolver(CowlManager *manager, CowlImportResolver resolver) {
-    if (manager->resolver.free) manager->resolver.free(manager->resolver.ctx);
+    cowl_import_resolver_free_ctx(&manager->resolver);
     if (!resolver.resolve_import) resolver = cowl_import_resolver_default(manager);
     manager->resolver = resolver;
 }
 
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler) {
-    if (manager->handler.free) manager->handler.free(manager->handler.ctx);
+    cowl_error_handler_free_ctx(&manager->handler);
     manager->handler = handler;
 }
 

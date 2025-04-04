@@ -8,6 +8,7 @@
  * @file
  */
 
+#include "cowl_attrs.h"
 #include "cowl_func_yylexer.h"
 #include "cowl_func_yyparser.h"
 #include "cowl_reader.h"
@@ -15,7 +16,8 @@
 #include "ulib.h"
 #include <stddef.h>
 
-static cowl_ret cowl_func_reader_read(UIStream *istream, CowlIStream *stream) {
+static cowl_ret
+cowl_func_reader_read(cowl_unused void *ctx, UIStream *istream, CowlIStream *stream) {
     void *scanner;
     if (cowl_func_yylex_init(&scanner) != 0) return COWL_ERR_MEM;
     cowl_func_yyset_in(NULL, scanner);

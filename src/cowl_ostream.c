@@ -10,7 +10,6 @@
 
 #include "cowl_ostream.h"
 #include "cowl_any.h"
-#include "cowl_attrs.h"
 #include "cowl_error_handler.h"
 #include "cowl_iterator.h"
 #include "cowl_manager.h"
@@ -73,42 +72,42 @@ static cowl_ret handle_stream_writer_not_implemented(CowlOStream *stream, char c
     return COWL_ERR;
 }
 
-cowl_ret
-cowl_ostream_write_header(cowl_unused CowlOStream *stream, cowl_unused CowlOntologyHeader header) {
-    CowlWriter w = cowl_manager_get_writer(stream->manager);
-    CowlStreamWriter writer = w.stream;
+cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader header) {
+    CowlWriter const *w = cowl_manager_get_writer(stream->manager);
+    CowlStreamWriter sw = w->stream;
 
-    if (!writer.write_header) {
-        return handle_stream_writer_not_implemented(stream, w.name);
+    if (!sw.write_header) {
+        return handle_stream_writer_not_implemented(stream, w->name);
     }
 
-    cowl_ret ret = writer.write_header(stream->stream, stream->st, header);
+    cowl_ret ret;
+    ret = sw.write_header((CowlStreamState){ w->ctx, stream->st }, stream->stream, header);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
 
 cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom) {
-    CowlWriter w = cowl_manager_get_writer(stream->manager);
-    CowlStreamWriter writer = w.stream;
+    CowlWriter const *w = cowl_manager_get_writer(stream->manager);
+    CowlStreamWriter sw = w->stream;
 
-    if (!writer.write_axiom) {
-        return handle_stream_writer_not_implemented(stream, w.name);
+    if (!sw.write_axiom) {
+        return handle_stream_writer_not_implemented(stream, w->name);
     }
 
-    cowl_ret ret = writer.write_axiom(stream->stream, stream->st, axiom);
+    cowl_ret ret = sw.write_axiom((CowlStreamState){ w->ctx, stream->st }, stream->stream, axiom);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
 
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream) {
-    CowlWriter w = cowl_manager_get_writer(stream->manager);
-    CowlStreamWriter writer = w.stream;
+    CowlWriter const *w = cowl_manager_get_writer(stream->manager);
+    CowlStreamWriter sw = w->stream;
 
-    if (!writer.write_footer) {
-        return handle_stream_writer_not_implemented(stream, w.name);
+    if (!sw.write_footer) {
+        return handle_stream_writer_not_implemented(stream, w->name);
     }
 
-    cowl_ret ret = writer.write_footer(stream->stream, stream->st);
+    cowl_ret ret = sw.write_footer((CowlStreamState){ w->ctx, stream->st }, stream->stream);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }
@@ -127,8 +126,8 @@ static cowl_ret cowl_ostream_write_ontology_store(CowlOStream *stream, CowlOntol
     cowl_ret ret;
     CowlSymTable *st = cowl_ontology_get_sym_table(onto);
     if ((ret = cowl_sym_table_merge(st, cowl_ostream_get_sym_table(stream), false))) return ret;
-    CowlWriter writer = cowl_manager_get_writer(stream->manager);
-    return writer.write_ontology(stream->stream, onto);
+    CowlWriter const *w = cowl_manager_get_writer(stream->manager);
+    return w->write_ontology(w->ctx, stream->stream, onto);
 }
 
 static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOntology *onto) {
@@ -164,10 +163,10 @@ end:
 
 cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *onto) {
     cowl_ret ret = COWL_OK;
-    CowlWriter writer = cowl_manager_get_writer(stream->manager);
-    if (cowl_writer_can_write_ontology(&writer)) {
+    CowlWriter const *w = cowl_manager_get_writer(stream->manager);
+    if (cowl_writer_can_write_ontology(w)) {
         ret = cowl_ostream_write_ontology_store(stream, onto);
-    } else if (cowl_writer_can_write_stream(&writer)) {
+    } else if (cowl_writer_can_write_stream(w)) {
         ret = cowl_ostream_write_ontology_stream(stream, onto);
     } else {
         return cowl_handle_error(COWL_ERR, ustring_literal("Invalid writer"), stream);

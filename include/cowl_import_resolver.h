@@ -49,15 +49,28 @@ typedef struct CowlImportResolver {
     CowlOntology *(*resolve_import)(void *ctx, CowlIRI *iri);
 
     /**
-     * Pointer to a resource deallocator function.
+     * Pointer to a function that frees the resolver context.
      *
      * @param ctx Resolver context.
      *
-     * @note Can be NULL if the resolver does not need to release resources.
+     * @note This member is optional. If not set, the resolver context will not be freed.
      */
     void (*free)(void *ctx);
 
 } CowlImportResolver;
+
+/**
+ * @defgroup CowlImportResolver CowlImportResolver API
+ * @{
+ */
+
+/**
+ * Frees the import resolver context.
+ *
+ * @param resolver The resolver.
+ */
+COWL_API
+void cowl_import_resolver_free_ctx(CowlImportResolver *resolver);
 
 /**
  * Returns the ontology associated to the specified IRI.
@@ -84,6 +97,8 @@ cowl_import_resolver_resolve_import(CowlImportResolver const *resolver, CowlIRI 
  */
 COWL_API
 CowlImportResolver cowl_import_resolver_default(CowlManager *manager);
+
+/// @}
 
 COWL_END_DECLS
 

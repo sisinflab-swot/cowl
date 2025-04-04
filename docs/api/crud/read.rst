@@ -42,6 +42,8 @@ attempt to resolve imports based on the IRIs of ontologies it is currently respo
 i.e. those that have been loaded or created through it.
 
 .. doxygenstruct:: CowlImportResolver
+.. doxygengroup:: CowlImportResolver
+   :content-only:
 
 .. _istream:
 

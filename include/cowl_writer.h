@@ -31,37 +31,54 @@ cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlSymTable);
 /// @endcond
 
+/// State of the stream writer.
+typedef struct CowlStreamState {
+
+    /// Writer context.
+    void *ctx;
+
+    /// Symbol table.
+    CowlSymTable *st;
+
+} CowlStreamState;
+
 /// Defines functions that must be implemented by stream writers.
 typedef struct CowlStreamWriter {
 
     /**
      * Pointer to a function that writes an ontology header to an output stream.
      *
+     * @param state Stream writer state.
      * @param stream Output stream.
-     * @param st Symbol table.
      * @param header Ontology header.
      * @return Return code.
+     *
+     * @note This function is called only once, before any axiom is written.
      */
-    cowl_ret (*write_header)(UOStream *stream, CowlSymTable *st, CowlOntologyHeader header);
+    cowl_ret (*write_header)(CowlStreamState state, UOStream *stream, CowlOntologyHeader header);
 
     /**
      * Pointer to a function that writes an axiom to an output stream.
      *
+     * @param state Stream writer state.
      * @param stream Output stream.
-     * @param st Symbol table.
      * @param axiom Axiom.
      * @return Return code.
+     *
+     * @note This function is called for each axiom in the ontology.
      */
-    cowl_ret (*write_axiom)(UOStream *stream, CowlSymTable *st, CowlAnyAxiom *axiom);
+    cowl_ret (*write_axiom)(CowlStreamState state, UOStream *stream, CowlAnyAxiom *axiom);
 
     /**
      * Pointer to a function that writes the ontology footer to an output stream.
      *
+     * @param state Stream writer state.
      * @param stream Output stream.
-     * @param st Symbol table.
      * @return Return code.
+     *
+     * @note This function is called only once, after all axioms have been written.
      */
-    cowl_ret (*write_footer)(UOStream *stream, CowlSymTable *st);
+    cowl_ret (*write_footer)(CowlStreamState state, UOStream *stream);
 
 } CowlStreamWriter;
 
@@ -71,9 +88,13 @@ typedef struct CowlWriter {
     /// Name of the writer.
     char const *name;
 
+    /// Writer context.
+    void *ctx;
+
     /**
      * Pointer to a function that writes an ontology to an output stream.
      *
+     * @param ctx Writer context.
      * @param stream Output stream.
      * @param onto Ontology.
      * @return Return code.
@@ -82,11 +103,12 @@ typedef struct CowlWriter {
      *       as a whole, or that can more efficiently encode the ontology if they
      *       have access to it. In all other cases, it is best left unimplemented.
      */
-    cowl_ret (*write_ontology)(UOStream *stream, CowlOntology *onto);
+    cowl_ret (*write_ontology)(void *ctx, UOStream *stream, CowlOntology *onto);
 
     /**
      * Pointer to a function that writes an object to an output stream.
      *
+     * @param ctx Writer context.
      * @param stream Output stream.
      * @param object Object to write.
      * @return Return code.
@@ -95,7 +117,16 @@ typedef struct CowlWriter {
      *       (i.e. passed to @func{cowl_set_writer()}), so that they are able to write
      *       the string representation of arbitrary objects.
      */
-    cowl_ret (*write)(UOStream *stream, CowlAny *object);
+    cowl_ret (*write)(void *ctx, UOStream *stream, CowlAny *object);
+
+    /**
+     * Pointer to a function that frees the writer context.
+     *
+     * @param ctx Writer context.
+     *
+     * @note This member is optional. If not set, the writer context will not be freed.
+     */
+    void (*free)(void *ctx);
 
     /**
      * Contains the streaming implementation of this writer.
@@ -123,6 +154,29 @@ COWL_CONST
 CowlWriter cowl_writer_functional(void);
 
 #endif // COWL_WRITER_FUNCTIONAL
+
+/**
+ * Returns the default writer.
+ *
+ * @return Default writer.
+ *
+ * @alias CowlWriter cowl_writer_default(void);
+ */
+#if defined(COWL_DEFAULT_WRITER)
+#define cowl_writer_default ULIB_MACRO_CONCAT(cowl_writer_, COWL_DEFAULT_WRITER)
+#elif defined(COWL_WRITER_FUNCTIONAL)
+#define cowl_writer_default cowl_writer_functional
+#else
+#define cowl_writer_default p_cowl_writer_invalid
+#endif
+
+/**
+ * Frees the writer context.
+ *
+ * @param writer The writer.
+ */
+COWL_API
+void cowl_writer_free_ctx(CowlWriter *writer);
 
 /**
  * Checks whether the writer supports stream writing.
@@ -273,6 +327,12 @@ ustream_ret cowl_write_cstring(UOStream *stream, char const *string) {
 #define cowl_write_static(stream, string) uostream_write_literal(stream, string, NULL)
 
 /// @}
+
+// Private API
+
+COWL_API
+COWL_CONST
+CowlWriter p_cowl_writer_invalid(void);
 
 COWL_END_DECLS
 

@@ -20,6 +20,7 @@
 #include "cowl_object_type.h"
 #include "cowl_ontology.h"
 #include "cowl_ontology_private.h"
+#include "cowl_reader.h"
 #include "cowl_ret.h"
 #include "cowl_vector.h"
 #include "ulib.h"
@@ -80,7 +81,8 @@ cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom) {
 
 cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream) {
     if (istream->state) return cowl_handle_stream_error(istream->state, stream);
-    cowl_ret ret = cowl_manager_get_reader(stream->manager).read(istream, stream);
+    CowlReader const *r = cowl_manager_get_reader(stream->manager);
+    cowl_ret ret = r->read(r->ctx, istream, stream);
     if (ret) cowl_handle_error_code(ret, stream);
     return ret;
 }

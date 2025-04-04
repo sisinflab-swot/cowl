@@ -30,17 +30,29 @@ typedef struct CowlReader {
     /// Name of the reader.
     char const *name;
 
+    /// Reader context.
+    void *ctx;
+
     /**
      * Pointer to a function that reads an ontology from an input stream.
      *
-     * @param state Reader state.
+     * @param ctx Reader context.
      * @param istream Input stream.
      * @param stream Ontology input stream.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*read)(UIStream *istream, CowlIStream *stream);
+    cowl_ret (*read)(void *ctx, UIStream *istream, CowlIStream *stream);
+
+    /**
+     * Pointer to a function that frees the reader context.
+     *
+     * @param ctx Reader context.
+     *
+     * @note This member is optional. If not set, the reader context will not be freed.
+     */
+    void (*free)(void *ctx);
 
 } CowlReader;
 
@@ -48,6 +60,14 @@ typedef struct CowlReader {
  * @defgroup CowlReader CowlReader API
  * @{
  */
+
+/**
+ * Frees the reader context.
+ *
+ * @param reader The reader.
+ */
+COWL_API
+void cowl_reader_free_ctx(CowlReader *reader);
 
 #ifdef COWL_READER_FUNCTIONAL
 
@@ -62,7 +82,28 @@ CowlReader cowl_reader_functional(void);
 
 #endif // COWL_READER_FUNCTIONAL
 
+/**
+ * Returns the default reader.
+ *
+ * @return Default reader.
+ *
+ * @alias CowlReader cowl_reader_default(void);
+ */
+#if defined(COWL_DEFAULT_READER)
+#define cowl_reader_default ULIB_MACRO_CONCAT(cowl_reader_, COWL_DEFAULT_READER)
+#elif defined(COWL_READER_FUNCTIONAL)
+#define cowl_reader_default cowl_reader_functional
+#else
+#define cowl_reader_default p_cowl_reader_invalid
+#endif
+
 /// @}
+
+// Private API
+
+COWL_API
+COWL_CONST
+CowlReader p_cowl_reader_invalid(void);
 
 COWL_END_DECLS
 

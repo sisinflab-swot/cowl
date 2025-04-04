@@ -65,7 +65,7 @@ CowlManager *cowl_manager(void);
  * @return The reader.
  */
 COWL_API
-CowlReader cowl_manager_get_reader(CowlManager *manager);
+CowlReader const *cowl_manager_get_reader(CowlManager *manager);
 
 /**
  * Sets the reader.
@@ -83,7 +83,7 @@ void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
  * @return The writer.
  */
 COWL_API
-CowlWriter cowl_manager_get_writer(CowlManager *manager);
+CowlWriter const *cowl_manager_get_writer(CowlManager *manager);
 
 /**
  * Sets the writer.
@@ -101,7 +101,7 @@ void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
  * @return The import resolver.
  */
 COWL_API
-CowlImportResolver cowl_manager_get_import_resolver(CowlManager *manager);
+CowlImportResolver const *cowl_manager_get_import_resolver(CowlManager *manager);
 
 /**
  * Sets the import resolver.
@@ -119,7 +119,7 @@ void cowl_manager_set_import_resolver(CowlManager *manager, CowlImportResolver r
  * @return The error handler.
  */
 COWL_API
-CowlErrorHandler cowl_manager_get_error_handler(CowlManager *manager);
+CowlErrorHandler const *cowl_manager_get_error_handler(CowlManager *manager);
 
 /**
  * Sets the error handler.

@@ -13,6 +13,12 @@
 #include "cowl_object.h"
 #include <stddef.h>
 
+void cowl_import_resolver_free_ctx(CowlImportResolver *resolver) {
+    if (!(resolver->free && resolver->ctx)) return;
+    resolver->free(resolver->ctx);
+    resolver->ctx = NULL;
+}
+
 static CowlOntology *default_resolve_import(void *ctx, CowlIRI *iri) {
     CowlOntology *onto = cowl_manager_retrieve_ontology(ctx, iri, NULL);
     return onto ? cowl_retain(onto) : NULL;

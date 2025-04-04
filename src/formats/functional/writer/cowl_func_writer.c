@@ -37,25 +37,26 @@
 
 static ustream_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlSymTable *st);
 static ustream_ret
-cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader header, CowlSymTable *st);
+cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader *header, CowlSymTable *st);
 static ustream_ret cowl_func_write_onto_footer(UOStream *s);
 
-static cowl_ret cowl_func_write(UOStream *stream, CowlAny *object) {
+static cowl_ret cowl_func_write(cowl_unused void *ctx, UOStream *stream, CowlAny *object) {
     return cowl_ret_from_ustream(cowl_func_write_obj(stream, object, NULL));
 }
 
 static cowl_ret
-cowl_func_write_header(UOStream *stream, CowlSymTable *st, CowlOntologyHeader header) {
-    return cowl_ret_from_ustream(cowl_func_write_onto_header(stream, header, st));
+cowl_func_write_header(CowlStreamState state, UOStream *stream, CowlOntologyHeader header) {
+    return cowl_ret_from_ustream(cowl_func_write_onto_header(stream, &header, state.st));
 }
 
-static cowl_ret cowl_func_write_axiom(UOStream *stream, CowlSymTable *st, CowlAnyAxiom *axiom) {
-    cowl_func_write_obj(stream, axiom, st);
+static cowl_ret
+cowl_func_write_axiom(CowlStreamState state, UOStream *stream, CowlAnyAxiom *axiom) {
+    cowl_func_write_obj(stream, axiom, state.st);
     cowl_write_static(stream, "\n");
     return cowl_ret_from_ustream(stream->state);
 }
 
-static cowl_ret cowl_func_write_footer(UOStream *stream, cowl_unused CowlSymTable *st) {
+static cowl_ret cowl_func_write_footer(cowl_unused CowlStreamState state, UOStream *stream) {
     return cowl_ret_from_ustream(cowl_func_write_onto_footer(stream));
 }
 
@@ -348,7 +349,7 @@ static ustream_ret cowl_func_write_prefix(UOStream *s, CowlString *prefix, CowlS
 }
 
 static ustream_ret
-cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader header, CowlSymTable *st) {
+cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader *header, CowlSymTable *st) {
     CowlTable *prefixes = cowl_sym_table_get_prefix_ns_map(st, false);
 
     cowl_table_foreach (prefixes, p) {
@@ -360,18 +361,18 @@ cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader header, CowlSymTable
     cowl_write_static(s, "Ontology");
     cowl_write_static(s, "(");
 
-    cowl_func_write_onto_iri_version(s, header.iri, header.version);
+    cowl_func_write_onto_iri_version(s, header->iri, header->version);
     cowl_write_static(s, "\n");
 
-    if (header.imports) {
-        uvec_foreach (CowlObjectPtr, header.imports, import) {
+    if (header->imports) {
+        uvec_foreach (CowlObjectPtr, header->imports, import) {
             cowl_func_write_import(s, *import.item);
             cowl_write_static(s, "\n");
         }
     }
 
-    if (header.annotations) {
-        uvec_foreach (CowlObjectPtr, header.annotations, annot) {
+    if (header->annotations) {
+        uvec_foreach (CowlObjectPtr, header->annotations, annot) {
             cowl_func_write_obj(s, *annot.item, st);
             cowl_write_static(s, "\n");
         }

@@ -25,29 +25,18 @@ static CowlErrorHandler global_error_handler;
 static CowlReader global_reader;
 static CowlWriter global_writer;
 
-#ifdef COWL_DEFAULT_READER
-#define cowl_default_reader() ULIB_MACRO_CONCAT(cowl_reader_, COWL_DEFAULT_READER)()
-#else
-#define cowl_default_reader() ((CowlReader){ 0 })
-#endif
-
-#ifdef COWL_DEFAULT_WRITER
-#define cowl_default_writer() ULIB_MACRO_CONCAT(cowl_writer_, COWL_DEFAULT_WRITER)()
-#else
-#define cowl_default_writer() ((CowlWriter){ 0 })
-#endif
-
 static void cowl_config_init(void) {
     global_error_handler = (CowlErrorHandler){ 0 };
-    global_reader = cowl_default_reader();
-    global_writer = cowl_default_writer();
-
+    global_reader = cowl_reader_default();
+    global_writer = cowl_writer_default();
     ulib_int seed = (ulib_int)utime_get_ns();
     urand_set_seed(seed ? seed : 12345);
 }
 
 static void cowl_config_deinit(void) {
-    if (global_error_handler.free) global_error_handler.free(global_error_handler.ctx);
+    cowl_reader_free_ctx(&global_reader);
+    cowl_writer_free_ctx(&global_writer);
+    cowl_error_handler_free_ctx(&global_error_handler);
 }
 
 cowl_ret cowl_init(void) {
@@ -74,30 +63,29 @@ void cowl_deinit(void) {
     cowl_initialized = false;
 }
 
-CowlErrorHandler cowl_get_error_handler(void) {
-    return (CowlErrorHandler){
-        .ctx = global_error_handler.ctx,
-        .handle_error = global_error_handler.handle_error,
-    };
+CowlErrorHandler const *cowl_get_error_handler(void) {
+    return &global_error_handler;
 }
 
 void cowl_set_error_handler(CowlErrorHandler handler) {
-    if (global_error_handler.free) global_error_handler.free(global_error_handler.ctx);
+    cowl_error_handler_free_ctx(&global_error_handler);
     global_error_handler = handler;
 }
 
-CowlReader cowl_get_reader(void) {
-    return global_reader;
-}
-
-CowlWriter cowl_get_writer(void) {
-    return global_writer;
+CowlReader const *cowl_get_reader(void) {
+    return &global_reader;
 }
 
 void cowl_set_reader(CowlReader reader) {
+    cowl_reader_free_ctx(&global_reader);
     global_reader = reader;
 }
 
+CowlWriter const *cowl_get_writer(void) {
+    return &global_writer;
+}
+
 void cowl_set_writer(CowlWriter writer) {
+    cowl_writer_free_ctx(&global_writer);
     global_writer = writer;
 }

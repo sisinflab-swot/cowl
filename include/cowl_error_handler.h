@@ -24,7 +24,7 @@ COWL_BEGIN_DECLS
 /// Provides a mechanism for error handling.
 typedef struct CowlErrorHandler {
 
-    /// Error handler context, can be anything.
+    /// Error handler context.
     void *ctx;
 
     /**
@@ -36,15 +36,23 @@ typedef struct CowlErrorHandler {
     void (*handle_error)(void *ctx, CowlError const *error);
 
     /**
-     * Pointer to a resource deallocator function for the context.
+     * Pointer to a function that frees the error handler context.
      *
      * @param ctx Error handler context.
      *
-     * @note Can be NULL if the context does not need to release resources.
+     * @note This member is optional. If not set, the error handler context will not be freed.
      */
     void (*free)(void *ctx);
 
 } CowlErrorHandler;
+
+/**
+ * Frees the error handler context.
+ *
+ * @param handler The error handler.
+ */
+COWL_API
+void cowl_error_handler_free_ctx(CowlErrorHandler *handler);
 
 /**
  * @addtogroup CowlError

@@ -199,7 +199,7 @@ static bool ontologies_differ(CowlOntology *a, CowlOntology *b, CowlOntology *a_
 static void log_diff(char const *reader, char const *path, CowlOntology *out,
                      CowlOntology *in_minus_out, CowlOntology *out_minus_in) {
     CowlManager *manager = cowl_ontology_get_manager(out);
-    cowl_manager_set_writer(manager, cowl_get_writer());
+    cowl_manager_set_writer(manager, cowl_writer_default());
 
     UString out_path = ustring_with_format("%s_%s.log", reader, path);
     cowl_manager_write_path(manager, out, out_path);
@@ -246,18 +246,19 @@ bool cowl_test_manager_write_ontology(void) {
     UString const import_path = ustring_literal(COWL_TEST_IMPORT);
 
     struct {
-        CowlReader reader;
-        CowlWriter writer;
+        CowlReader (*reader)(void);
+        CowlWriter (*writer)(void);
     } const formats[] = {
 #if COWL_READER_FUNCTIONAL && COWL_WRITER_FUNCTIONAL
-        { cowl_reader_functional(), cowl_writer_functional() },
+        { cowl_reader_functional, cowl_writer_functional },
 #endif
     };
 
     for (ulib_uint i = 0; i < ulib_array_count(formats); ++i) {
-        printf("Testing %s format.\n", formats[i].reader.name);
-        utest_assert(test_format(onto_path, formats[i].reader, formats[i].writer));
-        utest_assert(test_format(import_path, formats[i].reader, formats[i].writer));
+        CowlReader reader = formats[i].reader();
+        printf("Testing %s format.\n", reader.name);
+        utest_assert(test_format(onto_path, reader, formats[i].writer()));
+        utest_assert(test_format(import_path, formats[i].reader(), formats[i].writer()));
     }
 
     return true;

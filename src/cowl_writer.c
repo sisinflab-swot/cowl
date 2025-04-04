@@ -29,9 +29,19 @@
 
 #define UINT_MAX_DIGITS 20 // NOLINT(modernize-macro-to-enum)
 
+CowlWriter p_cowl_writer_invalid(void) {
+    return (CowlWriter){ 0 };
+}
+
+void cowl_writer_free_ctx(CowlWriter *writer) {
+    if (!(writer->free && writer->ctx)) return;
+    writer->free(writer->ctx);
+    writer->ctx = NULL;
+}
+
 cowl_ret cowl_write(UOStream *stream, CowlAny *object) {
-    CowlWriter writer = cowl_get_writer();
-    if (cowl_writer_can_write_object(&writer)) return writer.write(stream, object);
+    CowlWriter const *w = cowl_get_writer();
+    if (cowl_writer_can_write_object(w)) return w->write(w->ctx, stream, object);
     return cowl_ret_from_ustream(cowl_write_debug(stream, object));
 }
 
@@ -81,8 +91,8 @@ ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
 
         switch (cowl_get_type(error->origin)) {
             case COWL_OT_MANAGER: {
-                CowlReader reader = cowl_manager_get_reader((CowlManager *)error->origin);
-                char const *name = reader.name ? reader.name : "unnamed";
+                CowlReader const *r = cowl_manager_get_reader((CowlManager *)error->origin);
+                char const *name = r->name ? r->name : "unnamed";
                 uostream_write(s, name, strlen(name), NULL);
                 cowl_write_static(s, " reader");
                 break;
