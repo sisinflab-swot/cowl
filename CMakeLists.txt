@@ -31,8 +31,10 @@ option(COWL_LTO "Enable link-time optimization, if available" ON)
 option(COWL_CLANG_TIDY "Enable clang-tidy, if available" OFF)
 option(COWL_ENTITY_IDS "Associate increasing unique identifiers to entities" OFF)
 set(COWL_LIBRARY_TYPE "STATIC" CACHE STRING "Type of library to build.")
-set(COWL_READERS "functional" CACHE STRING "List of enabled built-in readers (semicolon-separated)")
-set(COWL_WRITERS "functional" CACHE STRING "List of enabled built-in writers (semicolon-separated)")
+set(COWL_READERS "all" CACHE STRING "List of enabled built-in readers (semicolon-separated)")
+set(COWL_WRITERS "all" CACHE STRING "List of enabled built-in writers (semicolon-separated)")
+set(COWL_DEFAULT_READER "" CACHE STRING "Default reader.")
+set(COWL_DEFAULT_WRITER "" CACHE STRING "Default writer.")
 
 # Directories
 
@@ -112,44 +114,50 @@ file(GLOB COWL_SOURCES CONFIGURE_DEPENDS "${COWL_SRC_DIR}/*.c")
 
 add_custom_target(cowl-readers COMMENT "Generate builtin readers.")
 
+if(COWL_READERS STREQUAL "all")
+    file(GLOB COWL_READERS "${COWL_FORMATS_DIR}/*/reader")
+    list(TRANSFORM COWL_READERS REPLACE "^${COWL_FORMATS_DIR}/" "")
+    list(TRANSFORM COWL_READERS REPLACE "/reader$" "")
+endif()
+
 if(COWL_READERS)
     foreach(READER IN LISTS COWL_READERS)
         string(TOUPPER "${READER}" READER_OPT)
         set(READER_OPT "COWL_READER_${READER_OPT}")
         string(TOLOWER "${READER}" READER)
-
         add_subdirectory("${COWL_FORMATS_DIR}/${READER}/reader")
         list(APPEND COWL_READER_DEFINES "${READER_OPT}")
     endforeach()
-
     list(APPEND COWL_PUBLIC_DEFINES ${COWL_READER_DEFINES})
+endif()
 
-    list(GET COWL_READERS 0 COWL_DEFAULT_READER)
-    if(DEFINED COWL_DEFAULT_READER)
-        list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_READER=${COWL_DEFAULT_READER})
-    endif()
+if(COWL_DEFAULT_READER AND COWL_DEFAULT_READER IN_LIST COWL_READERS)
+    list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_READER=${COWL_DEFAULT_READER})
 endif()
 
 # Writers
 
 add_custom_target(cowl-writers COMMENT "Generate builtin writers.")
 
+if(COWL_WRITERS STREQUAL "all")
+    file(GLOB COWL_WRITERS "${COWL_FORMATS_DIR}/*/writer")
+    list(TRANSFORM COWL_WRITERS REPLACE "^${COWL_FORMATS_DIR}/" "")
+    list(TRANSFORM COWL_WRITERS REPLACE "/writer$" "")
+endif()
+
 if(COWL_WRITERS)
     foreach(WRITER IN LISTS COWL_WRITERS)
         string(TOUPPER "${WRITER}" WRITER_OPT)
         set(WRITER_OPT "COWL_WRITER_${WRITER_OPT}")
         string(TOLOWER "${WRITER}" WRITER)
-
         add_subdirectory("${COWL_FORMATS_DIR}/${WRITER}/writer")
         list(APPEND COWL_WRITER_DEFINES "${WRITER_OPT}")
     endforeach()
-
     list(APPEND COWL_PUBLIC_DEFINES ${COWL_WRITER_DEFINES})
+endif()
 
-    list(GET COWL_WRITERS 0 COWL_DEFAULT_WRITER)
-    if(DEFINED COWL_DEFAULT_WRITER)
-        list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_WRITER=${COWL_DEFAULT_WRITER})
-    endif()
+if(COWL_DEFAULT_WRITER AND COWL_DEFAULT_WRITER IN_LIST COWL_WRITERS)
+    list(APPEND COWL_PUBLIC_DEFINES COWL_DEFAULT_WRITER=${COWL_DEFAULT_WRITER})
 endif()
 
 # Library
