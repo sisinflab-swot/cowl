@@ -97,7 +97,7 @@ int main(void) {
     CowlObjQuant *obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping, mozzarella);
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);
     if (cowl_ostream_write_axiom(stream, axiom)) goto err_io;
-    cowl_release_all(axiom, obj_quant, mozzarella);
+    cowl_release_all(axiom, obj_quant);
 
     // SubClassOf(:Porcini
     // ObjectSomeValuesFrom(pizza:hasTopping :PorciniTopping))
@@ -117,7 +117,7 @@ int main(void) {
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);
     if (cowl_ostream_write_axiom(stream, axiom)) goto err_io;
     cowl_release_all(axiom, obj_quant, closure, operands, porcini, porcini_pizza,
-                     has_topping);
+                     has_topping, mozzarella);
 
     // Finally, write the footer.
     if (cowl_ostream_write_footer(stream)) goto err_io;
