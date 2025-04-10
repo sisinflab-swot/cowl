@@ -64,8 +64,8 @@ CowlAnnotProp *cowl_annot_prop_from_string(UString string) {
 /**
  * Returns an annotation property given the string literal representing its IRI.
  *
- * @param str @type{char const[]} String literal.
- * @return @type{#CowlAnnotProp *} Annotation property, or NULL on error.
+ * @param str @ctype{char const[]} String literal.
+ * @return @ctype{#CowlAnnotProp *} Annotation property, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_annot_prop_from_static(str) cowl_annot_prop_from_string(ustring_literal(str))

@@ -43,8 +43,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    UOStream *std_out = uostream_std();
-    cowl_write_static(std_out, "Matching axioms:\n");
+    cowl_write_static(uostream_std(), "Matching axioms:\n");
     CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
     CowlObjProp *prop = cowl_obj_prop_from_static(NS PROPERTY_NAME);
 
@@ -59,7 +58,7 @@ int main(void) {
     cowl_axiom_filter_add_primitive(&filter, cls);
     cowl_axiom_filter_add_primitive(&filter, prop);
 
-    CowlIterator iter = { std_out, for_each_axiom };
+    CowlIterator iter = { uostream_std(), for_each_axiom };
     cowl_ontology_iterate_axioms_matching(onto, &filter, &iter, false);
 
     cowl_axiom_filter_deinit(&filter);

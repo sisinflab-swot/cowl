@@ -47,7 +47,7 @@ cowl_struct_decl(CowlObjPropRangeAxiom);
  *
  * @param prop The object property.
  * @param range Range of the object property.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

@@ -34,7 +34,7 @@ uhash_decl(CowlObjectTable);
  * The context provided while creating the iterator is passed to the `for_each` function
  * each time it is called.
  *
- * The iterator function returns a @type{bool} that can be used to control iteration: by returning
+ * The iterator function returns a @ctype{bool} that can be used to control iteration: by returning
  * true iteration proceeds to the next element, while returning false causes it to stop.
  */
 typedef struct CowlIterator {
@@ -50,7 +50,7 @@ typedef struct CowlIterator {
 /**
  * Wrapper around a function called to filter objects according to user-defined criteria.
  *
- * @see @type{#CowlIterator}
+ * @see @type{CowlIterator}
  */
 typedef struct CowlFilter {
 

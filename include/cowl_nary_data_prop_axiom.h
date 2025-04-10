@@ -49,7 +49,7 @@ cowl_struct_decl(CowlNAryDataPropAxiom);
  *
  * @param type The type.
  * @param props The data properties.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

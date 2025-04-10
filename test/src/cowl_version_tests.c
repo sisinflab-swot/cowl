@@ -12,9 +12,8 @@
 #include "cowl.h"
 #include "ulib.h"
 
-bool cowl_test_version(void) {
+void cowl_test_version(void) {
     UVersion v = cowl_get_version();
     UVersion zero = { 0 };
     utest_assert_int(uversion_compare(v, zero), ==, 1);
-    return true;
 }

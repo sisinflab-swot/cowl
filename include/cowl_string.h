@@ -41,9 +41,9 @@ cowl_struct_decl(CowlString);
  * @return String, or NULL on error.
  *
  * @note The buffer of the raw string must have been dynamically allocated.
- * @note Ownership of the raw string is transferred to the newly created @type{#CowlString},
+ * @note Ownership of the raw string is transferred to the newly created @type{CowlString},
  *       meaning you must not deinitialize it.
- * @note Equivalent to calling @func{#cowl_string_opt()} with @val{#COWL_SO_NONE}.
+ * @note Equivalent to calling @func{cowl_string_opt} with @val{COWL_SO_NONE}.
  */
 COWL_API
 COWL_RETAINED
@@ -54,15 +54,15 @@ CowlString *cowl_string(UString string);
  *
  * String creation is governed by the following options:
  *
- * - @val{#COWL_SO_COPY}: if set, the raw string is copied internally, otherwise it is directly
- *                        assigned. Note that in the latter case the raw string must have been
- *                        dynamically allocated, and you must not deinitialize it after passing it
- *                        to this method.
- * - @val{#COWL_SO_INTERN}: if set, the CowlString is either created and added to an internal
- *                          instance pool, or if an instance with the same raw string already
- *                          exists in the pool, that instance is retained and returned.
- *                          This entails that all instances created with this flag are guaranteed
- *                          to be unique in memory.
+ * - @val{COWL_SO_COPY}: if set, the raw string is copied internally, otherwise it is directly
+ *                       assigned. Note that in the latter case the raw string must have been
+ *                       dynamically allocated, and you must not deinitialize it after passing it
+ *                       to this method.
+ * - @val{COWL_SO_INTERN}: if set, the CowlString is either created and added to an internal
+ *                         instance pool, or if an instance with the same raw string already
+ *                         exists in the pool, that instance is retained and returned.
+ *                         This entails that all instances created with this flag are guaranteed
+ *                         to be unique in memory.
  *
  * @param string The underlying string object.
  * @param opts String creation options.
@@ -75,8 +75,8 @@ CowlString *cowl_string_opt(UString string, CowlStringOpts opts);
 /**
  * Returns a string from the specified literal string.
  *
- * @param str @type{char const []} String literal.
- * @return @type{#CowlString *} String, or NULL on error.
+ * @param str @ctype{char const []} String literal.
+ * @return @ctype{#CowlString *} String, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_string_from_static(str) cowl_string_opt(ustring_literal(str), COWL_SO_COPY)

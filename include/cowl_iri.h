@@ -59,8 +59,8 @@ CowlIRI *cowl_iri_from_string(UString string);
 /**
  * Returns an IRI given its literal string representation.
  *
- * @param str @type{char const []} String literal.
- * @return @type{#CowlIRI *} IRI, or NULL on error
+ * @param str @ctype{char const []} String literal.
+ * @return @ctype{#CowlIRI *} IRI, or NULL on error
  */
 COWL_RETAINED
 #define cowl_iri_from_static(str) (cowl_iri_from_string(ustring_literal(str)))
@@ -124,7 +124,7 @@ CowlString *cowl_iri_to_string(CowlIRI *iri);
  * Returns the string representation of the specified IRI.
  *
  * @param iri The IRI.
- * @return String representation, or @val{#ustring_null} on error.
+ * @return String representation, or @val{ustring_null} on error.
  *
  * @destructor{ustring_deinit}
  * @note The IRI is represented as the concatenation of the namespace and the remainder,

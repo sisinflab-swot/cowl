@@ -12,14 +12,13 @@
 #define COWL_IRI_TESTS_H
 
 #include "cowl_attrs.h"
-#include <stdbool.h>
 
 COWL_BEGIN_DECLS
 
-bool cowl_test_iri_lifecycle(void);
-bool cowl_test_iri_get_ns(void);
-bool cowl_test_iri_get_rem(void);
-bool cowl_test_iri_equals(void);
+void cowl_test_iri_lifecycle(void);
+void cowl_test_iri_get_ns(void);
+void cowl_test_iri_get_rem(void);
+void cowl_test_iri_equals(void);
 
 #define COWL_IRI_TESTS                                                                             \
     cowl_test_iri_lifecycle, cowl_test_iri_get_ns, cowl_test_iri_get_rem, cowl_test_iri_equals

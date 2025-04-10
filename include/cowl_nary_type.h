@@ -17,7 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of @type{#CowlNAryBool} and @type{#CowlNAryData}.
+/// Represents the type of @type{CowlNAryBool} and @type{CowlNAryData}.
 typedef enum CowlNAryType {
 
     /// @name Types

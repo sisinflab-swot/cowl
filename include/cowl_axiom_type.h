@@ -17,132 +17,132 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of @type{#CowlAxiom}.
+/// Represents the type of @type{CowlAxiom}.
 typedef enum CowlAxiomType {
 
     /// @name Declaration/definition
 
-    /// @type{#CowlDeclAxiom} - Declaration.
+    /// @type{CowlDeclAxiom} - Declaration.
     COWL_AT_DECL,
 
-    /// @type{#CowlDatatypeDefAxiom} - Datatype definition.
+    /// @type{CowlDatatypeDefAxiom} - Datatype definition.
     COWL_AT_DATATYPE_DEF,
 
     /// @name Class axioms
 
-    /// @type{#CowlSubClsAxiom} - Subclass.
+    /// @type{CowlSubClsAxiom} - Subclass.
     COWL_AT_SUB_CLASS,
 
-    /// @type{#CowlNAryClsAxiom} - Equivalent classes.
+    /// @type{CowlNAryClsAxiom} - Equivalent classes.
     COWL_AT_EQUIV_CLASSES,
 
-    /// @type{#CowlNAryClsAxiom} - Disjoint classes.
+    /// @type{CowlNAryClsAxiom} - Disjoint classes.
     COWL_AT_DISJ_CLASSES,
 
-    /// @type{#CowlDisjUnionAxiom} - Disjoint union.
+    /// @type{CowlDisjUnionAxiom} - Disjoint union.
     COWL_AT_DISJ_UNION,
 
     /// @name Individual axioms
 
-    /// @type{#CowlClsAssertAxiom} - Class assertion.
+    /// @type{CowlClsAssertAxiom} - Class assertion.
     COWL_AT_CLASS_ASSERT,
 
-    /// @type{#CowlNAryIndAxiom} - Same individual.
+    /// @type{CowlNAryIndAxiom} - Same individual.
     COWL_AT_SAME_IND,
 
-    /// @type{#CowlNAryIndAxiom} - Different individuals.
+    /// @type{CowlNAryIndAxiom} - Different individuals.
     COWL_AT_DIFF_IND,
 
-    /// @type{#CowlObjPropAssertAxiom} - Object property assertion.
+    /// @type{CowlObjPropAssertAxiom} - Object property assertion.
     COWL_AT_OBJ_PROP_ASSERT,
 
-    /// @type{#CowlObjPropAssertAxiom} - Negative object property assertion.
+    /// @type{CowlObjPropAssertAxiom} - Negative object property assertion.
     COWL_AT_NEG_OBJ_PROP_ASSERT,
 
-    /// @type{#CowlDataPropAssertAxiom} - Data property assertion.
+    /// @type{CowlDataPropAssertAxiom} - Data property assertion.
     COWL_AT_DATA_PROP_ASSERT,
 
-    /// @type{#CowlDataPropAssertAxiom} - Negative data property assertion.
+    /// @type{CowlDataPropAssertAxiom} - Negative data property assertion.
     COWL_AT_NEG_DATA_PROP_ASSERT,
 
     /// @name Object property axioms
 
-    /// @type{#CowlSubObjPropAxiom} - Object subproperty.
+    /// @type{CowlSubObjPropAxiom} - Object subproperty.
     COWL_AT_SUB_OBJ_PROP,
 
-    /// @type{#CowlInvObjPropAxiom} - Inverse object properties.
+    /// @type{CowlInvObjPropAxiom} - Inverse object properties.
     COWL_AT_INV_OBJ_PROP,
 
-    /// @type{#CowlNAryObjPropAxiom} - Equivalent object properties.
+    /// @type{CowlNAryObjPropAxiom} - Equivalent object properties.
     COWL_AT_EQUIV_OBJ_PROP,
 
-    /// @type{#CowlNAryObjPropAxiom} - Disjoint object properties.
+    /// @type{CowlNAryObjPropAxiom} - Disjoint object properties.
     COWL_AT_DISJ_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Functional object property.
+    /// @type{CowlObjPropCharAxiom} - Functional object property.
     COWL_AT_FUNC_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Inverse functional object property.
+    /// @type{CowlObjPropCharAxiom} - Inverse functional object property.
     COWL_AT_INV_FUNC_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Symmetric object property.
+    /// @type{CowlObjPropCharAxiom} - Symmetric object property.
     COWL_AT_SYMM_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Asymmetric object property.
+    /// @type{CowlObjPropCharAxiom} - Asymmetric object property.
     COWL_AT_ASYMM_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Transitive object property.
+    /// @type{CowlObjPropCharAxiom} - Transitive object property.
     COWL_AT_TRANS_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Reflexive object property.
+    /// @type{CowlObjPropCharAxiom} - Reflexive object property.
     COWL_AT_REFL_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Irreflexive object property.
+    /// @type{CowlObjPropCharAxiom} - Irreflexive object property.
     COWL_AT_IRREFL_OBJ_PROP,
 
-    /// @type{#CowlObjPropCharAxiom} - Object property domain.
+    /// @type{CowlObjPropCharAxiom} - Object property domain.
     COWL_AT_OBJ_PROP_DOMAIN,
 
-    /// @type{#CowlObjPropCharAxiom} - Object property range.
+    /// @type{CowlObjPropCharAxiom} - Object property range.
     COWL_AT_OBJ_PROP_RANGE,
 
     /// @name Data property axioms
 
-    /// @type{#CowlSubDataPropAxiom} - Data subproperty.
+    /// @type{CowlSubDataPropAxiom} - Data subproperty.
     COWL_AT_SUB_DATA_PROP,
 
-    /// @type{#CowlNAryDataPropAxiom} - Equivalent data properties.
+    /// @type{CowlNAryDataPropAxiom} - Equivalent data properties.
     COWL_AT_EQUIV_DATA_PROP,
 
-    /// @type{#CowlNAryDataPropAxiom} - Disjoint data properties.
+    /// @type{CowlNAryDataPropAxiom} - Disjoint data properties.
     COWL_AT_DISJ_DATA_PROP,
 
-    /// @type{#CowlFuncDataPropAxiom} - Functional data property.
+    /// @type{CowlFuncDataPropAxiom} - Functional data property.
     COWL_AT_FUNC_DATA_PROP,
 
-    /// @type{#CowlDataPropDomainAxiom} - Data property domain.
+    /// @type{CowlDataPropDomainAxiom} - Data property domain.
     COWL_AT_DATA_PROP_DOMAIN,
 
-    /// @type{#CowlDataPropRangeAxiom} - Data property range.
+    /// @type{CowlDataPropRangeAxiom} - Data property range.
     COWL_AT_DATA_PROP_RANGE,
 
     /// @name Keys
 
-    /// @type{#CowlHasKeyAxiom} - Has key.
+    /// @type{CowlHasKeyAxiom} - Has key.
     COWL_AT_HAS_KEY,
 
     /// @name Annotation axioms
 
-    /// @type{#CowlAnnotAssertAxiom} - Annotation assertion.
+    /// @type{CowlAnnotAssertAxiom} - Annotation assertion.
     COWL_AT_ANNOT_ASSERT,
 
-    /// @type{#CowlSubAnnotPropAxiom} - Annotation subproperty.
+    /// @type{CowlSubAnnotPropAxiom} - Annotation subproperty.
     COWL_AT_SUB_ANNOT_PROP,
 
-    /// @type{#CowlAnnotPropDomainAxiom} - Annotation property domain.
+    /// @type{CowlAnnotPropDomainAxiom} - Annotation property domain.
     COWL_AT_ANNOT_PROP_DOMAIN,
 
-    /// @type{#CowlAnnotPropRangeAxiom} - Annotation property range.
+    /// @type{CowlAnnotPropRangeAxiom} - Annotation property range.
     COWL_AT_ANNOT_PROP_RANGE,
 
     /// @name Markers

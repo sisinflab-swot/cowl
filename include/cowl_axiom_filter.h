@@ -58,7 +58,7 @@ CowlAxiomFilter cowl_axiom_filter(CowlAxiomFlags types) {
 }
 
 /**
- * De-initializes an axiom filter previously initialized via @func{#cowl_axiom_filter()}.
+ * De-initializes an axiom filter previously initialized via @func{cowl_axiom_filter}.
  *
  * @param filter Axiom filter.
  */

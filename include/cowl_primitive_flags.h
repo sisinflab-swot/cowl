@@ -19,7 +19,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Size of the @type{#CowlPrimitiveFlags} type in bits.
+/// Size of the @type{CowlPrimitiveFlags} type in bits.
 #define COWL_PF 8
 
 /**

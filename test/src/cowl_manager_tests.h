@@ -12,14 +12,13 @@
 #define COWL_MANAGER_TESTS_H
 
 #include "cowl_attrs.h"
-#include <stdbool.h>
 
 COWL_BEGIN_DECLS
 
-bool cowl_test_manager_lifecycle(void);
-bool cowl_test_manager_read_ontology(void);
-bool cowl_test_manager_write_ontology(void);
-bool cowl_test_manager_edit_ontology(void);
+void cowl_test_manager_lifecycle(void);
+void cowl_test_manager_read_ontology(void);
+void cowl_test_manager_write_ontology(void);
+void cowl_test_manager_edit_ontology(void);
 
 #define COWL_MANAGER_TESTS                                                                         \
     cowl_test_manager_lifecycle, cowl_test_manager_read_ontology,                                  \

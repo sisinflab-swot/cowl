@@ -30,9 +30,9 @@ cowl_struct_decl(CowlSymTable);
 /**
  * Ontology output stream.
  *
- * A lightweight way to serialize knowledge without creating @type{#CowlOntology} objects.
+ * A lightweight way to serialize knowledge without creating @type{CowlOntology} objects.
  *
- * @see @type{#CowlWriter}
+ * @see @type{CowlWriter}
  *
  * @superstruct{CowlObject}
  * @struct CowlOStream

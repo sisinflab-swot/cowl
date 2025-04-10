@@ -50,13 +50,12 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    UOStream *std_out = uostream_std();
-    cowl_write_static(std_out, "Recursive atomic subclasses of " CLASS_NAME ":\n");
+    cowl_write_static(uostream_std(), "Recursive subclasses of " CLASS_NAME ":\n");
     CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
 
     // Since we are going to perform a recursive query,
     // we need the ontology to be part of the context.
-    CustomContext ctx = { onto, std_out };
+    CustomContext ctx = { onto, uostream_std() };
     CowlIterator iter = { &ctx, for_each_cls };
     cowl_ontology_iterate_sub_classes(onto, cls, &iter, false);
 

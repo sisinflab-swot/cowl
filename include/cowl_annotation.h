@@ -47,7 +47,7 @@ cowl_struct_decl(CowlAnnotation);
  *
  * @param prop The annotation property.
  * @param value The annotation value.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Annotation, or NULL on error.
  */
 COWL_RETAINED

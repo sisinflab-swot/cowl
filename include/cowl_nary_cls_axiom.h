@@ -48,7 +48,7 @@ cowl_struct_decl(CowlNAryClsAxiom);
  *
  * @param type N-ary class expression axiom type.
  * @param classes The classes.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

@@ -8,7 +8,7 @@ on:
 
 env:
   build_dir: build
-  build_config: Release
+  config: Release
 
 jobs:
   analyze:
@@ -31,13 +31,14 @@ jobs:
       - name: Configure CMake
         run: >
           CC=clang cmake -B ${{env.build_dir}}
+          -DCOWL_CPP_TESTS=OFF
           -DCOWL_LTO=OFF
           -DCOWL_CLANG_TIDY=ON
           -DCOWL_ENTITY_IDS=ON
           -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
 
       - name: Build
-        run: cmake --build ${{env.build_dir}} --target cowl-test cowl-bench cowl-examples cowl-tools
+        run: cmake --build ${{env.build_dir}}
 
   test:
     name: Test
@@ -74,62 +75,76 @@ jobs:
           -DULIB_SANITIZERS=ON
           -DULIB_LIBRARY_TYPE=${{matrix.lib_type}}
           -DCOWL_LIBRARY_TYPE=${{matrix.lib_type}}
-          -DCOWL_CPP_TESTS=ON
           -DCMAKE_COMPILE_WARNING_AS_ERROR=ON
           -DCMAKE_SYSTEM_VERSION=''
-          -DCMAKE_BUILD_TYPE=${{env.build_config}}
+          -DCMAKE_BUILD_TYPE=${{env.config}}
 
       - name: Build
-        run: >
-          cmake --build ${{env.build_dir}}
-          --config ${{env.build_config}}
-          --target cowl-test cowl-cpp-test cowl-bench cowl-examples cowl-tools
-
-      - name: Debug
-        if: ${{always()}}
-        run: sed '4019q;d' ${{env.build_dir}}/src/formats/functional/reader/cowl_func_yyparser.c
-        shell: bash
+        run: cmake --build ${{env.build_dir}} --config ${{env.config}}
 
       - name: Configure tests (Windows)
         working-directory: ${{env.build_dir}}
         if: runner.os == 'Windows'
         run: |
-          mv test/${{env.build_config}}/*.exe test
-          mv examples/${{env.build_config}}/*.exe examples
-          mv tools/${{env.build_config}}/*.exe tools
           if [ ${{matrix.lib_type}} == 'SHARED' ]; then
-            find . -name '*.dll' -exec cp -t test {} + -exec cp -t examples {} + -exec cp -t tools {} +
+            readarray -d '' dlls < <(find . -path '*/${{env.config}}/*.dll' -print0)
+            for exe_dir in test bench examples tools; do
+              cp "${dlls[@]}" ${exe_dir}/${{env.config}}
+            done
           fi
         shell: bash
 
       - name: Run tests
-        working-directory: ${{env.build_dir}}/test
-        run: ./cowl-test
+        working-directory: ${{env.build_dir}}
+        run: ctest --build-config ${{env.config}} --output-on-failure
 
-      - name: Run tests (C++)
-        working-directory: ${{env.build_dir}}/test
-        run: ./cowl-cpp-test
+  bench:
+    name: Benchmark
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ${{vars.ubuntu_runner || 'ubuntu-latest'}}
+          - ${{vars.windows_runner || 'windows-latest'}}
+          - ${{vars.macos_runner || 'macos-latest'}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-      - name: Run benchmark
-        working-directory: ${{env.build_dir}}/test
-        run: ./cowl-bench
-
-      - name: Run examples
-        working-directory: ${{env.build_dir}}/examples
+      - name: Configure runner
         run: |
           if [ $RUNNER_OS == 'Windows' ]; then
-            EXAMPLES=(./*-example.exe)
-          else
-            EXAMPLES=(./*-example)
+            choco install winflexbison3
+          elif [ $RUNNER_OS == 'macOS' ]; then
+            brew install flex bison
+            echo "$(brew --prefix flex)/bin" >> $GITHUB_PATH
+            echo "$(brew --prefix bison)/bin" >> $GITHUB_PATH
           fi
-          for EXAMPLE in "${EXAMPLES[@]}"; do
-            "${EXAMPLE}"
-          done
         shell: bash
 
-      - name: Run tools
-        working-directory: ${{env.build_dir}}/tools
-        run: ./cowl-stats test_onto.owl
+      - name: Configure CMake
+        run: >
+          cmake -B ${{env.build_dir}}
+          -DULIB_OPTIMIZE_FOR_HOST=ON
+          -DCOWL_LTO=ON
+          -DCMAKE_SYSTEM_VERSION=''
+          -DCMAKE_BUILD_TYPE=${{env.config}}
+
+      - name: Build
+        run: cmake --build ${{env.build_dir}} --config ${{env.config}} --target cowl-bench
+
+      - name: Configure (Windows)
+        working-directory: ${{env.build_dir}}/bench
+        if: runner.os == 'Windows'
+        run: mv ${{env.config}}/*.exe ./
+        shell: bash
+
+      - name: Run
+        working-directory: ${{env.build_dir}}/bench
+        run: ./cowl-bench
 
   docs:
     name: Generate the documentation
@@ -146,5 +161,7 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           pip install Sphinx sphinx-rtd-theme breathe
-          cmake -B ${{env.build_dir}} -DCOWL_READERS=OFF -DCOWL_WRITERS=OFF
+          cmake -B ${{env.build_dir}} \
+                -DCOWL_DOCS=ON -DULIB_DOCS=ON \
+                -DCOWL_READERS=OFF -DCOWL_WRITERS=OFF
           cmake --build ${{env.build_dir}} --target cowl-docs

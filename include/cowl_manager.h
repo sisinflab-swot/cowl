@@ -52,7 +52,7 @@ cowl_struct_decl(CowlManager);
  * @return Manager, or NULL on error.
  *
  * @note You can specify the default reader and writer
- *       via @func{#cowl_set_reader()} and @func{#cowl_set_writer()}.
+ *       via @func{cowl_set_reader} and @func{cowl_set_writer}.
  */
 COWL_API
 COWL_RETAINED
@@ -172,7 +172,7 @@ CowlOntology *cowl_manager_new_ontology(CowlManager *manager);
  * @note You can pass NULL as the IRI and version, in which case the function returns
  *       a new anonymous ontology.
  */
-COWL_DEPRECATED(Use @func{cowl_manager_retrieve_ontology()} or @func{cowl_manager_new_ontology()}.)
+COWL_DEPRECATED(Use @func{cowl_manager_retrieve_ontology} or @func{cowl_manager_new_ontology}.)
 COWL_API
 COWL_RETAINED
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);

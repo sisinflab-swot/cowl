@@ -17,14 +17,13 @@
 #define COWL_TEST_IRI_REM "remainder"
 #define COWL_TEST_IRI COWL_TEST_IRI_NS COWL_TEST_IRI_REM
 
-bool cowl_test_iri_lifecycle(void) {
+void cowl_test_iri_lifecycle(void) {
     CowlIRI *iri = cowl_iri_from_static(COWL_TEST_IRI);
     utest_assert_not_null(iri);
     cowl_release(iri);
-    return true;
 }
 
-bool cowl_test_iri_get_ns(void) {
+void cowl_test_iri_get_ns(void) {
     char const *tests[][2] = {
         { COWL_TEST_IRI, COWL_TEST_IRI_NS },
         { COWL_TEST_IRI_REM, "" },
@@ -39,11 +38,9 @@ bool cowl_test_iri_get_ns(void) {
         utest_assert_string(cowl_string_get_cstring(ns), ==, ns_str);
         cowl_release(iri);
     }
-
-    return true;
 }
 
-bool cowl_test_iri_get_rem(void) {
+void cowl_test_iri_get_rem(void) {
     char const *tests[][2] = {
         { COWL_TEST_IRI, COWL_TEST_IRI_REM },
         { COWL_TEST_IRI_REM, COWL_TEST_IRI_REM },
@@ -58,11 +55,9 @@ bool cowl_test_iri_get_rem(void) {
         utest_assert_string(cowl_string_get_cstring(rem), ==, rem_str);
         cowl_release(iri);
     }
-
-    return true;
 }
 
-bool cowl_test_iri_equals(void) {
+void cowl_test_iri_equals(void) {
     CowlIRI *expected = cowl_iri_from_static(COWL_TEST_IRI);
     cowl_assert_equal(iri, expected, cowl_get_iri(expected));
 
@@ -90,5 +85,4 @@ bool cowl_test_iri_equals(void) {
     cowl_assert_not_equal(iri, iri, expected);
 
     cowl_release_all(iri, expected);
-    return true;
 }

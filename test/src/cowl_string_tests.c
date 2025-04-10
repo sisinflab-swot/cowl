@@ -15,14 +15,13 @@
 
 #define COWL_TEST_STRING "test_string"
 
-bool cowl_test_string_lifecycle(void) {
+void cowl_test_string_lifecycle(void) {
     CowlString *string = cowl_string_from_static(COWL_TEST_STRING);
     utest_assert_not_null(string);
     cowl_release(string);
-    return true;
 }
 
-bool cowl_test_string_get_empty(void) {
+void cowl_test_string_get_empty(void) {
     CowlString *string = cowl_string_empty();
     utest_assert_ustring(*cowl_string_get_raw(string), ==, ustring_empty);
 
@@ -30,18 +29,16 @@ bool cowl_test_string_get_empty(void) {
     utest_assert_ptr(string, ==, other);
 
     cowl_release_all(string, other);
-    return true;
 }
 
-bool cowl_test_string_get_length(void) {
+void cowl_test_string_get_length(void) {
     ulib_uint len = sizeof(COWL_TEST_STRING) - 1;
     CowlString *string = cowl_string_from_static(COWL_TEST_STRING);
     utest_assert_uint(cowl_string_get_length(string), ==, len);
     cowl_release(string);
-    return true;
 }
 
-bool cowl_test_string_equals(void) {
+void cowl_test_string_equals(void) {
     CowlString *a = cowl_string_from_static(COWL_TEST_STRING);
     CowlString *b = cowl_string_from_static(COWL_TEST_STRING);
     cowl_assert_equal(string, a, b);
@@ -51,19 +48,17 @@ bool cowl_test_string_equals(void) {
     cowl_assert_not_equal(string, a, b);
 
     cowl_release_all(a, b);
-    return true;
 }
 
-bool cowl_test_string_with_format(void) {
+void cowl_test_string_with_format(void) {
     CowlString *string = cowl_string_with_format("Test %s %d", "string", 1);
     CowlString *other = cowl_string_from_static("Test string 1");
     cowl_assert_equal(string, string, other);
 
     cowl_release_all(string, other);
-    return true;
 }
 
-bool cowl_test_string_concat(void) {
+void cowl_test_string_concat(void) {
     CowlString *string = cowl_string_from_static(COWL_TEST_STRING);
     CowlString *other = cowl_string_from_static(COWL_TEST_STRING);
 
@@ -72,10 +67,9 @@ bool cowl_test_string_concat(void) {
     cowl_assert_equal(string, concat, oracle);
 
     cowl_release_all(string, other, concat, oracle);
-    return true;
 }
 
-bool cowl_test_string_intern(void) {
+void cowl_test_string_intern(void) {
     CowlString *a = cowl_string_opt(ustring_literal(COWL_TEST_STRING),
                                     COWL_SO_COPY | COWL_SO_INTERN);
     CowlString *ai = cowl_string_intern(a);
@@ -86,5 +80,4 @@ bool cowl_test_string_intern(void) {
     utest_assert_ptr(ai, ==, bi);
 
     cowl_release_all(a, b);
-    return true;
 }

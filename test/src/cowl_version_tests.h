@@ -12,11 +12,10 @@
 #define COWL_VERSION_TESTS_H
 
 #include "cowl_attrs.h"
-#include <stdbool.h>
 
 COWL_BEGIN_DECLS
 
-bool cowl_test_version(void);
+void cowl_test_version(void);
 
 #define COWL_VERSION_TESTS cowl_test_version
 

@@ -45,7 +45,7 @@ cowl_struct_decl(CowlDisjUnionAxiom);
  *
  * @param cls The class which is equivalent to the disjoint union.
  * @param disjoints The class expressions which are operands of the disjoint union.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

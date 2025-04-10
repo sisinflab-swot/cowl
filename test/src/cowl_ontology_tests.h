@@ -12,22 +12,21 @@
 #define COWL_ONTOLOGY_TESTS_H
 
 #include "cowl_attrs.h"
-#include <stdbool.h>
 
 COWL_BEGIN_DECLS
 
-bool cowl_test_ontology_init(void);
-bool cowl_test_ontology_deinit(void);
+void cowl_test_ontology_init(void);
+void cowl_test_ontology_deinit(void);
 
-bool cowl_test_ontology_get_iri_version(void);
-bool cowl_test_ontology_axiom_count(void);
-bool cowl_test_ontology_imports_count(void);
-bool cowl_test_ontology_axiom_count_for_type(void);
-bool cowl_test_ontology_axiom_count_for_types(void);
-bool cowl_test_ontology_primitives_count(void);
-bool cowl_test_ontology_axiom_count_for_primitive(void);
-bool cowl_test_ontology_has_primitive(void);
-bool cowl_test_ontology_has_axiom(void);
+void cowl_test_ontology_get_iri_version(void);
+void cowl_test_ontology_axiom_count(void);
+void cowl_test_ontology_imports_count(void);
+void cowl_test_ontology_axiom_count_for_type(void);
+void cowl_test_ontology_axiom_count_for_types(void);
+void cowl_test_ontology_primitives_count(void);
+void cowl_test_ontology_axiom_count_for_primitive(void);
+void cowl_test_ontology_has_primitive(void);
+void cowl_test_ontology_has_axiom(void);
 
 #define COWL_ONTOLOGY_TESTS                                                                        \
     cowl_test_ontology_init, cowl_test_ontology_get_iri_version, cowl_test_ontology_axiom_count,   \

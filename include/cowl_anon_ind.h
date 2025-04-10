@@ -64,8 +64,8 @@ CowlAnonInd *cowl_anon_ind_from_string(UString string);
 /**
  * Returns an anonymous individual given a string literal representing its identifier.
  *
- * @param str @type{char const []} String literal.
- * @return @type{#CowlAnonInd *} Anonymous individual, or NULL on error.
+ * @param str @ctype{char const []} String literal.
+ * @return @ctype{#CowlAnonInd *} Anonymous individual, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_anon_ind_from_static(str) cowl_anon_ind_from_string(ustring_literal(str))

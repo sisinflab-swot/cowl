@@ -6,6 +6,12 @@ set(COWL_ICON "${DOCS_IMAGES_DIRECTORY}/cowl_logo.png")
 set(ULIB_PUBLIC_HEADERS_DIR "${COWL_ULIB_DIR}/include")
 file(GLOB ULIB_PUBLIC_HEADERS CONFIGURE_DEPENDS "${ULIB_PUBLIC_HEADERS_DIR}/*.h")
 
+# Packages
+
+find_package(Python3 REQUIRED)
+find_package(Doxygen REQUIRED)
+find_package(Sphinx)
+
 # Doxygen configuration
 
 set(DOXYGEN_FULL_PATH_NAMES NO)
@@ -35,45 +41,39 @@ set(DOXYGEN_INCLUDE_PATH ${COWL_PUBLIC_HEADERS_DIRS} ${ULIB_PUBLIC_HEADERS_DIR})
 set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
 set(DOXYGEN_XML_OUTPUT_DIRECTORY "${DOXYGEN_OUTPUT_DIRECTORY}/xml")
 set(DOXYGEN_ALIASES
-    [[destructor{1}="@note The returned object must be destroyed by calling <tt>#\1()</tt>."]]
+    [[destructor{1}="@note The returned object must be destroyed by calling <tt>#\1</tt>."]]
+    [[cdestructor{1}="@note The returned object must be destroyed by calling <tt>\1</tt>."]]
     [[superstruct{1}="**Pseudo-extends:** <tt>#\1</tt>"]]
     [[superstruct{2}="**Pseudo-extends:** <tt>#\1</tt>, <tt>#\2</tt>"]]
     [[superstruct{3}="**Pseudo-extends:** <tt>#\1</tt>, <tt>#\2</tt>, <tt>#\3</tt>"]]
-    [[func{1}="<tt>\1</tt>"]]
-    [[type{1}="<tt>\1</tt>"]]
-    [[val{1}="<tt>\1</tt>"]]
+    [[func{1}="<tt>#\1</tt>"]]
+    [[cfunc{1}="<tt>\1</tt>"]]
+    [[type{1}="<tt>#\1</tt>"]]
+    [[ctype{1}="<tt>\1</tt>"]]
+    [[var{1}="<tt>#\1</tt>"]]
+    [[cvar{1}="<tt>\1</tt>"]]
+    [[val{1}="<tt>#\1</tt>"]]
+    [[cval{1}="<tt>\1</tt>"]]
     [[alias=@noop]]
 )
 set(DOXYGEN_VERBATIM_VARS DOXYGEN_ALIASES)
-
-find_program(DOXYGEN_PYTHON
-             NAMES python3 python
-             DOC "Path to the Python interpreter used to run Doxygen input filters")
-
-if(DOXYGEN_PYTHON)
-    set(DOXYGEN_INPUT_FILTER "${DOXYGEN_PYTHON} ${COWL_ULIB_UTILS_DIR}/doxygen/alias.py")
-endif()
+set(DOXYGEN_INPUT_FILTER "${Python3_EXECUTABLE} ${COWL_ULIB_UTILS_DIR}/doxygen/alias.py")
 
 # Documentation targets
 
-find_package(Doxygen)
+set(DOCS_TARGET_NAME cowl-docs)
 
-if(DOXYGEN_FOUND)
-    find_package(Sphinx)
-    set(DOCS_TARGET_NAME cowl-docs)
+if(SPHINX_FOUND)
+    get_target_property(TEMP_DIR ulib-docs BINARY_DIR)
+    set(ULIB_DOCS_INVENTORY_FILE "${TEMP_DIR}/sphinx/html/objects.inv")
 
-    if(SPHINX_FOUND)
-        get_target_property(TEMP_DIR ulib-docs BINARY_DIR)
-        set(ULIB_DOCS_INVENTORY_FILE "${TEMP_DIR}/sphinx/html/objects.inv")
-
-        set(DOXYGEN_TARGET_NAME cowl-doxygen)
-        sphinx_add_docs("${DOCS_TARGET_NAME}" "${SPHINX_INPUT_DIRECTORY}" ARGS -W
-                        COMMENT "Generating documentation via Sphinx")
-        add_dependencies("${DOCS_TARGET_NAME}" "${DOXYGEN_TARGET_NAME}" ulib-docs)
-    else()
-        set(DOXYGEN_TARGET_NAME "${DOCS_TARGET_NAME}")
-    endif()
-
-    doxygen_add_docs("${DOXYGEN_TARGET_NAME}" ${COWL_PUBLIC_HEADERS} ${ULIB_PUBLIC_HEADERS}
-                     COMMENT "Generating documentation via Doxygen")
+    set(DOXYGEN_TARGET_NAME cowl-doxygen)
+    sphinx_add_docs("${DOCS_TARGET_NAME}" "${SPHINX_INPUT_DIRECTORY}" ARGS -W
+                    COMMENT "Generating documentation via Sphinx")
+    add_dependencies("${DOCS_TARGET_NAME}" "${DOXYGEN_TARGET_NAME}" ulib-docs)
+else()
+    set(DOXYGEN_TARGET_NAME "${DOCS_TARGET_NAME}")
 endif()
+
+doxygen_add_docs("${DOXYGEN_TARGET_NAME}" ${COWL_PUBLIC_HEADERS} ${ULIB_PUBLIC_HEADERS}
+                    COMMENT "Generating documentation via Doxygen")

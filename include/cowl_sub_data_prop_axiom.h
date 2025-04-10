@@ -46,7 +46,7 @@ cowl_struct_decl(CowlSubDataPropAxiom);
  *
  * @param sub The subproperty.
  * @param super The superproperty.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

@@ -18,8 +18,8 @@
 COWL_BEGIN_DECLS
 
 /**
- * Represents the type of @type{#CowlNAryClsAxiom}, @type{#CowlNAryObjPropAxiom},
- * @type{#CowlNAryDataPropAxiom} and @type{#CowlNAryIndAxiom}.
+ * Represents the type of @type{CowlNAryClsAxiom}, @type{CowlNAryObjPropAxiom},
+ * @type{CowlNAryDataPropAxiom} and @type{CowlNAryIndAxiom}.
  */
 typedef enum CowlNAryAxiomType {
 

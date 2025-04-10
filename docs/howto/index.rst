@@ -71,7 +71,7 @@ If you're using CMake as your build system, you can link against Cowl by configu
 .. code-block:: cmake
 
     # Assuming Cowl's source is under "lib/cowl"
-    add_subdirectory("lib/cowl" EXCLUDE_FROM_ALL)
+    add_subdirectory("lib/cowl")
     target_link_libraries(your-target PRIVATE cowl)
 
 For other build systems or if you are building directly through a compiler, please refer

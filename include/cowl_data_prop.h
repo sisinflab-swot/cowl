@@ -64,8 +64,8 @@ CowlDataProp *cowl_data_prop_from_string(UString string) {
 /**
  * Returns a data property given the string literal representing its IRI.
  *
- * @param str @type{char const[]} String literal.
- * @return @type{#CowlDataProp *} Data property, or NULL on error.
+ * @param str @ctype{char const[]} String literal.
+ * @return @ctype{#CowlDataProp *} Data property, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_data_prop_from_static(str) cowl_data_prop_from_string(ustring_literal(str))

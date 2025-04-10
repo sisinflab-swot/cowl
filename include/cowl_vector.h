@@ -21,11 +21,11 @@
 
 COWL_BEGIN_DECLS
 
-/// Pointer to any @type{#CowlObject}.
+/// Pointer to any @type{CowlObject}.
 typedef CowlAny *CowlObjectPtr;
 
 /**
- * @func{#UVec(T)} of @type{#CowlObject *} elements.
+ * @type{UVec(T)} of @ctype{#CowlObject *} elements.
  *
  * @alias typedef UVec(CowlObjectPtr) UVec(CowlObjectPtr);
  */
@@ -35,7 +35,7 @@ UVEC_DECL_EQUATABLE_SPEC(CowlObjectPtr, COWL_API)
 /// @endcond
 
 /**
- * Vector of @type{#CowlObject} elements.
+ * Vector of @type{CowlObject} elements.
  *
  * @superstruct{CowlObject}
  * @struct CowlVector
@@ -121,8 +121,8 @@ bool cowl_vector_contains(CowlVector *vec, CowlAny *object) {
 /**
  * Iterates over the vector, executing the specified code block for each element.
  *
- * @param vec @type{#CowlVector *} The vector.
- * @param obj @type{symbol} Name of the variable holding the current item and its index.
+ * @param vec @ctype{#CowlVector *} The vector.
+ * @param obj @ctype{symbol} Name of the variable holding the current item and its index.
  */
 #define cowl_vector_foreach(vec, obj) uvec_foreach (CowlObjectPtr, cowl_vector_get_data(vec), obj)
 

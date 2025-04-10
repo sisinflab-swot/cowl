@@ -19,7 +19,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Size of the @type{#CowlAxiomFlags} type in bits.
+/// Size of the @type{CowlAxiomFlags} type in bits.
 #define COWL_AF 64
 
 /**
@@ -42,127 +42,127 @@ typedef UBit(COWL_AF) CowlAxiomFlags;
 
 // Declaration/definition
 
-/// Iterate over declaration axioms (@type{#CowlDeclAxiom}).
+/// Iterate over declaration axioms (@type{CowlDeclAxiom}).
 #define COWL_AF_DECL ubit_bit(COWL_AF, COWL_AT_DECL)
 
-/// Iterate over datatype definition axioms (@type{#CowlDatatypeDefAxiom}).
+/// Iterate over datatype definition axioms (@type{CowlDatatypeDefAxiom}).
 #define COWL_AF_DATATYPE_DEF ubit_bit(COWL_AF, COWL_AT_DATATYPE_DEF)
 
 // Class axioms
 
-/// Iterate over subclass axioms (@type{#CowlSubClsAxiom}).
+/// Iterate over subclass axioms (@type{CowlSubClsAxiom}).
 #define COWL_AF_SUB_CLASS ubit_bit(COWL_AF, COWL_AT_SUB_CLASS)
 
-/// Iterate over equivalent classes axioms (@type{#CowlNAryClsAxiom}).
+/// Iterate over equivalent classes axioms (@type{CowlNAryClsAxiom}).
 #define COWL_AF_EQUIV_CLASSES ubit_bit(COWL_AF, COWL_AT_EQUIV_CLASSES)
 
-/// Iterate over disjoint classes axioms (@type{#CowlNAryClsAxiom}).
+/// Iterate over disjoint classes axioms (@type{CowlNAryClsAxiom}).
 #define COWL_AF_DISJ_CLASSES ubit_bit(COWL_AF, COWL_AT_DISJ_CLASSES)
 
-/// Iterate over disjoint union axioms (@type{#CowlDisjUnionAxiom}).
+/// Iterate over disjoint union axioms (@type{CowlDisjUnionAxiom}).
 #define COWL_AF_DISJ_UNION ubit_bit(COWL_AF, COWL_AT_DISJ_UNION)
 
 // Individual axioms
 
-/// Iterate over class assertion axioms (@type{#CowlClsAssertAxiom}).
+/// Iterate over class assertion axioms (@type{CowlClsAssertAxiom}).
 #define COWL_AF_CLASS_ASSERT ubit_bit(COWL_AF, COWL_AT_CLASS_ASSERT)
 
-/// Iterate over same individual axioms (@type{#CowlNAryIndAxiom}).
+/// Iterate over same individual axioms (@type{CowlNAryIndAxiom}).
 #define COWL_AF_SAME_IND ubit_bit(COWL_AF, COWL_AT_SAME_IND)
 
-/// Iterate over different individuals axioms (@type{#CowlNAryIndAxiom}).
+/// Iterate over different individuals axioms (@type{CowlNAryIndAxiom}).
 #define COWL_AF_DIFF_IND ubit_bit(COWL_AF, COWL_AT_DIFF_IND)
 
-/// Iterate over object property assertion axioms (@type{#CowlObjPropAssertAxiom}).
+/// Iterate over object property assertion axioms (@type{CowlObjPropAssertAxiom}).
 #define COWL_AF_OBJ_PROP_ASSERT ubit_bit(COWL_AF, COWL_AT_OBJ_PROP_ASSERT)
 
-/// Iterate over negative object property assertion axioms (@type{#CowlObjPropAssertAxiom}).
+/// Iterate over negative object property assertion axioms (@type{CowlObjPropAssertAxiom}).
 #define COWL_AF_NEG_OBJ_PROP_ASSERT ubit_bit(COWL_AF, COWL_AT_NEG_OBJ_PROP_ASSERT)
 
-/// Iterate over data property assertion axioms (@type{#CowlDataPropAssertAxiom}).
+/// Iterate over data property assertion axioms (@type{CowlDataPropAssertAxiom}).
 #define COWL_AF_DATA_PROP_ASSERT ubit_bit(COWL_AF, COWL_AT_DATA_PROP_ASSERT)
 
-/// Iterate over negative data property assertion axioms (@type{#CowlDataPropAssertAxiom}).
+/// Iterate over negative data property assertion axioms (@type{CowlDataPropAssertAxiom}).
 #define COWL_AF_NEG_DATA_PROP_ASSERT ubit_bit(COWL_AF, COWL_AT_NEG_DATA_PROP_ASSERT)
 
 // Object property axioms
 
-/// Iterate over object subproperty axioms (@type{#CowlSubObjPropAxiom}).
+/// Iterate over object subproperty axioms (@type{CowlSubObjPropAxiom}).
 #define COWL_AF_SUB_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_SUB_OBJ_PROP)
 
-/// Iterate over inverse object properties axioms (@type{#CowlInvObjPropAxiom}).
+/// Iterate over inverse object properties axioms (@type{CowlInvObjPropAxiom}).
 #define COWL_AF_INV_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_INV_OBJ_PROP)
 
-/// Iterate over equivalent object properties axioms (@type{#CowlNAryObjPropAxiom}).
+/// Iterate over equivalent object properties axioms (@type{CowlNAryObjPropAxiom}).
 #define COWL_AF_EQUIV_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_EQUIV_OBJ_PROP)
 
-/// Iterate over disjoint object properties axioms (@type{#CowlNAryObjPropAxiom}).
+/// Iterate over disjoint object properties axioms (@type{CowlNAryObjPropAxiom}).
 #define COWL_AF_DISJ_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_DISJ_OBJ_PROP)
 
-/// Iterate over functional object property axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over functional object property axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_FUNC_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_FUNC_OBJ_PROP)
 
-/// Iterate over inverse functional object property axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over inverse functional object property axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_INV_FUNC_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_INV_FUNC_OBJ_PROP)
 
-/// Iterate over symmetric object property axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over symmetric object property axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_SYMM_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_SYMM_OBJ_PROP)
 
-/// Iterate over asymmetric object property axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over asymmetric object property axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_ASYMM_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_ASYMM_OBJ_PROP)
 
-/// Iterate over transitive object property axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over transitive object property axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_TRANS_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_TRANS_OBJ_PROP)
 
-/// Iterate over reflexive object property axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over reflexive object property axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_REFL_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_REFL_OBJ_PROP)
 
-/// Iterate over irreflexive object property axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over irreflexive object property axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_IRREFL_OBJ_PROP ubit_bit(COWL_AF, COWL_AT_IRREFL_OBJ_PROP)
 
-/// Iterate over object property domain axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over object property domain axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_OBJ_PROP_DOMAIN ubit_bit(COWL_AF, COWL_AT_OBJ_PROP_DOMAIN)
 
-/// Iterate over object property range axioms (@type{#CowlObjPropCharAxiom}).
+/// Iterate over object property range axioms (@type{CowlObjPropCharAxiom}).
 #define COWL_AF_OBJ_PROP_RANGE ubit_bit(COWL_AF, COWL_AT_OBJ_PROP_RANGE)
 
 // Data property axioms
 
-/// Iterate over data subproperty axioms (@type{#CowlSubDataPropAxiom}).
+/// Iterate over data subproperty axioms (@type{CowlSubDataPropAxiom}).
 #define COWL_AF_SUB_DATA_PROP ubit_bit(COWL_AF, COWL_AT_SUB_DATA_PROP)
 
-/// Iterate over equivalent data properties axioms (@type{#CowlNAryDataPropAxiom}).
+/// Iterate over equivalent data properties axioms (@type{CowlNAryDataPropAxiom}).
 #define COWL_AF_EQUIV_DATA_PROP ubit_bit(COWL_AF, COWL_AT_EQUIV_DATA_PROP)
 
-/// Iterate over disjoint data properties axioms (@type{#CowlNAryDataPropAxiom}).
+/// Iterate over disjoint data properties axioms (@type{CowlNAryDataPropAxiom}).
 #define COWL_AF_DISJ_DATA_PROP ubit_bit(COWL_AF, COWL_AT_DISJ_DATA_PROP)
 
-/// Iterate over functional data property axioms (@type{#CowlFuncDataPropAxiom}).
+/// Iterate over functional data property axioms (@type{CowlFuncDataPropAxiom}).
 #define COWL_AF_FUNC_DATA_PROP ubit_bit(COWL_AF, COWL_AT_FUNC_DATA_PROP)
 
-/// Iterate over data property domain axioms (@type{#CowlDataPropDomainAxiom}).
+/// Iterate over data property domain axioms (@type{CowlDataPropDomainAxiom}).
 #define COWL_AF_DATA_PROP_DOMAIN ubit_bit(COWL_AF, COWL_AT_DATA_PROP_DOMAIN)
 
-/// Iterate over data property range axioms (@type{#CowlDataPropRangeAxiom}).
+/// Iterate over data property range axioms (@type{CowlDataPropRangeAxiom}).
 #define COWL_AF_DATA_PROP_RANGE ubit_bit(COWL_AF, COWL_AT_DATA_PROP_RANGE)
 
 // Keys
 
-/// Iterate over has key axioms (@type{#CowlHasKeyAxiom}).
+/// Iterate over has key axioms (@type{CowlHasKeyAxiom}).
 #define COWL_AF_HAS_KEY ubit_bit(COWL_AF, COWL_AT_HAS_KEY)
 
 // Annotation axioms
 
-/// Iterate over annotation assertion axioms (@type{#CowlAnnotAssertAxiom}).
+/// Iterate over annotation assertion axioms (@type{CowlAnnotAssertAxiom}).
 #define COWL_AF_ANNOT_ASSERT ubit_bit(COWL_AF, COWL_AT_ANNOT_ASSERT)
 
-/// Iterate over annotation subproperty axioms (@type{#CowlSubAnnotPropAxiom}).
+/// Iterate over annotation subproperty axioms (@type{CowlSubAnnotPropAxiom}).
 #define COWL_AF_SUB_ANNOT_PROP ubit_bit(COWL_AF, COWL_AT_SUB_ANNOT_PROP)
 
-/// Iterate over annotation property domain axioms (@type{#CowlAnnotPropDomainAxiom}).
+/// Iterate over annotation property domain axioms (@type{CowlAnnotPropDomainAxiom}).
 #define COWL_AF_ANNOT_PROP_DOMAIN ubit_bit(COWL_AF, COWL_AT_ANNOT_PROP_DOMAIN)
 
-/// Iterate over annotation property range axioms (@type{#CowlAnnotPropRangeAxiom}).
+/// Iterate over annotation property range axioms (@type{CowlAnnotPropRangeAxiom}).
 #define COWL_AF_ANNOT_PROP_RANGE ubit_bit(COWL_AF, COWL_AT_ANNOT_PROP_RANGE)
 
 /// @}

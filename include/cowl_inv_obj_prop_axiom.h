@@ -46,7 +46,7 @@ cowl_struct_decl(CowlInvObjPropAxiom);
  *
  * @param first The first object property expression.
  * @param second The second object property expression.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

@@ -54,7 +54,7 @@ cowl_struct_decl(CowlObjPropAssertAxiom);
  * @param prop The object property.
  * @param subject The assertion subject.
  * @param object The assertion object.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED
@@ -72,7 +72,7 @@ cowl_obj_prop_assert_axiom(CowlAnyObjPropExp *prop, CowlAnyIndividual *subject,
  * @param prop The object property.
  * @param subject The assertion subject.
  * @param object The assertion object.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

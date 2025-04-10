@@ -51,7 +51,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    CowlErrorHandler handler = { &stream, handle_error };
+    CowlErrorHandler handler = { &stream, handle_error, NULL };
     cowl_set_error_handler(handler);
 
     CowlManager *manager = cowl_manager();
@@ -65,7 +65,7 @@ int main(void) {
     // Note that the manager will already attempt to resolve imports based on the
     // IRIs of ontologies it is currently responsible for. A custom resolver is only
     // needed if you need to override this behavior.
-    CowlImportResolver resolver = { manager, resolve_import };
+    CowlImportResolver resolver = { manager, resolve_import, NULL };
     cowl_manager_set_import_resolver(manager, resolver);
 
     // Read the ontology from file.

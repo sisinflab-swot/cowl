@@ -17,69 +17,69 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of @type{#CowlClsExp}.
+/// Represents the type of @type{CowlClsExp}.
 typedef enum CowlClsExpType {
 
-    /// @type{#CowlClass} - class.
+    /// @type{CowlClass} - class.
     COWL_CET_CLASS,
 
     /// @name Object property restrictions
 
-    /// @type{#CowlObjQuant} - "some values from" object property restriction.
+    /// @type{CowlObjQuant} - "some values from" object property restriction.
     COWL_CET_OBJ_SOME,
 
-    /// @type{#CowlObjQuant} - "all values from" object property restriction.
+    /// @type{CowlObjQuant} - "all values from" object property restriction.
     COWL_CET_OBJ_ALL,
 
-    /// @type{#CowlObjCard} - "minimum cardinality" object property restriction.
+    /// @type{CowlObjCard} - "minimum cardinality" object property restriction.
     COWL_CET_OBJ_MIN_CARD,
 
-    /// @type{#CowlObjCard} - "maximum cardinality" object property restriction.
+    /// @type{CowlObjCard} - "maximum cardinality" object property restriction.
     COWL_CET_OBJ_MAX_CARD,
 
-    /// @type{#CowlObjCard} - "exact cardinality" object property restriction.
+    /// @type{CowlObjCard} - "exact cardinality" object property restriction.
     COWL_CET_OBJ_EXACT_CARD,
 
-    /// @type{#CowlObjHasValue} - "has value" object property restriction.
+    /// @type{CowlObjHasValue} - "has value" object property restriction.
     COWL_CET_OBJ_HAS_VALUE,
 
-    /// @type{#CowlObjHasSelf} - "has self" object property restriction.
+    /// @type{CowlObjHasSelf} - "has self" object property restriction.
     COWL_CET_OBJ_HAS_SELF,
 
     /// @name Data property restrictions
 
-    /// @type{#CowlDataQuant} - "some values from" data property restriction.
+    /// @type{CowlDataQuant} - "some values from" data property restriction.
     COWL_CET_DATA_SOME,
 
-    /// @type{#CowlDataQuant} - "all values from" data property restriction.
+    /// @type{CowlDataQuant} - "all values from" data property restriction.
     COWL_CET_DATA_ALL,
 
-    /// @type{#CowlDataCard} - "min cardinality" data property restriction.
+    /// @type{CowlDataCard} - "min cardinality" data property restriction.
     COWL_CET_DATA_MIN_CARD,
 
-    /// @type{#CowlDataCard} - "max cardinality" data property restriction.
+    /// @type{CowlDataCard} - "max cardinality" data property restriction.
     COWL_CET_DATA_MAX_CARD,
 
-    /// @type{#CowlDataCard} - "exact cardinality" data property restriction.
+    /// @type{CowlDataCard} - "exact cardinality" data property restriction.
     COWL_CET_DATA_EXACT_CARD,
 
-    /// @type{#CowlDataHasValue} - "has value" data property restriction.
+    /// @type{CowlDataHasValue} - "has value" data property restriction.
     COWL_CET_DATA_HAS_VALUE,
 
     /// @name Boolean expressions
 
-    /// @type{#CowlNAryBool} - Intersection of class expressions.
+    /// @type{CowlNAryBool} - Intersection of class expressions.
     COWL_CET_OBJ_INTERSECT,
 
-    /// @type{#CowlNAryBool} - Union of class expressions.
+    /// @type{CowlNAryBool} - Union of class expressions.
     COWL_CET_OBJ_UNION,
 
-    /// @type{#CowlObjCompl} - Complement of a class expression.
+    /// @type{CowlObjCompl} - Complement of a class expression.
     COWL_CET_OBJ_COMPL,
 
     /// @name Enumeration
 
-    /// @type{#CowlObjOneOf} - Enumeration of individuals.
+    /// @type{CowlObjOneOf} - Enumeration of individuals.
     COWL_CET_OBJ_ONE_OF,
 
     /// @name Markers

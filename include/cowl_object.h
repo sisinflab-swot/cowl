@@ -225,7 +225,7 @@ CowlString *cowl_to_string(CowlAny *object);
  * Returns the string representation of the specified object.
  *
  * @param object The object.
- * @return String representation, or @val{#ustring_null} on error.
+ * @return String representation, or @val{ustring_null} on error.
  *
  * @destructor{ustring_deinit}
  */
@@ -252,7 +252,7 @@ CowlString *cowl_to_debug_string(CowlAny *object);
  * type and reference count.
  *
  * @param object The object.
- * @return String representation, or @val{#ustring_null} on error.
+ * @return String representation, or @val{ustring_null} on error.
  *
  * @destructor{ustring_deinit}
  */

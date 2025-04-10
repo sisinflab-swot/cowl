@@ -64,8 +64,8 @@ CowlClass *cowl_class_from_string(UString string) {
 /**
  * Returns a class given the string literal representing its IRI.
  *
- * @param str @type{char const[]} String literal.
- * @return @type{#CowlClass *} Class, or NULL on error.
+ * @param str @ctype{char const[]} String literal.
+ * @return @ctype{#CowlClass *} Class, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_class_from_static(str) cowl_class_from_string(ustring_literal(str))

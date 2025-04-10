@@ -17,27 +17,27 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of @type{#CowlEntity}.
+/// Represents the type of @type{CowlEntity}.
 typedef enum CowlEntityType {
 
     /// @name Types
 
-    /// @type{#CowlClass} - class.
+    /// @type{CowlClass} - class.
     COWL_ET_CLASS,
 
-    /// @type{#CowlObjProp} - object property.
+    /// @type{CowlObjProp} - object property.
     COWL_ET_OBJ_PROP,
 
-    /// @type{#CowlDataProp} - data property.
+    /// @type{CowlDataProp} - data property.
     COWL_ET_DATA_PROP,
 
-    /// @type{#CowlAnnotProp} - annotation property.
+    /// @type{CowlAnnotProp} - annotation property.
     COWL_ET_ANNOT_PROP,
 
-    /// @type{#CowlNamedInd} - named individual.
+    /// @type{CowlNamedInd} - named individual.
     COWL_ET_NAMED_IND,
 
-    /// @type{#CowlDatatype} - datatype.
+    /// @type{CowlDatatype} - datatype.
     COWL_ET_DATATYPE,
 
     /// @name Markers

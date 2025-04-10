@@ -12,17 +12,16 @@
 #define COWL_STRING_TESTS_H
 
 #include "cowl_attrs.h"
-#include <stdbool.h>
 
 COWL_BEGIN_DECLS
 
-bool cowl_test_string_lifecycle(void);
-bool cowl_test_string_get_empty(void);
-bool cowl_test_string_get_length(void);
-bool cowl_test_string_equals(void);
-bool cowl_test_string_with_format(void);
-bool cowl_test_string_concat(void);
-bool cowl_test_string_intern(void);
+void cowl_test_string_lifecycle(void);
+void cowl_test_string_get_empty(void);
+void cowl_test_string_get_length(void);
+void cowl_test_string_equals(void);
+void cowl_test_string_with_format(void);
+void cowl_test_string_concat(void);
+void cowl_test_string_intern(void);
 
 #define COWL_STRING_TESTS                                                                          \
     cowl_test_string_lifecycle, cowl_test_string_get_empty, cowl_test_string_get_length,           \

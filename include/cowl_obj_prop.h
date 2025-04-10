@@ -64,8 +64,8 @@ CowlObjProp *cowl_obj_prop_from_string(UString string) {
 /**
  * Returns a object property given the string literal representing its IRI.
  *
- * @param str @type{char const []} String literal.
- * @return @type{#CowlObjProp *} Object property, or NULL on error.
+ * @param str @ctype{char const []} String literal.
+ * @return @ctype{#CowlObjProp *} Object property, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_obj_prop_from_static(str) cowl_obj_prop_from_string(ustring_literal(str))

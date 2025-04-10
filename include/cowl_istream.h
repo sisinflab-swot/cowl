@@ -34,9 +34,9 @@ cowl_struct_decl(CowlSymTable);
  * Ontology input stream.
  *
  * A lightweight way to access knowledge without deserializing ontologies
- * into @type{#CowlOntology} objects.
+ * into @type{CowlOntology} objects.
  *
- * @see @type{#CowlReader}
+ * @see @type{CowlReader}
  *
  * @superstruct{CowlObject}
  * @struct CowlIStream

@@ -171,7 +171,7 @@ CowlIRI *cowl_sym_table_parse_iri(CowlSymTable *st, UString str);
  * @param rem The remainder.
  * @return IRI instance, or NULL on error.
  */
-COWL_DEPRECATED(Use @func{cowl_sym_table_get_iri()} instead.)
+COWL_DEPRECATED(Use @func{cowl_sym_table_get_iri} instead.)
 COWL_INLINE
 COWL_RETAINED
 CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) {
@@ -185,7 +185,7 @@ CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) 
  * @param short_iri The short IRI.
  * @return IRI instance, or NULL on error.
  */
-COWL_DEPRECATED(Use @func{cowl_sym_table_parse_short_iri()} instead.)
+COWL_DEPRECATED(Use @func{cowl_sym_table_parse_short_iri} instead.)
 COWL_INLINE
 COWL_RETAINED
 CowlIRI *cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri) {

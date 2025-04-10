@@ -23,7 +23,7 @@ COWL_BEGIN_DECLS
 /**
  * Represents annotation values, which can be either anonymous individuals, IRIs, or literals.
  *
- * @see @type{#CowlAnnotation}
+ * @see @type{CowlAnnotation}
  *
  * @superstruct{CowlObject}
  * @struct CowlAnnotValue

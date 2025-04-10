@@ -28,11 +28,10 @@ static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
 
 // Tests
 
-bool cowl_test_manager_lifecycle(void) {
+void cowl_test_manager_lifecycle(void) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
     cowl_release(manager);
-    return true;
 }
 
 static cowl_ret count_annot(void *ctx, cowl_unused CowlAnnotation *obj) {
@@ -50,7 +49,7 @@ static cowl_ret count_axiom(void *ctx, cowl_unused CowlAnyAxiom *obj) {
     return COWL_OK;
 }
 
-bool cowl_test_manager_read_ontology(void) {
+void cowl_test_manager_read_ontology(void) {
     UString const log_path = ustring_literal("test_manager_read_ontology.log");
 
     CowlManager *manager = cowl_manager();
@@ -58,7 +57,8 @@ bool cowl_test_manager_read_ontology(void) {
     CowlOntology *import = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
 
     ulib_uint count = 0;
-    CowlIStreamHandlers handlers = { &count };
+    CowlIStreamHandlers handlers = ulib_struct_init;
+    handlers.ctx = &count;
     handlers.axiom = count_axiom;
     handlers.import = count_import;
     handlers.annot = count_annot;
@@ -68,9 +68,11 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_uint(ret, ==, COWL_OK);
 
     UOStream ostream;
-    utest_assert_critical(uostream_to_path(&ostream, ustring_data(log_path)) == USTREAM_OK);
+    utest_assert_fatal(uostream_to_path(&ostream, ustring_data(log_path)) == USTREAM_OK);
 
-    CowlErrorHandler handler = { &ostream, cowl_test_manager_write_error };
+    CowlErrorHandler handler = ulib_struct_init;
+    handler.ctx = &ostream;
+    handler.handle_error = cowl_test_manager_write_error;
     cowl_manager_set_error_handler(manager, handler);
 
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
@@ -104,7 +106,6 @@ bool cowl_test_manager_read_ontology(void) {
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 0);
 
     cowl_release_all(manager, other_manager, stream);
-    return true;
 }
 
 static inline bool diff_iri_version(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
@@ -143,7 +144,7 @@ static inline bool diff_imports(CowlOntology *a, CowlOntology *b, CowlOntology *
     iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_import_iris(b, &iter, false);
 
-    uhset_diff(CowlObjectTable, &a_set, &b_set);
+    uhset_diff_intersect(CowlObjectTable, &a_set, NULL, &b_set);
     uhash_foreach (CowlObjectTable, &a_set, i) {
         cowl_ontology_add_import(diff, (CowlIRI *)*i.key);
         different = true;
@@ -167,7 +168,7 @@ static inline bool diff_axioms(CowlOntology *a, CowlOntology *b, CowlOntology *d
     iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_axioms(b, &iter, false);
 
-    uhset_diff(CowlObjectTable, &a_set, &b_set);
+    uhset_diff_intersect(CowlObjectTable, &a_set, NULL, &b_set);
     uhash_foreach (CowlObjectTable, &a_set, i) {
         cowl_ontology_add_axiom(diff, *i.key);
         different = true;
@@ -214,7 +215,7 @@ static void log_diff(char const *reader, char const *path, CowlOntology *out,
     ustring_deinit(&out_path);
 }
 
-static bool test_format(UString path, CowlReader reader, CowlWriter writer) {
+static void test_format(UString path, CowlReader reader, CowlWriter writer) {
     CowlManager *manager = cowl_manager();
     utest_assert_not_null(manager);
 
@@ -238,10 +239,9 @@ static bool test_format(UString path, CowlReader reader, CowlWriter writer) {
 
     utest_assert_false(differ);
     cowl_release_all(onto_in, onto_out, in_minus_out, out_minus_in, manager);
-    return true;
 }
 
-bool cowl_test_manager_write_ontology(void) {
+void cowl_test_manager_write_ontology(void) {
     UString const onto_path = ustring_literal(COWL_TEST_ONTOLOGY);
     UString const import_path = ustring_literal(COWL_TEST_IMPORT);
 
@@ -256,19 +256,17 @@ bool cowl_test_manager_write_ontology(void) {
 
     for (ulib_uint i = 0; i < ulib_array_count(formats); ++i) {
         CowlReader reader = formats[i].reader();
-        printf("Testing %s format.\n", reader.name);
-        utest_assert(test_format(onto_path, reader, formats[i].writer()));
-        utest_assert(test_format(import_path, formats[i].reader(), formats[i].writer()));
+        ulog_info("\"%s\" format test started", reader.name);
+        utest_sub(test_format(onto_path, reader, formats[i].writer()));
+        utest_sub(test_format(import_path, formats[i].reader(), formats[i].writer()));
     }
-
-    return true;
 }
 
 static bool filter_axiom(void *cls, CowlAny *axiom) {
     return cowl_axiom_has_operand(axiom, cls, COWL_PS_ANY);
 }
 
-bool cowl_test_manager_edit_ontology(void) {
+void cowl_test_manager_edit_ontology(void) {
     CowlManager *manager = cowl_manager();
     CowlOntology *onto = cowl_manager_new_ontology(manager);
     utest_assert_not_null(onto);
@@ -312,5 +310,4 @@ bool cowl_test_manager_edit_ontology(void) {
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 1);
 
     cowl_release_all(sub_axiom, onto, manager);
-    return true;
 }

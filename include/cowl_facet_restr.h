@@ -26,7 +26,7 @@ cowl_struct_decl(CowlLiteral);
 /// @endcond
 
 /**
- * Represents a facet restriction used to restrict a particular @type{#CowlDatatype}.
+ * Represents a facet restriction used to restrict a particular @type{CowlDatatype}.
  *
  * @see https://www.w3.org/TR/owl2-syntax/#Datatype_Maps
  *

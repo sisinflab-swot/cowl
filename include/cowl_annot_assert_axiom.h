@@ -48,7 +48,7 @@ cowl_struct_decl(CowlAnnotAssertAxiom);
  * @param prop The annotation property.
  * @param subject The annotation subject.
  * @param value The annotation value.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

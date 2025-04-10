@@ -44,9 +44,9 @@ cowl_struct_decl(CowlHasKeyAxiom);
  * Returns a 'has key' axiom.
  *
  * @param cls_exp The class expression, instances of which this axiom acts as the key for.
- * @param obj_props @type{optional} Object property expressions that make up the key.
- * @param data_props @type{optional} Data property expressions that make up the key.
- * @param annot @type{optional} The annotations.
+ * @param obj_props @ctype{optional} Object property expressions that make up the key.
+ * @param data_props @ctype{optional} Data property expressions that make up the key.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_API

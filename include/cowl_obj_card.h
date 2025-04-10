@@ -53,7 +53,7 @@ cowl_struct_decl(CowlObjCard);
  *
  * @param type The type.
  * @param prop The object property.
- * @param filler @type{optional} Filler of the restriction.
+ * @param filler @ctype{optional} Filler of the restriction.
  * @param cardinality Cardinality of the restriction.
  * @return Restriction, or NULL on error.
  */

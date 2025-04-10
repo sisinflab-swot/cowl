@@ -80,7 +80,7 @@ bool cowl_entity_is_reserved(CowlAnyEntity *entity);
  * @param entity The entity.
  * @return Unique identifier.
  *
- * @note Only available if `COWL_ENTITY_IDS` is defined. Enabling this API ensures entities are
+ * @note Only available if @cval{COWL_ENTITY_IDS} is defined. Enabling this API ensures entities are
  *       tracked and given a numeric identifier for the lifetime of the executable,
  *       which can be a useful property to have in some applications. Bear in mind that this
  *       also means entities are never deallocated, which can affect memory usage.
@@ -95,8 +95,8 @@ ulib_uint cowl_entity_get_id(CowlAnyEntity *entity);
  * @param id Unique identifier.
  * @return Entity with the specified identifier, or NULL if no entity has the specified identifier.
  *
- * @note Only available if `COWL_ENTITY_IDS` is defined.
- * @see @func{#cowl_entity_get_id()}
+ * @note Only available if @cval{COWL_ENTITY_IDS} is defined.
+ * @see @func{cowl_entity_get_id}
  */
 COWL_API
 COWL_PURE

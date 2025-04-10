@@ -53,7 +53,7 @@ cowl_struct_decl(CowlDataCard);
  *
  * @param type The type.
  * @param prop The data property.
- * @param range @type{optional} Range of the restriction.
+ * @param range @ctype{optional} Range of the restriction.
  * @param cardinality Cardinality of the restriction.
  * @return Restriction, or NULL on error.
  */

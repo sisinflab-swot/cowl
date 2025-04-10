@@ -64,8 +64,8 @@ CowlDatatype *cowl_datatype_from_string(UString string) {
 /**
  * Returns a datatype given the string literal representing its IRI.
  *
- * @param str @type{char const []} String literal.
- * @return @type{#CowlDatatype *} Datatype, or NULL on error.
+ * @param str @ctype{char const []} String literal.
+ * @return @ctype{#CowlDatatype *} Datatype, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_datatype_from_static(str) cowl_datatype_from_string(ustring_literal(str))

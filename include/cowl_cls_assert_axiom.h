@@ -47,7 +47,7 @@ cowl_struct_decl(CowlClsAssertAxiom);
  *
  * @param exp The asserted class expression.
  * @param ind The assertion individual.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

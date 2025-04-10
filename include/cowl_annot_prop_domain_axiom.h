@@ -46,7 +46,7 @@ cowl_struct_decl(CowlAnnotPropDomainAxiom);
  *
  * @param prop The annotation property.
  * @param domain Domain of the annotation property.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

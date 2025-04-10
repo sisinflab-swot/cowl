@@ -64,8 +64,8 @@ CowlNamedInd *cowl_named_ind_from_string(UString string) {
 /**
  * Returns a named individual given the string literal representing its IRI.
  *
- * @param str @type{char const []} String literal.
- * @return @type{#CowlNamedInd *} Named individual, or NULL on error.
+ * @param str @ctype{char const []} String literal.
+ * @return @ctype{#CowlNamedInd *} Named individual, or NULL on error.
  */
 COWL_RETAINED
 #define cowl_named_ind_from_static(str) cowl_named_ind_from_string(ustring_literal(str))

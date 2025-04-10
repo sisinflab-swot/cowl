@@ -17,27 +17,27 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of @type{#CowlDataRange}.
+/// Represents the type of @type{CowlDataRange}.
 typedef enum CowlDataRangeType {
 
     /// @name Types
 
-    /// @type{#CowlDatatype} - Datatype.
+    /// @type{CowlDatatype} - Datatype.
     COWL_DRT_DATATYPE,
 
-    /// @type{#CowlDatatypeRestr} - Datatype restriction.
+    /// @type{CowlDatatypeRestr} - Datatype restriction.
     COWL_DRT_DATATYPE_RESTR,
 
-    /// @type{#CowlNAryData} - Intersection of data ranges.
+    /// @type{CowlNAryData} - Intersection of data ranges.
     COWL_DRT_DATA_INTERSECT,
 
-    /// @type{#CowlNAryData} - Union of data ranges.
+    /// @type{CowlNAryData} - Union of data ranges.
     COWL_DRT_DATA_UNION,
 
-    /// @type{#CowlDataCompl} - Complement of data ranges.
+    /// @type{CowlDataCompl} - Complement of data ranges.
     COWL_DRT_DATA_COMPL,
 
-    /// @type{#CowlDataOneOf} - Enumeration of literals.
+    /// @type{CowlDataOneOf} - Enumeration of literals.
     COWL_DRT_DATA_ONE_OF,
 
     /// @name Markers

@@ -46,7 +46,7 @@ cowl_struct_decl(CowlSubObjPropAxiom);
  *
  * @param sub The subproperty.
  * @param super The superproperty.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED
@@ -61,7 +61,7 @@ cowl_sub_obj_prop_axiom(CowlAnyObjPropExp *sub, CowlAnyObjPropExp *super, CowlVe
  *
  * @param sub The chain of properties.
  * @param super The superproperty.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_API

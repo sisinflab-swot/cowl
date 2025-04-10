@@ -70,7 +70,7 @@ cowl_struct_decl(CowlObjPropCharAxiom);
  *
  * @param type The type.
  * @param prop The object property expression.
- * @param annot @type{optional} The annotations.
+ * @param annot @ctype{optional} The annotations.
  * @return Axiom, or NULL on error.
  */
 COWL_RETAINED

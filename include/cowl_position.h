@@ -18,7 +18,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Size of the @type{#CowlPosition} type in bits.
+/// Size of the @type{CowlPosition} type in bits.
 #define COWL_PS 8
 
 /**

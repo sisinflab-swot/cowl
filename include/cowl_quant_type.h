@@ -17,7 +17,7 @@
 
 COWL_BEGIN_DECLS
 
-/// Represents the type of @type{#CowlObjQuant} and @type{#CowlDataQuant}.
+/// Represents the type of @type{CowlObjQuant} and @type{CowlDataQuant}.
 typedef enum CowlQuantType {
 
     /// @name Types

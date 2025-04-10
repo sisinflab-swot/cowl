@@ -22,7 +22,7 @@
 COWL_BEGIN_DECLS
 
 /**
- * @func{#UHash(T)} of @type{#CowlObject *} elements.
+ * @type{UHash(T)} of @ctype{#CowlObject *} elements.
  *
  * @alias typedef UHash(CowlObjectTable) UHash(CowlObjectTable);
  */
@@ -32,7 +32,7 @@ UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny *, CowlAny *, COWL_API)
 /// @endcond
 
 /**
- * Hash table of @type{#CowlObject} elements.
+ * Hash table of @type{CowlObject} elements.
  *
  * @superstruct{CowlObject}
  * @struct CowlTable
@@ -129,8 +129,8 @@ bool cowl_table_contains(CowlTable *table, CowlAny *key) {
 /**
  * Iterates over the entries in the hash table.
  *
- * @param table @type{#CowlTable *} The hash table.
- * @param obj @type{symbol} Name of the variable holding the current index, key and value.
+ * @param table @ctype{#CowlTable *} The hash table.
+ * @param obj @ctype{symbol} Name of the variable holding the current index, key and value.
  */
 #define cowl_table_foreach(table, obj)                                                             \
     uhash_foreach (CowlObjectTable, cowl_table_get_data(table), obj)
