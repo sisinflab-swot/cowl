@@ -25,12 +25,11 @@ static CowlErrorHandler global_error_handler;
 static CowlReader global_reader;
 static CowlWriter global_writer;
 
-static void cowl_config_init(void) {
+static cowl_ret cowl_config_init(void) {
     global_error_handler = (CowlErrorHandler){ 0 };
     global_reader = cowl_reader_default();
     global_writer = cowl_writer_default();
-    ulib_int seed = (ulib_int)utime_get_ns();
-    urand_set_seed(seed ? seed : 12345);
+    return COWL_OK;
 }
 
 static void cowl_config_deinit(void) {
@@ -41,25 +40,27 @@ static void cowl_config_deinit(void) {
 
 cowl_ret cowl_init(void) {
     if (cowl_initialized) return COWL_OK;
-    cowl_initialized = true;
-    cowl_config_init();
 
-    if (cowl_iri_api_init() || cowl_entity_api_init() || cowl_anon_ind_api_init() ||
-        cowl_string_api_init() || cowl_vocab_init()) {
+    ulib_int seed = (ulib_int)utime_get_ns();
+    urand_set_seed(seed ? seed : 12345);
+
+    if (cowl_string_api_init() || cowl_iri_api_init() || cowl_entity_api_init() ||
+        cowl_anon_ind_api_init() || cowl_vocab_init() || cowl_config_init()) {
         return COWL_ERR_MEM;
     }
 
+    cowl_initialized = true;
     return COWL_OK;
 }
 
 void cowl_deinit(void) {
     if (!cowl_initialized) return;
+    cowl_config_deinit();
+    cowl_vocab_deinit();
     cowl_anon_ind_api_deinit();
     cowl_entity_api_deinit();
     cowl_iri_api_deinit();
     cowl_string_api_deinit();
-    cowl_config_deinit();
-    cowl_vocab_deinit();
     cowl_initialized = false;
 }
 
