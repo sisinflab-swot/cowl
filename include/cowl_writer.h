@@ -155,6 +155,43 @@ CowlWriter cowl_writer_functional(void);
 
 #endif // COWL_WRITER_FUNCTIONAL
 
+#ifdef COWL_WRITER_PROTOCOWL
+
+/// Unbounded index size for ProtocOWL writers.
+#define COWL_PROTOCOWL_INDEX_SIZE_UNBOUNDED ULIB_UINT_MAX
+
+/**
+ * Returns the ProtocOWL writer.
+ *
+ * @return ProtocOWL writer.
+ */
+COWL_API
+CowlWriter cowl_writer_protocowl(void);
+
+/**
+ * Sets the index size for the specified ProtocOWL writer.
+ *
+ * @param writer The writer.
+ * @param index_size The index size.
+ *
+ * @note This function should only be called on ProtocOWL writers.
+ */
+COWL_API
+void cowl_writer_protocowl_set_index_size(CowlWriter *writer, ulib_uint index_size);
+
+/**
+ * Sets whether to encode anonymous individuals.
+ *
+ * @param writer The writer.
+ * @param encode_anon True to encode anonymous individuals, false otherwise.
+ *
+ * @note This function should only be called on ProtocOWL writers.
+ */
+COWL_API
+void cowl_writer_protocowl_set_encode_anon(CowlWriter *writer, bool encode_anon);
+
+#endif // COWL_WRITER_PROTOCOWL
+
 /**
  * Returns the default writer.
  *

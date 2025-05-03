@@ -10,8 +10,15 @@
 
 #include "cowl_manager_tests.h"
 #include "cowl.h"
+#include "cowl_manager.h"
+#include "cowl_ostream.h"
+#include "cowl_reader.h"
 #include "cowl_test_utils.h"
+#include "cowl_writer.h"
 #include "ulib.h"
+#include "ustream.h"
+#include "ustring.h"
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 
@@ -237,23 +244,33 @@ static void test_format(UString path, CowlReader reader, CowlWriter writer) {
     cowl_release_all(onto_in, onto_out, in_minus_out, out_minus_in, manager);
 }
 
+static CowlWriter protocowl_stream_writer(void) {
+    CowlWriter writer = cowl_writer_protocowl();
+    cowl_writer_protocowl_set_index_size(&writer, 32);
+    return writer;
+}
+
 void cowl_test_manager_write_ontology(void) {
     UString const onto_path = ustring_literal(COWL_TEST_ONTOLOGY);
     UString const import_path = ustring_literal(COWL_TEST_IMPORT);
 
     struct {
+        char const *name;
         CowlReader (*reader)(void);
         CowlWriter (*writer)(void);
     } const formats[] = {
 #if COWL_READER_FUNCTIONAL && COWL_WRITER_FUNCTIONAL
-        { cowl_reader_functional, cowl_writer_functional },
+        { "Functional", cowl_reader_functional, cowl_writer_functional },
+#endif
+#if COWL_READER_PROTOCOWL && COWL_WRITER_PROTOCOWL
+        { "ProtocOWL", cowl_reader_protocowl, cowl_writer_protocowl },
+        { "ProtocOWL (stream)", cowl_reader_protocowl, protocowl_stream_writer }
 #endif
     };
 
     for (ulib_uint i = 0; i < ulib_array_count(formats); ++i) {
-        CowlReader reader = formats[i].reader();
-        ulog_info("\"%s\" format test started", reader.name);
-        utest_sub(test_format(onto_path, reader, formats[i].writer()));
+        ulog_info("\"%s\" format test started", formats[i].name);
+        utest_sub(test_format(onto_path, formats[i].reader(), formats[i].writer()));
         utest_sub(test_format(import_path, formats[i].reader(), formats[i].writer()));
     }
 }
