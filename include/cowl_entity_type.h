@@ -25,6 +25,9 @@ typedef enum CowlEntityType {
     /// @type{CowlClass} - class.
     COWL_ET_CLASS,
 
+    /// @type{CowlDatatype} - datatype.
+    COWL_ET_DATATYPE,
+
     /// @type{CowlObjProp} - object property.
     COWL_ET_OBJ_PROP,
 
@@ -36,9 +39,6 @@ typedef enum CowlEntityType {
 
     /// @type{CowlNamedInd} - named individual.
     COWL_ET_NAMED_IND,
-
-    /// @type{CowlDatatype} - datatype.
-    COWL_ET_DATATYPE,
 
     /// @name Markers
 

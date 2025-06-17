@@ -43,31 +43,31 @@ typedef UBit(COWL_PF) CowlPrimitiveFlags;
 /// Iterate over classes.
 #define COWL_PF_CLASS ubit_bit(COWL_PF, 0)
 
+/// Iterate over datatypes.
+#define COWL_PF_DATATYPE ubit_bit(COWL_PF, 1)
+
 /// Iterate over object properties.
-#define COWL_PF_OBJ_PROP ubit_bit(COWL_PF, 1)
+#define COWL_PF_OBJ_PROP ubit_bit(COWL_PF, 2)
 
 /// Iterate over data properties.
-#define COWL_PF_DATA_PROP ubit_bit(COWL_PF, 2)
+#define COWL_PF_DATA_PROP ubit_bit(COWL_PF, 3)
 
 /// Iterate over annotation properties.
-#define COWL_PF_ANNOT_PROP ubit_bit(COWL_PF, 3)
+#define COWL_PF_ANNOT_PROP ubit_bit(COWL_PF, 4)
 
 /// Iterate over named individuals.
-#define COWL_PF_NAMED_IND ubit_bit(COWL_PF, 4)
+#define COWL_PF_NAMED_IND ubit_bit(COWL_PF, 5)
 
 /// Iterate over anonymous individuals.
-#define COWL_PF_ANON_IND ubit_bit(COWL_PF, 5)
-
-/// Iterate over datatypes.
-#define COWL_PF_DATATYPE ubit_bit(COWL_PF, 6)
+#define COWL_PF_ANON_IND ubit_bit(COWL_PF, 6)
 
 /// Iterate over IRIs.
 #define COWL_PF_IRI ubit_bit(COWL_PF, 7)
 
 /// Iterate over entities.
 #define COWL_PF_ENTITY                                                                             \
-    (COWL_PF_CLASS | COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP | COWL_PF_ANNOT_PROP |                   \
-     COWL_PF_NAMED_IND | COWL_PF_DATATYPE)
+    (COWL_PF_CLASS | COWL_PF_DATATYPE | COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP |                     \
+     COWL_PF_ANNOT_PROP | COWL_PF_NAMED_IND)
 
 /// @}
 

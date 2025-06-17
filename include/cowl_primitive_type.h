@@ -25,6 +25,9 @@ typedef enum CowlPrimitiveType {
     /// @type{CowlClass} - class.
     COWL_PT_CLASS,
 
+    /// @type{CowlDatatype} - datatype.
+    COWL_PT_DATATYPE,
+
     /// @type{CowlObjProp} - object property.
     COWL_PT_OBJ_PROP,
 
@@ -39,9 +42,6 @@ typedef enum CowlPrimitiveType {
 
     /// @type{CowlAnonInd} - anonymous individual.
     COWL_PT_ANON_IND,
-
-    /// @type{CowlDatatype} - datatype.
-    COWL_PT_DATATYPE,
 
     /// @type{CowlIRI} - IRI.
     COWL_PT_IRI,

@@ -28,6 +28,12 @@ typedef enum CowlCharAxiomType {
     /// Inverse functional object property.
     COWL_CAT_INV_FUNC,
 
+    /// Reflexive object property.
+    COWL_CAT_REFL,
+
+    /// Irreflexive object property.
+    COWL_CAT_IRREFL,
+
     /// Symmetric object property.
     COWL_CAT_SYMM,
 
@@ -36,12 +42,6 @@ typedef enum CowlCharAxiomType {
 
     /// Transitive object property.
     COWL_CAT_TRANS,
-
-    /// Reflexive object property.
-    COWL_CAT_REFL,
-
-    /// Irreflexive object property.
-    COWL_CAT_IRREFL,
 
     /// @name Markers
 

@@ -25,9 +25,6 @@ typedef enum CowlDataRangeType {
     /// @type{CowlDatatype} - Datatype.
     COWL_DRT_DATATYPE,
 
-    /// @type{CowlDatatypeRestr} - Datatype restriction.
-    COWL_DRT_DATATYPE_RESTR,
-
     /// @type{CowlNAryData} - Intersection of data ranges.
     COWL_DRT_DATA_INTERSECT,
 
@@ -39,6 +36,9 @@ typedef enum CowlDataRangeType {
 
     /// @type{CowlDataOneOf} - Enumeration of literals.
     COWL_DRT_DATA_ONE_OF,
+
+    /// @type{CowlDatatypeRestr} - Datatype restriction.
+    COWL_DRT_DATATYPE_RESTR,
 
     /// @name Markers
 
