@@ -79,11 +79,13 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
     if (!onto) return NULL;
 
     CowlSymTable *st = cowl_sym_table();
-    if (!st || cowl_manager_add_ontology(manager, onto)) goto err;
+    CowlVector *annot = cowl_vector_ordered_empty();
+    if (!(st && annot) || cowl_manager_add_ontology(manager, onto)) goto err;
 
     *onto = (CowlOntology){ 0 };
     onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
     onto->st = st;
+    onto->annot = annot;
     onto->manager = cowl_retain(manager);
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
@@ -94,6 +96,7 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
 
 err:
     cowl_release(st);
+    cowl_release(annot);
     ulib_free(onto);
     return NULL;
 }
@@ -148,7 +151,7 @@ CowlIRI *cowl_ontology_get_version(CowlOntology *onto) {
 }
 
 CowlVector *cowl_ontology_get_annot(CowlOntology *onto) {
-    return onto->annot ? onto->annot : (onto->annot = cowl_vector_ordered_empty());
+    return onto->annot;
 }
 
 ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports) {
@@ -597,7 +600,6 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
 }
 
 bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
-    if (!onto->annot) return false;
     return cowl_vector_remove(onto->annot, annot);
 }
 
@@ -758,7 +760,7 @@ end:
 
 cowl_ret cowl_ontology_finalize(CowlOntology *onto) {
     cowl_ret ret = COWL_ERR_MEM;
-    if (onto->annot && cowl_vector_shrink(onto->annot)) goto end;
+    if (cowl_vector_shrink(onto->annot)) goto end;
 
     for (CowlAxiomType t = COWL_AT_FIRST; t < COWL_AT_COUNT; ++t) {
         CowlVector *axioms = onto->axioms_by_type[t];
