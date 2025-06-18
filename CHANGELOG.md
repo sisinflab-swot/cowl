@@ -5,6 +5,41 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.3] - 2025-06-18
+### Added
+- Lazy resolution of imports (`CowlImportResolver`).
+- Automatic resolution of imported ontologies, if managed by the same `CowlManager` instance.
+- `cowl_manager_new_ontology`, `cowl_manager_retrieve_ontology`.
+- `cowl_ontology_set_manager`, `cowl_ontology_has_import`.
+- `cowl_iri_to_string`, `cowl_iri_to_ustring`.
+- `cowl_iterator_retain`, `cowl_iterator_release`.
+- `cowl_xml_vocab`.
+- `cowl_data_card_is_qualified`, `cowl_obj_card_is_qualified`.
+- `cowl_error_handler_free_ctx`, `cowl_reader_free_ctx`, `cowl_writer_free_ctx`.
+
+### Changed
+- Replaced `CowlImportLoader` with `CowlImportResolver`, reworking the import system.
+- Replaced `cowl_ontology_get_id` with `cowl_ontology_get_iri` and `cowl_ontology_get_version`.
+- Reworked `CowlReader` and `CowlWriter`, making them optionally stateful.
+- Signature of `cowl_get_reader`, `cowl_get_writer`, `cowl_get_error_handler`,
+  `cowl_manager_get_reader`, `cowl_manager_get_writer`, `cowl_manager_get_error_handler`.
+- Deprecated `cowl_manager_get_ontology` in favor of `cowl_manager_retrieve_ontology`
+  and `cowl_manager_new_ontology`.
+- Two `CowlOntology` objects are considered equal only if they are the same instance.
+- Fillers of cardinality restrictions can be NULL.
+
+### Removed
+- `CowlOntologyId`, not needed anymore due to the removal of `cowl_ontology_get_id`.
+- `cowl_get_import_loader`, `cowl_set_import_loader`, `cowl_manager_get_import_loader`,
+  `cowl_manager_set_import_loader`.
+- `cowl_ontology_get_import`, `cowl_ontology_get_import_iri`.
+
+### Fixed
+- `cowl_release_all` not releasing all operands if one is NULL.
+- Missing implementation for `cowl_obj_prop_exp_get_prop`.
+- Memory leak in `cowl_has_key_axiom`.
+
+
 ## [0.7.2] - 2024-07-10
 ### Added
 - Advanced ontology queries: `cowl_ontology_iterate_axioms_matching`,
@@ -409,6 +444,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.7.3]: https://github.com/sisinflab-swot/cowl/compare/v0.7.2...v0.7.3
 [0.7.2]: https://github.com/sisinflab-swot/cowl/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/sisinflab-swot/cowl/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/sisinflab-swot/cowl/compare/v0.6.2...v0.7.0
