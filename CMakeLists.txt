@@ -99,6 +99,7 @@ endif()
 
 option(ULIB_TINY "" ${COWL_EMBEDDED})
 option(ULIB_LTO "" ${COWL_LTO})
+option(ULIB_DOCS "" ${COWL_DOCS})
 
 if(NOT TARGET ulib)
     add_subdirectory("${COWL_ULIB_DIR}" EXCLUDE_FROM_ALL)

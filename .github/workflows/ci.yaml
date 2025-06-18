@@ -161,7 +161,5 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           pip install Sphinx sphinx-rtd-theme breathe
-          cmake -B ${{env.build_dir}} \
-                -DCOWL_DOCS=ON -DULIB_DOCS=ON \
-                -DCOWL_READERS=OFF -DCOWL_WRITERS=OFF
+          cmake -B ${{env.build_dir}} -DCOWL_DOCS=ON -DCOWL_READERS=OFF -DCOWL_WRITERS=OFF
           cmake --build ${{env.build_dir}} --target cowl-docs

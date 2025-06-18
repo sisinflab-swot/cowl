@@ -35,8 +35,8 @@ set(DOXYGEN_GENERATE_XML YES)
 set(DOXYGEN_MACRO_EXPANSION YES)
 set(DOXYGEN_PREDEFINED ${COWL_PUBLIC_DEFINES}
     "COWL_RETAINED=/** @note You must release the returned object via <tt>#cowl_release()</tt>. */"
-    "COWL_DEPRECATED(msg)=/** @@deprecated msg */"
-    "COWL_INLINE=")
+    "ULIB_DEPRECATED(msg)=/** @@deprecated msg */"
+    "ULIB_INLINE=")
 set(DOXYGEN_INCLUDE_PATH ${COWL_PUBLIC_HEADERS_DIRS} ${ULIB_PUBLIC_HEADERS_DIR})
 set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
 set(DOXYGEN_XML_OUTPUT_DIRECTORY "${DOXYGEN_OUTPUT_DIRECTORY}/xml")
