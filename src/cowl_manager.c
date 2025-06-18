@@ -52,19 +52,19 @@ void cowl_manager_free(CowlManager *manager) {
     ulib_free(manager);
 }
 
-CowlReader const *cowl_manager_get_reader(CowlManager *manager) {
+CowlReader *cowl_manager_get_reader(CowlManager *manager) {
     return manager->reader.name ? &manager->reader : cowl_get_reader();
 }
 
-CowlWriter const *cowl_manager_get_writer(CowlManager *manager) {
+CowlWriter *cowl_manager_get_writer(CowlManager *manager) {
     return manager->writer.name ? &manager->writer : cowl_get_writer();
 }
 
-CowlErrorHandler const *cowl_manager_get_error_handler(CowlManager *manager) {
+CowlErrorHandler *cowl_manager_get_error_handler(CowlManager *manager) {
     return manager->handler.handle_error ? &manager->handler : cowl_get_error_handler();
 }
 
-CowlImportResolver const *cowl_manager_get_import_resolver(CowlManager *manager) {
+CowlImportResolver *cowl_manager_get_import_resolver(CowlManager *manager) {
     return &manager->resolver;
 }
 

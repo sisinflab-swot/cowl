@@ -59,7 +59,7 @@ void cowl_deinit(void);
  * @return The default reader.
  */
 COWL_API
-CowlReader const *cowl_get_reader(void);
+CowlReader *cowl_get_reader(void);
 
 /**
  * Sets the default reader.
@@ -77,7 +77,7 @@ void cowl_set_reader(CowlReader reader);
  * @return The default writer.
  */
 COWL_API
-CowlWriter const *cowl_get_writer(void);
+CowlWriter *cowl_get_writer(void);
 
 /**
  * Sets the default writer.
@@ -95,7 +95,7 @@ void cowl_set_writer(CowlWriter writer);
  * @return The global error handler.
  */
 COWL_API
-CowlErrorHandler const *cowl_get_error_handler(void);
+CowlErrorHandler *cowl_get_error_handler(void);
 
 /**
  * Sets the global error handler.

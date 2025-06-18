@@ -64,7 +64,7 @@ void cowl_deinit(void) {
     cowl_initialized = false;
 }
 
-CowlErrorHandler const *cowl_get_error_handler(void) {
+CowlErrorHandler *cowl_get_error_handler(void) {
     return &global_error_handler;
 }
 
@@ -73,7 +73,7 @@ void cowl_set_error_handler(CowlErrorHandler handler) {
     global_error_handler = handler;
 }
 
-CowlReader const *cowl_get_reader(void) {
+CowlReader *cowl_get_reader(void) {
     return &global_reader;
 }
 
@@ -82,7 +82,7 @@ void cowl_set_reader(CowlReader reader) {
     global_reader = reader;
 }
 
-CowlWriter const *cowl_get_writer(void) {
+CowlWriter *cowl_get_writer(void) {
     return &global_writer;
 }
 
