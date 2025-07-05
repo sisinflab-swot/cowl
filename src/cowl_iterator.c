@@ -21,7 +21,10 @@ static bool for_each_store_vec(void *vec, CowlAny *obj) {
 }
 
 static bool for_each_store_vec_retain(void *vec, CowlAny *obj) {
-    return ulib_is_ok(uvec_push(CowlObjectPtr, vec, cowl_retain(obj)));
+    ulib_ret const ret = uvec_push(CowlObjectPtr, vec, obj);
+    if (ulib_is_err(ret)) return false;
+    cowl_retain(obj);
+    return true;
 }
 
 static bool for_each_store_set(void *set, CowlAny *obj) {
@@ -29,7 +32,10 @@ static bool for_each_store_set(void *set, CowlAny *obj) {
 }
 
 static bool for_each_store_set_retain(void *set, CowlAny *obj) {
-    return ulib_is_ok(uhset_insert(CowlObjectTable, set, cowl_retain(obj)));
+    ulib_ret const ret = uhset_insert(CowlObjectTable, set, obj);
+    if (ulib_is_err(ret)) return false;
+    if (ret == ULIB_OK) cowl_retain(obj);
+    return true;
 }
 
 static bool for_each_count(void *count, cowl_unused CowlAny *obj) {

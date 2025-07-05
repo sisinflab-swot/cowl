@@ -85,7 +85,7 @@ bool cowl_iterator_call(CowlIterator const *iter, CowlAny *object) {
  * Initializes an iterator that stores objects in the specified vector.
  *
  * @param[out] vec Vector.
- * @param retain If true, elements are retained.
+ * @param retain If true, elements added to the vector are retained.
  * @return Initialized iterator.
  *
  * @note When using this iterator, iterator functions return false on error,
@@ -98,7 +98,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
  * Initializes an iterator that stores objects in the specified set.
  *
  * @param[out] set Set.
- * @param retain If true, elements are retained.
+ * @param retain If true, elements added to the set are retained.
  * @return Initialized iterator.
  *
  * @note When using this iterator, iterator functions return false on error,
