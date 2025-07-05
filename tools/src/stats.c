@@ -29,7 +29,7 @@ typedef struct Stat {
     ulib_uint value;
 } Stat;
 
-UVEC_INIT(Stat);
+UVEC_INIT(Stat)
 
 typedef struct Format {
     char const *name;

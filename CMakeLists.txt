@@ -83,7 +83,7 @@ list(APPEND COWL_PRIVATE_DEFINES
 if(MSVC)
     set(COWL_WARNING_OPTIONS /W3 /wd4996)
 else()
-    set(COWL_WARNING_OPTIONS -Wall -Wextra)
+    set(COWL_WARNING_OPTIONS -Wall -Wextra -Wpedantic)
 endif()
 
 if(COWL_LTO)
