@@ -80,17 +80,16 @@ cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom) {
 }
 
 cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream) {
-    if (istream->state) return cowl_handle_stream_error(istream->state, stream);
+    if (ulib_is_err(istream->state)) return cowl_handle_ulib_error(istream->state, stream);
     CowlReader const *r = cowl_manager_get_reader(stream->manager);
-    cowl_ret ret = r->read(r->ctx, istream, stream);
-    if (ret) cowl_handle_error_code(ret, stream);
-    return ret;
+    cowl_ret const ret = r->read(r->ctx, istream, stream);
+    return cowl_handle_error_code(ret, stream);
 }
 
 static cowl_ret cowl_istream_process_stream_deinit(CowlIStream *stream, UIStream *istream) {
     cowl_ret ret = cowl_istream_process_stream(stream, istream);
-    ustream_ret s_ret = uistream_deinit(istream);
-    if (ret == COWL_OK && s_ret) ret = cowl_handle_stream_error(s_ret, stream);
+    ulib_ret const s_ret = uistream_deinit(istream);
+    if (ret == COWL_OK) ret = cowl_handle_ulib_error(s_ret, stream);
     return ret;
 }
 

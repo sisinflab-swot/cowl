@@ -42,34 +42,34 @@ void cowl_writer_free_ctx(CowlWriter *writer) {
 cowl_ret cowl_write(UOStream *stream, CowlAny *object) {
     CowlWriter const *w = cowl_get_writer();
     if (cowl_writer_can_write_object(w)) return w->write(w->ctx, stream, object);
-    return cowl_ret_from_ustream(cowl_write_debug(stream, object));
+    return cowl_write_debug(stream, object);
 }
 
-ustream_ret cowl_write_debug(UOStream *s, CowlAny *obj) {
+cowl_ret cowl_write_debug(UOStream *s, CowlAny *obj) {
     uostream_writef(s, NULL, "<CowlObject %p, type ", obj);
     cowl_write_object_type(s, cowl_get_type(obj));
     cowl_write_static(s, ", ref ");
     cowl_write_uint(s, cowl_object_get_ref(obj));
     cowl_write_static(s, ">");
-    return s->state;
+    return cowl_ret_from_ulib(s->state);
 }
 
-ustream_ret cowl_write_string(UOStream *stream, CowlString *string) {
+ulib_ret cowl_write_string(UOStream *stream, CowlString *string) {
     return uostream_write_string(stream, cowl_string_get_raw(string), NULL);
 }
 
-ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri) {
+ulib_ret cowl_write_iri(UOStream *stream, CowlIRI *iri) {
     cowl_write_string(stream, cowl_iri_get_ns(iri));
     cowl_write_string(stream, cowl_iri_get_rem(iri));
     return stream->state;
 }
 
-ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint) {
+ulib_ret cowl_write_uint(UOStream *stream, ulib_uint uint) {
     char buf[UINT_MAX_DIGITS + 1];
     return uostream_write(stream, buf, cowl_str_from_uint(uint, buf), NULL);
 }
 
-ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
+ulib_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
     UString val = cowl_object_type_to_ustring(type);
     cowl_write_ustring(s, &val);
 
@@ -82,7 +82,7 @@ ustream_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
     return s->state;
 }
 
-ustream_ret cowl_write_error(UOStream *s, CowlError const *error) {
+ulib_ret cowl_write_error(UOStream *s, CowlError const *error) {
     cowl_write_static(s, "Error ");
     cowl_write_uint(s, error->code);
 

@@ -228,8 +228,6 @@ bool cowl_writer_can_write_ontology(CowlWriter const *writer) {
 COWL_API
 cowl_ret cowl_write(UOStream *stream, CowlAny *object);
 
-// Low-level write functions
-
 /**
  * Writes a debug representation of an object to the specified output stream.
  *
@@ -238,7 +236,9 @@ cowl_ret cowl_write(UOStream *stream, CowlAny *object);
  * @return Return code.
  */
 COWL_API
-ustream_ret cowl_write_debug(UOStream *stream, CowlAny *object);
+cowl_ret cowl_write_debug(UOStream *stream, CowlAny *object);
+
+// Low-level write functions
 
 /**
  * Writes a string to the specified output stream.
@@ -248,7 +248,7 @@ ustream_ret cowl_write_debug(UOStream *stream, CowlAny *object);
  * @return Return code.
  */
 COWL_API
-ustream_ret cowl_write_string(UOStream *stream, CowlString *string);
+ulib_ret cowl_write_string(UOStream *stream, CowlString *string);
 
 /**
  * Writes an IRI to the specified output stream.
@@ -261,7 +261,7 @@ ustream_ret cowl_write_string(UOStream *stream, CowlString *string);
  *       without any additional markup (e.g. angle brackets).
  */
 COWL_API
-ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
+ulib_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
 
 /**
  * Writes the object type to the specified output stream.
@@ -271,7 +271,7 @@ ustream_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
  * @return Return code.
  */
 COWL_API
-ustream_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
+ulib_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
 
 /**
  * Writes an unsigned integer to the specified output stream.
@@ -281,7 +281,7 @@ ustream_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
  * @return Return code.
  */
 COWL_API
-ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
+ulib_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
 
 /**
  * Writes an human readable representation of an error to the specified output stream.
@@ -291,7 +291,7 @@ ustream_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
  * @return Return code.
  */
 COWL_API
-ustream_ret cowl_write_error(UOStream *stream, CowlError const *error);
+ulib_ret cowl_write_error(UOStream *stream, CowlError const *error);
 
 /**
  * Writes a string to the specified output stream.
@@ -301,7 +301,7 @@ ustream_ret cowl_write_error(UOStream *stream, CowlError const *error);
  * @return Return code.
  */
 COWL_INLINE
-ustream_ret cowl_write_ustring(UOStream *stream, UString const *string) {
+ulib_ret cowl_write_ustring(UOStream *stream, UString const *string) {
     return uostream_write_string(stream, string, NULL);
 }
 
@@ -313,8 +313,8 @@ ustream_ret cowl_write_ustring(UOStream *stream, UString const *string) {
  * @return Return code.
  */
 COWL_INLINE
-ustream_ret cowl_write_cstring(UOStream *stream, char const *string) {
-    return uostream_write(stream, string, strlen(string), NULL);
+ulib_ret cowl_write_cstring(UOStream *stream, char const *string) {
+    return uostream_write_buf(stream, string, NULL);
 }
 
 /**

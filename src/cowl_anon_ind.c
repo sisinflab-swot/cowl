@@ -65,11 +65,11 @@ void cowl_anon_ind_free(CowlAnonInd *ind) {
 static CowlAnonInd *anon_ind(CowlString *id, bool copy_id) {
     ulib_uint idx;
     CowlAnonInd key = { .id = id };
-    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
 
     CowlAnonInd *val = NULL;
 
-    if (ret == UHASH_INSERTED) {
+    if (ret == ULIB_OK) {
         if (copy_id) {
             val = anon_ind_alloc(id = cowl_string_copy(id));
             cowl_release(id);
@@ -82,7 +82,7 @@ static CowlAnonInd *anon_ind(CowlString *id, bool copy_id) {
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }
-    } else if (ret == UHASH_PRESENT) {
+    } else if (ret == ULIB_NO) {
         val = uhash_key(CowlObjectTable, &inst_tbl, idx);
         cowl_object_incr_ref(val);
     }
@@ -95,18 +95,18 @@ static CowlAnonInd *anon_ind_generate(void) {
     if (ustring_is_null(id)) return NULL;
 
     ulib_uint i;
-    uhash_ret ret;
+    ulib_ret ret;
     CowlString id_str = cowl_string_init(id);
     CowlAnonInd key = { .id = &id_str };
 
-    while ((ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &i)) == UHASH_PRESENT) {
+    while ((ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &i)) == ULIB_NO) {
         ustring_deinit(&id);
         id = generate_id();
         if (ustring_is_null(id)) return NULL;
         id_str = cowl_string_init(id);
     }
 
-    if (ret == UHASH_ERR) {
+    if (ulib_is_err(ret)) {
         ustring_deinit(&id);
         return NULL;
     }

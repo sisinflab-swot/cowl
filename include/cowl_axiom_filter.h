@@ -53,7 +53,7 @@ typedef struct CowlAxiomFilter {
 COWL_CONST
 COWL_INLINE
 CowlAxiomFilter cowl_axiom_filter(CowlAxiomFlags types) {
-    CowlAxiomFilter ret = { types, uvec(CowlObjectPtr), ulib_struct_init };
+    CowlAxiomFilter ret = { types, uvec(CowlObjectPtr), ulib_zero_init };
     return ret;
 }
 
@@ -101,9 +101,10 @@ void cowl_axiom_filter_remove_type(CowlAxiomFilter *filter, CowlAxiomType type) 
  */
 COWL_INLINE
 cowl_ret cowl_axiom_filter_add_primitive(CowlAxiomFilter *filter, CowlAnyPrimitive *primitive) {
-    uvec_ret ret = uvec_push_unique(CowlObjectPtr, &filter->primitives, primitive);
-    if (ret == UVEC_OK) cowl_retain(primitive);
-    return ret == UVEC_ERR ? COWL_ERR_MEM : COWL_OK;
+    ulib_ret const ret = uvec_push_unique(CowlObjectPtr, &filter->primitives, primitive);
+    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
+    if (ret == ULIB_OK) cowl_retain(primitive);
+    return COWL_OK;
 }
 
 /**

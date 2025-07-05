@@ -43,13 +43,9 @@ static CowlString *cowl_string_get_intern(UString raw_string, bool copy) {
     CowlString key = cowl_string_init(raw_string);
 
     ulib_uint idx;
-    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
 
-    if (ret == UHASH_PRESENT) {
-        string = uhash_key(CowlObjectTable, &inst_tbl, idx);
-        cowl_retain(string);
-        if (!copy) ustring_deinit(&raw_string);
-    } else if (ret == UHASH_INSERTED) {
+    if (ret == ULIB_OK) {
         string = cowl_string_get(raw_string, copy);
         if (string) {
             cowl_object_bit_set(string);
@@ -57,8 +53,12 @@ static CowlString *cowl_string_get_intern(UString raw_string, bool copy) {
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }
-    } else if (!copy) {
-        ustring_deinit(&raw_string);
+    } else {
+        if (ret == ULIB_NO) {
+            string = uhash_key(CowlObjectTable, &inst_tbl, idx);
+            cowl_retain(string);
+        }
+        if (!copy) ustring_deinit(&raw_string);
     }
 
     return string;
@@ -89,11 +89,11 @@ CowlString *cowl_string_intern(CowlString *string) {
     if (!ustring_length(string->raw_string)) return empty;
 
     ulib_uint idx;
-    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, string, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, string, &idx);
 
-    if (ret == UHASH_INSERTED) {
+    if (ret == ULIB_OK) {
         cowl_object_bit_set(string);
-    } else if (ret == UHASH_PRESENT) {
+    } else if (ret == ULIB_NO) {
         string = uhash_key(CowlObjectTable, &inst_tbl, idx);
     } else {
         string = NULL;

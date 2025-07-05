@@ -66,7 +66,7 @@ static CowlEntity *cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
 
 #if COWL_ENTITY_IDS
     entity->id = uvec_count(CowlObjectPtr, &id_map);
-    if (uvec_push(CowlObjectPtr, &id_map, entity) != UVEC_OK) {
+    if (ulib_is_err(uvec_push(CowlObjectPtr, &id_map, entity))) {
         ulib_free(entity);
         return NULL;
     }
@@ -88,18 +88,18 @@ CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     if (!iri) return NULL;
     ulib_uint idx;
     CowlEntity key = { .super = COWL_OBJECT_INIT(type), .iri = iri };
-    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
 
     CowlEntity *entity = NULL;
 
-    if (ret == UHASH_INSERTED) {
+    if (ret == ULIB_OK) {
         entity = cowl_entity_alloc(type, iri);
         if (entity) {
             uhash_key(CowlObjectTable, &inst_tbl, idx) = entity;
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }
-    } else if (ret == UHASH_PRESENT) {
+    } else if (ret == ULIB_NO) {
         entity = uhash_key(CowlObjectTable, &inst_tbl, idx);
         cowl_object_incr_ref(entity);
     }

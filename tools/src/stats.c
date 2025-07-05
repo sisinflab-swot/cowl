@@ -33,10 +33,10 @@ UVEC_INIT(Stat);
 
 typedef struct Format {
     char const *name;
-    ustream_ret (*write)(UOStream *, UVec(Stat) const *);
+    ulib_ret (*write)(UOStream *, UVec(Stat) const *);
 } Format;
 
-static ustream_ret write_human(UOStream *stream, UVec(Stat) const *stats) {
+static ulib_ret write_human(UOStream *stream, UVec(Stat) const *stats) {
     uvec_foreach (Stat, stats, stat) {
         cowl_write_ustring(stream, &stat.item->name);
         cowl_write_static(stream, ": ");
@@ -46,7 +46,7 @@ static ustream_ret write_human(UOStream *stream, UVec(Stat) const *stats) {
     return stream->state;
 }
 
-static ustream_ret write_csv_header(UOStream *stream, UVec(Stat) const *stats) {
+static ulib_ret write_csv_header(UOStream *stream, UVec(Stat) const *stats) {
     cowl_write_ustring(stream, &uvec_get(Stat, stats, 0).name);
     UVec(Stat) remaining = uvec_view_from(Stat, stats, 1);
     uvec_foreach (Stat, &remaining, stat) {
@@ -57,7 +57,7 @@ static ustream_ret write_csv_header(UOStream *stream, UVec(Stat) const *stats) {
     return stream->state;
 }
 
-static ustream_ret write_csv_no_header(UOStream *stream, UVec(Stat) const *stats) {
+static ulib_ret write_csv_no_header(UOStream *stream, UVec(Stat) const *stats) {
     cowl_write_uint(stream, uvec_get(Stat, stats, 0).value);
     UVec(Stat) remaining = uvec_view_from(Stat, stats, 1);
     uvec_foreach (Stat, &remaining, stat) {
@@ -68,7 +68,7 @@ static ustream_ret write_csv_no_header(UOStream *stream, UVec(Stat) const *stats
     return stream->state;
 }
 
-static ustream_ret write_csv(UOStream *stream, UVec(Stat) const *stats) {
+static ulib_ret write_csv(UOStream *stream, UVec(Stat) const *stats) {
     write_csv_header(stream, stats);
     write_csv_no_header(stream, stats);
     return stream->state;

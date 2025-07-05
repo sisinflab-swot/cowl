@@ -56,9 +56,6 @@ typedef enum cowl_ret {
     /// Syntax error.
     COWL_ERR_SYNTAX,
 
-    /// Import error.
-    COWL_ERR_IMPORT,
-
     /// @name Markers
 
     /// Number of enum values.
@@ -70,34 +67,14 @@ typedef enum cowl_ret {
 } cowl_ret;
 
 /**
- * Converts @type{ustream_ret} into @type{cowl_ret}.
+ * Converts @type{ulib_ret} into @type{cowl_ret}.
  *
  * @param ret Return code.
  * @return Return value.
  */
 COWL_API
 COWL_CONST
-cowl_ret cowl_ret_from_ustream(ustream_ret ret);
-
-/**
- * Converts @type{uvec_ret} into @type{cowl_ret}.
- *
- * @param ret Return code.
- * @return Return value.
- */
-COWL_API
-COWL_CONST
-cowl_ret cowl_ret_from_uvec(uvec_ret ret);
-
-/**
- * Converts @type{uhash_ret} into @type{cowl_ret}.
- *
- * @param ret Return code.
- * @return Return value.
- */
-COWL_API
-COWL_CONST
-cowl_ret cowl_ret_from_uhash(uhash_ret ret);
+cowl_ret cowl_ret_from_ulib(ulib_ret ret);
 
 /**
  * Returns a human-readable string representation of the specified return value.

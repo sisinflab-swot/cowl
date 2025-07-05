@@ -57,7 +57,7 @@ void cowl_test_manager_read_ontology(void) {
     CowlOntology *import = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
 
     ulib_uint count = 0;
-    CowlIStreamHandlers handlers = ulib_struct_init;
+    CowlIStreamHandlers handlers = ulib_zero_init;
     handlers.ctx = &count;
     handlers.axiom = count_axiom;
     handlers.import = count_import;
@@ -68,9 +68,9 @@ void cowl_test_manager_read_ontology(void) {
     utest_assert_uint(ret, ==, COWL_OK);
 
     UOStream ostream;
-    utest_assert_fatal(uostream_to_path(&ostream, ustring_data(log_path)) == USTREAM_OK);
+    utest_assert_fatal(uostream_to_path(&ostream, ustring_data(log_path)) == ULIB_OK);
 
-    CowlErrorHandler handler = ulib_struct_init;
+    CowlErrorHandler handler = ulib_zero_init;
     handler.ctx = &ostream;
     handler.handle_error = cowl_test_manager_write_error;
     cowl_manager_set_error_handler(manager, handler);
@@ -144,7 +144,7 @@ static inline bool diff_imports(CowlOntology *a, CowlOntology *b, CowlOntology *
     iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_import_iris(b, &iter, false);
 
-    uhset_diff_intersect(CowlObjectTable, &a_set, NULL, &b_set);
+    uhset_diff(CowlObjectTable, &a_set, &b_set, NULL);
     uhash_foreach (CowlObjectTable, &a_set, i) {
         cowl_ontology_add_import(diff, (CowlIRI *)*i.key);
         different = true;
@@ -168,7 +168,7 @@ static inline bool diff_axioms(CowlOntology *a, CowlOntology *b, CowlOntology *d
     iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_axioms(b, &iter, false);
 
-    uhset_diff_intersect(CowlObjectTable, &a_set, NULL, &b_set);
+    uhset_diff(CowlObjectTable, &a_set, &b_set, NULL);
     uhash_foreach (CowlObjectTable, &a_set, i) {
         cowl_ontology_add_axiom(diff, *i.key);
         different = true;

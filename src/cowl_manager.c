@@ -70,10 +70,10 @@ CowlImportResolver *cowl_manager_get_import_resolver(CowlManager *manager) {
 
 static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStream *istream) {
     CowlOntology *onto = cowl_manager_read_stream(manager, istream);
-    ustream_ret ret = uistream_deinit(istream);
+    ulib_ret const ret = uistream_deinit(istream);
 
-    if (ret) {
-        cowl_handle_stream_error(ret, manager);
+    if (ulib_is_err(ret)) {
+        cowl_handle_ulib_error(ret, manager);
         cowl_release(onto);
         return NULL;
     }
@@ -84,8 +84,8 @@ static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStr
 static cowl_ret
 cowl_manager_write_stream_deinit(CowlManager *manager, CowlOntology *onto, UOStream *stream) {
     cowl_manager_write_stream(manager, onto, stream);
-    ustream_ret ret = uostream_deinit(stream);
-    return ret ? cowl_handle_stream_error(ret, manager) : COWL_OK;
+    ulib_ret const ret = uostream_deinit(stream);
+    return cowl_handle_ulib_error(ret, manager);
 }
 
 CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path) {
@@ -109,8 +109,8 @@ CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *stri
 }
 
 CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *istream) {
-    if (istream->state) {
-        cowl_handle_stream_error(istream->state, manager);
+    if (ulib_is_err(istream->state)) {
+        cowl_handle_ulib_error(istream->state, manager);
         return NULL;
     }
 
@@ -156,7 +156,7 @@ cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *onto, USt
 }
 
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *onto, UOStream *stream) {
-    if (stream->state) return cowl_handle_stream_error(stream->state, manager);
+    if (ulib_is_err(stream->state)) return cowl_handle_ulib_error(stream->state, manager);
     CowlOStream *ostream = cowl_manager_get_ostream(manager, stream);
     cowl_ret ret = cowl_ostream_write_ontology(ostream, onto);
     cowl_release(ostream);

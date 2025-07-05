@@ -71,18 +71,18 @@ CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
 
     ulib_uint idx;
     CowlIRI key = { .ns = ns, .rem = rem };
-    uhash_ret ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
 
     CowlIRI *val = NULL;
 
-    if (ret == UHASH_INSERTED) {
+    if (ret == ULIB_OK) {
         val = cowl_iri_alloc(ns, rem);
         if (val) {
             uhash_key(CowlObjectTable, &inst_tbl, idx) = val;
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }
-    } else if (ret == UHASH_PRESENT) {
+    } else if (ret == ULIB_NO) {
         val = uhash_key(CowlObjectTable, &inst_tbl, idx);
         cowl_object_incr_ref(val);
     }
@@ -176,7 +176,7 @@ CowlString *cowl_iri_to_string(CowlIRI *iri) {
 }
 
 static cowl_ret write_iri(UOStream *stream, CowlAny *iri) {
-    return cowl_ret_from_ustream(cowl_write_iri(stream, iri));
+    return cowl_ret_from_ulib(cowl_write_iri(stream, iri));
 }
 
 UString cowl_iri_to_ustring(CowlIRI *iri) {

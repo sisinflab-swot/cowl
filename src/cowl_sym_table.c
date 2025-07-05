@@ -43,9 +43,8 @@ static cowl_ret cowl_update_reverse_map(CowlSymTable *st) {
     CowlTable *h2 = st->ns_prefix_map;
 
     cowl_table_foreach (h1, e) {
-        if (uhmap_set(CowlObjectTable, &h2->data, *e.val, *e.key, NULL) == UHASH_ERR) {
-            return COWL_ERR_MEM;
-        }
+        ulib_ret const ret = uhmap_set(CowlObjectTable, &h2->data, *e.val, *e.key, NULL);
+        if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
     }
 
     cowl_sym_table_set_clean(st);
@@ -111,10 +110,10 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
     if (!(table && (ns = cowl_string_intern(ns)))) return COWL_ERR_MEM;
 
     ulib_uint i;
-    uhash_ret ret = uhash_put(CowlObjectTable, &table->data, prefix, &i);
-    if (ret == UHASH_ERR) return COWL_ERR_MEM;
+    ulib_ret const ret = uhash_put(CowlObjectTable, &table->data, prefix, &i);
+    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
-    if (ret == UHASH_PRESENT) {
+    if (ret == ULIB_NO) {
         if (!overwrite) return COWL_OK;
         // Mapping present, overwrite mapped namespace unless the prefix is reserved
         if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_ERR;
@@ -139,10 +138,10 @@ cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns,
     CowlString key = cowl_string_init(prefix);
 
     ulib_uint i;
-    uhash_ret ret = uhash_put(CowlObjectTable, &table->data, &key, &i);
-    if (ret == UHASH_ERR) return COWL_ERR_MEM;
+    ulib_ret const ret = uhash_put(CowlObjectTable, &table->data, &key, &i);
+    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
-    if (ret == UHASH_PRESENT) {
+    if (ret == ULIB_NO) {
         if (!overwrite) return COWL_OK;
         // Mapping present, overwrite mapped namespace unless the prefix is reserved
         if (cowl_vocab_is_reserved_prefix_raw(prefix)) return COWL_ERR;

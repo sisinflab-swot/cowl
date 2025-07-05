@@ -307,12 +307,8 @@ CowlString *cowl_to_debug_string(CowlAny *object) {
     return cowl_string(cowl_to_debug_ustring(object));
 }
 
-static cowl_ret write_debug(UOStream *stream, CowlAny *object) {
-    return cowl_ret_from_ustream(cowl_write_debug(stream, object));
-}
-
 UString cowl_to_debug_ustring(CowlAny *object) {
-    return cowl_object_to_ustring_impl(object, write_debug);
+    return cowl_object_to_ustring_impl(object, cowl_write_debug);
 }
 
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {

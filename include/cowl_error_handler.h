@@ -87,19 +87,29 @@ cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc lo
  * @param code Error code.
  * @param origin Object that originated the error.
  * @return Error code.
+ *
+ * @note If `code` is @val{COWL_OK}, this function does nothing and returns @val{COWL_OK}.
  */
-COWL_API
-cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin);
+COWL_INLINE
+cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin) {
+    if (ulib_likely(code == COWL_OK)) return COWL_OK;
+    return cowl_handle_error(code, ustring_empty, origin);
+}
 
 /**
- * Handles an IO stream error via the most specific error handler available.
+ * Handles an uLib error of the specified type via the most specific error handler available.
  *
  * @param code Error code.
  * @param origin Object that originated the error.
  * @return Error code.
+ *
+ * @note If `code` is not an error, this function does nothing and returns @val{COWL_OK}.
  */
-COWL_API
-cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin);
+COWL_INLINE
+cowl_ret cowl_handle_ulib_error(ulib_ret code, CowlAny *origin) {
+    if (ulib_is_ok(code)) return COWL_OK;
+    return cowl_handle_error(cowl_ret_from_ulib(code), ustring_empty, origin);
+}
 
 /**
  * Handles an error triggered while accessing the file at the specified path.

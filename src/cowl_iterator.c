@@ -17,19 +17,19 @@
 #include "ulib.h"
 
 static bool for_each_store_vec(void *vec, CowlAny *obj) {
-    return uvec_push(CowlObjectPtr, vec, obj) != UVEC_ERR;
+    return ulib_is_ok(uvec_push(CowlObjectPtr, vec, obj));
 }
 
 static bool for_each_store_vec_retain(void *vec, CowlAny *obj) {
-    return uvec_push(CowlObjectPtr, vec, cowl_retain(obj)) != UVEC_ERR;
+    return ulib_is_ok(uvec_push(CowlObjectPtr, vec, cowl_retain(obj)));
 }
 
 static bool for_each_store_set(void *set, CowlAny *obj) {
-    return uhset_insert(CowlObjectTable, set, obj) != UHASH_ERR;
+    return ulib_is_ok(uhset_insert(CowlObjectTable, set, obj));
 }
 
 static bool for_each_store_set_retain(void *set, CowlAny *obj) {
-    return uhset_insert(CowlObjectTable, set, cowl_retain(obj)) != UHASH_ERR;
+    return ulib_is_ok(uhset_insert(CowlObjectTable, set, cowl_retain(obj)));
 }
 
 static bool for_each_count(void *count, cowl_unused CowlAny *obj) {

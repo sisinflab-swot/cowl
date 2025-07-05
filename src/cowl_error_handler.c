@@ -92,14 +92,6 @@ cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc lo
     return COWL_ERR_SYNTAX;
 }
 
-cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin) {
-    return cowl_handle_error(code, ustring_empty, origin);
-}
-
-cowl_ret cowl_handle_stream_error(ustream_ret code, CowlAny *origin) {
-    return cowl_handle_error_code(cowl_ret_from_ustream(code), origin);
-}
-
 cowl_ret cowl_handle_path_error(UString path, UString reason, CowlAny *origin) {
     UString comp[] = { reason, ustring_literal(" "), path };
     UString desc = ustring_concat(comp, ulib_array_count(comp));

@@ -566,20 +566,16 @@ typedef struct CowlAxiomCtx {
 
 static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjectTable) *map) {
     ulib_uint idx;
-    uhash_ret ret = uhash_put(CowlObjectTable, map, primitive, &idx);
-    if (ret == UHASH_ERR) return COWL_ERR_MEM;
-
-    if (ret == UHASH_INSERTED) {
-        uhash_value(CowlObjectTable, map, idx) = NULL;
-    }
-
+    ulib_ret const ret = uhash_put(CowlObjectTable, map, primitive, &idx);
+    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
+    if (ret == ULIB_OK) uhash_value(CowlObjectTable, map, idx) = NULL;
     return COWL_OK;
 }
 
 static bool cowl_ontology_primitive_adder(void *ctx, CowlAny *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
     UHash(CowlObjectTable) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
-    cowl_ret ret = cowl_add_primitive_to_map(obj, map);
+    cowl_ret const ret = cowl_add_primitive_to_map(obj, map);
     axiom_ctx->ret = ret;
     return ret == COWL_OK;
 }
@@ -595,8 +591,7 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
     CowlIterator iter = { &ctx, cowl_ontology_primitive_adder };
     cowl_iterate_primitives(annot, COWL_PF_ALL, &iter);
     if (!(ret = ctx.ret)) ret = cowl_vector_ptr_add(&onto->annot, annot);
-    if (ret) cowl_handle_error_code(ret, onto);
-    return ret;
+    return cowl_handle_error_code(ret, onto);
 }
 
 bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
@@ -625,12 +620,12 @@ bool cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
 static inline cowl_ret
 cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
     ulib_uint idx;
-    uhash_ret ret = uhash_put(CowlObjectTable, map, primitive, &idx);
-    if (ret == UHASH_ERR) return COWL_ERR_MEM;
+    ulib_ret const ret = uhash_put(CowlObjectTable, map, primitive, &idx);
+    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
     CowlVector *vec = uhash_value(CowlObjectTable, map, idx);
 
-    if (ret == UHASH_INSERTED || !vec) {
+    if (ret == ULIB_OK || !vec) {
         vec = cowl_vector_ordered_empty();
         uhash_value(CowlObjectTable, map, idx) = vec;
         if (!vec) return COWL_ERR_MEM;
@@ -658,12 +653,10 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
 
     cowl_iterate_primitives(axiom, COWL_PF_ALL, &iter);
     if ((ret = ctx.ret)) goto end;
-
     ret = cowl_vector_ptr_add(&onto->axioms_by_type[cowl_axiom_get_type(axiom)], axiom);
 
 end:
-    if (ret) cowl_handle_error_code(ret, onto);
-    return ret;
+    return cowl_handle_error_code(ret, onto);
 }
 
 static inline void
@@ -777,6 +770,5 @@ cowl_ret cowl_ontology_finalize(CowlOntology *onto) {
     ret = COWL_OK;
 
 end:
-    if (ret) cowl_handle_error_code(ret, onto);
-    return ret;
+    return cowl_handle_error_code(ret, onto);
 }

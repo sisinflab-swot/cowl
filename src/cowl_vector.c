@@ -23,7 +23,7 @@
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
 CowlVector *cowl_vector(UVec(CowlObjectPtr) *data) {
-    if (data && uvec_shrink(CowlObjectPtr, data) != UVEC_OK) return NULL;
+    if (data && ulib_is_err(uvec_shrink(CowlObjectPtr, data))) return NULL;
 
     CowlVector *vec = ulib_alloc(vec);
     if (!vec) return NULL;
@@ -126,15 +126,19 @@ cowl_ret cowl_vector_reserve(CowlVector *vec, ulib_uint capacity) {
 }
 
 cowl_ret cowl_vector_add(CowlVector *vec, CowlAny *object) {
-    if (uvec_push(CowlObjectPtr, &vec->data, object)) return COWL_ERR_MEM;
+    ulib_ret const ret = uvec_push(CowlObjectPtr, &vec->data, object);
+    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
     cowl_retain(object);
     return COWL_OK;
 }
 
 cowl_ret cowl_vector_push(CowlVector *vec, CowlAny *object) {
-    if (uvec_push(CowlObjectPtr, &vec->data, object) == UVEC_OK) return COWL_OK;
-    cowl_release(object);
-    return COWL_ERR_MEM;
+    ulib_ret const ret = uvec_push(CowlObjectPtr, &vec->data, object);
+    if (ulib_is_err(ret)) {
+        cowl_release(object);
+        return cowl_ret_from_ulib(ret);
+    }
+    return COWL_OK;
 }
 
 bool cowl_vector_remove(CowlVector *vec, CowlAny *object) {

@@ -75,41 +75,25 @@ static cowl_ret handle_stream_writer_not_implemented(CowlOStream *stream, char c
 cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader header) {
     CowlWriter const *w = cowl_manager_get_writer(stream->manager);
     CowlStreamWriter sw = w->stream;
-
-    if (!sw.write_header) {
-        return handle_stream_writer_not_implemented(stream, w->name);
-    }
-
-    cowl_ret ret;
-    ret = sw.write_header((CowlStreamState){ w->ctx, stream->st }, stream->stream, header);
-    if (ret) cowl_handle_error_code(ret, stream);
-    return ret;
+    if (!sw.write_header) return handle_stream_writer_not_implemented(stream, w->name);
+    cowl_ret ret = sw.write_header((CowlStreamState){ w->ctx, stream->st }, stream->stream, header);
+    return cowl_handle_error_code(ret, stream);
 }
 
 cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom) {
     CowlWriter const *w = cowl_manager_get_writer(stream->manager);
     CowlStreamWriter sw = w->stream;
-
-    if (!sw.write_axiom) {
-        return handle_stream_writer_not_implemented(stream, w->name);
-    }
-
+    if (!sw.write_axiom) return handle_stream_writer_not_implemented(stream, w->name);
     cowl_ret ret = sw.write_axiom((CowlStreamState){ w->ctx, stream->st }, stream->stream, axiom);
-    if (ret) cowl_handle_error_code(ret, stream);
-    return ret;
+    return cowl_handle_error_code(ret, stream);
 }
 
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream) {
     CowlWriter const *w = cowl_manager_get_writer(stream->manager);
     CowlStreamWriter sw = w->stream;
-
-    if (!sw.write_footer) {
-        return handle_stream_writer_not_implemented(stream, w->name);
-    }
-
+    if (!sw.write_footer) return handle_stream_writer_not_implemented(stream, w->name);
     cowl_ret ret = sw.write_footer((CowlStreamState){ w->ctx, stream->st }, stream->stream);
-    if (ret) cowl_handle_error_code(ret, stream);
-    return ret;
+    return cowl_handle_error_code(ret, stream);
 }
 
 struct WriteAxiomCtx {
@@ -171,6 +155,5 @@ cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *onto) {
     } else {
         return cowl_handle_error(COWL_ERR, ustring_literal("Invalid writer"), stream);
     }
-    if (ret) cowl_handle_error_code(ret, stream);
-    return ret;
+    return cowl_handle_error_code(ret, stream);
 }
