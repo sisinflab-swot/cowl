@@ -64,8 +64,7 @@ void cowl_test_manager_read_ontology(void) {
     handlers.annot = count_annot;
 
     CowlIStream *stream = cowl_manager_get_istream(manager, handlers);
-    cowl_ret ret = cowl_istream_process_path(stream, ustring_literal(COWL_TEST_ONTOLOGY));
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(cowl_istream_process_path(stream, ustring_literal(COWL_TEST_ONTOLOGY)));
 
     UOStream ostream;
     utest_assert_fatal(uostream_to_path(&ostream, ustring_data(log_path)) == ULIB_OK);
@@ -84,18 +83,15 @@ void cowl_test_manager_read_ontology(void) {
     utest_assert_uint(count, ==, true_count);
 
     count = 0;
-    ret = cowl_istream_process_ontology(stream, onto);
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(cowl_istream_process_ontology(stream, onto));
     utest_assert_uint(count, ==, true_count);
 
-    ret = cowl_manager_write_path(manager, onto, log_path);
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(cowl_manager_write_path(manager, onto, log_path));
 
     CowlManager *other_manager = cowl_manager();
     utest_assert_not_null(other_manager);
 
-    ret = cowl_ontology_set_manager(onto, other_manager);
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(cowl_ontology_set_manager(onto, other_manager));
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
     utest_assert_uint(cowl_manager_ontology_count(other_manager), ==, 1);
 
@@ -226,7 +222,7 @@ static void test_format(UString path, CowlReader reader, CowlWriter writer) {
     cowl_manager_set_writer(manager, writer);
 
     cowl_ret ret = cowl_manager_write_path(manager, onto_in, ustring_literal(COWL_ONTOLOGY_OUT));
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(ret);
 
     CowlOntology *onto_out = cowl_manager_read_path(manager, ustring_literal(COWL_ONTOLOGY_OUT));
     utest_assert_not_null(onto_out);
@@ -277,23 +273,18 @@ void cowl_test_manager_edit_ontology(void) {
     CowlClass *b = cowl_class_from_static(ONTO_NS "B");
 
     CowlDeclAxiom *decl_axiom = cowl_decl_axiom(a, NULL);
-    cowl_ret ret = cowl_ontology_add_axiom(onto, decl_axiom);
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));
     cowl_release(decl_axiom);
 
     decl_axiom = cowl_decl_axiom(b, NULL);
-    ret = cowl_ontology_add_axiom(onto, decl_axiom);
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));
     cowl_release(decl_axiom);
-
-    utest_assert_uint(ret, ==, COWL_OK);
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
 
     CowlSubClsAxiom *sub_axiom = cowl_sub_cls_axiom(a, b, NULL);
     cowl_release_all(a, b);
 
-    ret = cowl_ontology_add_axiom(onto, sub_axiom);
-    utest_assert_uint(ret, ==, COWL_OK);
+    cowl_assert_ok(cowl_ontology_add_axiom(onto, sub_axiom));
     utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 3);
 
     utest_assert(cowl_ontology_remove_axiom(onto, sub_axiom));

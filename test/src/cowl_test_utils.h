@@ -47,6 +47,8 @@ uvec_decl(CowlError);
         }                                                                                          \
     } while (0)
 
+#define cowl_assert_ok(ret) utest_assert_enum(ret, ==, COWL_OK)
+
 // Test data
 
 #define COWL_TEST_ONTOLOGY "test_onto.owl"
