@@ -56,11 +56,11 @@ cowl_ret cowl_init(void) {
 void cowl_deinit(void) {
     if (!cowl_initialized) return;
     cowl_config_deinit();
-    cowl_vocab_deinit();
     cowl_anon_ind_api_deinit();
     cowl_entity_api_deinit();
     cowl_iri_api_deinit();
     cowl_string_api_deinit();
+    cowl_vocab_deinit();
     cowl_initialized = false;
 }
 
