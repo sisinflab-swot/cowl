@@ -5,6 +5,26 @@ All notable changes to Cowl will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.7.4] - 2025-07-10
+### Added
+- `cowl_ret_is_err`, `cowl_ret_is_ok`, `cowl_is_ok`, `cowl_is_err`.
+
+### Changed
+- Replaced `cowl_ret_from_uhash`, `cowl_ret_from_ustream`, and `cowl_ret_from_uvec`
+  with `cowl_ret_from_ulib`.
+- Replaced `cowl_handle_stream_error` with `cowl_handle_ulib_error`.
+- All functions that returned `ustream_ret` now return `cowl_ret`.
+
+### Removed
+- Unused `COWL_ERR_IMPORT` return code.
+- `COWL_RET_FIRST`, `COWL_RET_COUNT`.
+
+### Fixed
+- `cowl_iterator_{set,vec}` only retain objects that are successfully added to the collection.
+- UaF in `cowl_deinit` when using entity identifiers.
+
+
 ## [0.7.3] - 2025-06-18
 ### Added
 - Lazy resolution of imports (`CowlImportResolver`).
@@ -444,6 +464,7 @@ Cowl adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ontology querying API.
 - Logging API.
 
+[0.7.4]: https://github.com/sisinflab-swot/cowl/compare/v0.7.3...v0.7.4
 [0.7.3]: https://github.com/sisinflab-swot/cowl/compare/v0.7.2...v0.7.3
 [0.7.2]: https://github.com/sisinflab-swot/cowl/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/sisinflab-swot/cowl/compare/v0.7.0...v0.7.1
