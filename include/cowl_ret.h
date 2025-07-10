@@ -56,15 +56,53 @@ typedef enum cowl_ret {
     /// Syntax error.
     COWL_ERR_SYNTAX,
 
-    /// @name Markers
-
-    /// Number of enum values.
-    COWL_RET_COUNT,
-
-    /// First enum value.
-    COWL_RET_FIRST = 0
-
 } cowl_ret;
+
+/**
+ * Checks if a return code indicates an error.
+ *
+ * @param ret Return code.
+ * @return True if the return code indicates an error, false otherwise.
+ */
+COWL_CONST
+COWL_INLINE
+bool cowl_ret_is_err(cowl_ret ret) {
+    return ret >= COWL_ERR;
+}
+
+/**
+ * Checks if a return code does not indicate an error.
+ *
+ * @param ret Return code.
+ * @return True if the return code does not indicate an error, false otherwise.
+ */
+COWL_CONST
+COWL_INLINE
+bool cowl_ret_is_ok(cowl_ret ret) {
+    return !cowl_ret_is_err(ret);
+}
+
+/**
+ * Checks if a return code indicates an error.
+ *
+ * @param ret Return code.
+ * @return True if the return code indicates an error, false otherwise.
+ *
+ * @note Hints the compiler that the condition is unlikely to be true.
+ * @alias bool cowl_is_err(cowl_ret ret);
+ */
+#define cowl_is_err(ret) ulib_unlikely(cowl_ret_is_err(ret))
+
+/**
+ * Checks if a return code does not indicate an error.
+ *
+ * @param ret Return code.
+ * @return True if the return code does not indicate an error, false otherwise.
+ *
+ * @note Hints the compiler that the condition is likely to be true.
+ * @alias bool cowl_is_ok(cowl_ret ret);
+ */
+#define cowl_is_ok(ret) ulib_likely(cowl_ret_is_ok(ret))
 
 /**
  * Converts @type{ulib_ret} into @type{cowl_ret}.

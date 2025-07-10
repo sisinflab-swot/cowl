@@ -92,7 +92,7 @@ cowl_ret cowl_handle_syntax_error(UString desc, CowlAny *origin, CowlErrorLoc lo
  */
 COWL_INLINE
 cowl_ret cowl_handle_error_code(cowl_ret code, CowlAny *origin) {
-    if (ulib_likely(code == COWL_OK)) return COWL_OK;
+    if (cowl_is_ok(code)) return code;
     return cowl_handle_error(code, ustring_empty, origin);
 }
 
