@@ -16,12 +16,13 @@ You can control which writer is used in a number of ways:
 - **At compile-time:** writers included in the compiled library can be selected
   by setting the ``COWL_WRITERS`` CMake variable. Built-in writers are exposed through
   ``cowl_writer_*()`` functions.
-- **At run-time, globally:** you can set the default writer by calling :func:`cowl_set_writer()`.
-- **At run-time, locally:** you can specify which writer you want :struct:`CowlManager` to use
-  via :func:`cowl_manager_set_writer()`.
+- **At run-time:** you can specify which writer you want :struct:`CowlManager` to use
+  via :func:`cowl_manager_set_writer()`. If a writer is not set for a manager,
+  the :struct:`manager hierarchy <CowlManager>` is traversed upwards until a writer is found
+  or the root is reached.
 
 Additional writers can be integrated by providing suitably populated :struct:`CowlWriter` instances.
-Refer to the built-in writers if you need guidance.
+Refer to the built-in writers if you need guidance on their implementation.
 
 .. doxygenstruct:: CowlWriter
 .. doxygengroup:: CowlWriter

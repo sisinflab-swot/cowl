@@ -15,15 +15,6 @@ you **must not** use previously retrieved objects as they will be invalid.
 .. doxygengroup:: init
    :content-only:
 
-Handlers and defaults
-=====================
-
-Global/default behaviour of the API can be configured via these functions. In general, you will
-still be able to provide local overrides for specific objects.
-
-.. doxygengroup:: config
-   :content-only:
-
 Library version
 ===============
 

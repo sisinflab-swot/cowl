@@ -46,28 +46,47 @@ cowl_struct_decl(CowlManager);
  */
 
 /**
- * Returns a manager that uses the default reader and writer.
+ * Returns the root manager.
  *
- * @return Manager, or NULL on error.
- *
- * @note You can specify the default reader and writer
- *       via @func{cowl_set_reader} and @func{cowl_set_writer}.
+ * @return Root manager.
  */
 COWL_API
 COWL_RETAINED
 CowlManager *cowl_manager(void);
 
 /**
- * Gets the reader.
+ * Returns the parent manager of the specified manager.
+ *
+ * @param manager The manager.
+ * @return Parent manager.
+ */
+COWL_API
+CowlManager *cowl_manager_get_parent(CowlManager *manager);
+
+/**
+ * Returns a new manager, child of the specified manager.
+ *
+ * @param manager The parent manager.
+ * @return Child manager, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlManager *cowl_manager_new_child(CowlManager *manager);
+
+/**
+ * Gets the reader used by this manager.
  *
  * @param manager The manager.
  * @return The reader.
+ *
+ * @note If the reader is not set for this manager, the manager hierarchy
+ *       is traversed upwards until a reader is found or the root is reached.
  */
 COWL_API
 CowlReader *cowl_manager_get_reader(CowlManager *manager);
 
 /**
- * Sets the reader.
+ * Sets the reader used by this manager.
  *
  * @param manager The manager.
  * @param reader The reader.
@@ -76,16 +95,19 @@ COWL_API
 void cowl_manager_set_reader(CowlManager *manager, CowlReader reader);
 
 /**
- * Gets the writer.
+ * Gets the writer used by this manager.
  *
  * @param manager The manager.
  * @return The writer.
+ *
+ * @note If the writer is not set for this manager, the manager hierarchy
+ *       is traversed upwards until a writer is found or the root is reached.
  */
 COWL_API
 CowlWriter *cowl_manager_get_writer(CowlManager *manager);
 
 /**
- * Sets the writer.
+ * Sets the writer used by this manager.
  *
  * @param manager The manager.
  * @param writer The writer.
@@ -94,16 +116,19 @@ COWL_API
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
 
 /**
- * Gets the error handler.
+ * Gets the error handler used by this manager.
  *
  * @param manager The manager.
  * @return The error handler.
+ *
+ * @note If the error handler is not set for this manager, the manager hierarchy
+ *       is traversed upwards until a writer is found or the root is reached.
  */
 COWL_API
 CowlErrorHandler *cowl_manager_get_error_handler(CowlManager *manager);
 
 /**
- * Sets the error handler.
+ * Sets the error handler used by this manager.
  *
  * @param manager The manager.
  * @param handler The error handler.
@@ -112,7 +137,7 @@ COWL_API
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler);
 
 /**
- * Returns the number of ontologies managed by this manager.
+ * Returns the number of ontologies managed by this manager and its parents.
  *
  * @param manager The manager.
  * @return Number of ontologies.
@@ -122,7 +147,7 @@ COWL_PURE
 ulib_uint cowl_manager_ontology_count(CowlManager *manager);
 
 /**
- * Iterates over the ontologies held by the manager.
+ * Iterates over the ontologies held by the manager and its parents.
  *
  * @param manager The manager.
  * @param iter The iterator.
@@ -132,7 +157,7 @@ COWL_API
 bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter);
 
 /**
- * Returns a new empty ontology.
+ * Returns a new empty ontology managed by this manager.
  *
  * @param manager The manager.
  * @return New ontology.
@@ -159,7 +184,7 @@ COWL_RETAINED
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
 
 /**
- * Gets the ontology with the specified IRI and version, if it exists.
+ * Gets the ontology with the specified IRI and version, if it exists in the manager or its parents.
  *
  * @param manager The manager.
  * @param iri The ontology IRI.

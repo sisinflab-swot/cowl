@@ -32,7 +32,9 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    // Setup a global error handler.
+    // Setup an error handler.
+    CowlManager *manager = cowl_manager();
+
     UOStream stream;
     if (uostream_to_path(&stream, LOG)) {
         fprintf(stderr, "Failed to open " LOG "\n");
@@ -40,13 +42,7 @@ int main(void) {
     }
 
     CowlErrorHandler handler = { &stream, handle_error, NULL };
-    cowl_set_error_handler(handler);
-
-    CowlManager *manager = cowl_manager();
-
-    if (!manager) {
-        return EXIT_FAILURE;
-    }
+    cowl_manager_set_error_handler(manager, handler);
 
     // Read the ontology from file.
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));

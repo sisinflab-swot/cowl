@@ -14,10 +14,7 @@
 #define COWL_CONFIG_H
 
 #include "cowl_attrs.h"
-#include "cowl_error_handler.h"
-#include "cowl_reader.h"
 #include "cowl_ret.h"
-#include "cowl_writer.h"
 
 COWL_BEGIN_DECLS
 
@@ -45,67 +42,6 @@ cowl_ret cowl_init(void);
  */
 COWL_API
 void cowl_deinit(void);
-
-/// @}
-
-/**
- * @defgroup config Library configuration
- * @{
- */
-
-/**
- * Gets the default reader.
- *
- * @return The default reader.
- */
-COWL_API
-CowlReader *cowl_get_reader(void);
-
-/**
- * Sets the default reader.
- *
- * @param reader The reader.
- *
- * @note This function must be called again if you reinitialize library API after deinitializing it.
- */
-COWL_API
-void cowl_set_reader(CowlReader reader);
-
-/**
- * Gets the default writer.
- *
- * @return The default writer.
- */
-COWL_API
-CowlWriter *cowl_get_writer(void);
-
-/**
- * Sets the default writer.
- *
- * @param writer The writer.
- *
- * @note This function must be called again if you reinitialize the library after deinitializing it.
- */
-COWL_API
-void cowl_set_writer(CowlWriter writer);
-
-/**
- * Gets the global error handler.
- *
- * @return The global error handler.
- */
-COWL_API
-CowlErrorHandler *cowl_get_error_handler(void);
-
-/**
- * Sets the global error handler.
- *
- * @param handler The error handler.
- *
- * @note This function must be called again if you reinitialize the library after deinitializing it.
- */
-COWL_API
-void cowl_set_error_handler(CowlErrorHandler handler);
 
 /// @}
 

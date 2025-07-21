@@ -9,7 +9,6 @@
  */
 
 #include "cowl_any.h"
-#include "cowl_config.h"
 #include "cowl_error_handler.h"
 #include "cowl_istream.h"
 #include "cowl_istream_handlers.h"
@@ -31,7 +30,9 @@
 #include "ulib.h"
 #include <stdio.h>
 
-CowlManager *cowl_manager(void) {
+CowlManager *root_manager = NULL;
+
+static CowlManager *cowl_manager_alloc(void) {
     CowlManager *manager = ulib_alloc(manager);
     if (!manager) return NULL;
     *manager = (CowlManager){
@@ -42,6 +43,7 @@ CowlManager *cowl_manager(void) {
 }
 
 void cowl_manager_free(CowlManager *manager) {
+    cowl_release(manager->parent);
     cowl_reader_free_ctx(&manager->reader);
     cowl_writer_free_ctx(&manager->writer);
     cowl_error_handler_free_ctx(&manager->handler);
@@ -49,16 +51,46 @@ void cowl_manager_free(CowlManager *manager) {
     ulib_free(manager);
 }
 
+cowl_ret cowl_manager_api_init(void) {
+    root_manager = cowl_manager_alloc();
+    if (!root_manager) return COWL_ERR_MEM;
+    root_manager->reader = cowl_reader_default();
+    root_manager->writer = cowl_writer_default();
+    root_manager->handler = (CowlErrorHandler)ulib_zero_init;
+    return COWL_OK;
+}
+
+void cowl_manager_api_deinit(void) {
+    cowl_release(root_manager);
+}
+
+CowlManager *cowl_manager(void) {
+    return cowl_retain(root_manager);
+}
+
+CowlManager *cowl_manager_get_parent(CowlManager *manager) {
+    return manager->parent;
+}
+
+CowlManager *cowl_manager_new_child(CowlManager *manager) {
+    CowlManager *child = cowl_manager_alloc();
+    if (child) child->parent = cowl_retain(manager);
+    return child;
+}
+
 CowlReader *cowl_manager_get_reader(CowlManager *manager) {
-    return manager->reader.name ? &manager->reader : cowl_get_reader();
+    if (manager->reader.name) return &manager->reader;
+    return manager->parent ? cowl_manager_get_reader(manager->parent) : NULL;
 }
 
 CowlWriter *cowl_manager_get_writer(CowlManager *manager) {
-    return manager->writer.name ? &manager->writer : cowl_get_writer();
+    if (manager->writer.name) return &manager->writer;
+    return manager->parent ? cowl_manager_get_writer(manager->parent) : NULL;
 }
 
 CowlErrorHandler *cowl_manager_get_error_handler(CowlManager *manager) {
-    return manager->handler.handle_error ? &manager->handler : cowl_get_error_handler();
+    if (manager->handler.handle_error) return &manager->handler;
+    return manager->parent ? cowl_manager_get_error_handler(manager->parent) : NULL;
 }
 
 static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStream *istream) {
@@ -217,14 +249,16 @@ void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handl
 }
 
 ulib_uint cowl_manager_ontology_count(CowlManager *manager) {
-    return uvec_count(CowlObjectPtr, &manager->ontos);
+    ulib_uint count = uvec_count(CowlObjectPtr, &manager->ontos);
+    if (manager->parent) count += cowl_manager_ontology_count(manager->parent);
+    return count;
 }
 
 bool cowl_manager_iterate_ontologies(CowlManager *manager, CowlIterator *iter) {
     uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
         if (!cowl_iterator_call(iter, *onto.item)) return false;
     }
-    return true;
+    return manager->parent ? cowl_manager_iterate_ontologies(manager->parent, iter) : true;
 }
 
 CowlOntology *cowl_manager_new_ontology(CowlManager *manager) {
@@ -253,7 +287,9 @@ CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri,
         match = *onto.item;
         if (cowl_ontology_get_version(*onto.item) == version) break;
     }
-    return match;
+    if (match) return match;
+    if (manager->parent) return cowl_manager_retrieve_ontology(manager->parent, iri, version);
+    return NULL;
 }
 
 cowl_ret cowl_manager_add_ontology(CowlManager *manager, CowlOntology *onto) {

@@ -80,6 +80,7 @@ static cowl_ret add_axiom(void *onto, CowlAnyAxiom *axiom) {
 void cowl_test_ontology_init(void) {
     axiom_counts_by_type_init();
     CowlManager *manager = cowl_manager();
+    utest_assert_fatal(manager);
     onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_fatal(onto);
 
@@ -95,8 +96,7 @@ void cowl_test_ontology_init(void) {
 }
 
 void cowl_test_ontology_deinit(void) {
-    CowlIterator iter = cowl_iterator_release();
-    cowl_manager_iterate_ontologies(cowl_ontology_get_manager(onto), &iter);
+    cowl_release(onto);
 }
 
 void cowl_test_ontology_get_iri_version(void) {

@@ -16,15 +16,16 @@ and you can control which reader is used in a number of ways:
 - **At compile-time:** readers included in the compiled library can be selected
   by setting the ``COWL_READERS`` CMake variable. Built-in readers are exposed through
   ``cowl_reader_*()`` functions.
-- **At run-time, globally:** you can set the default reader by calling :func:`cowl_set_reader()`.
-- **At run-time, locally:** you can specify which reader you want :struct:`CowlManager` to use
-  via :func:`cowl_manager_set_reader()`.
+- **At run-time:** you can specify which reader you want :struct:`CowlManager` to use
+  via :func:`cowl_manager_set_reader()`. If a reader is not set for a manager,
+  the :struct:`manager hierarchy <CowlManager>` is traversed upwards until a reader is found
+  or the root is reached.
 
 You can integrate additional readers by providing suitably populated :struct:`CowlReader` instances.
 When implementing one, use the provided :struct:`CowlIStream` object to handle detected OWL
 constructs. If you need to manage prefixed IRIs, you can do so through the :struct:`CowlSymTable`
 instance available by calling :func:`cowl_istream_get_sym_table()`.
-Refer to the built-in readers if you need guidance.
+Refer to the built-in readers if you need guidance on their implementation.
 
 .. doxygenstruct:: CowlReader
 .. doxygengroup:: CowlReader

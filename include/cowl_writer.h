@@ -113,9 +113,8 @@ typedef struct CowlWriter {
      * @param object Object to write.
      * @return Return code.
      *
-     * @note Should only be implemented by writers used as default writers
-     *       (i.e. passed to @func{cowl_set_writer}), so that they are able to write
-     *       the string representation of arbitrary objects.
+     * @note Should only be implemented if the writer is intended to be used by the root manager,
+     *       so that it is able to write the string representation of arbitrary objects.
      */
     cowl_ret (*write)(void *ctx, UOStream *stream, CowlAny *object);
 
@@ -217,13 +216,13 @@ bool cowl_writer_can_write_ontology(CowlWriter const *writer) {
 // High-level write functions
 
 /**
- * Writes an object to the specified stream via the default writer.
+ * Writes an object to the specified stream via the writer of the root manager.
  *
  * @param stream Output stream.
  * @param object Object.
  * @return Return code.
  *
- * @note If no default writer is set, falls back to @func{cowl_write_debug}.
+ * @note If the root manager has no writer, falls back to @func{cowl_write_debug}.
  */
 COWL_API
 cowl_ret cowl_write(UOStream *stream, CowlAny *object);

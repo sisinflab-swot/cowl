@@ -25,11 +25,17 @@ COWL_BEGIN_DECLS
 
 struct CowlManager {
     CowlObject super;
+    CowlManager *parent;
     CowlReader reader;
     CowlWriter writer;
     CowlErrorHandler handler;
     UVec(CowlObjectPtr) ontos;
 };
+
+extern CowlManager *root_manager;
+
+cowl_ret cowl_manager_api_init(void);
+void cowl_manager_api_deinit(void);
 
 void cowl_manager_free(CowlManager *manager);
 cowl_ret cowl_manager_add_ontology(CowlManager *manager, CowlOntology *onto);

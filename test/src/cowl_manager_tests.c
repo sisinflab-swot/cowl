@@ -53,7 +53,6 @@ void cowl_test_manager_read_ontology(void) {
     UString const log_path = ustring_literal("test_manager_read_ontology.log");
 
     CowlManager *manager = cowl_manager();
-    utest_assert_not_null(manager);
     CowlOntology *import = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_IMPORT));
 
     ulib_uint count = 0;
@@ -88,20 +87,22 @@ void cowl_test_manager_read_ontology(void) {
 
     cowl_assert_ok(cowl_manager_write_path(manager, onto, log_path));
 
-    CowlManager *other_manager = cowl_manager();
-    utest_assert_not_null(other_manager);
+    CowlManager *child_manager = cowl_manager_new_child(manager);
+    utest_assert_not_null(child_manager);
 
-    cowl_assert_ok(cowl_ontology_set_manager(onto, other_manager));
+    cowl_assert_ok(cowl_ontology_set_manager(onto, child_manager));
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
-    utest_assert_uint(cowl_manager_ontology_count(other_manager), ==, 1);
+    utest_assert_uint(cowl_manager_ontology_count(child_manager), ==, 2);
 
     cowl_release(onto);
-    utest_assert_uint(cowl_manager_ontology_count(other_manager), ==, 0);
+    utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
+    utest_assert_uint(cowl_manager_ontology_count(child_manager), ==, 1);
 
     cowl_release(import);
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 0);
+    utest_assert_uint(cowl_manager_ontology_count(manager), ==, 0);
 
-    cowl_release_all(manager, other_manager, stream);
+    cowl_release_all(manager, child_manager, stream);
 }
 
 static inline bool diff_iri_version(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
@@ -264,6 +265,7 @@ static bool filter_axiom(void *cls, CowlAny *axiom) {
 
 void cowl_test_manager_edit_ontology(void) {
     CowlManager *manager = cowl_manager();
+    utest_assert_not_null(manager);
     CowlOntology *onto = cowl_manager_new_ontology(manager);
     utest_assert_not_null(onto);
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
