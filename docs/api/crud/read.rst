@@ -30,21 +30,6 @@ Refer to the built-in readers if you need guidance.
 .. doxygengroup:: CowlReader
    :content-only:
 
-.. _import:
-
-Handling imports
-================
-
-Cowl delegates locating and loading imported ontologies to the end user via the
-:struct:`CowlImportResolver` interface. Import resolvers can be provided to :struct:`CowlManager`
-instances via :func:`cowl_manager_set_import_resolver()`. By default, :struct:`CowlManager` will
-attempt to resolve imports based on the IRIs of ontologies it is currently responsible for,
-i.e. those that have been loaded or created through it.
-
-.. doxygenstruct:: CowlImportResolver
-.. doxygengroup:: CowlImportResolver
-   :content-only:
-
 .. _istream:
 
 Reading ontologies as axiom streams

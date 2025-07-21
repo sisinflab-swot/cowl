@@ -17,7 +17,6 @@
 #include "cowl_attrs.h"
 #include "cowl_axiom_flags.h"
 #include "cowl_axiom_type.h"
-#include "cowl_import_resolver.h"
 #include "cowl_iterator.h"
 #include "cowl_position.h"
 #include "cowl_primitive_flags.h"
@@ -217,98 +216,87 @@ ulib_uint cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomFilt
  * Gets the number of axioms in the ontology.
  *
  * @param onto The ontology.
- * @param imports If true, the query recurses over imported ontologies.
  * @return Number of axioms.
  */
 COWL_API
 COWL_PURE
-ulib_uint cowl_ontology_axiom_count(CowlOntology *onto, bool imports);
+ulib_uint cowl_ontology_axiom_count(CowlOntology *onto);
 
 /**
  * Gets the number of imported ontologies.
  *
  * @param onto The ontology.
- * @param imports If true, the query recurses over imported ontologies.
  * @return Number of imports.
  */
 COWL_API
 COWL_PURE
-ulib_uint cowl_ontology_imports_count(CowlOntology *onto, bool imports);
+ulib_uint cowl_ontology_imports_count(CowlOntology *onto);
 
 /**
  * Gets the number of axioms of the specified type.
  *
  * @param onto The ontology.
  * @param type The axiom type.
- * @param imports If true, the query recurses over imported ontologies.
  * @return Number of axioms.
  */
 COWL_API
 COWL_PURE
-ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type, bool imports);
+ulib_uint cowl_ontology_axiom_count_for_type(CowlOntology *onto, CowlAxiomType type);
 
 /**
  * Gets the number of axioms of the specified types.
  *
  * @param onto The ontology.
  * @param types The axiom types.
- * @param imports If true, the query recurses over imported ontologies.
  * @return Number of axioms.
  */
 COWL_API
 COWL_PURE
-ulib_uint
-cowl_ontology_axiom_count_for_types(CowlOntology *onto, CowlAxiomFlags types, bool imports);
+ulib_uint cowl_ontology_axiom_count_for_types(CowlOntology *onto, CowlAxiomFlags types);
 
 /**
  * Gets the number of axioms referencing the specified primitive.
  *
  * @param onto The ontology.
  * @param primitive The primitive.
- * @param imports If true, the query recurses over imported ontologies.
  * @return Number of axioms.
  */
 COWL_API
 COWL_PURE
-ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
-                                                  bool imports);
+ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive);
 
 /**
  * Gets the number of primitives.
  *
  * @param onto The ontology.
  * @param flags Primitive flags.
- * @param imports If true, the query recurses over imported ontologies.
  * @return Number of primitives.
  */
 COWL_API
 COWL_PURE
-ulib_uint
-cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags, bool imports);
+ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags);
 
 /**
  * Checks if the specified primitive is referenced by an axiom in the ontology.
  *
  * @param onto The ontology.
  * @param primitive The primitive.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the primitive is referenced by an axiom, false otherwise.
  */
 COWL_API
 COWL_PURE
-bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive, bool imports);
+bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive);
 
 /**
  * Checks whether the ontology contains the specified axiom.
  *
  * @param onto The ontology.
  * @param axiom The axiom.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the ontology contains the axiom, false otherwise.
  */
 COWL_API
 COWL_PURE
-bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool imports);
+bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
  * Iterates over the primitives referenced by the specified ontology.
@@ -316,45 +304,31 @@ bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom, bool impor
  * @param onto The ontology.
  * @param flags Primitive flags.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
 bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter, bool imports);
-
-/**
- * Iterates over the imported ontologies.
- *
- * @param onto The ontology.
- * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
- * @return True if the iteration was completed, false if it was stopped.
- */
-COWL_API
-bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter, bool imports);
+                                      CowlIterator *iter);
 
 /**
  * Iterates over the import IRIs.
  *
  * @param onto The ontology.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
-bool cowl_ontology_iterate_import_iris(CowlOntology *onto, CowlIterator *iter, bool imports);
+bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the axioms in the ontology.
  *
  * @param onto The ontology.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
-bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter, bool imports);
+bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the axioms of a certain type.
@@ -362,12 +336,11 @@ bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter, bool i
  * @param onto The ontology.
  * @param type The axiom type.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
 bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
-                                          CowlIterator *iter, bool imports);
+                                          CowlIterator *iter);
 
 /**
  * Iterates over the axiom of some types.
@@ -375,12 +348,11 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
  * @param onto The ontology.
  * @param types The axiom types.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
 bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags types,
-                                           CowlIterator *iter, bool imports);
+                                           CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified primitive.
@@ -388,12 +360,11 @@ bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags ty
  * @param onto The ontology.
  * @param primitive The primitive.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
 bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
-                                                CowlIterator *iter, bool imports);
+                                                CowlIterator *iter);
 
 /**
  * Iterates over the axioms matching the specified filter.
@@ -401,14 +372,13 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
  * @param onto The ontology.
  * @param filter The filter.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  *
  * @note The filter must not be used anymore after calling this function.
  */
 COWL_API
 bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilter *filter,
-                                           CowlIterator *iter, bool imports);
+                                           CowlIterator *iter);
 
 /**
  * Iterates over the constructs that are related to the specified primitive by some axiom.
@@ -418,13 +388,11 @@ bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilter *
  * @param type Axiom type.
  * @param position Position of the related constructs.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
 bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive,
-                                   CowlAxiomType type, CowlPosition position, CowlIterator *iter,
-                                   bool imports);
+                                   CowlAxiomType type, CowlPosition position, CowlIterator *iter);
 
 /**
  * Iterates over the subclasses of the specified class.
@@ -432,14 +400,12 @@ bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primiti
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
-                                       bool imports) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_LEFT, iter,
-                                         imports);
+bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
+                                       CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_LEFT, iter);
 }
 
 /**
@@ -448,14 +414,12 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_INLINE
 bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
-                                         CowlIterator *iter, bool imports) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_RIGHT, iter,
-                                         imports);
+                                         CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_RIGHT, iter);
 }
 
 /**
@@ -464,14 +428,12 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter,
-                                      bool imports) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_EQUIV_CLASSES, COWL_PS_ANY, iter,
-                                         imports);
+bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
+                                      CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_EQUIV_CLASSES, COWL_PS_ANY, iter);
 }
 
 /**
@@ -480,14 +442,12 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, 
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_INLINE
 bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_class,
-                                            CowlIterator *iter, bool imports) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_DISJ_CLASSES, COWL_PS_ANY, iter,
-                                         imports);
+                                            CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_DISJ_CLASSES, COWL_PS_ANY, iter);
 }
 
 /**
@@ -496,14 +456,11 @@ bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_c
  * @param onto The ontology.
  * @param ind The individual.
  * @param iter The iterator.
- * @param imports If true, the query recurses over imported ontologies.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter,
-                                 bool imports) {
-    return cowl_ontology_iterate_related(onto, ind, COWL_AT_CLASS_ASSERT, COWL_PS_LEFT, iter,
-                                         imports);
+bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, ind, COWL_AT_CLASS_ASSERT, COWL_PS_LEFT, iter);
 }
 
 /// @}

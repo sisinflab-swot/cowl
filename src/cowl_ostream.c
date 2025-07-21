@@ -121,7 +121,7 @@ static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOnto
     if ((ret = cowl_sym_table_merge(st, cowl_ontology_get_sym_table(onto), true))) goto end;
 
     CowlIterator iter = cowl_iterator_vec(&imports, false);
-    if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) {
+    if (!cowl_ontology_iterate_imports(onto, &iter)) {
         ret = COWL_ERR_MEM;
         goto end;
     }
@@ -137,7 +137,7 @@ static cowl_ret cowl_ostream_write_ontology_stream(CowlOStream *stream, CowlOnto
     struct WriteAxiomCtx ctx = { .ret = &ret, .stream = stream };
     iter.ctx = &ctx;
     iter.for_each = axiom_writer;
-    if (!cowl_ontology_iterate_axioms(onto, &iter, false)) goto end;
+    if (!cowl_ontology_iterate_axioms(onto, &iter)) goto end;
     ret = cowl_ostream_write_footer(stream);
 
 end:

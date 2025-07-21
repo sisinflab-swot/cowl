@@ -43,12 +43,12 @@ int main(int argc, char *argv[]) {
     ulib_uint count = 0;
     CowlIterator iter = { &count, count_constructs };
     ulog_perf("Retrieve %" ULIB_UINT_FMT " axioms", count) {
-        cowl_ontology_iterate_axioms(onto, &iter, false);
+        cowl_ontology_iterate_axioms(onto, &iter);
     }
 
     count = 0;
     ulog_perf("Retrieve %" ULIB_UINT_FMT " primitives", count) {
-        cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter, false);
+        cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter);
     }
 
     ulog_perf("Write ontology") {

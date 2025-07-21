@@ -426,7 +426,7 @@ bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIter
         case COWL_OT_CE_OBJ_ALL: return cowl_obj_quant_iterate_primitives(object, flags, iter);
         case COWL_OT_CE_DATA_SOME:
         case COWL_OT_CE_DATA_ALL: return cowl_data_quant_iterate_primitives(object, flags, iter);
-        case COWL_OT_ONTOLOGY: return cowl_ontology_iterate_primitives(object, flags, iter, false);
+        case COWL_OT_ONTOLOGY: return cowl_ontology_iterate_primitives(object, flags, iter);
         default: return iterate_impl(type, object, flags, iter);
     }
 }

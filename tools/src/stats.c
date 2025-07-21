@@ -151,35 +151,35 @@ static bool compute_global_stats(CowlOntology *onto, UVec(Stat) *dst) {
     Stat const global_stats[] = {
         {
             ustring_copy_literal("Axioms"),
-            cowl_ontology_axiom_count(onto, false),
+            cowl_ontology_axiom_count(onto),
         },
         {
             ustring_copy_literal("Classes"),
-            cowl_ontology_primitives_count(onto, COWL_PF_CLASS, false),
+            cowl_ontology_primitives_count(onto, COWL_PF_CLASS),
         },
         {
             ustring_copy_literal("Datatypes"),
-            cowl_ontology_primitives_count(onto, COWL_PF_DATATYPE, false),
+            cowl_ontology_primitives_count(onto, COWL_PF_DATATYPE),
         },
         {
             ustring_copy_literal("Named individuals"),
-            cowl_ontology_primitives_count(onto, COWL_PF_NAMED_IND, false),
+            cowl_ontology_primitives_count(onto, COWL_PF_NAMED_IND),
         },
         {
             ustring_copy_literal("Anonymous individuals"),
-            cowl_ontology_primitives_count(onto, COWL_PF_ANON_IND, false),
+            cowl_ontology_primitives_count(onto, COWL_PF_ANON_IND),
         },
         {
             ustring_copy_literal("Object properties"),
-            cowl_ontology_primitives_count(onto, COWL_PF_OBJ_PROP, false),
+            cowl_ontology_primitives_count(onto, COWL_PF_OBJ_PROP),
         },
         {
             ustring_copy_literal("Data properties"),
-            cowl_ontology_primitives_count(onto, COWL_PF_DATA_PROP, false),
+            cowl_ontology_primitives_count(onto, COWL_PF_DATA_PROP),
         },
         {
             ustring_copy_literal("Annotation properties"),
-            cowl_ontology_primitives_count(onto, COWL_PF_ANNOT_PROP, false),
+            cowl_ontology_primitives_count(onto, COWL_PF_ANNOT_PROP),
         },
     };
 
@@ -200,7 +200,7 @@ static bool compute_axiom_stats(CowlOntology *onto, UVec(Stat) *stats) {
         UString stat_str = ustring_concat(components, ulib_array_count(components));
         if (ustring_is_null(stat_str)) return false;
 
-        Stat stat = { stat_str, cowl_ontology_axiom_count_for_type(onto, t, false) };
+        Stat stat = { stat_str, cowl_ontology_axiom_count_for_type(onto, t) };
         if (uvec_push(Stat, stats, stat)) return false;
     }
 

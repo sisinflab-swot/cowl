@@ -15,7 +15,6 @@
 
 #include "cowl_attrs.h"
 #include "cowl_error_handler.h"
-#include "cowl_import_resolver.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_iterator.h"
 #include "cowl_reader.h"
@@ -93,24 +92,6 @@ CowlWriter *cowl_manager_get_writer(CowlManager *manager);
  */
 COWL_API
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
-
-/**
- * Gets the import resolver.
- *
- * @param manager The manager.
- * @return The import resolver.
- */
-COWL_API
-CowlImportResolver *cowl_manager_get_import_resolver(CowlManager *manager);
-
-/**
- * Sets the import resolver.
- *
- * @param manager The manager.
- * @param resolver The import resolver.
- */
-COWL_API
-void cowl_manager_set_import_resolver(CowlManager *manager, CowlImportResolver resolver);
 
 /**
  * Gets the error handler.

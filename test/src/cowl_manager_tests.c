@@ -79,7 +79,7 @@ void cowl_test_manager_read_ontology(void) {
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 2);
 
     ulib_uint true_count = cowl_vector_count(cowl_ontology_get_annot(onto));
-    true_count += cowl_ontology_imports_count(onto, false) + cowl_ontology_axiom_count(onto, false);
+    true_count += cowl_ontology_imports_count(onto) + cowl_ontology_axiom_count(onto);
     utest_assert_uint(count, ==, true_count);
 
     count = 0;
@@ -135,10 +135,10 @@ static inline bool diff_imports(CowlOntology *a, CowlOntology *b, CowlOntology *
     UHash(CowlObjectTable) b_set = uhset(CowlObjectTable);
 
     CowlIterator iter = cowl_iterator_set(&a_set, false);
-    cowl_ontology_iterate_import_iris(a, &iter, false);
+    cowl_ontology_iterate_imports(a, &iter);
 
     iter = cowl_iterator_set(&b_set, false);
-    cowl_ontology_iterate_import_iris(b, &iter, false);
+    cowl_ontology_iterate_imports(b, &iter);
 
     uhset_diff(CowlObjectTable, &a_set, &b_set, NULL);
     uhash_foreach (CowlObjectTable, &a_set, i) {
@@ -159,10 +159,10 @@ static inline bool diff_axioms(CowlOntology *a, CowlOntology *b, CowlOntology *d
     UHash(CowlObjectTable) b_set = uhset(CowlObjectTable);
 
     CowlIterator iter = cowl_iterator_set(&a_set, false);
-    cowl_ontology_iterate_axioms(a, &iter, false);
+    cowl_ontology_iterate_axioms(a, &iter);
 
     iter = cowl_iterator_set(&b_set, false);
-    cowl_ontology_iterate_axioms(b, &iter, false);
+    cowl_ontology_iterate_axioms(b, &iter);
 
     uhset_diff(CowlObjectTable, &a_set, &b_set, NULL);
     uhash_foreach (CowlObjectTable, &a_set, i) {
@@ -267,7 +267,7 @@ void cowl_test_manager_edit_ontology(void) {
     CowlOntology *onto = cowl_manager_new_ontology(manager);
     utest_assert_not_null(onto);
     utest_assert_uint(cowl_manager_ontology_count(manager), ==, 1);
-    utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 0);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 0);
 
     CowlClass *a = cowl_class_from_static(ONTO_NS "A");
     CowlClass *b = cowl_class_from_static(ONTO_NS "B");
@@ -279,16 +279,16 @@ void cowl_test_manager_edit_ontology(void) {
     decl_axiom = cowl_decl_axiom(b, NULL);
     cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));
     cowl_release(decl_axiom);
-    utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 2);
 
     CowlSubClsAxiom *sub_axiom = cowl_sub_cls_axiom(a, b, NULL);
     cowl_release_all(a, b);
 
     cowl_assert_ok(cowl_ontology_add_axiom(onto, sub_axiom));
-    utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 3);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 3);
 
     utest_assert(cowl_ontology_remove_axiom(onto, sub_axiom));
-    utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 2);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 2);
 
     cowl_ontology_add_axiom(onto, sub_axiom);
 
@@ -298,7 +298,7 @@ void cowl_test_manager_edit_ontology(void) {
     cowl_axiom_filter_set_closure(&af, closure);
 
     utest_assert_uint(cowl_ontology_remove_axioms_matching(onto, &af), ==, 2);
-    utest_assert_uint(cowl_ontology_axiom_count(onto, false), ==, 1);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 1);
 
     cowl_release_all(sub_axiom, onto, manager);
 }

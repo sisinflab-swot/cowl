@@ -35,7 +35,7 @@ static bool for_each_cls(void *ptr, CowlAny *cls) {
 
     // Recurse.
     CowlIterator iter = { ctx, for_each_cls };
-    return cowl_ontology_iterate_sub_classes(ctx->onto, cls, &iter, false);
+    return cowl_ontology_iterate_sub_classes(ctx->onto, cls, &iter);
 }
 
 int main(void) {
@@ -57,7 +57,7 @@ int main(void) {
     // we need the ontology to be part of the context.
     CustomContext ctx = { onto, uostream_std() };
     CowlIterator iter = { &ctx, for_each_cls };
-    cowl_ontology_iterate_sub_classes(onto, cls, &iter, false);
+    cowl_ontology_iterate_sub_classes(onto, cls, &iter);
 
     cowl_release_all(cls, onto);
     return EXIT_SUCCESS;

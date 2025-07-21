@@ -51,7 +51,7 @@ int main(void) {
 
     // Run the query.
     CowlIterator iter = { uostream_std(), for_each_cls };
-    cowl_ontology_iterate_sub_classes(onto, cls, &iter, false);
+    cowl_ontology_iterate_sub_classes(onto, cls, &iter);
 
     // Cleanup.
     cowl_release_all(cls, onto);

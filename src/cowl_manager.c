@@ -11,7 +11,6 @@
 #include "cowl_any.h"
 #include "cowl_config.h"
 #include "cowl_error_handler.h"
-#include "cowl_import_resolver.h"
 #include "cowl_istream.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_istream_private.h"
@@ -38,7 +37,6 @@ CowlManager *cowl_manager(void) {
     *manager = (CowlManager){
         .super = COWL_OBJECT_INIT(COWL_OT_MANAGER),
         .ontos = uvec(CowlObjectPtr),
-        .resolver = cowl_import_resolver_default(manager),
     };
     return manager;
 }
@@ -46,7 +44,6 @@ CowlManager *cowl_manager(void) {
 void cowl_manager_free(CowlManager *manager) {
     cowl_reader_free_ctx(&manager->reader);
     cowl_writer_free_ctx(&manager->writer);
-    cowl_import_resolver_free_ctx(&manager->resolver);
     cowl_error_handler_free_ctx(&manager->handler);
     uvec_deinit(CowlObjectPtr, &manager->ontos);
     ulib_free(manager);
@@ -62,10 +59,6 @@ CowlWriter *cowl_manager_get_writer(CowlManager *manager) {
 
 CowlErrorHandler *cowl_manager_get_error_handler(CowlManager *manager) {
     return manager->handler.handle_error ? &manager->handler : cowl_get_error_handler();
-}
-
-CowlImportResolver *cowl_manager_get_import_resolver(CowlManager *manager) {
-    return &manager->resolver;
 }
 
 static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStream *istream) {
@@ -216,12 +209,6 @@ void cowl_manager_set_reader(CowlManager *manager, CowlReader reader) {
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer) {
     cowl_writer_free_ctx(&manager->writer);
     manager->writer = writer;
-}
-
-void cowl_manager_set_import_resolver(CowlManager *manager, CowlImportResolver resolver) {
-    cowl_import_resolver_free_ctx(&manager->resolver);
-    if (!resolver.resolve_import) resolver = cowl_import_resolver_default(manager);
-    manager->resolver = resolver;
 }
 
 void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler) {

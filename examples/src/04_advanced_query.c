@@ -59,7 +59,7 @@ int main(void) {
     cowl_axiom_filter_add_primitive(&filter, prop);
 
     CowlIterator iter = { uostream_std(), for_each_axiom };
-    cowl_ontology_iterate_axioms_matching(onto, &filter, &iter, false);
+    cowl_ontology_iterate_axioms_matching(onto, &filter, &iter);
 
     cowl_axiom_filter_deinit(&filter);
     cowl_release_all(cls, prop, onto);

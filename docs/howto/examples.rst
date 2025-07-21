@@ -19,12 +19,12 @@ Related documentation: :ref:`ontology reading <reading>`
 
 .. literalinclude:: ../../examples/src/00_base.c
 
-Handling of errors and imports
-==============================
+Error handling
+==============
 
-Related documentation: :ref:`error handling <error>`, :ref:`import handling <import>`
+Related documentation: :ref:`error handling <error>`
 
-.. literalinclude:: ../../examples/src/01_errors_imports.c
+.. literalinclude:: ../../examples/src/01_errors.c
 
 Querying ontologies
 ===================

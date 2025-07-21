@@ -149,13 +149,13 @@ cowl_ret cowl_istream_process_ontology(CowlIStream *stream, CowlOntology *onto) 
     if (handle->import) {
         void *ctx[] = { &ret, handle };
         CowlIterator iter = { (void *)ctx, onto_stream_handle_import };
-        if (!cowl_ontology_iterate_import_iris(onto, &iter, false)) return ret;
+        if (!cowl_ontology_iterate_imports(onto, &iter)) return ret;
     }
 
     if (handle->axiom) {
         void *ctx[] = { &ret, handle };
         CowlIterator iter = { (void *)ctx, onto_stream_handle_axiom };
-        if (!cowl_ontology_iterate_axioms(onto, &iter, false)) return ret;
+        if (!cowl_ontology_iterate_axioms(onto, &iter)) return ret;
     }
 
     return ret;
