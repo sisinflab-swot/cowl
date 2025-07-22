@@ -243,7 +243,7 @@ full_iri
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_sym_table_parse_short_iri(cowl_istream_get_sym_table(stream), $1);
+        $$ = cowl_prefix_map_parse_short_iri(cowl_istream_get_prefix_map(stream), $1);
         if (!$$) {
             UString comp[] = { ustring_literal("failed to resolve "), $1 };
             UString err_str = ustring_concat(comp, ulib_array_count(comp));
@@ -289,8 +289,8 @@ namespace
 
 prefix_declaration
     : PREFIX L_PAREN prefix EQUALS namespace R_PAREN {
-        CowlSymTable *st = cowl_istream_get_sym_table(stream);
-        cowl_ret ret = cowl_sym_table_register_prefix(st, $3, $5, false);
+        CowlPrefixMap *pm = cowl_istream_get_prefix_map(stream);
+        cowl_ret ret = cowl_prefix_map_add(pm, $3, $5, false);
         cowl_release($3);
         cowl_release($5);
         if (ret) COWL_ERROR(ret);

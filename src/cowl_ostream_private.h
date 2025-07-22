@@ -20,12 +20,12 @@
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlManager);
-cowl_struct_decl(CowlSymTable);
+cowl_struct_decl(CowlPrefixMap);
 
 struct CowlOStream {
     CowlObject super;
     CowlManager *manager;
-    CowlSymTable *st;
+    CowlPrefixMap *pm;
     UOStream *stream;
 };
 

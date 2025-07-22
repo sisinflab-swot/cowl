@@ -1,5 +1,5 @@
 /**
- * Declares CowlSymTable and its API.
+ * Declares CowlPrefixMap and its API.
  *
  * @author Ivano Bilenchi
  *
@@ -10,8 +10,8 @@
  * @file
  */
 
-#ifndef COWL_SYM_TABLE_H
-#define COWL_SYM_TABLE_H
+#ifndef COWL_PREFIX_MAP_H
+#define COWL_PREFIX_MAP_H
 
 #include "cowl_attrs.h"
 #include "cowl_ret.h"
@@ -26,68 +26,55 @@ cowl_struct_decl(CowlTable);
 /// @endcond
 
 /**
- * Maps symbols to OWL constructs.
+ * Holds the mapping between prefixes and namespaces.
  *
  * @superstruct{CowlObject}
- * @struct CowlSymTable
+ * @struct CowlPrefixMap
  */
-cowl_struct_decl(CowlSymTable);
+cowl_struct_decl(CowlPrefixMap);
 
 /**
- * @defgroup CowlSymTable CowlSymTable API
+ * @defgroup CowlPrefixMap CowlPrefixMap API
  * @{
  */
 
 /**
- * Gets the map that associates prefixes to namespaces.
+ * Gets the table that associates prefixes to namespaces.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param reverse If true, the reversed map (namespaces to prefixes) is returned.
- * @return Prefix to namespace map, or NULL on error.
+ * @return Table, or NULL on error.
  */
 COWL_API
 COWL_PURE
-CowlTable *cowl_sym_table_get_prefix_ns_map(CowlSymTable *st, bool reverse);
+CowlTable *cowl_prefix_map_get_table(CowlPrefixMap *map, bool reverse);
 
 /**
  * Returns the namespace associated with the specified prefix.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param prefix The prefix.
  * @return Namespace associated with the prefix, or NULL if the prefix cannot be found.
  */
 COWL_API
 COWL_PURE
-CowlString *cowl_sym_table_get_ns(CowlSymTable *st, CowlString *prefix);
+CowlString *cowl_prefix_map_get_ns(CowlPrefixMap *map, CowlString *prefix);
 
 /**
  * Returns the prefix associated with the specified namespace.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param ns The namespace.
  * @return Prefix associated with the namespace, or NULL if the prefix cannot be found.
  */
 COWL_API
 COWL_PURE
-CowlString *cowl_sym_table_get_prefix(CowlSymTable *st, CowlString *ns);
+CowlString *cowl_prefix_map_get_prefix(CowlPrefixMap *map, CowlString *ns);
 
 /**
  * Registers the specified prefix-namespace mapping.
  *
- * @param st The symbol table.
- * @param prefix The prefix.
- * @param ns The namespace.
- * @param overwrite If true, the new mapping overwrites the previous one.
- * @return Return code.
- */
-COWL_API
-cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, CowlString *ns,
-                                        bool overwrite);
-
-/**
- * Registers the specified prefix-namespace mapping.
- *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param prefix The prefix.
  * @param ns The namespace.
  * @param overwrite If true, the new mapping overwrites the previous one.
@@ -95,76 +82,88 @@ cowl_ret cowl_sym_table_register_prefix(CowlSymTable *st, CowlString *prefix, Co
  */
 COWL_API
 cowl_ret
-cowl_sym_table_register_prefix_raw(CowlSymTable *st, UString prefix, UString ns, bool overwrite);
+cowl_prefix_map_add(CowlPrefixMap *map, CowlString *prefix, CowlString *ns, bool overwrite);
+
+/**
+ * Registers the specified prefix-namespace mapping.
+ *
+ * @param map The prefix map.
+ * @param prefix The prefix.
+ * @param ns The namespace.
+ * @param overwrite If true, the new mapping overwrites the previous one.
+ * @return Return code.
+ */
+COWL_API
+cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns, bool overwrite);
 
 /**
  * Unregisters the specified prefix.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param prefix The prefix.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_sym_table_unregister_prefix(CowlSymTable *st, CowlString *prefix);
+cowl_ret cowl_prefix_map_remove_prefix(CowlPrefixMap *map, CowlString *prefix);
 
 /**
  * Unregisters the specified namespace.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param ns The namespace.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_sym_table_unregister_ns(CowlSymTable *st, CowlString *ns);
+cowl_ret cowl_prefix_map_remove_ns(CowlPrefixMap *map, CowlString *ns);
 
 /**
- * Merges the contents of a symbol table in the current one.
+ * Merges the contents of a prefix map in the current one.
  *
- * @param dst The destination symbol table.
- * @param src The source symbol table.
+ * @param dst The destination prefix map.
+ * @param src The source prefix map.
  * @param overwrite If true, conflicting prefixes are overwritten in the destination.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_sym_table_merge(CowlSymTable *dst, CowlSymTable *src, bool overwrite);
+cowl_ret cowl_prefix_map_merge(CowlPrefixMap *dst, CowlPrefixMap *src, bool overwrite);
 
 /**
  * Retrieves the full IRI associated with the specified short IRI prefix and remainder.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param prefix The prefix.
  * @param rem The remainder.
  * @return IRI instance, or NULL on error.
  */
 COWL_API
 COWL_RETAINED
-CowlIRI *cowl_sym_table_get_iri(CowlSymTable *st, UString prefix, UString rem);
+CowlIRI *cowl_prefix_map_get_iri(CowlPrefixMap *map, UString prefix, UString rem);
 
 /**
  * Parses an IRI from the specified short IRI.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param short_iri The short IRI.
  * @return IRI instance, or NULL on error.
  */
 COWL_API
 COWL_RETAINED
-CowlIRI *cowl_sym_table_parse_short_iri(CowlSymTable *st, UString short_iri);
+CowlIRI *cowl_prefix_map_parse_short_iri(CowlPrefixMap *map, UString short_iri);
 
 /**
  * Parses an IRI from the specified string, which must be the representation of either
  * a short or a full IRI.
  *
- * @param st The symbol table.
+ * @param map The prefix map.
  * @param str The IRI string.
  * @return IRI instance, or NULL on error.
  */
 COWL_API
 COWL_RETAINED
-CowlIRI *cowl_sym_table_parse_iri(CowlSymTable *st, UString str);
+CowlIRI *cowl_prefix_map_parse_iri(CowlPrefixMap *map, UString str);
 
 /// @}
 
 COWL_END_DECLS
 
-#endif // COWL_SYM_TABLE_H
+#endif // COWL_PREFIX_MAP_H

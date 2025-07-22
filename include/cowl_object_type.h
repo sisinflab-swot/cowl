@@ -52,8 +52,8 @@ typedef enum CowlObjectType {
     /// @type{CowlManager} - Ontology manager.
     COWL_OT_MANAGER,
 
-    /// @type{CowlSymTable} - Symbol table.
-    COWL_OT_SYM_TABLE,
+    /// @type{CowlPrefixMap} - Prefix map.
+    COWL_OT_PREFIX_MAP,
 
     /// @type{CowlIStream} - Ontology input stream.
     COWL_OT_ISTREAM,

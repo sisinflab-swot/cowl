@@ -51,10 +51,9 @@ Ontologies can be edited by adding or removing axioms, annotations and other con
 as allowed by the :struct:`CowlOntology` API. They can also be created from scratch by calling
 :func:`cowl_manager_new_ontology()`.
 
-Access to syntactical details that are not relevant to logic, such as the mapping between
-prefixed and full IRIs, is provided by a :struct:`CowlSymTable` instance retrievable by calling
-:func:`cowl_ontology_get_sym_table()`.
+Access to the mappings between prefixed and full IRIs is pro is provided by a
+:struct:`CowlPrefixMap` instance, retrievable by calling :func:`cowl_ontology_get_prefix_map()`.
 
-.. doxygenstruct:: CowlSymTable
-.. doxygengroup:: CowlSymTable
+.. doxygenstruct:: CowlPrefixMap
+.. doxygengroup:: CowlPrefixMap
    :content-only:

@@ -25,13 +25,12 @@
 #include "cowl_object_type.h"
 #include "cowl_ontology_private.h"
 #include "cowl_position.h"
+#include "cowl_prefix_map_private.h"
 #include "cowl_primitive.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_private.h"
 #include "cowl_primitive_type.h"
 #include "cowl_ret.h"
-#include "cowl_sym_table.h"
-#include "cowl_sym_table_private.h"
 #include "cowl_table.h"
 #include "cowl_table_private.h"
 #include "cowl_vector.h"
@@ -44,13 +43,13 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
     CowlOntology *onto = ulib_alloc(onto);
     if (!onto) return NULL;
 
-    CowlSymTable *st = cowl_sym_table();
+    CowlPrefixMap *pm = cowl_prefix_map();
     CowlVector *annot = cowl_vector_ordered_empty();
-    if (!(st && annot) || cowl_manager_add_ontology(manager, onto)) goto err;
+    if (!(pm && annot) || cowl_manager_add_ontology(manager, onto)) goto err;
 
     *onto = (CowlOntology){ 0 };
     onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
-    onto->st = st;
+    onto->pm = pm;
     onto->annot = annot;
     onto->manager = cowl_retain(manager);
 
@@ -61,7 +60,7 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
     return onto;
 
 err:
-    cowl_release(st);
+    cowl_release(pm);
     cowl_release(annot);
     ulib_free(onto);
     return NULL;
@@ -70,7 +69,7 @@ err:
 void cowl_ontology_free(CowlOntology *onto) {
     cowl_manager_remove_ontology(onto->manager, onto);
     cowl_release(onto->manager);
-    cowl_release(onto->st);
+    cowl_release(onto->pm);
 
     cowl_release(onto->iri);
     cowl_release(onto->version);
@@ -104,8 +103,8 @@ cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager) {
     return cowl_manager_add_ontology(manager, onto);
 }
 
-CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto) {
-    return onto->st;
+CowlPrefixMap *cowl_ontology_get_prefix_map(CowlOntology *onto) {
+    return onto->pm;
 }
 
 CowlIRI *cowl_ontology_get_iri(CowlOntology *onto) {

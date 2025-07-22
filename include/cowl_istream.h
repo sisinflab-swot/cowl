@@ -27,7 +27,7 @@ cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlSymTable);
+cowl_struct_decl(CowlPrefixMap);
 /// @endcond
 
 /**
@@ -59,14 +59,14 @@ COWL_PURE
 CowlManager *cowl_istream_get_manager(CowlIStream *stream);
 
 /**
- * Gets the symbol table of this ontology input stream.
+ * Gets the prefix map of this ontology input stream.
  *
  * @param stream The ontology input stream.
- * @return The symbol table.
+ * @return The prefix map.
  */
 COWL_API
 COWL_PURE
-CowlSymTable *cowl_istream_get_sym_table(CowlIStream *stream);
+CowlPrefixMap *cowl_istream_get_prefix_map(CowlIStream *stream);
 
 /**
  * Handles the specified ontology IRI.

@@ -24,7 +24,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlSymTable);
+cowl_struct_decl(CowlPrefixMap);
 /// @endcond
 
 /**
@@ -55,14 +55,14 @@ COWL_PURE
 CowlManager *cowl_ostream_get_manager(CowlOStream *stream);
 
 /**
- * Gets the symbol table of this ontology output stream.
+ * Gets the prefix map of this ontology output stream.
  *
  * @param stream The ontology output stream.
- * @return The symbol table.
+ * @return The prefix map.
  */
 COWL_API
 COWL_PURE
-CowlSymTable *cowl_ostream_get_sym_table(CowlOStream *stream);
+CowlPrefixMap *cowl_ostream_get_prefix_map(CowlOStream *stream);
 
 /**
  * Writes the ontology header.

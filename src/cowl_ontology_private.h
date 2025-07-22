@@ -18,20 +18,17 @@
 #include "cowl_primitive_type.h"
 #include "cowl_ret.h"
 #include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
-#include "cowl_utils.h"
 #include "cowl_vector.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS
-
-cowl_struct_decl(CowlSymTable);
 
 struct CowlOntology {
     CowlObject super;
     CowlIRI *iri;
     CowlIRI *version;
     CowlManager *manager;
-    CowlSymTable *st;
+    CowlPrefixMap *pm;
     CowlVector *imports;
     CowlVector *annot;
     CowlVector *axioms_by_type[COWL_AT_COUNT];

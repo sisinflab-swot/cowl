@@ -32,7 +32,7 @@ cowl_struct_decl(CowlAxiomFilter);
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlIRI);
 cowl_struct_decl(CowlManager);
-cowl_struct_decl(CowlSymTable);
+cowl_struct_decl(CowlPrefixMap);
 cowl_struct_decl(CowlVector);
 /// @endcond
 
@@ -72,14 +72,14 @@ COWL_API
 cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager);
 
 /**
- * Gets the symbol table of this ontology.
+ * Gets the prefix map of this ontology.
  *
  * @param onto The ontology.
- * @return The symbol table.
+ * @return The prefix map.
  */
 COWL_API
 COWL_PURE
-CowlSymTable *cowl_ontology_get_sym_table(CowlOntology *onto);
+CowlPrefixMap *cowl_ontology_get_prefix_map(CowlOntology *onto);
 
 /**
  * Gets the IRI of the ontology.

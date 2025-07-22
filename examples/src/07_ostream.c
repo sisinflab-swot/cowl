@@ -43,11 +43,10 @@ int main(void) {
     cowl_release(manager);
 
     // Optional: setup prefixes so that IRIs can be rendered in their prefixed form.
-    CowlSymTable *st = cowl_ostream_get_sym_table(stream);
-    cowl_sym_table_register_prefix_raw(st, ustring_literal(""), ustring_literal(NS),
-                                       false);
-    cowl_sym_table_register_prefix_raw(st, ustring_literal("pizza"),
-                                       ustring_literal(IMPORT_NS), false);
+    CowlPrefixMap *map = cowl_ostream_get_prefix_map(stream);
+    cowl_prefix_map_add_raw(map, ustring_literal(""), ustring_literal(NS), false);
+    cowl_prefix_map_add_raw(map, ustring_literal("pizza"),
+                            ustring_literal(IMPORT_NS), false);
 
     // Write the ontology header.
     CowlIRI *iri = cowl_iri_from_static(IRI);

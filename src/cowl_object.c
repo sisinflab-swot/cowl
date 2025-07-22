@@ -29,6 +29,7 @@
 #include "cowl_ontology.h"
 #include "cowl_ontology_private.h"
 #include "cowl_ostream_private.h"
+#include "cowl_prefix_map_private.h"
 #include "cowl_primitive.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_private.h"
@@ -36,7 +37,6 @@
 #include "cowl_ret.h"
 #include "cowl_string.h"
 #include "cowl_string_private.h"
-#include "cowl_sym_table_private.h"
 #include "cowl_table_private.h"
 #include "cowl_vector.h"
 #include "cowl_vector_private.h"
@@ -74,7 +74,7 @@ static ulib_byte type_flags[COWL_OT_COUNT] = {
     [COWL_OT_FACET_RESTR] = TF_FC(2),
     [COWL_OT_ONTOLOGY] = TF_NONE,
     [COWL_OT_MANAGER] = TF_NONE,
-    [COWL_OT_SYM_TABLE] = TF_NONE,
+    [COWL_OT_PREFIX_MAP] = TF_NONE,
     [COWL_OT_ISTREAM] = TF_NONE,
     [COWL_OT_OSTREAM] = TF_NONE,
     [COWL_OT_ANNOTATION] = TF_FC(2),
@@ -183,7 +183,7 @@ void cowl_release(CowlAny *object) {
         case COWL_OT_LITERAL: cowl_literal_free(object); return;
         case COWL_OT_ONTOLOGY: cowl_ontology_free(object); return;
         case COWL_OT_MANAGER: cowl_manager_free(object); return;
-        case COWL_OT_SYM_TABLE: cowl_sym_table_free(object); return;
+        case COWL_OT_PREFIX_MAP: cowl_prefix_map_free(object); return;
         case COWL_OT_ISTREAM: cowl_istream_free(object); return;
         case COWL_OT_OSTREAM: cowl_ostream_free(object); return;
         case COWL_OT_I_ANONYMOUS: cowl_anon_ind_free(object); return;

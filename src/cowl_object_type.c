@@ -22,7 +22,7 @@ UString cowl_object_type_to_ustring(CowlObjectType type) {
         case COWL_OT_FACET_RESTR: return ustring_literal("FacetRestriction");
         case COWL_OT_ONTOLOGY: return ustring_literal("Ontology");
         case COWL_OT_MANAGER: return ustring_literal("Manager");
-        case COWL_OT_SYM_TABLE: return ustring_literal("SymbolTable");
+        case COWL_OT_PREFIX_MAP: return ustring_literal("PrefixMap");
         case COWL_OT_ISTREAM: return ustring_literal("InputStream");
         case COWL_OT_OSTREAM: return ustring_literal("OutputStream");
         case COWL_OT_ANNOTATION: return ustring_literal("Annotation");

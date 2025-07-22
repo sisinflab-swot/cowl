@@ -8,27 +8,27 @@
  * @file
  */
 
-#ifndef COWL_SYM_TABLE_PRIVATE_H
-#define COWL_SYM_TABLE_PRIVATE_H
+#ifndef COWL_PREFIX_MAP_PRIVATE_H
+#define COWL_PREFIX_MAP_PRIVATE_H
 
 #include "cowl_attrs.h"
 #include "cowl_object_private.h"
-#include "cowl_sym_table.h" // IWYU pragma: export
+#include "cowl_prefix_map.h" // IWYU pragma: export
 #include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
 
 cowl_struct_decl(CowlTable);
 
-struct CowlSymTable {
+struct CowlPrefixMap {
     CowlObject super;
-    CowlTable *prefix_ns_map;
-    CowlTable *ns_prefix_map;
+    CowlTable *prefix_ns;
+    CowlTable *ns_prefix;
 };
 
-CowlSymTable *cowl_sym_table(void);
-void cowl_sym_table_free(CowlSymTable *st);
+CowlPrefixMap *cowl_prefix_map(void);
+void cowl_prefix_map_free(CowlPrefixMap *map);
 
 COWL_END_DECLS
 
-#endif // COWL_SYM_TABLE_PRIVATE_H
+#endif // COWL_PREFIX_MAP_PRIVATE_H

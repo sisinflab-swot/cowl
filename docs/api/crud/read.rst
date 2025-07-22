@@ -23,8 +23,8 @@ and you can control which reader is used in a number of ways:
 
 You can integrate additional readers by providing suitably populated :struct:`CowlReader` instances.
 When implementing one, use the provided :struct:`CowlIStream` object to handle detected OWL
-constructs. If you need to manage prefixed IRIs, you can do so through the :struct:`CowlSymTable`
-instance available by calling :func:`cowl_istream_get_sym_table()`.
+constructs. If you need to manage prefixed IRIs, you can do so through the :struct:`CowlPrefixMap`
+instance available by calling :func:`cowl_istream_get_prefix_map()`.
 Refer to the built-in readers if you need guidance on their implementation.
 
 .. doxygenstruct:: CowlReader

@@ -22,9 +22,9 @@
 #include "cowl_ontology_private.h"
 #include "cowl_ostream.h"
 #include "cowl_ostream_private.h"
+#include "cowl_prefix_map_private.h"
 #include "cowl_reader.h"
 #include "cowl_ret.h"
-#include "cowl_sym_table_private.h"
 #include "cowl_vector.h"
 #include "cowl_writer.h"
 #include "ulib.h"
@@ -189,9 +189,9 @@ cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *onto, UOS
 }
 
 CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers handlers) {
-    CowlSymTable *st = cowl_sym_table();
-    CowlIStream *stream = cowl_istream(manager, st, handlers);
-    cowl_release(st);
+    CowlPrefixMap *pm = cowl_prefix_map();
+    CowlIStream *stream = cowl_istream(manager, pm, handlers);
+    cowl_release(pm);
     return stream;
 }
 
@@ -226,7 +226,7 @@ CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOnto
         .annot = store_annot,
         .axiom = store_axiom,
     };
-    return cowl_istream(manager, onto->st, handlers);
+    return cowl_istream(manager, onto->pm, handlers);
 }
 
 CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream) {

@@ -28,7 +28,7 @@ COWL_BEGIN_DECLS
 /// @cond
 cowl_struct_decl(CowlLiteral);
 cowl_struct_decl(CowlOntology);
-cowl_struct_decl(CowlSymTable);
+cowl_struct_decl(CowlPrefixMap);
 /// @endcond
 
 /// State of the stream writer.
@@ -37,8 +37,8 @@ typedef struct CowlStreamState {
     /// Writer context.
     void *ctx;
 
-    /// Symbol table.
-    CowlSymTable *st;
+    /// Prefix map.
+    CowlPrefixMap *pm;
 
 } CowlStreamState;
 

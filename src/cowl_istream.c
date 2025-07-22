@@ -26,14 +26,14 @@
 #include "ulib.h"
 #include <stdio.h>
 
-CowlIStream *cowl_istream(CowlManager *manager, CowlSymTable *st, CowlIStreamHandlers handlers) {
+CowlIStream *cowl_istream(CowlManager *manager, CowlPrefixMap *pm, CowlIStreamHandlers handlers) {
     CowlIStream *stream = ulib_alloc(stream);
     if (!stream) return NULL;
 
     *stream = (CowlIStream){
         .super = COWL_OBJECT_INIT(COWL_OT_ISTREAM),
         .manager = cowl_retain(manager),
-        .st = cowl_retain(st),
+        .pm = cowl_retain(pm),
         .handlers = handlers,
     };
 
@@ -42,7 +42,7 @@ CowlIStream *cowl_istream(CowlManager *manager, CowlSymTable *st, CowlIStreamHan
 
 void cowl_istream_free(CowlIStream *stream) {
     cowl_release(stream->manager);
-    cowl_release(stream->st);
+    cowl_release(stream->pm);
     ulib_free(stream);
 }
 
@@ -50,8 +50,8 @@ CowlManager *cowl_istream_get_manager(CowlIStream *stream) {
     return stream->manager;
 }
 
-CowlSymTable *cowl_istream_get_sym_table(CowlIStream *stream) {
-    return stream->st;
+CowlPrefixMap *cowl_istream_get_prefix_map(CowlIStream *stream) {
+    return stream->pm;
 }
 
 cowl_ret cowl_istream_handle_iri(CowlIStream *stream, CowlIRI *iri) {

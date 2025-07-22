@@ -26,10 +26,10 @@ struct CowlIStream {
     CowlObject super;
     CowlIStreamHandlers handlers;
     CowlManager *manager;
-    CowlSymTable *st;
+    CowlPrefixMap *pm;
 };
 
-CowlIStream *cowl_istream(CowlManager *manager, CowlSymTable *st, CowlIStreamHandlers handlers);
+CowlIStream *cowl_istream(CowlManager *manager, CowlPrefixMap *pm, CowlIStreamHandlers handlers);
 void cowl_istream_free(CowlIStream *stream);
 
 COWL_END_DECLS
