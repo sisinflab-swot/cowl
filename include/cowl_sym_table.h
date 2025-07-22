@@ -163,35 +163,6 @@ COWL_API
 COWL_RETAINED
 CowlIRI *cowl_sym_table_parse_iri(CowlSymTable *st, UString str);
 
-/**
- * Retrieves the full IRI associated with the specified short IRI.
- *
- * @param st The symbol table.
- * @param ns The short namespace.
- * @param rem The remainder.
- * @return IRI instance, or NULL on error.
- */
-COWL_DEPRECATED(Use @func{cowl_sym_table_get_iri} instead.)
-COWL_INLINE
-COWL_RETAINED
-CowlIRI *cowl_sym_table_get_full_iri(CowlSymTable *st, UString ns, UString rem) {
-    return cowl_sym_table_get_iri(st, ns, rem);
-}
-
-/**
- * Retrieves the full IRI associated with the specified short IRI.
- *
- * @param st The symbol table.
- * @param short_iri The short IRI.
- * @return IRI instance, or NULL on error.
- */
-COWL_DEPRECATED(Use @func{cowl_sym_table_parse_short_iri} instead.)
-COWL_INLINE
-COWL_RETAINED
-CowlIRI *cowl_sym_table_parse_full_iri(CowlSymTable *st, UString short_iri) {
-    return cowl_sym_table_parse_short_iri(st, short_iri);
-}
-
 /// @}
 
 COWL_END_DECLS

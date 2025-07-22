@@ -167,23 +167,6 @@ COWL_RETAINED
 CowlOntology *cowl_manager_new_ontology(CowlManager *manager);
 
 /**
- * Gets the ontology with the specified IRI and version.
- * If no existing ontology has the specified IRI and version, a new ontology is returned.
- *
- * @param manager The manager.
- * @param iri The ontology IRI.
- * @param version The ontology version.
- * @return Ontology with the specified IRI and version.
- *
- * @note You can pass NULL as the IRI and version, in which case the function returns
- *       a new anonymous ontology.
- */
-COWL_DEPRECATED(Use @func{cowl_manager_retrieve_ontology} or @func{cowl_manager_new_ontology}.)
-COWL_API
-COWL_RETAINED
-CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
-
-/**
  * Gets the ontology with the specified IRI and version, if it exists in the manager or its parents.
  *
  * @param manager The manager.
@@ -195,7 +178,7 @@ CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, Cowl
  *       and either NULL version (if it exists) or any other version.
  */
 COWL_API
-CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
+CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version);
 
 /**
  * Reads an ontology from the file at the specified path.

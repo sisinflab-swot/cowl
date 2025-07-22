@@ -266,21 +266,6 @@ CowlOntology *cowl_manager_new_ontology(CowlManager *manager) {
 }
 
 CowlOntology *cowl_manager_get_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version) {
-    if (iri) {
-        CowlOntology *onto = cowl_manager_retrieve_ontology(manager, iri, version);
-        if (onto) return cowl_retain(onto);
-    }
-
-    CowlOntology *onto = cowl_manager_new_ontology(manager);
-    if (!onto) return NULL;
-
-    if (iri) cowl_ontology_set_iri(onto, iri);
-    if (version) cowl_ontology_set_version(onto, version);
-
-    return onto;
-}
-
-CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri, CowlIRI *version) {
     CowlOntology *match = NULL;
     uvec_foreach (CowlObjectPtr, &manager->ontos, onto) {
         if (cowl_ontology_get_iri(*onto.item) != iri) continue;
@@ -288,7 +273,7 @@ CowlOntology *cowl_manager_retrieve_ontology(CowlManager *manager, CowlIRI *iri,
         if (cowl_ontology_get_version(*onto.item) == version) break;
     }
     if (match) return match;
-    if (manager->parent) return cowl_manager_retrieve_ontology(manager->parent, iri, version);
+    if (manager->parent) return cowl_manager_get_ontology(manager->parent, iri, version);
     return NULL;
 }
 
