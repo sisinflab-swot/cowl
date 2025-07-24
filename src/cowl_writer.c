@@ -13,7 +13,7 @@
 #include "cowl_cstring.h"
 #include "cowl_error.h"
 #include "cowl_iri.h"
-#include "cowl_manager_private.h"
+#include "cowl_manager.h"
 #include "cowl_object.h"
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
@@ -39,7 +39,7 @@ void cowl_writer_free_ctx(CowlWriter *writer) {
 }
 
 cowl_ret cowl_write(UOStream *stream, CowlAny *object) {
-    CowlWriter const *w = cowl_manager_get_writer(root_manager);
+    CowlWriter const *w = cowl_manager_get_writer(cowl_manager_root());
     if (cowl_writer_can_write_object(w)) return w->write(w->ctx, stream, object);
     return cowl_write_debug(stream, object);
 }

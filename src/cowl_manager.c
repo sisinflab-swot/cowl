@@ -30,7 +30,7 @@
 #include "ulib.h"
 #include <stdio.h>
 
-CowlManager *root_manager = NULL;
+static CowlManager *root_manager = NULL;
 
 static CowlManager *cowl_manager_alloc(void) {
     CowlManager *manager = ulib_alloc(manager);
@@ -64,8 +64,12 @@ void cowl_manager_api_deinit(void) {
     cowl_release(root_manager);
 }
 
+CowlManager *cowl_manager_root(void) {
+    return root_manager;
+}
+
 CowlManager *cowl_manager(void) {
-    return cowl_retain(root_manager);
+    return cowl_manager_new_child(root_manager);
 }
 
 CowlManager *cowl_manager_get_parent(CowlManager *manager) {

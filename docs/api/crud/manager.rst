@@ -9,8 +9,9 @@ for multiple :ref:`readers <reading>` and :ref:`writers <writing>`,
 either built-in or provided by the user.
 
 :struct:`CowlManager` objects form a hierarchical structure, with a single root manager
-accessible via :func:`cowl_manager()`. Child managers can be created using
-:func:`cowl_manager_new_child()`, establishing a parent-child relationship.
+accessible via :func:`cowl_manager_root()`. Child managers can be created using
+:func:`cowl_manager_new_child()`, establishing a parent-child relationship. For convenience,
+new children of the root manager can be created using :func:`cowl_manager()`.
 
 This hierarchy is leveraged for managing resources such as :ref:`error handlers <error>`,
 :ref:`readers <reading>`, :ref:`writers <writing>`, and :struct:`ontologies <CowlOntology>`.

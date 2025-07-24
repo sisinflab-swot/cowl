@@ -51,6 +51,16 @@ cowl_struct_decl(CowlManager);
  * @return Root manager.
  */
 COWL_API
+CowlManager *cowl_manager_root(void);
+
+/**
+ * Returns a new manager.
+ *
+ * @return Manager, or NULL on error.
+ *
+ * @note The returned manager is a child of the root manager.
+ */
+COWL_API
 COWL_RETAINED
 CowlManager *cowl_manager(void);
 

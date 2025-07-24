@@ -32,8 +32,6 @@ struct CowlManager {
     UVec(CowlObjectPtr) ontos;
 };
 
-extern CowlManager *root_manager;
-
 cowl_ret cowl_manager_api_init(void);
 void cowl_manager_api_deinit(void);
 
