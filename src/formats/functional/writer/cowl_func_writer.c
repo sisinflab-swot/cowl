@@ -20,6 +20,7 @@
 #include "cowl_impl.h"
 #include "cowl_iri.h"
 #include "cowl_literal.h"
+#include "cowl_manager.h"
 #include "cowl_obj_quant.h"
 #include "cowl_object.h"
 #include "cowl_object_type.h"
@@ -41,7 +42,8 @@ cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader *header, CowlPrefixM
 static ulib_ret cowl_func_write_onto_footer(UOStream *s);
 
 static cowl_ret cowl_func_write(cowl_unused void *ctx, UOStream *stream, CowlAny *object) {
-    return cowl_ret_from_ulib(cowl_func_write_obj(stream, object, NULL));
+    CowlPrefixMap *pm = cowl_manager_get_prefix_map(cowl_manager_root());
+    return cowl_ret_from_ulib(cowl_func_write_obj(stream, object, pm));
 }
 
 static cowl_ret

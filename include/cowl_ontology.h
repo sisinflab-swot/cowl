@@ -75,7 +75,7 @@ cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager);
  * Gets the prefix map of this ontology.
  *
  * @param onto The ontology.
- * @return The prefix map.
+ * @return The prefix map, or NULL on error.
  */
 COWL_API
 COWL_PURE

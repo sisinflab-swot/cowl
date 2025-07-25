@@ -51,14 +51,13 @@ static cowl_ret update_reverse_map(CowlPrefixMap *map) {
     return COWL_OK;
 }
 
-static inline cowl_ret cowl_prefix_map_register_reserved(CowlPrefixMap *map) {
+static cowl_ret register_reserved(CowlPrefixMap *map) {
     CowlVocab const *v = cowl_vocab();
-    if (cowl_prefix_map_add(map, v->owl->prefix, v->owl->ns, false) ||
-        cowl_prefix_map_add(map, v->rdf->prefix, v->rdf->ns, false) ||
-        cowl_prefix_map_add(map, v->rdfs->prefix, v->rdfs->ns, false) ||
-        cowl_prefix_map_add(map, v->xsd->prefix, v->xsd->ns, false)) {
-        return COWL_ERR_MEM;
-    }
+    cowl_ret r;
+    if ((r = cowl_prefix_map_add(map, v->owl->prefix, v->owl->ns, false))) return r;
+    if ((r = cowl_prefix_map_add(map, v->rdf->prefix, v->rdf->ns, false))) return r;
+    if ((r = cowl_prefix_map_add(map, v->rdfs->prefix, v->rdfs->ns, false))) return r;
+    if ((r = cowl_prefix_map_add(map, v->xsd->prefix, v->xsd->ns, false))) return r;
     return COWL_OK;
 }
 
@@ -66,12 +65,10 @@ CowlPrefixMap *cowl_prefix_map(void) {
     CowlPrefixMap *map = ulib_alloc(map);
     if (!map) return NULL;
     *map = (CowlPrefixMap){ .super = COWL_OBJECT_INIT(COWL_OT_PREFIX_MAP) };
-
-    if (cowl_prefix_map_register_reserved(map)) {
+    if (register_reserved(map)) {
         cowl_prefix_map_free(map);
         map = NULL;
     }
-
     return map;
 }
 
@@ -79,6 +76,15 @@ void cowl_prefix_map_free(CowlPrefixMap *map) {
     cowl_table_release_ex(map->prefix_ns, true);
     cowl_table_release_ex(map->ns_prefix, false);
     ulib_free(map);
+}
+
+CowlPrefixMap *cowl_prefix_map_copy(CowlPrefixMap *map) {
+    CowlPrefixMap *copy = cowl_prefix_map();
+    if (copy && cowl_prefix_map_merge(copy, map, false)) {
+        cowl_prefix_map_free(copy);
+        copy = NULL;
+    }
+    return copy;
 }
 
 CowlTable *cowl_prefix_map_get_table(CowlPrefixMap *map, bool reverse) {
@@ -89,9 +95,7 @@ CowlTable *cowl_prefix_map_get_table(CowlPrefixMap *map, bool reverse) {
         if (!(*table = cowl_table(&temp))) return NULL;
     }
 
-    if (reverse && update_reverse_map(map)) {
-        return NULL;
-    }
+    if (reverse && update_reverse_map(map)) return NULL;
 
     return *table;
 }

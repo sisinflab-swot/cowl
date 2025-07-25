@@ -58,7 +58,7 @@ CowlManager *cowl_ostream_get_manager(CowlOStream *stream);
  * Gets the prefix map of this ontology output stream.
  *
  * @param stream The ontology output stream.
- * @return The prefix map.
+ * @return The prefix map, or NULL on error.
  */
 COWL_API
 COWL_PURE

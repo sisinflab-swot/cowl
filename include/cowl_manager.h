@@ -84,6 +84,15 @@ COWL_RETAINED
 CowlManager *cowl_manager_new_child(CowlManager *manager);
 
 /**
+ * Gets the prefix map of this manager.
+ *
+ * @param manager The manager.
+ * @return The prefix map, or NULL on error.
+ */
+COWL_API
+CowlPrefixMap *cowl_manager_get_prefix_map(CowlManager *manager);
+
+/**
  * Gets the reader used by this manager.
  *
  * @param manager The manager.

@@ -44,6 +44,7 @@ static CowlManager *cowl_manager_alloc(void) {
 
 void cowl_manager_free(CowlManager *manager) {
     cowl_release(manager->parent);
+    cowl_release(manager->pm);
     cowl_reader_free_ctx(&manager->reader);
     cowl_writer_free_ctx(&manager->writer);
     cowl_error_handler_free_ctx(&manager->handler);
@@ -53,11 +54,18 @@ void cowl_manager_free(CowlManager *manager) {
 
 cowl_ret cowl_manager_api_init(void) {
     root_manager = cowl_manager_alloc();
-    if (!root_manager) return COWL_ERR_MEM;
+    if (!(root_manager && (root_manager->pm = cowl_prefix_map()))) goto err;
     root_manager->reader = cowl_reader_default();
     root_manager->writer = cowl_writer_default();
     root_manager->handler = (CowlErrorHandler)ulib_zero_init;
     return COWL_OK;
+
+err:
+    if (root_manager) {
+        cowl_manager_free(root_manager);
+        root_manager = NULL;
+    }
+    return COWL_ERR_MEM;
 }
 
 void cowl_manager_api_deinit(void) {
@@ -82,19 +90,34 @@ CowlManager *cowl_manager_new_child(CowlManager *manager) {
     return child;
 }
 
+CowlPrefixMap *cowl_manager_get_prefix_map(CowlManager *manager) {
+    if (!manager->pm) manager->pm = cowl_manager_new_prefix_map(manager->parent);
+    return manager->pm;
+}
+
+CowlPrefixMap *cowl_manager_find_prefix_map(CowlManager *manager) {
+    if (manager->pm || !manager->parent) return manager->pm;
+    return cowl_manager_find_prefix_map(manager->parent);
+}
+
+CowlPrefixMap *cowl_manager_new_prefix_map(CowlManager *manager) {
+    CowlPrefixMap *pm = cowl_manager_find_prefix_map(manager);
+    return cowl_prefix_map_copy(pm);
+}
+
 CowlReader *cowl_manager_get_reader(CowlManager *manager) {
-    if (manager->reader.name) return &manager->reader;
-    return manager->parent ? cowl_manager_get_reader(manager->parent) : NULL;
+    if (manager->reader.name || !manager->parent) return &manager->reader;
+    return cowl_manager_get_reader(manager->parent);
 }
 
 CowlWriter *cowl_manager_get_writer(CowlManager *manager) {
-    if (manager->writer.name) return &manager->writer;
-    return manager->parent ? cowl_manager_get_writer(manager->parent) : NULL;
+    if (manager->writer.name || !manager->parent) return &manager->writer;
+    return cowl_manager_get_writer(manager->parent);
 }
 
 CowlErrorHandler *cowl_manager_get_error_handler(CowlManager *manager) {
-    if (manager->handler.handle_error) return &manager->handler;
-    return manager->parent ? cowl_manager_get_error_handler(manager->parent) : NULL;
+    if (manager->handler.handle_error || !manager->parent) return &manager->handler;
+    return cowl_manager_get_error_handler(manager->parent);
 }
 
 static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStream *istream) {
@@ -193,10 +216,11 @@ cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *onto, UOS
 }
 
 CowlIStream *cowl_manager_get_istream(CowlManager *manager, CowlIStreamHandlers handlers) {
-    CowlPrefixMap *pm = cowl_prefix_map();
-    CowlIStream *stream = cowl_istream(manager, pm, handlers);
+    CowlPrefixMap *pm = cowl_manager_new_prefix_map(manager);
+    if (!pm) return NULL;
+    CowlIStream *istream = cowl_istream(manager, pm, handlers);
     cowl_release(pm);
-    return stream;
+    return istream;
 }
 
 static cowl_ret store_iri(void *ctx, CowlIRI *iri) {
@@ -230,7 +254,7 @@ CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOnto
         .annot = store_annot,
         .axiom = store_axiom,
     };
-    return cowl_istream(manager, onto->pm, handlers);
+    return cowl_istream(manager, cowl_ontology_get_prefix_map(onto), handlers);
 }
 
 CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream) {

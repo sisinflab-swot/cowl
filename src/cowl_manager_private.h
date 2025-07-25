@@ -26,6 +26,7 @@ COWL_BEGIN_DECLS
 struct CowlManager {
     CowlObject super;
     CowlManager *parent;
+    CowlPrefixMap *pm;
     CowlReader reader;
     CowlWriter writer;
     CowlErrorHandler handler;
@@ -38,6 +39,8 @@ void cowl_manager_api_deinit(void);
 void cowl_manager_free(CowlManager *manager);
 cowl_ret cowl_manager_add_ontology(CowlManager *manager, CowlOntology *onto);
 void cowl_manager_remove_ontology(CowlManager *manager, CowlOntology *onto);
+CowlPrefixMap *cowl_manager_find_prefix_map(CowlManager *manager);
+CowlPrefixMap *cowl_manager_new_prefix_map(CowlManager *manager);
 
 COWL_END_DECLS
 

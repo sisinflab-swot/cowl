@@ -35,17 +35,17 @@
 
 CowlOntology *cowl_ontology(CowlManager *manager) {
     CowlOntology *onto = ulib_alloc(onto);
-    if (!onto) return NULL;
+    if (!onto) goto err;
 
-    CowlPrefixMap *pm = cowl_prefix_map();
-    CowlVector *annot = cowl_vector_ordered_empty();
-    if (!(pm && annot) || cowl_manager_add_ontology(manager, onto)) goto err;
+    *onto = (CowlOntology){
+        .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY),
+        .manager = cowl_retain(manager),
+        .annot = cowl_vector_ordered_empty(),
+    };
 
-    *onto = (CowlOntology){ 0 };
-    onto->super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY);
-    onto->pm = pm;
-    onto->annot = annot;
-    onto->manager = cowl_retain(manager);
+    if (!onto->annot || cowl_manager_add_ontology(manager, onto)) {
+        goto err;
+    }
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         onto->refs[i] = cowl_primitive_map();
@@ -54,9 +54,7 @@ CowlOntology *cowl_ontology(CowlManager *manager) {
     return onto;
 
 err:
-    cowl_release(pm);
-    cowl_release(annot);
-    ulib_free(onto);
+    if (onto) cowl_ontology_free(onto);
     return NULL;
 }
 
@@ -98,7 +96,13 @@ cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager) {
 }
 
 CowlPrefixMap *cowl_ontology_get_prefix_map(CowlOntology *onto) {
+    if (!onto->pm) onto->pm = cowl_manager_new_prefix_map(onto->manager);
     return onto->pm;
+}
+
+CowlPrefixMap *cowl_ontology_find_prefix_map(CowlOntology *onto) {
+    if (onto->pm) return onto->pm;
+    return cowl_manager_find_prefix_map(onto->manager);
 }
 
 CowlIRI *cowl_ontology_get_iri(CowlOntology *onto) {

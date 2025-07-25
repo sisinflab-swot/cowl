@@ -38,6 +38,7 @@ struct CowlOntology {
 CowlOntology *cowl_ontology(CowlManager *manager);
 void cowl_ontology_free(CowlOntology *onto);
 cowl_ret cowl_ontology_finalize(CowlOntology *onto);
+CowlPrefixMap *cowl_ontology_find_prefix_map(CowlOntology *onto);
 
 COWL_END_DECLS
 
