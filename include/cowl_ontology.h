@@ -96,9 +96,10 @@ CowlIRI *cowl_ontology_get_iri(CowlOntology *onto);
  *
  * @param onto The ontology.
  * @param iri The IRI.
+ * @return Return code.
  */
 COWL_API
-void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
+cowl_ret cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri);
 
 /**
  * Gets the version of the ontology.
@@ -115,9 +116,10 @@ CowlIRI *cowl_ontology_get_version(CowlOntology *onto);
  *
  * @param onto The ontology.
  * @param version The version IRI.
+ * @return Return code.
  */
 COWL_API
-void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
+cowl_ret cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version);
 
 /**
  * Gets the annotations of the specified ontology.

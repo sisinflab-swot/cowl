@@ -389,14 +389,16 @@ bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primiti
     return cowl_ontology_iterate_axioms_for_primitive(onto, primitive, &l_iter);
 }
 
-void cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {
+cowl_ret cowl_ontology_set_iri(CowlOntology *onto, CowlIRI *iri) {
     cowl_release(onto->iri);
     onto->iri = iri ? cowl_retain(iri) : NULL;
+    return COWL_OK;
 }
 
-void cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version) {
+cowl_ret cowl_ontology_set_version(CowlOntology *onto, CowlIRI *version) {
     cowl_release(onto->version);
     onto->version = version ? cowl_retain(version) : NULL;
+    return COWL_OK;
 }
 
 typedef struct CowlAxiomCtx {
