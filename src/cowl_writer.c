@@ -11,14 +11,12 @@
 #include "cowl_writer.h"
 #include "cowl_any.h"
 #include "cowl_cstring.h"
-#include "cowl_error.h"
 #include "cowl_iri.h"
 #include "cowl_manager.h"
 #include "cowl_object.h"
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology.h"
-#include "cowl_reader.h"
 #include "cowl_ret.h"
 #include "cowl_string.h"
 #include "cowl_utils.h"
@@ -76,71 +74,6 @@ ulib_ret cowl_write_object_type(UOStream *s, CowlObjectType type) {
         cowl_write_static(s, "(");
         cowl_write_uint(s, type);
         cowl_write_static(s, ")");
-    }
-
-    return s->state;
-}
-
-ulib_ret cowl_write_error(UOStream *s, CowlError const *error) {
-    cowl_write_static(s, "Error ");
-    cowl_write_uint(s, error->code);
-
-    if (error->origin) {
-        cowl_write_static(s, " - triggered by ");
-
-        switch (cowl_get_type(error->origin)) {
-            case COWL_OT_MANAGER: {
-                CowlReader const *r = cowl_manager_get_reader((CowlManager *)error->origin);
-                char const *name = r->name ? r->name : "unnamed";
-                uostream_write(s, name, strlen(name), NULL);
-                cowl_write_static(s, " reader");
-                break;
-            }
-            case COWL_OT_ONTOLOGY: {
-                CowlIRI *iri = cowl_ontology_get_iri(error->origin);
-                if (iri) {
-                    cowl_write_static(s, "ontology ");
-                    cowl_write_iri(s, iri);
-                } else {
-                    cowl_write_static(s, "anonymous ontology");
-                }
-                break;
-            }
-            default: {
-                cowl_write_debug(s, error->origin);
-                break;
-            }
-        }
-    }
-
-    if (error->code == COWL_ERR_SYNTAX) {
-        CowlSyntaxError const *se = (CowlSyntaxError *)error;
-
-        if (se->loc.source || se->loc.line) {
-            cowl_write_static(s, " (");
-
-            if (se->loc.source) {
-                cowl_write_string(s, se->loc.source);
-                cowl_write_static(s, ", ");
-            }
-
-            if (se->loc.line) {
-                cowl_write_static(s, "line ");
-                cowl_write_uint(s, se->loc.line);
-            }
-
-            cowl_write_static(s, ")");
-        }
-    }
-
-    cowl_write_static(s, " - ");
-
-    UString str = cowl_ret_to_ustring(error->code);
-    cowl_write_ustring(s, &str);
-
-    if (error->description && !ustring_equals(*cowl_string_get_raw(error->description), str)) {
-        cowl_write_static(s, ": ");
-        cowl_write_string(s, error->description);
     }
 
     return s->state;

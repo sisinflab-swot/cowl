@@ -10,7 +10,6 @@
 
 #include "cowl_ostream.h"
 #include "cowl_any.h"
-#include "cowl_error_handler.h"
 #include "cowl_iterator.h"
 #include "cowl_manager_private.h"
 #include "cowl_object.h"
@@ -59,42 +58,28 @@ static CowlPrefixMap *cowl_ostream_find_prefix_map(CowlOStream *stream) {
     return cowl_manager_find_prefix_map(stream->manager);
 }
 
-static cowl_ret handle_stream_writer_not_implemented(CowlOStream *stream, char const *name) {
-    UString comp[] = {
-        ustring_wrap_buf(name),
-        ustring_literal(" writer does not support stream serialization"),
-    };
-    UString desc = ustring_concat(comp, ulib_array_count(comp));
-    cowl_handle_error(COWL_ERR, desc, stream);
-    ustring_deinit(&desc);
-    return COWL_ERR;
-}
-
 cowl_ret cowl_ostream_write_header(CowlOStream *stream, CowlOntologyHeader header) {
     CowlWriter const *w = cowl_manager_get_writer(stream->manager);
     CowlStreamWriter sw = w->stream;
-    if (!sw.write_header) return handle_stream_writer_not_implemented(stream, w->name);
+    if (!sw.write_header) return COWL_ERR;
     CowlPrefixMap *pm = cowl_ostream_find_prefix_map(stream);
-    cowl_ret ret = sw.write_header((CowlStreamState){ w->ctx, pm }, stream->stream, header);
-    return cowl_handle_error_code(ret, stream);
+    return sw.write_header((CowlStreamState){ w->ctx, pm }, stream->stream, header);
 }
 
 cowl_ret cowl_ostream_write_axiom(CowlOStream *stream, CowlAnyAxiom *axiom) {
     CowlWriter const *w = cowl_manager_get_writer(stream->manager);
     CowlStreamWriter sw = w->stream;
-    if (!sw.write_axiom) return handle_stream_writer_not_implemented(stream, w->name);
+    if (!sw.write_axiom) return COWL_ERR;
     CowlPrefixMap *pm = cowl_ostream_find_prefix_map(stream);
-    cowl_ret ret = sw.write_axiom((CowlStreamState){ w->ctx, pm }, stream->stream, axiom);
-    return cowl_handle_error_code(ret, stream);
+    return sw.write_axiom((CowlStreamState){ w->ctx, pm }, stream->stream, axiom);
 }
 
 cowl_ret cowl_ostream_write_footer(CowlOStream *stream) {
     CowlWriter const *w = cowl_manager_get_writer(stream->manager);
     CowlStreamWriter sw = w->stream;
-    if (!sw.write_footer) return handle_stream_writer_not_implemented(stream, w->name);
+    if (!sw.write_footer) return COWL_ERR;
     CowlPrefixMap *pm = cowl_ostream_find_prefix_map(stream);
-    cowl_ret ret = sw.write_footer((CowlStreamState){ w->ctx, pm }, stream->stream);
-    return cowl_handle_error_code(ret, stream);
+    return sw.write_footer((CowlStreamState){ w->ctx, pm }, stream->stream);
 }
 
 struct WriteAxiomCtx {
@@ -146,14 +131,12 @@ end:
 }
 
 cowl_ret cowl_ostream_write_ontology(CowlOStream *stream, CowlOntology *onto) {
-    cowl_ret ret = COWL_OK;
     CowlWriter const *w = cowl_manager_get_writer(stream->manager);
     if (cowl_writer_can_write_ontology(w)) {
-        ret = cowl_ostream_write_ontology_store(stream, onto);
-    } else if (cowl_writer_can_write_stream(w)) {
-        ret = cowl_ostream_write_ontology_stream(stream, onto);
-    } else {
-        return cowl_handle_error(COWL_ERR, ustring_literal("Invalid writer"), stream);
+        return cowl_ostream_write_ontology_store(stream, onto);
     }
-    return cowl_handle_error_code(ret, stream);
+    if (cowl_writer_can_write_stream(w)) {
+        return cowl_ostream_write_ontology_stream(stream, onto);
+    }
+    return COWL_ERR;
 }

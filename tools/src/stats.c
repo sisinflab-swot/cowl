@@ -116,11 +116,6 @@ static bool parse_args(int argc, char *argv[], Format *format, UString *path) {
     return select_format(argc >= 3 ? argv[2] : "", format);
 }
 
-static void handle_error(void *stream, CowlError const *error) {
-    cowl_write_error(stream, error);
-    cowl_write_static(stream, "\n");
-}
-
 static bool load_ontology(UString path, CowlOntology **onto) {
     if (cowl_init()) {
         log_error("Failed to initialize Cowl.\n");
@@ -128,9 +123,6 @@ static bool load_ontology(UString path, CowlOntology **onto) {
     }
 
     CowlManager *manager = cowl_manager();
-    CowlErrorHandler handler = { .ctx = uostream_stderr(), .handle_error = handle_error };
-    cowl_manager_set_error_handler(manager, handler);
-
     CowlOntology *l_onto = cowl_manager_read_path(manager, path);
     cowl_release(manager);
 

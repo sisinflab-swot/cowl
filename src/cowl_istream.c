@@ -10,7 +10,6 @@
 
 #include "cowl_istream.h"
 #include "cowl_any.h"
-#include "cowl_error_handler.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_istream_private.h"
 #include "cowl_iterator.h"
@@ -80,25 +79,22 @@ cowl_ret cowl_istream_handle_axiom(CowlIStream *stream, CowlAnyAxiom *axiom) {
 }
 
 cowl_ret cowl_istream_process_stream(CowlIStream *stream, UIStream *istream) {
-    if (ulib_is_err(istream->state)) return cowl_handle_ulib_error(istream->state, stream);
+    if (ulib_is_err(istream->state)) return cowl_ret_from_ulib(istream->state);
     CowlReader const *r = cowl_manager_get_reader(stream->manager);
-    cowl_ret const ret = r->read(r->ctx, istream, stream);
-    return cowl_handle_error_code(ret, stream);
+    return r->read(r->ctx, istream, stream);
 }
 
 static cowl_ret cowl_istream_process_stream_deinit(CowlIStream *stream, UIStream *istream) {
     cowl_ret ret = cowl_istream_process_stream(stream, istream);
     ulib_ret const s_ret = uistream_deinit(istream);
-    if (ret == COWL_OK) ret = cowl_handle_ulib_error(s_ret, stream);
+    if (cowl_is_ok(ret)) ret = cowl_ret_from_ulib(s_ret);
     return ret;
 }
 
 cowl_ret cowl_istream_process_path(CowlIStream *stream, UString path) {
     UIStream istream;
     uistream_from_path(&istream, ustring_data(path));
-    cowl_ret ret = cowl_istream_process_stream_deinit(stream, &istream);
-    if (ret) cowl_handle_path_error(path, ustring_literal("failed to load ontology"), stream);
-    return ret;
+    return cowl_istream_process_stream_deinit(stream, &istream);
 }
 
 cowl_ret cowl_istream_process_file(CowlIStream *stream, FILE *file) {

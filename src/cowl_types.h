@@ -21,7 +21,6 @@
 #include "cowl_cls_exp_type.h"
 #include "cowl_data_range_type.h"
 #include "cowl_entity_type.h"
-#include "cowl_error.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_iterator.h"
 #include "cowl_nary_axiom_type.h"

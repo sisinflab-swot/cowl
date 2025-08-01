@@ -15,7 +15,6 @@
 
 #include "cowl_any.h"
 #include "cowl_attrs.h"
-#include "cowl_error.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology_header.h"
 #include "cowl_ret.h"
@@ -281,16 +280,6 @@ ulib_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
  */
 COWL_API
 ulib_ret cowl_write_uint(UOStream *stream, ulib_uint uint);
-
-/**
- * Writes an human readable representation of an error to the specified output stream.
- *
- * @param stream Output stream.
- * @param error Error.
- * @return Return code.
- */
-COWL_API
-ulib_ret cowl_write_error(UOStream *stream, CowlError const *error);
 
 /**
  * Writes a string to the specified output stream.

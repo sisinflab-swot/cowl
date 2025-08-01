@@ -12,7 +12,6 @@
 #define COWL_MANAGER_PRIVATE_H
 
 #include "cowl_attrs.h"
-#include "cowl_error_handler.h"
 #include "cowl_manager.h" // IWYU pragma: export
 #include "cowl_object_private.h"
 #include "cowl_reader.h"
@@ -29,7 +28,6 @@ struct CowlManager {
     CowlPrefixMap *pm;
     CowlReader reader;
     CowlWriter writer;
-    CowlErrorHandler handler;
     UVec(CowlObjectPtr) ontos;
 };
 

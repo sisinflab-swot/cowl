@@ -9,7 +9,6 @@
  */
 
 #include "cowl_any.h"
-#include "cowl_error_handler.h"
 #include "cowl_istream.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_istream_private.h"
@@ -47,7 +46,6 @@ void cowl_manager_free(CowlManager *manager) {
     cowl_release(manager->pm);
     cowl_reader_free_ctx(&manager->reader);
     cowl_writer_free_ctx(&manager->writer);
-    cowl_error_handler_free_ctx(&manager->handler);
     uvec_deinit(CowlObjectPtr, &manager->ontos);
     ulib_free(manager);
 }
@@ -57,7 +55,6 @@ cowl_ret cowl_manager_api_init(void) {
     if (!(root_manager && (root_manager->pm = cowl_prefix_map()))) goto err;
     root_manager->reader = cowl_reader_default();
     root_manager->writer = cowl_writer_default();
-    root_manager->handler = (CowlErrorHandler)ulib_zero_init;
     return COWL_OK;
 
 err:
@@ -110,14 +107,19 @@ CowlReader *cowl_manager_get_reader(CowlManager *manager) {
     return cowl_manager_get_reader(manager->parent);
 }
 
+void cowl_manager_set_reader(CowlManager *manager, CowlReader reader) {
+    cowl_reader_free_ctx(&manager->reader);
+    manager->reader = reader;
+}
+
 CowlWriter *cowl_manager_get_writer(CowlManager *manager) {
     if (manager->writer.name || !manager->parent) return &manager->writer;
     return cowl_manager_get_writer(manager->parent);
 }
 
-CowlErrorHandler *cowl_manager_get_error_handler(CowlManager *manager) {
-    if (manager->handler.handle_error || !manager->parent) return &manager->handler;
-    return cowl_manager_get_error_handler(manager->parent);
+void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer) {
+    cowl_writer_free_ctx(&manager->writer);
+    manager->writer = writer;
 }
 
 static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStream *istream) {
@@ -125,9 +127,8 @@ static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStr
     ulib_ret const ret = uistream_deinit(istream);
 
     if (ulib_is_err(ret)) {
-        cowl_handle_ulib_error(ret, manager);
         cowl_release(onto);
-        return NULL;
+        onto = NULL;
     }
 
     return onto;
@@ -135,17 +136,15 @@ static CowlOntology *cowl_manager_read_stream_deinit(CowlManager *manager, UIStr
 
 static cowl_ret
 cowl_manager_write_stream_deinit(CowlManager *manager, CowlOntology *onto, UOStream *stream) {
-    cowl_manager_write_stream(manager, onto, stream);
-    ulib_ret const ret = uostream_deinit(stream);
-    return cowl_handle_ulib_error(ret, manager);
+    cowl_ret const c_ret = cowl_manager_write_stream(manager, onto, stream);
+    ulib_ret const s_ret = uostream_deinit(stream);
+    return cowl_is_err(c_ret) ? c_ret : cowl_ret_from_ulib(s_ret);
 }
 
 CowlOntology *cowl_manager_read_path(CowlManager *manager, UString path) {
     UIStream stream;
     uistream_from_path(&stream, ustring_data(path));
-    CowlOntology *onto = cowl_manager_read_stream_deinit(manager, &stream);
-    if (!onto) cowl_handle_path_error(path, ustring_literal("failed to load ontology"), manager);
-    return onto;
+    return cowl_manager_read_stream_deinit(manager, &stream);
 }
 
 CowlOntology *cowl_manager_read_file(CowlManager *manager, FILE *file) {
@@ -161,25 +160,18 @@ CowlOntology *cowl_manager_read_string(CowlManager *manager, UString const *stri
 }
 
 CowlOntology *cowl_manager_read_stream(CowlManager *manager, UIStream *istream) {
-    if (ulib_is_err(istream->state)) {
-        cowl_handle_ulib_error(istream->state, manager);
-        return NULL;
-    }
+    if (ulib_is_err(istream->state)) return NULL;
 
     CowlIStream *stream = NULL;
-    CowlOntology *onto = cowl_ontology(manager);
-    if (!onto) goto err_mem;
+    CowlOntology *onto = NULL;
+    if (!(onto = cowl_ontology(manager))) goto err;
+    if (!(stream = cowl_manager_get_istream_to_ontology(manager, onto))) goto err;
 
-    stream = cowl_manager_get_istream_to_ontology(manager, onto);
-    if (!stream) goto err_mem;
     if (cowl_istream_process_stream(stream, istream)) goto err;
-    if (cowl_ontology_finalize(onto)) goto err_mem;
+    if (cowl_ontology_finalize(onto)) goto err;
 
     cowl_release(stream);
     return onto;
-
-err_mem:
-    cowl_handle_error_code(COWL_ERR_MEM, manager);
 
 err:
     cowl_release(onto);
@@ -190,9 +182,7 @@ err:
 cowl_ret cowl_manager_write_path(CowlManager *manager, CowlOntology *onto, UString path) {
     UOStream stream;
     uostream_to_path(&stream, ustring_data(path));
-    cowl_ret ret = cowl_manager_write_stream_deinit(manager, onto, &stream);
-    if (ret) cowl_handle_path_error(path, ustring_literal("failed to write ontology"), manager);
-    return ret;
+    return cowl_manager_write_stream_deinit(manager, onto, &stream);
 }
 
 cowl_ret cowl_manager_write_file(CowlManager *manager, CowlOntology *onto, FILE *file) {
@@ -208,9 +198,9 @@ cowl_ret cowl_manager_write_strbuf(CowlManager *manager, CowlOntology *onto, USt
 }
 
 cowl_ret cowl_manager_write_stream(CowlManager *manager, CowlOntology *onto, UOStream *stream) {
-    if (ulib_is_err(stream->state)) return cowl_handle_ulib_error(stream->state, manager);
+    if (ulib_is_err(stream->state)) return cowl_ret_from_ulib(stream->state);
     CowlOStream *ostream = cowl_manager_get_ostream(manager, stream);
-    cowl_ret ret = cowl_ostream_write_ontology(ostream, onto);
+    cowl_ret const ret = cowl_ostream_write_ontology(ostream, onto);
     cowl_release(ostream);
     return ret;
 }
@@ -259,21 +249,6 @@ CowlIStream *cowl_manager_get_istream_to_ontology(CowlManager *manager, CowlOnto
 
 CowlOStream *cowl_manager_get_ostream(CowlManager *manager, UOStream *stream) {
     return cowl_ostream(manager, stream);
-}
-
-void cowl_manager_set_reader(CowlManager *manager, CowlReader reader) {
-    cowl_reader_free_ctx(&manager->reader);
-    manager->reader = reader;
-}
-
-void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer) {
-    cowl_writer_free_ctx(&manager->writer);
-    manager->writer = writer;
-}
-
-void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler) {
-    cowl_error_handler_free_ctx(&manager->handler);
-    manager->handler = handler;
 }
 
 ulib_uint cowl_manager_ontology_count(CowlManager *manager) {

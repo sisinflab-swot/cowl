@@ -20,12 +20,6 @@
 #define ONTO_NS "http://onto.owl#"
 #define COWL_ONTOLOGY_OUT "test_onto_out.owl"
 
-static void cowl_test_manager_write_error(void *ctx, CowlError const *error) {
-    UOStream *stream = (UOStream *)ctx;
-    cowl_write_error(stream, error);
-    cowl_write_static(stream, "\n");
-}
-
 // Tests
 
 void cowl_test_manager_lifecycle(void) {
@@ -67,11 +61,6 @@ void cowl_test_manager_read_ontology(void) {
 
     UOStream ostream;
     utest_assert_fatal(uostream_to_path(&ostream, ustring_data(log_path)) == ULIB_OK);
-
-    CowlErrorHandler handler = ulib_zero_init;
-    handler.ctx = &ostream;
-    handler.handle_error = cowl_test_manager_write_error;
-    cowl_manager_set_error_handler(manager, handler);
 
     CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
     utest_assert_not_null(onto);

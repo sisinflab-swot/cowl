@@ -50,19 +50,17 @@
     #include <stddef.h>
     #include <string.h>
 
-    #define COWL_HANDLE_ERROR(CODE) cowl_handle_error_code((CODE), stream)
-    #define COWL_HANDLE_MEM_ERROR() cowl_handle_error_code(COWL_ERR_MEM, stream)
-    #define COWL_HANDLE_SYNTAX_ERROR(DESC) \
-        cowl_handle_syntax_error((DESC), stream, (CowlErrorLoc) { .line = yylloc.last_line })
+    #define COWL_HANDLE_ERROR(CODE)
+    #define COWL_HANDLE_MEM_ERROR()
+    #define COWL_HANDLE_SYNTAX_ERROR(DESC)
 
-    static void cowl_func_yyerror(COWL_FUNC_YYLTYPE *yylloc,
+    static void cowl_func_yyerror(cowl_unused COWL_FUNC_YYLTYPE *yylloc,
                                   cowl_unused yyscan_t scanner,
-                                  CowlIStream *stream, const char *s) {
+                                  cowl_unused CowlIStream *stream, cowl_unused const char *s) {
         if (strcmp(s, "memory exhausted") == 0) {
             COWL_HANDLE_MEM_ERROR();
         } else {
-            cowl_handle_syntax_error(ustring_wrap_buf(s), stream,
-                                     (CowlErrorLoc) { .line = yylloc->last_line });
+            COWL_HANDLE_SYNTAX_ERROR(ustring_null);
         }
     }
 

@@ -15,7 +15,6 @@
 #include "cowl_axiom_flags.h"
 #include "cowl_axiom_type.h"
 #include "cowl_entity.h"
-#include "cowl_error_handler.h"
 #include "cowl_iterator.h"
 #include "cowl_manager_private.h"
 #include "cowl_object_private.h"
@@ -434,7 +433,7 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
     CowlIterator iter = { &ctx, cowl_ontology_primitive_adder };
     cowl_iterate_primitives(annot, COWL_PF_ALL, &iter);
     if (!(ret = ctx.ret)) ret = cowl_vector_ptr_add(&onto->annot, annot);
-    return cowl_handle_error_code(ret, onto);
+    return ret;
 }
 
 bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
@@ -495,11 +494,8 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_adder };
 
     cowl_iterate_primitives(axiom, COWL_PF_ALL, &iter);
-    if ((ret = ctx.ret)) goto end;
-    ret = cowl_vector_ptr_add(&onto->axioms_by_type[cowl_axiom_get_type(axiom)], axiom);
-
-end:
-    return cowl_handle_error_code(ret, onto);
+    if ((ret = ctx.ret)) return ret;
+    return cowl_vector_ptr_add(&onto->axioms_by_type[cowl_axiom_get_type(axiom)], axiom);
 }
 
 static inline void
@@ -595,23 +591,19 @@ end:
 }
 
 cowl_ret cowl_ontology_finalize(CowlOntology *onto) {
-    cowl_ret ret = COWL_ERR_MEM;
-    if (cowl_vector_shrink(onto->annot)) goto end;
+    if (cowl_vector_shrink(onto->annot)) return COWL_ERR_MEM;
 
     for (CowlAxiomType t = COWL_AT_FIRST; t < COWL_AT_COUNT; ++t) {
         CowlVector *axioms = onto->axioms_by_type[t];
-        if (axioms && cowl_vector_shrink(axioms)) goto end;
+        if (axioms && cowl_vector_shrink(axioms)) return COWL_ERR_MEM;
     }
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         uhash_foreach (CowlObjectTable, &onto->refs[i], item) {
             CowlVector *primitives = *item.val;
-            if (primitives && cowl_vector_shrink(primitives)) goto end;
+            if (primitives && cowl_vector_shrink(primitives)) return COWL_ERR_MEM;
         }
     }
 
-    ret = COWL_OK;
-
-end:
-    return cowl_handle_error_code(ret, onto);
+    return COWL_OK;
 }

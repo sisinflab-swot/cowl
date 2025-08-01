@@ -14,7 +14,6 @@
 #define COWL_MANAGER_H
 
 #include "cowl_attrs.h"
-#include "cowl_error_handler.h"
 #include "cowl_istream_handlers.h"
 #include "cowl_iterator.h"
 #include "cowl_reader.h"
@@ -133,27 +132,6 @@ CowlWriter *cowl_manager_get_writer(CowlManager *manager);
  */
 COWL_API
 void cowl_manager_set_writer(CowlManager *manager, CowlWriter writer);
-
-/**
- * Gets the error handler used by this manager.
- *
- * @param manager The manager.
- * @return The error handler.
- *
- * @note If the error handler is not set for this manager, the manager hierarchy
- *       is traversed upwards until a writer is found or the root is reached.
- */
-COWL_API
-CowlErrorHandler *cowl_manager_get_error_handler(CowlManager *manager);
-
-/**
- * Sets the error handler used by this manager.
- *
- * @param manager The manager.
- * @param handler The error handler.
- */
-COWL_API
-void cowl_manager_set_error_handler(CowlManager *manager, CowlErrorHandler handler);
 
 /**
  * Returns the number of ontologies managed by this manager and its parents.
