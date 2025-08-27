@@ -1,7 +1,7 @@
 /*
  * This example demonstrates ontology editing and serialization to file.
  *
- * @note Memory allocation failures are not handled for the sake of simplicity.
+ * @note Most errors are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -23,8 +23,7 @@ int main(void) {
 
     // We will be editing the pizza ontology by adding the Porcini pizza.
     printf("Reading ontology " IN_PATH "... ");
-    CowlManager *manager = cowl_manager();
-    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(IN_PATH));
+    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(IN_PATH));
 
     if (onto) {
         puts("done!");
@@ -89,13 +88,14 @@ int main(void) {
 
     // Serialize the edited ontology to a new file.
     printf("Writing ontology " OUT_PATH "... ");
+    cowl_ret ret = cowl_ontology_to_path(onto, ustring_literal(OUT_PATH));
 
-    if (cowl_manager_write_path(manager, onto, ustring_literal(OUT_PATH))) {
+    if (cowl_is_err(ret)) {
         puts("failed");
     } else {
         puts("done!");
     }
 
-    cowl_release_all(onto, manager);
+    cowl_release(onto);
     return EXIT_SUCCESS;
 }

@@ -67,12 +67,18 @@ static CowlString *cowl_string_get_intern(UString raw_string, bool copy) {
 cowl_ret cowl_string_api_init(void) {
     inst_tbl = cowl_string_map();
     empty = cowl_string_get(ustring_literal(""), true);
-    return empty ? COWL_OK : COWL_ERR_MEM;
+    if (!empty) goto err;
+    return COWL_OK;
+
+err:
+    cowl_string_api_deinit();
+    return COWL_ERR_MEM;
 }
 
 void cowl_string_api_deinit(void) {
     cowl_release(empty);
     uhash_deinit(CowlObjectTable, &inst_tbl);
+    empty = NULL;
 }
 
 CowlString cowl_string_init(UString raw_string) {

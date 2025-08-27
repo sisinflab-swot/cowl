@@ -14,7 +14,8 @@
 %define api.pure full
 %lex-param {yyscan_t scanner}
 %parse-param {yyscan_t scanner}
-%parse-param {CowlIStream *stream}
+%parse-param {CowlPrefixMap *pm}
+%parse-param {CowlChangeHandler *h}
 %locations
 
 // Code
@@ -43,8 +44,6 @@
     #include "cowl_func_yyparser.h"
     #include "cowl_func_yylexer.h"
     #include "cowl.h"
-    #include "cowl_ontology_private.h"
-    #include "cowl_ostream_private.h"
     #include "cowl_vector_private.h"
     #include "ulib.h"
     #include <stddef.h>
@@ -56,7 +55,9 @@
 
     static void cowl_func_yyerror(cowl_unused COWL_FUNC_YYLTYPE *yylloc,
                                   cowl_unused yyscan_t scanner,
-                                  cowl_unused CowlIStream *stream, cowl_unused const char *s) {
+                                  cowl_unused CowlPrefixMap *pm,
+                                  cowl_unused CowlChangeHandler *h,
+                                  const char *s) {
         if (strcmp(s, "memory exhausted") == 0) {
             COWL_HANDLE_MEM_ERROR();
         } else {
@@ -241,9 +242,9 @@ full_iri
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_prefix_map_parse_short_iri(cowl_istream_get_prefix_map(stream), $1);
+        $$ = cowl_prefix_map_parse_short_iri(pm, $1);
         if (!$$) {
-            UString comp[] = { ustring_literal("failed to resolve "), $1 };
+            UString comp[] = { ustring_literal("failed to resolve prefix "), $1 };
             UString err_str = ustring_concat(comp, ulib_array_count(comp));
             COWL_HANDLE_SYNTAX_ERROR(err_str);
             ustring_deinit(&err_str);
@@ -287,11 +288,13 @@ namespace
 
 prefix_declaration
     : PREFIX L_PAREN prefix EQUALS namespace R_PAREN {
-        CowlPrefixMap *pm = cowl_istream_get_prefix_map(stream);
-        cowl_ret ret = cowl_prefix_map_add(pm, $3, $5, false);
+        CowlPrefixDecl decl = { .prefix = $3, .ns = $5 };
+        cowl_ret r1 = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_PREFIX_DECL, &decl));
+        cowl_ret r2 = cowl_prefix_map_add(pm, $3, $5, false);
         cowl_release($3);
         cowl_release($5);
-        if (ret) COWL_ERROR(ret);
+        if (r1) COWL_ERROR(r1);
+        if (r2) COWL_ERROR(r2);
     }
 ;
 
@@ -302,14 +305,16 @@ ontology
 ontology_id
     : %empty
     | iri {
-        cowl_istream_handle_iri(stream, $1);
+        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_IRI, $1));
         cowl_release($1);
+        if (r) YYERROR;
     }
     | iri iri {
-        cowl_istream_handle_iri(stream, $1);
-        cowl_istream_handle_version(stream, $2);
+        cowl_ret r1 = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_IRI, $1));
+        cowl_ret r2 = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_VERSION, $2));
         cowl_release($1);
         cowl_release($2);
+        if (r1 || r2) YYERROR;
     }
 ;
 
@@ -320,26 +325,26 @@ ontology_imports
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret ret = cowl_istream_handle_import(stream, $3);
+        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_IMPORT, $3));
         cowl_release($3);
-        if (ret) YYERROR;
+        if (r) YYERROR;
     }
 ;
 
 ontology_annotations
     : %empty
     | ontology_annotations annotation {
-        cowl_ret ret = cowl_istream_handle_annot(stream, $2);
+        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_ANNOTATION, $2));
         cowl_release($2);
-        if (ret) YYERROR;
+        if (r) YYERROR;
     }
 
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret ret = cowl_istream_handle_axiom(stream, $2);
+        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_AXIOM, $2));
         cowl_release($2);
-        if (ret) YYERROR;
+        if (r) YYERROR;
     }
 ;
 

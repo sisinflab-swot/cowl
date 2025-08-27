@@ -14,9 +14,10 @@
 #include "cowl_axiom_filter_private.h"
 #include "cowl_axiom_flags.h"
 #include "cowl_axiom_type.h"
+#include "cowl_change.h"
+#include "cowl_config.h"
 #include "cowl_entity.h"
 #include "cowl_iterator.h"
-#include "cowl_manager_private.h"
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology_private.h"
@@ -25,26 +26,26 @@
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_private.h"
 #include "cowl_primitive_type.h"
+#include "cowl_reader.h"
 #include "cowl_ret.h"
 #include "cowl_table_private.h"
 #include "cowl_vector_private.h"
+#include "cowl_writer.h"
 #include "ulib.h"
 #include <assert.h>
 #include <stddef.h>
 
-CowlOntology *cowl_ontology(CowlManager *manager) {
+CowlOntology *cowl_ontology(void) {
     CowlOntology *onto = ulib_alloc(onto);
     if (!onto) goto err;
 
     *onto = (CowlOntology){
         .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY),
-        .manager = cowl_retain(manager),
+        .pm = cowl_prefix_map(),
         .annot = cowl_vector_ordered_empty(),
     };
 
-    if (!onto->annot || cowl_manager_add_ontology(manager, onto)) {
-        goto err;
-    }
+    if (!(onto->pm && onto->annot)) goto err;
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         onto->refs[i] = cowl_primitive_map();
@@ -58,13 +59,9 @@ err:
 }
 
 void cowl_ontology_free(CowlOntology *onto) {
-    cowl_manager_remove_ontology(onto->manager, onto);
-    cowl_release(onto->manager);
     cowl_release(onto->pm);
-
     cowl_release(onto->iri);
     cowl_release(onto->version);
-
     cowl_release(onto->imports);
     cowl_release(onto->annot);
 
@@ -82,26 +79,24 @@ void cowl_ontology_free(CowlOntology *onto) {
     ulib_free(onto);
 }
 
-CowlManager *cowl_ontology_get_manager(CowlOntology *onto) {
-    return onto->manager;
+CowlOntology *cowl_ontology_at_path(UString path) {
+    return cowl_reader_read_ontology_at_path(cowl_get_reader(), path);
 }
 
-cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager) {
-    if (onto->manager == manager) return COWL_OK;
-    cowl_manager_remove_ontology(onto->manager, onto);
-    cowl_release(onto->manager);
-    onto->manager = cowl_retain(manager);
-    return cowl_manager_add_ontology(manager, onto);
+CowlOntology *cowl_ontology_from_stream(UIStream *stream) {
+    return cowl_reader_read_ontology(cowl_get_reader(), stream);
+}
+
+cowl_ret cowl_ontology_to_path(CowlOntology *onto, UString path) {
+    return cowl_writer_write_ontology_to_path(cowl_get_writer(), path, onto);
+}
+
+cowl_ret cowl_ontology_to_stream(CowlOntology *onto, UOStream *stream) {
+    return cowl_writer_write_ontology(cowl_get_writer(), stream, onto);
 }
 
 CowlPrefixMap *cowl_ontology_get_prefix_map(CowlOntology *onto) {
-    if (!onto->pm) onto->pm = cowl_manager_new_prefix_map(onto->manager);
     return onto->pm;
-}
-
-CowlPrefixMap *cowl_ontology_find_prefix_map(CowlOntology *onto) {
-    if (onto->pm) return onto->pm;
-    return cowl_manager_find_prefix_map(onto->manager);
 }
 
 CowlIRI *cowl_ontology_get_iri(CowlOntology *onto) {

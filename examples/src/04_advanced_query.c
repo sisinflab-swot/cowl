@@ -2,7 +2,7 @@
  * In this example we will be logging axioms of different types referencing
  * multiple entities.
  *
- * @note Memory allocation failures are not handled for the sake of simplicity.
+ * @note Most errors are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -34,9 +34,7 @@ static bool for_each_axiom(void *stream, CowlAny *axiom) {
 int main(void) {
     cowl_init();
 
-    CowlManager *manager = cowl_manager();
-    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
-    cowl_release(manager);
+    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(ONTO));
 
     if (!onto) {
         fprintf(stderr, "Failed to load ontology " ONTO "\n");

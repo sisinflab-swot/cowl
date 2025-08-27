@@ -21,7 +21,6 @@ int main(int argc, char *argv[]) {
     ulog_main->level = ULOG_PERF;
 
     int exit_code = EXIT_FAILURE;
-    CowlManager *manager = NULL;
     CowlOntology *onto = NULL;
 
     if (cowl_init()) {
@@ -29,12 +28,11 @@ int main(int argc, char *argv[]) {
         goto end;
     }
 
-    manager = cowl_manager();
     char const *path = argc > 1 ? argv[1] : "test_onto.owl";
     char const *out_path = argc > 2 ? argv[2] : "test_out.owl";
 
     ulog_perf("Read ontology") {
-        if (!(onto = cowl_manager_read_path(manager, ustring_wrap_buf(path)))) {
+        if (!(onto = cowl_ontology_at_path(ustring_wrap_buf(path)))) {
             ulog_error("Could not read ontology: %s", path);
             goto end;
         }
@@ -52,7 +50,7 @@ int main(int argc, char *argv[]) {
     }
 
     ulog_perf("Write ontology") {
-        if (cowl_manager_write_path(manager, onto, ustring_wrap_buf(out_path))) {
+        if (cowl_ontology_to_path(onto, ustring_wrap_buf(out_path))) {
             ulog_error("Could not write ontology: %s", out_path);
             goto end;
         }
@@ -62,7 +60,7 @@ int main(int argc, char *argv[]) {
 
 end:
 #if __SANITIZE_ADDRESS__
-    cowl_release_all(manager, onto);
+    cowl_release_all(onto);
     cowl_deinit();
 #endif
 

@@ -17,15 +17,16 @@
 #include "cowl_attrs.h"
 #include "cowl_axiom_type.h"
 #include "cowl_card_type.h"
+#include "cowl_change.h"
 #include "cowl_char_axiom_type.h"
 #include "cowl_cls_exp_type.h"
 #include "cowl_data_range_type.h"
 #include "cowl_entity_type.h"
-#include "cowl_istream_handlers.h"
 #include "cowl_iterator.h"
 #include "cowl_nary_axiom_type.h"
 #include "cowl_nary_type.h"
 #include "cowl_object_type.h"
+#include "cowl_ontology_header.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_type.h"
 #include "cowl_quant_type.h"
@@ -100,7 +101,6 @@ cowl_struct_decl(CowlObjQuant);
 cowl_struct_decl(CowlOntology);
 cowl_struct_decl(CowlPrefixMap);
 cowl_struct_decl(CowlPrimitive);
-cowl_struct_decl(CowlIStream);
 cowl_struct_decl(CowlString);
 cowl_struct_decl(CowlSubAnnotPropAxiom);
 cowl_struct_decl(CowlSubClsAxiom);

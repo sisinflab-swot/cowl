@@ -1,7 +1,7 @@
 /*
  * In this example we will be logging the atomic subclasses of a class recursively.
  *
- * @note Memory allocation failures are not handled for the sake of simplicity.
+ * @note Most errors are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -30,7 +30,7 @@ static bool for_each_cls(void *ptr, CowlAny *cls) {
 
     // Log the IRI remainder.
     CustomContext *ctx = ptr;
-    cowl_write_string(ctx->stream, cowl_iri_get_rem(cowl_class_get_iri(cls)));
+    cowl_write_string(ctx->stream, cowl_get_rem(cls));
     cowl_write_static(ctx->stream, "\n");
 
     // Recurse.
@@ -41,9 +41,7 @@ static bool for_each_cls(void *ptr, CowlAny *cls) {
 int main(void) {
     cowl_init();
 
-    CowlManager *manager = cowl_manager();
-    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
-    cowl_release(manager);
+    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(ONTO));
 
     if (!onto) {
         fprintf(stderr, "Failed to load ontology " ONTO "\n");

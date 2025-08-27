@@ -15,8 +15,15 @@
 
 #include "cowl_attrs.h"
 #include "cowl_ret.h"
+#include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
+
+/// @cond
+cowl_struct_decl(CowlReader);
+cowl_struct_decl(CowlWriter);
+cowl_struct_decl(CowlPrefixMap);
+/// @endcond
 
 /**
  * @defgroup init Library initialization
@@ -42,6 +49,56 @@ cowl_ret cowl_init(void);
  */
 COWL_API
 void cowl_deinit(void);
+
+/// @}
+
+/**
+ * @defgroup defaults Library defaults
+ * @{
+ */
+
+/**
+ * Returns the default reader.
+ *
+ * @return Default reader.
+ */
+COWL_API
+COWL_PURE
+CowlReader *cowl_get_reader(void);
+
+/**
+ * Sets the default reader.
+ *
+ * @param reader Reader.
+ */
+COWL_API
+void cowl_set_reader(CowlReader *reader);
+
+/**
+ * Returns the default writer.
+ *
+ * @return Default writer.
+ */
+COWL_API
+COWL_PURE
+CowlWriter *cowl_get_writer(void);
+
+/**
+ * Sets the default writer.
+ *
+ * @param writer Writer.
+ */
+COWL_API
+void cowl_set_writer(CowlWriter *writer);
+
+/**
+ * Returns the default prefix map.
+ *
+ * @return Default prefix map.
+ */
+COWL_API
+COWL_PURE
+CowlPrefixMap *cowl_get_prefix_map(void);
 
 /// @}
 

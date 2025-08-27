@@ -26,8 +26,6 @@ struct CowlPrefixMap {
     CowlTable *ns_prefix;
 };
 
-CowlPrefixMap *cowl_prefix_map(void);
-CowlPrefixMap *cowl_prefix_map_copy(CowlPrefixMap *map);
 void cowl_prefix_map_free(CowlPrefixMap *map);
 
 COWL_END_DECLS

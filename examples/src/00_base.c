@@ -2,7 +2,7 @@
  * This introductory example shows how to read an ontology
  * and log its axioms and annotations.
  *
- * @note Memory allocation failures are not handled for the sake of simplicity.
+ * @note Most errors are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -21,9 +21,8 @@ int main(void) {
     // You must always initialize the library before use.
     cowl_init();
 
-    // Instantiate a manager and deserialize an ontology from file.
-    CowlManager *manager = cowl_manager();
-    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
+    // Read an ontology from file.
+    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(ONTO));
 
     if (!onto) {
         // The ontology could not be read.
@@ -33,10 +32,9 @@ int main(void) {
 
     // Do stuff with the ontology. In this case we are just logging it
     // to the standard output using the default writer.
-    cowl_manager_write_file(manager, onto, stdout);
+    cowl_ontology_to_stream(onto, uostream_std());
 
-    // Release the manager and the ontology.
-    cowl_release(manager);
+    // Release the ontology.
     cowl_release(onto);
 
     return EXIT_SUCCESS;

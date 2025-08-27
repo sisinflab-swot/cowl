@@ -49,17 +49,14 @@ typedef enum CowlObjectType {
     /// @type{CowlOntology} - Ontology.
     COWL_OT_ONTOLOGY,
 
-    /// @type{CowlManager} - Ontology manager.
-    COWL_OT_MANAGER,
-
     /// @type{CowlPrefixMap} - Prefix map.
     COWL_OT_PREFIX_MAP,
 
-    /// @type{CowlIStream} - Ontology input stream.
-    COWL_OT_ISTREAM,
+    /// @type{CowlReader} - Reader.
+    COWL_OT_READER,
 
-    /// @type{CowlOStream} - Ontology output stream.
-    COWL_OT_OSTREAM,
+    /// @type{CowlWriter} - Writer.
+    COWL_OT_WRITER,
 
     /// @type{CowlAnnotation} - Annotation.
     COWL_OT_ANNOTATION,

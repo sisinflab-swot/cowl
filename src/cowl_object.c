@@ -18,22 +18,20 @@
 #include "cowl_entity_private.h"
 #include "cowl_iri.h"
 #include "cowl_iri_private.h"
-#include "cowl_istream_private.h"
 #include "cowl_iterator.h"
 #include "cowl_literal_private.h"
-#include "cowl_manager_private.h"
 #include "cowl_obj_quant_private.h"
 #include "cowl_object_flags.h"
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
 #include "cowl_ontology.h"
 #include "cowl_ontology_private.h"
-#include "cowl_ostream_private.h"
 #include "cowl_prefix_map_private.h"
 #include "cowl_primitive.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_private.h"
 #include "cowl_primitive_type.h"
+#include "cowl_reader_private.h"
 #include "cowl_ret.h"
 #include "cowl_string.h"
 #include "cowl_string_private.h"
@@ -41,6 +39,7 @@
 #include "cowl_vector.h"
 #include "cowl_vector_private.h"
 #include "cowl_writer.h"
+#include "cowl_writer_private.h"
 #include "ulib.h"
 #include <stddef.h>
 
@@ -73,10 +72,9 @@ static ulib_byte type_flags[COWL_OT_COUNT] = {
     [COWL_OT_LITERAL] = TF_NONE,
     [COWL_OT_FACET_RESTR] = TF_FC(2),
     [COWL_OT_ONTOLOGY] = TF_NONE,
-    [COWL_OT_MANAGER] = TF_NONE,
     [COWL_OT_PREFIX_MAP] = TF_NONE,
-    [COWL_OT_ISTREAM] = TF_NONE,
-    [COWL_OT_OSTREAM] = TF_NONE,
+    [COWL_OT_READER] = TF_NONE,
+    [COWL_OT_WRITER] = TF_NONE,
     [COWL_OT_ANNOTATION] = TF_FC(2),
     [COWL_OT_ANNOT_PROP] = TF_PRIMITIVE | TF_ENTITY,
     [COWL_OT_A_DECL] = TF_FC(1),
@@ -182,10 +180,9 @@ void cowl_release(CowlAny *object) {
         case COWL_OT_IRI: cowl_iri_free(object); return;
         case COWL_OT_LITERAL: cowl_literal_free(object); return;
         case COWL_OT_ONTOLOGY: cowl_ontology_free(object); return;
-        case COWL_OT_MANAGER: cowl_manager_free(object); return;
         case COWL_OT_PREFIX_MAP: cowl_prefix_map_free(object); return;
-        case COWL_OT_ISTREAM: cowl_istream_free(object); return;
-        case COWL_OT_OSTREAM: cowl_ostream_free(object); return;
+        case COWL_OT_READER: cowl_reader_free(object); return;
+        case COWL_OT_WRITER: cowl_writer_free(object); return;
         case COWL_OT_I_ANONYMOUS: cowl_anon_ind_free(object); return;
         case COWL_OT_ANNOT_PROP:
         case COWL_OT_CE_CLASS:

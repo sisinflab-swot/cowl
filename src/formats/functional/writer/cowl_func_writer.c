@@ -12,6 +12,7 @@
 #include "cowl_any.h"
 #include "cowl_attrs.h"
 #include "cowl_axiom.h"
+#include "cowl_config.h"
 #include "cowl_data_quant.h"
 #include "cowl_datatype.h"
 #include "cowl_decl_axiom.h"
@@ -20,7 +21,6 @@
 #include "cowl_impl.h"
 #include "cowl_iri.h"
 #include "cowl_literal.h"
-#include "cowl_manager.h"
 #include "cowl_obj_quant.h"
 #include "cowl_object.h"
 #include "cowl_object_type.h"
@@ -36,399 +36,429 @@
 #include "ulib.h"
 #include <stddef.h>
 
-static ulib_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlPrefixMap *pm);
-static ulib_ret
-cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader *header, CowlPrefixMap *pm);
-static ulib_ret cowl_func_write_onto_footer(UOStream *s);
+typedef struct FuncEncoder {
+    CowlPrefixMap *pm;
+    UOStream *stream;
+} FuncEncoder;
 
-static cowl_ret cowl_func_write(cowl_unused void *ctx, UOStream *stream, CowlAny *object) {
-    CowlPrefixMap *pm = cowl_manager_get_prefix_map(cowl_manager_root());
-    return cowl_ret_from_ulib(cowl_func_write_obj(stream, object, pm));
+static inline FuncEncoder encoder_init(void) {
+    return (FuncEncoder)ulib_zero_init;
 }
 
-static cowl_ret
-cowl_func_write_header(CowlStreamState state, UOStream *stream, CowlOntologyHeader header) {
-    return cowl_ret_from_ulib(cowl_func_write_onto_header(stream, &header, state.pm));
+static inline void encoder_deinit(FuncEncoder *e) {
+    cowl_release(e->pm);
 }
 
-static cowl_ret
-cowl_func_write_axiom(CowlStreamState state, UOStream *stream, CowlAnyAxiom *axiom) {
-    cowl_func_write_obj(stream, axiom, state.pm);
-    cowl_write_static(stream, "\n");
-    return cowl_ret_from_ulib(stream->state);
+static inline cowl_ret encoder_state(FuncEncoder *e) {
+    return cowl_ret_from_ulib(e->stream->state);
 }
 
-static cowl_ret cowl_func_write_footer(cowl_unused CowlStreamState state, UOStream *stream) {
-    return cowl_ret_from_ulib(cowl_func_write_onto_footer(stream));
+static inline void encoder_set_prefix_map(FuncEncoder *e, CowlPrefixMap *pm) {
+    if (e->pm == pm) return;
+    cowl_release(e->pm);
+    if (pm) e->pm = cowl_retain(pm);
 }
 
-static CowlWriter const cowl_func_writer = {
-    .name = "functional",
-    .write = cowl_func_write,
-    .stream = {
-        .write_header = cowl_func_write_header,
-        .write_axiom = cowl_func_write_axiom,
-        .write_footer = cowl_func_write_footer,
-    },
-};
+#define write_static(e, str) cowl_write_static((e)->stream, str)
 
-CowlWriter cowl_writer_functional(void) {
-    return cowl_func_writer;
+static inline void write_uint(FuncEncoder *e, ulib_uint value) {
+    cowl_write_uint(e->stream, value);
 }
 
-static ulib_ret cowl_func_write_fields(UOStream *s, CowlAny *obj, CowlPrefixMap *pm) {
+static inline void write_object_type(FuncEncoder *e, CowlObjectType type) {
+    cowl_write_object_type(e->stream, type);
+}
+
+static inline void write_string(FuncEncoder *e, CowlString *str) {
+    cowl_write_string(e->stream, str);
+}
+
+static void write_obj(FuncEncoder *e, CowlAny *obj);
+
+static void write_fields(FuncEncoder *e, CowlAny *obj) {
     unsigned n;
     CowlAny **fields = cowl_get_fields(obj, &n);
-    cowl_func_write_obj(s, fields[0], pm);
+    write_obj(e, fields[0]);
 
     for (unsigned i = 1; i < n; ++i) {
-        cowl_write_static(s, " ");
-        cowl_func_write_obj(s, fields[i], pm);
+        write_static(e, " ");
+        write_obj(e, fields[i]);
     }
-
-    return s->state;
 }
 
-static ulib_ret cowl_func_write_fields_opt(UOStream *s, CowlAny *obj, CowlPrefixMap *pm) {
-    cowl_func_write_fields(s, obj, pm);
+static void write_fields_opt(FuncEncoder *e, CowlAny *obj) {
+    write_fields(e, obj);
     CowlAny *opt = cowl_get_opt_field(obj);
-
     if (opt) {
-        cowl_write_static(s, " ");
-        cowl_func_write_obj(s, opt, pm);
+        write_static(e, " ");
+        write_obj(e, opt);
     }
-
-    return s->state;
 }
 
-static ulib_ret cowl_func_write_opt_fields(UOStream *s, CowlAny *obj, CowlPrefixMap *pm) {
+static void write_opt_fields(FuncEncoder *e, CowlAny *obj) {
     CowlAny *opt = cowl_get_opt_field(obj);
-
     if (opt) {
-        cowl_func_write_obj(s, opt, pm);
-        cowl_write_static(s, " ");
+        write_obj(e, opt);
+        write_static(e, " ");
     }
-
-    cowl_func_write_fields(s, obj, pm);
-
-    return s->state;
+    write_fields(e, obj);
 }
 
-static ulib_ret cowl_func_write_construct(UOStream *s, CowlAny *obj, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, cowl_get_type(obj));
-    cowl_write_static(s, "(");
-    cowl_func_write_fields_opt(s, obj, pm);
-    cowl_write_static(s, ")");
-    return s->state;
+static void write_construct(FuncEncoder *e, CowlAny *obj) {
+    write_object_type(e, cowl_get_type(obj));
+    write_static(e, "(");
+    write_fields_opt(e, obj);
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_construct_uint(UOStream *s, CowlAny *obj, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, cowl_get_type(obj));
-    cowl_write_static(s, "(");
-    cowl_write_uint(s, cowl_get_uint_field(obj));
-    cowl_write_static(s, " ");
-    cowl_func_write_fields_opt(s, obj, pm);
-    cowl_write_static(s, ")");
-    return s->state;
+static void write_construct_uint(FuncEncoder *e, CowlAny *obj) {
+    write_object_type(e, cowl_get_type(obj));
+    write_static(e, "(");
+    write_uint(e, cowl_get_uint_field(obj));
+    write_static(e, " ");
+    write_fields_opt(e, obj);
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_annot_construct(UOStream *s, CowlAny *obj, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, cowl_get_type(obj));
-    cowl_write_static(s, "(");
-    cowl_func_write_opt_fields(s, obj, pm);
-    cowl_write_static(s, ")");
-    return s->state;
+static void write_annot_construct(FuncEncoder *e, CowlAny *obj) {
+    write_object_type(e, cowl_get_type(obj));
+    write_static(e, "(");
+    write_opt_fields(e, obj);
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_vector(UOStream *s, CowlVector *vec, CowlPrefixMap *pm) {
-    if (!vec) return s->state;
-    ulib_uint last = cowl_vector_count(vec) - 1;
+static void write_uvec(FuncEncoder *e, UVec(CowlObjectPtr) const *vec) {
+    ulib_uint count = uvec_count(CowlObjectPtr, vec);
+    if (!count) return;
 
-    cowl_vector_foreach (vec, obj) {
-        cowl_func_write_obj(s, *obj.item, pm);
-        if (obj.i < last) cowl_write_static(s, " ");
+    CowlAny **data = uvec_data(CowlObjectPtr, vec);
+    write_obj(e, data[0]);
+
+    for (ulib_uint i = 1; i < count; ++i) {
+        write_static(e, " ");
+        write_obj(e, data[i]);
     }
-
-    return s->state;
 }
 
-static ulib_ret cowl_func_write_table(UOStream *s, CowlTable *table, CowlPrefixMap *pm) {
-    if (!table) return s->state;
+static void write_vector(FuncEncoder *e, CowlVector *vec) {
+    if (vec) write_uvec(e, cowl_vector_get_data(vec));
+}
+
+static void write_table(FuncEncoder *e, CowlTable *table) {
+    if (!table) return;
+
     ulib_uint current = 0;
     ulib_uint last = cowl_table_count(table) - 1;
 
     cowl_table_foreach (table, obj) {
-        cowl_func_write_obj(s, *obj.key, pm);
+        write_obj(e, *obj.key);
         if (obj.val && *obj.val) {
-            cowl_write_static(s, ":");
-            cowl_func_write_obj(s, *obj.val, pm);
+            write_static(e, ":");
+            write_obj(e, *obj.val);
         }
-        if (current++ < last) cowl_write_static(s, " ");
+        if (current++ < last) write_static(e, " ");
     }
-
-    return s->state;
 }
 
-static ulib_ret cowl_func_write_full_iri(UOStream *stream, CowlIRI *iri) {
-    cowl_write_static(stream, "<");
-    cowl_write_iri(stream, iri);
-    cowl_write_static(stream, ">");
-    return stream->state;
+static void write_full_iri(FuncEncoder *e, CowlIRI *iri) {
+    write_static(e, "<");
+    cowl_write_iri(e->stream, iri);
+    write_static(e, ">");
 }
 
-static ulib_ret cowl_func_write_short_iri(UOStream *stream, CowlString *pfx, CowlString *rem) {
-    cowl_write_string(stream, pfx);
-    cowl_write_static(stream, ":");
-    cowl_write_string(stream, rem);
-    return stream->state;
+static void write_short_iri(FuncEncoder *e, CowlString *pfx, CowlString *rem) {
+    write_string(e, pfx);
+    write_static(e, ":");
+    write_string(e, rem);
 }
 
-static ulib_ret cowl_func_write_iri(UOStream *stream, CowlIRI *iri, CowlPrefixMap *pm) {
+static void write_iri(FuncEncoder *e, CowlIRI *iri) {
     CowlString *prefix;
 
-    if (pm && cowl_iri_has_rem(iri) &&
-        (prefix = cowl_prefix_map_get_prefix(pm, cowl_iri_get_ns(iri)))) {
-        return cowl_func_write_short_iri(stream, prefix, cowl_iri_get_rem(iri));
+    if (e->pm && cowl_iri_has_rem(iri) &&
+        (prefix = cowl_prefix_map_get_prefix(e->pm, cowl_iri_get_ns(iri)))) {
+        write_short_iri(e, prefix, cowl_iri_get_rem(iri));
+        return;
     }
 
-    return cowl_func_write_full_iri(stream, iri);
+    write_full_iri(e, iri);
 }
 
-static ulib_ret cowl_func_write_literal(UOStream *s, CowlLiteral *literal, CowlPrefixMap *pm) {
-    cowl_write_static(s, "\"");
-    cowl_write_string(s, cowl_literal_get_value(literal));
-    cowl_write_static(s, "\"");
+static void write_literal(FuncEncoder *e, CowlLiteral *literal) {
+    write_static(e, "\"");
+    write_string(e, cowl_literal_get_value(literal));
+    write_static(e, "\"");
 
     CowlDatatype *dt = cowl_literal_get_datatype(literal);
     if (cowl_primitive_equals(dt, cowl_rdf_vocab()->dt.lang_string)) {
-        CowlString *lang = cowl_literal_get_lang(literal);
-        cowl_write_static(s, "@");
-        cowl_write_string(s, lang);
+        write_static(e, "@");
+        write_string(e, cowl_literal_get_lang(literal));
     } else if (!cowl_primitive_equals(dt, cowl_xsd_vocab()->dt.string)) {
-        cowl_write_static(s, "^^");
-        cowl_func_write_iri(s, cowl_datatype_get_iri(dt), pm);
+        write_static(e, "^^");
+        write_iri(e, cowl_datatype_get_iri(dt));
     }
-
-    return s->state;
 }
 
-static ulib_ret cowl_func_write_anon_ind(UOStream *s, CowlAnonInd *ind) {
-    cowl_write_static(s, "_:");
-    cowl_write_string(s, cowl_anon_ind_get_id(ind));
-    return s->state;
+static void write_anon_ind(FuncEncoder *e, CowlAnonInd *ind) {
+    write_static(e, "_:");
+    write_string(e, cowl_anon_ind_get_id(ind));
 }
 
-static ulib_ret cowl_func_write_entity(UOStream *s, CowlAnyEntity *entity, CowlPrefixMap *pm) {
-    return cowl_func_write_iri(s, cowl_entity_get_iri(entity), pm);
+static void write_entity(FuncEncoder *e, CowlAnyEntity *entity) {
+    write_iri(e, cowl_entity_get_iri(entity));
 }
 
-static ulib_ret cowl_func_write_declaration(UOStream *s, CowlDeclAxiom *decl, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, COWL_OT_A_DECL);
-    cowl_write_static(s, "(");
+static void write_declaration(FuncEncoder *e, CowlDeclAxiom *decl) {
+    write_object_type(e, COWL_OT_A_DECL);
+    write_static(e, "(");
 
     CowlVector *annot = cowl_axiom_get_annot(decl);
     if (annot) {
-        cowl_func_write_vector(s, annot, pm);
-        cowl_write_static(s, " ");
+        write_vector(e, annot);
+        write_static(e, " ");
     }
 
     CowlEntity *entity = cowl_decl_axiom_get_entity(decl);
-    cowl_write_object_type(s, cowl_get_type(entity));
-    cowl_write_static(s, "(");
-    cowl_func_write_iri(s, cowl_entity_get_iri(entity), pm);
-    cowl_write_static(s, ")");
-    cowl_write_static(s, ")");
-    return s->state;
+    write_object_type(e, cowl_get_type(entity));
+    write_static(e, "(");
+    write_iri(e, cowl_entity_get_iri(entity));
+    write_static(e, ")");
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_obj_quant(UOStream *s, CowlObjQuant *restr, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, cowl_get_type(restr));
-    cowl_write_static(s, "(");
-    cowl_func_write_obj(s, cowl_obj_quant_get_prop(restr), pm);
-    cowl_write_static(s, " ");
-    cowl_func_write_obj(s, cowl_obj_quant_get_filler(restr), pm);
-    cowl_write_static(s, ")");
-    return s->state;
+static void write_obj_quant(FuncEncoder *e, CowlObjQuant *restr) {
+    write_object_type(e, cowl_get_type(restr));
+    write_static(e, "(");
+    write_obj(e, cowl_obj_quant_get_prop(restr));
+    write_static(e, " ");
+    write_obj(e, cowl_obj_quant_get_filler(restr));
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_data_quant(UOStream *s, CowlDataQuant *restr, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, cowl_get_type(restr));
-    cowl_write_static(s, "(");
-    cowl_func_write_obj(s, cowl_data_quant_get_prop(restr), pm);
-    cowl_write_static(s, " ");
-    cowl_func_write_obj(s, cowl_data_quant_get_range(restr), pm);
-    cowl_write_static(s, ")");
-    return s->state;
+static void write_data_quant(FuncEncoder *e, CowlDataQuant *restr) {
+    write_object_type(e, cowl_get_type(restr));
+    write_static(e, "(");
+    write_obj(e, cowl_data_quant_get_prop(restr));
+    write_static(e, " ");
+    write_obj(e, cowl_data_quant_get_range(restr));
+    write_static(e, ")");
 }
 
-static ulib_ret
-cowl_func_write_sub_obj_prop(UOStream *s, CowlSubObjPropAxiom *axiom, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, COWL_OT_A_SUB_OBJ_PROP);
-    cowl_write_static(s, "(");
+static void write_obj_prop_chain(FuncEncoder *e, CowlVector *chain) {
+    write_static(e, "ObjectPropertyChain");
+    write_static(e, "(");
+    write_vector(e, chain);
+    write_static(e, ")");
+}
 
-    void *temp = cowl_axiom_get_annot(axiom);
+static void write_sub_obj_prop(FuncEncoder *e, CowlSubObjPropAxiom *axiom) {
+    write_object_type(e, COWL_OT_A_SUB_OBJ_PROP);
+    write_static(e, "(");
 
-    if (temp) {
-        cowl_func_write_vector(s, temp, pm);
-        cowl_write_static(s, " ");
+    void *it = cowl_axiom_get_annot(axiom);
+
+    if (it) {
+        write_vector(e, it);
+        write_static(e, " ");
     }
 
-    temp = cowl_sub_obj_prop_axiom_get_sub(axiom);
+    it = cowl_sub_obj_prop_axiom_get_sub(axiom);
 
-    if (cowl_get_type(temp) == COWL_OT_VECTOR) {
-        cowl_write_static(s, "ObjectPropertyChain");
-        cowl_write_static(s, "(");
-        cowl_func_write_vector(s, temp, pm);
-        cowl_write_static(s, ")");
+    if (cowl_get_type(it) == COWL_OT_VECTOR) {
+        write_obj_prop_chain(e, it);
     } else {
-        cowl_func_write_entity(s, temp, pm);
+        write_entity(e, it);
     }
 
-    cowl_write_static(s, " ");
-    cowl_func_write_obj(s, cowl_sub_obj_prop_axiom_get_super(axiom), pm);
+    write_static(e, " ");
+    write_obj(e, cowl_sub_obj_prop_axiom_get_super(axiom));
 
-    cowl_write_static(s, ")");
-    return s->state;
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_has_key(UOStream *s, CowlHasKeyAxiom *axiom, CowlPrefixMap *pm) {
-    cowl_write_object_type(s, COWL_OT_A_HAS_KEY);
-    cowl_write_static(s, "(");
+static void write_has_key(FuncEncoder *e, CowlHasKeyAxiom *axiom) {
+    write_object_type(e, COWL_OT_A_HAS_KEY);
+    write_static(e, "(");
 
-    void *temp = cowl_axiom_get_annot(axiom);
-    if (temp) {
-        cowl_func_write_vector(s, temp, pm);
-        cowl_write_static(s, " ");
+    CowlVector *annot = cowl_axiom_get_annot(axiom);
+    if (annot) {
+        write_vector(e, annot);
+        write_static(e, " ");
     }
 
-    cowl_func_write_obj(s, cowl_has_key_axiom_get_cls_exp(axiom), pm);
-    cowl_write_static(s, " ");
+    write_obj(e, cowl_has_key_axiom_get_cls_exp(axiom));
+    write_static(e, " ");
 
-    cowl_write_static(s, "(");
-    cowl_func_write_vector(s, cowl_has_key_axiom_get_obj_props(axiom), pm);
-    cowl_write_static(s, ")");
-    cowl_write_static(s, " ");
-    cowl_write_static(s, "(");
-    cowl_func_write_vector(s, cowl_has_key_axiom_get_data_props(axiom), pm);
-    cowl_write_static(s, ")");
+    write_static(e, "(");
+    write_vector(e, cowl_has_key_axiom_get_obj_props(axiom));
+    write_static(e, ")");
+    write_static(e, " ");
+    write_static(e, "(");
+    write_vector(e, cowl_has_key_axiom_get_data_props(axiom));
+    write_static(e, ")");
 
-    cowl_write_static(s, ")");
-    return s->state;
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_facet_restr(UOStream *s, void *fr, CowlPrefixMap *pm) {
-    return cowl_func_write_fields_opt(s, fr, pm);
+static void write_facet_restr(FuncEncoder *e, void *fr) {
+    write_fields_opt(e, fr);
 }
 
-static ulib_ret cowl_func_write_import(UOStream *s, CowlIRI *iri) {
-    cowl_write_static(s, "Import");
-    cowl_write_static(s, "(");
-    cowl_func_write_full_iri(s, iri);
-    cowl_write_static(s, ")");
-    return s->state;
+static void write_import(FuncEncoder *e, CowlIRI *iri) {
+    write_static(e, "Import");
+    write_static(e, "(");
+    write_full_iri(e, iri);
+    write_static(e, ")");
 }
 
-static ulib_ret cowl_func_write_onto_iri_version(UOStream *s, CowlIRI *iri, CowlIRI *version) {
-    if (iri) cowl_func_write_full_iri(s, iri);
-
+static void write_onto_iri_version(FuncEncoder *e, CowlIRI *iri, CowlIRI *version) {
+    if (iri) write_full_iri(e, iri);
     if (version) {
-        if (iri) cowl_write_static(s, " ");
-        cowl_func_write_full_iri(s, version);
+        if (iri) write_static(e, " ");
+        write_full_iri(e, version);
     }
-
-    return s->state;
 }
 
-static ulib_ret cowl_func_write_prefix(UOStream *s, CowlString *prefix, CowlString *ns) {
-    cowl_write_static(s, "Prefix");
-    cowl_write_static(s, "(");
-    cowl_write_string(s, prefix);
-    cowl_write_static(s, ":=<");
-    cowl_write_string(s, ns);
-    cowl_write_static(s, ">");
-    cowl_write_static(s, ")");
-    return s->state;
+static void write_prefix(FuncEncoder *e, CowlString *prefix, CowlString *ns) {
+    write_static(e, "Prefix");
+    write_static(e, "(");
+    write_string(e, prefix);
+    write_static(e, ":=<");
+    write_string(e, ns);
+    write_static(e, ">");
+    write_static(e, ")");
 }
 
-static ulib_ret
-cowl_func_write_onto_header(UOStream *s, CowlOntologyHeader *header, CowlPrefixMap *pm) {
-    CowlTable *prefixes = cowl_prefix_map_get_table(pm, false);
+static void write_header(FuncEncoder *e, CowlOntologyHeader *header) {
+    CowlTable *prefixes = cowl_prefix_map_get_table(header->pm, false);
 
     cowl_table_foreach (prefixes, p) {
         if (cowl_vocab_is_reserved_prefix(*p.key)) continue;
-        cowl_func_write_prefix(s, *p.key, *p.val);
-        cowl_write_static(s, "\n");
+        write_prefix(e, *p.key, *p.val);
+        write_static(e, "\n");
     }
 
-    cowl_write_static(s, "Ontology");
-    cowl_write_static(s, "(");
+    write_static(e, "Ontology");
+    write_static(e, "(");
 
-    cowl_func_write_onto_iri_version(s, header->iri, header->version);
-    cowl_write_static(s, "\n");
+    write_onto_iri_version(e, header->iri, header->version);
+    write_static(e, "\n");
 
     if (header->imports) {
         uvec_foreach (CowlObjectPtr, header->imports, import) {
-            cowl_func_write_import(s, *import.item);
-            cowl_write_static(s, "\n");
+            write_import(e, *import.item);
+            write_static(e, "\n");
         }
     }
 
     if (header->annotations) {
         uvec_foreach (CowlObjectPtr, header->annotations, annot) {
-            cowl_func_write_obj(s, *annot.item, pm);
-            cowl_write_static(s, "\n");
+            write_obj(e, *annot.item);
+            write_static(e, "\n");
         }
     }
-
-    return s->state;
 }
 
-static ulib_ret cowl_func_write_onto_footer(UOStream *s) {
-    cowl_write_static(s, ")");
-    cowl_write_static(s, "\n");
-    return s->state;
+static void write_footer(FuncEncoder *e) {
+    write_static(e, ")");
+    write_static(e, "\n");
 }
 
-static ulib_ret cowl_func_write_obj(UOStream *s, CowlAny *obj, CowlPrefixMap *pm) {
+static void write_obj(FuncEncoder *e, CowlAny *obj) {
     CowlObjectType type = cowl_get_type(obj);
     switch (type) {
-        case COWL_OT_STRING: return cowl_write_string(s, obj);
-        case COWL_OT_VECTOR: return cowl_func_write_vector(s, obj, pm);
-        case COWL_OT_TABLE: return cowl_func_write_table(s, obj, pm);
-        case COWL_OT_IRI: return cowl_func_write_iri(s, obj, pm);
-        case COWL_OT_LITERAL: return cowl_func_write_literal(s, obj, pm);
-        case COWL_OT_FACET_RESTR: return cowl_func_write_facet_restr(s, obj, pm);
+        case COWL_OT_STRING: write_string(e, obj); return;
+        case COWL_OT_VECTOR: write_vector(e, obj); return;
+        case COWL_OT_TABLE: write_table(e, obj); return;
+        case COWL_OT_IRI: write_iri(e, obj); return;
+        case COWL_OT_LITERAL: write_literal(e, obj); return;
+        case COWL_OT_FACET_RESTR: write_facet_restr(e, obj); return;
         case COWL_OT_ONTOLOGY:
-        case COWL_OT_MANAGER:
         case COWL_OT_PREFIX_MAP:
-        case COWL_OT_ISTREAM:
-        case COWL_OT_OSTREAM: return cowl_write_debug(s, obj);
-        case COWL_OT_ANNOTATION: return cowl_func_write_annot_construct(s, obj, pm);
+        case COWL_OT_READER:
+        case COWL_OT_WRITER: cowl_write_debug(e->stream, obj); return;
+        case COWL_OT_ANNOTATION: write_annot_construct(e, obj); return;
         case COWL_OT_ANNOT_PROP:
         case COWL_OT_CE_CLASS:
         case COWL_OT_DPE_DATA_PROP:
         case COWL_OT_DR_DATATYPE:
         case COWL_OT_I_NAMED:
-        case COWL_OT_OPE_OBJ_PROP: return cowl_func_write_entity(s, obj, pm);
-        case COWL_OT_I_ANONYMOUS: return cowl_func_write_anon_ind(s, obj);
-        case COWL_OT_A_DECL: return cowl_func_write_declaration(s, obj, pm);
-        case COWL_OT_A_SUB_OBJ_PROP: return cowl_func_write_sub_obj_prop(s, obj, pm);
-        case COWL_OT_A_HAS_KEY: return cowl_func_write_has_key(s, obj, pm);
+        case COWL_OT_OPE_OBJ_PROP: write_entity(e, obj); return;
+        case COWL_OT_I_ANONYMOUS: write_anon_ind(e, obj); return;
+        case COWL_OT_A_DECL: write_declaration(e, obj); return;
+        case COWL_OT_A_SUB_OBJ_PROP: write_sub_obj_prop(e, obj); return;
+        case COWL_OT_A_HAS_KEY: write_has_key(e, obj); return;
         case COWL_OT_CE_OBJ_SOME:
-        case COWL_OT_CE_OBJ_ALL: return cowl_func_write_obj_quant(s, obj, pm);
+        case COWL_OT_CE_OBJ_ALL: write_obj_quant(e, obj); return;
         case COWL_OT_CE_DATA_SOME:
-        case COWL_OT_CE_DATA_ALL: return cowl_func_write_data_quant(s, obj, pm);
+        case COWL_OT_CE_DATA_ALL: write_data_quant(e, obj); return;
         case COWL_OT_CE_OBJ_MIN_CARD:
         case COWL_OT_CE_OBJ_MAX_CARD:
         case COWL_OT_CE_OBJ_EXACT_CARD:
         case COWL_OT_CE_DATA_MIN_CARD:
         case COWL_OT_CE_DATA_MAX_CARD:
-        case COWL_OT_CE_DATA_EXACT_CARD: return cowl_func_write_construct_uint(s, obj, pm);
+        case COWL_OT_CE_DATA_EXACT_CARD: write_construct_uint(e, obj); return;
         default: {
             if (type >= COWL_OT_FIRST_A && type <= COWL_OT_LAST_A) {
-                return cowl_func_write_annot_construct(s, obj, pm);
+                write_annot_construct(e, obj);
+            } else {
+                write_construct(e, obj);
             }
-            return cowl_func_write_construct(s, obj, pm);
+            return;
         }
     }
+}
+
+static cowl_ret func_write(cowl_unused void *ctx, UOStream *stream, CowlAny *object) {
+    FuncEncoder e = encoder_init();
+    e.pm = cowl_get_prefix_map();
+    e.stream = stream;
+    write_obj(&e, object);
+    return encoder_state(&e);
+}
+
+static cowl_ret func_write_header(void *ctx, UOStream *stream, CowlOntologyHeader header) {
+    if (!ctx) return COWL_ERR_MEM;
+    FuncEncoder *e = ctx;
+    e->stream = stream;
+    encoder_set_prefix_map(e, header.pm);
+    write_header(e, &header);
+    return encoder_state(e);
+}
+
+static cowl_ret func_write_axiom(void *ctx, UOStream *stream, CowlAnyAxiom *axiom) {
+    if (!ctx) return COWL_ERR_MEM;
+    FuncEncoder *e = ctx;
+    e->stream = stream;
+    write_obj(e, axiom);
+    cowl_write_static(stream, "\n");
+    return encoder_state(e);
+}
+
+static cowl_ret func_write_footer(void *ctx, UOStream *stream) {
+    if (!ctx) return COWL_ERR_MEM;
+    FuncEncoder *e = ctx;
+    e->stream = stream;
+    write_footer(e);
+    return encoder_state(e);
+}
+
+static void func_free(void *ctx) {
+    encoder_deinit(ctx);
+    ulib_free(ctx);
+}
+
+CowlWriter *cowl_writer_functional(void) {
+    FuncEncoder *e = ulib_alloc(e);
+    if (!e) return NULL;
+    *e = encoder_init();
+    return cowl_writer((CowlWriterImpl){
+        .ctx = e,
+        .name = "functional",
+        .write = func_write,
+        .write_header = func_write_header,
+        .write_axiom = func_write_axiom,
+        .write_footer = func_write_footer,
+        .free = func_free,
+    });
 }

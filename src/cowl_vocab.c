@@ -17,6 +17,7 @@
 #include "cowl_rdfs_vocab_private.h"
 #include "cowl_ret.h"
 #include "cowl_string_private.h"
+#include "cowl_vocab_private.h"
 #include "cowl_xml_vocab.h"
 #include "cowl_xml_vocab_private.h"
 #include "cowl_xsd_vocab.h"
@@ -31,14 +32,19 @@ CowlVocab const *cowl_vocab(void) {
 
 cowl_ret cowl_vocab_init(void) {
     if (cowl_owl_vocab_init() || cowl_rdf_vocab_init() || cowl_rdfs_vocab_init() ||
-        cowl_xml_vocab_init() || cowl_xsd_vocab_init())
-        return COWL_ERR_MEM;
+        cowl_xml_vocab_init() || cowl_xsd_vocab_init()) {
+        goto err;
+    }
     vocab.owl = cowl_owl_vocab();
     vocab.rdf = cowl_rdf_vocab();
     vocab.rdfs = cowl_rdfs_vocab();
     vocab.xml = cowl_xml_vocab();
     vocab.xsd = cowl_xsd_vocab();
     return COWL_OK;
+
+err:
+    cowl_vocab_deinit();
+    return COWL_ERR_MEM;
 }
 
 void cowl_vocab_deinit(void) {
@@ -47,6 +53,7 @@ void cowl_vocab_deinit(void) {
     cowl_rdfs_vocab_deinit();
     cowl_xml_vocab_deinit();
     cowl_xsd_vocab_deinit();
+    vocab = (CowlVocab)ulib_zero_init;
 }
 
 bool cowl_vocab_is_reserved_prefix(CowlString *prefix) {

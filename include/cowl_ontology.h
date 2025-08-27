@@ -31,9 +31,10 @@ cowl_struct_decl(CowlAnnotation);
 cowl_struct_decl(CowlAxiomFilter);
 cowl_struct_decl(CowlClass);
 cowl_struct_decl(CowlIRI);
-cowl_struct_decl(CowlManager);
 cowl_struct_decl(CowlPrefixMap);
+cowl_struct_decl(CowlReader);
 cowl_struct_decl(CowlVector);
+cowl_struct_decl(CowlWriter);
 /// @endcond
 
 /**
@@ -52,24 +53,53 @@ cowl_struct_decl(CowlOntology);
  */
 
 /**
- * Gets the manager of this ontology.
+ * Creates a new ontology.
  *
- * @param onto The ontology.
- * @return The manager.
+ * @return Ontology, or NULL on error.
  */
 COWL_API
-COWL_PURE
-CowlManager *cowl_ontology_get_manager(CowlOntology *onto);
+COWL_RETAINED
+CowlOntology *cowl_ontology(void);
 
 /**
- * Sets the manager of this ontology.
+ * Reads an ontology from the specified file path.
+ *
+ * @param path File path.
+ * @return Ontology, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlOntology *cowl_ontology_at_path(UString path);
+
+/**
+ * Reads an ontology from the specified input stream.
+ *
+ * @param stream Input stream.
+ * @return CowlOntology object, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlOntology *cowl_ontology_from_stream(UIStream *stream);
+
+/**
+ * Writes the specified ontology to the given file path.
  *
  * @param onto The ontology.
- * @param manager The manager.
+ * @param path File path.
  * @return Return code.
  */
 COWL_API
-cowl_ret cowl_ontology_set_manager(CowlOntology *onto, CowlManager *manager);
+cowl_ret cowl_ontology_to_path(CowlOntology *onto, UString path);
+
+/**
+ * Writes the specified ontology to the given output stream.
+ *
+ * @param onto The ontology.
+ * @param stream Output stream.
+ * @return Return code.
+ */
+COWL_API
+cowl_ret cowl_ontology_to_stream(CowlOntology *onto, UOStream *stream);
 
 /**
  * Gets the prefix map of this ontology.

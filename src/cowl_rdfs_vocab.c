@@ -9,8 +9,10 @@
  */
 
 #include "cowl_rdfs_vocab.h"
+#include "cowl_rdfs_vocab_private.h"
 #include "cowl_ret.h"
 #include "cowl_vocab_private.h"
+#include "ulib.h"
 
 static CowlRDFSVocab vocab;
 
@@ -47,7 +49,9 @@ cowl_ret cowl_rdfs_vocab_init(void) {
         },
     };
 
-    return cowl_rdfs_vocab_validate();
+    cowl_ret const ret = cowl_rdfs_vocab_validate();
+    if (cowl_is_err(ret)) cowl_rdfs_vocab_deinit();
+    return ret;
 }
 
 void cowl_rdfs_vocab_deinit(void) {
@@ -65,6 +69,8 @@ void cowl_rdfs_vocab_deinit(void) {
     cowl_annot_prop_vocab_free(vocab.annot_prop.defined_by);
     cowl_annot_prop_vocab_free(vocab.annot_prop.label);
     cowl_annot_prop_vocab_free(vocab.annot_prop.see_also);
+
+    vocab = (CowlRDFSVocab)ulib_zero_init;
 }
 
 CowlRDFSVocab const *cowl_rdfs_vocab(void) {

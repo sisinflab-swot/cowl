@@ -27,7 +27,6 @@ struct CowlOntology {
     CowlObject super;
     CowlIRI *iri;
     CowlIRI *version;
-    CowlManager *manager;
     CowlPrefixMap *pm;
     CowlVector *imports;
     CowlVector *annot;
@@ -35,10 +34,8 @@ struct CowlOntology {
     UHash(CowlObjectTable) refs[COWL_PT_COUNT];
 };
 
-CowlOntology *cowl_ontology(CowlManager *manager);
 void cowl_ontology_free(CowlOntology *onto);
 cowl_ret cowl_ontology_finalize(CowlOntology *onto);
-CowlPrefixMap *cowl_ontology_find_prefix_map(CowlOntology *onto);
 
 COWL_END_DECLS
 

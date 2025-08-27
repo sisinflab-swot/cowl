@@ -12,6 +12,7 @@
 #include "cowl_ret.h"
 #include "cowl_vocab_private.h"
 #include "cowl_xml_vocab_private.h"
+#include "ulib.h"
 
 static CowlXMLVocab vocab;
 
@@ -28,7 +29,9 @@ cowl_ret cowl_xml_vocab_init(void) {
         .xmlns_prefix = cowl_string_vocab("xmlns"),
     };
 
-    return cowl_xml_vocab_validate();
+    cowl_ret const ret = cowl_xml_vocab_validate();
+    if (cowl_is_err(ret)) cowl_xml_vocab_deinit();
+    return ret;
 }
 
 void cowl_xml_vocab_deinit(void) {
@@ -36,6 +39,7 @@ void cowl_xml_vocab_deinit(void) {
     cowl_string_vocab_free(vocab.prefix);
     cowl_string_vocab_free(vocab.xmlns_ns);
     cowl_string_vocab_free(vocab.xmlns_prefix);
+    vocab = (CowlXMLVocab)ulib_zero_init;
 }
 
 CowlXMLVocab const *cowl_xml_vocab(void) {

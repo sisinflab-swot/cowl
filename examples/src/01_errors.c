@@ -1,6 +1,6 @@
 /*
- * This example is the same as the previous one, except all errors are handled and
- * logged.
+ * This example is the same as the previous one,
+ * except all errors are handled and logged.
  *
  * @author Ivano Bilenchi
  *
@@ -15,34 +15,42 @@
 
 #define ONTO "example_pizza.owl"
 
+static void log_error(char const *msg) {
+    fprintf(stderr, "Error: %s\n", msg);
+}
+
 int main(void) {
     // API initialization can fail due to low memory.
-    if (cowl_init()) {
+    if (cowl_is_err(cowl_init())) {
+        log_error("API initialization failure");
         return EXIT_FAILURE;
     }
-
-    CowlManager *manager = cowl_manager();
 
     // Cowl objects are allocated on the heap, so we need to check for NULL.
-    if (!manager) {
+    CowlReader *reader = cowl_reader_functional();
+
+    if (!reader) {
+        log_error("allocation failure");
         return EXIT_FAILURE;
     }
 
-    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
+    UString const path = ustring_literal(ONTO);
+    CowlOntology *onto = cowl_reader_read_ontology_at_path(reader, path);
 
     if (!onto) {
-        fprintf(stderr, "Failed to load ontology " ONTO "\n");
+        // If reading fails, we can log the last reader error.
+        cowl_reader_write_error(reader, uostream_stderr());
         return EXIT_FAILURE;
     }
 
     // I/O operations can fail, so we need to check for errors.
-    cowl_ret ret = cowl_manager_write_file(manager, onto, stdout);
+    cowl_ret ret = cowl_ontology_to_stream(onto, uostream_std());
 
     if (cowl_is_err(ret)) {
+        log_error("ontology write failure");
         return EXIT_FAILURE;
     }
 
-    cowl_release_all(manager, onto);
-
+    cowl_release_all(onto, reader);
     return EXIT_SUCCESS;
 }

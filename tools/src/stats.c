@@ -122,16 +122,11 @@ static bool load_ontology(UString path, CowlOntology **onto) {
         return false;
     }
 
-    CowlManager *manager = cowl_manager();
-    CowlOntology *l_onto = cowl_manager_read_path(manager, path);
-    cowl_release(manager);
-
-    if (!l_onto) {
+    if (!(*onto = cowl_ontology_at_path(path))) {
         log_error("Could not load the ontology.\n");
         return false;
     }
 
-    *onto = l_onto;
     return true;
 }
 

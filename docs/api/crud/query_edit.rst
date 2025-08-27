@@ -48,8 +48,8 @@ Editing ontologies
 ==================
 
 Ontologies can be edited by adding or removing axioms, annotations and other constructs,
-as allowed by the :struct:`CowlOntology` API. They can also be created from scratch by calling
-:func:`cowl_manager_new_ontology()`.
+as allowed by the :struct:`CowlOntology` API. They can also be created from scratch
+via the :func:`cowl_ontology()` constructor.
 
 Access to the mappings between prefixed and full IRIs is pro is provided by a
 :struct:`CowlPrefixMap` instance, retrievable by calling :func:`cowl_ontology_get_prefix_map()`.

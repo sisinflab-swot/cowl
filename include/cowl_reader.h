@@ -1,9 +1,9 @@
 /**
- * Defines CowlReader and declares its API.
+ * Declares CowlReader and its API.
  *
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2025 SisInf Lab, Polytechnic University of Bari
  * @copyright <http://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
@@ -14,18 +14,23 @@
 #define COWL_READER_H
 
 #include "cowl_attrs.h"
+#include "cowl_change_handler.h"
 #include "cowl_ret.h"
 #include "cowl_utils.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS
 
-/// @cond
-cowl_struct_decl(CowlIStream);
-/// @endcond
+/**
+ * A reader is an object that can read ontologies from an input stream.
+ *
+ * @superstruct{CowlObject}
+ * @struct CowlReader
+ */
+cowl_struct_decl(CowlReader);
 
-/// Defines a reader.
-typedef struct CowlReader {
+/// Reader implementation.
+typedef struct CowlReaderImpl {
 
     /// Name of the reader.
     char const *name;
@@ -37,13 +42,25 @@ typedef struct CowlReader {
      * Pointer to a function that reads an ontology from an input stream.
      *
      * @param ctx Reader context.
-     * @param istream Input stream.
-     * @param stream Ontology input stream.
+     * @param stream Input stream.
+     * @param handler Change handler.
      * @return Return code.
      *
      * @note This member is mandatory.
      */
-    cowl_ret (*read)(void *ctx, UIStream *istream, CowlIStream *stream);
+    cowl_ret (*read)(void *ctx, UIStream *stream, CowlChangeHandler handler);
+
+    /**
+     * Pointer to a function that writes a description of the last error
+     * to the specified output stream.
+     *
+     * @param ctx Reader context.
+     * @param stream Output stream.
+     * @return Return code.
+     *
+     * @note This member is optional.
+     */
+    cowl_ret (*write_error)(void *ctx, UOStream *stream);
 
     /**
      * Pointer to a function that frees the reader context.
@@ -54,56 +71,118 @@ typedef struct CowlReader {
      */
     void (*free)(void *ctx);
 
-} CowlReader;
+} CowlReaderImpl;
 
 /**
  * @defgroup CowlReader CowlReader API
  * @{
  */
 
-/**
- * Frees the reader context.
- *
- * @param reader The reader.
- */
-COWL_API
-void cowl_reader_free_ctx(CowlReader *reader);
-
 #ifdef COWL_READER_FUNCTIONAL
 
 /**
  * Returns the functional syntax reader.
  *
- * @return Functional syntax reader.
+ * @return Functional syntax reader, or NULL on error.
  */
 COWL_API
-COWL_CONST
-CowlReader cowl_reader_functional(void);
+COWL_RETAINED
+CowlReader *cowl_reader_functional(void);
 
 #endif // COWL_READER_FUNCTIONAL
 
 /**
  * Returns the default reader.
  *
- * @return Default reader.
- *
- * @alias CowlReader cowl_reader_default(void);
+ * @return Default reader, or NULL on error.
  */
-#if defined(COWL_DEFAULT_READER)
-#define cowl_reader_default ULIB_MACRO_CONCAT(cowl_reader_, COWL_DEFAULT_READER)
-#elif defined(COWL_READER_FUNCTIONAL)
-#define cowl_reader_default cowl_reader_functional
-#else
-#define cowl_reader_default p_cowl_reader_invalid
-#endif
+COWL_API
+COWL_RETAINED
+CowlReader *cowl_reader_default(void);
+
+/**
+ * Returns a new reader.
+ *
+ * @param impl Reader implementation.
+ * @return Reader, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlReader *cowl_reader(CowlReaderImpl impl);
+
+/**
+ * Returns the name of the reader.
+ *
+ * @param reader Reader.
+ * @return Name of the reader.
+ */
+COWL_API
+COWL_PURE
+char const *cowl_reader_get_name(CowlReader *reader);
+
+/**
+ * Returns the implementation of the reader.
+ *
+ * @param reader Reader.
+ * @return Reader implementation.
+ */
+COWL_API
+COWL_PURE
+CowlReaderImpl *cowl_reader_get_impl(CowlReader *reader);
+
+/**
+ * Reads an ontology from the specified input stream.
+ *
+ * @param reader Reader.
+ * @param stream Input stream.
+ * @param handler Change handler.
+ * @return Return code.
+ */
+COWL_API
+cowl_ret cowl_reader_read(CowlReader *reader, UIStream *stream, CowlChangeHandler handler);
+
+/**
+ * Reads an ontology from the specified file path.
+ *
+ * @param reader Reader.
+ * @param path File path.
+ * @param handler Change handler.
+ * @return Return code.
+ */
+COWL_API
+cowl_ret cowl_reader_read_path(CowlReader *reader, UString path, CowlChangeHandler handler);
+
+/**
+ * Reads an ontology from the specified input stream.
+ *
+ * @param reader Reader.
+ * @param stream Input stream.
+ * @return Ontology, or NULL on error.
+ */
+COWL_API
+CowlOntology *cowl_reader_read_ontology(CowlReader *reader, UIStream *stream);
+
+/**
+ * Reads an ontology from the specified file path.
+ *
+ * @param reader Reader.
+ * @param path File path.
+ * @return Ontology, or NULL on error.
+ */
+COWL_API
+CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path);
+
+/**
+ * Writes a description of the last error to the specified output stream.
+ *
+ * @param reader Reader.
+ * @param stream Output stream.
+ * @return Return code.
+ */
+COWL_API
+cowl_ret cowl_reader_write_error(CowlReader *reader, UOStream *stream);
 
 /// @}
-
-// Private API
-
-COWL_API
-COWL_CONST
-CowlReader p_cowl_reader_invalid(void);
 
 COWL_END_DECLS
 

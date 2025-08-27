@@ -39,6 +39,15 @@ cowl_struct_decl(CowlPrefixMap);
  */
 
 /**
+ * Creates a new prefix map.
+ *
+ * @return Prefix map, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlPrefixMap *cowl_prefix_map(void);
+
+/**
  * Gets the table that associates prefixes to namespaces.
  *
  * @param map The prefix map.

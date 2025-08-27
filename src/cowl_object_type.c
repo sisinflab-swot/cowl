@@ -21,10 +21,9 @@ UString cowl_object_type_to_ustring(CowlObjectType type) {
         case COWL_OT_LITERAL: return ustring_literal("Literal");
         case COWL_OT_FACET_RESTR: return ustring_literal("FacetRestriction");
         case COWL_OT_ONTOLOGY: return ustring_literal("Ontology");
-        case COWL_OT_MANAGER: return ustring_literal("Manager");
         case COWL_OT_PREFIX_MAP: return ustring_literal("PrefixMap");
-        case COWL_OT_ISTREAM: return ustring_literal("InputStream");
-        case COWL_OT_OSTREAM: return ustring_literal("OutputStream");
+        case COWL_OT_READER: return ustring_literal("Reader");
+        case COWL_OT_WRITER: return ustring_literal("Writer");
         case COWL_OT_ANNOTATION: return ustring_literal("Annotation");
         case COWL_OT_ANNOT_PROP: return ustring_literal("AnnotationProperty");
         case COWL_OT_A_DECL: return ustring_literal("Declaration");

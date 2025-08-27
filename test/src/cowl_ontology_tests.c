@@ -73,26 +73,17 @@ static void axiom_counts_by_type_init(void) {
     axiom_counts_by_type[COWL_AT_ANNOT_PROP_RANGE] = 1;
 }
 
-static cowl_ret add_axiom(void *onto, CowlAnyAxiom *axiom) {
-    return cowl_ontology_add_axiom((CowlOntology *)onto, axiom);
-}
-
 void cowl_test_ontology_init(void) {
     axiom_counts_by_type_init();
-    CowlManager *manager = cowl_manager();
-    utest_assert_fatal(manager);
-    onto = cowl_manager_read_path(manager, ustring_literal(COWL_TEST_ONTOLOGY));
-    utest_assert_fatal(onto);
 
     // TO-DO: replace with proper import handling when available.
-    CowlIStreamHandlers handlers = ulib_zero_init;
-    handlers.axiom = add_axiom;
-    handlers.ctx = onto;
-    CowlIStream *stream = cowl_manager_get_istream(manager, handlers);
-    cowl_ret ret = cowl_istream_process_path(stream, ustring_literal(COWL_TEST_IMPORT));
-    utest_assert_fatal(cowl_ret_is_ok(ret));
+    onto = cowl_ontology_at_path(ustring_literal(COWL_TEST_IMPORT));
+    utest_assert_fatal(onto);
 
-    cowl_release_all(stream, manager);
+    CowlReader *reader = cowl_get_reader();
+    CowlChangeHandler handler = cowl_change_handler_to_ontology(onto);
+    UString path = ustring_literal(COWL_TEST_ONTOLOGY);
+    utest_assert_fatal(cowl_is_ok(cowl_reader_read_path(reader, path, handler)));
 }
 
 void cowl_test_ontology_deinit(void) {
@@ -241,4 +232,47 @@ void cowl_test_ontology_has_axiom(void) {
     axiom = generate_datatype_def("DataOneOf_Literal4", "DataOneOf_Literal2", "DataOneOf_Literal1");
     utest_assert_false(cowl_ontology_has_axiom(onto, axiom));
     cowl_release(axiom);
+}
+
+static bool filter_axiom(void *cls, CowlAny *axiom) {
+    return cowl_axiom_has_operand(axiom, cls, COWL_PS_ANY);
+}
+
+void cowl_test_ontology_edit(void) {
+    CowlOntology *onto = cowl_ontology();
+    utest_assert_not_null(onto);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 0);
+
+    CowlClass *a = cowl_class_from_static(test_onto_iri "A");
+    CowlClass *b = cowl_class_from_static(test_onto_iri "B");
+
+    CowlDeclAxiom *decl_axiom = cowl_decl_axiom(a, NULL);
+    cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));
+    cowl_release(decl_axiom);
+
+    decl_axiom = cowl_decl_axiom(b, NULL);
+    cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));
+    cowl_release(decl_axiom);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 2);
+
+    CowlSubClsAxiom *sub_axiom = cowl_sub_cls_axiom(a, b, NULL);
+    cowl_release_all(a, b);
+
+    cowl_assert_ok(cowl_ontology_add_axiom(onto, sub_axiom));
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 3);
+
+    utest_assert(cowl_ontology_remove_axiom(onto, sub_axiom));
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 2);
+
+    cowl_ontology_add_axiom(onto, sub_axiom);
+
+    CowlAxiomFilter af = cowl_axiom_filter(COWL_AF_DECL | COWL_AF_SUB_CLASS);
+    cowl_axiom_filter_add_primitive(&af, a);
+    CowlFilter closure = { a, filter_axiom };
+    cowl_axiom_filter_set_closure(&af, closure);
+
+    utest_assert_uint(cowl_ontology_remove_axioms_matching(onto, &af), ==, 2);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 1);
+
+    cowl_release_all(sub_axiom, onto);
 }

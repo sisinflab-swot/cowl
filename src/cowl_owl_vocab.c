@@ -12,6 +12,7 @@
 #include "cowl_owl_vocab_private.h"
 #include "cowl_ret.h"
 #include "cowl_vocab_private.h"
+#include "ulib.h"
 
 static CowlOWLVocab vocab;
 
@@ -79,7 +80,9 @@ cowl_ret cowl_owl_vocab_init(void) {
         }
     };
 
-    return cowl_owl_vocab_validate();
+    cowl_ret const ret = cowl_owl_vocab_validate();
+    if (cowl_is_err(ret)) cowl_owl_vocab_deinit();
+    return ret;
 }
 
 void cowl_owl_vocab_deinit(void) {
@@ -117,6 +120,8 @@ void cowl_owl_vocab_deinit(void) {
     cowl_annot_prop_vocab_free(vocab.annot_prop.incompatible);
     cowl_annot_prop_vocab_free(vocab.annot_prop.prior_version);
     cowl_annot_prop_vocab_free(vocab.annot_prop.version_info);
+
+    vocab = (CowlOWLVocab)ulib_zero_init;
 }
 
 CowlOWLVocab const *cowl_owl_vocab(void) {

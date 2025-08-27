@@ -3,7 +3,7 @@
  * of a certain class, but we will do so without instantiating a
  * CowlOntology object.
  *
- * @note Memory allocation failures are not handled for the sake of simplicity.
+ * @note Most errors are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -21,8 +21,11 @@
 #define CLASS_NAME "Food"
 
 // Axiom handler, invoked for each axiom in the ontology document.
-static cowl_ret handle_axiom(void *target_class, CowlAnyAxiom *axiom) {
+static cowl_ret handle_axiom(void *target_class, CowlChange change) {
     // We are only interested in subclass axioms.
+    if (change.part != COWL_PART_AXIOM) return COWL_OK;
+
+    CowlAnyAxiom *axiom = change.value;
     if (cowl_axiom_get_type(axiom) != COWL_AT_SUB_CLASS) return COWL_OK;
 
     // We are only interested in axioms where the superclass is the target class.
@@ -34,26 +37,28 @@ static cowl_ret handle_axiom(void *target_class, CowlAnyAxiom *axiom) {
     if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return COWL_OK;
 
     // Log the IRI remainder.
-    puts(cowl_string_get_cstring(cowl_iri_get_rem(cowl_class_get_iri(cls))));
+    puts(cowl_string_get_cstring(cowl_get_rem(cls)));
     return COWL_OK;
 }
 
 int main(void) {
     cowl_init();
 
-    CowlManager *manager = cowl_manager();
     CowlClass *target_class = cowl_class_from_static(NS CLASS_NAME);
 
     // Configure the ontology input stream.
-    CowlIStreamHandlers handlers = { .ctx = target_class, .axiom = handle_axiom };
-    CowlIStream *stream = cowl_manager_get_istream(manager, handlers);
+    CowlChangeHandler handler = {
+        .ctx = target_class,
+        .handle = handle_axiom,
+    };
 
     // Process the ontology as a stream.
     puts("Atomic subclasses of " CLASS_NAME ":");
-    if (cowl_istream_process_path(stream, ustring_literal(ONTO))) {
+    CowlReader *reader = cowl_get_reader();
+    if (cowl_reader_read_path(reader, ustring_literal(ONTO), handler)) {
         return EXIT_FAILURE;
     }
 
-    cowl_release_all(manager, target_class, stream);
+    cowl_release(target_class);
     return EXIT_SUCCESS;
 }

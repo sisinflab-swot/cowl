@@ -1,7 +1,7 @@
 /*
  * In this example we will be logging the direct atomic subclasses of a class.
  *
- * @note Memory allocation failures are not handled for the sake of simplicity.
+ * @note Most errors are not handled for the sake of simplicity.
  *
  * @author Ivano Bilenchi
  *
@@ -25,7 +25,7 @@ static bool for_each_cls(void *std_out, CowlAny *cls) {
     if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
 
     // Log the IRI remainder.
-    cowl_write_string(std_out, cowl_iri_get_rem(cowl_class_get_iri(cls)));
+    cowl_write_string(std_out, cowl_get_rem(cls));
     cowl_write_static(std_out, "\n");
 
     return true;
@@ -34,9 +34,7 @@ static bool for_each_cls(void *std_out, CowlAny *cls) {
 int main(void) {
     cowl_init();
 
-    CowlManager *manager = cowl_manager();
-    CowlOntology *onto = cowl_manager_read_path(manager, ustring_literal(ONTO));
-    cowl_release(manager);
+    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(ONTO));
 
     if (!onto) {
         fprintf(stderr, "Failed to load ontology " ONTO "\n");

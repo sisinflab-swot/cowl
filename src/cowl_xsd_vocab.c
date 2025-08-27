@@ -12,6 +12,7 @@
 #include "cowl_ret.h"
 #include "cowl_vocab_private.h"
 #include "cowl_xsd_vocab_private.h"
+#include "ulib.h"
 #include <stddef.h>
 
 static CowlXSDVocab vocab;
@@ -158,7 +159,9 @@ cowl_ret cowl_xsd_vocab_init(void) {
         },
     };
 
-    return cowl_xsd_vocab_validate();
+    cowl_ret const ret = cowl_xsd_vocab_validate();
+    if (cowl_is_err(ret)) cowl_xsd_vocab_deinit();
+    return ret;
 }
 
 void cowl_xsd_vocab_deinit(void) {
@@ -176,6 +179,8 @@ void cowl_xsd_vocab_deinit(void) {
     for (size_t i = 0; i < count; ++i) {
         cowl_datatype_vocab_free(dts[i]);
     }
+
+    vocab = (CowlXSDVocab)ulib_zero_init;
 }
 
 CowlXSDVocab const *cowl_xsd_vocab(void) {
