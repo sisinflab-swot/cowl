@@ -13,7 +13,6 @@
 #include "cowl_prefix_map.h"
 #include "cowl_ret.h"
 #include "cowl_table.h"
-#include "cowl_vector.h"
 #include <stddef.h>
 
 static inline cowl_ret add_prefix(CowlOntology *onto, CowlPrefixDecl *decl) {
@@ -100,16 +99,11 @@ cowl_ret cowl_change_handler_handle_ontology(CowlChangeHandler *handler, CowlOnt
         if ((ret = cowl_change_handler_handle(handler, change))) return ret;
     }
 
-    CowlVector *annotations = cowl_ontology_get_annot(onto);
-    change.part = COWL_PART_ANNOTATION;
-
-    cowl_vector_foreach (annotations, annot) {
-        change.value = *annot.item;
-        if ((ret = cowl_change_handler_handle(handler, change))) return ret;
-    }
-
     void *ctx[] = { &ret, handler, &change };
     CowlIterator iter = { .ctx = (void *)ctx, .for_each = handle_change };
+
+    change.part = COWL_PART_ANNOTATION;
+    if (!cowl_ontology_iterate_annot(onto, &iter)) return ret;
 
     change.part = COWL_PART_IMPORT;
     if (!cowl_ontology_iterate_imports(onto, &iter)) return ret;

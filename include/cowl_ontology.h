@@ -331,16 +331,14 @@ COWL_PURE
 bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
 
 /**
- * Iterates over the primitives referenced by the specified ontology.
+ * Iterates over the annotations of the ontology.
  *
  * @param onto The ontology.
- * @param flags Primitive flags.
  * @param iter The iterator.
  * @return True if the iteration was completed, false if it was stopped.
  */
 COWL_API
-bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter);
+bool cowl_ontology_iterate_annot(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the import IRIs.
@@ -351,6 +349,18 @@ bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags fla
  */
 COWL_API
 bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter);
+
+/**
+ * Iterates over the primitives referenced by the specified ontology.
+ *
+ * @param onto The ontology.
+ * @param flags Primitive flags.
+ * @param iter The iterator.
+ * @return True if the iteration was completed, false if it was stopped.
+ */
+COWL_API
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter);
 
 /**
  * Iterates over the axioms in the ontology.

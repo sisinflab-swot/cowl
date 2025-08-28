@@ -180,13 +180,9 @@ bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     return false;
 }
 
-bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter) {
-    for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
-        if (!cowl_primitive_flags_has_type(flags, i)) continue;
-        uhash_foreach (CowlObjectTable, &onto->refs[i], p) {
-            if (!cowl_iterate_primitives(*p.key, flags, iter)) return false;
-        }
+bool cowl_ontology_iterate_annot(CowlOntology *onto, CowlIterator *iter) {
+    cowl_vector_foreach (onto->annot, annot) {
+        if (!cowl_iterator_call(iter, *annot.item)) return false;
     }
     return true;
 }
@@ -194,6 +190,17 @@ bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags fla
 bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter) {
     cowl_vector_foreach (onto->imports, import) {
         if (!cowl_iterator_call(iter, *import.item)) return false;
+    }
+    return true;
+}
+
+bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
+                                      CowlIterator *iter) {
+    for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
+        if (!cowl_primitive_flags_has_type(flags, i)) continue;
+        uhash_foreach (CowlObjectTable, &onto->refs[i], p) {
+            if (!cowl_iterate_primitives(*p.key, flags, iter)) return false;
+        }
     }
     return true;
 }
