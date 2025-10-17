@@ -110,7 +110,7 @@ cowl_struct_decl(CowlTable);
 cowl_struct_decl(CowlVector);
 
 uvec_decl(CowlObjectPtr);
-uhash_decl(CowlObjectTable);
+uhash_decl(CowlObjectPtr);
 
 COWL_END_DECLS
 

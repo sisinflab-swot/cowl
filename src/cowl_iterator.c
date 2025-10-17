@@ -12,7 +12,7 @@
 #include "cowl_any.h"
 #include "cowl_attrs.h"
 #include "cowl_object.h"
-#include "cowl_table.h"  // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_table.h"  // IWYU pragma: keep, needed for UHash(CowlObjectPtr)
 #include "cowl_vector.h" // IWYU pragma: keep, needed for UVec(CowlObjectPtr)
 #include "ulib.h"
 
@@ -28,11 +28,11 @@ static bool for_each_store_vec_retain(void *vec, CowlAny *obj) {
 }
 
 static bool for_each_store_set(void *set, CowlAny *obj) {
-    return ulib_is_ok(uhset_insert(CowlObjectTable, set, obj));
+    return ulib_is_ok(uhset_insert(CowlObjectPtr, set, obj));
 }
 
 static bool for_each_store_set_retain(void *set, CowlAny *obj) {
-    ulib_ret const ret = uhset_insert(CowlObjectTable, set, obj);
+    ulib_ret const ret = uhset_insert(CowlObjectPtr, set, obj);
     if (ulib_is_err(ret)) return false;
     if (ret == ULIB_OK) cowl_retain(obj);
     return true;
@@ -68,7 +68,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain) {
     };
 }
 
-CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set, bool retain) {
+CowlIterator cowl_iterator_set(UHash(CowlObjectPtr) *set, bool retain) {
     return (CowlIterator){
         .ctx = set,
         .for_each = retain ? for_each_store_set_retain : for_each_store_set,

@@ -22,11 +22,11 @@ COWL_BEGIN_DECLS
 
 struct CowlTable {
     CowlObject super;
-    UHash(CowlObjectTable) data;
+    UHash(CowlObjectPtr) data;
 };
 
-UHash(CowlObjectTable) cowl_primitive_map(void);
-UHash(CowlObjectTable) cowl_string_map(void);
+UHash(CowlObjectPtr) cowl_primitive_map(void);
+UHash(CowlObjectPtr) cowl_string_map(void);
 
 void cowl_table_free(CowlTable *table);
 void cowl_table_release_ex(CowlTable *table, bool release_elements);

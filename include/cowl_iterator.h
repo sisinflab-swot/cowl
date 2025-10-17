@@ -21,7 +21,7 @@ COWL_BEGIN_DECLS
 
 /// @cond
 uvec_decl(CowlObjectPtr);
-uhash_decl(CowlObjectTable);
+uhash_decl(CowlObjectPtr);
 /// @endcond
 
 /**
@@ -105,7 +105,7 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
  *       e.g. when memory cannot be allocated.
  */
 COWL_API
-CowlIterator cowl_iterator_set(UHash(CowlObjectTable) *set, bool retain);
+CowlIterator cowl_iterator_set(UHash(CowlObjectPtr) *set, bool retain);
 
 /**
  * Initializes an iterator that counts the objects it iterates on.

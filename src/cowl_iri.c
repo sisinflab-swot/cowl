@@ -17,14 +17,14 @@
 #include "cowl_ret.h"
 #include "cowl_string.h"
 #include "cowl_string_private.h"
-#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectPtr)
 #include "cowl_vocab.h"
 #include "cowl_writer.h"
 #include "cowl_xml_utils.h"
 #include "ulib.h"
 #include <stddef.h>
 
-static UHash(CowlObjectTable) inst_tbl;
+static UHash(CowlObjectPtr) inst_tbl;
 
 static ulib_uint inst_tbl_hash(CowlAny *key) {
     ulib_uint h1 = ulib_hash_alloc_ptr(cowl_iri_get_ns(key));
@@ -38,12 +38,12 @@ static bool inst_tbl_eq(CowlAny *lhs, CowlAny *rhs) {
 }
 
 cowl_ret cowl_iri_api_init(void) {
-    inst_tbl = uhset_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+    inst_tbl = uhset_pi(CowlObjectPtr, inst_tbl_hash, inst_tbl_eq);
     return COWL_OK;
 }
 
 void cowl_iri_api_deinit(void) {
-    uhash_deinit(CowlObjectTable, &inst_tbl);
+    uhash_deinit(CowlObjectPtr, &inst_tbl);
 }
 
 static CowlIRI *cowl_iri_alloc(CowlString *ns, CowlString *rem) {
@@ -60,7 +60,7 @@ static CowlIRI *cowl_iri_alloc(CowlString *ns, CowlString *rem) {
 }
 
 void cowl_iri_free(CowlIRI *iri) {
-    uhset_remove(CowlObjectTable, &inst_tbl, iri);
+    uhset_remove(CowlObjectPtr, &inst_tbl, iri);
     cowl_release(iri->ns);
     cowl_release(iri->rem);
     ulib_free(iri);
@@ -71,19 +71,19 @@ CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
 
     ulib_uint idx;
     CowlIRI key = { .ns = ns, .rem = rem };
-    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, &inst_tbl, &key, &idx);
 
     CowlIRI *val = NULL;
 
     if (ret == ULIB_OK) {
         val = cowl_iri_alloc(ns, rem);
         if (val) {
-            uhash_set_key(CowlObjectTable, &inst_tbl, idx, val);
+            uhash_set_key(CowlObjectPtr, &inst_tbl, idx, val);
         } else {
-            uhash_delete(CowlObjectTable, &inst_tbl, idx);
+            uhash_delete(CowlObjectPtr, &inst_tbl, idx);
         }
     } else if (ret == ULIB_NO) {
-        val = uhash_key(CowlObjectTable, &inst_tbl, idx);
+        val = uhash_key(CowlObjectPtr, &inst_tbl, idx);
         cowl_object_incr_ref(val);
     }
 

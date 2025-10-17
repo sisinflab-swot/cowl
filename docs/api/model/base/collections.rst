@@ -14,7 +14,7 @@ Vector
 Hash table
 ==========
 
-.. doxygentypedef:: UHash_CowlObjectTable
+.. doxygentypedef:: UHash_CowlObjectPtr
 .. doxygenstruct:: CowlTable
 .. doxygengroup:: CowlTable
    :content-only:

@@ -14,13 +14,13 @@
 #include "cowl_object_type.h"
 #include "cowl_ret.h"
 #include "cowl_string_private.h"
-#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectPtr)
 #include "cowl_table_private.h"
 #include "ulib.h"
 #include <stdarg.h>
 #include <stddef.h>
 
-static UHash(CowlObjectTable) inst_tbl;
+static UHash(CowlObjectPtr) inst_tbl;
 static CowlString *empty = NULL;
 
 static CowlString *cowl_string_get(UString raw_string, bool copy) {
@@ -43,19 +43,19 @@ static CowlString *cowl_string_get_intern(UString raw_string, bool copy) {
     CowlString key = cowl_string_init(raw_string);
 
     ulib_uint idx;
-    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, &inst_tbl, &key, &idx);
 
     if (ret == ULIB_OK) {
         string = cowl_string_get(raw_string, copy);
         if (string) {
             cowl_object_bit_set(string);
-            uhash_set_key(CowlObjectTable, &inst_tbl, idx, string);
+            uhash_set_key(CowlObjectPtr, &inst_tbl, idx, string);
         } else {
-            uhash_delete(CowlObjectTable, &inst_tbl, idx);
+            uhash_delete(CowlObjectPtr, &inst_tbl, idx);
         }
     } else {
         if (ret == ULIB_NO) {
-            string = uhash_key(CowlObjectTable, &inst_tbl, idx);
+            string = uhash_key(CowlObjectPtr, &inst_tbl, idx);
             cowl_retain(string);
         }
         if (!copy) ustring_deinit(&raw_string);
@@ -77,7 +77,7 @@ err:
 
 void cowl_string_api_deinit(void) {
     cowl_release(empty);
-    uhash_deinit(CowlObjectTable, &inst_tbl);
+    uhash_deinit(CowlObjectPtr, &inst_tbl);
     empty = NULL;
 }
 
@@ -95,12 +95,12 @@ CowlString *cowl_string_intern(CowlString *string) {
     if (!ustring_length(string->raw_string)) return empty;
 
     ulib_uint idx;
-    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, string, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, &inst_tbl, string, &idx);
 
     if (ret == ULIB_OK) {
         cowl_object_bit_set(string);
     } else if (ret == ULIB_NO) {
-        string = uhash_key(CowlObjectTable, &inst_tbl, idx);
+        string = uhash_key(CowlObjectPtr, &inst_tbl, idx);
     } else {
         string = NULL;
     }
@@ -188,7 +188,7 @@ CowlString *cowl_string_empty(void) {
 
 void cowl_string_free(CowlString *string) {
     // If the string was interned, it must also be removed from the hash set.
-    if (cowl_object_bit_get(string)) uhset_remove(CowlObjectTable, &inst_tbl, string);
+    if (cowl_object_bit_get(string)) uhset_remove(CowlObjectPtr, &inst_tbl, string);
     ustring_deinit(&string->raw_string);
     ulib_free(string);
 }

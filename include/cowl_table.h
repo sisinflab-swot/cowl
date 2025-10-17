@@ -24,11 +24,15 @@ COWL_BEGIN_DECLS
 /**
  * @type{UHash(T)} of @ctype{#CowlObject *} elements.
  *
- * @alias typedef UHash(CowlObjectTable) UHash(CowlObjectTable);
+ * @alias typedef UHash(CowlObjectPtr) UHash(CowlObjectPtr);
  */
 
 /// @cond
-UHASH_DECL_PI_SPEC(CowlObjectTable, CowlAny *, CowlAny *, COWL_API)
+UHASH_DECL_PI_SPEC(CowlObjectPtr, CowlAny *, CowlAny *, COWL_API)
+
+COWL_DEPRECATED(Use UHash(CowlObjectPtr) instead)
+typedef UHash(CowlObjectPtr) UHash(CowlObjectTable);
+#define CowlObjectTable CowlObjectPtr
 /// @endcond
 
 /**
@@ -55,7 +59,7 @@ cowl_struct_decl(CowlTable);
  */
 COWL_API
 COWL_RETAINED
-CowlTable *cowl_table(UHash(CowlObjectTable) *table);
+CowlTable *cowl_table(UHash(CowlObjectPtr) *table);
 
 /**
  * Returns an hash table with no elements.
@@ -74,7 +78,7 @@ COWL_RETAINED
  */
 COWL_API
 COWL_PURE
-UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
+UHash(CowlObjectPtr) const *cowl_table_get_data(CowlTable *table);
 
 /**
  * Returns the number of elements in the hash table.
@@ -85,7 +89,7 @@ UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table);
 COWL_PURE
 COWL_INLINE
 ulib_uint cowl_table_count(CowlTable *table) {
-    return uhash_count(CowlObjectTable, cowl_table_get_data(table));
+    return uhash_count(CowlObjectPtr, cowl_table_get_data(table));
 }
 
 /**
@@ -98,7 +102,7 @@ ulib_uint cowl_table_count(CowlTable *table) {
 COWL_PURE
 COWL_INLINE
 CowlAny *cowl_table_get_value(CowlTable *table, CowlAny *key) {
-    return uhmap_get(CowlObjectTable, cowl_table_get_data(table), key, NULL);
+    return uhmap_get(CowlObjectPtr, cowl_table_get_data(table), key, NULL);
 }
 
 /**
@@ -110,7 +114,7 @@ CowlAny *cowl_table_get_value(CowlTable *table, CowlAny *key) {
 COWL_PURE
 COWL_INLINE
 CowlAny *cowl_table_get_any(CowlTable *table) {
-    return uhset_get_any(CowlObjectTable, cowl_table_get_data(table), NULL);
+    return uhset_get_any(CowlObjectPtr, cowl_table_get_data(table), NULL);
 }
 
 /**
@@ -123,7 +127,7 @@ CowlAny *cowl_table_get_any(CowlTable *table) {
 COWL_PURE
 COWL_INLINE
 bool cowl_table_contains(CowlTable *table, CowlAny *key) {
-    return uhash_contains(CowlObjectTable, cowl_table_get_data(table), key);
+    return uhash_contains(CowlObjectPtr, cowl_table_get_data(table), key);
 }
 
 /**
@@ -133,7 +137,7 @@ bool cowl_table_contains(CowlTable *table, CowlAny *key) {
  * @param obj @ctype{symbol} Name of the variable holding the current index, key and value.
  */
 #define cowl_table_foreach(table, obj)                                                             \
-    uhash_foreach (CowlObjectTable, cowl_table_get_data(table), obj)
+    uhash_foreach (CowlObjectPtr, cowl_table_get_data(table), obj)
 
 /// @}
 

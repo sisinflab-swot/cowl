@@ -44,7 +44,7 @@ static cowl_ret update_reverse_map(CowlPrefixMap *map) {
     CowlTable *h2 = map->ns_prefix;
 
     cowl_table_foreach (h1, e) {
-        ulib_ret const ret = uhmap_set(CowlObjectTable, &h2->data, *e.val, *e.key, NULL);
+        ulib_ret const ret = uhmap_set(CowlObjectPtr, &h2->data, *e.val, *e.key, NULL);
         if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
     }
 
@@ -88,7 +88,7 @@ CowlTable *cowl_prefix_map_get_table(CowlPrefixMap *map, bool reverse) {
     CowlTable **table = reverse ? &map->ns_prefix : &map->prefix_ns;
 
     if (!*table) {
-        UHash(CowlObjectTable) temp = cowl_string_map();
+        UHash(CowlObjectPtr) temp = cowl_string_map();
         if (!(*table = cowl_table(&temp))) return NULL;
     }
 
@@ -111,7 +111,7 @@ cowl_prefix_map_add(CowlPrefixMap *map, CowlString *prefix, CowlString *ns, bool
     if (!(table && (ns = cowl_string_intern(ns)))) return COWL_ERR_MEM;
 
     ulib_uint i;
-    ulib_ret ret = uhash_put(CowlObjectTable, &table->data, prefix, &i);
+    ulib_ret ret = uhash_put(CowlObjectPtr, &table->data, prefix, &i);
     if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
     if (ret == ULIB_NO) {
@@ -119,15 +119,15 @@ cowl_prefix_map_add(CowlPrefixMap *map, CowlString *prefix, CowlString *ns, bool
         // Mapping present, overwrite mapped namespace unless the prefix is reserved.
         // TO-DO: replace with COWL_NO when available.
         if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_OK;
-        cowl_release(uhmap_val(CowlObjectTable, &table->data, i));
-        uhmap_set_val(CowlObjectTable, &table->data, i, cowl_retain(ns));
+        cowl_release(uhmap_val(CowlObjectPtr, &table->data, i));
+        uhmap_set_val(CowlObjectPtr, &table->data, i, cowl_retain(ns));
         set_dirty(map);
         return COWL_OK;
     }
 
     // Mapping not present.
-    uhash_set_key(CowlObjectTable, &table->data, i, cowl_retain(prefix));
-    uhmap_set_val(CowlObjectTable, &table->data, i, cowl_retain(ns));
+    uhash_set_key(CowlObjectPtr, &table->data, i, cowl_retain(prefix));
+    uhmap_set_val(CowlObjectPtr, &table->data, i, cowl_retain(ns));
     set_dirty(map);
     return COWL_OK;
 }
@@ -139,7 +139,7 @@ cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns,
     CowlString key = cowl_string_init(prefix);
 
     ulib_uint i;
-    ulib_ret const ret = uhash_put(CowlObjectTable, &table->data, &key, &i);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, &table->data, &key, &i);
     if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
     if (ret == ULIB_NO) {
@@ -149,8 +149,8 @@ cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns,
         if (cowl_vocab_is_reserved_prefix_raw(prefix)) return COWL_OK;
         CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
         if (!ns_str) goto oom;
-        cowl_release(uhmap_val(CowlObjectTable, &table->data, i));
-        uhmap_set_val(CowlObjectTable, &table->data, i, ns_str);
+        cowl_release(uhmap_val(CowlObjectPtr, &table->data, i));
+        uhmap_set_val(CowlObjectPtr, &table->data, i, ns_str);
         set_dirty(map);
         return COWL_OK;
     }
@@ -165,13 +165,13 @@ cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns,
         goto oom;
     }
 
-    uhash_set_key(CowlObjectTable, &table->data, i, prefix_str);
-    uhmap_set_val(CowlObjectTable, &table->data, i, ns_str);
+    uhash_set_key(CowlObjectPtr, &table->data, i, prefix_str);
+    uhmap_set_val(CowlObjectPtr, &table->data, i, ns_str);
     set_dirty(map);
     return COWL_OK;
 
 oom:
-    uhash_delete(CowlObjectTable, &table->data, i);
+    uhash_delete(CowlObjectPtr, &table->data, i);
     return COWL_ERR_MEM;
 }
 
@@ -182,9 +182,9 @@ cowl_ret cowl_prefix_map_remove_prefix(CowlPrefixMap *map, CowlString *prefix) {
     CowlAny *ex_key;
     CowlAny *ex_value;
 
-    if (uhmap_pop(CowlObjectTable, &table->data, prefix, &ex_key, &ex_value)) {
+    if (uhmap_pop(CowlObjectPtr, &table->data, prefix, &ex_key, &ex_value)) {
         table = cowl_prefix_map_get_table(map, true);
-        uhmap_remove(CowlObjectTable, &table->data, ex_value);
+        uhmap_remove(CowlObjectPtr, &table->data, ex_value);
         cowl_release(ex_key);
         cowl_release(ex_value);
     }
@@ -199,9 +199,9 @@ cowl_ret cowl_prefix_map_remove_ns(CowlPrefixMap *map, CowlString *ns) {
     CowlAny *ex_key;
     CowlAny *ex_value;
 
-    if (uhmap_pop(CowlObjectTable, &table->data, ns, &ex_key, &ex_value)) {
+    if (uhmap_pop(CowlObjectPtr, &table->data, ns, &ex_key, &ex_value)) {
         table = cowl_prefix_map_get_table(map, false);
-        uhmap_remove(CowlObjectTable, &table->data, ex_value);
+        uhmap_remove(CowlObjectPtr, &table->data, ex_value);
         cowl_release(ex_key);
         cowl_release(ex_value);
     }

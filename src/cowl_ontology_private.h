@@ -17,7 +17,7 @@
 #include "cowl_ontology.h" // IWYU pragma: export
 #include "cowl_primitive_type.h"
 #include "cowl_ret.h"
-#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectPtr)
 #include "cowl_vector.h"
 #include "ulib.h"
 
@@ -31,7 +31,7 @@ struct CowlOntology {
     CowlVector *imports;
     CowlVector *annot;
     CowlVector *axioms_by_type[COWL_AT_COUNT];
-    UHash(CowlObjectTable) refs[COWL_PT_COUNT];
+    UHash(CowlObjectPtr) refs[COWL_PT_COUNT];
 };
 
 void cowl_ontology_free(CowlOntology *onto);

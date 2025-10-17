@@ -18,11 +18,11 @@
 #include "cowl_object_type.h"
 #include "cowl_primitive_private.h"
 #include "cowl_ret.h"
-#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectPtr)
 #include "ulib.h"
 #include <stddef.h>
 
-static UHash(CowlObjectTable) inst_tbl;
+static UHash(CowlObjectPtr) inst_tbl;
 
 #if COWL_ENTITY_IDS
 #include "cowl_vector.h"
@@ -41,7 +41,7 @@ static bool inst_tbl_eq(CowlAny *lhs, CowlAny *rhs) {
 }
 
 cowl_ret cowl_entity_api_init(void) {
-    inst_tbl = uhset_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+    inst_tbl = uhset_pi(CowlObjectPtr, inst_tbl_hash, inst_tbl_eq);
 #if COWL_ENTITY_IDS
     id_map = uvec(CowlObjectPtr);
 #endif
@@ -49,7 +49,7 @@ cowl_ret cowl_entity_api_init(void) {
 }
 
 void cowl_entity_api_deinit(void) {
-    uhash_deinit(CowlObjectTable, &inst_tbl);
+    uhash_deinit(CowlObjectPtr, &inst_tbl);
 #if COWL_ENTITY_IDS
     uvec_foreach (CowlObjectPtr, &id_map, e) {
         cowl_release(*e.item);
@@ -79,7 +79,7 @@ static CowlEntity *cowl_entity_alloc(CowlObjectType type, CowlIRI *iri) {
 }
 
 void cowl_entity_free(CowlAnyEntity *entity) {
-    uhset_remove(CowlObjectTable, &inst_tbl, entity);
+    uhset_remove(CowlObjectPtr, &inst_tbl, entity);
     cowl_release(cowl_entity_get_iri(entity));
     ulib_free(entity);
 }
@@ -88,19 +88,19 @@ CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     if (!iri) return NULL;
     ulib_uint idx;
     CowlEntity key = { .super = COWL_OBJECT_INIT(type), .iri = iri };
-    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, &inst_tbl, &key, &idx);
 
     CowlEntity *entity = NULL;
 
     if (ret == ULIB_OK) {
         entity = cowl_entity_alloc(type, iri);
         if (entity) {
-            uhash_set_key(CowlObjectTable, &inst_tbl, idx, entity);
+            uhash_set_key(CowlObjectPtr, &inst_tbl, idx, entity);
         } else {
-            uhash_delete(CowlObjectTable, &inst_tbl, idx);
+            uhash_delete(CowlObjectPtr, &inst_tbl, idx);
         }
     } else if (ret == ULIB_NO) {
-        entity = uhash_key(CowlObjectTable, &inst_tbl, idx);
+        entity = uhash_key(CowlObjectPtr, &inst_tbl, idx);
         cowl_object_incr_ref(entity);
     }
 

@@ -42,8 +42,8 @@ static inline bool diff_annotations(CowlOntology *a, CowlOntology *b, CowlOntolo
 static inline bool diff_imports(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
     bool different = false;
 
-    UHash(CowlObjectTable) a_set = uhset(CowlObjectTable);
-    UHash(CowlObjectTable) b_set = uhset(CowlObjectTable);
+    UHash(CowlObjectPtr) a_set = uhset(CowlObjectPtr);
+    UHash(CowlObjectPtr) b_set = uhset(CowlObjectPtr);
 
     CowlIterator iter = cowl_iterator_set(&a_set, false);
     cowl_ontology_iterate_imports(a, &iter);
@@ -51,14 +51,14 @@ static inline bool diff_imports(CowlOntology *a, CowlOntology *b, CowlOntology *
     iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_imports(b, &iter);
 
-    uhset_diff(CowlObjectTable, &a_set, &b_set, NULL);
-    uhash_foreach (CowlObjectTable, &a_set, i) {
+    uhset_diff(CowlObjectPtr, &a_set, &b_set, NULL);
+    uhash_foreach (CowlObjectPtr, &a_set, i) {
         cowl_ontology_add_import(diff, (CowlIRI *)*i.key);
         different = true;
     }
 
-    uhash_deinit(CowlObjectTable, &a_set);
-    uhash_deinit(CowlObjectTable, &b_set);
+    uhash_deinit(CowlObjectPtr, &a_set);
+    uhash_deinit(CowlObjectPtr, &b_set);
 
     return different;
 }
@@ -66,8 +66,8 @@ static inline bool diff_imports(CowlOntology *a, CowlOntology *b, CowlOntology *
 static inline bool diff_axioms(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
     bool different = false;
 
-    UHash(CowlObjectTable) a_set = uhset(CowlObjectTable);
-    UHash(CowlObjectTable) b_set = uhset(CowlObjectTable);
+    UHash(CowlObjectPtr) a_set = uhset(CowlObjectPtr);
+    UHash(CowlObjectPtr) b_set = uhset(CowlObjectPtr);
 
     CowlIterator iter = cowl_iterator_set(&a_set, false);
     cowl_ontology_iterate_axioms(a, &iter);
@@ -75,14 +75,14 @@ static inline bool diff_axioms(CowlOntology *a, CowlOntology *b, CowlOntology *d
     iter = cowl_iterator_set(&b_set, false);
     cowl_ontology_iterate_axioms(b, &iter);
 
-    uhset_diff(CowlObjectTable, &a_set, &b_set, NULL);
-    uhash_foreach (CowlObjectTable, &a_set, i) {
+    uhset_diff(CowlObjectPtr, &a_set, &b_set, NULL);
+    uhash_foreach (CowlObjectPtr, &a_set, i) {
         cowl_ontology_add_axiom(diff, *i.key);
         different = true;
     }
 
-    uhash_deinit(CowlObjectTable, &a_set);
-    uhash_deinit(CowlObjectTable, &b_set);
+    uhash_deinit(CowlObjectPtr, &a_set);
+    uhash_deinit(CowlObjectPtr, &b_set);
 
     return different;
 }

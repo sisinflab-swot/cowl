@@ -70,10 +70,10 @@ void cowl_ontology_free(CowlOntology *onto) {
     }
 
     for (ulib_uint i = 0; i < ulib_array_count(onto->refs); ++i) {
-        uhash_foreach (CowlObjectTable, &onto->refs[i], vec) {
+        uhash_foreach (CowlObjectPtr, &onto->refs[i], vec) {
             cowl_vector_release_ex(*vec.val, false);
         }
-        uhash_deinit(CowlObjectTable, &onto->refs[i]);
+        uhash_deinit(CowlObjectPtr, &onto->refs[i]);
     }
 
     ulib_free(onto);
@@ -139,12 +139,12 @@ ulib_uint cowl_ontology_axiom_count_for_types(CowlOntology *onto, CowlAxiomFlags
 
 ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive) {
     CowlPrimitiveType type = cowl_primitive_get_type(primitive);
-    UHash(CowlObjectTable) *table = &onto->refs[type];
-    ulib_uint count = cowl_vector_count(uhmap_get(CowlObjectTable, table, primitive, NULL));
+    UHash(CowlObjectPtr) *table = &onto->refs[type];
+    ulib_uint count = cowl_vector_count(uhmap_get(CowlObjectPtr, table, primitive, NULL));
 
     if (cowl_primitive_type_is_entity(type)) {
         CowlIRI *iri = cowl_entity_get_iri(primitive);
-        count += cowl_vector_count(uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_IRI], iri, NULL));
+        count += cowl_vector_count(uhmap_get(CowlObjectPtr, &onto->refs[COWL_PT_IRI], iri, NULL));
     }
 
     return count;
@@ -155,7 +155,7 @@ ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags 
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         if (cowl_primitive_flags_has_type(flags, i)) {
-            count += uhash_count(CowlObjectTable, &onto->refs[i]);
+            count += uhash_count(CowlObjectPtr, &onto->refs[i]);
         }
     }
 
@@ -164,11 +164,11 @@ ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags 
 
 bool cowl_ontology_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive) {
     CowlPrimitiveType type = cowl_primitive_get_type(primitive);
-    if (uhash_contains(CowlObjectTable, &onto->refs[type], primitive)) return true;
+    if (uhash_contains(CowlObjectPtr, &onto->refs[type], primitive)) return true;
 
     if (cowl_primitive_type_is_entity(type)) {
         CowlIRI *iri = cowl_entity_get_iri(primitive);
-        if (uhash_contains(CowlObjectTable, &onto->refs[COWL_PT_IRI], iri)) return true;
+        if (uhash_contains(CowlObjectPtr, &onto->refs[COWL_PT_IRI], iri)) return true;
     }
 
     return false;
@@ -198,7 +198,7 @@ bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags fla
                                       CowlIterator *iter) {
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         if (!cowl_primitive_flags_has_type(flags, i)) continue;
-        uhash_foreach (CowlObjectTable, &onto->refs[i], p) {
+        uhash_foreach (CowlObjectPtr, &onto->refs[i], p) {
             if (!cowl_iterate_primitives(*p.key, flags, iter)) return false;
         }
     }
@@ -233,15 +233,15 @@ bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags ty
 bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
                                                 CowlIterator *iter) {
     CowlPrimitiveType type = cowl_primitive_get_type(primitive);
-    UHash(CowlObjectTable) *table = &onto->refs[type];
+    UHash(CowlObjectPtr) *table = &onto->refs[type];
 
-    cowl_vector_foreach (uhmap_get(CowlObjectTable, table, primitive, NULL), a) {
+    cowl_vector_foreach (uhmap_get(CowlObjectPtr, table, primitive, NULL), a) {
         if (!cowl_iterator_call(iter, *a.item)) return false;
     }
 
     if (cowl_primitive_type_is_entity(type)) {
         CowlIRI *iri = cowl_entity_get_iri(primitive);
-        cowl_vector_foreach (uhmap_get(CowlObjectTable, &onto->refs[COWL_PT_IRI], iri, NULL), a) {
+        cowl_vector_foreach (uhmap_get(CowlObjectPtr, &onto->refs[COWL_PT_IRI], iri, NULL), a) {
             if (!cowl_iterator_call(iter, *a.item)) return false;
         }
     }
@@ -381,7 +381,7 @@ bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primiti
 
     // Iterate over the smallest possible set of axioms.
     CowlPrimitiveType pt = cowl_primitive_get_type(primitive);
-    CowlVector *ar = uhmap_get(CowlObjectTable, &onto->refs[pt], primitive, NULL);
+    CowlVector *ar = uhmap_get(CowlObjectPtr, &onto->refs[pt], primitive, NULL);
     CowlVector *at = onto->axioms_by_type[type];
 
     if (cowl_vector_count(at) < cowl_vector_count(ar)) {
@@ -408,17 +408,17 @@ typedef struct CowlAxiomCtx {
     CowlAxiom *axiom;
 } CowlAxiomCtx;
 
-static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjectTable) *map) {
+static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjectPtr) *map) {
     ulib_uint idx;
-    ulib_ret const ret = uhash_put(CowlObjectTable, map, primitive, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, map, primitive, &idx);
     if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
-    if (ret == ULIB_OK) uhmap_set_val(CowlObjectTable, map, idx, NULL);
+    if (ret == ULIB_OK) uhmap_set_val(CowlObjectPtr, map, idx, NULL);
     return COWL_OK;
 }
 
 static bool cowl_ontology_primitive_adder(void *ctx, CowlAny *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
-    UHash(CowlObjectTable) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
+    UHash(CowlObjectPtr) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
     cowl_ret const ret = cowl_add_primitive_to_map(obj, map);
     axiom_ctx->ret = ret;
     return ret == COWL_OK;
@@ -462,16 +462,16 @@ bool cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
 }
 
 static inline cowl_ret
-cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
+cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectPtr) *map) {
     ulib_uint idx;
-    ulib_ret const ret = uhash_put(CowlObjectTable, map, primitive, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, map, primitive, &idx);
     if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
-    CowlVector *vec = uhmap_val(CowlObjectTable, map, idx);
+    CowlVector *vec = uhmap_val(CowlObjectPtr, map, idx);
 
     if (ret == ULIB_OK || !vec) {
         vec = cowl_vector_ordered_empty();
-        uhmap_set_val(CowlObjectTable, map, idx, vec);
+        uhmap_set_val(CowlObjectPtr, map, idx, vec);
         if (!vec) return COWL_ERR_MEM;
     }
 
@@ -484,7 +484,7 @@ cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectT
 
 static bool cowl_ontology_primitive_axiom_adder(void *ctx, CowlAny *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
-    UHash(CowlObjectTable) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
+    UHash(CowlObjectPtr) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
     cowl_ret ret = cowl_add_axiom_to_map(obj, axiom_ctx->axiom, map);
     axiom_ctx->ret = ret;
     return ret == COWL_OK;
@@ -501,8 +501,8 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
 }
 
 static inline void
-cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectTable) *map) {
-    CowlVector *vec = uhmap_get(CowlObjectTable, map, primitive, NULL);
+cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectPtr) *map) {
+    CowlVector *vec = uhmap_get(CowlObjectPtr, map, primitive, NULL);
     if (!vec) return;
     uvec_foreach_reverse (CowlObjectPtr, &vec->data, a) {
         if (*a.item == axiom) {
@@ -514,7 +514,7 @@ cowl_remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlOb
 
 static bool cowl_ontology_primitive_axiom_remover(void *ctx, void *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
-    UHash(CowlObjectTable) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
+    UHash(CowlObjectPtr) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
     cowl_remove_axiom_from_map(obj, axiom_ctx->axiom, map);
     axiom_ctx->ret = COWL_OK;
     return true;
@@ -563,8 +563,8 @@ ulib_uint cowl_ontology_remove_axioms_matching(CowlOntology *onto, CowlAxiomFilt
     if (best) {
         // Iterate over axioms referencing the primitive.
         cowl_axiom_filter_remove_primitive(filter, best);
-        UHash(CowlObjectTable) *table = &onto->refs[cowl_primitive_get_type(best)];
-        CowlVector *vec = uhmap_get(CowlObjectTable, table, best, NULL);
+        UHash(CowlObjectPtr) *table = &onto->refs[cowl_primitive_get_type(best)];
+        CowlVector *vec = uhmap_get(CowlObjectPtr, table, best, NULL);
         uvec_foreach_reverse (CowlObjectPtr, &vec->data, axiom) {
             CowlAnyAxiom *a = *axiom.item;
             if (!cowl_axiom_filter_matches(&f, a)) continue;
@@ -601,7 +601,7 @@ cowl_ret cowl_ontology_finalize(CowlOntology *onto) {
     }
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
-        uhash_foreach (CowlObjectTable, &onto->refs[i], item) {
+        uhash_foreach (CowlObjectPtr, &onto->refs[i], item) {
             CowlVector *primitives = *item.val;
             if (primitives && cowl_vector_shrink(primitives)) return COWL_ERR_MEM;
         }

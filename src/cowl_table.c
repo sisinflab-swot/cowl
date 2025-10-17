@@ -21,7 +21,7 @@
 #include "ulib.h"
 #include <stddef.h>
 
-UHASH_IMPL_PI(CowlObjectTable, cowl_hash, cowl_equals)
+UHASH_IMPL_PI(CowlObjectPtr, cowl_hash, cowl_equals)
 
 #define HASH_GEN(T, TYPE)                                                                          \
     static ulib_uint T##_hash(CowlAny *obj) {                                                      \
@@ -30,24 +30,23 @@ UHASH_IMPL_PI(CowlObjectTable, cowl_hash, cowl_equals)
     static bool T##_equals(CowlAny *lhs, CowlAny *rhs) {                                           \
         return cowl_##T##_equals(lhs, rhs);                                                        \
     }                                                                                              \
-    UHash(CowlObjectTable) cowl_##T##_##TYPE(void) {                                               \
-        return uh##TYPE##_pi(CowlObjectTable, T##_hash, T##_equals);                               \
+    UHash(CowlObjectPtr) cowl_##T##_##TYPE(void) {                                                 \
+        return uh##TYPE##_pi(CowlObjectPtr, T##_hash, T##_equals);                                 \
     }
 
 HASH_GEN(primitive, map)
 HASH_GEN(string, map)
 
-CowlTable *cowl_table(UHash(CowlObjectTable) *table) {
+CowlTable *cowl_table(UHash(CowlObjectPtr) *table) {
     CowlTable *tbl = ulib_alloc(tbl);
 
     if (!tbl) {
-        uhash_deinit(CowlObjectTable, table);
+        uhash_deinit(CowlObjectPtr, table);
         return NULL;
     }
 
     *tbl = (CowlTable){ .super = COWL_OBJECT_INIT(COWL_OT_TABLE),
-                        .data = table ? uhash_move(CowlObjectTable, table)
-                                      : uhset(CowlObjectTable) };
+                        .data = table ? uhash_move(CowlObjectPtr, table) : uhset(CowlObjectPtr) };
 
     cowl_table_foreach (tbl, obj) {
         cowl_retain(*obj.key);
@@ -65,7 +64,7 @@ void cowl_table_free_ex(CowlTable *table, bool release_elements) {
         }
     }
 
-    uhash_deinit(CowlObjectTable, &table->data);
+    uhash_deinit(CowlObjectPtr, &table->data);
     ulib_free(table);
 }
 
@@ -79,16 +78,16 @@ void cowl_table_release_ex(CowlTable *table, bool release_elements) {
     }
 }
 
-UHash(CowlObjectTable) const *cowl_table_get_data(CowlTable *table) {
-    static UHash(CowlObjectTable) const empty_data = { 0 };
+UHash(CowlObjectPtr) const *cowl_table_get_data(CowlTable *table) {
+    static UHash(CowlObjectPtr) const empty_data = { 0 };
     return table ? &table->data : &empty_data;
 }
 
 bool cowl_table_equals(CowlTable *lhs, CowlTable *rhs) {
-    if (!uhset_equals(CowlObjectTable, &lhs->data, &rhs->data)) return false;
+    if (!uhset_equals(CowlObjectPtr, &lhs->data, &rhs->data)) return false;
 
-    bool lhs_is_map = uhash_is_map(CowlObjectTable, &lhs->data);
-    bool rhs_is_map = uhash_is_map(CowlObjectTable, &rhs->data);
+    bool lhs_is_map = uhash_is_map(CowlObjectPtr, &lhs->data);
+    bool rhs_is_map = uhash_is_map(CowlObjectPtr, &rhs->data);
     if (!lhs_is_map) return !rhs_is_map;
     if (!rhs_is_map) return false;
 
@@ -102,7 +101,7 @@ bool cowl_table_equals(CowlTable *lhs, CowlTable *rhs) {
 }
 
 ulib_uint cowl_table_hash(CowlTable *table) {
-    return uhset_hash(CowlObjectTable, &table->data);
+    return uhset_hash(CowlObjectPtr, &table->data);
 }
 
 bool cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, CowlIterator *iter) {

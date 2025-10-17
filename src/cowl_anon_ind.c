@@ -17,13 +17,13 @@
 #include "cowl_ret.h"
 #include "cowl_string.h"
 #include "cowl_string_private.h"
-#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectTable)
+#include "cowl_table.h" // IWYU pragma: keep, needed for UHash(CowlObjectPtr)
 #include "ulib.h"
 #include <stddef.h>
 
 static ulib_uint const rand_id_len = P_USTRING_SIZE - 1;
 
-static UHash(CowlObjectTable) inst_tbl;
+static UHash(CowlObjectPtr) inst_tbl;
 
 static ulib_uint inst_tbl_hash(CowlAny *key) {
     return cowl_string_hash(cowl_anon_ind_get_id(key));
@@ -34,12 +34,12 @@ static bool inst_tbl_eq(CowlAny *lhs, CowlAny *rhs) {
 }
 
 cowl_ret cowl_anon_ind_api_init(void) {
-    inst_tbl = uhset_pi(CowlObjectTable, inst_tbl_hash, inst_tbl_eq);
+    inst_tbl = uhset_pi(CowlObjectPtr, inst_tbl_hash, inst_tbl_eq);
     return COWL_OK;
 }
 
 void cowl_anon_ind_api_deinit(void) {
-    uhash_deinit(CowlObjectTable, &inst_tbl);
+    uhash_deinit(CowlObjectPtr, &inst_tbl);
 }
 
 static UString generate_id(void) {
@@ -57,7 +57,7 @@ static CowlAnonInd *anon_ind_alloc(CowlString *id) {
 }
 
 void cowl_anon_ind_free(CowlAnonInd *ind) {
-    uhset_remove(CowlObjectTable, &inst_tbl, ind);
+    uhset_remove(CowlObjectPtr, &inst_tbl, ind);
     cowl_release(ind->id);
     ulib_free(ind);
 }
@@ -65,7 +65,7 @@ void cowl_anon_ind_free(CowlAnonInd *ind) {
 static CowlAnonInd *anon_ind(CowlString *id, bool copy_id) {
     ulib_uint idx;
     CowlAnonInd key = { .id = id };
-    ulib_ret const ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &idx);
+    ulib_ret const ret = uhash_put(CowlObjectPtr, &inst_tbl, &key, &idx);
 
     CowlAnonInd *val = NULL;
 
@@ -78,12 +78,12 @@ static CowlAnonInd *anon_ind(CowlString *id, bool copy_id) {
         }
 
         if (val) {
-            uhash_set_key(CowlObjectTable, &inst_tbl, idx, val);
+            uhash_set_key(CowlObjectPtr, &inst_tbl, idx, val);
         } else {
-            uhash_delete(CowlObjectTable, &inst_tbl, idx);
+            uhash_delete(CowlObjectPtr, &inst_tbl, idx);
         }
     } else if (ret == ULIB_NO) {
-        val = uhash_key(CowlObjectTable, &inst_tbl, idx);
+        val = uhash_key(CowlObjectPtr, &inst_tbl, idx);
         cowl_object_incr_ref(val);
     }
 
@@ -99,7 +99,7 @@ static CowlAnonInd *anon_ind_generate(void) {
     CowlString id_str = cowl_string_init(id);
     CowlAnonInd key = { .id = &id_str };
 
-    while ((ret = uhash_put(CowlObjectTable, &inst_tbl, &key, &i)) == ULIB_NO) {
+    while ((ret = uhash_put(CowlObjectPtr, &inst_tbl, &key, &i)) == ULIB_NO) {
         ustring_deinit(&id);
         id = generate_id();
         if (ustring_is_null(id)) return NULL;
@@ -118,11 +118,11 @@ static CowlAnonInd *anon_ind_generate(void) {
     cowl_release(id_str_new);
     if (!ind) goto err;
 
-    uhash_set_key(CowlObjectTable, &inst_tbl, i, ind);
+    uhash_set_key(CowlObjectPtr, &inst_tbl, i, ind);
     return ind;
 
 err:
-    uhash_delete(CowlObjectTable, &inst_tbl, i);
+    uhash_delete(CowlObjectPtr, &inst_tbl, i);
     return NULL;
 }
 
