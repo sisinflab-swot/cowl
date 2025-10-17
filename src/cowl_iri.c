@@ -78,7 +78,7 @@ CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
     if (ret == ULIB_OK) {
         val = cowl_iri_alloc(ns, rem);
         if (val) {
-            uhash_key(CowlObjectTable, &inst_tbl, idx) = val;
+            uhash_set_key(CowlObjectTable, &inst_tbl, idx, val);
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }

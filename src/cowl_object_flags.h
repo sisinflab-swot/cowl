@@ -31,7 +31,7 @@ COWL_BEGIN_DECLS
 // care not to over-retain objects. Anyway, this is usually not a problem, as the maximum number
 // of references is (2^24 - 1), being as big as (2^56 - 1) if COWL_HUGE is defined.
 
-#if defined COWL_HUGE
+#ifdef COWL_HUGE
 #define COWL_OBJECT_FLAGS_SIZE 64
 #else
 #define COWL_OBJECT_FLAGS_SIZE 32

@@ -27,7 +27,7 @@
 #define UINT_MAX_DIGITS 20 // NOLINT(modernize-macro-to-enum)
 
 CowlWriter *cowl_writer_default(void) {
-#if defined(COWL_DEFAULT_WRITER)
+#ifdef COWL_DEFAULT_WRITER
     return ULIB_MACRO_CONCAT(cowl_writer_, COWL_DEFAULT_WRITER)();
 #elif defined(COWL_WRITER_FUNCTIONAL)
     return cowl_writer_functional();

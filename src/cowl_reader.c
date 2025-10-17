@@ -17,7 +17,7 @@
 #include <stdio.h>
 
 CowlReader *cowl_reader_default(void) {
-#if defined(COWL_DEFAULT_READER)
+#ifdef COWL_DEFAULT_READER
     return ULIB_MACRO_CONCAT(cowl_reader_, COWL_DEFAULT_READER)();
 #elif defined(COWL_READER_FUNCTIONAL)
     return cowl_reader_functional();

@@ -78,7 +78,7 @@ static CowlAnonInd *anon_ind(CowlString *id, bool copy_id) {
         }
 
         if (val) {
-            uhash_key(CowlObjectTable, &inst_tbl, idx) = val;
+            uhash_set_key(CowlObjectTable, &inst_tbl, idx, val);
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }
@@ -118,8 +118,7 @@ static CowlAnonInd *anon_ind_generate(void) {
     cowl_release(id_str_new);
     if (!ind) goto err;
 
-    uhash_key(CowlObjectTable, &inst_tbl, i) = ind;
-
+    uhash_set_key(CowlObjectTable, &inst_tbl, i, ind);
     return ind;
 
 err:

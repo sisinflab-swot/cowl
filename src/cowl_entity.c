@@ -95,7 +95,7 @@ CowlAnyEntity *cowl_entity_get_impl(CowlObjectType type, CowlIRI *iri) {
     if (ret == ULIB_OK) {
         entity = cowl_entity_alloc(type, iri);
         if (entity) {
-            uhash_key(CowlObjectTable, &inst_tbl, idx) = entity;
+            uhash_set_key(CowlObjectTable, &inst_tbl, idx, entity);
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }

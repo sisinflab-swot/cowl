@@ -49,7 +49,7 @@ static CowlString *cowl_string_get_intern(UString raw_string, bool copy) {
         string = cowl_string_get(raw_string, copy);
         if (string) {
             cowl_object_bit_set(string);
-            uhash_key(CowlObjectTable, &inst_tbl, idx) = string;
+            uhash_set_key(CowlObjectTable, &inst_tbl, idx, string);
         } else {
             uhash_delete(CowlObjectTable, &inst_tbl, idx);
         }

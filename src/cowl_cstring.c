@@ -37,7 +37,7 @@ ulib_uint cowl_str_to_uint(char const *string, size_t length) {
 
     for (char const *last = string + length; string < last; ++string) {
         if (*string < '0' || *string > '9') return (ulib_uint)-1;
-        res = res * 10 + (*string - '0');
+        res = (res * 10) + (*string - '0');
     }
 
     return res;

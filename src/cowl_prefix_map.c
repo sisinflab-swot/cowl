@@ -119,15 +119,15 @@ cowl_prefix_map_add(CowlPrefixMap *map, CowlString *prefix, CowlString *ns, bool
         // Mapping present, overwrite mapped namespace unless the prefix is reserved.
         // TO-DO: replace with COWL_NO when available.
         if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_OK;
-        cowl_release(uhash_value(CowlObjectTable, &table->data, i));
-        uhash_value(CowlObjectTable, &table->data, i) = cowl_retain(ns);
+        cowl_release(uhmap_val(CowlObjectTable, &table->data, i));
+        uhmap_set_val(CowlObjectTable, &table->data, i, cowl_retain(ns));
         set_dirty(map);
         return COWL_OK;
     }
 
     // Mapping not present.
-    uhash_key(CowlObjectTable, &table->data, i) = cowl_retain(prefix);
-    uhash_value(CowlObjectTable, &table->data, i) = cowl_retain(ns);
+    uhash_set_key(CowlObjectTable, &table->data, i, cowl_retain(prefix));
+    uhmap_set_val(CowlObjectTable, &table->data, i, cowl_retain(ns));
     set_dirty(map);
     return COWL_OK;
 }
@@ -149,8 +149,8 @@ cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns,
         if (cowl_vocab_is_reserved_prefix_raw(prefix)) return COWL_OK;
         CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
         if (!ns_str) goto oom;
-        cowl_release(uhash_value(CowlObjectTable, &table->data, i));
-        uhash_value(CowlObjectTable, &table->data, i) = ns_str;
+        cowl_release(uhmap_val(CowlObjectTable, &table->data, i));
+        uhmap_set_val(CowlObjectTable, &table->data, i, ns_str);
         set_dirty(map);
         return COWL_OK;
     }
@@ -165,8 +165,8 @@ cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns,
         goto oom;
     }
 
-    uhash_key(CowlObjectTable, &table->data, i) = prefix_str;
-    uhash_value(CowlObjectTable, &table->data, i) = ns_str;
+    uhash_set_key(CowlObjectTable, &table->data, i, prefix_str);
+    uhmap_set_val(CowlObjectTable, &table->data, i, ns_str);
     set_dirty(map);
     return COWL_OK;
 

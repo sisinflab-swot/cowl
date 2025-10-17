@@ -412,7 +412,7 @@ static cowl_ret cowl_add_primitive_to_map(CowlObject *primitive, UHash(CowlObjec
     ulib_uint idx;
     ulib_ret const ret = uhash_put(CowlObjectTable, map, primitive, &idx);
     if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
-    if (ret == ULIB_OK) uhash_value(CowlObjectTable, map, idx) = NULL;
+    if (ret == ULIB_OK) uhmap_set_val(CowlObjectTable, map, idx, NULL);
     return COWL_OK;
 }
 
@@ -467,11 +467,11 @@ cowl_add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectT
     ulib_ret const ret = uhash_put(CowlObjectTable, map, primitive, &idx);
     if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
-    CowlVector *vec = uhash_value(CowlObjectTable, map, idx);
+    CowlVector *vec = uhmap_val(CowlObjectTable, map, idx);
 
     if (ret == ULIB_OK || !vec) {
         vec = cowl_vector_ordered_empty();
-        uhash_value(CowlObjectTable, map, idx) = vec;
+        uhmap_set_val(CowlObjectTable, map, idx, vec);
         if (!vec) return COWL_ERR_MEM;
     }
 
