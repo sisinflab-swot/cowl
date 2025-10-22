@@ -48,12 +48,16 @@ HasKey(:ClassA () (:DataPropertyA))
 # Individual: :IndividualA (:IndividualA)
 
 ObjectPropertyAssertion(:ObjectPropertyA :IndividualA :IndividualB)
-
-# Individual: :IndividualB (:IndividualB)
-
+DataPropertyAssertion(:DataPropertyA :IndividualA "String with inner language tag@en"^^rdf:PlainLiteral)
+DataPropertyAssertion(:DataPropertyA :IndividualA "String with embedded escaped \"quotes\" and \\backslashes\\")
 DataPropertyAssertion(:DataPropertyA :IndividualA "true"^^xsd:boolean)
-DataPropertyAssertion(:DataPropertyA :IndividualB "String with inner language tag@en"^^rdf:PlainLiteral)
-DataPropertyAssertion(:DataPropertyA :IndividualB "String with embedded escaped \"quotes\" and \\backslashes\\")
+DataPropertyAssertion(:DataPropertyA :IndividualA "1"^^xsd:boolean)
+DataPropertyAssertion(:DataPropertyA :IndividualA "false"^^xsd:boolean)
+DataPropertyAssertion(:DataPropertyA :IndividualA "0"^^xsd:boolean)
+DataPropertyAssertion(:DataPropertyA :IndividualA "-12"^^xsd:integer)
+DataPropertyAssertion(:DataPropertyA :IndividualA "-12.0034"^^xsd:decimal)
+DataPropertyAssertion(:DataPropertyA :IndividualA "-12.0034E-4"^^xsd:float)
+DataPropertyAssertion(:DataPropertyA :IndividualA "-12"^^xsd:float)
 
 
 ############################

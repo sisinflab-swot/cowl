@@ -11,7 +11,12 @@
 #include "cowl_test_utils.h"
 #include "ulib.h"
 #include <stddef.h>
-#include <stdio.h>
+
+static void log_error(CowlReader *reader) {
+    UString str = cowl_error_to_string(cowl_reader_last_error(reader));
+    ulog_error("%s", ustring_data(str));
+    ustring_deinit(&str);
+}
 
 static inline bool diff_iri_version(CowlOntology *a, CowlOntology *b, CowlOntology *diff) {
     bool different = false;
@@ -127,6 +132,8 @@ static void test_format(UString path, CowlReader *reader, CowlWriter *writer) {
     cowl_assert_ok(cowl_writer_write_ontology_to_path(writer, out_path, onto_in));
 
     CowlOntology *onto_out = cowl_reader_read_ontology_at_path(reader, out_path, &ret);
+    if (!onto_out) log_error(reader);
+
     cowl_assert_ok(ret);
     utest_assert_not_null(onto_out);
 
@@ -144,6 +151,17 @@ static void test_format(UString path, CowlReader *reader, CowlWriter *writer) {
     cowl_release_all(onto_in, onto_out, in_minus_out, out_minus_in);
 }
 
+static CowlWriter *protocowl_stream_writer(void) {
+#if COWL_WRITER_PROTOCOWL
+    CowlWriter *writer = cowl_writer_protocowl();
+    cowl_writer_get_impl(writer)->name = "ProtocOWL (stream)";
+    cowl_writer_protocowl_set_index_size(writer, 32);
+    return writer;
+#else
+    return NULL;
+#endif
+}
+
 void cowl_test_formats(void) {
     UString const onto_path = ustring_literal(COWL_TEST_ONTOLOGY);
     UString const import_path = ustring_literal(COWL_TEST_IMPORT);
@@ -155,11 +173,16 @@ void cowl_test_formats(void) {
 #if COWL_READER_FUNCTIONAL && COWL_WRITER_FUNCTIONAL
         { cowl_reader_functional, cowl_writer_functional },
 #endif
+#if COWL_READER_PROTOCOWL && COWL_WRITER_PROTOCOWL
+        { cowl_reader_protocowl, cowl_writer_protocowl },
+        { cowl_reader_protocowl, protocowl_stream_writer },
+#endif
     };
 
     for (ulib_uint i = 0; i < ulib_array_count(formats); ++i) {
         CowlReader *reader = formats[i].reader();
         CowlWriter *writer = formats[i].writer();
+        if (!(reader && writer)) continue;
         ulog_info("\"%s\" format test started", cowl_writer_get_name(writer));
         utest_sub(test_format(onto_path, reader, writer));
         utest_sub(test_format(import_path, reader, writer));

@@ -24,7 +24,7 @@
 static CowlOntology *onto = NULL;
 
 static ulib_uint const test_onto_import_count = 2;
-static ulib_uint const test_onto_axiom_count = 574;
+static ulib_uint const test_onto_axiom_count = 581;
 
 static ulib_uint const test_primitive_count[] = { 105, 43, 48, 72, 25, 18, 1, 12 };
 static ulib_uint const test_primitive_axiom_count[] = { 16, 2, 4, 4, 2, 2, 1, 8 };
@@ -43,7 +43,7 @@ static void axiom_counts_by_type_init(void) {
     axiom_counts_by_type[COWL_AT_DIFF_IND] = 1;
     axiom_counts_by_type[COWL_AT_OBJ_PROP_ASSERT] = 1;
     axiom_counts_by_type[COWL_AT_NEG_OBJ_PROP_ASSERT] = 1;
-    axiom_counts_by_type[COWL_AT_DATA_PROP_ASSERT] = 3;
+    axiom_counts_by_type[COWL_AT_DATA_PROP_ASSERT] = 10;
     axiom_counts_by_type[COWL_AT_NEG_DATA_PROP_ASSERT] = 1;
     axiom_counts_by_type[COWL_AT_SUB_OBJ_PROP] = 2;
     axiom_counts_by_type[COWL_AT_INV_OBJ_PROP] = 1;
@@ -71,10 +71,10 @@ static void axiom_counts_by_type_init(void) {
     axiom_counts_by_type[COWL_AT_ANNOT_PROP_RANGE] = 1;
 }
 
-static void print_error(CowlReader *reader) {
-    UOStream *stream = uostream_stderr();
-    cowl_write_error(stream, cowl_reader_last_error(reader));
-    cowl_write_literal(stream, "\n");
+static void log_error(CowlReader *reader) {
+    UString str = cowl_error_to_string(cowl_reader_last_error(reader));
+    ulog_error("%s", ustring_data(str));
+    ustring_deinit(&str);
 }
 
 void cowl_test_ontology_init(void) {
@@ -82,12 +82,12 @@ void cowl_test_ontology_init(void) {
 
     CowlReader *reader = cowl_get_reader();
     onto = cowl_reader_read_ontology_at_path(reader, ustring_literal(COWL_TEST_IMPORT), NULL);
-    if (!onto) print_error(reader);
+    if (!onto) log_error(reader);
     utest_assert_fatal(onto);
 
     CowlChangeHandler handler = cowl_change_handler_to_ontology(onto);
     cowl_ret ret = cowl_reader_read_path(reader, ustring_literal(COWL_TEST_ONTOLOGY), handler);
-    if (cowl_is_err(ret)) print_error(reader);
+    if (cowl_is_err(ret)) log_error(reader);
     utest_assert_fatal(cowl_is_ok(ret));
 }
 

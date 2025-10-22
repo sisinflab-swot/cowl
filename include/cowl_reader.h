@@ -91,6 +91,19 @@ CowlReader *cowl_reader_functional(void);
 
 #endif // COWL_READER_FUNCTIONAL
 
+#ifdef COWL_READER_PROTOCOWL
+
+/**
+ * Returns the ProtocOWL reader.
+ *
+ * @return ProtocOWL reader.
+ */
+COWL_API
+COWL_RETAINED
+CowlReader *cowl_reader_protocowl(void);
+
+#endif // COWL_READER_PROTOCOWL
+
 /**
  * Returns the default reader.
  *
