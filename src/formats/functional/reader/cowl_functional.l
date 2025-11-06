@@ -11,7 +11,7 @@
 %option prefix="cowl_func_yy"
 %option 8bit reentrant bison-bridge bison-locations
 %option warn nodefault
-%option yylineno batch
+%option yylineno batch never-interactive
 %option noyywrap nounput noinput
 %option noyyalloc noyyrealloc noyyfree
 %option extra-type="UIStream *"
