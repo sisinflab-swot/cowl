@@ -20,14 +20,9 @@ endif()
 
 list(JOIN COWL_FUNC_FLEX_FLAGS " " COWL_FUNC_FLEX_FLAGS)
 
-# Header dirs
-
-list(APPEND COWL_PRIVATE_HEADERS_DIRS "${COWL_READER_OUT_DIR}")
-
 # Sources
 
 file(GLOB COWL_FUNC_READER_SOURCES CONFIGURE_DEPENDS "${COWL_READER_SRC_DIR}/*.c")
-list(APPEND COWL_SOURCES ${COWL_FUNC_READER_SOURCES})
 
 set(COWL_FUNC_LEXER_IN "${COWL_READER_SRC_DIR}/cowl_functional.l")
 set(COWL_FUNC_LEXER_HEADER "${COWL_READER_OUT_DIR}/cowl_func_yylexer.h")
@@ -50,23 +45,27 @@ flex_target(COWL_FUNC_LEXER "${COWL_FUNC_LEXER_IN}" "${COWL_FUNC_LEXER_OUT}"
             DEFINES_FILE "${COWL_FUNC_LEXER_HEADER}")
 add_flex_bison_dependency(COWL_FUNC_LEXER COWL_FUNC_PARSER)
 
+set(COWL_FUNC_READER_GENERATED_SOURCES
+    ${BISON_COWL_FUNC_PARSER_OUTPUTS}
+    ${FLEX_COWL_FUNC_LEXER_OUTPUTS})
+list(APPEND COWL_FUNC_READER_SOURCES ${COWL_FUNC_READER_GENERATED_SOURCES})
+
 add_custom_target(cowl-functional-reader
-                  DEPENDS
-                  ${FLEX_COWL_FUNC_LEXER_OUTPUTS}
-                  ${BISON_COWL_FUNC_PARSER_OUTPUT_SOURCE}
+                  DEPENDS ${COWL_FUNC_READER_GENERATED_SOURCES}
                   COMMENT "Generate the functional syntax reader.")
 add_dependencies(cowl-readers cowl-functional-reader)
 
 # Propagate changes in the parent project
 
-list(APPEND COWL_SOURCES
-     ${FLEX_COWL_FUNC_LEXER_OUTPUTS}
-     ${BISON_COWL_FUNC_PARSER_OUTPUT_SOURCE})
+list(APPEND COWL_PRIVATE_HEADERS_DIRS "${COWL_READER_OUT_DIR}")
+list(APPEND COWL_SOURCES ${COWL_FUNC_READER_SOURCES})
 
 set(COWL_PRIVATE_HEADERS_DIRS ${COWL_PRIVATE_HEADERS_DIRS} PARENT_SCOPE)
 set(COWL_SOURCES ${COWL_SOURCES} PARENT_SCOPE)
 
-set_source_files_properties(${FLEX_COWL_FUNC_LEXER_OUTPUTS}
-                            ${BISON_COWL_FUNC_PARSER_OUTPUT_SOURCE}
+set_source_files_properties(${COWL_FUNC_READER_SOURCES}
                             DIRECTORY "${COWL_PROJECT_DIR}"
-                            PROPERTIES GENERATED ON SKIP_LINTING ON)
+                            PROPERTIES SKIP_LINTING ON)
+set_source_files_properties(${COWL_FUNC_READER_GENERATED_SOURCES}
+                            DIRECTORY "${COWL_PROJECT_DIR}"
+                            PROPERTIES GENERATED ON)

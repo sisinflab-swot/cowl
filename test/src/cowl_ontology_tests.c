@@ -136,9 +136,9 @@ void cowl_test_ontology_primitives_count(void) {
     }
 }
 
-static bool cowl_test_get_first_anon_ind(void *ctx, CowlAny *obj) {
+static cowl_ret cowl_test_get_first_anon_ind(void *ctx, CowlAny *obj) {
     *((CowlAny **)ctx) = obj;
-    return false;
+    return COWL_STOP;
 }
 
 void cowl_test_ontology_axiom_count_for_primitive(void) {

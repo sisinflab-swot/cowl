@@ -335,20 +335,20 @@ bool cowl_ontology_has_axiom(CowlOntology *onto, CowlAnyAxiom *axiom);
  *
  * @param onto The ontology.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_annot(CowlOntology *onto, CowlIterator *iter);
+cowl_ret cowl_ontology_iterate_annot(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the import IRIs.
  *
  * @param onto The ontology.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter);
+cowl_ret cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the primitives referenced by the specified ontology.
@@ -356,21 +356,21 @@ bool cowl_ontology_iterate_imports(CowlOntology *onto, CowlIterator *iter);
  * @param onto The ontology.
  * @param flags Primitive flags.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags,
-                                      CowlIterator *iter);
+cowl_ret
+cowl_ontology_iterate_primitives(CowlOntology *onto, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 /**
  * Iterates over the axioms in the ontology.
  *
  * @param onto The ontology.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter);
+cowl_ret cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter);
 
 /**
  * Iterates over the axioms of a certain type.
@@ -378,11 +378,11 @@ bool cowl_ontology_iterate_axioms(CowlOntology *onto, CowlIterator *iter);
  * @param onto The ontology.
  * @param type The axiom type.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type,
-                                          CowlIterator *iter);
+cowl_ret
+cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type, CowlIterator *iter);
 
 /**
  * Iterates over the axiom of some types.
@@ -390,11 +390,11 @@ bool cowl_ontology_iterate_axioms_of_type(CowlOntology *onto, CowlAxiomType type
  * @param onto The ontology.
  * @param types The axiom types.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags types,
-                                           CowlIterator *iter);
+cowl_ret
+cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags types, CowlIterator *iter);
 
 /**
  * Iterates over the axioms referencing the specified primitive.
@@ -402,11 +402,11 @@ bool cowl_ontology_iterate_axioms_of_types(CowlOntology *onto, CowlAxiomFlags ty
  * @param onto The ontology.
  * @param primitive The primitive.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
-                                                CowlIterator *iter);
+cowl_ret cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive,
+                                                    CowlIterator *iter);
 
 /**
  * Iterates over the axioms matching the specified filter.
@@ -414,13 +414,13 @@ bool cowl_ontology_iterate_axioms_for_primitive(CowlOntology *onto, CowlAnyPrimi
  * @param onto The ontology.
  * @param filter The filter.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  *
  * @note The filter must not be used anymore after calling this function.
  */
 COWL_API
-bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilter *filter,
-                                           CowlIterator *iter);
+cowl_ret cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilter *filter,
+                                               CowlIterator *iter);
 
 /**
  * Iterates over the constructs that are related to the specified primitive by some axiom.
@@ -430,11 +430,12 @@ bool cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilter *
  * @param type Axiom type.
  * @param position Position of the related constructs.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive,
-                                   CowlAxiomType type, CowlPosition position, CowlIterator *iter);
+cowl_ret
+cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive, CowlAxiomType type,
+                              CowlPosition position, CowlIterator *iter);
 
 /**
  * Iterates over the subclasses of the specified class.
@@ -442,11 +443,11 @@ bool cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primiti
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
-                                       CowlIterator *iter) {
+cowl_ret
+cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter) {
     return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_LEFT, iter);
 }
 
@@ -456,11 +457,11 @@ bool cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class,
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class,
-                                         CowlIterator *iter) {
+cowl_ret
+cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter) {
     return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_RIGHT, iter);
 }
 
@@ -470,11 +471,11 @@ bool cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_clas
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
-                                      CowlIterator *iter) {
+cowl_ret
+cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter) {
     return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_EQUIV_CLASSES, COWL_PS_ANY, iter);
 }
 
@@ -484,11 +485,11 @@ bool cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class,
  * @param onto The ontology.
  * @param owl_class The class.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_class,
-                                            CowlIterator *iter) {
+cowl_ret cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_class,
+                                                CowlIterator *iter) {
     return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_DISJ_CLASSES, COWL_PS_ANY, iter);
 }
 
@@ -498,10 +499,11 @@ bool cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_c
  * @param onto The ontology.
  * @param ind The individual.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_INLINE
-bool cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter) {
+cowl_ret
+cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter) {
     return cowl_ontology_iterate_related(onto, ind, COWL_AT_CLASS_ASSERT, COWL_PS_LEFT, iter);
 }
 

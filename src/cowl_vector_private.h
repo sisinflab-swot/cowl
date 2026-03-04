@@ -40,7 +40,8 @@ bool cowl_vector_remove(CowlVector *vec, CowlAny *object);
 cowl_ret cowl_vector_shrink(CowlVector *vec);
 COWL_PURE bool cowl_vector_equals(CowlVector *lhs, CowlVector *rhs);
 COWL_PURE ulib_uint cowl_vector_hash(CowlVector *vec);
-bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter);
+cowl_ret
+cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

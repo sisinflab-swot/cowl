@@ -18,6 +18,7 @@ Checks: >
   readability-*,
   -readability-enum-initial-value,
   -readability-identifier-length,
+  -readability-implicit-bool-conversion,
   -readability-magic-numbers
 CheckOptions:
   misc-include-cleaner.IgnoreHeaders: /_[^/]+\.h$;^_[^/]+\.h$

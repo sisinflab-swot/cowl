@@ -25,8 +25,8 @@ typedef struct CustomContext {
 } CustomContext;
 
 // Iterator body, invoked for each class expression matching the query.
-static bool for_each_cls(void *ptr, CowlAny *cls) {
-    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
+static cowl_ret for_each_cls(void *ptr, CowlAny *cls) {
+    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return COWL_CONTINUE;
 
     // Log the IRI remainder.
     CustomContext *ctx = ptr;
@@ -48,8 +48,8 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    cowl_write_static(uostream_std(), "Recursive subclasses of " CLASS_NAME ":\n");
     CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
+    cowl_write_static(uostream_std(), "Recursive subclasses of " CLASS_NAME ":\n");
 
     // Since we are going to perform a recursive query,
     // we need the ontology to be part of the context.

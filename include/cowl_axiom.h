@@ -21,6 +21,7 @@
 #include "cowl_object.h"
 #include "cowl_object_type.h"
 #include "cowl_position.h"
+#include "cowl_ret.h"
 #include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
@@ -98,10 +99,11 @@ bool cowl_axiom_has_operand_with_iri(CowlAnyAxiom *axiom, CowlIRI *iri, CowlPosi
  * @param axiom The axiom.
  * @param position Position of the desired operands.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter);
+cowl_ret
+cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter);
 
 /**
  * Checks whether the axiom references the specified primitive.

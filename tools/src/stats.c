@@ -214,7 +214,7 @@ int main(int argc, char *argv[]) {
 
     UString path;
     Format format;
-    CowlOntology *onto;
+    CowlOntology *onto = NULL;
 
     if (!parse_args(argc, argv, &format, &path)) goto end;
     if (!load_ontology(path, &onto)) goto end;

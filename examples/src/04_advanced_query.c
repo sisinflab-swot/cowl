@@ -25,10 +25,10 @@
 #define PROPERTY_NAME "hasBase"
 
 // Iterator body, invoked for each axiom matching the query.
-static bool for_each_axiom(void *stream, CowlAny *axiom) {
+static cowl_ret for_each_axiom(void *stream, CowlAny *axiom) {
     cowl_write(stream, axiom);
     cowl_write_static(stream, "\n");
-    return true;
+    return COWL_CONTINUE;
 }
 
 int main(void) {
@@ -59,7 +59,6 @@ int main(void) {
     CowlIterator iter = { uostream_std(), for_each_axiom };
     cowl_ontology_iterate_axioms_matching(onto, &filter, &iter);
 
-    cowl_axiom_filter_deinit(&filter);
     cowl_release_all(cls, prop, onto);
     return EXIT_SUCCESS;
 }

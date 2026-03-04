@@ -15,6 +15,7 @@
 
 #include "cowl_any.h"
 #include "cowl_attrs.h"
+#include "cowl_ret.h"
 #include "ulib.h"
 
 COWL_BEGIN_DECLS
@@ -34,8 +35,9 @@ uhash_decl(CowlObjectPtr);
  * The context provided while creating the iterator is passed to the `for_each` function
  * each time it is called.
  *
- * The iterator function returns a @ctype{bool} that can be used to control iteration: by returning
- * true iteration proceeds to the next element, while returning false causes it to stop.
+ * The iterator function returns a @type{cowl_ret} that can be used to control iteration: by
+ * returning @val{COWL_OK} iteration proceeds to the next element, while returning
+ * @val{COWL_STOP} causes it to halt.
  */
 typedef struct CowlIterator {
 
@@ -43,7 +45,7 @@ typedef struct CowlIterator {
     void *ctx;
 
     /// Function called by the iterator for every element.
-    bool (*for_each)(void *ctx, CowlAny *object);
+    cowl_ret (*for_each)(void *ctx, CowlAny *object);
 
 } CowlIterator;
 
@@ -77,7 +79,7 @@ typedef struct CowlFilter {
  * @return Return value of the iterator function.
  */
 COWL_INLINE
-bool cowl_iterator_call(CowlIterator const *iter, CowlAny *object) {
+cowl_ret cowl_iterator_call(CowlIterator const *iter, CowlAny *object) {
     return iter->for_each(iter->ctx, object);
 }
 
@@ -87,9 +89,6 @@ bool cowl_iterator_call(CowlIterator const *iter, CowlAny *object) {
  * @param[out] vec Vector.
  * @param retain If true, elements added to the vector are retained.
  * @return Initialized iterator.
- *
- * @note When using this iterator, iterator functions return false on error,
- *       e.g. when memory cannot be allocated.
  */
 COWL_API
 CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
@@ -100,9 +99,6 @@ CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain);
  * @param[out] set Set.
  * @param retain If true, elements added to the set are retained.
  * @return Initialized iterator.
- *
- * @note When using this iterator, iterator functions return false on error,
- *       e.g. when memory cannot be allocated.
  */
 COWL_API
 CowlIterator cowl_iterator_set(UHash(CowlObjectPtr) *set, bool retain);
@@ -123,7 +119,7 @@ CowlIterator cowl_iterator_count(ulib_uint *count);
  * @param object The object to look for.
  * @return Initialized iterator.
  *
- * @note When using this iterator, iterator functions return false if the element has been found.
+ * @note The iterator returns @val{COWL_STOP} if the object is found.
  */
 COWL_API
 CowlIterator cowl_iterator_contains(CowlAny *object);

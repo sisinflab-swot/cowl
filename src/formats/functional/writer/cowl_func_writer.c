@@ -77,7 +77,7 @@ static void write_obj(FuncEncoder *e, CowlAny *obj);
 
 static void write_fields(FuncEncoder *e, CowlAny *obj) {
     unsigned n;
-    CowlAny **fields = cowl_get_fields(obj, &n);
+    CowlAny **fields = cowl_get_fields(obj, false, &n);
     write_obj(e, fields[0]);
 
     for (unsigned i = 1; i < n; ++i) {

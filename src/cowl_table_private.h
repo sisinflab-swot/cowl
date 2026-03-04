@@ -15,6 +15,7 @@
 #include "cowl_iterator.h"
 #include "cowl_object_private.h"
 #include "cowl_primitive_flags.h"
+#include "cowl_ret.h"
 #include "cowl_table.h" // IWYU pragma: export
 #include "ulib.h"
 
@@ -32,7 +33,8 @@ void cowl_table_free(CowlTable *table);
 void cowl_table_release_ex(CowlTable *table, bool release_elements);
 COWL_PURE bool cowl_table_equals(CowlTable *lhs, CowlTable *rhs);
 COWL_PURE ulib_uint cowl_table_hash(CowlTable *table);
-bool cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, CowlIterator *iter);
+cowl_ret
+cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 COWL_END_DECLS
 

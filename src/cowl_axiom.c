@@ -17,21 +17,22 @@
 #include "cowl_object_type.h"
 #include "cowl_position.h"
 #include "cowl_primitive_private.h"
+#include "cowl_ret.h"
 #include "cowl_vector.h"
 #include "ulib.h"
 
 bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position) {
     CowlIterator iter = cowl_iterator_contains(operand);
-    return !cowl_axiom_iterate_operands(axiom, position, &iter);
+    return cowl_axiom_iterate_operands(axiom, position, &iter) == COWL_STOP;
 }
 
-static bool has_iri(void *iri, CowlAny *object) {
-    return !cowl_has_iri(object, iri);
+static cowl_ret has_iri(void *iri, CowlAny *object) {
+    return cowl_has_iri(object, iri) ? COWL_STOP : COWL_CONTINUE;
 }
 
 bool cowl_axiom_has_operand_with_iri(CowlAnyAxiom *axiom, CowlIRI *iri, CowlPosition position) {
     CowlIterator iter = { .ctx = iri, .for_each = has_iri };
-    return !cowl_axiom_iterate_operands(axiom, position, &iter);
+    return cowl_axiom_iterate_operands(axiom, position, &iter) == COWL_STOP;
 }
 
 static inline bool index_allowed(unsigned n, unsigned i, CowlPosition position) {
@@ -43,33 +44,38 @@ static inline bool index_allowed(unsigned n, unsigned i, CowlPosition position) 
     return ubit_is_any_set(COWL_PS, position, positions[n - 1][i]);
 }
 
-bool cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter) {
+cowl_ret
+cowl_axiom_iterate_operands(CowlAnyAxiom *axiom, CowlPosition position, CowlIterator *iter) {
     unsigned n;
-    CowlAny **fields = cowl_get_fields(axiom, &n);
+    CowlAny **fields = cowl_get_fields(axiom, false, &n);
 
     for (unsigned i = 0; i < n; ++i) {
         if (!index_allowed(n, i, position)) continue;
         CowlAny *op = fields[i];
-        if (cowl_get_type(op) == COWL_OT_VECTOR) {
-            cowl_vector_foreach (op, obj) {
-                if (!cowl_iterator_call(iter, *obj.item)) return false;
-            }
-        } else {
-            if (!cowl_iterator_call(iter, op)) return false;
+
+        if (cowl_get_type(op) != COWL_OT_VECTOR) {
+            cowl_ret const ret = cowl_iterator_call(iter, op);
+            if (cowl_should_stop(ret)) return ret;
+            continue;
+        }
+
+        cowl_vector_foreach (op, obj) {
+            cowl_ret const ret = cowl_iterator_call(iter, *obj.item);
+            if (cowl_should_stop(ret)) return ret;
         }
     }
 
-    return true;
+    return COWL_CONTINUE;
 }
 
-static bool operand_has_primitive(void *primitive, CowlAny *operand) {
-    if (cowl_primitive_equals(operand, primitive)) return false;
-    return !cowl_has_primitive(operand, primitive);
+static cowl_ret operand_has_primitive(void *primitive, CowlAny *operand) {
+    if (cowl_primitive_equals(operand, primitive)) return COWL_STOP;
+    return cowl_has_primitive(operand, primitive) ? COWL_STOP : COWL_CONTINUE;
 }
 
 bool cowl_axiom_has_primitive(CowlAnyAxiom *axiom, CowlAnyPrimitive *primitive,
                               CowlPosition position) {
     if (position == COWL_PS_ANY) return cowl_has_primitive(axiom, primitive);
     CowlIterator iter = { .ctx = primitive, .for_each = operand_has_primitive };
-    return !cowl_axiom_iterate_operands(axiom, position, &iter);
+    return cowl_axiom_iterate_operands(axiom, position, &iter) == COWL_STOP;
 }

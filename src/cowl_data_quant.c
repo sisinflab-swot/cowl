@@ -17,6 +17,7 @@
 #include "cowl_primitive_flags.h"
 #include "cowl_quant_type.h"
 #include "cowl_rdfs_vocab.h"
+#include "cowl_ret.h"
 #include "cowl_utils.h"
 #include <stddef.h>
 
@@ -32,8 +33,9 @@ CowlDataRange *cowl_data_quant_get_range(CowlDataQuant *restr) {
     return range ? range : (CowlDataRange *)cowl_rdfs_vocab()->dt.literal;
 }
 
-bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter) {
-    return (cowl_iterate_primitives(cowl_data_quant_get_prop(restr), flags, iter) &&
-            cowl_iterate_primitives(cowl_data_quant_get_range(restr), flags, iter));
+cowl_ret cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,
+                                            CowlIterator *iter) {
+    cowl_ret ret = cowl_iterate_primitives(cowl_data_quant_get_prop(restr), flags, iter);
+    if (cowl_should_stop(ret)) return ret;
+    return cowl_iterate_primitives(cowl_data_quant_get_range(restr), flags, iter);
 }

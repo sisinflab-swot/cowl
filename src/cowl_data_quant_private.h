@@ -14,8 +14,9 @@
 #include "cowl_data_quant.h" // IWYU pragma: export
 #include "cowl_iterator.h"
 #include "cowl_primitive_flags.h"
+#include "cowl_ret.h"
 
-bool cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,
-                                        CowlIterator *iter);
+cowl_ret cowl_data_quant_iterate_primitives(CowlDataQuant *restr, CowlPrimitiveFlags flags,
+                                            CowlIterator *iter);
 
 #endif // COWL_DATA_QUANT_PRIVATE_H

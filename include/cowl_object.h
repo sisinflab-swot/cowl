@@ -19,6 +19,7 @@
 #include "cowl_iterator.h"
 #include "cowl_object_type.h"
 #include "cowl_primitive_flags.h"
+#include "cowl_ret.h"
 #include "cowl_utils.h"
 #include "ulib.h"
 #include <stddef.h>
@@ -307,10 +308,10 @@ bool cowl_has_primitive(CowlAny *object, CowlAnyPrimitive *primitive);
  * @param object The object.
  * @param flags Iteration flags.
  * @param iter The iterator.
- * @return True if the iteration was completed, false if it was stopped.
+ * @return Return code.
  */
 COWL_API
-bool cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
+cowl_ret cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, CowlIterator *iter);
 
 /**
  * Releases the specified objects.

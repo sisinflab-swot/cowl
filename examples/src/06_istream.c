@@ -20,7 +20,7 @@
 #define NS "http://www.co-ode.org/ontologies/pizza/pizza.owl#"
 #define CLASS_NAME "Food"
 
-// Axiom handler, invoked for each axiom in the ontology document.
+// Change handler, invoked for each construct read from the ontology document.
 static cowl_ret handle_axiom(void *target_class, CowlChange change) {
     // We are only interested in subclass axioms.
     if (change.part != COWL_PART_AXIOM) return COWL_OK;
@@ -46,13 +46,13 @@ int main(void) {
 
     CowlClass *target_class = cowl_class_from_static(NS CLASS_NAME);
 
-    // Configure the ontology input stream.
+    // Configure the change handler for the incoming stream.
     CowlChangeHandler handler = {
         .ctx = target_class,
         .handle = handle_axiom,
     };
 
-    // Process the ontology as a stream.
+    // Process the ontology document as a stream of changes.
     puts("Atomic subclasses of " CLASS_NAME ":");
     CowlReader *reader = cowl_get_reader();
     if (cowl_reader_read_path(reader, ustring_literal(ONTO), handler)) {

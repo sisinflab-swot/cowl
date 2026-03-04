@@ -20,7 +20,7 @@
 COWL_BEGIN_DECLS
 
 /// Size of the @type{CowlPrimitiveFlags} type in bits.
-#define COWL_PF 8
+#define COWL_PF 8 // NOLINT(modernize-macro-to-enum)
 
 /**
  * @defgroup CowlPrimitiveFlags_type CowlPrimitiveFlags type and values

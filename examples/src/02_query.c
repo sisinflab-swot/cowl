@@ -19,16 +19,14 @@
 #define CLASS_NAME "Food"
 
 // Iterator body, invoked for each class expression matching the query.
-static bool for_each_cls(void *std_out, CowlAny *cls) {
+static cowl_ret for_each_cls(void *std_out, CowlAny *cls) {
     // We are only interested in atomic classes. Note that due to pseudo-inheritance
     // this check ensures that the concrete type of 'exp' is CowlClass.
-    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) return true;
-
-    // Log the IRI remainder.
-    cowl_write_string(std_out, cowl_get_rem(cls));
-    cowl_write_static(std_out, "\n");
-
-    return true;
+    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) {
+        cowl_write_string(std_out, cowl_get_rem(cls));
+        cowl_write_static(std_out, "\n");
+    }
+    return COWL_CONTINUE;
 }
 
 int main(void) {
@@ -41,13 +39,12 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    // Query the ontology.
-    cowl_write_static(uostream_std(), "Subclasses of " CLASS_NAME ":\n");
-
     // Get the class whose atomic subclasses we are interested in.
     CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
 
     // Run the query.
+    cowl_write_static(uostream_std(), "Subclasses of " CLASS_NAME ":\n");
+
     CowlIterator iter = { uostream_std(), for_each_cls };
     cowl_ontology_iterate_sub_classes(onto, cls, &iter);
 

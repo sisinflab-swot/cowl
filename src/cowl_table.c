@@ -16,7 +16,8 @@
 #include "cowl_object_type.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_primitive_private.h" // IWYU pragma: keep, needed for cowl_primitive_equals
-#include "cowl_string_private.h"    // IWYU pragma: keep, needed for cowl_string_equals
+#include "cowl_ret.h"
+#include "cowl_string_private.h" // IWYU pragma: keep, needed for cowl_string_equals
 #include "cowl_table_private.h"
 #include "ulib.h"
 #include <stddef.h>
@@ -56,7 +57,7 @@ CowlTable *cowl_table(UHash(CowlObjectPtr) *table) {
     return tbl;
 }
 
-void cowl_table_free_ex(CowlTable *table, bool release_elements) {
+static void cowl_table_free_ex(CowlTable *table, bool release_elements) {
     if (release_elements) {
         cowl_table_foreach (table, obj) {
             cowl_release(*obj.key);
@@ -104,10 +105,14 @@ ulib_uint cowl_table_hash(CowlTable *table) {
     return uhset_hash(CowlObjectPtr, &table->data);
 }
 
-bool cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, CowlIterator *iter) {
+cowl_ret
+cowl_table_iterate_primitives(CowlTable *table, CowlPrimitiveFlags flags, CowlIterator *iter) {
     cowl_table_foreach (table, obj) {
-        if (!cowl_iterate_primitives(*obj.key, flags, iter)) return false;
-        if (obj.val && *obj.val && !cowl_iterate_primitives(*obj.val, flags, iter)) return false;
+        cowl_ret ret = cowl_iterate_primitives(*obj.key, flags, iter);
+        if (cowl_should_stop(ret)) return ret;
+        if (obj.val && *obj.val) {
+            if (cowl_should_stop(cowl_iterate_primitives(*obj.val, flags, iter))) return ret;
+        }
     }
-    return true;
+    return COWL_OK;
 }

@@ -18,7 +18,7 @@
 #define ONTO "example_pizza.owl"
 
 int main(void) {
-    // You must always initialize the library before use.
+    // The library must always be initialized before use.
     cowl_init();
 
     // Read an ontology from file.
@@ -30,7 +30,7 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    // Do stuff with the ontology. In this case we are just logging it
+    // Do stuff with the ontology. In this case it is simply logged
     // to the standard output using the default writer.
     cowl_ontology_to_stream(onto, uostream_std());
 

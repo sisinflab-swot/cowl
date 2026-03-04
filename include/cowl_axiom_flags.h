@@ -220,7 +220,8 @@ bool cowl_axiom_flags_has_all_types(CowlAxiomFlags flags) {
 COWL_CONST
 COWL_INLINE
 bool cowl_axiom_flags_has_no_types(CowlAxiomFlags flags) {
-    return !ubit_is_any_set(COWL_AF, flags, COWL_AF_ALL);
+    return !((ubit(COWL_AF, flags) & ubit(COWL_AF, COWL_AF_ALL)) != 0);
+    // return !ubit_is_any_set(COWL_AF, flags, COWL_AF_ALL);
 }
 
 /**

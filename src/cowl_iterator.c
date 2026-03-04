@@ -12,53 +12,53 @@
 #include "cowl_any.h"
 #include "cowl_attrs.h"
 #include "cowl_object.h"
+#include "cowl_ret.h"
 #include "cowl_table.h"  // IWYU pragma: keep, needed for UHash(CowlObjectPtr)
 #include "cowl_vector.h" // IWYU pragma: keep, needed for UVec(CowlObjectPtr)
 #include "ulib.h"
 
-static bool for_each_store_vec(void *vec, CowlAny *obj) {
-    return ulib_is_ok(uvec_push(CowlObjectPtr, vec, obj));
+static cowl_ret for_each_store_vec(void *vec, CowlAny *obj) {
+    return cowl_ret_from_ulib(uvec_push(CowlObjectPtr, vec, obj));
 }
 
-static bool for_each_store_vec_retain(void *vec, CowlAny *obj) {
+static cowl_ret for_each_store_vec_retain(void *vec, CowlAny *obj) {
     ulib_ret const ret = uvec_push(CowlObjectPtr, vec, obj);
-    if (ulib_is_err(ret)) return false;
+    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
     cowl_retain(obj);
-    return true;
+    return COWL_CONTINUE;
 }
 
-static bool for_each_store_set(void *set, CowlAny *obj) {
-    return ulib_is_ok(uhset_insert(CowlObjectPtr, set, obj));
+static cowl_ret for_each_store_set(void *set, CowlAny *obj) {
+    return cowl_ret_from_ulib(uhset_insert(CowlObjectPtr, set, obj));
 }
 
-static bool for_each_store_set_retain(void *set, CowlAny *obj) {
+static cowl_ret for_each_store_set_retain(void *set, CowlAny *obj) {
     ulib_ret const ret = uhset_insert(CowlObjectPtr, set, obj);
-    if (ulib_is_err(ret)) return false;
     if (ret == ULIB_OK) cowl_retain(obj);
-    return true;
+    return cowl_ret_from_ulib(ret);
 }
 
-static bool for_each_count(void *count, cowl_unused CowlAny *obj) {
+static cowl_ret for_each_count(void *count, cowl_unused CowlAny *obj) {
     (*((ulib_uint *)count))++;
-    return true;
+    return COWL_CONTINUE;
 }
 
-static bool for_each_contains(void *ctx, CowlAny *obj) {
-    return !cowl_equals(obj, ctx);
+static cowl_ret for_each_contains(void *ctx, CowlAny *obj) {
+    return cowl_equals(obj, ctx) ? COWL_STOP : COWL_CONTINUE;
 }
 
-static bool for_each_contains_primitive(void *ctx, CowlAny *obj) {
-    return obj != ctx;
+static cowl_ret for_each_contains_primitive(void *ctx, CowlAny *obj) {
+    return obj == ctx ? COWL_STOP : COWL_CONTINUE;
 }
 
-static bool for_each_retain(cowl_unused void *ctx, CowlAny *obj) {
+static cowl_ret for_each_retain(cowl_unused void *ctx, CowlAny *obj) {
     cowl_retain(obj);
-    return true;
+    return COWL_CONTINUE;
 }
 
-static bool for_each_release(cowl_unused void *ctx, CowlAny *obj) {
+static cowl_ret for_each_release(cowl_unused void *ctx, CowlAny *obj) {
     cowl_release(obj);
-    return true;
+    return COWL_CONTINUE;
 }
 
 CowlIterator cowl_iterator_vec(UVec(CowlObjectPtr) *vec, bool retain) {

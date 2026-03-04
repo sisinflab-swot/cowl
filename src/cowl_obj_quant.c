@@ -17,6 +17,7 @@
 #include "cowl_owl_vocab.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_quant_type.h"
+#include "cowl_ret.h"
 #include "cowl_utils.h"
 #include <stddef.h>
 
@@ -31,8 +32,9 @@ CowlClsExp *cowl_obj_quant_get_filler(CowlObjQuant *restr) {
     return filler ? filler : (CowlClsExp *)cowl_owl_vocab()->cls.thing;
 }
 
-bool cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveFlags flags,
-                                       CowlIterator *iter) {
-    return (cowl_iterate_primitives(cowl_obj_quant_get_prop(restr), flags, iter) &&
-            cowl_iterate_primitives(cowl_obj_quant_get_filler(restr), flags, iter));
+cowl_ret cowl_obj_quant_iterate_primitives(CowlObjQuant *restr, CowlPrimitiveFlags flags,
+                                           CowlIterator *iter) {
+    cowl_ret ret = cowl_iterate_primitives(cowl_obj_quant_get_prop(restr), flags, iter);
+    if (cowl_should_stop(ret)) return ret;
+    return cowl_iterate_primitives(cowl_obj_quant_get_filler(restr), flags, iter);
 }

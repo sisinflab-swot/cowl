@@ -12,11 +12,13 @@
 #include "cowl_datatype.h"
 #include "cowl_impl.h"
 #include "cowl_iterator.h"
+#include "cowl_literal_private.h"
 #include "cowl_object.h"
 #include "cowl_object_private.h"
 #include "cowl_object_type.h"
 #include "cowl_primitive_flags.h"
 #include "cowl_rdf_vocab.h"
+#include "cowl_ret.h"
 #include "cowl_string.h"
 #include "cowl_string_private.h"
 #include "cowl_xsd_vocab.h"
@@ -172,7 +174,7 @@ ulib_uint cowl_literal_hash(CowlLiteral *literal) {
     return hash;
 }
 
-bool cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,
-                                     CowlIterator *iter) {
+cowl_ret cowl_literal_iterate_primitives(CowlLiteral *literal, CowlPrimitiveFlags flags,
+                                         CowlIterator *iter) {
     return cowl_iterate_primitives(cowl_literal_get_datatype(literal), flags, iter);
 }

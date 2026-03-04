@@ -12,9 +12,9 @@
 #include "ulib.h"
 #include <stdlib.h>
 
-static bool count_constructs(void *ctx, cowl_unused CowlAny *obj) {
+static cowl_ret count_constructs(void *ctx, cowl_unused CowlAny *obj) {
     (*((ulib_uint *)ctx))++;
-    return true;
+    return COWL_OK;
 }
 
 int main(int argc, char *argv[]) {

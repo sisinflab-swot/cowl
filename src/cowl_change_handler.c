@@ -65,13 +65,12 @@ CowlChangeHandler cowl_change_handler_to_ontology(CowlOntology *onto) {
     };
 }
 
-static bool handle_change(void *ctx, CowlAny *obj) {
+static cowl_ret handle_change(void *ctx, CowlAny *obj) {
     void **actx = (void **)ctx;
-    cowl_ret *ret = actx[0];
-    CowlChangeHandler *handler = actx[1];
-    CowlChange *change = actx[2];
+    CowlChangeHandler *handler = actx[0];
+    CowlChange *change = actx[1];
     change->value = obj;
-    return cowl_is_ok(*ret = cowl_change_handler_handle(handler, *change));
+    return cowl_change_handler_handle(handler, *change);
 }
 
 cowl_ret cowl_change_handler_handle_ontology(CowlChangeHandler *handler, CowlOntology *onto,
@@ -86,30 +85,28 @@ cowl_ret cowl_change_handler_handle_ontology(CowlChangeHandler *handler, CowlOnt
     cowl_table_foreach (table, e) {
         CowlPrefixDecl decl = { .prefix = *e.key, .ns = *e.val };
         change.value = &decl;
-        if ((ret = cowl_change_handler_handle(handler, change))) return ret;
+        if ((cowl_should_stop(ret = cowl_change_handler_handle(handler, change)))) return ret;
     }
 
     if ((change.value = cowl_ontology_get_iri(onto))) {
         change.part = COWL_PART_IRI;
-        if ((ret = cowl_change_handler_handle(handler, change))) return ret;
+        if ((cowl_should_stop(ret = cowl_change_handler_handle(handler, change)))) return ret;
     }
 
     if ((change.value = cowl_ontology_get_version(onto))) {
         change.part = COWL_PART_VERSION;
-        if ((ret = cowl_change_handler_handle(handler, change))) return ret;
+        if ((cowl_should_stop(ret = cowl_change_handler_handle(handler, change)))) return ret;
     }
 
-    void *ctx[] = { &ret, handler, &change };
+    void *ctx[] = { handler, &change };
     CowlIterator iter = { .ctx = (void *)ctx, .for_each = handle_change };
 
     change.part = COWL_PART_ANNOTATION;
-    if (!cowl_ontology_iterate_annot(onto, &iter)) return ret;
+    if (cowl_should_stop(ret = cowl_ontology_iterate_annot(onto, &iter))) return ret;
 
     change.part = COWL_PART_IMPORT;
-    if (!cowl_ontology_iterate_imports(onto, &iter)) return ret;
+    if (cowl_should_stop(ret = cowl_ontology_iterate_imports(onto, &iter))) return ret;
 
     change.part = COWL_PART_AXIOM;
-    if (!cowl_ontology_iterate_axioms(onto, &iter)) return ret;
-
-    return ret;
+    return cowl_ontology_iterate_axioms(onto, &iter);
 }

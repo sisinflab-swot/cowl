@@ -34,7 +34,7 @@ int main(void) {
     UOStream ostream;
     if (uostream_to_path(&ostream, PATH)) {
         // Initializing and writing to the stream may fail.
-        // You should handle IO errors as fit for your application.
+        // IO errors should be handled as fit for the application.
         goto err_io;
     }
 

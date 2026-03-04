@@ -113,12 +113,14 @@ ulib_uint cowl_vector_hash(CowlVector *vec) {
     return cowl_vector_unordered_hash(vec);
 }
 
-bool cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter) {
-    if (!vec) return true;
+cowl_ret
+cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter) {
+    if (!vec) return COWL_OK;
     uvec_foreach (CowlObjectPtr, &vec->data, obj) {
-        if (!cowl_iterate_primitives(*obj.item, flags, iter)) return false;
+        cowl_ret ret = cowl_iterate_primitives(*obj.item, flags, iter);
+        if (cowl_should_stop(ret)) return ret;
     }
-    return true;
+    return COWL_OK;
 }
 
 cowl_ret cowl_vector_reserve(CowlVector *vec, ulib_uint capacity) {

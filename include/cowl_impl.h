@@ -141,11 +141,7 @@ COWL_API
 void cowl_release_all_impl(CowlAny **objects, size_t count);
 
 COWL_API
-CowlAny **cowl_get_fields(CowlAny *object, unsigned *count);
-
-COWL_API
-COWL_PURE
-unsigned cowl_get_field_count(CowlAny *object);
+CowlAny **cowl_get_fields(CowlAny *object, bool include_opt, unsigned *count);
 
 COWL_API
 COWL_PURE

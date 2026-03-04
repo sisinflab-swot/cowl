@@ -28,35 +28,51 @@ cowl_struct_decl(CowlString);
  * @{
  */
 
-/**
- * Return codes for API calls that can fail.
- *
- * @note Error codes are guaranteed to evaluate to true in boolean expressions.
- */
-typedef enum cowl_ret {
+/// Return code type.
+typedef ulib_ret cowl_ret;
 
-    /// @name Codes
+/// Builtin return codes.
+typedef enum cowl_ret_builtin {
 
-    /// Success.
-    COWL_OK,
-
-    /// Failure with unspecified error.
-    COWL_ERR,
+    /// The operation succeeded.
+    COWL_OK = ULIB_OK,
 
     /**
-     * Input/output error, usually returned when a file or stream operation fails.
+     * The operation did not succeed.
      *
-     * @note When this happens, @cvar{errno} is sometimes set to a more meaningful value.
+     * @note This code is returned when an operation does not succeed as part of its normal
+     *       execution. It does not signal an error condition.
+     * @note This code is also returned when an operation is stopped by e.g. returning
+     *       @val{COWL_NO} from an iterator function.
      */
-    COWL_ERR_IO,
+    COWL_NO = ULIB_NO,
 
-    /// Memory error, usually caused by failed allocations.
-    COWL_ERR_MEM,
+    /// The operation failed due to an unspecified error.
+    COWL_ERR = ULIB_ERR,
+
+    /// The operation failed due to a memory allocation error.
+    COWL_ERR_MEM = ULIB_ERR_MEM,
+
+    /// Buffer bounds exceeded, or value over/underflowed its type.
+    COWL_ERR_BOUNDS = ULIB_ERR_BOUNDS,
+
+    /**
+     * The operation failed due to an IO error.
+     *
+     * @note When this happens, @cval{errno} is sometimes set to a more meaningful value.
+     */
+    COWL_ERR_IO = ULIB_ERR_IO,
 
     /// Syntax error.
-    COWL_ERR_SYNTAX,
+    COWL_ERR_SYNTAX = -32,
 
-} cowl_ret;
+} cowl_ret_builtin;
+
+/// Alias for @val{COWL_OK}, used to indicate that an operation should continue.
+#define COWL_CONTINUE COWL_OK
+
+/// Alias for @val{COWL_NO}, used to indicate that an operation should be stopped.
+#define COWL_STOP COWL_NO
 
 /**
  * Checks if a return code indicates an error.
@@ -67,7 +83,7 @@ typedef enum cowl_ret {
 COWL_CONST
 COWL_INLINE
 bool cowl_ret_is_err(cowl_ret ret) {
-    return ret >= COWL_ERR;
+    return ulib_ret_is_err(ret);
 }
 
 /**
@@ -80,6 +96,18 @@ COWL_CONST
 COWL_INLINE
 bool cowl_ret_is_ok(cowl_ret ret) {
     return !cowl_ret_is_err(ret);
+}
+
+/**
+ * Checks if a return code indicates that an operation should be stopped.
+ *
+ * @param ret Return code.
+ * @return True if the return code indicates that an operation should be stopped, false otherwise.
+ */
+COWL_CONST
+COWL_INLINE
+bool cowl_ret_should_stop(cowl_ret ret) {
+    return ret != COWL_CONTINUE;
 }
 
 /**
@@ -105,14 +133,27 @@ bool cowl_ret_is_ok(cowl_ret ret) {
 #define cowl_is_ok(ret) ulib_likely(cowl_ret_is_ok(ret))
 
 /**
+ * Checks if a return code indicates that an operation should be stopped.
+ *
+ * @param ret Return code.
+ * @return True if the return code indicates that an operation should be stopped, false otherwise.
+ *
+ * @note Hints the compiler that the condition is unlikely to be true.
+ * @alias bool cowl_should_stop(cowl_ret ret);
+ */
+#define cowl_should_stop(ret) ulib_unlikely(cowl_ret_should_stop(ret))
+
+/**
  * Converts @type{ulib_ret} into @type{cowl_ret}.
  *
  * @param ret Return code.
  * @return Return value.
  */
-COWL_API
 COWL_CONST
-cowl_ret cowl_ret_from_ulib(ulib_ret ret);
+COWL_INLINE
+cowl_ret cowl_ret_from_ulib(ulib_ret ret) {
+    return (cowl_ret)ret;
+}
 
 /**
  * Returns a human-readable string representation of the specified return value.

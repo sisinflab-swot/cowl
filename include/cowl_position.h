@@ -19,7 +19,7 @@
 COWL_BEGIN_DECLS
 
 /// Size of the @type{CowlPosition} type in bits.
-#define COWL_PS 8
+#define COWL_PS 8 // NOLINT(modernize-macro-to-enum)
 
 /**
  * @defgroup CowlPosition Position of a component in an OWL construct.

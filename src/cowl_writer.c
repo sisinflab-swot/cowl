@@ -24,7 +24,7 @@
 #include "ulib.h"
 #include <stddef.h>
 
-#define UINT_MAX_DIGITS 20 // NOLINT(modernize-macro-to-enum)
+enum { UINT_MAX_DIGITS = 20 };
 
 CowlWriter *cowl_writer_default(void) {
 #ifdef COWL_DEFAULT_WRITER
@@ -74,14 +74,13 @@ bool cowl_writer_can_write_ontology(CowlWriter *writer) {
 }
 
 struct WriteAxiomCtx {
-    cowl_ret *ret;
     CowlWriter *writer;
     UOStream *stream;
 };
 
-static bool axiom_writer(void *ctx, CowlAnyAxiom *axiom) {
+static cowl_ret axiom_writer(void *ctx, CowlAnyAxiom *axiom) {
     struct WriteAxiomCtx *c = ctx;
-    return (*c->ret = cowl_writer_write_axiom(c->writer, c->stream, axiom)) == COWL_OK;
+    return cowl_writer_write_axiom(c->writer, c->stream, axiom);
 }
 
 static inline cowl_ret
@@ -97,10 +96,7 @@ write_ontology_stream(CowlWriter *writer, UOStream *stream, CowlOntology *onto) 
     UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
 
     CowlIterator iter = cowl_iterator_vec(&imports, false);
-    if (!cowl_ontology_iterate_imports(onto, &iter)) {
-        ret = COWL_ERR_MEM;
-        goto end;
-    }
+    if (cowl_is_err(ret = cowl_ontology_iterate_imports(onto, &iter))) goto end;
 
     CowlOntologyHeader header = {
         .pm = pm,
@@ -111,10 +107,11 @@ write_ontology_stream(CowlWriter *writer, UOStream *stream, CowlOntology *onto) 
     };
     if ((ret = cowl_writer_write_header(writer, stream, header))) goto end;
 
-    struct WriteAxiomCtx ctx = { .ret = &ret, .writer = writer, .stream = stream };
+    struct WriteAxiomCtx ctx = { .writer = writer, .stream = stream };
     iter.ctx = &ctx;
     iter.for_each = axiom_writer;
-    if (!cowl_ontology_iterate_axioms(onto, &iter)) goto end;
+
+    if (cowl_is_err((ret = cowl_ontology_iterate_axioms(onto, &iter)))) goto end;
     ret = cowl_writer_write_footer(writer, stream);
 
 end:

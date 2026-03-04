@@ -19,7 +19,7 @@
 COWL_BEGIN_DECLS
 
 /// Size of the @type{CowlStringOpts} type in bits.
-#define COWL_SO 8
+#define COWL_SO 8 // NOLINT(modernize-macro-to-enum)
 
 /**
  * @defgroup CowlStringOpts CowlStringOpts API

@@ -12,23 +12,23 @@ env:
 
 jobs:
   analyze:
-    name: Run analyzers
+    name: Analyze
     runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
           submodules: recursive
 
-      - name: Run pre-commit
+      - name: Pre-commit
         run: |
           python -m venv .venv
           source .venv/bin/activate
           pip install pre-commit
           pre-commit run --from-ref=HEAD~1 --to-ref=HEAD
 
-      - name: Configure CMake
+      - name: Configure
         run: >
           CC=clang cmake -B ${{env.build_dir}}
           -DCOWL_CPP_TESTS=OFF
@@ -52,12 +52,12 @@ jobs:
           - ${{vars.macos_runner || 'macos-latest'}}
         lib_type: [STATIC, SHARED]
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Configure runner
+      - name: Install dependencies
         run: |
           if [ $RUNNER_OS == 'Windows' ]; then
             choco install winflexbison3
@@ -68,7 +68,7 @@ jobs:
           fi
         shell: bash
 
-      - name: Configure CMake
+      - name: Configure
         run: >
           cmake -B ${{env.build_dir}}
           -DULIB_LEAKS=ON
@@ -82,7 +82,7 @@ jobs:
       - name: Build
         run: cmake --build ${{env.build_dir}} --config ${{env.config}}
 
-      - name: Configure tests (Windows)
+      - name: Prepare workdir (Windows)
         working-directory: ${{env.build_dir}}
         if: runner.os == 'Windows'
         run: |
@@ -94,7 +94,7 @@ jobs:
           fi
         shell: bash
 
-      - name: Run tests
+      - name: Run
         working-directory: ${{env.build_dir}}
         run: ctest --build-config ${{env.config}} --output-on-failure
 
@@ -109,12 +109,12 @@ jobs:
           - ${{vars.windows_runner || 'windows-latest'}}
           - ${{vars.macos_runner || 'macos-latest'}}
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Configure runner
+      - name: Install dependencies
         run: |
           if [ $RUNNER_OS == 'Windows' ]; then
             choco install winflexbison3
@@ -125,7 +125,7 @@ jobs:
           fi
         shell: bash
 
-      - name: Configure CMake
+      - name: Configure
         run: >
           cmake -B ${{env.build_dir}}
           -DULIB_OPTIMIZE_FOR_HOST=ON
@@ -136,7 +136,7 @@ jobs:
       - name: Build
         run: cmake --build ${{env.build_dir}} --config ${{env.config}} --target cowl-bench
 
-      - name: Configure (Windows)
+      - name: Prepare workdir (Windows)
         working-directory: ${{env.build_dir}}/bench
         if: runner.os == 'Windows'
         run: mv ${{env.config}}/*.exe ./
@@ -147,15 +147,15 @@ jobs:
         run: ./cowl-bench
 
   docs:
-    name: Generate the documentation
+    name: Documentation
     runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Build docs
+      - name: Build
         run: |
           sudo apt install doxygen
           python -m venv .venv
