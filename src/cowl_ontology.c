@@ -37,25 +37,12 @@
 
 CowlOntology *cowl_ontology(void) {
     CowlOntology *onto = ulib_alloc(onto);
-    if (!onto) goto err;
-
-    *onto = (CowlOntology){
-        .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY),
-        .pm = cowl_prefix_map(),
-        .annot = cowl_vector_ordered_empty(),
-    };
-
-    if (!(onto->pm && onto->annot)) goto err;
-
+    if (!onto) return NULL;
+    *onto = (CowlOntology){ .super = COWL_OBJECT_INIT(COWL_OT_ONTOLOGY) };
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         onto->refs[i] = cowl_primitive_map();
     }
-
     return onto;
-
-err:
-    if (onto) cowl_ontology_free(onto);
-    return NULL;
 }
 
 void cowl_ontology_free(CowlOntology *onto) {
@@ -96,7 +83,7 @@ cowl_ret cowl_ontology_to_stream(CowlOntology *onto, UOStream *stream) {
 }
 
 CowlPrefixMap *cowl_ontology_get_prefix_map(CowlOntology *onto) {
-    return onto->pm;
+    return onto->pm ? onto->pm : (onto->pm = cowl_prefix_map());
 }
 
 CowlIRI *cowl_ontology_get_iri(CowlOntology *onto) {
@@ -108,7 +95,7 @@ CowlIRI *cowl_ontology_get_version(CowlOntology *onto) {
 }
 
 CowlVector *cowl_ontology_get_annot(CowlOntology *onto) {
-    return onto->annot;
+    return onto->annot ? onto->annot : (onto->annot = cowl_vector_ordered_empty());
 }
 
 ulib_uint cowl_ontology_axiom_count(CowlOntology *onto) {
@@ -436,6 +423,16 @@ static inline cowl_ret cowl_vector_ptr_add(CowlVector **vec, CowlAny *obj) {
     return cowl_vector_add(*vec, obj) ? COWL_ERR_MEM : COWL_OK;
 }
 
+static bool cowl_vector_ptr_remove(CowlVector **vec, CowlAny *obj) {
+    if (!*vec) return false;
+    bool removed = cowl_vector_remove(*vec, obj);
+    if (removed && cowl_vector_count(*vec) == 0) {
+        cowl_release(*vec);
+        *vec = NULL;
+    }
+    return removed;
+}
+
 cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
     CowlAxiomCtx ctx = { .onto = onto };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_adder };
@@ -445,26 +442,19 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
 }
 
 bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
-    return cowl_vector_remove(onto->annot, annot);
+    return cowl_vector_ptr_remove(&onto->annot, annot);
 }
 
 bool cowl_ontology_has_import(CowlOntology *onto, CowlIRI *import) {
-    return onto->imports ? cowl_vector_contains(onto->imports, import) : false;
+    return onto->imports && cowl_vector_contains(onto->imports, import);
 }
 
 cowl_ret cowl_ontology_add_import(CowlOntology *onto, CowlIRI *import) {
-    if (!onto->imports && !(onto->imports = cowl_vector_empty())) return COWL_ERR_MEM;
-    return cowl_vector_add(onto->imports, import);
+    return cowl_vector_ptr_add(&onto->imports, import);
 }
 
 bool cowl_ontology_remove_import(CowlOntology *onto, CowlIRI *iri) {
-    if (!onto->imports) return false;
-    bool removed = cowl_vector_remove(onto->imports, iri);
-    if (removed && cowl_vector_count(onto->imports) == 0) {
-        cowl_release(onto->imports);
-        onto->imports = NULL;
-    }
-    return removed;
+    return cowl_vector_ptr_remove(&onto->imports, iri);
 }
 
 static inline cowl_ret
@@ -595,7 +585,8 @@ end:
 }
 
 cowl_ret cowl_ontology_finalize(CowlOntology *onto) {
-    if (cowl_vector_shrink(onto->annot)) return COWL_ERR_MEM;
+    if (onto->annot && cowl_vector_shrink(onto->annot)) return COWL_ERR_MEM;
+    if (onto->imports && cowl_vector_shrink(onto->imports)) return COWL_ERR_MEM;
 
     for (CowlAxiomType t = COWL_AT_FIRST; t < COWL_AT_COUNT; ++t) {
         CowlVector *axioms = onto->axioms_by_type[t];
