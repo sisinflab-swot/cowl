@@ -36,6 +36,7 @@ struct CowlOntology {
 
 void cowl_ontology_free(CowlOntology *onto);
 cowl_ret cowl_ontology_finalize(CowlOntology *onto);
+void cowl_ontology_disable_indexing(CowlOntology *onto);
 
 COWL_END_DECLS
 

@@ -66,6 +66,14 @@ void cowl_ontology_free(CowlOntology *onto) {
     ulib_free(onto);
 }
 
+static inline bool cowl_ontology_indexing_enabled(CowlOntology *onto) {
+    return !cowl_object_bit_get(onto);
+}
+
+void cowl_ontology_disable_indexing(CowlOntology *onto) {
+    cowl_object_bit_set(onto);
+}
+
 CowlOntology *cowl_ontology_at_path(UString path) {
     return cowl_reader_read_ontology_at_path(cowl_get_reader(), path);
 }
@@ -484,12 +492,17 @@ static cowl_ret cowl_ontology_primitive_axiom_adder(void *ctx, CowlAny *obj) {
     return cowl_add_axiom_to_map(obj, axiom_ctx->axiom, map);
 }
 
-cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
+static inline cowl_ret cowl_ontology_index_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     CowlAxiomCtx ctx = { .onto = onto, .axiom = axiom };
     CowlIterator iter = { &ctx, cowl_ontology_primitive_axiom_adder };
+    return cowl_iterate_primitives(axiom, COWL_PF_ALL, &iter);
+}
 
-    cowl_ret ret = cowl_iterate_primitives(axiom, COWL_PF_ALL, &iter);
-    if (cowl_is_err(ret)) return ret;
+cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
+    if (cowl_ontology_indexing_enabled(onto)) {
+        cowl_ret ret = cowl_ontology_index_axiom(onto, axiom);
+        if (cowl_is_err(ret)) return ret;
+    }
     return cowl_vector_ptr_add(&onto->axioms_by_type[cowl_axiom_get_type(axiom)], axiom);
 }
 
