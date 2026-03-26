@@ -187,6 +187,32 @@ CowlAxiomFlags cowl_axiom_flags_from_type(CowlAxiomType type) {
 }
 
 /**
+ * Adds the specified type to the flags.
+ *
+ * @param flags Axiom flags.
+ * @param type Axiom type.
+ * @return Updated flags.
+ */
+COWL_CONST
+COWL_INLINE
+CowlAxiomFlags cowl_axiom_flags_add_type(CowlAxiomFlags flags, CowlAxiomType type) {
+    return ubit_set(COWL_AF, flags, cowl_axiom_flags_from_type(type));
+}
+
+/**
+ * Removes the specified type from the flags.
+ *
+ * @param flags Axiom flags.
+ * @param type Axiom type.
+ * @return Updated flags.
+ */
+COWL_CONST
+COWL_INLINE
+CowlAxiomFlags cowl_axiom_flags_remove_type(CowlAxiomFlags flags, CowlAxiomType type) {
+    return ubit_unset(COWL_AF, flags, cowl_axiom_flags_from_type(type));
+}
+
+/**
  * Checks whether the specified type is included in the flags.
  *
  * @param flags Axiom flags.

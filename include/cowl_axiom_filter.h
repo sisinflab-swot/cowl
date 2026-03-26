@@ -78,7 +78,7 @@ void cowl_axiom_filter_deinit(CowlAxiomFilter *filter) {
  */
 COWL_INLINE
 void cowl_axiom_filter_add_type(CowlAxiomFilter *filter, CowlAxiomType type) {
-    filter->types = ubit_set(COWL_AF, filter->types, cowl_axiom_flags_from_type(type));
+    filter->types = cowl_axiom_flags_add_type(filter->types, type);
 }
 
 /**
@@ -89,7 +89,7 @@ void cowl_axiom_filter_add_type(CowlAxiomFilter *filter, CowlAxiomType type) {
  */
 COWL_INLINE
 void cowl_axiom_filter_remove_type(CowlAxiomFilter *filter, CowlAxiomType type) {
-    filter->types = ubit_unset(COWL_AF, filter->types, cowl_axiom_flags_from_type(type));
+    filter->types = cowl_axiom_flags_remove_type(filter->types, type);
 }
 
 /**

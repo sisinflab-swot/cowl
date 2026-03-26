@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2
           submodules: recursive
@@ -53,7 +53,7 @@ jobs:
         lib_type: [STATIC, SHARED]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -110,7 +110,7 @@ jobs:
           - ${{vars.macos_runner || 'macos-latest'}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -151,7 +151,7 @@ jobs:
     runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
