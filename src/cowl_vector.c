@@ -22,7 +22,7 @@
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
-CowlVector *cowl_vector(UVec(CowlObjectPtr) *data) {
+CowlVector *cowl_vector_wrap(UVec(CowlObjectPtr) *data) {
     if (data && ulib_is_err(uvec_shrink(CowlObjectPtr, data))) return NULL;
 
     CowlVector *vec = ulib_alloc(vec);
@@ -32,11 +32,14 @@ CowlVector *cowl_vector(UVec(CowlObjectPtr) *data) {
         .super = COWL_OBJECT_INIT(COWL_OT_VECTOR),
         .data = data ? uvec_move(CowlObjectPtr, data) : uvec(CowlObjectPtr),
     };
+    return vec;
+}
 
-    uvec_foreach (CowlObjectPtr, &vec->data, obj) {
-        cowl_retain(*obj.item);
+CowlVector *cowl_vector(UVec(CowlObjectPtr) *data) {
+    CowlVector *vec = cowl_vector_wrap(data);
+    if (vec) {
+        uvec_foreach (CowlObjectPtr, &vec->data, obj) cowl_retain(*obj.item);
     }
-
     return vec;
 }
 

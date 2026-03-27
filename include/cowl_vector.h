@@ -61,6 +61,19 @@ COWL_RETAINED
 CowlVector *cowl_vector(UVec(CowlObjectPtr) *data);
 
 /**
+ * Returns a vector.
+ *
+ * @param data Underlying raw vector.
+ * @return Vector, or NULL on error.
+ *
+ * @note You must not use the raw vector after passing it to this function.
+ * @note Elements in the raw vector are not retained by this constructor.
+ */
+COWL_API
+COWL_RETAINED
+CowlVector *cowl_vector_wrap(UVec(CowlObjectPtr) *data);
+
+/**
  * Returns a vector with no elements.
  *
  * @return Vector, or NULL on error.
