@@ -390,7 +390,7 @@ cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive, C
     CowlVector *at = onto->axioms_by_type[type];
 
     if (cowl_vector_count(at) < cowl_vector_count(ar)) {
-        return cowl_ontology_iterate_axioms_of_type(onto, type, iter);
+        return cowl_ontology_iterate_axioms_of_type(onto, type, &l_iter);
     }
     return cowl_ontology_iterate_axioms_for_primitive(onto, primitive, &l_iter);
 }
