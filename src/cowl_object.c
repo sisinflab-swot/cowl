@@ -427,8 +427,7 @@ cowl_ret cowl_iterate_primitives(CowlAny *object, CowlPrimitiveFlags flags, Cowl
     return COWL_CONTINUE;
 }
 
-CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
-    unsigned const n = type_field_count(type);
+CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], unsigned n, CowlAny *opt) {
     CowlComposite *o = ulib_malloc(sizeof(*o) + ((n + !!opt) * sizeof(*o->fields)));
     if (!o) return NULL;
 
@@ -441,13 +440,14 @@ CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt) {
     return o;
 }
 
-CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot) {
+CowlAny *
+cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], unsigned n, CowlVector *annot) {
     if (annot && !cowl_vector_count(annot)) annot = NULL;
-    return cowl_get_impl(type, fields, annot);
+    return cowl_get_impl(type, fields, n, annot);
 }
 
-CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt) {
-    unsigned const n = type_field_count(type);
+CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], unsigned n, ulib_uint val,
+                            CowlAny *opt) {
     CowlComposite *o = ulib_malloc(sizeof(*o) + ((n + !!opt + 1) * sizeof(*o->fields)));
     if (!o) return NULL;
 

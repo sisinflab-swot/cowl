@@ -438,19 +438,19 @@ lang_tag
 
 literal
     : quoted_string DOUBLE_CARET datatype {
-        $$ = cowl_literal($3, $1, NULL);
+        $$ = cowl_literal($1, $3);
         cowl_release($1);
         cowl_release($3);
         if (!$$) COWL_ERROR_MEM;
     }
     | quoted_string lang_tag {
-        $$ = cowl_literal(NULL, $1, $2);
+        $$ = cowl_literal($1, $2);
         cowl_release($1);
         cowl_release($2);
         if (!$$) COWL_ERROR_MEM;
     }
     | quoted_string {
-        $$ = cowl_literal(NULL, $1, NULL);
+        $$ = cowl_literal($1, NULL);
         cowl_release($1);
         if (!$$) COWL_ERROR_MEM;
     }

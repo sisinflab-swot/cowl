@@ -13,6 +13,7 @@
 #ifndef COWL_LITERAL_H
 #define COWL_LITERAL_H
 
+#include "cowl_any.h"
 #include "cowl_attrs.h"
 #include "cowl_utils.h"
 #include "ulib.h"
@@ -42,38 +43,76 @@ cowl_struct_decl(CowlLiteral);
 /**
  * Returns a literal.
  *
- * @param dt @ctype{optional} The datatype.
  * @param value The value.
- * @param lang @ctype{optional} The language tag.
+ * @param dt_or_lang @ctype{optional} The datatype, language tag, or NULL for a plain literal.
  * @return Literal, or NULL on error.
  */
 COWL_API
 COWL_RETAINED
-CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang);
+CowlLiteral *cowl_literal(CowlString *value, CowlAny *dt_or_lang);
 
 /**
- * Returns a literal given the string representations of its components.
+ * Returns a plain literal given the string representations of its value.
  *
- * @param dt @ctype{optional} The datatype.
  * @param value The value.
- * @param lang @ctype{optional} The language tag.
  * @return Literal, or NULL on error.
  */
 COWL_API
 COWL_RETAINED
-CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang);
+CowlLiteral *cowl_literal_plain(UString value);
 
 /**
- * Returns a literal given the string literals representing its components.
+ * Returns a typed literal given the string representation of its value and its datatype.
  *
- * @param dt @ctype{char const[], optional} The datatype.
- * @param value @ctype{char const []} The value.
- * @param lang @ctype{char const[], optional} The language tag.
+ * @param value The value.
+ * @param dt The datatype.
+ * @return Literal, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlLiteral *cowl_literal_typed(UString value, CowlDatatype *dt);
+
+/**
+ * Returns a language-tagged literal given the string representations of its value and language tag.
+ *
+ * @param value The value.
+ * @param lang The language tag.
+ * @return Literal, or NULL on error.
+ */
+COWL_API
+COWL_RETAINED
+CowlLiteral *cowl_literal_lang(UString value, UString lang);
+
+/**
+ * Returns a plain literal given the string literal representing its value.
+ *
+ * @param value @ctype{char const[]} The value.
  * @return @ctype{#CowlLiteral *} Literal, or NULL on error.
  */
 COWL_RETAINED
-#define cowl_literal_from_static(dt, value, lang)                                                  \
-    cowl_literal_from_string(ustring_literal(dt), ustring_literal(value), ustring_literal(lang))
+#define cowl_literal_plain_from_static(value) cowl_literal_plain(ustring_literal(value))
+
+/**
+ * Returns a typed literal given the string literal representing its value and its datatype.
+ *
+ * @param value @ctype{char const[]} The value.
+ * @param dt @ctype{#CowlDatatype *} The datatype.
+ * @return @ctype{#CowlLiteral *} Literal, or NULL on error.
+ */
+COWL_RETAINED
+#define cowl_literal_typed_from_static(value, dt) cowl_literal_typed(ustring_literal(value), dt)
+
+/**
+ * Returns a language-tagged literal given the string literals representing its value
+ * and language tag.
+ *
+ * @param value @ctype{char const[]} The value.
+ * @param lang @ctype{char const[]} The language tag.
+ * @return @ctype{#CowlLiteral *} Literal, or NULL on error.
+ */
+COWL_RETAINED
+#define cowl_literal_lang_from_static(value, lang)                                                 \
+    cowl_literal_lang(ustring_literal(value), ustring_literal(lang))
 
 /**
  * Gets the datatype.

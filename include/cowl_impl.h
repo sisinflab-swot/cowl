@@ -30,24 +30,24 @@ cowl_struct_decl(CowlVector);
 
 COWL_API
 COWL_RETAINED
-CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], CowlAny *opt);
+CowlAny *cowl_get_impl(CowlObjectType type, CowlAny *fields[], unsigned n, CowlAny *opt);
 
 COWL_API
 COWL_RETAINED
-CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], CowlVector *annot);
+CowlAny *cowl_get_impl_annot(CowlObjectType type, CowlAny *fields[], unsigned n, CowlVector *annot);
 
 COWL_RETAINED
 COWL_INLINE
 CowlAny *cowl_get_impl_1_opt(CowlObjectType type, CowlAny *f1, CowlAny *opt) {
     CowlAny *fields[] = { f1 };
-    return cowl_get_impl(type, fields, opt);
+    return cowl_get_impl(type, fields, 1, opt);
 }
 
 COWL_RETAINED
 COWL_INLINE
 CowlAny *cowl_get_impl_1_annot(CowlObjectType type, CowlAny *f1, CowlVector *annot) {
     CowlAny *fields[] = { f1 };
-    return cowl_get_impl_annot(type, fields, annot);
+    return cowl_get_impl_annot(type, fields, 1, annot);
 }
 
 COWL_RETAINED
@@ -60,14 +60,14 @@ COWL_RETAINED
 COWL_INLINE
 CowlAny *cowl_get_impl_2_opt(CowlObjectType type, CowlAny *f1, CowlAny *f2, CowlAny *opt) {
     CowlAny *fields[] = { f1, f2 };
-    return cowl_get_impl(type, fields, opt);
+    return cowl_get_impl(type, fields, 2, opt);
 }
 
 COWL_RETAINED
 COWL_INLINE
 CowlAny *cowl_get_impl_2_annot(CowlObjectType type, CowlAny *f1, CowlAny *f2, CowlVector *annot) {
     CowlAny *fields[] = { f1, f2 };
-    return cowl_get_impl_annot(type, fields, annot);
+    return cowl_get_impl_annot(type, fields, 2, annot);
 }
 
 COWL_RETAINED
@@ -81,7 +81,7 @@ COWL_INLINE
 CowlAny *
 cowl_get_impl_3_opt(CowlObjectType type, CowlAny *f1, CowlAny *f2, CowlAny *f3, CowlAny *opt) {
     CowlAny *fields[] = { f1, f2, f3 };
-    return cowl_get_impl(type, fields, opt);
+    return cowl_get_impl(type, fields, 3, opt);
 }
 
 COWL_RETAINED
@@ -89,7 +89,7 @@ COWL_INLINE
 CowlAny *cowl_get_impl_3_annot(CowlObjectType type, CowlAny *f1, CowlAny *f2, CowlAny *f3,
                                CowlVector *annot) {
     CowlAny *fields[] = { f1, f2, f3 };
-    return cowl_get_impl_annot(type, fields, annot);
+    return cowl_get_impl_annot(type, fields, 3, annot);
 }
 
 COWL_RETAINED
@@ -100,13 +100,14 @@ CowlAny *cowl_get_impl_3(CowlObjectType type, CowlAny *f1, CowlAny *f2, CowlAny 
 
 COWL_API
 COWL_RETAINED
-CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], ulib_uint val, CowlAny *opt);
+CowlAny *
+cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], unsigned n, ulib_uint val, CowlAny *opt);
 
 COWL_RETAINED
 COWL_INLINE
 CowlAny *cowl_get_impl_1_uint_opt(CowlObjectType type, CowlAny *f1, ulib_uint val, CowlAny *opt) {
     CowlAny *fields[] = { f1 };
-    return cowl_get_impl_uint(type, fields, val, opt);
+    return cowl_get_impl_uint(type, fields, 1, val, opt);
 }
 
 COWL_RETAINED
@@ -120,7 +121,7 @@ COWL_INLINE
 CowlAny *cowl_get_impl_2_uint_opt(CowlObjectType type, CowlAny *f1, CowlAny *f2, ulib_uint val,
                                   CowlAny *opt) {
     CowlAny *fields[] = { f1, f2 };
-    return cowl_get_impl_uint(type, fields, val, opt);
+    return cowl_get_impl_uint(type, fields, 2, val, opt);
 }
 
 COWL_RETAINED

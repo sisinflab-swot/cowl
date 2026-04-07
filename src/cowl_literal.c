@@ -9,6 +9,7 @@
  */
 
 #include "cowl_literal.h"
+#include "cowl_any.h"
 #include "cowl_datatype.h"
 #include "cowl_impl.h"
 #include "cowl_iterator.h"
@@ -78,74 +79,84 @@ static inline bool is_lang_datatype(CowlDatatype *dt) {
     return dt == v->dt.lang_string || dt == v->dt.plain_literal;
 }
 
-static CowlLiteral *cowl_literal_alloc(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    CowlComposite *literal = ulib_malloc(sizeof(*literal) + (2 * sizeof(*literal->fields)));
-    if (!literal) return NULL;
-
-    literal->super = COWL_OBJECT_BIT_INIT(COWL_OT_LITERAL, lang);
-    literal->fields[0].obj = value;
-
-    if (lang) {
-        literal->fields[1].obj = lang;
-    } else {
-        literal->fields[1].obj = dt;
-    }
-
-    cowl_retain(literal->fields[0].obj);
-    cowl_retain(literal->fields[1].obj);
-
-    return (CowlLiteral *)literal;
+static CowlLiteral *cowl_literal_alloc(CowlString *value, CowlAny *dt_or_lang, bool is_lang) {
+    CowlLiteral *literal = cowl_get_impl_2(COWL_OT_LITERAL, value, dt_or_lang);
+    if (is_lang) cowl_object_bit_set(literal);
+    return literal;
 }
 
-void cowl_literal_free(CowlLiteral *literal) {
-    cowl_release(cowl_literal_get_value(literal));
-    if (cowl_literal_is_lang_string(literal)) {
-        cowl_release(cowl_literal_get_lang(literal));
-    } else {
-        cowl_release(cowl_literal_get_datatype(literal));
-    }
-    ulib_free(literal);
+static CowlLiteral *cowl_literal_string_alloc(CowlString *value) {
+    return cowl_literal_alloc(value, cowl_xsd_vocab()->dt.string, false);
 }
 
-CowlLiteral *cowl_literal(CowlDatatype *dt, CowlString *value, CowlString *lang) {
-    if (!value) return NULL;
-    if (lang && !cowl_string_get_length(lang)) lang = NULL;
-
-    CowlLiteral *ret = NULL;
-    bool release_value = false, release_lang = false;
-
-    if (lang) {
-        // Validate datatype.
-        if (dt && !is_lang_datatype(dt)) goto end;
-        if (!(lang = internalize_lang(lang))) goto end;
-        release_lang = true;
-        dt = NULL;
-    } else if (is_lang_datatype(dt)) {
-        // Attempt to parse the language tag from the value.
-        if (!(value = parse_lang(value, &lang))) goto end;
-        release_value = release_lang = true;
-        dt = NULL;
-    }
-
-    if (!(lang || dt)) dt = cowl_xsd_vocab()->dt.string;
-    ret = cowl_literal_alloc(dt, value, lang);
-
-end:
-    if (release_value) cowl_release(value);
-    if (release_lang) cowl_release(lang);
-
+static CowlLiteral *cowl_literal_lang_alloc(CowlString *value, CowlString *lang) {
+    if (cowl_string_get_length(lang) == 0) return cowl_literal_string_alloc(value);
+    if (!(lang = internalize_lang(lang))) return NULL;
+    CowlLiteral *ret = cowl_literal_alloc(value, lang, true);
+    cowl_release(lang);
     return ret;
 }
 
-CowlLiteral *cowl_literal_from_string(UString dt, UString value, UString lang) {
-    CowlDatatype *cdt = cowl_datatype_from_string(dt);
+static CowlLiteral *cowl_literal_parse_lang_alloc(CowlString *value) {
+    CowlString *lang;
+    if (!(value = parse_lang(value, &lang))) return NULL;
+    CowlLiteral *ret = cowl_literal_alloc(value, lang, true);
+    cowl_release(value);
+    cowl_release(lang);
+    return ret;
+}
+
+static CowlLiteral *cowl_literal_typed_alloc(CowlString *value, CowlDatatype *dt) {
+    return cowl_literal_alloc(value, dt, false);
+}
+
+void cowl_literal_free(CowlLiteral *literal) {
+    cowl_release(cowl_get_field(literal, 0));
+    cowl_release(cowl_get_field(literal, 1));
+    ulib_free(literal);
+}
+
+CowlLiteral *cowl_literal(CowlString *value, CowlAny *dt_or_lang) {
+    if (!value) return NULL;
+    if (!dt_or_lang) return cowl_literal_string_alloc(value);
+    bool is_lang = cowl_get_type(dt_or_lang) == COWL_OT_STRING;
+    if (is_lang) return cowl_literal_lang_alloc(value, dt_or_lang);
+    if (is_lang_datatype(dt_or_lang)) return cowl_literal_parse_lang_alloc(value);
+    return cowl_literal_typed_alloc(value, dt_or_lang);
+}
+
+CowlLiteral *cowl_literal_plain(UString value) {
     CowlString *cvalue = cowl_string_opt(value, COWL_SO_COPY);
-    CowlString *clang = cowl_string_opt(lang, COWL_SO_COPY | COWL_SO_INTERN);
-    CowlLiteral *literal = cowl_literal(cdt, cvalue, clang);
-    cowl_release(cdt);
+    if (!cvalue) return NULL;
+    CowlLiteral *literal = cowl_literal_string_alloc(cvalue);
+    cowl_release(cvalue);
+    return literal;
+}
+
+CowlLiteral *cowl_literal_typed(UString value, CowlDatatype *dt) {
+    CowlString *cvalue = cowl_string_opt(value, COWL_SO_COPY);
+    if (!cvalue) return NULL;
+    CowlLiteral *literal = cowl_literal_typed_alloc(cvalue, dt);
+    cowl_release(cvalue);
+    return literal;
+}
+
+CowlLiteral *cowl_literal_lang(UString value, UString lang) {
+    CowlLiteral *ret = NULL;
+    CowlString *cvalue = NULL;
+    CowlString *clang = NULL;
+
+    cvalue = cowl_string_opt(value, COWL_SO_COPY);
+    if (!cvalue) goto end;
+    clang = cowl_string_opt(lang, COWL_SO_COPY | COWL_SO_INTERN);
+    if (!clang) goto end;
+
+    ret = cowl_literal_lang_alloc(cvalue, clang);
+
+end:
     cowl_release(cvalue);
     cowl_release(clang);
-    return literal;
+    return ret;
 }
 
 CowlDatatype *cowl_literal_get_datatype(CowlLiteral *literal) {
