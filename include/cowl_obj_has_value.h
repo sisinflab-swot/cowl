@@ -67,11 +67,24 @@ CowlObjPropExp *cowl_obj_has_value_get_prop(CowlObjHasValue *exp) {
 }
 
 /**
+ * Gets the value of the specified individual value restriction.
+ *
+ * @param exp The restriction.
+ * @return The value.
+ */
+COWL_PURE
+COWL_INLINE
+CowlIndividual *cowl_obj_has_value_get_value(CowlObjHasValue *exp) {
+    return (CowlIndividual *)cowl_get_field(exp, 1);
+}
+
+/**
  * Gets the individual of the specified individual value restriction.
  *
  * @param exp The restriction.
  * @return The individual.
  */
+COWL_DEPRECATED(Use @func{cowl_obj_has_value_get_value} instead.)
 COWL_PURE
 COWL_INLINE
 CowlIndividual *cowl_obj_has_value_get_ind(CowlObjHasValue *exp) {

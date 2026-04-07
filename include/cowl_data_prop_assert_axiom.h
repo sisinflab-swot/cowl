@@ -122,15 +122,28 @@ CowlIndividual *cowl_data_prop_assert_axiom_get_subject(CowlDataPropAssertAxiom 
 }
 
 /**
+ * Gets the assertion value.
+ *
+ * @param axiom The axiom.
+ * @return The assertion value.
+ */
+COWL_PURE
+COWL_INLINE
+CowlLiteral *cowl_data_prop_assert_axiom_get_value(CowlDataPropAssertAxiom *axiom) {
+    return (CowlLiteral *)cowl_get_field(axiom, 2);
+}
+
+/**
  * Gets the assertion object.
  *
  * @param axiom The axiom.
  * @return The assertion object.
  */
+COWL_DEPRECATED(Use @func{cowl_data_prop_assert_axiom_get_value} instead.)
 COWL_PURE
 COWL_INLINE
 CowlLiteral *cowl_data_prop_assert_axiom_get_object(CowlDataPropAssertAxiom *axiom) {
-    return (CowlLiteral *)cowl_get_field(axiom, 2);
+    return cowl_data_prop_assert_axiom_get_value(axiom);
 }
 
 /// @}
