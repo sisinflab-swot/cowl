@@ -69,6 +69,12 @@ typedef UBit(COWL_PF) CowlPrimitiveFlags;
     (COWL_PF_CLASS | COWL_PF_DATATYPE | COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP |                     \
      COWL_PF_ANNOT_PROP | COWL_PF_NAMED_IND)
 
+/// Iterate over individuals.
+#define COWL_PF_IND (COWL_PF_NAMED_IND | COWL_PF_ANON_IND)
+
+/// Iterate over properties.
+#define COWL_PF_PROP (COWL_PF_OBJ_PROP | COWL_PF_DATA_PROP | COWL_PF_ANNOT_PROP)
+
 /// @}
 
 /**
