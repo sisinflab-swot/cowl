@@ -89,6 +89,33 @@ CowlPrimitiveFlags cowl_primitive_flags_from_type(CowlPrimitiveType type) {
 }
 
 /**
+ * Adds the specified type to the flags.
+ *
+ * @param flags Primitive flags.
+ * @param type Primitive type.
+ * @return Updated flags.
+ */
+COWL_CONST
+COWL_INLINE
+CowlPrimitiveFlags cowl_primitive_flags_add_type(CowlPrimitiveFlags flags, CowlPrimitiveType type) {
+    return ubit_set(COWL_PF, flags, cowl_primitive_flags_from_type(type));
+}
+
+/**
+ * Removes the specified type from the flags.
+ *
+ * @param flags Primitive flags.
+ * @param type Primitive type.
+ * @return Updated flags.
+ */
+COWL_CONST
+COWL_INLINE
+CowlPrimitiveFlags
+cowl_primitive_flags_remove_type(CowlPrimitiveFlags flags, CowlPrimitiveType type) {
+    return ubit_unset(COWL_PF, flags, cowl_primitive_flags_from_type(type));
+}
+
+/**
  * Checks whether the specified type is included in the flags.
  *
  * @param flags Primitive flags.
