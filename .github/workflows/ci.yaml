@@ -6,6 +6,10 @@ on:
       - dev
       - 'dev-*'
 
+defaults:
+  run:
+    shell: bash
+
 env:
   build_dir: build
   config: Release
@@ -66,7 +70,6 @@ jobs:
             echo "$(brew --prefix flex)/bin" >> $GITHUB_PATH
             echo "$(brew --prefix bison)/bin" >> $GITHUB_PATH
           fi
-        shell: bash
 
       - name: Configure
         run: >
@@ -92,7 +95,6 @@ jobs:
               cp "${dlls[@]}" ${exe_dir}/${{env.config}}
             done
           fi
-        shell: bash
 
       - name: Run
         working-directory: ${{env.build_dir}}
@@ -123,7 +125,6 @@ jobs:
             echo "$(brew --prefix flex)/bin" >> $GITHUB_PATH
             echo "$(brew --prefix bison)/bin" >> $GITHUB_PATH
           fi
-        shell: bash
 
       - name: Configure
         run: >
@@ -140,7 +141,6 @@ jobs:
         working-directory: ${{env.build_dir}}/bench
         if: runner.os == 'Windows'
         run: mv ${{env.config}}/*.exe ./
-        shell: bash
 
       - name: Run
         working-directory: ${{env.build_dir}}/bench
