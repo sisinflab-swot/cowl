@@ -427,7 +427,7 @@ cowl_ret cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilt
  *
  * @param onto The ontology.
  * @param primitive The primitive.
- * @param type Axiom type.
+ * @param type The axiom type.
  * @param position Position of the related constructs.
  * @param iter The iterator.
  * @return Return code.

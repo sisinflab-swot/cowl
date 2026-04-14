@@ -22,6 +22,13 @@
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
+CowlVector cowl_vector_init(UVec(CowlObjectPtr) *data) {
+    return (CowlVector){
+        .super = COWL_OBJECT_INIT(COWL_OT_VECTOR),
+        .data = *data,
+    };
+}
+
 CowlVector *cowl_vector_wrap(UVec(CowlObjectPtr) *data) {
     if (data && ulib_is_err(uvec_shrink(CowlObjectPtr, data))) return NULL;
 
@@ -121,6 +128,15 @@ cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIt
     if (!vec) return COWL_OK;
     uvec_foreach (CowlObjectPtr, &vec->data, obj) {
         cowl_ret ret = cowl_iterate_primitives(*obj.item, flags, iter);
+        if (cowl_should_stop(ret)) return ret;
+    }
+    return COWL_OK;
+}
+
+cowl_ret cowl_vector_iterate(CowlVector *vec, CowlIterator *iter) {
+    if (!vec) return COWL_OK;
+    uvec_foreach (CowlObjectPtr, &vec->data, obj) {
+        cowl_ret ret = cowl_iterator_call(iter, *obj.item);
         if (cowl_should_stop(ret)) return ret;
     }
     return COWL_OK;

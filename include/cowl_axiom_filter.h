@@ -115,7 +115,7 @@ cowl_ret cowl_axiom_filter_add_primitive(CowlAxiomFilter *filter, CowlAnyPrimiti
  */
 COWL_INLINE
 void cowl_axiom_filter_remove_primitive(CowlAxiomFilter *filter, CowlAnyPrimitive *primitive) {
-    if (uvec_remove(CowlObjectPtr, &filter->primitives, primitive)) {
+    if (uvec_unordered_remove(CowlObjectPtr, &filter->primitives, primitive)) {
         cowl_release(primitive);
     }
     uvec_shrink(CowlObjectPtr, &filter->primitives);

@@ -248,10 +248,13 @@ void cowl_test_ontology_edit(void) {
 
     CowlDeclAxiom *decl_axiom = cowl_decl_axiom(a, NULL);
     cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));
+    utest_assert(cowl_ontology_has_axiom(onto, decl_axiom));
     cowl_release(decl_axiom);
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 1);
 
     decl_axiom = cowl_decl_axiom(b, NULL);
     cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));
+    utest_assert(cowl_ontology_has_axiom(onto, decl_axiom));
     cowl_release(decl_axiom);
     utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 2);
 
@@ -259,9 +262,11 @@ void cowl_test_ontology_edit(void) {
     cowl_release_all(a, b);
 
     cowl_assert_ok(cowl_ontology_add_axiom(onto, sub_axiom));
+    utest_assert(cowl_ontology_has_axiom(onto, sub_axiom));
     utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 3);
 
     utest_assert(cowl_ontology_remove_axiom(onto, sub_axiom));
+    utest_assert_false(cowl_ontology_has_axiom(onto, sub_axiom));
     utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 2);
 
     cowl_ontology_add_axiom(onto, sub_axiom);
