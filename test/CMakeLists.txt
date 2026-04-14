@@ -1,7 +1,7 @@
 # Data
 
-file(GLOB COWL_TEST_DATA CONFIGURE_DEPENDS "${COWL_DATA_DIR}/*.owl")
-file(COPY ${COWL_TEST_DATA} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+file(GLOB test_data CONFIGURE_DEPENDS "${COWL_DATA_DIR}/*.owl")
+file(COPY ${test_data} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Sources
 
@@ -12,18 +12,17 @@ file(GLOB COWL_TEST_SOURCES CONFIGURE_DEPENDS "${COWL_TEST_SRC_DIR}/*.c")
 # Test target
 
 add_executable(cowl-test)
-target_sources(cowl-test
-               PRIVATE ${COWL_TEST_SOURCES}
-               PRIVATE FILE_SET HEADERS
-                       BASE_DIRS "${COWL_TEST_SRC_DIR}"
-                       FILES ${COWL_TEST_HEADERS})
+target_sources(
+    cowl-test
+    PRIVATE ${COWL_TEST_SOURCES}
+    PRIVATE FILE_SET HEADERS
+            BASE_DIRS "${COWL_TEST_SRC_DIR}"
+            FILES ${COWL_TEST_HEADERS}
+)
+set_target_properties(cowl-test PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${COWL_LTO_ENABLED})
 target_compile_features(cowl-test PRIVATE ${COWL_COMPILE_FEATURES})
 target_compile_options(cowl-test PRIVATE ${COWL_WARNING_OPTIONS})
 target_link_libraries(cowl-test PRIVATE cowl)
-
-if(COWL_LTO_ENABLED)
-    set_property(TARGET cowl-test PROPERTY INTERPROCEDURAL_OPTIMIZATION ON)
-endif()
 
 if(COWL_CLANG_TIDY)
     clang_tidy_check(cowl-test)
@@ -38,8 +37,8 @@ if(COWL_CPP_TESTS)
     file(COPY ${COWL_TEST_SOURCES} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
     file(GLOB COWL_CPP_TEST_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/*.c")
 
-    foreach(SRC ${COWL_CPP_TEST_SOURCES})
-        file(RENAME "${SRC}" "${SRC}pp")
+    foreach(src ${COWL_CPP_TEST_SOURCES})
+        file(RENAME "${src}" "${src}pp")
     endforeach()
 
     file(GLOB COWL_CPP_TEST_SOURCES "${CMAKE_CURRENT_BINARY_DIR}/*.cpp")
@@ -48,11 +47,13 @@ if(COWL_CPP_TESTS)
     # Add target
     enable_language(CXX)
     add_executable(cowl-cpp-test)
-    target_sources(cowl-cpp-test
-                   PRIVATE ${COWL_CPP_TEST_SOURCES}
-                   PRIVATE FILE_SET HEADERS
-                           BASE_DIRS "${COWL_TEST_SRC_DIR}"
-                           FILES ${COWL_TEST_HEADERS})
+    target_sources(
+        cowl-cpp-test
+        PRIVATE ${COWL_CPP_TEST_SOURCES}
+        PRIVATE FILE_SET HEADERS
+                BASE_DIRS "${COWL_TEST_SRC_DIR}"
+                FILES ${COWL_TEST_HEADERS}
+    )
     target_link_libraries(cowl-cpp-test PRIVATE cowl)
     set_target_properties(cowl-cpp-test PROPERTIES EXPORT_COMPILE_COMMANDS OFF)
 

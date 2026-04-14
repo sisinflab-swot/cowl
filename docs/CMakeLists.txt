@@ -33,10 +33,12 @@ set(DOXYGEN_TOC_EXPAND YES)
 set(DOXYGEN_GENERATE_TREEVIEW YES)
 set(DOXYGEN_GENERATE_XML YES)
 set(DOXYGEN_MACRO_EXPANSION YES)
-set(DOXYGEN_PREDEFINED ${COWL_PUBLIC_DEFINES}
+set(DOXYGEN_PREDEFINED
+    ${COWL_PUBLIC_DEFINES}
     "COWL_RETAINED=/** @note You must release the returned object via <tt>#cowl_release()</tt>. */"
     "ULIB_DEPRECATED(msg)=/** @@deprecated msg */"
-    "ULIB_INLINE=")
+    "ULIB_INLINE="
+)
 set(DOXYGEN_INCLUDE_PATH ${COWL_PUBLIC_HEADERS_DIRS} ${ULIB_PUBLIC_HEADERS_DIR})
 set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
 set(DOXYGEN_XML_OUTPUT_DIRECTORY "${DOXYGEN_OUTPUT_DIRECTORY}/xml")
@@ -61,19 +63,21 @@ set(DOXYGEN_INPUT_FILTER "${Python3_EXECUTABLE} ${COWL_ULIB_UTILS_DIR}/doxygen/a
 
 # Documentation targets
 
-set(DOCS_TARGET_NAME cowl-docs)
+set(docs_target cowl-docs)
 
 if(SPHINX_FOUND)
     get_target_property(TEMP_DIR ulib-docs BINARY_DIR)
     set(ULIB_DOCS_INVENTORY_FILE "${TEMP_DIR}/sphinx/html/objects.inv")
 
-    set(DOXYGEN_TARGET_NAME cowl-doxygen)
-    sphinx_add_docs("${DOCS_TARGET_NAME}" "${SPHINX_INPUT_DIRECTORY}" ARGS -W
+    set(doxygen_target cowl-doxygen)
+    sphinx_add_docs("${docs_target}" "${SPHINX_INPUT_DIRECTORY}" ARGS -W
                     COMMENT "Generating documentation via Sphinx")
-    add_dependencies("${DOCS_TARGET_NAME}" "${DOXYGEN_TARGET_NAME}" ulib-docs)
+    add_dependencies("${docs_target}" "${doxygen_target}" ulib-docs)
 else()
-    set(DOXYGEN_TARGET_NAME "${DOCS_TARGET_NAME}")
+    set(doxygen_target "${docs_target}")
 endif()
 
-doxygen_add_docs("${DOXYGEN_TARGET_NAME}" ${COWL_PUBLIC_HEADERS} ${ULIB_PUBLIC_HEADERS}
-                    COMMENT "Generating documentation via Doxygen")
+doxygen_add_docs(
+    "${doxygen_target}" ${COWL_PUBLIC_HEADERS} ${ULIB_PUBLIC_HEADERS}
+    COMMENT "Generating documentation via Doxygen"
+)
