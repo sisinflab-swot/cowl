@@ -392,7 +392,7 @@ end:
 }
 
 struct RelatedCtx {
-    CowlAxiomType type;
+    CowlAxiomFlags types;
     CowlPosition position;
     CowlAnyPrimitive *primitive;
     CowlIterator *iter;
@@ -406,23 +406,23 @@ static cowl_ret iterate_related_foreach_foreach(void *ctx, CowlAny *op) {
 
 static cowl_ret iterate_related_foreach(void *ctx, CowlAny *axiom) {
     struct RelatedCtx *c = ctx;
-    if (cowl_axiom_get_type(axiom) != c->type) return COWL_CONTINUE;
+    if (!cowl_axiom_flags_has_type(c->types, cowl_axiom_get_type(axiom))) return COWL_CONTINUE;
     if (!cowl_axiom_has_operand(axiom, c->primitive, COWL_PS_ANY)) return COWL_CONTINUE;
     CowlIterator iter = { .ctx = ctx, .for_each = iterate_related_foreach_foreach };
     return cowl_axiom_iterate_operands(axiom, c->position, &iter);
 }
 
 cowl_ret
-cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive, CowlAxiomType type,
+cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive, CowlAxiomFlags types,
                               CowlPosition position, CowlIterator *iter) {
     struct RelatedCtx ctx = {
-        .type = type,
+        .types = types,
         .position = position,
         .primitive = primitive,
         .iter = iter,
     };
     CowlIterator l_iter = { .ctx = &ctx, .for_each = iterate_related_foreach };
-    CowlVector *index = best_index(onto, primitive, type);
+    CowlVector *index = pindex(onto, primitive);
     return index ? cowl_vector_iterate(index, &l_iter) : COWL_OK;
 }
 

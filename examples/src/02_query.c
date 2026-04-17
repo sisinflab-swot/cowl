@@ -22,7 +22,7 @@
 static cowl_ret for_each_cls(void *std_out, CowlAny *cls) {
     // We are only interested in atomic classes. Note that due to pseudo-inheritance
     // this check ensures that the concrete type of 'exp' is CowlClass.
-    if (cowl_cls_exp_get_type(cls) != COWL_CET_CLASS) {
+    if (cowl_cls_exp_get_type(cls) == COWL_CET_CLASS) {
         cowl_write_string(std_out, cowl_get_rem(cls));
         cowl_write_static(std_out, "\n");
     }

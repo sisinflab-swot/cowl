@@ -427,70 +427,68 @@ cowl_ret cowl_ontology_iterate_axioms_matching(CowlOntology *onto, CowlAxiomFilt
  *
  * @param onto The ontology.
  * @param primitive The primitive.
- * @param type The axiom type.
+ * @param types The axiom types.
  * @param position Position of the related constructs.
  * @param iter The iterator.
  * @return Return code.
  */
 COWL_API
 cowl_ret
-cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive, CowlAxiomType type,
+cowl_ontology_iterate_related(CowlOntology *onto, CowlAnyPrimitive *primitive, CowlAxiomFlags types,
                               CowlPosition position, CowlIterator *iter);
 
 /**
  * Iterates over the subclasses of the specified class.
  *
  * @param onto The ontology.
- * @param owl_class The class.
+ * @param cls The class.
  * @param iter The iterator.
  * @return Return code.
  */
 COWL_INLINE
-cowl_ret
-cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_LEFT, iter);
+cowl_ret cowl_ontology_iterate_sub_classes(CowlOntology *onto, CowlClass *cls, CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, cls, COWL_AF_SUB_CLASS, COWL_PS_LEFT, iter);
 }
 
 /**
  * Iterates over the superclasses of the specified class.
  *
  * @param onto The ontology.
- * @param owl_class The class.
+ * @param cls The class.
  * @param iter The iterator.
  * @return Return code.
  */
 COWL_INLINE
 cowl_ret
-cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_SUB_CLASS, COWL_PS_RIGHT, iter);
+cowl_ontology_iterate_super_classes(CowlOntology *onto, CowlClass *cls, CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, cls, COWL_AF_SUB_CLASS, COWL_PS_RIGHT, iter);
 }
 
 /**
  * Iterates over the equivalent classes of the specified class.
  *
  * @param onto The ontology.
- * @param owl_class The class.
+ * @param cls The class.
  * @param iter The iterator.
  * @return Return code.
  */
 COWL_INLINE
-cowl_ret
-cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *owl_class, CowlIterator *iter) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_EQUIV_CLASSES, COWL_PS_ANY, iter);
+cowl_ret cowl_ontology_iterate_eq_classes(CowlOntology *onto, CowlClass *cls, CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, cls, COWL_AF_EQUIV_CLASSES, COWL_PS_ANY, iter);
 }
 
 /**
  * Iterates over the disjoint classes of the specified class.
  *
  * @param onto The ontology.
- * @param owl_class The class.
+ * @param cls The class.
  * @param iter The iterator.
  * @return Return code.
  */
 COWL_INLINE
-cowl_ret cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *owl_class,
-                                                CowlIterator *iter) {
-    return cowl_ontology_iterate_related(onto, owl_class, COWL_AT_DISJ_CLASSES, COWL_PS_ANY, iter);
+cowl_ret
+cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *cls, CowlIterator *iter) {
+    return cowl_ontology_iterate_related(onto, cls, COWL_AF_DISJ_CLASSES, COWL_PS_ANY, iter);
 }
 
 /**
@@ -504,7 +502,7 @@ cowl_ret cowl_ontology_iterate_disjoint_classes(CowlOntology *onto, CowlClass *o
 COWL_INLINE
 cowl_ret
 cowl_ontology_iterate_types(CowlOntology *onto, CowlAnyIndividual *ind, CowlIterator *iter) {
-    return cowl_ontology_iterate_related(onto, ind, COWL_AT_CLASS_ASSERT, COWL_PS_LEFT, iter);
+    return cowl_ontology_iterate_related(onto, ind, COWL_AF_CLASS_ASSERT, COWL_PS_LEFT, iter);
 }
 
 /// @}
