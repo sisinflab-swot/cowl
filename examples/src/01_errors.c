@@ -10,8 +10,10 @@
  */
 #include "cowl.h"
 #include "ulib.h"
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define ONTO "example_pizza.owl"
 
@@ -35,16 +37,30 @@ int main(void) {
     }
 
     UString const path = ustring_literal(ONTO);
-    CowlOntology *onto = cowl_reader_read_ontology_at_path(reader, path);
+
+    // The returned ontology is NULL if an error occurs during reading,
+    // e.g. due to I/O or syntax errors. More details about the error can be obtained
+    // by inspecting the return code.
+    cowl_ret ret;
+    CowlOntology *onto = cowl_reader_read_ontology_at_path(reader, path, &ret);
 
     if (!onto) {
-        // If reading fails, we can log the last reader error.
-        cowl_reader_write_error(reader, uostream_stderr());
+        if (ret == COWL_ERR_IO) {
+            // An I/O error occurred, e.g. the file does not exist or is not
+            // readable. Further details can be obtained by inspecting `errno`.
+            log_error(errno ? strerror(errno) : "unknown I/O error");
+        } else if (ret == COWL_ERR_SYNTAX) {
+            // In case of syntax errors, we can log the last one.
+            cowl_reader_write_error(reader, uostream_stderr());
+        } else {
+            // Some other error occurred.
+            log_error("ontology read failure");
+        }
         return EXIT_FAILURE;
     }
 
-    // I/O operations can fail, so we need to check for errors.
-    cowl_ret ret = cowl_ontology_to_stream(onto, uostream_std());
+    // Stream operations can fail, so we need to check for errors.
+    ret = cowl_ontology_to_stream(onto, uostream_std());
 
     if (cowl_is_err(ret)) {
         log_error("ontology write failure");

@@ -157,20 +157,22 @@ cowl_ret cowl_reader_read_path(CowlReader *reader, UString path, CowlChangeHandl
  *
  * @param reader Reader.
  * @param stream Input stream.
+ * @param[out] ret Return code.
  * @return Ontology, or NULL on error.
  */
 COWL_API
-CowlOntology *cowl_reader_read_ontology(CowlReader *reader, UIStream *stream);
+CowlOntology *cowl_reader_read_ontology(CowlReader *reader, UIStream *stream, cowl_ret *ret);
 
 /**
  * Reads an ontology from the specified file path.
  *
  * @param reader Reader.
  * @param path File path.
+ * @param[out] ret Return code.
  * @return Ontology, or NULL on error.
  */
 COWL_API
-CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path);
+CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path, cowl_ret *ret);
 
 /**
  * Writes a description of the last error to the specified output stream.

@@ -76,8 +76,7 @@ static void axiom_counts_by_type_init(void) {
 void cowl_test_ontology_init(void) {
     axiom_counts_by_type_init();
 
-    // TO-DO: replace with proper import handling when available.
-    onto = cowl_ontology_at_path(ustring_literal(COWL_TEST_IMPORT));
+    onto = cowl_ontology_at_path(ustring_literal(COWL_TEST_IMPORT), NULL);
     utest_assert_fatal(onto);
 
     CowlReader *reader = cowl_get_reader();

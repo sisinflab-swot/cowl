@@ -23,7 +23,7 @@ int main(void) {
 
     // We will be editing the pizza ontology by adding the Porcini pizza.
     printf("Reading ontology " IN_PATH "... ");
-    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(IN_PATH));
+    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(IN_PATH), NULL);
 
     if (onto) {
         puts("done!");

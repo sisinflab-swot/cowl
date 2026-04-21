@@ -67,30 +67,40 @@ cowl_ret cowl_reader_read_path(CowlReader *reader, UString path, CowlChangeHandl
     return ulib_is_ok(ret) ? read_deinit(reader, &stream, handler) : cowl_ret_from_ulib(ret);
 }
 
-CowlOntology *cowl_reader_read_ontology(CowlReader *reader, UIStream *stream) {
+CowlOntology *cowl_reader_read_ontology(CowlReader *reader, UIStream *stream, cowl_ret *ret) {
+    cowl_ret lret = COWL_ERR_MEM;
     CowlOntology *onto = cowl_ontology();
-    if (!onto) goto err;
 
-    CowlChangeHandler handler = cowl_change_handler_to_ontology(onto);
-    if (cowl_is_err(cowl_reader_read(reader, stream, handler))) goto err;
+    if (onto) {
+        CowlChangeHandler handler = cowl_change_handler_to_ontology(onto);
+        lret = cowl_reader_read(reader, stream, handler);
+    }
+
+    if (cowl_is_err(lret)) {
+        cowl_release(onto);
+        onto = NULL;
+    }
+
+    if (ret) *ret = lret;
     return onto;
-
-err:
-    cowl_release(onto);
-    return NULL;
 }
 
-CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path) {
+CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path, cowl_ret *ret) {
+    cowl_ret lret = COWL_ERR_MEM;
     CowlOntology *onto = cowl_ontology();
-    if (!onto) goto err;
 
-    CowlChangeHandler handler = cowl_change_handler_to_ontology(onto);
-    if (cowl_is_err(cowl_reader_read_path(reader, path, handler))) goto err;
+    if (onto) {
+        CowlChangeHandler handler = cowl_change_handler_to_ontology(onto);
+        lret = cowl_reader_read_path(reader, path, handler);
+    }
+
+    if (cowl_is_err(lret)) {
+        cowl_release(onto);
+        onto = NULL;
+    }
+
+    if (ret) *ret = lret;
     return onto;
-
-err:
-    cowl_release(onto);
-    return NULL;
 }
 
 cowl_ret cowl_reader_write_error(CowlReader *reader, UOStream *stream) {

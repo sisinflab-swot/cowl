@@ -65,21 +65,23 @@ CowlOntology *cowl_ontology(void);
  * Reads an ontology from the specified file path.
  *
  * @param path File path.
+ * @param[out] ret Return code.
  * @return Ontology, or NULL on error.
  */
 COWL_API
 COWL_RETAINED
-CowlOntology *cowl_ontology_at_path(UString path);
+CowlOntology *cowl_ontology_at_path(UString path, cowl_ret *ret);
 
 /**
  * Reads an ontology from the specified input stream.
  *
  * @param stream Input stream.
- * @return CowlOntology object, or NULL on error.
+ * @param[out] ret Return code.
+ * @return Ontology, or NULL on error.
  */
 COWL_API
 COWL_RETAINED
-CowlOntology *cowl_ontology_from_stream(UIStream *stream);
+CowlOntology *cowl_ontology_from_stream(UIStream *stream, cowl_ret *ret);
 
 /**
  * Writes the specified ontology to the given file path.
