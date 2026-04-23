@@ -67,11 +67,11 @@ void cowl_ontology_free(CowlOntology *onto) {
 }
 
 static inline bool indexing_enabled(CowlOntology *onto) {
-    return !cowl_object_bit_get(onto);
+    return !cowl_get_bit(onto);
 }
 
 void cowl_ontology_disable_indexing(CowlOntology *onto) {
-    cowl_object_bit_set(onto);
+    cowl_set_bit(onto);
 }
 
 // Primitive index: maps primitives to the axioms that reference them.

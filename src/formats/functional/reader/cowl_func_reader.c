@@ -8,14 +8,15 @@
  * @file
  */
 
-#include "cowl_attrs.h"
 #include "cowl_change_handler.h"
+#include "cowl_error.h"
 #include "cowl_func_yylexer.h"
 #include "cowl_func_yyparser.h"
 #include "cowl_object.h"
 #include "cowl_prefix_map.h"
 #include "cowl_reader.h"
 #include "cowl_ret.h"
+#include "cowl_writer.h"
 #include "ulib.h"
 #include <stddef.h>
 
@@ -28,27 +29,48 @@ static inline cowl_ret yyparse_to_cowl_ret(int ret) {
     }
 }
 
-static cowl_ret func_read(cowl_unused void *ctx, UIStream *stream, CowlChangeHandler handler) {
+static cowl_ret func_read(void *ctx, UIStream *stream, CowlChangeHandler handler) {
     cowl_ret ret = COWL_ERR_MEM;
 
-    CowlPrefixMap *pm = cowl_prefix_map();
-    if (!pm) goto end;
+    CowlFuncState state = {
+        .prefix_map = cowl_prefix_map(),
+        .handler = &handler,
+        .error = ctx,
+    };
+
+    if (!state.prefix_map) goto end;
 
     void *scanner;
     if (cowl_func_yylex_init(&scanner) != 0) goto end;
     cowl_func_yyset_in(NULL, scanner);
     cowl_func_yyset_extra(stream, scanner);
-    ret = yyparse_to_cowl_ret(cowl_func_yyparse(scanner, pm, &handler));
+    ret = yyparse_to_cowl_ret(cowl_func_yyparse(scanner, &state));
     cowl_func_yylex_destroy(scanner);
 
 end:
-    cowl_release(pm);
+    cowl_release(state.prefix_map);
     return ret;
 }
 
+static CowlError const *last_error(void *ctx) {
+    return ctx;
+}
+
+static void free_error(void *err) {
+    cowl_error_deinit(err);
+    ulib_free(err);
+}
+
 CowlReader *cowl_reader_functional(void) {
+    CowlError *err = ulib_alloc(err);
+    if (!err) return NULL;
+    *err = cowl_error(COWL_OK, NULL);
+
     return cowl_reader((CowlReaderImpl){
+        .ctx = err,
         .name = "functional",
         .read = func_read,
+        .last_error = last_error,
+        .free = free_error,
     });
 }

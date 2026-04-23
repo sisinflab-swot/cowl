@@ -21,6 +21,10 @@
 
 COWL_BEGIN_DECLS
 
+/// @cond
+cowl_struct_decl(CowlError);
+/// @endcond
+
 /**
  * A reader is an object that can read ontologies from an input stream.
  *
@@ -51,16 +55,14 @@ typedef struct CowlReaderImpl {
     cowl_ret (*read)(void *ctx, UIStream *stream, CowlChangeHandler handler);
 
     /**
-     * Pointer to a function that writes a description of the last error
-     * to the specified output stream.
+     * Pointer to a function that returns the last error.
      *
      * @param ctx Reader context.
-     * @param stream Output stream.
-     * @return Return code.
+     * @return Last error, or NULL if no error occurred.
      *
      * @note This member is optional.
      */
-    cowl_ret (*write_error)(void *ctx, UOStream *stream);
+    CowlError const *(*last_error)(void *ctx);
 
     /**
      * Pointer to a function that frees the reader context.
@@ -175,14 +177,13 @@ COWL_API
 CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path, cowl_ret *ret);
 
 /**
- * Writes a description of the last error to the specified output stream.
+ * Returns the last error.
  *
  * @param reader Reader.
- * @param stream Output stream.
- * @return Return code.
+ * @return Last error, or NULL if no error occurred.
  */
 COWL_API
-cowl_ret cowl_reader_write_error(CowlReader *reader, UOStream *stream);
+CowlError const *cowl_reader_last_error(CowlReader *reader);
 
 /// @}
 

@@ -10,6 +10,7 @@
 #include "cowl_any.h"
 #include "cowl_config.h"
 #include "cowl_cstring.h"
+#include "cowl_error.h"
 #include "cowl_iri.h"
 #include "cowl_iterator.h"
 #include "cowl_object_private.h"
@@ -168,7 +169,7 @@ cowl_ret cowl_write(UOStream *stream, CowlAny *object) {
 cowl_ret cowl_write_debug(UOStream *stream, CowlAny *obj) {
     cowl_write_object_type(stream, cowl_get_type(obj));
     uostream_writef(stream, NULL, "(%p, rc: ", obj);
-    cowl_write_uint(stream, cowl_object_get_ref(obj));
+    cowl_write_uint(stream, cowl_get_ref(obj));
     cowl_write_static(stream, ")");
     return cowl_ret_from_ulib(stream->state);
 }
@@ -195,6 +196,46 @@ ulib_ret cowl_write_object_type(UOStream *stream, CowlObjectType type) {
     if (!cowl_enum_value_is_valid(OT, type)) {
         cowl_write_static(stream, "(");
         cowl_write_uint(stream, type);
+        cowl_write_static(stream, ")");
+    }
+
+    return stream->state;
+}
+
+ulib_ret cowl_write_error(UOStream *stream, CowlError const *error) {
+    cowl_ret const code = error ? error->code : COWL_OK;
+    if (cowl_is_ok(code)) return stream->state;
+
+    UString const code_str = cowl_ret_to_ustring(code);
+    cowl_write_ustring(stream, &code_str);
+
+    if (cowl_error_has_message(error)) {
+        cowl_write_static(stream, ": ");
+        cowl_write_ustring(stream, &error->message);
+    }
+
+    if (cowl_error_has_loc(error)) {
+        cowl_write_static(stream, " (");
+
+        struct {
+            ulib_uint value;
+            char const *name;
+        } const locs[] = {
+            { .value = error->line, .name = "line " },
+            { .value = error->col, .name = "col " },
+            { .value = error->byte, .name = "byte " },
+        };
+
+        bool write_comma = false;
+
+        for (unsigned i = 0; i < ulib_array_count(locs); ++i) {
+            if (!locs[i].value) continue;
+            if (write_comma) cowl_write_static(stream, ", ");
+            cowl_write_cstring(stream, locs[i].name);
+            cowl_write_uint(stream, locs[i].value);
+            write_comma = true;
+        }
+
         cowl_write_static(stream, ")");
     }
 

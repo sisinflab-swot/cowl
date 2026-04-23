@@ -26,15 +26,15 @@
 #include <stddef.h>
 
 static inline bool is_dirty(CowlPrefixMap *map) {
-    return cowl_object_bit_get(map);
+    return cowl_get_bit(map);
 }
 
 static inline void set_dirty(CowlPrefixMap *map) {
-    cowl_object_bit_set(map);
+    cowl_set_bit(map);
 }
 
 static inline void set_clean(CowlPrefixMap *map) {
-    cowl_object_bit_unset(map);
+    cowl_unset_bit(map);
 }
 
 static cowl_ret update_reverse_map(CowlPrefixMap *map) {

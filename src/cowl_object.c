@@ -155,7 +155,7 @@ static ulib_byte type_flags[COWL_OT_COUNT] = {
 #define type_field_count(t) type_flag_field_count(type_flags[t])
 
 CowlAny *cowl_retain(CowlAny *object) {
-    cowl_object_incr_ref(object);
+    cowl_incr_ref(object);
     return object;
 }
 
@@ -169,7 +169,7 @@ static inline void release_impl(CowlObjectType type, CowlComposite *object) {
 }
 
 void cowl_release(CowlAny *object) {
-    if (!object || cowl_object_decr_ref(object)) return;
+    if (!object || cowl_decr_ref(object)) return;
     CowlObjectType type = cowl_get_type(object);
 
     switch (type) {
@@ -277,7 +277,7 @@ CowlVector *cowl_get_annot(CowlAny *object) {
     return NULL;
 }
 
-UString cowl_object_to_ustring_impl(CowlAny *object, cowl_ret (*writer)(UOStream *, CowlAny *)) {
+UString cowl_to_ustring_impl(void *object, cowl_ret (*writer)(UOStream *, void *)) {
     UOStream stream;
     UStrBuf buf = ustrbuf();
     if (uostream_to_strbuf(&stream, &buf) || writer(&stream, object)) goto err;
@@ -296,7 +296,7 @@ CowlString *cowl_to_string(CowlAny *object) {
 }
 
 UString cowl_to_ustring(CowlAny *object) {
-    return cowl_object_to_ustring_impl(object, cowl_write);
+    return cowl_to_ustring_impl(object, cowl_write);
 }
 
 CowlString *cowl_to_debug_string(CowlAny *object) {
@@ -304,7 +304,7 @@ CowlString *cowl_to_debug_string(CowlAny *object) {
 }
 
 UString cowl_to_debug_ustring(CowlAny *object) {
-    return cowl_object_to_ustring_impl(object, cowl_write_debug);
+    return cowl_to_ustring_impl(object, cowl_write_debug);
 }
 
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {
@@ -486,7 +486,7 @@ CowlAny *cowl_get_field(CowlAny *object, unsigned index) {
 }
 
 bool cowl_has_opt_field(CowlAny *object) {
-    return cowl_object_bit_get(object);
+    return cowl_get_bit(object);
 }
 
 CowlAny *cowl_get_opt_field(CowlAny *object) {

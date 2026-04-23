@@ -48,7 +48,7 @@ static CowlString *cowl_string_get_intern(UString raw_string, bool copy) {
     if (ret == ULIB_OK) {
         string = cowl_string_get(raw_string, copy);
         if (string) {
-            cowl_object_bit_set(string);
+            cowl_set_bit(string);
             uhash_set_key(CowlObjectPtr, &inst_tbl, idx, string);
         } else {
             uhash_delete(CowlObjectPtr, &inst_tbl, idx);
@@ -91,14 +91,14 @@ CowlString cowl_string_init(UString raw_string) {
 
 CowlString *cowl_string_intern(CowlString *string) {
     if (!string) return NULL;
-    if (cowl_object_bit_get(string)) return string;
+    if (cowl_get_bit(string)) return string;
     if (!ustring_length(string->raw_string)) return empty;
 
     ulib_uint idx;
     ulib_ret const ret = uhash_put(CowlObjectPtr, &inst_tbl, string, &idx);
 
     if (ret == ULIB_OK) {
-        cowl_object_bit_set(string);
+        cowl_set_bit(string);
     } else if (ret == ULIB_NO) {
         string = uhash_key(CowlObjectPtr, &inst_tbl, idx);
     } else {
@@ -188,7 +188,7 @@ CowlString *cowl_string_empty(void) {
 
 void cowl_string_free(CowlString *string) {
     // If the string was interned, it must also be removed from the hash set.
-    if (cowl_object_bit_get(string)) uhset_remove(CowlObjectPtr, &inst_tbl, string);
+    if (cowl_get_bit(string)) uhset_remove(CowlObjectPtr, &inst_tbl, string);
     ustring_deinit(&string->raw_string);
     ulib_free(string);
 }
@@ -201,7 +201,7 @@ char *cowl_string_release_copying_cstring(CowlString *string) {
 UString cowl_string_release_copying_raw(CowlString *string) {
     if (!string) return ustring_null;
     UString ret;
-    ulib_uint ref = cowl_object_decr_ref(string);
+    ulib_uint ref = cowl_decr_ref(string);
 
     if (ref) {
         ret = ustring_dup(string->raw_string);

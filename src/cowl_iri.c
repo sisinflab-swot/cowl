@@ -84,7 +84,7 @@ CowlIRI *cowl_iri_unvalidated(CowlString *ns, CowlString *rem) {
         }
     } else if (ret == ULIB_NO) {
         val = uhash_key(CowlObjectPtr, &inst_tbl, idx);
-        cowl_object_incr_ref(val);
+        cowl_incr_ref(val);
     }
 
     return val;
@@ -180,5 +180,5 @@ static cowl_ret write_iri(UOStream *stream, CowlAny *iri) {
 }
 
 UString cowl_iri_to_ustring(CowlIRI *iri) {
-    return cowl_object_to_ustring_impl(iri, write_iri);
+    return cowl_to_ustring_impl(iri, write_iri);
 }

@@ -37,37 +37,37 @@ typedef struct CowlComposite {
 #define COWL_OBJECT_INIT(TYPE) COWL_OBJECT_BIT_INIT(TYPE, 0)
 
 ULIB_INLINE
-ulib_uint cowl_object_get_ref(CowlAny *o) {
+ulib_uint cowl_get_ref(CowlAny *o) {
     return cowl_object_flags_get_ref(((CowlObject *)o)->flags);
 }
 
 ULIB_INLINE
-void cowl_object_incr_ref(CowlAny *o) {
+void cowl_incr_ref(CowlAny *o) {
     cowl_object_flags_incr_ref(((CowlObject *)o)->flags);
 }
 
 ULIB_INLINE
-ulib_uint cowl_object_decr_ref(CowlAny *o) {
+ulib_uint cowl_decr_ref(CowlAny *o) {
     cowl_object_flags_decr_ref(((CowlObject *)o)->flags);
     return cowl_object_flags_get_ref(((CowlObject *)o)->flags);
 }
 
 ULIB_INLINE
-bool cowl_object_bit_get(CowlAny *o) {
+bool cowl_get_bit(CowlAny *o) {
     return cowl_object_flags_has_bit(((CowlObject *)o)->flags);
 }
 
 ULIB_INLINE
-void cowl_object_bit_set(CowlAny *o) {
+void cowl_set_bit(CowlAny *o) {
     cowl_object_flags_set_bit(((CowlObject *)o)->flags);
 }
 
 ULIB_INLINE
-void cowl_object_bit_unset(CowlAny *o) {
+void cowl_unset_bit(CowlAny *o) {
     cowl_object_flags_unset_bit(((CowlObject *)o)->flags);
 }
 
-UString cowl_object_to_ustring_impl(CowlAny *object, cowl_ret (*writer)(UOStream *, CowlAny *));
+UString cowl_to_ustring_impl(void *object, cowl_ret (*writer)(UOStream *, void *));
 
 COWL_END_DECLS
 

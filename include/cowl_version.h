@@ -24,7 +24,7 @@ cowl_struct_decl(CowlString);
 /// @endcond
 
 /**
- * @defgroup version Library version metadata
+ * @defgroup version Library version
  * @{
  */
 

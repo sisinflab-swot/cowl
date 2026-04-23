@@ -27,7 +27,7 @@
 #include <stddef.h>
 
 static inline bool cowl_literal_is_lang_string(CowlLiteral *literal) {
-    return cowl_object_bit_get(literal);
+    return cowl_get_bit(literal);
 }
 
 static CowlString *parse_lang(CowlString *value, CowlString **lang) {
@@ -81,7 +81,7 @@ static inline bool is_lang_datatype(CowlDatatype *dt) {
 
 static CowlLiteral *cowl_literal_alloc(CowlString *value, CowlAny *dt_or_lang, bool is_lang) {
     CowlLiteral *literal = cowl_get_impl_2(COWL_OT_LITERAL, value, dt_or_lang);
-    if (is_lang) cowl_object_bit_set(literal);
+    if (is_lang) cowl_set_bit(literal);
     return literal;
 }
 

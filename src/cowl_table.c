@@ -74,7 +74,7 @@ void cowl_table_free(CowlTable *table) {
 }
 
 void cowl_table_release_ex(CowlTable *table, bool release_elements) {
-    if (table && !cowl_object_decr_ref(table)) {
+    if (table && !cowl_decr_ref(table)) {
         cowl_table_free_ex(table, release_elements);
     }
 }

@@ -21,6 +21,16 @@ static void log_error(char const *msg) {
     fprintf(stderr, "Error: %s\n", msg);
 }
 
+static void log_cowl_error(CowlError const *error) {
+    // Cowl integrates with the uLib I/O API. This is usually preferable as it allows
+    // writing most objects, including errors, to output streams without needing to
+    // convert them to strings first (i.e. without additional allocations).
+    UOStream *stream = uostream_stderr();
+    cowl_write_static(stream, "Error: ");
+    cowl_write_error(stream, error);
+    cowl_write_static(stream, "\n");
+}
+
 int main(void) {
     // API initialization can fail due to low memory.
     if (cowl_is_err(cowl_init())) {
@@ -51,7 +61,7 @@ int main(void) {
             log_error(errno ? strerror(errno) : "unknown I/O error");
         } else if (ret == COWL_ERR_SYNTAX) {
             // In case of syntax errors, we can log the last one.
-            cowl_reader_write_error(reader, uostream_stderr());
+            log_cowl_error(cowl_reader_last_error(reader));
         } else {
             // Some other error occurred.
             log_error("ontology read failure");

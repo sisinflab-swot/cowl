@@ -103,7 +103,7 @@ CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path
     return onto;
 }
 
-cowl_ret cowl_reader_write_error(CowlReader *reader, UOStream *stream) {
-    if (!reader->impl.write_error) return COWL_ERR;
-    return reader->impl.write_error(reader->impl.ctx, stream);
+CowlError const *cowl_reader_last_error(CowlReader *reader) {
+    if (!reader->impl.last_error) return NULL;
+    return reader->impl.last_error(reader->impl.ctx);
 }

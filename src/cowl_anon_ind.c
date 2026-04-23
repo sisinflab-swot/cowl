@@ -84,7 +84,7 @@ static CowlAnonInd *anon_ind(CowlString *id, bool copy_id) {
         }
     } else if (ret == ULIB_NO) {
         val = uhash_key(CowlObjectPtr, &inst_tbl, idx);
-        cowl_object_incr_ref(val);
+        cowl_incr_ref(val);
     }
 
     return val;

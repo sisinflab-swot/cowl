@@ -71,7 +71,7 @@ void cowl_vector_free(CowlVector *vec) {
 }
 
 void cowl_vector_release_ex(CowlVector *vec, bool release_elements) {
-    if (vec && !cowl_object_decr_ref(vec)) {
+    if (vec && !cowl_decr_ref(vec)) {
         cowl_vector_free_ex(vec, release_elements);
     }
 }

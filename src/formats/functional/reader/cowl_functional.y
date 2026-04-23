@@ -14,8 +14,7 @@
 %define api.pure full
 %lex-param {yyscan_t scanner}
 %parse-param {yyscan_t scanner}
-%parse-param {CowlPrefixMap *pm}
-%parse-param {CowlChangeHandler *h}
+%parse-param {CowlFuncState *state}
 %locations
 
 // Code
@@ -38,6 +37,17 @@
     #define YY_TYPEDEF_YY_SCANNER_T
     typedef void* yyscan_t;
     #endif
+
+    typedef struct CowlFuncState {
+        CowlPrefixMap *prefix_map;
+        CowlChangeHandler *handler;
+        CowlError *error;
+    } CowlFuncState;
+
+    static inline void cowl_func_state_set_error(CowlFuncState *state, CowlError error) {
+        cowl_error_deinit(state->error);
+        *state->error = error;
+    }
 }
 
 %code top {
@@ -49,27 +59,27 @@
     #include <stddef.h>
     #include <string.h>
 
-    #define COWL_HANDLE_ERROR(CODE)
-    #define COWL_HANDLE_MEM_ERROR()
-    #define COWL_HANDLE_SYNTAX_ERROR(DESC)
+    #define COWL_HANDLE_ERROR(CODE, ...) \
+        cowl_func_state_set_error(state, cowl_error(CODE, __VA_ARGS__))
+    #define COWL_HANDLE_CODE(CODE) COWL_HANDLE_ERROR(CODE, NULL)
 
-    static void cowl_func_yyerror(cowl_unused COWL_FUNC_YYLTYPE *yylloc,
+    static void cowl_func_yyerror(COWL_FUNC_YYLTYPE *yylloc,
                                   cowl_unused yyscan_t scanner,
-                                  cowl_unused CowlPrefixMap *pm,
-                                  cowl_unused CowlChangeHandler *h,
+                                  CowlFuncState *state,
                                   const char *s) {
         if (strcmp(s, "memory exhausted") == 0) {
-            COWL_HANDLE_MEM_ERROR();
+            COWL_HANDLE_CODE(COWL_ERR_MEM);
         } else {
-            COWL_HANDLE_SYNTAX_ERROR(ustring_null);
+            COWL_HANDLE_CODE(COWL_ERR_SYNTAX);
         }
+        state->error->line = yylloc->first_line;
     }
 
     #ifdef YYNOMEM
         #define COWL_ERROR_MEM YYNOMEM
     #else
         #define COWL_ERROR_MEM do {                                                                \
-            COWL_HANDLE_MEM_ERROR();                                                               \
+            COWL_HANDLE_CODE(COWL_ERR_MEM);                                                        \
             YYABORT;                                                                               \
         } while (0)
     #endif
@@ -78,9 +88,15 @@
         if ((CODE) == COWL_ERR_MEM) {                                                              \
             COWL_ERROR_MEM;                                                                        \
         } else {                                                                                   \
-            COWL_HANDLE_ERROR(CODE);                                                               \
+            COWL_HANDLE_CODE(CODE);                                                                \
             YYERROR;                                                                               \
         }                                                                                          \
+    } while (0)
+
+    #define COWL_SYNTAX_ERROR(...) do {                                                            \
+        COWL_HANDLE_ERROR(COWL_ERR_SYNTAX, __VA_ARGS__);                                           \
+        state->error->line = yylloc.first_line;                                                    \
+        YYERROR;                                                                                   \
     } while (0)
 
     #define COWL_VEC_PUSH(T, VEC, OBJ) do {                                                        \
@@ -242,14 +258,8 @@ full_iri
 
 abbreviated_iri
     : PNAME_LN {
-        $$ = cowl_prefix_map_parse_short_iri(pm, $1);
-        if (!$$) {
-            UString comp[] = { ustring_literal("failed to resolve prefix "), $1 };
-            UString err_str = ustring_concat(comp, ulib_array_count(comp));
-            COWL_HANDLE_SYNTAX_ERROR(err_str);
-            ustring_deinit(&err_str);
-            YYERROR;
-        }
+        $$ = cowl_prefix_map_parse_short_iri(state->prefix_map, $1);
+        if (!$$) COWL_SYNTAX_ERROR("failed to resolve %s", ustring_data($1));
     }
 ;
 
@@ -289,8 +299,8 @@ namespace
 prefix_declaration
     : PREFIX L_PAREN prefix EQUALS namespace R_PAREN {
         CowlPrefixDecl decl = { .prefix = $3, .ns = $5 };
-        cowl_ret r1 = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_PREFIX_DECL, &decl));
-        cowl_ret r2 = cowl_prefix_map_add(pm, $3, $5, false);
+        cowl_ret r1 = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_PREFIX_DECL, &decl));
+        cowl_ret r2 = cowl_prefix_map_add(state->prefix_map, $3, $5, false);
         cowl_release($3);
         cowl_release($5);
         if (r1) COWL_ERROR(r1);
@@ -305,13 +315,13 @@ ontology
 ontology_id
     : %empty
     | iri {
-        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_IRI, $1));
+        cowl_ret r = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_IRI, $1));
         cowl_release($1);
         if (r) YYERROR;
     }
     | iri iri {
-        cowl_ret r1 = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_IRI, $1));
-        cowl_ret r2 = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_VERSION, $2));
+        cowl_ret r1 = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_IRI, $1));
+        cowl_ret r2 = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_VERSION, $2));
         cowl_release($1);
         cowl_release($2);
         if (r1 || r2) YYERROR;
@@ -325,7 +335,7 @@ ontology_imports
 
 import
     : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_IMPORT, $3));
+        cowl_ret r = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_IMPORT, $3));
         cowl_release($3);
         if (r) YYERROR;
     }
@@ -334,7 +344,7 @@ import
 ontology_annotations
     : %empty
     | ontology_annotations annotation {
-        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_ANNOTATION, $2));
+        cowl_ret r = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_ANNOTATION, $2));
         cowl_release($2);
         if (r) YYERROR;
     }
@@ -342,7 +352,7 @@ ontology_annotations
 axioms
     : %empty
     | axioms axiom {
-        cowl_ret r = cowl_change_handler_handle(h, cowl_change_add(COWL_PART_AXIOM, $2));
+        cowl_ret r = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_AXIOM, $2));
         cowl_release($2);
         if (r) YYERROR;
     }

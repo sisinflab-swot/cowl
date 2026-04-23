@@ -27,8 +27,13 @@ struct CowlVector {
     UVec(CowlObjectPtr) data;
 };
 
-#define cowl_vector_is_ordered(vec) cowl_object_bit_get(vec)
-#define cowl_vector_set_ordered(vec) cowl_object_bit_set(vec)
+static inline bool cowl_vector_is_ordered(CowlVector *vec) {
+    return cowl_get_bit(vec);
+}
+
+static inline void cowl_vector_set_ordered(CowlVector *vec) {
+    cowl_set_bit(vec);
+}
 
 CowlVector cowl_vector_init(UVec(CowlObjectPtr) *data);
 CowlVector *cowl_vector_ordered_empty(void);

@@ -25,6 +25,7 @@
 COWL_BEGIN_DECLS
 
 /// @cond
+cowl_struct_decl(CowlError);
 cowl_struct_decl(CowlOntology);
 /// @endcond
 
@@ -328,6 +329,16 @@ ulib_ret cowl_write_iri(UOStream *stream, CowlIRI *iri);
  */
 COWL_API
 ulib_ret cowl_write_object_type(UOStream *stream, CowlObjectType type);
+
+/**
+ * Writes an error to the specified output stream.
+ *
+ * @param stream Output stream.
+ * @param error Error information.
+ * @return Return code.
+ */
+COWL_API
+ulib_ret cowl_write_error(UOStream *stream, CowlError const *error);
 
 /**
  * Writes an unsigned integer to the specified output stream.
