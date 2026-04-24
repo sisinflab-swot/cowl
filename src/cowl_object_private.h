@@ -67,7 +67,7 @@ void cowl_unset_bit(CowlAny *o) {
     cowl_object_flags_unset_bit(((CowlObject *)o)->flags);
 }
 
-UString cowl_to_ustring_impl(void *object, cowl_ret (*writer)(UOStream *, void *));
+UString cowl_to_string_impl(void *object, cowl_ret (*writer)(UOStream *, void *));
 
 COWL_END_DECLS
 

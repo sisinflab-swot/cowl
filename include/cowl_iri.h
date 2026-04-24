@@ -111,19 +111,6 @@ bool cowl_iri_is_reserved(CowlIRI *iri);
  * Returns the string representation of the specified IRI.
  *
  * @param iri The IRI.
- * @return String representation, or NULL on error.
- *
- * @note The IRI is represented as the concatenation of the namespace and the remainder,
- *       without any additional markup (e.g. angle brackets).
- */
-COWL_API
-COWL_RETAINED
-CowlString *cowl_iri_to_string(CowlIRI *iri);
-
-/**
- * Returns the string representation of the specified IRI.
- *
- * @param iri The IRI.
  * @return String representation, or @val{ustring_null} on error.
  *
  * @destructor{ustring_deinit}
@@ -131,7 +118,7 @@ CowlString *cowl_iri_to_string(CowlIRI *iri);
  *       without any additional markup (e.g. angle brackets).
  */
 COWL_API
-UString cowl_iri_to_ustring(CowlIRI *iri);
+UString cowl_iri_to_string(CowlIRI *iri);
 
 /// @}
 

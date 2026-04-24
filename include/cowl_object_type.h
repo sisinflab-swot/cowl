@@ -329,17 +329,7 @@ typedef enum CowlObjectType {
  */
 COWL_API
 COWL_CONST
-UString cowl_object_type_to_ustring(CowlObjectType type);
-
-/**
- * Returns a human-readable string representation of the specified object type.
- *
- * @param type Object type.
- * @return String representation, or NULL on error.
- */
-COWL_API
-COWL_RETAINED
-CowlString *cowl_object_type_to_string(CowlObjectType type);
+UString cowl_object_type_to_string(CowlObjectType type);
 
 /**
  * Returns the object type given its string representation.

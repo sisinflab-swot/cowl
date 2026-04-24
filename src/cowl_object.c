@@ -277,11 +277,11 @@ CowlVector *cowl_get_annot(CowlAny *object) {
     return NULL;
 }
 
-UString cowl_to_ustring_impl(void *object, cowl_ret (*writer)(UOStream *, void *)) {
+UString cowl_to_string_impl(void *object, cowl_ret (*writer)(UOStream *, void *)) {
     UOStream stream;
     UStrBuf buf = ustrbuf();
     if (uostream_to_strbuf(&stream, &buf) || writer(&stream, object)) goto err;
-    UString ret = ustrbuf_to_ustring(&buf);
+    UString ret = ustrbuf_to_string(&buf);
     uostream_deinit(&stream);
     return ret;
 
@@ -291,20 +291,12 @@ err:
     return ustring_null;
 }
 
-CowlString *cowl_to_string(CowlAny *object) {
-    return cowl_string(cowl_to_ustring(object));
+UString cowl_to_string(CowlAny *object) {
+    return cowl_to_string_impl(object, cowl_write);
 }
 
-UString cowl_to_ustring(CowlAny *object) {
-    return cowl_to_ustring_impl(object, cowl_write);
-}
-
-CowlString *cowl_to_debug_string(CowlAny *object) {
-    return cowl_string(cowl_to_debug_ustring(object));
-}
-
-UString cowl_to_debug_ustring(CowlAny *object) {
-    return cowl_to_ustring_impl(object, cowl_write_debug);
+UString cowl_to_debug_string(CowlAny *object) {
+    return cowl_to_string_impl(object, cowl_write_debug);
 }
 
 bool cowl_equals(CowlAny *lhs, CowlAny *rhs) {

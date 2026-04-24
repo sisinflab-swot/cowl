@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     char const *out_path = argc > 2 ? argv[2] : "test_out.owl";
 
     ulog_perf("Read ontology") {
-        if (!(onto = cowl_ontology_at_path(ustring_wrap_buf(path), NULL))) {
+        if (!(onto = cowl_ontology_at_path(ustring_wrap_cstring(path), NULL))) {
             ulog_error("Could not read ontology: %s", path);
             goto end;
         }
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     }
 
     ulog_perf("Write ontology") {
-        if (cowl_ontology_to_path(onto, ustring_wrap_buf(out_path))) {
+        if (cowl_ontology_to_path(onto, ustring_wrap_cstring(out_path))) {
             ulog_error("Could not write ontology: %s", out_path);
             goto end;
         }

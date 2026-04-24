@@ -25,8 +25,8 @@ cowl_struct_decl(CowlOntology);
 #define cowl_assert_equal(T, lhs, rhs)                                                             \
     do {                                                                                           \
         if (!cowl_equals(lhs, rhs)) {                                                              \
-            UString T##_lhs_str = cowl_to_ustring(lhs);                                            \
-            UString T##_rhs_str = cowl_to_ustring(rhs);                                            \
+            UString T##_lhs_str = cowl_to_string(lhs);                                             \
+            UString T##_rhs_str = cowl_to_string(rhs);                                             \
             utest_log_failure_reason("\"" #lhs "\" must be equal to \"%s\", found \"%s\".",        \
                                      ustring_data(T##_rhs_str), ustring_data(T##_lhs_str));        \
             ustring_deinit(&T##_lhs_str);                                                          \
@@ -38,7 +38,7 @@ cowl_struct_decl(CowlOntology);
 #define cowl_assert_not_equal(T, lhs, rhs)                                                         \
     do {                                                                                           \
         if (cowl_equals(lhs, rhs)) {                                                               \
-            UString T##_rhs_str = cowl_to_ustring(rhs);                                            \
+            UString T##_rhs_str = cowl_to_string(rhs);                                             \
             utest_log_failure_reason("\"" #lhs "\" must not be equal to \"%s\".",                  \
                                      ustring_data(T##_rhs_str));                                   \
             ustring_deinit(&T##_rhs_str);                                                          \

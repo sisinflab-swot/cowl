@@ -112,7 +112,7 @@ static bool parse_args(int argc, char *argv[], Format *format, UString *path) {
         return false;
     }
 
-    *path = ustring_wrap_buf(argv[1]);
+    *path = ustring_wrap_cstring(argv[1]);
     return select_format(argc >= 3 ? argv[2] : "", format);
 }
 
@@ -179,7 +179,7 @@ static bool compute_axiom_stats(CowlOntology *onto, UVec(Stat) *stats) {
     for (CowlAxiomType t = COWL_AT_FIRST; t < COWL_AT_COUNT; ++t) {
         CowlObjectType type = (CowlObjectType)(t + COWL_OT_FIRST_A);
 
-        UString components[] = { cowl_object_type_to_ustring(type), axioms_str };
+        UString components[] = { cowl_object_type_to_string(type), axioms_str };
         UString stat_str = ustring_concat(components, ulib_array_count(components));
         if (ustring_is_null(stat_str)) return false;
 

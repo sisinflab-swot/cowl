@@ -190,7 +190,7 @@ ulib_ret cowl_write_uint(UOStream *stream, ulib_uint uint) {
 }
 
 ulib_ret cowl_write_object_type(UOStream *stream, CowlObjectType type) {
-    UString val = cowl_object_type_to_ustring(type);
+    UString const val = cowl_object_type_to_string(type);
     cowl_write_ustring(stream, &val);
 
     if (!cowl_enum_value_is_valid(OT, type)) {
@@ -206,7 +206,7 @@ ulib_ret cowl_write_error(UOStream *stream, CowlError const *error) {
     cowl_ret const code = error ? error->code : COWL_OK;
     if (cowl_is_ok(code)) return stream->state;
 
-    UString const code_str = cowl_ret_to_ustring(code);
+    UString const code_str = cowl_ret_to_string(code);
     cowl_write_ustring(stream, &code_str);
 
     if (cowl_error_has_message(error)) {

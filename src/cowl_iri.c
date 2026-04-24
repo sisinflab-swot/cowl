@@ -103,12 +103,12 @@ CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix) {
         UStrBuf buf = ustrbuf();
         char const *s_cstr = ustring_data(s_str);
 
-        if (ustrbuf_append_ustring(&buf, p_str) || ustrbuf_append_string(&buf, s_cstr, s_ns_len)) {
+        if (ustrbuf_append_string(&buf, p_str) || ustrbuf_append_buf(&buf, s_cstr, s_ns_len)) {
             ustrbuf_deinit(&buf);
             return NULL;
         }
 
-        prefix = cowl_string(ustrbuf_to_ustring(&buf));
+        prefix = cowl_string(ustrbuf_to_string(&buf));
         UString raw_suffix = ustring_wrap(s_cstr + s_ns_len, ustring_length(s_str) - s_ns_len);
         suffix = cowl_string_opt(raw_suffix, COWL_SO_COPY);
     } else {
@@ -119,14 +119,14 @@ CowlIRI *cowl_iri(CowlString *prefix, CowlString *suffix) {
             UStrBuf buf = ustrbuf();
             char const *p_cstr = ustring_data(p_str);
 
-            if (ustrbuf_append_string(&buf, p_cstr + p_ns_len, ustring_length(p_str) - p_ns_len) ||
-                ustrbuf_append_ustring(&buf, s_str)) {
+            if (ustrbuf_append_buf(&buf, p_cstr + p_ns_len, ustring_length(p_str) - p_ns_len) ||
+                ustrbuf_append_string(&buf, s_str)) {
                 ustrbuf_deinit(&buf);
                 return NULL;
             }
 
             prefix = cowl_string_opt(ustring_wrap(p_cstr, p_ns_len), COWL_SO_COPY | COWL_SO_INTERN);
-            suffix = cowl_string(ustrbuf_to_ustring(&buf));
+            suffix = cowl_string(ustrbuf_to_string(&buf));
         } else {
             // Prefix is a namespace and suffix is a remainder, use as-is.
             cowl_retain(prefix);
@@ -171,14 +171,10 @@ bool cowl_iri_is_reserved(CowlIRI *iri) {
     return cowl_vocab_is_reserved_ns(iri->ns);
 }
 
-CowlString *cowl_iri_to_string(CowlIRI *iri) {
-    return cowl_string(cowl_iri_to_ustring(iri));
-}
-
 static cowl_ret write_iri(UOStream *stream, CowlAny *iri) {
     return cowl_ret_from_ulib(cowl_write_iri(stream, iri));
 }
 
-UString cowl_iri_to_ustring(CowlIRI *iri) {
-    return cowl_to_ustring_impl(iri, write_iri);
+UString cowl_iri_to_string(CowlIRI *iri) {
+    return cowl_to_string_impl(iri, write_iri);
 }

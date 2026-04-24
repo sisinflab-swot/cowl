@@ -165,17 +165,7 @@ cowl_ret cowl_ret_from_ulib(ulib_ret ret) {
  */
 COWL_API
 COWL_CONST
-UString cowl_ret_to_ustring(cowl_ret ret);
-
-/**
- * Returns a human-readable string representation of the specified return value.
- *
- * @param ret Return value.
- * @return String representation, or NULL on error.
- */
-COWL_API
-COWL_RETAINED
-CowlString *cowl_ret_to_string(cowl_ret ret);
+UString cowl_ret_to_string(cowl_ret ret);
 
 /// @}
 

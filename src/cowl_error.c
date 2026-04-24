@@ -31,5 +31,5 @@ static ulib_ret write_error(UOStream *stream, void *error) {
 }
 
 UString cowl_error_to_string(CowlError const *error) {
-    return cowl_to_ustring_impl((void *)error, write_error);
+    return cowl_to_string_impl((void *)error, write_error);
 }

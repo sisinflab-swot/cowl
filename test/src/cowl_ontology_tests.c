@@ -204,9 +204,9 @@ void cowl_test_ontology_has_primitive(void) {
 
 static CowlDatatypeDefAxiom *generate_datatype_def(char const *v1, char const *v2, char const *v3) {
     CowlDatatype *dt = cowl_datatype_from_static(test_onto_iri "DataOneOf");
-    CowlLiteral *l1 = cowl_literal_plain(ustring_wrap_buf(v1));
-    CowlLiteral *l2 = cowl_literal_plain(ustring_wrap_buf(v2));
-    CowlLiteral *l3 = cowl_literal_plain(ustring_wrap_buf(v3));
+    CowlLiteral *l1 = cowl_literal_plain(ustring_wrap_cstring(v1));
+    CowlLiteral *l2 = cowl_literal_plain(ustring_wrap_cstring(v2));
+    CowlLiteral *l3 = cowl_literal_plain(ustring_wrap_cstring(v3));
     UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
     uvec_push(CowlObjectPtr, &vec, l1);
     uvec_push(CowlObjectPtr, &vec, l2);
