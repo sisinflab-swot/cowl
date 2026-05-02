@@ -25,10 +25,10 @@
 
 static CowlOntology *onto = NULL;
 
-static ulib_uint const test_onto_imports_count = 1;
+static ulib_uint const test_onto_import_count = 1;
 static ulib_uint const test_onto_axiom_count = 573;
 
-static ulib_uint const test_primitives_count[] = { 105, 43, 48, 72, 25, 18, 1, 12 };
+static ulib_uint const test_primitive_count[] = { 105, 43, 48, 72, 25, 18, 1, 12 };
 static ulib_uint const test_primitive_axiom_count[] = { 16, 2, 4, 4, 2, 2, 1, 8 };
 
 static ulib_uint axiom_counts_by_type[COWL_AT_COUNT] = { 0 };
@@ -102,8 +102,8 @@ void cowl_test_ontology_axiom_count(void) {
 }
 
 void cowl_test_ontology_imports_count(void) {
-    ulib_uint imports_count = cowl_ontology_imports_count(onto);
-    utest_assert_uint(imports_count, ==, test_onto_imports_count);
+    ulib_uint imports_count = cowl_ontology_import_count(onto);
+    utest_assert_uint(imports_count, ==, test_onto_import_count);
 }
 
 void cowl_test_ontology_axiom_count_for_type(void) {
@@ -127,11 +127,11 @@ void cowl_test_ontology_axiom_count_for_types(void) {
     utest_assert_uint(count, ==, expected);
 }
 
-void cowl_test_ontology_primitives_count(void) {
+void cowl_test_ontology_primitive_count(void) {
     for (ulib_uint i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {
         CowlPrimitiveFlags flags = cowl_primitive_flags_from_type((CowlPrimitiveType)i);
-        ulib_uint c = cowl_ontology_primitives_count(onto, flags);
-        utest_assert_uint(c, ==, test_primitives_count[i]);
+        ulib_uint c = cowl_ontology_primitive_count(onto, flags);
+        utest_assert_uint(c, ==, test_primitive_count[i]);
     }
 }
 

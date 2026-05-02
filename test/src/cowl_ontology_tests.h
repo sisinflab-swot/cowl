@@ -23,7 +23,7 @@ void cowl_test_ontology_axiom_count(void);
 void cowl_test_ontology_imports_count(void);
 void cowl_test_ontology_axiom_count_for_type(void);
 void cowl_test_ontology_axiom_count_for_types(void);
-void cowl_test_ontology_primitives_count(void);
+void cowl_test_ontology_primitive_count(void);
 void cowl_test_ontology_axiom_count_for_primitive(void);
 void cowl_test_ontology_has_primitive(void);
 void cowl_test_ontology_has_axiom(void);
@@ -32,7 +32,7 @@ void cowl_test_ontology_edit(void);
 #define COWL_ONTOLOGY_TESTS                                                                        \
     cowl_test_ontology_init, cowl_test_ontology_get_iri_version, cowl_test_ontology_axiom_count,   \
         cowl_test_ontology_imports_count, cowl_test_ontology_axiom_count_for_type,                 \
-        cowl_test_ontology_axiom_count_for_types, cowl_test_ontology_primitives_count,             \
+        cowl_test_ontology_axiom_count_for_types, cowl_test_ontology_primitive_count,              \
         cowl_test_ontology_axiom_count_for_primitive, cowl_test_ontology_has_primitive,            \
         cowl_test_ontology_has_axiom, cowl_test_ontology_edit, cowl_test_ontology_deinit
 

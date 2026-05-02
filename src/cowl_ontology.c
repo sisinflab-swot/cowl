@@ -170,7 +170,7 @@ ulib_uint cowl_ontology_axiom_count(CowlOntology *onto) {
     return count;
 }
 
-ulib_uint cowl_ontology_imports_count(CowlOntology *onto) {
+ulib_uint cowl_ontology_import_count(CowlOntology *onto) {
     return cowl_vector_count(onto->imports);
 }
 
@@ -197,7 +197,7 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPri
     return count;
 }
 
-ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags) {
+ulib_uint cowl_ontology_primitive_count(CowlOntology *onto, CowlPrimitiveFlags flags) {
     ulib_uint count = 0;
 
     for (CowlPrimitiveType i = COWL_PT_FIRST; i < COWL_PT_COUNT; ++i) {

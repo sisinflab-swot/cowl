@@ -138,31 +138,31 @@ static bool compute_global_stats(CowlOntology *onto, UVec(Stat) *dst) {
         },
         {
             ustring_copy_literal("Classes"),
-            cowl_ontology_primitives_count(onto, COWL_PF_CLASS),
+            cowl_ontology_primitive_count(onto, COWL_PF_CLASS),
         },
         {
             ustring_copy_literal("Datatypes"),
-            cowl_ontology_primitives_count(onto, COWL_PF_DATATYPE),
+            cowl_ontology_primitive_count(onto, COWL_PF_DATATYPE),
         },
         {
             ustring_copy_literal("Named individuals"),
-            cowl_ontology_primitives_count(onto, COWL_PF_NAMED_IND),
+            cowl_ontology_primitive_count(onto, COWL_PF_NAMED_IND),
         },
         {
             ustring_copy_literal("Anonymous individuals"),
-            cowl_ontology_primitives_count(onto, COWL_PF_ANON_IND),
+            cowl_ontology_primitive_count(onto, COWL_PF_ANON_IND),
         },
         {
             ustring_copy_literal("Object properties"),
-            cowl_ontology_primitives_count(onto, COWL_PF_OBJ_PROP),
+            cowl_ontology_primitive_count(onto, COWL_PF_OBJ_PROP),
         },
         {
             ustring_copy_literal("Data properties"),
-            cowl_ontology_primitives_count(onto, COWL_PF_DATA_PROP),
+            cowl_ontology_primitive_count(onto, COWL_PF_DATA_PROP),
         },
         {
             ustring_copy_literal("Annotation properties"),
-            cowl_ontology_primitives_count(onto, COWL_PF_ANNOT_PROP),
+            cowl_ontology_primitive_count(onto, COWL_PF_ANNOT_PROP),
         },
     };
 

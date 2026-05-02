@@ -264,7 +264,7 @@ ulib_uint cowl_ontology_axiom_count(CowlOntology *onto);
  */
 COWL_API
 COWL_PURE
-ulib_uint cowl_ontology_imports_count(CowlOntology *onto);
+ulib_uint cowl_ontology_import_count(CowlOntology *onto);
 
 /**
  * Gets the number of axioms of the specified type.
@@ -308,7 +308,7 @@ ulib_uint cowl_ontology_axiom_count_for_primitive(CowlOntology *onto, CowlAnyPri
  */
 COWL_API
 COWL_PURE
-ulib_uint cowl_ontology_primitives_count(CowlOntology *onto, CowlPrimitiveFlags flags);
+ulib_uint cowl_ontology_primitive_count(CowlOntology *onto, CowlPrimitiveFlags flags);
 
 /**
  * Checks if the specified primitive is referenced by an axiom in the ontology.
