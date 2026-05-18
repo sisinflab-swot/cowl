@@ -28,11 +28,10 @@
     #include <stdint.h>
 
     #define YY_INPUT(buf, result, max_size) do {                                                    \
-        size_t cowl_yyinput_read;                                                                   \
-        if (uistream_read(yyextra, buf, max_size, &cowl_yyinput_read))                              \
-            YY_FATAL_ERROR("Failed to read from stream");                                           \
-        result = (int)cowl_yyinput_read;                                                            \
-    } while(0)
+        size_t read;                                                                                \
+        if (ulib_is_err(uistream_read(yyextra, buf, max_size, &read))) read = YY_NULL;              \
+        result = (int)read;                                                                         \
+    } while (0)
 
     #define YY_USER_ACTION ((yylloc)->first_line = (yylloc)->last_line = yylineno);
 
