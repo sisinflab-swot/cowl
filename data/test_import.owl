@@ -50,6 +50,7 @@ ObjectPropertyAssertion(:ObjectPropertyA :IndividualA :IndividualB)
 
 DataPropertyAssertion(:DataPropertyA :IndividualA "true"^^xsd:boolean)
 DataPropertyAssertion(:DataPropertyA :IndividualB "String with inner language tag@en"^^rdf:PlainLiteral)
+DataPropertyAssertion(:DataPropertyA :IndividualB "String with embedded escaped \"quotes\" and \\backslashes\\")
 
 
 ############################

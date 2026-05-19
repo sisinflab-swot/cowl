@@ -39,9 +39,11 @@
     #endif
 
     typedef struct CowlFuncState {
+        UIStream *stream;
         CowlPrefixMap *prefix_map;
         CowlChangeHandler *handler;
         CowlError *error;
+        UStrBuf qstring;
     } CowlFuncState;
 
     static inline void cowl_func_state_set_error(CowlFuncState *state, CowlError error) {
@@ -434,7 +436,7 @@ anonymous_individual
 
 quoted_string
     : QUOTED_STRING {
-        $$ = cowl_string_opt($1, COWL_SO_COPY);
+        $$ = cowl_string($1);
         if (!$$) COWL_ERROR_MEM;
     }
 ;

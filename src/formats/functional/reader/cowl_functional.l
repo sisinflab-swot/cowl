@@ -14,7 +14,7 @@
 %option yylineno batch never-interactive
 %option noyywrap nounput noinput
 %option noyyalloc noyyrealloc noyyfree
-%option extra-type="UIStream *"
+%option extra-type="CowlFuncState *"
 
 %top{
     #include "cowl_func_yyparser.h"
@@ -27,9 +27,17 @@
     #include <stddef.h>
     #include <stdint.h>
 
+    #define HANDLE_ERROR(exp) do {                                                                  \
+        ulib_ret const ret = (exp);                                                                 \
+        if (ulib_is_err(ret)) {                                                                     \
+            cowl_func_state_set_error(yyextra, cowl_error(ret, NULL));                              \
+            yyterminate();                                                                          \
+        }                                                                                           \
+    } while (0)
+
     #define YY_INPUT(buf, result, max_size) do {                                                    \
         size_t read;                                                                                \
-        if (ulib_is_err(uistream_read(yyextra, buf, max_size, &read))) read = YY_NULL;              \
+        if (ulib_is_err(uistream_read(yyextra->stream, buf, max_size, &read))) read = YY_NULL;      \
         result = (int)read;                                                                         \
     } while (0)
 
@@ -63,8 +71,12 @@ PNAME_LN                                {PNAME_NS}{PN_LOCAL}
 IRI_REF                                 <[^\x00-\x20<>"{}|\^`\\]*>
 BLANK_NODE_LABEL                        _:{PN_LOCAL}
 LANG_TAG                                @{ALPHA}+(-{ALNUM}+)*
-QUOTED_STRING                           \"([^\"\\]|\\\"|\\\\)*\"
+QMARK                                   \"
+QSTRING_CHAR                            [^\"\\]
+QSTRING_ESCAPED_CHAR                    (\\\"|\\\\)
 NON_NEGATIVE_INTEGER                    {DIGIT}+
+
+%x QSTRING
 
 %%
 
@@ -180,9 +192,28 @@ NON_NEGATIVE_INTEGER                    {DIGIT}+
     return LANG_TAG;
 }
 
-{QUOTED_STRING} {
-    yylval->QUOTED_STRING = ustring_wrap(yytext + 1, (ulib_uint)(yyleng - 2));
+{QMARK} {
+    BEGIN QSTRING;
+    ustrbuf_deinit(&yyextra->qstring);
+    yyextra->qstring = ustrbuf();
+}
+
+<QSTRING>{QSTRING_CHAR}* {
+    HANDLE_ERROR(ustrbuf_append_buf(&yyextra->qstring, yytext, yyleng));
+}
+
+<QSTRING>{QSTRING_ESCAPED_CHAR} {
+    HANDLE_ERROR(ustrbuf_append_buf(&yyextra->qstring, yytext + 1, yyleng - 1));
+}
+
+<QSTRING>{QMARK} {
+    yylval->QUOTED_STRING = ustrbuf_to_string(&yyextra->qstring);
+    BEGIN 0;
     return QUOTED_STRING;
+}
+
+<QSTRING>. {
+    return *yytext;
 }
 
 "^^"                                    { return DOUBLE_CARET; }

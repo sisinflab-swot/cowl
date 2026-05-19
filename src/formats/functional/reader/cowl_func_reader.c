@@ -33,9 +33,11 @@ static cowl_ret func_read(void *ctx, UIStream *stream, CowlChangeHandler handler
     cowl_ret ret = COWL_ERR_MEM;
 
     CowlFuncState state = {
+        .stream = stream,
         .prefix_map = cowl_prefix_map(),
         .handler = &handler,
         .error = ctx,
+        .qstring = ustrbuf(),
     };
 
     if (!state.prefix_map) goto end;
@@ -43,12 +45,13 @@ static cowl_ret func_read(void *ctx, UIStream *stream, CowlChangeHandler handler
     void *scanner;
     if (cowl_func_yylex_init(&scanner) != 0) goto end;
     cowl_func_yyset_in(NULL, scanner);
-    cowl_func_yyset_extra(stream, scanner);
+    cowl_func_yyset_extra(&state, scanner);
     ret = yyparse_to_cowl_ret(cowl_func_yyparse(scanner, &state));
     cowl_func_yylex_destroy(scanner);
 
 end:
     cowl_release(state.prefix_map);
+    ustrbuf_deinit(&state.qstring);
     return ret;
 }
 

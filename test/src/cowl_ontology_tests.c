@@ -26,7 +26,7 @@
 static CowlOntology *onto = NULL;
 
 static ulib_uint const test_onto_import_count = 1;
-static ulib_uint const test_onto_axiom_count = 573;
+static ulib_uint const test_onto_axiom_count = 574;
 
 static ulib_uint const test_primitive_count[] = { 105, 43, 48, 72, 25, 18, 1, 12 };
 static ulib_uint const test_primitive_axiom_count[] = { 16, 2, 4, 4, 2, 2, 1, 8 };
@@ -45,7 +45,7 @@ static void axiom_counts_by_type_init(void) {
     axiom_counts_by_type[COWL_AT_DIFF_IND] = 1;
     axiom_counts_by_type[COWL_AT_OBJ_PROP_ASSERT] = 1;
     axiom_counts_by_type[COWL_AT_NEG_OBJ_PROP_ASSERT] = 1;
-    axiom_counts_by_type[COWL_AT_DATA_PROP_ASSERT] = 2;
+    axiom_counts_by_type[COWL_AT_DATA_PROP_ASSERT] = 3;
     axiom_counts_by_type[COWL_AT_NEG_DATA_PROP_ASSERT] = 1;
     axiom_counts_by_type[COWL_AT_SUB_OBJ_PROP] = 2;
     axiom_counts_by_type[COWL_AT_INV_OBJ_PROP] = 1;
@@ -73,16 +73,24 @@ static void axiom_counts_by_type_init(void) {
     axiom_counts_by_type[COWL_AT_ANNOT_PROP_RANGE] = 1;
 }
 
+static void print_error(CowlReader *reader) {
+    UOStream *stream = uostream_stderr();
+    cowl_write_error(stream, cowl_reader_last_error(reader));
+    cowl_write_static(stream, "\n");
+}
+
 void cowl_test_ontology_init(void) {
     axiom_counts_by_type_init();
 
-    onto = cowl_ontology_at_path(ustring_literal(COWL_TEST_IMPORT), NULL);
+    CowlReader *reader = cowl_get_reader();
+    onto = cowl_reader_read_ontology_at_path(reader, ustring_literal(COWL_TEST_IMPORT), NULL);
+    if (!onto) print_error(reader);
     utest_assert_fatal(onto);
 
-    CowlReader *reader = cowl_get_reader();
     CowlChangeHandler handler = cowl_change_handler_to_ontology(onto);
-    UString path = ustring_literal(COWL_TEST_ONTOLOGY);
-    utest_assert_fatal(cowl_is_ok(cowl_reader_read_path(reader, path, handler)));
+    cowl_ret ret = cowl_reader_read_path(reader, ustring_literal(COWL_TEST_ONTOLOGY), handler);
+    if (cowl_is_err(ret)) print_error(reader);
+    utest_assert_fatal(cowl_is_ok(ret));
 }
 
 void cowl_test_ontology_deinit(void) {

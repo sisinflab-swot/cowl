@@ -28,6 +28,7 @@
 #include "cowl_prefix_map.h"
 #include "cowl_primitive_private.h"
 #include "cowl_ret.h"
+#include "cowl_string.h"
 #include "cowl_sub_obj_prop_axiom.h"
 #include "cowl_table.h"
 #include "cowl_vector.h"
@@ -184,9 +185,26 @@ static void write_iri(FuncEncoder *e, CowlIRI *iri) {
     write_full_iri(e, iri);
 }
 
+static void write_from_to(FuncEncoder *e, char const *from, char const *to) {
+    uostream_write(e->stream, from, to - from, NULL);
+}
+
+static void write_literal_value(FuncEncoder *e, CowlLiteral *literal) {
+    char const *str = cowl_string_get_cstring(cowl_literal_get_value(literal));
+    char const *cur;
+    for (cur = str; *cur; ++cur) {
+        if (*cur == '"' || *cur == '\\') {
+            write_from_to(e, str, cur);
+            write_static(e, "\\");
+            str = cur;
+        }
+    }
+    write_from_to(e, str, cur);
+}
+
 static void write_literal(FuncEncoder *e, CowlLiteral *literal) {
     write_static(e, "\"");
-    write_string(e, cowl_literal_get_value(literal));
+    write_literal_value(e, literal);
     write_static(e, "\"");
 
     CowlDatatype *dt = cowl_literal_get_datatype(literal);
