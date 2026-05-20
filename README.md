@@ -20,8 +20,8 @@ Copyright © 2019-2026 [SisInf Lab][swot], [Polytechnic University of Bari][poli
 
 Cowl is distributed under the [Eclipse Public License, Version 2.0][epl2].
 
-[docs]: http://swot.sisinflab.poliba.it/cowl
+[docs]: https://swot.sisinflab.poliba.it/cowl
 [epl2]: https://www.eclipse.org/legal/epl-2.0
 [poliba]: http://www.poliba.it
-[publications]: http://swot.sisinflab.poliba.it/cowl/about/#publications
-[swot]: http://swot.sisinflab.poliba.it
+[publications]: https://swot.sisinflab.poliba.it/cowl/about/#publications
+[swot]: https://swot.sisinflab.poliba.it

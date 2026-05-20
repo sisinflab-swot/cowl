@@ -10,7 +10,7 @@ set(COWL_VERSION_PATCH 4)
 set(COWL_VERSION "${COWL_VERSION_MAJOR}.${COWL_VERSION_MINOR}.${COWL_VERSION_PATCH}")
 
 set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")
-set(COWL_VENDOR_URL "http://swot.sisinflab.poliba.it")
+set(COWL_VENDOR_URL "https://swot.sisinflab.poliba.it")
 set(COWL_COPYRIGHT_YEAR "2019-2026")
 set(COWL_GIT_URL "https://github.com/sisinflab-swot/cowl")
 

@@ -1,10 +1,8 @@
 /**
- * Utility macros.
- *
  * @author Ivano Bilenchi
  *
  * @copyright Copyright (c) 2024 SisInf Lab, Polytechnic University of Bari
- * @copyright <http://swot.sisinflab.poliba.it>
+ * @copyright <https://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  *
  * @file
