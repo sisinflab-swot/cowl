@@ -31,7 +31,7 @@ static cowl_ret for_each_cls(void *ptr, CowlAny *cls) {
     // Log the IRI remainder.
     CustomContext *ctx = ptr;
     cowl_write_string(ctx->stream, cowl_get_rem(cls));
-    cowl_write_static(ctx->stream, "\n");
+    cowl_write_literal(ctx->stream, "\n");
 
     // Recurse.
     CowlIterator iter = { ctx, for_each_cls };
@@ -48,8 +48,8 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
-    cowl_write_static(uostream_std(), "Recursive subclasses of " CLASS_NAME ":\n");
+    CowlClass *cls = cowl_class_from_literal(NS CLASS_NAME);
+    cowl_write_literal(uostream_std(), "Recursive subclasses of " CLASS_NAME ":\n");
 
     // Since we are going to perform a recursive query,
     // we need the ontology to be part of the context.

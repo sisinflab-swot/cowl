@@ -62,11 +62,19 @@ CowlNamedInd *cowl_named_ind_from_string(UString string) {
 /**
  * Returns a named individual given the string literal representing its IRI.
  *
- * @param str @ctype{char const []} String literal.
- * @return @ctype{#CowlNamedInd *} Named individual, or NULL on error.
+ * @param str String literal.
+ * @return Named individual, or NULL on error.
+ *
+ * @alias COWL_RETAINED CowlNamedInd *cowl_named_ind_from_literal(char const str[]);
  */
-COWL_RETAINED
-#define cowl_named_ind_from_static(str) cowl_named_ind_from_string(ustring_literal(str))
+#define cowl_named_ind_from_literal(str) cowl_named_ind_from_string(ustring_literal(str))
+
+/**
+ * @copydoc cowl_named_ind_from_literal
+ * @deprecated Use @func{cowl_named_ind_from_literal} instead.
+ * @alias CowlNamedInd *cowl_named_ind_from_static(char const str[]);
+ */
+#define cowl_named_ind_from_static(str) COWL_DEPRECATED_MACRO cowl_named_ind_from_literal(str)
 
 /**
  * Gets the IRI of the named individual.

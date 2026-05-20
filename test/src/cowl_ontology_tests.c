@@ -74,7 +74,7 @@ static void axiom_counts_by_type_init(void) {
 static void print_error(CowlReader *reader) {
     UOStream *stream = uostream_stderr();
     cowl_write_error(stream, cowl_reader_last_error(reader));
-    cowl_write_static(stream, "\n");
+    cowl_write_literal(stream, "\n");
 }
 
 void cowl_test_ontology_init(void) {
@@ -96,7 +96,7 @@ void cowl_test_ontology_deinit(void) {
 }
 
 void cowl_test_ontology_get_iri_version(void) {
-    CowlIRI *expected_onto_iri = cowl_iri_from_static(test_onto_iri);
+    CowlIRI *expected_onto_iri = cowl_iri_from_literal(test_onto_iri);
     cowl_assert_equal(iri, cowl_ontology_get_iri(onto), expected_onto_iri);
     utest_assert_ptr(cowl_ontology_get_version(onto), ==, NULL);
     cowl_release(expected_onto_iri);
@@ -147,37 +147,37 @@ static cowl_ret cowl_test_get_first_anon_ind(void *ctx, CowlAny *obj) {
 }
 
 void cowl_test_ontology_axiom_count_for_primitive(void) {
-    CowlAnyPrimitive *primitive = cowl_class_from_static(test_onto_iri test_class);
+    CowlAnyPrimitive *primitive = cowl_class_from_literal(test_onto_iri test_class);
     ulib_uint count = cowl_ontology_axiom_count_for_primitive(onto, primitive);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_CLASS]);
 
-    primitive = cowl_datatype_from_static(test_onto_iri test_datatype);
+    primitive = cowl_datatype_from_literal(test_onto_iri test_datatype);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_DATATYPE]);
 
-    primitive = cowl_obj_prop_from_static(test_onto_iri test_obj_prop);
+    primitive = cowl_obj_prop_from_literal(test_onto_iri test_obj_prop);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_OBJ_PROP]);
 
-    primitive = cowl_data_prop_from_static(test_onto_iri test_data_prop);
+    primitive = cowl_data_prop_from_literal(test_onto_iri test_data_prop);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_DATA_PROP]);
 
-    primitive = cowl_annot_prop_from_static(test_onto_iri test_annot_prop);
+    primitive = cowl_annot_prop_from_literal(test_onto_iri test_annot_prop);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_ANNOT_PROP]);
 
-    primitive = cowl_named_ind_from_static(test_onto_iri test_named_ind);
+    primitive = cowl_named_ind_from_literal(test_onto_iri test_named_ind);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_NAMED_IND]);
 
-    primitive = cowl_iri_from_static(test_onto_iri test_iri);
+    primitive = cowl_iri_from_literal(test_onto_iri test_iri);
     count = cowl_ontology_axiom_count_for_primitive(onto, primitive);
     cowl_release(primitive);
     utest_assert_uint(count, ==, test_primitive_axiom_count[COWL_PT_IRI]);
@@ -190,10 +190,10 @@ void cowl_test_ontology_axiom_count_for_primitive(void) {
 
 #define cowl_test_has_primitive(TYPE)                                                              \
     do {                                                                                           \
-        CowlAnyPrimitive *p = cowl_##TYPE##_from_static(test_onto_iri test_##TYPE);                \
+        CowlAnyPrimitive *p = cowl_##TYPE##_from_literal(test_onto_iri test_##TYPE);               \
         utest_assert(cowl_ontology_has_primitive(onto, p));                                        \
         cowl_release(p);                                                                           \
-        p = cowl_##TYPE##_from_static(test_onto_iri test_##TYPE "_not_present");                   \
+        p = cowl_##TYPE##_from_literal(test_onto_iri test_##TYPE "_not_present");                  \
         utest_assert_false(cowl_ontology_has_primitive(onto, p));                                  \
         cowl_release(p);                                                                           \
     } while (0)
@@ -209,7 +209,7 @@ void cowl_test_ontology_has_primitive(void) {
 }
 
 static CowlDatatypeDefAxiom *generate_datatype_def(char const *v1, char const *v2, char const *v3) {
-    CowlDatatype *dt = cowl_datatype_from_static(test_onto_iri "DataOneOf");
+    CowlDatatype *dt = cowl_datatype_from_literal(test_onto_iri "DataOneOf");
     CowlLiteral *l1 = cowl_literal_plain(ustring_wrap_cstring(v1));
     CowlLiteral *l2 = cowl_literal_plain(ustring_wrap_cstring(v2));
     CowlLiteral *l3 = cowl_literal_plain(ustring_wrap_cstring(v3));
@@ -248,8 +248,8 @@ void cowl_test_ontology_edit(void) {
     utest_assert_not_null(onto);
     utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 0);
 
-    CowlClass *a = cowl_class_from_static(test_onto_iri "A");
-    CowlClass *b = cowl_class_from_static(test_onto_iri "B");
+    CowlClass *a = cowl_class_from_literal(test_onto_iri "A");
+    CowlClass *b = cowl_class_from_literal(test_onto_iri "B");
 
     CowlDeclAxiom *decl_axiom = cowl_decl_axiom(a, NULL);
     cowl_assert_ok(cowl_ontology_add_axiom(onto, decl_axiom));

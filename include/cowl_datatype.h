@@ -62,11 +62,19 @@ CowlDatatype *cowl_datatype_from_string(UString string) {
 /**
  * Returns a datatype given the string literal representing its IRI.
  *
- * @param str @ctype{char const []} String literal.
- * @return @ctype{#CowlDatatype *} Datatype, or NULL on error.
+ * @param str String literal.
+ * @return Datatype, or NULL on error.
+ *
+ * @alias COWL_RETAINED CowlDatatype *cowl_datatype_from_literal(char const str[]);
  */
-COWL_RETAINED
-#define cowl_datatype_from_static(str) cowl_datatype_from_string(ustring_literal(str))
+#define cowl_datatype_from_literal(str) cowl_datatype_from_string(ustring_literal(str))
+
+/**
+ * @copydoc cowl_datatype_from_literal
+ * @deprecated Use @func{cowl_datatype_from_literal} instead.
+ * @alias CowlDatatype *cowl_datatype_from_static(char const str[]);
+ */
+#define cowl_datatype_from_static(str) COWL_DEPRECATED_MACRO cowl_datatype_from_literal(str)
 
 /**
  * Gets the IRI of the specified datatype.

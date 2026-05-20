@@ -379,9 +379,16 @@ ulib_ret cowl_write_cstring(UOStream *stream, char const *string) {
  * @param string String literal.
  * @return Return code.
  *
+ * @alias ulib_ret cowl_write_literal(UOStream *stream, char const string[]);
+ */
+#define cowl_write_literal(stream, string) uostream_write_literal(stream, string, NULL)
+
+/**
+ * @copydoc cowl_write_literal
+ * @deprecated Use @func{cowl_write_literal} instead.
  * @alias ulib_ret cowl_write_static(UOStream *stream, char const string[]);
  */
-#define cowl_write_static(stream, string) uostream_write_literal(stream, string, NULL)
+#define cowl_write_static(stream, string) COWL_DEPRECATED_MACRO cowl_write_literal(stream, string)
 
 /// @}
 

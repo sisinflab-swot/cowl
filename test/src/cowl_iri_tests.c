@@ -16,7 +16,7 @@
 #define COWL_TEST_IRI COWL_TEST_IRI_NS COWL_TEST_IRI_REM
 
 void cowl_test_iri_lifecycle(void) {
-    CowlIRI *iri = cowl_iri_from_static(COWL_TEST_IRI);
+    CowlIRI *iri = cowl_iri_from_literal(COWL_TEST_IRI);
     utest_assert_not_null(iri);
     cowl_release(iri);
 }
@@ -56,7 +56,7 @@ void cowl_test_iri_get_rem(void) {
 }
 
 void cowl_test_iri_equals(void) {
-    CowlIRI *expected = cowl_iri_from_static(COWL_TEST_IRI);
+    CowlIRI *expected = cowl_iri_from_literal(COWL_TEST_IRI);
     cowl_assert_equal(iri, expected, cowl_get_iri(expected));
 
     char const *tests[][2] = {
@@ -79,7 +79,7 @@ void cowl_test_iri_equals(void) {
         cowl_release_all(prefix, suffix, iri);
     }
 
-    CowlIRI *iri = cowl_iri_from_static(COWL_TEST_IRI "_2");
+    CowlIRI *iri = cowl_iri_from_literal(COWL_TEST_IRI "_2");
     cowl_assert_not_equal(iri, iri, expected);
 
     cowl_release_all(iri, expected);

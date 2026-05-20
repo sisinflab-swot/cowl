@@ -84,33 +84,62 @@ CowlLiteral *cowl_literal_lang(UString value, UString lang);
 /**
  * Returns a plain literal given the string literal representing its value.
  *
- * @param value @ctype{char const[]} The value.
- * @return @ctype{#CowlLiteral *} Literal, or NULL on error.
+ * @param value The value.
+ * @return Literal, or NULL on error.
+ *
+ * @alias COWL_RETAINED CowlLiteral *cowl_literal_plain_from_literal(char const value[]);
  */
-COWL_RETAINED
-#define cowl_literal_plain_from_static(value) cowl_literal_plain(ustring_literal(value))
+#define cowl_literal_plain_from_literal(value) cowl_literal_plain(ustring_literal(value))
+
+/**
+ * @copydoc cowl_literal_plain_from_literal
+ * @deprecated Use @func{cowl_literal_plain_from_literal} instead.
+ * @alias CowlLiteral *cowl_literal_plain_from_static(char const value[]);
+ */
+#define cowl_literal_plain_from_static(value)                                                      \
+    COWL_DEPRECATED_MACRO cowl_literal_plain_from_literal(value)
 
 /**
  * Returns a typed literal given the string literal representing its value and its datatype.
  *
- * @param value @ctype{char const[]} The value.
- * @param dt @ctype{#CowlDatatype *} The datatype.
- * @return @ctype{#CowlLiteral *} Literal, or NULL on error.
+ * @param value The value.
+ * @param dt The datatype.
+ * @return Literal, or NULL on error.
+ *
+ * @alias COWL_RETAINED
+ *        CowlLiteral *cowl_literal_typed_from_literal(char const value[], CowlDatatype *dt);
  */
-COWL_RETAINED
-#define cowl_literal_typed_from_static(value, dt) cowl_literal_typed(ustring_literal(value), dt)
+#define cowl_literal_typed_from_literal(value, dt) cowl_literal_typed(ustring_literal(value), dt)
+
+/**
+ * @copydoc cowl_literal_typed_from_literal
+ * @deprecated Use @func{cowl_literal_typed_from_literal} instead.
+ * @alias CowlLiteral *cowl_literal_typed_from_static(char const value[], CowlDatatype *dt);
+ */
+#define cowl_literal_typed_from_static(value, dt)                                                  \
+    COWL_DEPRECATED_MACRO cowl_literal_typed_from_literal(value, dt)
 
 /**
  * Returns a language-tagged literal given the string literals representing its value
  * and language tag.
  *
- * @param value @ctype{char const[]} The value.
- * @param lang @ctype{char const[]} The language tag.
- * @return @ctype{#CowlLiteral *} Literal, or NULL on error.
+ * @param value The value.
+ * @param lang The language tag.
+ * @return Literal, or NULL on error.
+ *
+ * @alias COWL_RETAINED
+ *        CowlLiteral *cowl_literal_lang_from_literal(char const value[], char const lang[]);
  */
-COWL_RETAINED
-#define cowl_literal_lang_from_static(value, lang)                                                 \
+#define cowl_literal_lang_from_literal(value, lang)                                                \
     cowl_literal_lang(ustring_literal(value), ustring_literal(lang))
+
+/**
+ * @copydoc cowl_literal_lang_from_literal
+ * @deprecated Use @func{cowl_literal_lang_from_literal} instead.
+ * @alias CowlLiteral *cowl_literal_lang_from_static(char const value[], char const lang[]);
+ */
+#define cowl_literal_lang_from_static(value, lang)                                                 \
+    COWL_DEPRECATED_MACRO cowl_literal_lang_from_literal(value, lang)
 
 /**
  * Gets the datatype.

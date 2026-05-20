@@ -44,7 +44,7 @@ static cowl_ret handle_axiom(void *target_class, CowlChange change) {
 int main(void) {
     cowl_init();
 
-    CowlClass *target_class = cowl_class_from_static(NS CLASS_NAME);
+    CowlClass *target_class = cowl_class_from_literal(NS CLASS_NAME);
 
     // Configure the change handler for the incoming stream.
     CowlChangeHandler handler = {

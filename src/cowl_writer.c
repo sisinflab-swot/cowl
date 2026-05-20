@@ -170,7 +170,7 @@ cowl_ret cowl_write_debug(UOStream *stream, CowlAny *obj) {
     cowl_write_object_type(stream, cowl_get_type(obj));
     uostream_writef(stream, NULL, "(%p, rc: ", obj);
     cowl_write_uint(stream, cowl_get_ref(obj));
-    cowl_write_static(stream, ")");
+    cowl_write_literal(stream, ")");
     return cowl_ret_from_ulib(stream->state);
 }
 
@@ -194,9 +194,9 @@ ulib_ret cowl_write_object_type(UOStream *stream, CowlObjectType type) {
     cowl_write_ustring(stream, &val);
 
     if (!cowl_enum_value_is_valid(OT, type)) {
-        cowl_write_static(stream, "(");
+        cowl_write_literal(stream, "(");
         cowl_write_uint(stream, type);
-        cowl_write_static(stream, ")");
+        cowl_write_literal(stream, ")");
     }
 
     return stream->state;
@@ -210,12 +210,12 @@ ulib_ret cowl_write_error(UOStream *stream, CowlError const *error) {
     cowl_write_ustring(stream, &code_str);
 
     if (cowl_error_has_message(error)) {
-        cowl_write_static(stream, ": ");
+        cowl_write_literal(stream, ": ");
         cowl_write_ustring(stream, &error->message);
     }
 
     if (cowl_error_has_loc(error)) {
-        cowl_write_static(stream, " (");
+        cowl_write_literal(stream, " (");
 
         struct {
             ulib_uint value;
@@ -230,13 +230,13 @@ ulib_ret cowl_write_error(UOStream *stream, CowlError const *error) {
 
         for (unsigned i = 0; i < ulib_array_count(locs); ++i) {
             if (!locs[i].value) continue;
-            if (write_comma) cowl_write_static(stream, ", ");
+            if (write_comma) cowl_write_literal(stream, ", ");
             cowl_write_cstring(stream, locs[i].name);
             cowl_write_uint(stream, locs[i].value);
             write_comma = true;
         }
 
-        cowl_write_static(stream, ")");
+        cowl_write_literal(stream, ")");
     }
 
     return stream->state;

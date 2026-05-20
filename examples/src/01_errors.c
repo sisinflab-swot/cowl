@@ -26,9 +26,9 @@ static void log_cowl_error(CowlError const *error) {
     // writing most objects, including errors, to output streams without needing to
     // convert them to strings first (i.e. without additional allocations).
     UOStream *stream = uostream_stderr();
-    cowl_write_static(stream, "Error: ");
+    cowl_write_literal(stream, "Error: ");
     cowl_write_error(stream, error);
-    cowl_write_static(stream, "\n");
+    cowl_write_literal(stream, "\n");
 }
 
 int main(void) {

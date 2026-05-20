@@ -58,7 +58,7 @@ static inline void encoder_set_prefix_map(FuncEncoder *e, CowlPrefixMap *pm) {
     if (pm) e->pm = cowl_retain(pm);
 }
 
-#define write_static(e, str) cowl_write_static((e)->stream, str)
+#define write_static(e, str) cowl_write_literal((e)->stream, str)
 
 static inline void write_uint(FuncEncoder *e, ulib_uint value) {
     cowl_write_uint(e->stream, value);
@@ -447,7 +447,7 @@ static cowl_ret func_write_axiom(void *ctx, UOStream *stream, CowlAnyAxiom *axio
     FuncEncoder *e = ctx;
     e->stream = stream;
     write_obj(e, axiom);
-    cowl_write_static(stream, "\n");
+    write_static(e, "\n");
     return encoder_state(e);
 }
 

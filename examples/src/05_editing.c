@@ -33,33 +33,33 @@ int main(void) {
     }
 
     // Declaration(Class(pizza:PorciniTopping))
-    CowlClass *porcini_topping = cowl_class_from_static(NS "PorciniTopping");
+    CowlClass *porcini_topping = cowl_class_from_literal(NS "PorciniTopping");
     CowlAnyAxiom *axiom = cowl_decl_axiom(porcini_topping, NULL);
     cowl_ontology_add_axiom(onto, axiom);
     cowl_release(axiom);
 
     // Declaration(Class(pizza:Porcini))
-    CowlClass *porcini = cowl_class_from_static(NS "Porcini");
+    CowlClass *porcini = cowl_class_from_literal(NS "Porcini");
     axiom = cowl_decl_axiom(porcini, NULL);
     cowl_ontology_add_axiom(onto, axiom);
     cowl_release(axiom);
 
     // SubClassOf(pizza:PorciniTopping pizza:MushroomTopping)
-    CowlClass *mushroom_topping = cowl_class_from_static(NS "MushroomTopping");
+    CowlClass *mushroom_topping = cowl_class_from_literal(NS "MushroomTopping");
     axiom = cowl_sub_cls_axiom(porcini_topping, mushroom_topping, NULL);
     cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, mushroom_topping);
 
     // SubClassOf(pizza:Porcini pizza:NamedPizza)
-    CowlClass *named_pizza = cowl_class_from_static(NS "NamedPizza");
+    CowlClass *named_pizza = cowl_class_from_literal(NS "NamedPizza");
     axiom = cowl_sub_cls_axiom(porcini, named_pizza, NULL);
     cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, named_pizza);
 
     // SubClassOf(pizza:Porcini
     // ObjectSomeValuesFrom(pizza:hasTopping pizza:MozzarellaTopping))
-    CowlObjProp *has_topping = cowl_obj_prop_from_static(NS "hasTopping");
-    CowlClass *mozzarella_topping = cowl_class_from_static(NS "MozzarellaTopping");
+    CowlObjProp *has_topping = cowl_obj_prop_from_literal(NS "hasTopping");
+    CowlClass *mozzarella_topping = cowl_class_from_literal(NS "MozzarellaTopping");
     CowlObjQuant *obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping,
                                              mozzarella_topping);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);

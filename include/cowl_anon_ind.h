@@ -64,9 +64,17 @@ CowlAnonInd *cowl_anon_ind_from_string(UString string);
  *
  * @param str @ctype{char const []} String literal.
  * @return @ctype{#CowlAnonInd *} Anonymous individual, or NULL on error.
+ *
+ * @alias COWL_RETAINED CowlAnonInd *cowl_anon_ind_from_literal(char const str[]);
  */
-COWL_RETAINED
-#define cowl_anon_ind_from_static(str) cowl_anon_ind_from_string(ustring_literal(str))
+#define cowl_anon_ind_from_literal(str) cowl_anon_ind_from_string(ustring_literal(str))
+
+/**
+ * @copydoc cowl_anon_ind_from_literal
+ * @deprecated Use @func{cowl_anon_ind_from_literal} instead.
+ * @alias CowlAnonInd *cowl_anon_ind_from_static(char const str[]);
+ */
+#define cowl_anon_ind_from_static(str) COWL_DEPRECATED_MACRO cowl_anon_ind_from_literal(str)
 
 /**
  * Gets the node ID of the specified anonymous individual.

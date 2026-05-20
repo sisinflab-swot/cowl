@@ -73,11 +73,19 @@ CowlString *cowl_string_opt(UString string, CowlStringOpts opts);
 /**
  * Returns a string from the specified literal string.
  *
- * @param str @ctype{char const []} String literal.
- * @return @ctype{#CowlString *} String, or NULL on error.
+ * @param str String literal.
+ * @return String, or NULL on error.
+ *
+ * @alias COWL_RETAINED CowlString *cowl_string_from_literal(char const str[]);
  */
-COWL_RETAINED
-#define cowl_string_from_static(str) cowl_string_opt(ustring_literal(str), COWL_SO_COPY)
+#define cowl_string_from_literal(str) cowl_string_opt(ustring_literal(str), COWL_SO_COPY)
+
+/**
+ * @copydoc cowl_string_from_literal
+ * @deprecated Use @func{cowl_string_from_literal} instead.
+ * @alias CowlString *cowl_string_from_static(char const str[]);
+ */
+#define cowl_string_from_static(str) COWL_DEPRECATED_MACRO cowl_string_from_literal(str)
 
 /**
  * Returns an empty string.

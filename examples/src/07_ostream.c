@@ -45,8 +45,8 @@ int main(void) {
                             ustring_literal(IMPORT_NS), false);
 
     // Write the ontology header.
-    CowlIRI *iri = cowl_iri_from_static(IRI);
-    CowlIRI *import_iri = cowl_iri_from_static(IMPORT_IRI);
+    CowlIRI *iri = cowl_iri_from_literal(IRI);
+    CowlIRI *import_iri = cowl_iri_from_literal(IMPORT_IRI);
     UVec(CowlObjectPtr) imports = uvec(CowlObjectPtr);
     uvec_push(CowlObjectPtr, &imports, import_iri);
 
@@ -63,33 +63,33 @@ int main(void) {
 
     // Write the axioms.
     // Declaration(Class(:PorciniTopping))
-    CowlClass *porcini = cowl_class_from_static(NS "PorciniTopping");
+    CowlClass *porcini = cowl_class_from_literal(NS "PorciniTopping");
     CowlAnyAxiom *axiom = cowl_decl_axiom(porcini, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;
     cowl_release(axiom);
 
     // Declaration(Class(:Porcini))
-    CowlClass *porcini_pizza = cowl_class_from_static(NS "Porcini");
+    CowlClass *porcini_pizza = cowl_class_from_literal(NS "Porcini");
     axiom = cowl_decl_axiom(porcini_pizza, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;
     cowl_release(axiom);
 
     // SubClassOf(:PorciniTopping pizza:MushroomTopping)
-    CowlClass *mushroom = cowl_class_from_static(IMPORT_NS "MushroomTopping");
+    CowlClass *mushroom = cowl_class_from_literal(IMPORT_NS "MushroomTopping");
     axiom = cowl_sub_cls_axiom(porcini, mushroom, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;
     cowl_release_all(axiom, mushroom);
 
     // SubClassOf(:Porcini pizza:NamedPizza)
-    CowlClass *named_pizza = cowl_class_from_static(IMPORT_NS "NamedPizza");
+    CowlClass *named_pizza = cowl_class_from_literal(IMPORT_NS "NamedPizza");
     axiom = cowl_sub_cls_axiom(porcini_pizza, named_pizza, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;
     cowl_release_all(axiom, named_pizza);
 
     // SubClassOf(:Porcini
     // ObjectSomeValuesFrom(pizza:hasTopping pizza:MozzarellaTopping))
-    CowlObjProp *has_topping = cowl_obj_prop_from_static(IMPORT_NS "hasTopping");
-    CowlClass *mozzarella = cowl_class_from_static(IMPORT_NS "MozzarellaTopping");
+    CowlObjProp *has_topping = cowl_obj_prop_from_literal(IMPORT_NS "hasTopping");
+    CowlClass *mozzarella = cowl_class_from_literal(IMPORT_NS "MozzarellaTopping");
     CowlObjQuant *obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping, mozzarella);
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;

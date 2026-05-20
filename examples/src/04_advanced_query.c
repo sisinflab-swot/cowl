@@ -27,7 +27,7 @@
 // Iterator body, invoked for each axiom matching the query.
 static cowl_ret for_each_axiom(void *stream, CowlAny *axiom) {
     cowl_write(stream, axiom);
-    cowl_write_static(stream, "\n");
+    cowl_write_literal(stream, "\n");
     return COWL_CONTINUE;
 }
 
@@ -41,9 +41,9 @@ int main(void) {
         return EXIT_FAILURE;
     }
 
-    cowl_write_static(uostream_std(), "Matching axioms:\n");
-    CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
-    CowlObjProp *prop = cowl_obj_prop_from_static(NS PROPERTY_NAME);
+    cowl_write_literal(uostream_std(), "Matching axioms:\n");
+    CowlClass *cls = cowl_class_from_literal(NS CLASS_NAME);
+    CowlObjProp *prop = cowl_obj_prop_from_literal(NS PROPERTY_NAME);
 
     // We want to log all SubClassOf and EquivalentClasses axioms that reference
     // both the class and the property.

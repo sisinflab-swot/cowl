@@ -24,7 +24,7 @@ static cowl_ret for_each_cls(void *std_out, CowlAny *cls) {
     // this check ensures that the concrete type of 'exp' is CowlClass.
     if (cowl_cls_exp_get_type(cls) == COWL_CET_CLASS) {
         cowl_write_string(std_out, cowl_get_rem(cls));
-        cowl_write_static(std_out, "\n");
+        cowl_write_literal(std_out, "\n");
     }
     return COWL_CONTINUE;
 }
@@ -40,10 +40,10 @@ int main(void) {
     }
 
     // Get the class whose atomic subclasses we are interested in.
-    CowlClass *cls = cowl_class_from_static(NS CLASS_NAME);
+    CowlClass *cls = cowl_class_from_literal(NS CLASS_NAME);
 
     // Run the query.
-    cowl_write_static(uostream_std(), "Subclasses of " CLASS_NAME ":\n");
+    cowl_write_literal(uostream_std(), "Subclasses of " CLASS_NAME ":\n");
 
     CowlIterator iter = { uostream_std(), for_each_cls };
     cowl_ontology_iterate_sub_classes(onto, cls, &iter);
