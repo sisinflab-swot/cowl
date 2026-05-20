@@ -23,7 +23,7 @@
 
 static CowlOntology *onto = NULL;
 
-static ulib_uint const test_onto_import_count = 1;
+static ulib_uint const test_onto_import_count = 2;
 static ulib_uint const test_onto_axiom_count = 574;
 
 static ulib_uint const test_primitive_count[] = { 105, 43, 48, 72, 25, 18, 1, 12 };

@@ -157,7 +157,7 @@
 // Nonterminals
 
 %type <CowlString *> prefix namespace quoted_string lang_tag
-%type <CowlIRI *> iri full_iri abbreviated_iri
+%type <CowlIRI *> iri full_iri abbreviated_iri import
 %type <CowlAnnotation *> annotation
 %type <CowlAnnotValue *> annotation_subject annotation_value
 %type <ulib_uint> cardinality
@@ -309,7 +309,7 @@ prefix_declaration
 ;
 
 ontology
-    : ONTOLOGY L_PAREN ontology_id ontology_imports ontology_annotations axioms R_PAREN
+    : ONTOLOGY L_PAREN ontology_id imports_and_annotations axioms R_PAREN
 ;
 
 ontology_id
@@ -328,26 +328,23 @@ ontology_id
     }
 ;
 
-ontology_imports
-    : %empty
-    | ontology_imports import
+import
+    : IMPORT L_PAREN iri R_PAREN { $$ = $3; }
 ;
 
-import
-    : IMPORT L_PAREN iri R_PAREN {
-        cowl_ret r = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_IMPORT, $3));
-        cowl_release($3);
+imports_and_annotations
+    : %empty
+    | imports_and_annotations import {
+        cowl_ret r = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_IMPORT, $2));
+        cowl_release($2);
         if (r) YYERROR;
     }
-;
-
-ontology_annotations
-    : %empty
-    | ontology_annotations annotation {
+    | imports_and_annotations annotation {
         cowl_ret r = cowl_change_handler_handle(state->handler, cowl_change_add(COWL_PART_ANNOTATION, $2));
         cowl_release($2);
         if (r) YYERROR;
     }
+;
 
 axioms
     : %empty

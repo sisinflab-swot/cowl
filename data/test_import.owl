@@ -7,6 +7,9 @@ Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
 
 
 Ontology(<https://swot.sisinflab.poliba.it/test_import>
+Annotation(rdfs:comment "Additional OWL constructs for testing purposes.")
+Import(<https://swot.sisinflab.poliba.it/test_other_import>)
+Annotation(rdfs:comment "Test alternating annotations and imports.")
 
 Declaration(Class(:ClassA))
 Declaration(ObjectProperty(:ObjectPropertyA))
