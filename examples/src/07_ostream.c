@@ -21,7 +21,7 @@
 #define IMPORT_IRI "http://www.co-ode.org/ontologies/pizza"
 #define IMPORT_NS IMPORT_IRI "/pizza.owl#"
 
-#define IRI "http://foo.com/ontologies/porcini_pizza"
+#define IRI "http://example.com/ontologies/porcini_pizza"
 #define NS IRI "/porcini_pizza.owl#"
 
 int main(void) {

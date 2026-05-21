@@ -12,6 +12,7 @@
 #include "cowl_attrs.h"
 #include "cowl_object_private.h"
 #include "cowl_prefix_map.h" // IWYU pragma: export
+#include "cowl_ret.h"
 #include "cowl_utils.h"
 
 COWL_BEGIN_DECLS
@@ -24,6 +25,8 @@ struct CowlPrefixMap {
     CowlTable *ns_prefix;
 };
 
+cowl_ret cowl_prefix_map_api_init(void);
+void cowl_prefix_map_api_deinit(void);
 void cowl_prefix_map_free(CowlPrefixMap *map);
 
 COWL_END_DECLS

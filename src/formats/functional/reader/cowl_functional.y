@@ -303,8 +303,8 @@ prefix_declaration
         cowl_ret r2 = cowl_prefix_map_add(state->prefix_map, $3, $5, false);
         cowl_release($3);
         cowl_release($5);
-        if (r1) COWL_ERROR(r1);
-        if (r2) COWL_ERROR(r2);
+        if (cowl_is_err(r1)) COWL_ERROR(r1);
+        if (cowl_is_err(r2)) COWL_ERROR(r2);
     }
 ;
 

@@ -55,7 +55,8 @@ cowl_ret cowl_init(void) {
     urand_set_seed(seed ? seed : 12345);
 
     if (cowl_string_api_init() || cowl_iri_api_init() || cowl_entity_api_init() ||
-        cowl_anon_ind_api_init() || cowl_vocab_init() || cowl_api_init()) {
+        cowl_anon_ind_api_init() || cowl_vocab_init() || cowl_prefix_map_api_init() ||
+        cowl_api_init()) {
         cowl_deinit();
         return COWL_ERR_MEM;
     }
@@ -67,6 +68,7 @@ cowl_ret cowl_init(void) {
 void cowl_deinit(void) {
     if (!cowl_initialized) return;
     cowl_api_deinit();
+    cowl_prefix_map_api_deinit();
     cowl_anon_ind_api_deinit();
     cowl_entity_api_deinit();
     cowl_iri_api_deinit();

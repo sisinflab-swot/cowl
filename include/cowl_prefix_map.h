@@ -91,15 +91,7 @@ COWL_API
 cowl_ret
 cowl_prefix_map_add(CowlPrefixMap *map, CowlString *prefix, CowlString *ns, bool overwrite);
 
-/**
- * Registers the specified prefix-namespace mapping.
- *
- * @param map The prefix map.
- * @param prefix The prefix.
- * @param ns The namespace.
- * @param overwrite If true, the new mapping overwrites the previous one.
- * @return Return code.
- */
+/// @copydoc cowl_prefix_map_add
 COWL_API
 cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns, bool overwrite);
 
@@ -108,20 +100,32 @@ cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns,
  *
  * @param map The prefix map.
  * @param prefix The prefix.
- * @return Return code.
+ * @return @val{COWL_OK} if the prefix was removed;
+ *         @val{COWL_NO} if the prefix was not found;
+ *         an error code on failure.
  */
 COWL_API
 cowl_ret cowl_prefix_map_remove_prefix(CowlPrefixMap *map, CowlString *prefix);
+
+/// @copydoc cowl_prefix_map_remove_prefix
+COWL_API
+cowl_ret cowl_prefix_map_remove_prefix_raw(CowlPrefixMap *map, UString prefix);
 
 /**
  * Unregisters the specified namespace.
  *
  * @param map The prefix map.
  * @param ns The namespace.
- * @return Return code.
+ * @return @val{COWL_OK} if at least one mapping was removed;
+ *         @val{COWL_NO} if the namespace was not found;
+ *         an error code on failure.
  */
 COWL_API
 cowl_ret cowl_prefix_map_remove_ns(CowlPrefixMap *map, CowlString *ns);
+
+/// @copydoc cowl_prefix_map_remove_ns
+COWL_API
+cowl_ret cowl_prefix_map_remove_ns_raw(CowlPrefixMap *map, UString ns);
 
 /**
  * Merges the contents of a prefix map in the current one.
@@ -129,7 +133,9 @@ cowl_ret cowl_prefix_map_remove_ns(CowlPrefixMap *map, CowlString *ns);
  * @param dst The destination prefix map.
  * @param src The source prefix map.
  * @param overwrite If true, conflicting prefixes are overwritten in the destination.
- * @return Return code.
+ * @return @val{COWL_OK} if the destination map was modified;
+ *         @val{COWL_NO} if the destination map was not modified;
+ *         an error code on failure.
  */
 COWL_API
 cowl_ret cowl_prefix_map_merge(CowlPrefixMap *dst, CowlPrefixMap *src, bool overwrite);

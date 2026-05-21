@@ -23,6 +23,25 @@
 #include "ulib.h"
 #include <stddef.h>
 
+static CowlString *RESERVED_PN[4][2] = { 0 };
+
+cowl_ret cowl_prefix_map_api_init(void) {
+    CowlVocab const *v = cowl_vocab();
+    RESERVED_PN[0][0] = v->owl->prefix;
+    RESERVED_PN[0][1] = v->owl->ns;
+    RESERVED_PN[1][0] = v->rdf->prefix;
+    RESERVED_PN[1][1] = v->rdf->ns;
+    RESERVED_PN[2][0] = v->rdfs->prefix;
+    RESERVED_PN[2][1] = v->rdfs->ns;
+    RESERVED_PN[3][0] = v->xsd->prefix;
+    RESERVED_PN[3][1] = v->xsd->ns;
+    return COWL_OK;
+}
+
+void cowl_prefix_map_api_deinit(void) {
+    // No-op.
+}
+
 static inline bool is_dirty(CowlPrefixMap *map) {
     return cowl_get_bit(map);
 }
@@ -42,8 +61,18 @@ static cowl_ret update_reverse_map(CowlPrefixMap *map) {
     CowlTable *h2 = map->ns_prefix;
 
     cowl_table_foreach (h1, e) {
-        ulib_ret const ret = uhmap_set(CowlObjectPtr, &h2->data, *e.val, *e.key, NULL);
+        ulib_uint i;
+        ulib_ret const ret = uhash_put(CowlObjectPtr, &h2->data, *e.val, &i);
         if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
+        if (ret == ULIB_OK) {
+            uhmap_set_val(CowlObjectPtr, &h2->data, i, *e.key);
+            continue;
+        }
+        // Namespace already mapped to another prefix, keep the shortest one.
+        CowlString *ex = uhmap_val(CowlObjectPtr, &h2->data, i);
+        if (cowl_string_get_length(*e.key) < cowl_string_get_length(ex)) {
+            uhmap_set_val(CowlObjectPtr, &h2->data, i, *e.key);
+        }
     }
 
     set_clean(map);
@@ -51,12 +80,10 @@ static cowl_ret update_reverse_map(CowlPrefixMap *map) {
 }
 
 static cowl_ret register_reserved(CowlPrefixMap *map) {
-    CowlVocab const *v = cowl_vocab();
-    cowl_ret r;
-    if ((r = cowl_prefix_map_add(map, v->owl->prefix, v->owl->ns, false))) return r;
-    if ((r = cowl_prefix_map_add(map, v->rdf->prefix, v->rdf->ns, false))) return r;
-    if ((r = cowl_prefix_map_add(map, v->rdfs->prefix, v->rdfs->ns, false))) return r;
-    if ((r = cowl_prefix_map_add(map, v->xsd->prefix, v->xsd->ns, false))) return r;
+    for (unsigned i = 0; i < ulib_array_count(RESERVED_PN); ++i) {
+        cowl_ret ret = cowl_prefix_map_add(map, RESERVED_PN[i][0], RESERVED_PN[i][1], false);
+        if (cowl_is_err(ret)) return ret;
+    }
     return COWL_OK;
 }
 
@@ -103,27 +130,30 @@ CowlString *cowl_prefix_map_get_prefix(CowlPrefixMap *map, CowlString *ns) {
     return cowl_table_get_value(cowl_prefix_map_get_table(map, true), ns);
 }
 
+static CowlString *intern_ns(CowlString *prefix, CowlString *ns) {
+    for (unsigned i = 0; i < ulib_array_count(RESERVED_PN); ++i) {
+        if (cowl_string_equals(prefix, RESERVED_PN[i][0])) return RESERVED_PN[i][1];
+    }
+    return cowl_string_intern(ns);
+}
+
 cowl_ret
 cowl_prefix_map_add(CowlPrefixMap *map, CowlString *prefix, CowlString *ns, bool overwrite) {
     CowlTable *table = cowl_prefix_map_get_table(map, false);
-    if (!(table && (ns = cowl_string_intern(ns)))) return COWL_ERR_MEM;
+    if (!(table && (ns = intern_ns(prefix, ns)))) return COWL_ERR_MEM;
 
     ulib_uint i;
     ulib_ret ret = uhash_put(CowlObjectPtr, &table->data, prefix, &i);
     if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
 
     if (ret == ULIB_NO) {
-        if (!overwrite) return COWL_OK;
-        // Mapping present, overwrite mapped namespace unless the prefix is reserved.
-        // TO-DO: replace with COWL_NO when available.
-        if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_OK;
+        if (!overwrite) return COWL_NO;
         cowl_release(uhmap_val(CowlObjectPtr, &table->data, i));
         uhmap_set_val(CowlObjectPtr, &table->data, i, cowl_retain(ns));
         set_dirty(map);
         return COWL_OK;
     }
 
-    // Mapping not present.
     uhash_set_key(CowlObjectPtr, &table->data, i, cowl_retain(prefix));
     uhmap_set_val(CowlObjectPtr, &table->data, i, cowl_retain(ns));
     set_dirty(map);
@@ -131,90 +161,85 @@ cowl_prefix_map_add(CowlPrefixMap *map, CowlString *prefix, CowlString *ns, bool
 }
 
 cowl_ret cowl_prefix_map_add_raw(CowlPrefixMap *map, UString prefix, UString ns, bool overwrite) {
-    CowlTable *table = cowl_prefix_map_get_table(map, false);
-    if (!table) return COWL_ERR_MEM;
+    cowl_ret ret = COWL_ERR_MEM;
+    CowlString *prefix_str = NULL;
+    CowlString *ns_str = NULL;
+    if (!(prefix_str = cowl_string_opt(prefix, COWL_SO_COPY))) goto end;
+    if (!(ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN))) goto end;
+    ret = cowl_prefix_map_add(map, prefix_str, ns_str, overwrite);
+end:
+    cowl_release(prefix_str);
+    cowl_release(ns_str);
+    return ret;
+}
 
-    CowlString key = cowl_string_init(prefix);
-
-    ulib_uint i;
-    ulib_ret const ret = uhash_put(CowlObjectPtr, &table->data, &key, &i);
-    if (ulib_is_err(ret)) return cowl_ret_from_ulib(ret);
-
-    if (ret == ULIB_NO) {
-        if (!overwrite) return COWL_OK;
-        // Mapping present, overwrite mapped namespace unless the prefix is reserved.
-        // TO-DO: replace with COWL_NO when available.
-        if (cowl_vocab_is_reserved_prefix_raw(prefix)) return COWL_OK;
-        CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
-        if (!ns_str) goto oom;
-        cowl_release(uhmap_val(CowlObjectPtr, &table->data, i));
-        uhmap_set_val(CowlObjectPtr, &table->data, i, ns_str);
-        set_dirty(map);
-        return COWL_OK;
-    }
-
-    // Mapping not present.
-    CowlString *prefix_str = cowl_string_opt(prefix, COWL_SO_COPY);
-    if (!prefix_str) goto oom;
-
-    CowlString *ns_str = cowl_string_opt(ns, COWL_SO_COPY | COWL_SO_INTERN);
-    if (!ns_str) {
-        cowl_release(prefix_str);
-        goto oom;
-    }
-
-    uhash_set_key(CowlObjectPtr, &table->data, i, prefix_str);
-    uhmap_set_val(CowlObjectPtr, &table->data, i, ns_str);
-    set_dirty(map);
-    return COWL_OK;
-
-oom:
-    uhash_delete(CowlObjectPtr, &table->data, i);
-    return COWL_ERR_MEM;
+cowl_ret cowl_prefix_map_remove_prefix_raw(CowlPrefixMap *map, UString prefix) {
+    CowlString prefix_local = cowl_string_init(prefix);
+    return cowl_prefix_map_remove_prefix(map, &prefix_local);
 }
 
 cowl_ret cowl_prefix_map_remove_prefix(CowlPrefixMap *map, CowlString *prefix) {
-    if (cowl_vocab_is_reserved_prefix(prefix)) return COWL_ERR;
-
     CowlTable *table = cowl_prefix_map_get_table(map, false);
+    if (!table) return COWL_ERR_MEM;
+
+    cowl_ret ret = COWL_NO;
     CowlAny *ex_key;
     CowlAny *ex_value;
 
     if (uhmap_pop(CowlObjectPtr, &table->data, prefix, &ex_key, &ex_value)) {
-        table = cowl_prefix_map_get_table(map, true);
-        uhmap_remove(CowlObjectPtr, &table->data, ex_value);
+        if (!(table = cowl_prefix_map_get_table(map, true))) return COWL_ERR_MEM;
+        ulib_uint i = uhash_get(CowlObjectPtr, &table->data, ex_value);
+        if (i != UHASH_INDEX_MISSING && ex_key == uhmap_val(CowlObjectPtr, &table->data, i)) {
+            uhash_delete(CowlObjectPtr, &table->data, i);
+            // We need to set the map as dirty because we don't know if there are other prefixes
+            // associated with the same namespace, so the reverse map may be inconsistent.
+            set_dirty(map);
+        }
         cowl_release(ex_key);
         cowl_release(ex_value);
+        ret = COWL_OK;
     }
 
-    return COWL_OK;
+    return ret;
+}
+
+cowl_ret cowl_prefix_map_remove_ns_raw(CowlPrefixMap *map, UString ns) {
+    CowlString ns_local = cowl_string_init(ns);
+    return cowl_prefix_map_remove_ns(map, &ns_local);
 }
 
 cowl_ret cowl_prefix_map_remove_ns(CowlPrefixMap *map, CowlString *ns) {
-    if (cowl_vocab_is_reserved_ns(ns)) return COWL_ERR;
+    CowlTable *table = cowl_prefix_map_get_table(map, false);
+    if (!table) return COWL_ERR_MEM;
 
-    CowlTable *table = cowl_prefix_map_get_table(map, true);
-    CowlAny *ex_key;
-    CowlAny *ex_value;
-
-    if (uhmap_pop(CowlObjectPtr, &table->data, ns, &ex_key, &ex_value)) {
-        table = cowl_prefix_map_get_table(map, false);
-        uhmap_remove(CowlObjectPtr, &table->data, ex_value);
-        cowl_release(ex_key);
-        cowl_release(ex_value);
+    cowl_ret ret = COWL_NO;
+    uhash_foreach (CowlObjectPtr, &table->data, it) {
+        if (!cowl_string_equals(*it.val, ns)) continue;
+        cowl_release(*it.key);
+        cowl_release(*it.val);
+        uhash_delete(CowlObjectPtr, &table->data, it.i);
+        ret = COWL_OK;
     }
 
-    return COWL_OK;
+    if (!(table = cowl_prefix_map_get_table(map, true))) return COWL_ERR_MEM;
+    uhmap_remove(CowlObjectPtr, &table->data, ns);
+
+    // No need to mark the map as dirty: we deleted all the prefixes associated with the namespace
+    // and we updated the reverse map, so if the two maps were consistent they still are.
+
+    return ret;
 }
 
 cowl_ret cowl_prefix_map_merge(CowlPrefixMap *dst, CowlPrefixMap *src, bool overwrite) {
     CowlTable *table = cowl_prefix_map_get_table(src, false);
+    if (!table) return COWL_ERR_MEM;
+    cowl_ret ret = COWL_NO;
     cowl_table_foreach (table, e) {
-        if (cowl_vocab_is_reserved_prefix(*e.key)) continue;
-        cowl_ret ret = cowl_prefix_map_add(dst, *e.key, *e.val, overwrite);
-        if (ret) return ret;
+        cowl_ret lret = cowl_prefix_map_add(dst, *e.key, *e.val, overwrite);
+        if (cowl_is_err(lret)) return lret;
+        if (lret == COWL_OK) ret = COWL_OK;
     }
-    return COWL_OK;
+    return ret;
 }
 
 CowlIRI *cowl_prefix_map_get_iri(CowlPrefixMap *map, UString prefix, UString rem) {
