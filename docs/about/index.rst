@@ -68,6 +68,7 @@ hear about it! Feel free to send us an email or `open an issue <git_url_>`_, and
 adding it to this list.
 
 - `Tiny-ME`_: reasoner and matchmaking engine for the Semantic Web of Everything.
+- `pycowl`_: a high performance Python library for working with OWL 2 ontologies.
 - `RDF::Cowl <RDFCowl_>`_: bindings of the Cowl library for the Perl programming language.
 
 License
@@ -80,6 +81,7 @@ Cowl is distributed under the `Eclipse Public License, Version 2.0`_.
 .. _OWL API: https://github.com/owlcs/owlapi
 .. _owl-cpp: http://owl-cpp.sourceforge.net
 .. _OWLReady: https://bitbucket.org/jibalamy/owlready2
+.. _pycowl: https://github.com/sisinflab-swot/pycowl
 .. _RDFCowl: https://metacpan.org/pod/RDF::Cowl
 .. _semver: https://semver.org
 .. |eiot2025| replace:: **Cowl: pushing OWL 2 over the Edge**
