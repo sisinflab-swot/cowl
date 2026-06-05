@@ -183,8 +183,8 @@ static void write_iri(FuncEncoder *e, CowlIRI *iri) {
     write_full_iri(e, iri);
 }
 
-static void write_from_to(FuncEncoder *e, char const *from, char const *to) {
-    uostream_write(e->stream, from, to - from, NULL);
+static inline void write_from_to(FuncEncoder *e, char const *from, char const *to) {
+    uostream_write_all(e->stream, from, to - from, NULL);
 }
 
 static void write_literal_value(FuncEncoder *e, CowlLiteral *literal) {

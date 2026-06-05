@@ -186,7 +186,7 @@ ulib_ret cowl_write_iri(UOStream *stream, CowlIRI *iri) {
 
 ulib_ret cowl_write_uint(UOStream *stream, ulib_uint uint) {
     char buf[UINT_MAX_DIGITS + 1];
-    return uostream_write(stream, buf, cowl_str_from_uint(uint, buf), NULL);
+    return uostream_write_all(stream, buf, cowl_str_from_uint(uint, buf), NULL);
 }
 
 ulib_ret cowl_write_object_type(UOStream *stream, CowlObjectType type) {
