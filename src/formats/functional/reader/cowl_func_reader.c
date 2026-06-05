@@ -10,8 +10,6 @@
 #include "cowl_error.h"
 #include "cowl_func_yylexer.h"
 #include "cowl_func_yyparser.h"
-#include "cowl_object.h"
-#include "cowl_prefix_map.h"
 #include "cowl_reader.h"
 #include "cowl_ret.h"
 #include "cowl_writer.h"
@@ -28,17 +26,9 @@ static inline cowl_ret yyparse_to_cowl_ret(int ret) {
 }
 
 static cowl_ret func_read(void *ctx, UIStream *stream, CowlChangeHandler handler) {
-    cowl_ret ret = COWL_ERR_MEM;
-
-    CowlFuncState state = {
-        .stream = stream,
-        .prefix_map = cowl_prefix_map(),
-        .handler = &handler,
-        .error = ctx,
-        .qstring = ustrbuf(),
-    };
-
-    if (!state.prefix_map) goto end;
+    cowl_ret ret;
+    CowlFuncState state = cowl_func_state_init(stream, &handler, ctx, &ret);
+    if (cowl_is_err(ret)) goto end;
 
     void *scanner;
     if (cowl_func_yylex_init(&scanner) != 0) goto end;
@@ -48,8 +38,7 @@ static cowl_ret func_read(void *ctx, UIStream *stream, CowlChangeHandler handler
     cowl_func_yylex_destroy(scanner);
 
 end:
-    cowl_release(state.prefix_map);
-    ustrbuf_deinit(&state.qstring);
+    cowl_func_state_deinit(&state);
     return ret;
 }
 

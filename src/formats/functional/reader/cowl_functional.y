@@ -44,10 +44,10 @@
         UStrBuf qstring;
     } CowlFuncState;
 
-    static inline void cowl_func_state_set_error(CowlFuncState *state, CowlError error) {
-        cowl_error_deinit(state->error);
-        *state->error = error;
-    }
+    CowlFuncState
+    cowl_func_state_init(UIStream *stream, CowlChangeHandler *handler, CowlError *err, cowl_ret *ret);
+    void cowl_func_state_deinit(CowlFuncState *state);
+    void cowl_func_state_set_error(CowlFuncState *state, CowlError error);
 }
 
 %code top {
@@ -58,6 +58,30 @@
     #include "ulib.h"
     #include <stddef.h>
     #include <string.h>
+
+    CowlFuncState
+    cowl_func_state_init(UIStream *stream, CowlChangeHandler *handler, CowlError *err, cowl_ret *ret) {
+        CowlFuncState state = {
+            .stream = stream,
+            .handler = handler,
+            .error = err,
+            .prefix_map = cowl_prefix_map(),
+            .qstring = ustrbuf(),
+        };
+        cowl_func_state_set_error(&state, cowl_error(COWL_OK, NULL));
+        *ret = state.prefix_map ? COWL_OK : COWL_ERR_MEM;
+        return state;
+    }
+
+    void cowl_func_state_deinit(CowlFuncState *state) {
+        cowl_release(state->prefix_map);
+        ustrbuf_deinit(&state->qstring);
+    }
+
+    void cowl_func_state_set_error(CowlFuncState *state, CowlError error) {
+        cowl_error_deinit(state->error);
+        *state->error = error;
+    }
 
     #define COWL_HANDLE_ERROR(CODE, ...) \
         cowl_func_state_set_error(state, cowl_error(CODE, __VA_ARGS__))
