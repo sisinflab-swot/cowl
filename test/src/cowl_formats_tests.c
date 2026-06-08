@@ -124,14 +124,14 @@ static void log_diff(char const *reader, char const *path, CowlOntology *out,
 
 static void test_format(UString path, CowlReader *reader, CowlWriter *writer) {
     cowl_ret ret;
-    CowlOntology *onto_in = cowl_ontology_at_path(path, &ret);
+    CowlOntology *onto_in = cowl_ontology_from_path(path, &ret);
     cowl_assert_ok(ret);
     utest_assert_not_null(onto_in);
 
     UString out_path = ustring_literal("test_onto_out.owl");
     cowl_assert_ok(cowl_writer_write_ontology_to_path(writer, out_path, onto_in));
 
-    CowlOntology *onto_out = cowl_reader_read_ontology_at_path(reader, out_path, &ret);
+    CowlOntology *onto_out = cowl_reader_read_ontology_from_path(reader, out_path, &ret);
     if (!onto_out) log_error(reader);
 
     cowl_assert_ok(ret);

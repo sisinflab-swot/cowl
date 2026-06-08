@@ -52,7 +52,7 @@ int main(void) {
     // e.g. due to I/O or syntax errors. More details about the error can be obtained
     // by inspecting the return code.
     cowl_ret ret;
-    CowlOntology *onto = cowl_reader_read_ontology_at_path(reader, path, &ret);
+    CowlOntology *onto = cowl_reader_read_ontology_from_path(reader, path, &ret);
 
     if (!onto) {
         if (ret == COWL_ERR_IO) {

@@ -22,7 +22,7 @@ int main(void) {
     cowl_init();
 
     // Read an ontology from file.
-    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(ONTO), NULL);
+    CowlOntology *onto = cowl_ontology_from_path(ustring_literal(ONTO), NULL);
 
     if (!onto) {
         // The ontology could not be read.

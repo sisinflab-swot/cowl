@@ -126,8 +126,8 @@ static CowlVector *best_index(CowlOntology *onto, CowlAny *obj, CowlAxiomType ty
     return best_index_between(p, t);
 }
 
-CowlOntology *cowl_ontology_at_path(UString path, cowl_ret *ret) {
-    return cowl_reader_read_ontology_at_path(cowl_get_reader(), path, ret);
+CowlOntology *cowl_ontology_from_path(UString path, cowl_ret *ret) {
+    return cowl_reader_read_ontology_from_path(cowl_get_reader(), path, ret);
 }
 
 CowlOntology *cowl_ontology_from_stream(UIStream *stream, cowl_ret *ret) {

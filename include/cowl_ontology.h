@@ -68,7 +68,7 @@ CowlOntology *cowl_ontology(void);
  */
 COWL_API
 COWL_RETAINED
-CowlOntology *cowl_ontology_at_path(UString path, cowl_ret *ret);
+CowlOntology *cowl_ontology_from_path(UString path, cowl_ret *ret);
 
 /**
  * Reads an ontology from the specified input stream.

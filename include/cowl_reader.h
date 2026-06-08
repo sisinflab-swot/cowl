@@ -185,7 +185,7 @@ CowlOntology *cowl_reader_read_ontology(CowlReader *reader, UIStream *stream, co
  * @return Ontology, or NULL on error.
  */
 COWL_API
-CowlOntology *cowl_reader_read_ontology_at_path(CowlReader *reader, UString path, cowl_ret *ret);
+CowlOntology *cowl_reader_read_ontology_from_path(CowlReader *reader, UString path, cowl_ret *ret);
 
 /**
  * Returns the last error.

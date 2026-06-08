@@ -120,7 +120,7 @@ static bool load_ontology(UString path, CowlOntology **onto) {
         return false;
     }
 
-    if (!(*onto = cowl_ontology_at_path(path, NULL))) {
+    if (!(*onto = cowl_ontology_from_path(path, NULL))) {
         log_error("Could not load the ontology.\n");
         return false;
     }

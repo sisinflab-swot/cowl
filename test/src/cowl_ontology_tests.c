@@ -81,7 +81,7 @@ void cowl_test_ontology_init(void) {
     axiom_counts_by_type_init();
 
     CowlReader *reader = cowl_get_reader();
-    onto = cowl_reader_read_ontology_at_path(reader, ustring_literal(COWL_TEST_IMPORT), NULL);
+    onto = cowl_reader_read_ontology_from_path(reader, ustring_literal(COWL_TEST_IMPORT), NULL);
     if (!onto) log_error(reader);
     utest_assert_fatal(onto);
 

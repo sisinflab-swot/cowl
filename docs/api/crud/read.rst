@@ -11,12 +11,12 @@ Ontology objects
 
 Ontologies can be read from files, memory buffers or input streams (see :struct:`UIStream`).
 The easiest way to read an ontology is using :struct:`CowlOntology` constructors such as
-:func:`cowl_ontology_at_path()` and :func:`cowl_ontology_from_stream()`. This leverages the
+:func:`cowl_ontology_from_path()` and :func:`cowl_ontology_from_stream()`. This leverages the
 default reader to create a fully-fledged ontology object, which can then be queried and edited.
 
 If you wish to use a specific reader, you can instead instantiate a :struct:`CowlReader` object
 and leverage its APIs, such as :func:`cowl_reader_read_ontology()` and
-:func:`cowl_reader_read_ontology_at_path()`.
+:func:`cowl_reader_read_ontology_from_path()`.
 
 Reader objects
 ==============

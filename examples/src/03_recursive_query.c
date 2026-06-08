@@ -41,7 +41,7 @@ static cowl_ret for_each_cls(void *ptr, CowlAny *cls) {
 int main(void) {
     cowl_init();
 
-    CowlOntology *onto = cowl_ontology_at_path(ustring_literal(ONTO), NULL);
+    CowlOntology *onto = cowl_ontology_from_path(ustring_literal(ONTO), NULL);
 
     if (!onto) {
         fprintf(stderr, "Failed to load ontology " ONTO "\n");
