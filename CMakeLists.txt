@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.24)
 # Project
 
 set(COWL_VERSION_MAJOR 0)
-set(COWL_VERSION_MINOR 7)
-set(COWL_VERSION_PATCH 4)
+set(COWL_VERSION_MINOR 8)
+set(COWL_VERSION_PATCH 0)
 set(COWL_VERSION "${COWL_VERSION_MAJOR}.${COWL_VERSION_MINOR}.${COWL_VERSION_PATCH}")
 
 set(COWL_VENDOR "SisInf Lab, Polytechnic University of Bari")

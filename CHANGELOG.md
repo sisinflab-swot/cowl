@@ -6,6 +6,63 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.8.0] - 2026-06-09
+### Added
+- ProtocOWL format reader and writer.
+- `cowl_is_ok`, `cowl_is_err`, `cowl_ret_is_ok`, `cowl_ret_is_err`.
+- `cowl_literal_plain`, `cowl_literal_typed`, `cowl_literal_lang`, and `*_from_literal` variants.
+- `cowl_axiom_flags_add_type`, `cowl_axiom_flags_remove_type`.
+- `cowl_primitive_flags_add_type`, `cowl_primitive_flags_remove_type`.
+- `cowl_ontology_iterate_annot`.
+- `cowl_vector_wrap`.
+- `COWL_PF_IND`, `COWL_PF_PROP`.
+
+### Changed
+- `cowl_ret` now supports multiple non-error codes (`COWL_NO`, `COWL_STOP`, `COWL_CONTINUE`),
+  matching `ulib_ret`. Checking for success / error is best done via `cowl_is_ok` and `cowl_is_err`.
+- Iterator functions (accepting `CowlIterator` instances) now return `cowl_ret` instead of `bool`.
+  Iteration can be stopped by returning `COWL_STOP` (alias for `COWL_NO`) and continued via
+  `COWL_CONTINUE` (alias for `COWL_OK`).
+- `CowlReader` and `CowlWriter` are now `CowlObject`s, and are the primary access point
+  for ontology parsing and serialization.
+- The `CowlError` struct and its API are significantly changed, accomodating for the new error
+  handling mechanism (see below).
+- Most `*_to_string` functions now return plain `UString` objects, and `*_to_ustring` functions
+  have been removed.
+- Renamed all `*_static` functions to `*_literal` to better express their scope.
+- Renamed `CowlSymTable` to `CowlPrefixMap`, carifying its role via more precise naming.
+- `cowl_literal` now accepts only two arguments (the value, and the datatype or language tag).
+- Renamed `UHash(CowlObjectTable)` to `UHash(CowlObjectPtr)` for consistency with
+  `UVec(CowlObjectPtr)`.
+- `cowl_ontology_set_iri` and `cowl_ontology_set_version` now return `cowl_ret` for consistency
+  with other ontology editing APIs.
+- `cowl_ontology_iterate_related` now supports multiple axiom types.
+- Renamed `cowl_data_prop_assert_axiom_get_object` to `cowl_data_prop_assert_axiom_get_value`.
+- Renamed `cowl_obj_has_value_get_ind` to `cowl_obj_has_value_get_value`.
+- Renamed `cowl_ontology_imports_count` to `cowl_ontology_import_count`.
+- Renamed `cowl_ontology_primitives_count` to `cowl_ontology_primitive_count`.
+- Relaxed Functional syntax parser to allow alternating imports and annotations.
+- Improved support for embedded OSes.
+
+### Removed
+- `CowlImportsResolver`: import resolution was delegated to the end user via this API, and
+  imported axioms could be iterated on via `bool import` arguments on query functions. This
+  was clunky and complicated API and implementation. The alternative workflow is to retrieve
+  ontology imports (via `cowl_ontology_iterate_imports`) and resolve them as needed.
+- `CowlManager`: managed sets of ontologies, supporting automatic imports resolution in some
+  instances. Since import resolution was removed, it lost its primary function and is not
+  necessary anymore. Reading and writing ontologies can now be done via `CowlReader` and
+  `CowlWriter` objects directly, or via `cowl_ontology_from_*` and `cowl_ontology_to_*`.
+- `CowlErrorHandler`: enabled handling specific errors, such as parsing errors. The mechanism
+  has been superseded by error getters on specific objects (e.g. `cowl_reader_last_error`
+  for parsing errors).
+
+### Fixed
+- Correctly handle escaped characters in string literals in the Functional syntax reader / writer.
+- Flex-generated Functional syntax lexer calling `exit()` on IO errors.
+- `cowl_ontology_iterate_related` returning axioms instead of constructs sometimes.
+
+
 ## [0.7.4] - 2025-07-10
 ### Added
 - `cowl_ret_is_err`, `cowl_ret_is_ok`, `cowl_is_ok`, `cowl_is_err`.
@@ -481,6 +538,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Logging API.
 
 
+[unreleased]: https://github.com/sisinflab-swot/cowl/compare/stable...HEAD
+[0.8.0]: https://github.com/sisinflab-swot/cowl/compare/v0.7.4...v0.8.0
 [0.7.4]: https://github.com/sisinflab-swot/cowl/compare/v0.7.3...v0.7.4
 [0.7.3]: https://github.com/sisinflab-swot/cowl/compare/v0.7.2...v0.7.3
 [0.7.2]: https://github.com/sisinflab-swot/cowl/compare/v0.7.1...v0.7.2
