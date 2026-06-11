@@ -136,6 +136,16 @@ CowlChange cowl_change_remove(cowl_part part, void *value) {
     return cowl_change(COWL_CHANGE_REMOVE, part, value);
 }
 
+/**
+ * Applies a change to an ontology.
+ *
+ * @param change Change to apply.
+ * @param onto Ontology to apply the change to.
+ * @return Return code.
+ */
+COWL_API
+cowl_ret cowl_change_apply(CowlChange change, CowlOntology *onto);
+
 /// @}
 
 COWL_END_DECLS

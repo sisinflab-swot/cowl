@@ -51,11 +51,15 @@ static inline cowl_ret remove_from_ontology(CowlOntology *onto, cowl_part part, 
     }
 }
 
-static cowl_ret change_ontology(void *onto, CowlChange change) {
+cowl_ret cowl_change_apply(CowlChange change, CowlOntology *onto) {
     if (change.type == COWL_CHANGE_ADD) {
         return add_to_ontology(onto, change.part, change.value);
     }
     return remove_from_ontology(onto, change.part, change.value);
+}
+
+static cowl_ret change_ontology(void *onto, CowlChange change) {
+    return cowl_change_apply(change, onto);
 }
 
 CowlChangeHandler cowl_change_handler_to_ontology(CowlOntology *onto) {
