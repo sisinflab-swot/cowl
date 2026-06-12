@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Ability to emit ProtocOWL reset frames arbitrarily (`cowl_writer_protocowl_write_reset_frame`).
 - `cowl_change_apply`.
 
 

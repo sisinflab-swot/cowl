@@ -940,3 +940,14 @@ cowl_ret cowl_writer_protocowl_write_remove_frame(CowlWriter *writer, UOStream *
     stream_encoder_write_ctrl_frame(e, COWL_PRT_REMOVE_FRAME);
     return encoder_state(e);
 }
+
+cowl_ret
+cowl_writer_protocowl_write_reset_frame(CowlWriter *writer, UOStream *stream, bool reset_prefixes) {
+    CowlPRTEncoder *e = cowl_writer_get_impl(writer)->ctx;
+    if (!e) return COWL_ERR_MEM;
+    e->stream = stream;
+    stream_encoder_flush(e);
+    stream_encoder_write_reset_frame(e, reset_prefixes, true);
+    encoder_reset(e, reset_prefixes);
+    return encoder_state(e);
+}

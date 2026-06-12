@@ -177,6 +177,8 @@ void cowl_writer_protocowl_set_encode_anon(CowlWriter *writer, bool encode_anon)
  * @param writer The writer.
  * @param stream Output stream.
  * @return Return code.
+ *
+ * @note This function should only be called on ProtocOWL writers.
  */
 COWL_API
 cowl_ret cowl_writer_protocowl_write_add_frame(CowlWriter *writer, UOStream *stream);
@@ -187,9 +189,26 @@ cowl_ret cowl_writer_protocowl_write_add_frame(CowlWriter *writer, UOStream *str
  * @param writer The writer.
  * @param stream Output stream.
  * @return Return code.
+ *
+ * @note This function should only be called on ProtocOWL writers.
  */
 COWL_API
 cowl_ret cowl_writer_protocowl_write_remove_frame(CowlWriter *writer, UOStream *stream);
+
+/**
+ * Writes a "reset" control frame to the specified output stream.
+ *
+ * @param writer The writer.
+ * @param stream Output stream.
+ * @param reset_prefixes True to reset prefixes, false otherwise.
+ * @return Return code.
+ *
+ * @note This function should only be called on ProtocOWL writers.
+ * @note Identifiers are always reset when this function is called.
+ */
+COWL_API
+cowl_ret
+cowl_writer_protocowl_write_reset_frame(CowlWriter *writer, UOStream *stream, bool reset_prefixes);
 
 #endif // COWL_WRITER_PROTOCOWL
 
@@ -198,9 +217,7 @@ cowl_ret cowl_writer_protocowl_write_remove_frame(CowlWriter *writer, UOStream *
  *
  * @return Default writer, or NULL on error.
  */
-COWL_API
-COWL_RETAINED
-CowlWriter *cowl_writer_default(void);
+COWL_API COWL_RETAINED CowlWriter *cowl_writer_default(void);
 
 /**
  * Returns a new writer.
