@@ -19,6 +19,23 @@
 #include "cowl_vector.h"
 #include "ulib.h"
 
+bool cowl_axiom_equals(CowlAnyAxiom *lhs, CowlAnyAxiom *rhs, bool annotations) {
+    CowlObjectType type = cowl_get_type(lhs);
+    if (type != cowl_get_type(rhs)) return false;
+
+    unsigned lhs_count;
+    unsigned rhs_count;
+    CowlAny **lhs_fields = cowl_get_fields(lhs, annotations, &lhs_count);
+    CowlAny **rhs_fields = cowl_get_fields(rhs, annotations, &rhs_count);
+    if (lhs_count != rhs_count) return false;
+
+    for (unsigned i = 0; i < lhs_count; ++i) {
+        if (!cowl_equals(lhs_fields[i], rhs_fields[i])) return false;
+    }
+
+    return true;
+}
+
 bool cowl_axiom_has_operand(CowlAnyAxiom *axiom, CowlAny *operand, CowlPosition position) {
     CowlIterator iter = cowl_iterator_contains(operand);
     return cowl_axiom_iterate_operands(axiom, position, &iter) == COWL_STOP;

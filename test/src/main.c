@@ -7,6 +7,7 @@
  */
 
 #include "cowl.h"
+#include "cowl_axiom_tests.h"
 #include "cowl_formats_tests.h"
 #include "cowl_iri_tests.h"
 #include "cowl_ontology_tests.h"
@@ -18,6 +19,7 @@ utest_main({
     cowl_init();
     utest_run("string", COWL_STRING_TESTS);
     utest_run("iri", COWL_IRI_TESTS);
+    utest_run("axiom", COWL_AXIOM_TESTS);
     utest_run("ontology", COWL_ONTOLOGY_TESTS);
     utest_run("formats", COWL_FORMATS_TESTS);
     utest_run("version", COWL_VERSION_TESTS);

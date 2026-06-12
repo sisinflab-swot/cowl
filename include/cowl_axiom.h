@@ -68,6 +68,20 @@ CowlVector *cowl_axiom_get_annot(CowlAnyAxiom *axiom) {
 }
 
 /**
+ * Checks if two axioms are equal.
+ *
+ * @param lhs The left-hand side axiom.
+ * @param rhs The right-hand side axiom.
+ * @param annotations True to include annotations in the comparison, false otherwise.
+ * @return True if the axioms are equal, false otherwise.
+ *
+ * @note Two axioms are equal if they have the same type and their fields are pairwise equal.
+ */
+COWL_API
+COWL_PURE
+bool cowl_axiom_equals(CowlAnyAxiom *lhs, CowlAnyAxiom *rhs, bool annotations);
+
+/**
  * Checks if the axiom has the specified operand.
  *
  * @param axiom The axiom.
