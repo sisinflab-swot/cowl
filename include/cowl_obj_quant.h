@@ -56,6 +56,32 @@ COWL_RETAINED
 CowlObjQuant *cowl_obj_quant(CowlQuantType type, CowlAnyObjPropExp *prop, CowlAnyClsExp *filler);
 
 /**
+ * Returns an ObjectSomeValuesFrom restriction.
+ *
+ * @param prop The object property.
+ * @param filler Range of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjQuant *cowl_obj_some(CowlAnyObjPropExp *prop, CowlAnyClsExp *filler) {
+    return cowl_obj_quant(COWL_QT_SOME, prop, filler);
+}
+
+/**
+ * Returns an ObjectAllValuesFrom restriction.
+ *
+ * @param prop The object property.
+ * @param filler Range of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjQuant *cowl_obj_all(CowlAnyObjPropExp *prop, CowlAnyClsExp *filler) {
+    return cowl_obj_quant(COWL_QT_ALL, prop, filler);
+}
+
+/**
  * Gets the type of the specified object quantifier.
  *
  * @param restr The object quantifier.

@@ -60,6 +60,54 @@ cowl_nary_ind_axiom(CowlNAryAxiomType type, CowlVector *individuals, CowlVector 
 }
 
 /**
+ * Returns a SameIndividuals axiom.
+ *
+ * @param individuals The individuals.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryIndAxiom *cowl_same_ind_axiom(CowlVector *individuals, CowlVector *annot) {
+    return cowl_nary_ind_axiom(COWL_NAT_SAME, individuals, annot);
+}
+
+/**
+ * Returns a SameIndividuals axiom.
+ *
+ * @param ... The individuals.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryIndAxiom *cowl_same_ind_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_same_ind_axiom_with(...) cowl_nary_get_impl(COWL_OT_A_SAME_IND, __VA_ARGS__, NULL)
+
+/**
+ * Returns a DifferentIndividuals axiom.
+ *
+ * @param individuals The individuals.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryIndAxiom *cowl_diff_ind_axiom(CowlVector *individuals, CowlVector *annot) {
+    return cowl_nary_ind_axiom(COWL_NAT_DIFF, individuals, annot);
+}
+
+/**
+ * Returns a DifferentIndividuals axiom.
+ *
+ * @param ... The individuals.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryIndAxiom *cowl_diff_ind_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_diff_ind_axiom_with(...) cowl_nary_get_impl(COWL_OT_A_DIFF_IND, __VA_ARGS__, NULL)
+
+/**
  * Gets the type of the specified N-ary individual axiom.
  *
  * @param axiom The axiom.

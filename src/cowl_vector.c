@@ -21,6 +21,19 @@
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
 
+// NOLINTNEXTLINE(readability-non-const-parameter)
+CowlVector *cowl_vector_with_args(CowlAny *first, va_list args) {
+    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
+    for (CowlAny *item = first; item; item = va_arg(args, CowlAny *)) {
+        if (ulib_is_err(uvec_push(CowlObjectPtr, &vec, item))) goto err;
+    }
+    return cowl_vector(&vec);
+
+err:
+    uvec_deinit(CowlObjectPtr, &vec);
+    return NULL;
+}
+
 CowlVector cowl_vector_init(UVec(CowlObjectPtr) *data) {
     return (CowlVector){
         .super = COWL_OBJECT_INIT(COWL_OT_VECTOR),
@@ -58,19 +71,11 @@ CowlVector *cowl_vector_from_array(CowlAny *items[], unsigned count) {
 }
 
 CowlVector *cowl_vector_with_items(CowlAny *first, ...) {
-    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
     va_list args;
     va_start(args, first);
-    for (CowlAny *item = first; item; item = va_arg(args, CowlAny *)) {
-        if (ulib_is_err(uvec_push(CowlObjectPtr, &vec, item))) goto err;
-    }
+    CowlVector *vec = cowl_vector_with_args(first, args);
     va_end(args);
-    return cowl_vector(&vec);
-
-err:
-    va_end(args);
-    uvec_deinit(CowlObjectPtr, &vec);
-    return NULL;
+    return vec;
 }
 
 CowlVector *cowl_vector_ordered_empty(void) {

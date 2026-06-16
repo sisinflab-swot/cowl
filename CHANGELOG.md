@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Convenience constructors for most constructs accepting a `CowlVector` instance.
 - Ability to emit ProtocOWL reset frames arbitrarily (`cowl_writer_protocowl_write_reset_frame`).
 - Ability to check whether two axioms are equal, ignoring annotations (`cowl_axiom_equals`).
 - `cowl_change_apply`.

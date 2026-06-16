@@ -58,6 +58,52 @@ CowlNAryBool *cowl_nary_bool(CowlNAryType type, CowlVector *operands) {
 }
 
 /**
+ * Returns an intersection of class expressions.
+ *
+ * @param operands The operands.
+ * @return Expression, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryBool *cowl_obj_intersect(CowlVector *operands) {
+    return cowl_nary_bool(COWL_NT_INTERSECT, operands);
+}
+
+/**
+ * Returns an intersection of class expressions.
+ *
+ * @param ... The operands.
+ * @return Expression, or NULL on error.
+ *
+ * @alias CowlNAryBool *cowl_obj_intersect_of(...);
+ */
+COWL_RETAINED
+#define cowl_obj_intersect_of(...) cowl_nary_get_impl(COWL_OT_CE_OBJ_INTERSECT, __VA_ARGS__, NULL)
+
+/**
+ * Returns a union of class expressions.
+ *
+ * @param operands The operands.
+ * @return Expression, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryBool *cowl_obj_union(CowlVector *operands) {
+    return cowl_nary_bool(COWL_NT_UNION, operands);
+}
+
+/**
+ * Returns a union of class expressions
+ *
+ * @param ... The operands.
+ * @return Expression, or NULL on error.
+ *
+ * @alias CowlNAryBool *cowl_obj_union_of(...);
+ */
+COWL_RETAINED
+#define cowl_obj_union_of(...) cowl_nary_get_impl(COWL_OT_CE_OBJ_UNION, __VA_ARGS__, NULL)
+
+/**
  * Gets the type of the specified N-ary boolean class expression.
  *
  * @param exp The expression.

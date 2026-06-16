@@ -90,27 +90,26 @@ int main(void) {
     // ObjectSomeValuesFrom(pizza:hasTopping pizza:MozzarellaTopping))
     CowlObjProp *has_topping = cowl_obj_prop_from_literal(IMPORT_NS "hasTopping");
     CowlClass *mozzarella = cowl_class_from_literal(IMPORT_NS "MozzarellaTopping");
-    CowlObjQuant *obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping, mozzarella);
+    CowlObjQuant *obj_quant = cowl_obj_some(has_topping, mozzarella);
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;
     cowl_release_all(axiom, obj_quant);
 
     // SubClassOf(:Porcini
     // ObjectSomeValuesFrom(pizza:hasTopping :PorciniTopping))
-    obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping, porcini);
+    obj_quant = cowl_obj_some(has_topping, porcini);
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;
     cowl_release_all(axiom, obj_quant);
 
     // SubClassOf(:Porcini ObjectAllValuesFrom(pizza:hasTopping
     // ObjectUnionOf(pizza:MozzarellaTopping :PorciniTopping)))
-    CowlVector *operands = cowl_vector_of(mozzarella, porcini);
-    CowlNAryBool *closure = cowl_nary_bool(COWL_NT_UNION, operands);
-    obj_quant = cowl_obj_quant(COWL_QT_ALL, has_topping, closure);
+    CowlNAryBool *closure = cowl_obj_union_of(mozzarella, porcini);
+    obj_quant = cowl_obj_all(has_topping, closure);
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;
-    cowl_release_all(axiom, obj_quant, closure, operands, porcini, porcini_pizza,
-                     has_topping, mozzarella);
+    cowl_release_all(axiom, obj_quant, closure);
+    cowl_release_all(porcini, porcini_pizza, has_topping, mozzarella);
 
     // Finally, write the footer.
     if (cowl_writer_write_footer(writer, &ostream)) goto err_io;

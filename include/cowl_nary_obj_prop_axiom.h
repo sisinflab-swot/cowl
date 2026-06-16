@@ -60,6 +60,56 @@ cowl_nary_obj_prop_axiom(CowlNAryAxiomType type, CowlVector *props, CowlVector *
 }
 
 /**
+ * Returns an EquivalentObjectProperties axiom.
+ *
+ * @param props The object properties.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryObjPropAxiom *cowl_equiv_obj_prop_axiom(CowlVector *props, CowlVector *annot) {
+    return cowl_nary_obj_prop_axiom(COWL_NAT_EQUIV, props, annot);
+}
+
+/**
+ * Returns an EquivalentObjectProperties axiom.
+ *
+ * @param ... The object properties.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryObjPropAxiom *cowl_equiv_obj_prop_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_equiv_obj_prop_axiom_with(...)                                                        \
+    cowl_nary_get_impl(COWL_OT_A_EQUIV_OBJ_PROP, __VA_ARGS__, NULL)
+
+/**
+ * Returns a DisjointObjectProperties axiom.
+ *
+ * @param props The object properties.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryObjPropAxiom *cowl_disj_obj_prop_axiom(CowlVector *props, CowlVector *annot) {
+    return cowl_nary_obj_prop_axiom(COWL_NAT_DISJ, props, annot);
+}
+
+/**
+ * Returns a DisjointObjectProperties axiom.
+ *
+ * @param ... The object properties.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryObjPropAxiom *cowl_disj_obj_prop_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_disj_obj_prop_axiom_with(...)                                                         \
+    cowl_nary_get_impl(COWL_OT_A_DISJ_OBJ_PROP, __VA_ARGS__, NULL)
+
+/**
  * Gets the type of the specified N-ary object property axiom.
  *
  * @param axiom The axiom.

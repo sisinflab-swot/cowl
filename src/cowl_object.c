@@ -14,6 +14,7 @@
 #include "cowl_data_quant_private.h"
 #include "cowl_entity.h"
 #include "cowl_entity_private.h"
+#include "cowl_impl.h"
 #include "cowl_iri.h"
 #include "cowl_iri_private.h"
 #include "cowl_iterator.h"
@@ -38,6 +39,7 @@
 #include "cowl_writer.h"
 #include "cowl_writer_private.h"
 #include "ulib.h"
+#include <stdarg.h>
 #include <stddef.h>
 
 /*
@@ -454,6 +456,17 @@ CowlAny *cowl_get_impl_uint(CowlObjectType type, CowlAny *fields[], unsigned n, 
     }
 
     return o;
+}
+
+CowlAny *cowl_nary_get_impl(CowlObjectType type, ...) {
+    va_list args;
+    va_start(args, type);
+    CowlVector *vec = cowl_vector_with_args(va_arg(args, CowlAny *), args);
+    va_end(args);
+    if (!vec) return NULL;
+    CowlAny *ret = cowl_get_impl_1(type, vec);
+    cowl_release(vec);
+    return ret;
 }
 
 void cowl_release_all_impl(CowlAny **objects, size_t count) {

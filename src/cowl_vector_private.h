@@ -17,6 +17,7 @@
 #include "cowl_ret.h"
 #include "cowl_vector.h" // IWYU pragma: export
 #include "ulib.h"
+#include <stdarg.h>
 
 COWL_BEGIN_DECLS
 
@@ -47,6 +48,7 @@ COWL_PURE ulib_uint cowl_vector_hash(CowlVector *vec);
 cowl_ret cowl_vector_iterate(CowlVector *vec, CowlIterator *iter);
 cowl_ret
 cowl_vector_iterate_primitives(CowlVector *vec, CowlPrimitiveFlags flags, CowlIterator *iter);
+CowlVector *cowl_vector_with_args(CowlAny *first, va_list args);
 
 COWL_END_DECLS
 

@@ -60,6 +60,56 @@ cowl_nary_data_prop_axiom(CowlNAryAxiomType type, CowlVector *props, CowlVector 
 }
 
 /**
+ * Returns an EquivalentDataProperties axiom.
+ *
+ * @param props The data properties.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryDataPropAxiom *cowl_equiv_data_prop_axiom(CowlVector *props, CowlVector *annot) {
+    return cowl_nary_data_prop_axiom(COWL_NAT_EQUIV, props, annot);
+}
+
+/**
+ * Returns an EquivalentDataProperties axiom.
+ *
+ * @param ... The data properties.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryDataPropAxiom *cowl_equiv_data_prop_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_equiv_data_prop_axiom_with(...)                                                       \
+    cowl_nary_get_impl(COWL_OT_A_EQUIV_DATA_PROP, __VA_ARGS__, NULL)
+
+/**
+ * Returns a DisjointDataProperties axiom.
+ *
+ * @param props The data properties.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryDataPropAxiom *cowl_disj_data_prop_axiom(CowlVector *props, CowlVector *annot) {
+    return cowl_nary_data_prop_axiom(COWL_NAT_DISJ, props, annot);
+}
+
+/**
+ * Returns a DisjointDataProperties axiom.
+ *
+ * @param ... The data properties.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryDataPropAxiom *cowl_disj_data_prop_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_disj_data_prop_axiom_with(...)                                                        \
+    cowl_nary_get_impl(COWL_OT_A_DISJ_DATA_PROP, __VA_ARGS__, NULL)
+
+/**
  * Gets the type of the specified N-ary data property axiom.
  *
  * @param axiom The axiom.

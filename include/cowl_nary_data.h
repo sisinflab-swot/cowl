@@ -57,6 +57,52 @@ CowlNAryData *cowl_nary_data(CowlNAryType type, CowlVector *operands) {
 }
 
 /**
+ * Returns an intersection of data ranges.
+ *
+ * @param operands The operands.
+ * @return Range, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryData *cowl_data_intersect(CowlVector *operands) {
+    return cowl_nary_data(COWL_NT_INTERSECT, operands);
+}
+
+/**
+ * Returns an intersection of data ranges.
+ *
+ * @param ... The operands.
+ * @return Range, or NULL on error.
+ *
+ * @alias CowlNAryData *cowl_data_intersect_of(...);
+ */
+COWL_RETAINED
+#define cowl_data_intersect_of(...) cowl_nary_get_impl(COWL_OT_DR_DATA_INTERSECT, __VA_ARGS__, NULL)
+
+/**
+ * Returns a union of data ranges.
+ *
+ * @param operands The operands.
+ * @return Range, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryData *cowl_data_union(CowlVector *operands) {
+    return cowl_nary_data(COWL_NT_UNION, operands);
+}
+
+/**
+ * Returns a union of data ranges.
+ *
+ * @param ... The operands.
+ * @return Range, or NULL on error.
+ *
+ * @alias CowlNAryData *cowl_data_union_of(...);
+ */
+COWL_RETAINED
+#define cowl_data_union_of(...) cowl_nary_get_impl(COWL_OT_DR_DATA_UNION, __VA_ARGS__, NULL)
+
+/**
  * Gets the type of the specified N-ary data range.
  * @param range The data range.
  * @return The type.

@@ -65,6 +65,51 @@ CowlDataCard *cowl_data_card(CowlCardType type, CowlAnyDataPropExp *prop, CowlAn
 }
 
 /**
+ * Returns a data property minimum cardinality restriction.
+ *
+ * @param prop The data property.
+ * @param range @ctype{optional} Range of the restriction.
+ * @param cardinality Cardinality of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlDataCard *
+cowl_data_min(CowlAnyDataPropExp *prop, CowlAnyDataRange *range, ulib_uint cardinality) {
+    return cowl_data_card(COWL_CT_MIN, prop, range, cardinality);
+}
+
+/**
+ * Returns a data property maximum cardinality restriction.
+ *
+ * @param prop The data property.
+ * @param range @ctype{optional} Range of the restriction.
+ * @param cardinality Cardinality of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlDataCard *
+cowl_data_max(CowlAnyDataPropExp *prop, CowlAnyDataRange *range, ulib_uint cardinality) {
+    return cowl_data_card(COWL_CT_MAX, prop, range, cardinality);
+}
+
+/**
+ * Returns a data property exact cardinality restriction.
+ *
+ * @param prop The data property.
+ * @param range @ctype{optional} Range of the restriction.
+ * @param cardinality Cardinality of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlDataCard *
+cowl_data_exact(CowlAnyDataPropExp *prop, CowlAnyDataRange *range, ulib_uint cardinality) {
+    return cowl_data_card(COWL_CT_EXACT, prop, range, cardinality);
+}
+
+/**
  * Gets the type of the specified data property cardinality restriction.
  *
  * @param restr The restriction.

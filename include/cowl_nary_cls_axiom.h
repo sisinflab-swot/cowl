@@ -59,6 +59,55 @@ cowl_nary_cls_axiom(CowlNAryAxiomType type, CowlVector *classes, CowlVector *ann
 }
 
 /**
+ * Returns an EquivalentClasses axiom.
+ *
+ * @param classes The classes.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryClsAxiom *cowl_equiv_cls_axiom(CowlVector *classes, CowlVector *annot) {
+    return cowl_nary_cls_axiom(COWL_NAT_EQUIV, classes, annot);
+}
+
+/**
+ * Returns an EquivalentClasses axiom.
+ *
+ * @param ... The classes.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryClsAxiom *cowl_equiv_cls_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_equiv_cls_axiom_with(...)                                                             \
+    cowl_nary_get_impl(COWL_OT_A_EQUIV_CLASSES, __VA_ARGS__, NULL)
+
+/**
+ * Returns a DisjointClasses axiom.
+ *
+ * @param classes The classes.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlNAryClsAxiom *cowl_disj_cls_axiom(CowlVector *classes, CowlVector *annot) {
+    return cowl_nary_cls_axiom(COWL_NAT_DISJ, classes, annot);
+}
+
+/**
+ * Returns a DisjointClasses axiom.
+ *
+ * @param ... The classes.
+ * @return Axiom, or NULL on error.
+ *
+ * @alias CowlNAryClsAxiom *cowl_disj_cls_axiom_with(...);
+ */
+COWL_RETAINED
+#define cowl_disj_cls_axiom_with(...) cowl_nary_get_impl(COWL_OT_A_DISJ_CLASSES, __VA_ARGS__, NULL)
+
+/**
  * Gets the type of the specified N-ary class expression axiom.
  *
  * @param axiom The axiom.

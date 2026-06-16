@@ -56,6 +56,32 @@ CowlDataQuant *
 cowl_data_quant(CowlQuantType type, CowlAnyDataPropExp *prop, CowlAnyDataRange *range);
 
 /**
+ * Returns a DataSomeValuesFrom restriction.
+ *
+ * @param prop The data property.
+ * @param range Range of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlDataQuant *cowl_data_some(CowlAnyDataPropExp *prop, CowlAnyDataRange *range) {
+    return cowl_data_quant(COWL_QT_SOME, prop, range);
+}
+
+/**
+ * Returns a DataAllValuesFrom restriction.
+ *
+ * @param prop The data property.
+ * @param range Range of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlDataQuant *cowl_data_all(CowlAnyDataPropExp *prop, CowlAnyDataRange *range) {
+    return cowl_data_quant(COWL_QT_ALL, prop, range);
+}
+
+/**
  * Gets the type of the specified data quantifier.
  *
  * @param restr The data quantifier.

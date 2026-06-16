@@ -81,6 +81,97 @@ cowl_obj_prop_char_axiom(CowlCharAxiomType type, CowlAnyObjPropExp *prop, CowlVe
 }
 
 /**
+ * Returns a FunctionalObjectProperty axiom.
+ *
+ * @param prop The object property expression.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjPropCharAxiom *cowl_func_obj_prop_axiom(CowlAnyObjPropExp *prop, CowlVector *annot) {
+    return cowl_obj_prop_char_axiom(COWL_CAT_FUNC, prop, annot);
+}
+
+/**
+ * Returns an InverseFunctionalObjectProperty axiom.
+ *
+ * @param prop The object property expression.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjPropCharAxiom *cowl_inv_func_obj_prop_axiom(CowlAnyObjPropExp *prop, CowlVector *annot) {
+    return cowl_obj_prop_char_axiom(COWL_CAT_INV_FUNC, prop, annot);
+}
+
+/**
+ * Returns a SymmetricObjectProperty axiom.
+ *
+ * @param prop The object property expression.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjPropCharAxiom *cowl_symm_obj_prop_axiom(CowlAnyObjPropExp *prop, CowlVector *annot) {
+    return cowl_obj_prop_char_axiom(COWL_CAT_SYMM, prop, annot);
+}
+
+/**
+ * Returns an AsymmetricObjectProperty axiom.
+ *
+ * @param prop The object property expression.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjPropCharAxiom *cowl_asymm_obj_prop_axiom(CowlAnyObjPropExp *prop, CowlVector *annot) {
+    return cowl_obj_prop_char_axiom(COWL_CAT_ASYMM, prop, annot);
+}
+
+/**
+ * Returns a TransitiveObjectProperty axiom.
+ *
+ * @param prop The object property expression.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjPropCharAxiom *cowl_trans_obj_prop_axiom(CowlAnyObjPropExp *prop, CowlVector *annot) {
+    return cowl_obj_prop_char_axiom(COWL_CAT_TRANS, prop, annot);
+}
+
+/**
+ * Returns a ReflexiveObjectProperty axiom.
+ *
+ * @param prop The object property expression.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjPropCharAxiom *cowl_refl_obj_prop_axiom(CowlAnyObjPropExp *prop, CowlVector *annot) {
+    return cowl_obj_prop_char_axiom(COWL_CAT_REFL, prop, annot);
+}
+
+/**
+ * Returns an IrreflexiveObjectProperty axiom.
+ *
+ * @param prop The object property expression.
+ * @param annot @ctype{optional} The annotations.
+ * @return Axiom, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjPropCharAxiom *cowl_irrefl_obj_prop_axiom(CowlAnyObjPropExp *prop, CowlVector *annot) {
+    return cowl_obj_prop_char_axiom(COWL_CAT_IRREFL, prop, annot);
+}
+
+/**
  * Gets the type of the specified object property characteristic axiom.
  *
  * @param axiom The axiom.

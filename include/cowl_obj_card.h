@@ -65,6 +65,48 @@ CowlObjCard *cowl_obj_card(CowlCardType type, CowlAnyObjPropExp *prop, CowlAnyCl
 }
 
 /**
+ * Returns an object property minimum cardinality restriction.
+ *
+ * @param prop The object property.
+ * @param filler @ctype{optional} Filler of the restriction.
+ * @param cardinality Cardinality of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjCard *cowl_obj_min(CowlAnyObjPropExp *prop, CowlAnyClsExp *filler, ulib_uint cardinality) {
+    return cowl_obj_card(COWL_CT_MIN, prop, filler, cardinality);
+}
+
+/**
+ * Returns an object property maximum cardinality restriction.
+ *
+ * @param prop The object property.
+ * @param filler @ctype{optional} Filler of the restriction.
+ * @param cardinality Cardinality of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjCard *cowl_obj_max(CowlAnyObjPropExp *prop, CowlAnyClsExp *filler, ulib_uint cardinality) {
+    return cowl_obj_card(COWL_CT_MAX, prop, filler, cardinality);
+}
+
+/**
+ * Returns an object property exact cardinality restriction.
+ *
+ * @param prop The object property.
+ * @param filler @ctype{optional} Filler of the restriction.
+ * @param cardinality Cardinality of the restriction.
+ * @return Restriction, or NULL on error.
+ */
+COWL_RETAINED
+COWL_INLINE
+CowlObjCard *cowl_obj_exact(CowlAnyObjPropExp *prop, CowlAnyClsExp *filler, ulib_uint cardinality) {
+    return cowl_obj_card(COWL_CT_EXACT, prop, filler, cardinality);
+}
+
+/**
  * Gets the type of the specified object property cardinality restriction.
  *
  * @param restr The restriction.

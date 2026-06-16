@@ -60,28 +60,26 @@ int main(void) {
     // ObjectSomeValuesFrom(pizza:hasTopping pizza:MozzarellaTopping))
     CowlObjProp *has_topping = cowl_obj_prop_from_literal(NS "hasTopping");
     CowlClass *mozzarella_topping = cowl_class_from_literal(NS "MozzarellaTopping");
-    CowlObjQuant *obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping,
-                                             mozzarella_topping);
+    CowlObjQuant *obj_quant = cowl_obj_some(has_topping, mozzarella_topping);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);
     cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, obj_quant, mozzarella_topping);
 
     // SubClassOf(pizza:Porcini
     // ObjectSomeValuesFrom(pizza:hasTopping pizza:PorciniTopping))
-    obj_quant = cowl_obj_quant(COWL_QT_SOME, has_topping, porcini_topping);
+    obj_quant = cowl_obj_some(has_topping, porcini_topping);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);
     cowl_ontology_add_axiom(onto, axiom);
     cowl_release_all(axiom, obj_quant);
 
     // SubClassOf(pizza:Porcini ObjectAllValuesFrom(pizza:hasTopping
     // ObjectUnionOf(pizza:MozzarellaTopping pizza:PorciniTopping)))
-    CowlVector *operands = cowl_vector_of(mozzarella_topping, porcini_topping);
-    CowlNAryBool *closure = cowl_nary_bool(COWL_NT_UNION, operands);
-    obj_quant = cowl_obj_quant(COWL_QT_ALL, has_topping, closure);
+    CowlNAryBool *closure = cowl_obj_union_of(mozzarella_topping, porcini_topping);
+    obj_quant = cowl_obj_all(has_topping, closure);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);
     cowl_ontology_add_axiom(onto, axiom);
-    cowl_release_all(axiom, obj_quant, closure, operands, porcini_topping, porcini,
-                     has_topping);
+    cowl_release_all(axiom, obj_quant, closure);
+    cowl_release_all(porcini_topping, porcini, has_topping);
 
     // Serialize the edited ontology to a new file.
     printf("Writing ontology " OUT_PATH "... ");
