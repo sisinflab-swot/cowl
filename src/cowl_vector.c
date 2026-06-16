@@ -16,6 +16,7 @@
 #include "cowl_ret.h"
 #include "cowl_vector_private.h"
 #include "ulib.h"
+#include <stdarg.h>
 #include <stddef.h>
 
 UVEC_IMPL_EQUATABLE(CowlObjectPtr, cowl_equals)
@@ -42,10 +43,34 @@ CowlVector *cowl_vector_wrap(UVec(CowlObjectPtr) *data) {
 
 CowlVector *cowl_vector(UVec(CowlObjectPtr) *data) {
     CowlVector *vec = cowl_vector_wrap(data);
-    if (vec) {
-        uvec_foreach (CowlObjectPtr, &vec->data, obj) cowl_retain(*obj.item);
-    }
+    if (!vec) return NULL;
+    uvec_foreach (CowlObjectPtr, &vec->data, obj) cowl_retain(*obj.item);
     return vec;
+}
+
+CowlVector *cowl_vector_from_array(CowlAny *items[], unsigned count) {
+    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
+    if (ulib_is_err(uvec_append_array(CowlObjectPtr, &vec, items, count))) {
+        uvec_deinit(CowlObjectPtr, &vec);
+        return NULL;
+    }
+    return cowl_vector(&vec);
+}
+
+CowlVector *cowl_vector_with_items(CowlAny *first, ...) {
+    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
+    va_list args;
+    va_start(args, first);
+    for (CowlAny *item = first; item; item = va_arg(args, CowlAny *)) {
+        if (ulib_is_err(uvec_push(CowlObjectPtr, &vec, item))) goto err;
+    }
+    va_end(args);
+    return cowl_vector(&vec);
+
+err:
+    va_end(args);
+    uvec_deinit(CowlObjectPtr, &vec);
+    return NULL;
 }
 
 CowlVector *cowl_vector_ordered_empty(void) {

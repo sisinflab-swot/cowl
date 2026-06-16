@@ -14,16 +14,6 @@
 
 #define test_iri_prefix "http://test.org/axiom#"
 
-static CowlVector *make_vector(CowlAny *const items[], ulib_uint count) {
-    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
-
-    for (ulib_uint i = 0; i < count; ++i) {
-        uvec_push(CowlObjectPtr, &vec, items[i]);
-    }
-
-    return cowl_vector(&vec);
-}
-
 void cowl_test_axiom_equals(void) {
     CowlClass *class_a = cowl_class_from_literal(test_iri_prefix "A");
     CowlClass *class_b = cowl_class_from_literal(test_iri_prefix "B");
@@ -42,8 +32,7 @@ void cowl_test_axiom_equals(void) {
     CowlAnnotProp *annot_prop = cowl_annot_prop_from_literal(test_iri_prefix "annot");
     CowlLiteral *annot_literal = cowl_literal_plain(ustring_literal("annot-value"));
     CowlAnnotation *annotation = cowl_annotation(annot_prop, annot_literal, NULL);
-    CowlAny *annot_items[] = { annotation };
-    CowlVector *annot_vec = make_vector(annot_items, ulib_array_count(annot_items));
+    CowlVector *annot_vec = cowl_vector_of(annotation);
     CowlDeclAxiom *decl_a_annot = cowl_decl_axiom(class_a, annot_vec);
 
     utest_assert_false(cowl_equals(decl_a, decl_a_annot));
@@ -68,10 +57,8 @@ void cowl_test_axiom_operands(void) {
     CowlSubClsAxiom *sub_ax = cowl_sub_cls_axiom(class_a, class_b, NULL);
     CowlObjPropAssertAxiom *assert_ax = cowl_obj_prop_assert_axiom(prop_p, ind_s, ind_o, NULL);
 
-    CowlAny *obj_props_items[] = { prop_p, prop_q };
-    CowlAny *data_props_items[] = { data_prop_r };
-    CowlVector *obj_props = make_vector(obj_props_items, ulib_array_count(obj_props_items));
-    CowlVector *data_props = make_vector(data_props_items, ulib_array_count(data_props_items));
+    CowlVector *obj_props = cowl_vector_of(prop_p, prop_q);
+    CowlVector *data_props = cowl_vector_of(data_prop_r);
     CowlHasKeyAxiom *key_ax = cowl_has_key_axiom(class_a, obj_props, data_props, NULL);
 
     utest_assert(cowl_axiom_has_operand(sub_ax, class_a, COWL_PS_LEFT));

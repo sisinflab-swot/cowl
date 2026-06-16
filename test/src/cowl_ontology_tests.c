@@ -213,11 +213,7 @@ static CowlDatatypeDefAxiom *generate_datatype_def(char const *v1, char const *v
     CowlLiteral *l1 = cowl_literal_plain(ustring_wrap_cstring(v1));
     CowlLiteral *l2 = cowl_literal_plain(ustring_wrap_cstring(v2));
     CowlLiteral *l3 = cowl_literal_plain(ustring_wrap_cstring(v3));
-    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
-    uvec_push(CowlObjectPtr, &vec, l1);
-    uvec_push(CowlObjectPtr, &vec, l2);
-    uvec_push(CowlObjectPtr, &vec, l3);
-    CowlVector *values = cowl_vector(&vec);
+    CowlVector *values = cowl_vector_of(l1, l2, l3);
     CowlDataOneOf *one_of = cowl_data_one_of(values);
     CowlDatatypeDefAxiom *axiom = cowl_datatype_def_axiom(dt, one_of, NULL);
     cowl_release_all(dt, l1, l2, l3, values, one_of);

@@ -72,6 +72,44 @@ COWL_RETAINED
 CowlVector *cowl_vector_wrap(UVec(CowlObjectPtr) *data);
 
 /**
+ * Returns a vector with the specified items.
+ *
+ * @param items Array of items.
+ * @param count Number of items in the array.
+ * @return Vector, or NULL on error.
+ *
+ * @note Items in the array are retained by this constructor.
+ */
+COWL_API
+COWL_RETAINED
+CowlVector *cowl_vector_from_array(CowlAny *items[], unsigned count);
+
+/**
+ * Returns a vector with the specified items.
+ *
+ * @param first First item, followed by a variable number of additional items, terminated by NULL.
+ * @return Vector, or NULL on error.
+ *
+ * @note Items are retained by this constructor.
+ */
+COWL_API
+COWL_RETAINED
+CowlVector *cowl_vector_with_items(CowlAny *first, ...);
+
+/**
+ * Returns a vector with the specified items.
+ *
+ * @param ... Items.
+ * @return Vector, or NULL on error.
+ *
+ * @note Items are retained by this constructor.
+ *
+ * @alias COWL_RETAINED CowlVector *cowl_vector_of(...);
+ */
+COWL_RETAINED
+#define cowl_vector_of(...) cowl_vector_with_items(__VA_ARGS__, NULL)
+
+/**
  * Returns a vector with no elements.
  *
  * @return Vector, or NULL on error.

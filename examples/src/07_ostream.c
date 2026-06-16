@@ -104,10 +104,7 @@ int main(void) {
 
     // SubClassOf(:Porcini ObjectAllValuesFrom(pizza:hasTopping
     // ObjectUnionOf(pizza:MozzarellaTopping :PorciniTopping)))
-    UVec(CowlObjectPtr) vec = uvec(CowlObjectPtr);
-    uvec_push(CowlObjectPtr, &vec, mozzarella);
-    uvec_push(CowlObjectPtr, &vec, porcini);
-    CowlVector *operands = cowl_vector(&vec);
+    CowlVector *operands = cowl_vector_of(mozzarella, porcini);
     CowlNAryBool *closure = cowl_nary_bool(COWL_NT_UNION, operands);
     obj_quant = cowl_obj_quant(COWL_QT_ALL, has_topping, closure);
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);

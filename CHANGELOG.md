@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ability to emit ProtocOWL reset frames arbitrarily (`cowl_writer_protocowl_write_reset_frame`).
 - Ability to check whether two axioms are equal, ignoring annotations (`cowl_axiom_equals`).
 - `cowl_change_apply`.
+- `cowl_vector_from_array`, `cowl_vector_with_items`, `cowl_vector_of`.
 
 
 ## [0.8.0] - 2026-06-09
