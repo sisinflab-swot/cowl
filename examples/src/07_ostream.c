@@ -104,7 +104,7 @@ int main(void) {
 
     // SubClassOf(:Porcini ObjectAllValuesFrom(pizza:hasTopping
     // ObjectUnionOf(pizza:MozzarellaTopping :PorciniTopping)))
-    CowlNAryBool *closure = cowl_obj_union_of(mozzarella, porcini);
+    CowlNAryCls *closure = cowl_obj_union_of(mozzarella, porcini);
     obj_quant = cowl_obj_all(has_topping, closure);
     axiom = cowl_sub_cls_axiom(porcini_pizza, obj_quant, NULL);
     if (cowl_writer_write_axiom(writer, &ostream, axiom)) goto err_io;

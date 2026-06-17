@@ -5,9 +5,9 @@ Boolean class expressions
 Intersection and union
 ======================
 
-.. doxygenstruct:: CowlNAryBool
+.. doxygenstruct:: CowlNAryCls
 .. doxygenenum:: CowlNAryType
-.. doxygengroup:: CowlNAryBool
+.. doxygengroup:: CowlNAryCls
    :content-only:
 
 Complement

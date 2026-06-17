@@ -21,12 +21,12 @@ typedef enum CowlClsExpType {
     /// @type{CowlClass} - class.
     COWL_CET_CLASS,
 
-    /// @name Boolean expressions
+    /// @name Boolean class expressions
 
-    /// @type{CowlNAryBool} - Intersection of class expressions.
+    /// @type{CowlNAryCls} - Intersection of class expressions.
     COWL_CET_OBJ_INTERSECT,
 
-    /// @type{CowlNAryBool} - Union of class expressions.
+    /// @type{CowlNAryCls} - Union of class expressions.
     COWL_CET_OBJ_UNION,
 
     /// @type{CowlObjCompl} - Complement of a class expression.

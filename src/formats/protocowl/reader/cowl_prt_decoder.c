@@ -598,10 +598,10 @@ static CowlDataHasValue *decode_data_has_value(CowlPRTDecoder *d) {
     return ce;
 }
 
-static CowlNAryBool *decode_nary_cls_exp(CowlPRTDecoder *d, CowlNAryType cls_exp_type) {
-    CowlNAryBool *ce = NULL;
+static CowlNAryCls *decode_nary_cls_exp(CowlPRTDecoder *d, CowlNAryType cls_exp_type) {
+    CowlNAryCls *ce = NULL;
     CowlVector *operands = decode_vector(d, cls_exp_item);
-    if (decoder_ok(d)) ce = handle_null(d, cowl_nary_bool(cls_exp_type, operands));
+    if (decoder_ok(d)) ce = handle_null(d, cowl_nary_cls(cls_exp_type, operands));
     cowl_release(operands);
     return ce;
 }

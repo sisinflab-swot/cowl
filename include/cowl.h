@@ -67,7 +67,7 @@
 #include "cowl_literal.h"
 #include "cowl_named_ind.h"
 #include "cowl_nary_axiom_type.h"
-#include "cowl_nary_bool.h"
+#include "cowl_nary_cls.h"
 #include "cowl_nary_cls_axiom.h"
 #include "cowl_nary_data.h"
 #include "cowl_nary_data_prop_axiom.h"

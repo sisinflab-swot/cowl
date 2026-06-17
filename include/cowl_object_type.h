@@ -180,10 +180,10 @@ typedef enum CowlObjectType {
     /// @type{CowlClass} - class.
     COWL_OT_CE_CLASS,
 
-    /// @type{CowlNAryBool} - Intersection of class expressions.
+    /// @type{CowlNAryCls} - Intersection of class expressions.
     COWL_OT_CE_OBJ_INTERSECT,
 
-    /// @type{CowlNAryBool} - Union of class expressions.
+    /// @type{CowlNAryCls} - Union of class expressions.
     COWL_OT_CE_OBJ_UNION,
 
     /// @type{CowlObjCompl} - Complement of a class expression.

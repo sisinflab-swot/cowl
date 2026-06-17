@@ -626,7 +626,7 @@ class_expression
 
 object_intersection_of
     : OBJECT_INTERSECTION_OF L_PAREN class_expression_2_list R_PAREN {
-        $$ = (CowlClsExp *)cowl_nary_bool(COWL_NT_INTERSECT, $3);
+        $$ = (CowlClsExp *)cowl_nary_cls(COWL_NT_INTERSECT, $3);
         COWL_VEC_FINALIZE($3);
         if (!$$) COWL_ERROR_MEM;
     }
@@ -634,7 +634,7 @@ object_intersection_of
 
 object_union_of
     : OBJECT_UNION_OF L_PAREN class_expression_2_list R_PAREN {
-        $$ = (CowlClsExp *)cowl_nary_bool(COWL_NT_UNION, $3);
+        $$ = (CowlClsExp *)cowl_nary_cls(COWL_NT_UNION, $3);
         COWL_VEC_FINALIZE($3);
         if (!$$) COWL_ERROR_MEM;
     }

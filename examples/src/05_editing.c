@@ -74,7 +74,7 @@ int main(void) {
 
     // SubClassOf(pizza:Porcini ObjectAllValuesFrom(pizza:hasTopping
     // ObjectUnionOf(pizza:MozzarellaTopping pizza:PorciniTopping)))
-    CowlNAryBool *closure = cowl_obj_union_of(mozzarella_topping, porcini_topping);
+    CowlNAryCls *closure = cowl_obj_union_of(mozzarella_topping, porcini_topping);
     obj_quant = cowl_obj_all(has_topping, closure);
     axiom = cowl_sub_cls_axiom(porcini, obj_quant, NULL);
     cowl_ontology_add_axiom(onto, axiom);

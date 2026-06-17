@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `cowl_change_apply`.
 - `cowl_vector_from_array`, `cowl_vector_with_items`, `cowl_vector_of`.
 
+### Changed
+- Deprecated `CowlNAryBool` in favor of `CowlNAryCls`.
+
 
 ## [0.8.0] - 2026-06-09
 ### Added
