@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Unreleased]
+
+
+## [0.8.1] - 2026-06-18
 ### Added
 - Convenience constructors for most constructs accepting a `CowlVector` instance.
 - Ability to emit ProtocOWL reset frames arbitrarily (`cowl_writer_protocowl_write_reset_frame`).
@@ -554,6 +557,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [unreleased]: https://github.com/sisinflab-swot/cowl/compare/stable...HEAD
+[0.8.1]: https://github.com/sisinflab-swot/cowl/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/sisinflab-swot/cowl/compare/v0.7.4...v0.8.0
 [0.7.4]: https://github.com/sisinflab-swot/cowl/compare/v0.7.3...v0.7.4
 [0.7.3]: https://github.com/sisinflab-swot/cowl/compare/v0.7.2...v0.7.3
