@@ -814,6 +814,7 @@ static cowl_ret stream_encoder_add(CowlPRTEncoder *e, CowlAny *obj,
 }
 
 static cowl_ret stream_encode_prefixes(CowlPRTEncoder *e, CowlPrefixMap *pm) {
+    if (!pm) return COWL_OK;
     CowlTable *prefixes = cowl_prefix_map_get_table(pm, false);
     cowl_table_foreach (prefixes, p) {
         if (encoder_add_prefix(e, *p.val, *p.key) || stream_encoder_flush_if_needed(e)) break;
@@ -822,6 +823,7 @@ static cowl_ret stream_encode_prefixes(CowlPRTEncoder *e, CowlPrefixMap *pm) {
 }
 
 static cowl_ret stream_encode_iri_version(CowlPRTEncoder *e, CowlIRI *iri, CowlIRI *version) {
+    if (!iri) goto end;
     cowl_ontology_set_iri(e->to_flush, iri);
     if (encoder_add_primitive(e, iri)) goto end;
     if (!version) goto end;
@@ -832,6 +834,7 @@ end:
 }
 
 static cowl_ret stream_encode_imports(CowlPRTEncoder *e, UVec(CowlObjectPtr) const *imports) {
+    if (!imports) return COWL_OK;
     cowl_ret ret = COWL_OK;
     uvec_foreach (CowlObjectPtr, imports, import) {
         if ((ret = stream_encoder_add(e, *import.item, import_adder))) break;
@@ -841,6 +844,7 @@ static cowl_ret stream_encode_imports(CowlPRTEncoder *e, UVec(CowlObjectPtr) con
 
 static cowl_ret
 stream_encode_annotations(CowlPRTEncoder *e, UVec(CowlObjectPtr) const *annotations) {
+    if (!annotations) return COWL_OK;
     cowl_ret ret = COWL_OK;
     uvec_foreach (CowlObjectPtr, annotations, annot) {
         if ((ret = stream_encoder_add(e, *annot.item, annot_adder))) break;

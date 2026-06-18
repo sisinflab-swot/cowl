@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2021 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2021-2026 SisInf Lab, Polytechnic University of Bari
  * @copyright <https://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
@@ -58,7 +58,7 @@ CowlReader *cowl_reader_functional(void) {
 
     return cowl_reader((CowlReaderImpl){
         .ctx = err,
-        .name = "functional",
+        .name = "Functional",
         .read = func_read,
         .last_error = last_error,
         .free = free_error,

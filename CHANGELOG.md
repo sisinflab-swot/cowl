@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Deprecated `CowlNAryBool` in favor of `CowlNAryCls`.
 
+### Fixed
+- Multiple NULL pointer dereferences in Functional and ProtocOWL writers.
+
 
 ## [0.8.0] - 2026-06-09
 ### Added

@@ -1,7 +1,7 @@
 /**
  * @author Ivano Bilenchi
  *
- * @copyright Copyright (c) 2022 SisInf Lab, Polytechnic University of Bari
+ * @copyright Copyright (c) 2022-2026 SisInf Lab, Polytechnic University of Bari
  * @copyright <https://swot.sisinflab.poliba.it>
  * @copyright SPDX-License-Identifier: EPL-2.0
  */
@@ -345,14 +345,17 @@ static void write_prefix(FuncEncoder *e, CowlString *prefix, CowlString *ns) {
     write_static(e, ")");
 }
 
-static void write_header(FuncEncoder *e, CowlOntologyHeader *header) {
-    CowlTable *prefixes = cowl_prefix_map_get_table(header->pm, false);
-
+static void write_prefixes(FuncEncoder *e, CowlPrefixMap *pm) {
+    CowlTable *prefixes = cowl_prefix_map_get_table(pm, false);
     cowl_table_foreach (prefixes, p) {
         if (cowl_vocab_is_reserved_prefix(*p.key)) continue;
         write_prefix(e, *p.key, *p.val);
         write_static(e, "\n");
     }
+}
+
+static void write_header(FuncEncoder *e, CowlOntologyHeader *header) {
+    if (header->pm) write_prefixes(e, header->pm);
 
     write_static(e, "Ontology");
     write_static(e, "(");
@@ -470,7 +473,7 @@ CowlWriter *cowl_writer_functional(void) {
     *e = encoder_init();
     return cowl_writer((CowlWriterImpl){
         .ctx = e,
-        .name = "functional",
+        .name = "Functional",
         .write = func_write,
         .write_header = func_write_header,
         .write_axiom = func_write_axiom,
