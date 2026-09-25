@@ -24,8 +24,8 @@ typedef enum CowlPRTLiteralValueFormat {
     COWL_LVF_STRING = 0,
     COWL_LVF_COMP_STRING = 1,
     COWL_LVF_BOOL = 2,
-    COWL_LVF_INT = 3,
-    COWL_LVF_UINT = 4,
+    COWL_LVF_POS_INT = 3,
+    COWL_LVF_NEG_INT = 4,
     COWL_LVF_FIXED_POINT = 5,
     COWL_LVF_E_NOTATION = 6,
 } CowlPRTLiteralValueFormat;

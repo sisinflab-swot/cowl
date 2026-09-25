@@ -357,22 +357,37 @@ static CowlString *decode_literal_bool(CowlPRTDecoder *d) {
     }
 }
 
-static CowlString *decode_literal_int(CowlPRTDecoder *d) {
-    ulib_int v;
-    if (read_svarint(d, &v)) return NULL;
-    return cowl_string_with_format("%" ULIB_INT_FMT, v);
+static ulib_ret buf_append_int(UStrBuf *buf, ulib_uint value, bool negative) {
+    ulib_ret ret;
+    if (negative && ulib_is_err(ret = ustrbuf_append_format(buf, "-"))) return ret;
+    return ustrbuf_append_format(buf, "%" ULIB_UINT_FMT, value);
 }
 
-static CowlString *decode_literal_uint(CowlPRTDecoder *d) {
+static CowlString *decode_literal_int(CowlPRTDecoder *d, bool negative) {
     ulib_uint v;
     if (read_varint(d, &v)) return NULL;
-    return cowl_string_with_format("%" ULIB_UINT_FMT, v);
+
+    UStrBuf buf = ustrbuf();
+    if (ulib_is_err(buf_append_int(&buf, v, negative))) goto err;
+    return cowl_string(ustrbuf_to_string(&buf));
+
+err:
+    ustrbuf_deinit(&buf);
+    decoder_handle_error_code(d, COWL_ERR_MEM);
+    return NULL;
 }
 
 static ulib_ret buf_append_fixed_point(UStrBuf *buf, ulib_int whole, ulib_uint frac) {
-    if (ustrbuf_append_format(buf, "%" ULIB_INT_FMT ".", whole)) return ULIB_ERR_MEM;
-    ulib_uint const whole_len = ustrbuf_length(buf);
-    if (ustrbuf_append_format(buf, "%" ULIB_UINT_FMT, frac)) return ULIB_ERR_MEM;
+    bool const negative = whole < 0;
+    ulib_uint const whole_val = (ulib_uint)(negative ? -(whole + 1) : whole);
+
+    ulib_ret ret = buf_append_int(buf, whole_val, negative);
+    if (ulib_is_err(ret)) return ret;
+
+    ulib_uint const whole_len = ustrbuf_length(buf) + 1;
+    ret = ustrbuf_append_format(buf, ".%" ULIB_UINT_FMT, frac);
+    if (ulib_is_err(ret)) return ret;
+
     ulib_str_reverse(ustrbuf_data(buf) + whole_len, ustrbuf_length(buf) - whole_len);
     return ULIB_OK;
 }
@@ -411,8 +426,8 @@ static CowlString *decode_literal_value(CowlPRTDecoder *d, CowlPRTLiteralValueFo
     switch (v) {
         case COWL_LVF_STRING: return decode_string(d);
         case COWL_LVF_BOOL: return decode_literal_bool(d);
-        case COWL_LVF_INT: return decode_literal_int(d);
-        case COWL_LVF_UINT: return decode_literal_uint(d);
+        case COWL_LVF_POS_INT: return decode_literal_int(d, false);
+        case COWL_LVF_NEG_INT: return decode_literal_int(d, true);
         case COWL_LVF_FIXED_POINT: return decode_literal_fixed_point(d);
         case COWL_LVF_E_NOTATION: return decode_literal_e_notation(d);
         case COWL_LVF_COMP_STRING: // TO-DO: decompression.

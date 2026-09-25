@@ -173,18 +173,28 @@ static void encode_datatype(CowlPRTEncoder *e, CowlDatatype *datatype, bool is_d
     encode_id_offset(e, cowl_datatype_get_iri(datatype), offset);
 }
 
+static bool maybe_canonical(CowlString *string, bool leading_zero) {
+    char const *s = cowl_string_get_cstring(string);
+    if (*s == '0' && !*(s + 1)) return true;
+    if (*s == '-') ++s;
+    return *s >= (leading_zero ? '0' : '1') && *s <= '9';
+}
+
 static CowlPRTLiteralValueFormat encode_literal_int(UOStream *o, ulib_int val) {
     if (val < 0) {
-        uostream_write_svarint(o, val, NULL);
-        return COWL_LVF_INT;
+        uostream_write_varint(o, (ulib_uint)~val + 1, NULL);
+        return COWL_LVF_NEG_INT;
     }
     uostream_write_varint(o, (ulib_uint)val, NULL);
-    return COWL_LVF_UINT;
+    return COWL_LVF_POS_INT;
 }
 
 static CowlPRTLiteralValueFormat encode_literal_maybe_int(UOStream *o, CowlString *string) {
     ulib_int val;
-    return cowl_string_to_int(string, &val, 10) ? COWL_LVF_STRING : encode_literal_int(o, val);
+    if (!maybe_canonical(string, false) || cowl_string_to_int(string, &val, 10)) {
+        return COWL_LVF_STRING;
+    }
+    return encode_literal_int(o, val);
 }
 
 static ulib_ret bool_value(CowlString *string, ulib_byte *out) {
@@ -245,10 +255,14 @@ static CowlPRTLiteralValueFormat encode_literal_maybe_dec(UOStream *o, CowlStrin
     ulib_uint frac;
     ulib_int exp;
 
+    if (!maybe_canonical(string, true)) goto err;
+
     // Whole part
     whole = ulib_str_to_int(s, &end, 10);
     if (end == s) goto err;
     if (end == max) return encode_literal_int(o, whole);
+    // Negative whole parts are encoded as whole - 1 so that -0 is representable.
+    if (*s == '-') whole -= 1;
 
     // Dot
     if (*end != '.' || (end + 1 == max)) goto err;
