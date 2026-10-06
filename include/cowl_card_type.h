@@ -35,7 +35,7 @@ typedef enum CowlCardType {
     COWL_CT_COUNT,
 
     /// First enum value.
-    COWL_CT_FIRST = 0
+    COWL_CT_FIRST = 0,
 
 } CowlCardType;
 

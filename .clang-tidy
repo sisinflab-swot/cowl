@@ -3,9 +3,11 @@ Checks: >
   -*,
   bugprone-*,
   -bugprone-assignment-in-if-condition,
+  -bugprone-assignment-in-selection-statement,
   -bugprone-easily-swappable-parameters,
   -bugprone-implicit-widening-of-multiplication-result,
   -bugprone-macro-parentheses,
+  -bugprone-signed-bitwise,
   clang-analyzer-*,
   -clang-analyzer-cplusplus-*,
   -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
@@ -19,8 +21,11 @@ Checks: >
   -readability-enum-initial-value,
   -readability-identifier-length,
   -readability-implicit-bool-conversion,
-  -readability-magic-numbers
+  -readability-magic-numbers,
+  -readability-trailing-comma
 CheckOptions:
-  misc-include-cleaner.IgnoreHeaders: /_[^/]+\.h$;^_[^/]+\.h$
+  misc-include-cleaner.IgnoreHeaders: /_[^/]+\.h$;asm-generic/.*\.h$;bits/.*\.h$
   readability-braces-around-statements.ShortStatementLines: 2
   readability-function-cognitive-complexity.IgnoreMacros: true
+  readability-function-size.IgnoreMacros: true
+ExcludeHeaderFilterRegex: '(^|/)lib/ulib/'

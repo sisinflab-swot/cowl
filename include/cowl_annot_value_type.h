@@ -35,7 +35,7 @@ typedef enum CowlAnnotValueType {
     COWL_AVT_COUNT,
 
     /// First enum value.
-    COWL_AVT_FIRST = 0
+    COWL_AVT_FIRST = 0,
 
 } CowlAnnotValueType;
 

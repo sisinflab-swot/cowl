@@ -47,7 +47,7 @@ typedef enum CowlCharAxiomType {
     COWL_CAT_COUNT,
 
     /// First enum value.
-    COWL_CAT_FIRST = 0
+    COWL_CAT_FIRST = 0,
 
 } CowlCharAxiomType;
 

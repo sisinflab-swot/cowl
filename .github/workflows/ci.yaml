@@ -13,12 +13,23 @@ defaults:
 env:
   build_dir: build
   config: Release
+  llvm: 23
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ${{vars.ubuntu_runner || 'ubuntu-latest'}}
     steps:
+      - name: Install LLVM
+        run: |
+          dist=$(lsb_release -cs)
+          curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key |
+            sudo tee /etc/apt/trusted.gpg.d/llvm.asc > /dev/null
+          echo "deb https://apt.llvm.org/${dist}/ llvm-toolchain-${dist}-${{env.llvm}} main" |
+            sudo tee /etc/apt/sources.list.d/llvm.list > /dev/null
+          sudo apt-get update
+          sudo apt-get install -y clang-${{env.llvm}} clang-tidy-${{env.llvm}}
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -34,7 +45,10 @@ jobs:
 
       - name: Configure
         run: >
-          CC=clang cmake -B ${{env.build_dir}}
+          cmake -B ${{env.build_dir}}
+          -DCMAKE_C_COMPILER=clang-${{env.llvm}}
+          -DCMAKE_CXX_COMPILER=clang++-${{env.llvm}}
+          -DCLANG_TIDY_EXECUTABLE=clang-tidy-${{env.llvm}}
           -DCOWL_CPP_TESTS=OFF
           -DCOWL_LTO=OFF
           -DCOWL_CLANG_TIDY=ON

@@ -32,7 +32,7 @@ typedef enum CowlQuantType {
     COWL_QT_COUNT,
 
     /// First enum value.
-    COWL_QT_FIRST = 0
+    COWL_QT_FIRST = 0,
 
 } CowlQuantType;
 

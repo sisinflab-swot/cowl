@@ -44,7 +44,7 @@ typedef enum CowlEntityType {
     COWL_ET_COUNT,
 
     /// First enum value.
-    COWL_ET_FIRST = 0
+    COWL_ET_FIRST = 0,
 
 } CowlEntityType;
 

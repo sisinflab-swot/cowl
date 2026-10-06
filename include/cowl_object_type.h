@@ -308,7 +308,7 @@ typedef enum CowlObjectType {
     COWL_OT_FIRST_DR = COWL_OT_DR_DATATYPE,
 
     /// Last data range type.
-    COWL_OT_LAST_DR = COWL_OT_DR_DATATYPE_RESTR
+    COWL_OT_LAST_DR = COWL_OT_DR_DATATYPE_RESTR,
 
 } CowlObjectType;
 

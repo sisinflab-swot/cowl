@@ -43,7 +43,7 @@ typedef enum CowlNAryAxiomType {
     COWL_NAT_SAME = COWL_NAT_EQUIV,
 
     /// Different individuals.
-    COWL_NAT_DIFF = COWL_NAT_DISJ
+    COWL_NAT_DIFF = COWL_NAT_DISJ,
 
 } CowlNAryAxiomType;
 

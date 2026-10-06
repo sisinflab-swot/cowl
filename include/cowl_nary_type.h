@@ -32,7 +32,7 @@ typedef enum CowlNAryType {
     COWL_NT_COUNT,
 
     /// First enum value.
-    COWL_NT_FIRST = 0
+    COWL_NT_FIRST = 0,
 
 } CowlNAryType;
 

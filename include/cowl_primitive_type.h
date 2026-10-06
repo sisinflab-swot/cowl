@@ -50,7 +50,7 @@ typedef enum CowlPrimitiveType {
     COWL_PT_COUNT,
 
     /// First enum value.
-    COWL_PT_FIRST = 0
+    COWL_PT_FIRST = 0,
 
 } CowlPrimitiveType;
 

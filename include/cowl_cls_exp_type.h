@@ -86,7 +86,7 @@ typedef enum CowlClsExpType {
     COWL_CET_COUNT,
 
     /// First enum value.
-    COWL_CET_FIRST = 0
+    COWL_CET_FIRST = 0,
 
 } CowlClsExpType;
 

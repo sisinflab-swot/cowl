@@ -44,7 +44,7 @@ typedef enum CowlDataRangeType {
     COWL_DRT_COUNT,
 
     /// First enum value.
-    COWL_DRT_FIRST = 0
+    COWL_DRT_FIRST = 0,
 
 } CowlDataRangeType;
 

@@ -151,7 +151,7 @@ typedef enum CowlAxiomType {
     COWL_AT_COUNT,
 
     /// First enum value.
-    COWL_AT_FIRST = 0
+    COWL_AT_FIRST = 0,
 
 } CowlAxiomType;
 
