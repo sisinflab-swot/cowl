@@ -124,13 +124,25 @@
     } while (0)
 
     #define COWL_VEC_PUSH(T, VEC, OBJ) do {                                                        \
-        if (cowl_vector_push(VEC, OBJ)) COWL_ERROR_MEM;                                            \
+        if (cowl_vector_push(VEC, OBJ)) {                                                          \
+            cowl_release(VEC);                                                                     \
+            COWL_ERROR_MEM;                                                                        \
+        }                                                                                          \
+    } while (0)
+
+    #define COWL_VEC_CREATE_PUSH(T, VEC, OBJ) do {                                                 \
+        if (!(VEC) && !((VEC) = cowl_vector_empty())) {                                            \
+            cowl_release(OBJ);                                                                     \
+            COWL_ERROR_MEM;                                                                        \
+        }                                                                                          \
+        COWL_VEC_PUSH(T, VEC, OBJ);                                                                \
     } while (0)
 
     #define COWL_VEC_FINALIZE(VEC) do {                                                            \
         if (VEC) {                                                                                 \
+            cowl_ret const vec_ret = cowl_vector_shrink(VEC);                                      \
             cowl_release(VEC);                                                                     \
-            if (cowl_vector_shrink(VEC)) COWL_ERROR_MEM;                                           \
+            if (vec_ret) COWL_ERROR_MEM;                                                           \
         }                                                                                          \
     } while (0)
 }
@@ -1288,21 +1300,15 @@ annotation_star
         $$ = NULL;
     }
     | annotation_star annotation {
-        if ($1) {
-            $$ = $1;
-        } else {
-            $$ = cowl_vector_empty();
-            if (!$$) COWL_ERROR_MEM;
-        }
-        COWL_VEC_PUSH(annotation, $$, $2);
+        $$ = $1;
+        COWL_VEC_CREATE_PUSH(annotation, $$, $2);
     }
 ;
 
 class_expression_list
     : class_expression {
-        $$ = cowl_vector_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(cls_exp, $$, $1);
+        $$ = NULL;
+        COWL_VEC_CREATE_PUSH(cls_exp, $$, $1);
     }
     | class_expression_list class_expression {
         $$ = $1;
@@ -1319,9 +1325,8 @@ class_expression_2_list
 
 data_property_expression_list
     : data_property_expression {
-        $$ = cowl_vector_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(data_prop_exp, $$, $1);
+        $$ = NULL;
+        COWL_VEC_CREATE_PUSH(data_prop_exp, $$, $1);
     }
     | data_property_expression_list data_property_expression {
         $$ = $1;
@@ -1341,21 +1346,15 @@ data_property_expression_star
         $$ = NULL;
     }
     | data_property_expression_star data_property_expression {
-        if ($1) {
-            $$ = $1;
-        } else {
-            $$ = cowl_vector_empty();
-            if (!$$) COWL_ERROR_MEM;
-        }
-        COWL_VEC_PUSH(data_prop_exp, $$, $2);
+        $$ = $1;
+        COWL_VEC_CREATE_PUSH(data_prop_exp, $$, $2);
     }
 ;
 
 data_range_list
     : data_range {
-        $$ = cowl_vector_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(data_range, $$, $1);
+        $$ = NULL;
+        COWL_VEC_CREATE_PUSH(data_range, $$, $1);
     }
     | data_range_list data_range {
         $$ = $1;
@@ -1372,9 +1371,8 @@ data_range_2_list
 
 facet_restriction_list
     : facet_restriction {
-        $$ = cowl_vector_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(facet_restr, $$, $1);
+        $$ = NULL;
+        COWL_VEC_CREATE_PUSH(facet_restr, $$, $1);
     }
     | facet_restriction_list facet_restriction {
         $$ = $1;
@@ -1384,9 +1382,8 @@ facet_restriction_list
 
 individual_list
     : individual {
-        $$ = cowl_vector_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(individual, $$, $1);
+        $$ = NULL;
+        COWL_VEC_CREATE_PUSH(individual, $$, $1);
     }
     | individual_list individual {
         $$ = $1;
@@ -1403,9 +1400,8 @@ individual_2_list
 
 literal_list
     : literal {
-        $$ = cowl_vector_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(literal, $$, $1);
+        $$ = NULL;
+        COWL_VEC_CREATE_PUSH(literal, $$, $1);
     }
     | literal_list literal {
         $$ = $1;
@@ -1415,9 +1411,8 @@ literal_list
 
 object_property_expression_list
     : object_property_expression {
-        $$ = cowl_vector_empty();
-        if (!$$) COWL_ERROR_MEM;
-        COWL_VEC_PUSH(obj_prop_exp, $$, $1);
+        $$ = NULL;
+        COWL_VEC_CREATE_PUSH(obj_prop_exp, $$, $1);
     }
     | object_property_expression_list object_property_expression {
         $$ = $1;
@@ -1437,13 +1432,8 @@ object_property_expression_star
         $$ = NULL;
     }
     | object_property_expression_star object_property_expression {
-        if ($1) {
-            $$ = $1;
-        } else {
-            $$ = cowl_vector_empty();
-            if (!$$) COWL_ERROR_MEM;
-        }
-        COWL_VEC_PUSH(obj_prop_exp, $$, $2);
+        $$ = $1;
+        COWL_VEC_CREATE_PUSH(obj_prop_exp, $$, $2);
     }
 ;
 

@@ -446,14 +446,43 @@ static inline cowl_ret vector_ptr_add(CowlVector **vec, CowlAny *obj) {
     return cowl_vector_add(*vec, obj) ? COWL_ERR_MEM : COWL_OK;
 }
 
-static bool vector_ptr_remove(CowlVector **vec, CowlAny *obj) {
-    if (!*vec) return false;
-    bool removed = cowl_vector_remove(*vec, obj);
+// Returns the removed element, which must be released by the caller.
+static CowlAny *vector_ptr_take(CowlVector **vec, CowlAny *obj) {
+    if (!*vec) return NULL;
+    CowlAny *removed = cowl_vector_take(*vec, obj);
     if (removed && cowl_vector_count(*vec) == 0) {
         cowl_release(*vec);
         *vec = NULL;
     }
     return removed;
+}
+
+static bool vector_ptr_remove(CowlVector **vec, CowlAny *obj) {
+    CowlAny *removed = vector_ptr_take(vec, obj);
+    if (!removed) return false;
+    cowl_release(removed);
+    return true;
+}
+
+static bool annot_has_primitive(CowlOntology *onto, CowlAnyPrimitive *primitive) {
+    cowl_vector_foreach (onto->annot, annot) {
+        if (cowl_has_primitive(*annot.item, primitive)) return true;
+    }
+    return false;
+}
+
+// Primitives must be in the primitive index iff they are referenced by an axiom or an ontology
+// annotation. Keys are not retained, so a stale key would dangle once its primitive is freed.
+static void prune_primitive(CowlOntology *onto, UHash(CowlObjectPtr) *map, ulib_uint i) {
+    CowlVector *vec = uhmap_val(CowlObjectPtr, map, i);
+    if (cowl_vector_count(vec)) return;
+    cowl_vector_release_ex(vec, false);
+
+    if (annot_has_primitive(onto, uhash_key(CowlObjectPtr, map, i))) {
+        uhmap_set_val(CowlObjectPtr, map, i, NULL);
+    } else {
+        uhash_delete(CowlObjectPtr, map, i);
+    }
 }
 
 static cowl_ret add_primitive_to_map(CowlObject *primitive, UHash(CowlObjectPtr) *map) {
@@ -478,8 +507,21 @@ cowl_ret cowl_ontology_add_annot(CowlOntology *onto, CowlAnnotation *annot) {
     return ret;
 }
 
+static cowl_ret unindex_annot_foreach(void *ctx, CowlAny *obj) {
+    CowlOntology *onto = ctx;
+    UHash(CowlObjectPtr) *map = &onto->refs[cowl_primitive_get_type(obj)];
+    ulib_uint const i = uhash_get(CowlObjectPtr, map, obj);
+    if (i != UHASH_INDEX_MISSING) prune_primitive(onto, map, i);
+    return COWL_CONTINUE;
+}
+
 bool cowl_ontology_remove_annot(CowlOntology *onto, CowlAnnotation *annot) {
-    return vector_ptr_remove(&onto->annot, annot);
+    CowlAnnotation *removed = vector_ptr_take(&onto->annot, annot);
+    if (!removed) return false;
+    CowlIterator iter = { onto, unindex_annot_foreach };
+    cowl_iterate_primitives(removed, COWL_PF_ALL, &iter);
+    cowl_release(removed);
+    return true;
 }
 
 bool cowl_ontology_has_import(CowlOntology *onto, CowlIRI *import) {
@@ -508,11 +550,7 @@ add_axiom_to_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectPtr) *
         if (!vec) return COWL_ERR_MEM;
     }
 
-    if (cowl_vector_push(vec, axiom)) {
-        return COWL_ERR_MEM;
-    }
-
-    return COWL_OK;
+    return cowl_ret_from_ulib(uvec_push(CowlObjectPtr, &vec->data, axiom));
 }
 
 static inline cowl_ret add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
@@ -539,16 +577,22 @@ cowl_ret cowl_ontology_add_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
     return add_axiom(onto, axiom);
 }
 
-static inline void
-remove_axiom_from_map(CowlObject *primitive, CowlAxiom *axiom, UHash(CowlObjectPtr) *map) {
-    CowlVector *vec = uhmap_get(CowlObjectPtr, map, primitive, NULL);
+static inline void remove_axiom_from_map(CowlOntology *onto, CowlObject *primitive,
+                                         CowlAxiom *axiom, UHash(CowlObjectPtr) *map) {
+    ulib_uint const i = uhash_get(CowlObjectPtr, map, primitive);
+    if (i == UHASH_INDEX_MISSING) return;
+
+    CowlVector *vec = uhmap_val(CowlObjectPtr, map, i);
     if (!vec) return;
+
     uvec_foreach_reverse (CowlObjectPtr, &vec->data, a) {
         if (*a.item == axiom) {
             uvec_unordered_remove_at(CowlObjectPtr, &vec->data, a.i);
             break;
         }
     }
+
+    prune_primitive(onto, map, i);
 }
 
 static void remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
@@ -566,7 +610,7 @@ static void remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
 static cowl_ret unindex_axiom_foreach(void *ctx, void *obj) {
     CowlAxiomCtx *axiom_ctx = ctx;
     UHash(CowlObjectPtr) *map = &axiom_ctx->onto->refs[cowl_primitive_get_type(obj)];
-    remove_axiom_from_map(obj, axiom_ctx->axiom, map);
+    remove_axiom_from_map(axiom_ctx->onto, obj, axiom_ctx->axiom, map);
     return COWL_CONTINUE;
 }
 
@@ -588,7 +632,7 @@ bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
 
     uvec_foreach_reverse (CowlObjectPtr, &index->data, a) {
         if (cowl_equals(axiom, *a.item)) {
-            remove_and_unindex(onto, axiom);
+            remove_and_unindex(onto, *a.item);
             return true;
         }
     }
@@ -598,13 +642,24 @@ bool cowl_ontology_remove_axiom(CowlOntology *onto, CowlAnyAxiom *axiom) {
 
 static ulib_uint remove_matching(CowlOntology *onto, CowlVector *index, CowlAxiomFilter *f) {
     if (!index) return 0;
+
+    // Removing the last index axiom releases it, so we retain it until we are done iterating.
+    cowl_retain(index);
+    UVec(CowlObjectPtr) *vec = &index->data;
     ulib_uint count = 0;
-    uvec_foreach_reverse (CowlObjectPtr, &index->data, axiom) {
-        CowlAnyAxiom *a = *axiom.item;
+
+    for (ulib_uint i = uvec_count(CowlObjectPtr, vec); i-- != 0;) {
+        CowlAnyAxiom *a = uvec_get(CowlObjectPtr, vec, i);
         if (!cowl_axiom_filter_matches(f, a)) continue;
         remove_and_unindex(onto, a);
         count++;
+        // Axioms that reference the primitive multiple times occur multiple times in its index,
+        // and they are all removed, so the loop index may now be past the end of the vector.
+        ulib_uint const n = uvec_count(CowlObjectPtr, vec);
+        if (i > n) i = n;
     }
+
+    cowl_vector_release_ex(index, false);
     return count;
 }
 

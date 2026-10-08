@@ -282,3 +282,71 @@ void cowl_test_ontology_edit(void) {
 
     cowl_release_all(sub_axiom, onto);
 }
+
+static cowl_ret count_primitives_foreach(void *ctx, CowlAny *obj) {
+    // Dereference so that dangling index keys are caught by the sanitizers.
+    if (cowl_is_primitive(obj)) ++(*(ulib_uint *)ctx);
+    return COWL_CONTINUE;
+}
+
+void cowl_test_ontology_add_remove(void) {
+    CowlOntology *onto = cowl_ontology();
+    CowlClass *cls = cowl_class_from_literal(test_onto_iri "A");
+    CowlNamedInd *ind = cowl_named_ind_from_literal(test_onto_iri "a");
+    CowlAnnotProp *prop = cowl_annot_prop_from_literal(test_onto_iri "p");
+    CowlIRI *value = cowl_iri_from_literal(test_onto_iri "v");
+
+    CowlAnnotation *annot = cowl_annotation(prop, value, NULL);
+    CowlDeclAxiom *ind_decl = cowl_decl_axiom(ind, NULL);
+    CowlDeclAxiom *prop_decl = cowl_decl_axiom(prop, NULL);
+    CowlAnyAxiom *axioms[] = {
+        ind_decl,
+        prop_decl,
+        cowl_sub_cls_axiom(cls, cls, NULL),
+        cowl_cls_assert_axiom(cls, ind, NULL),
+    };
+
+    cowl_assert_ok(cowl_ontology_add_annot(onto, annot));
+    for (ulib_uint i = 0; i < ulib_array_count(axioms); ++i) {
+        cowl_assert_ok(cowl_ontology_add_axiom(onto, axioms[i]));
+    }
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 4);
+    utest_assert_uint(cowl_ontology_primitive_count(onto, COWL_PF_ALL), ==, 4);
+
+    CowlAnyAxiom *axiom = cowl_decl_axiom(prop, NULL);
+    utest_assert(cowl_ontology_remove_axiom(onto, axiom));
+    cowl_release(axiom);
+    utest_assert(cowl_ontology_has_primitive(onto, prop));
+    utest_assert_uint(cowl_ontology_axiom_count_for_primitive(onto, prop), ==, 0);
+
+    cowl_assert_ok(cowl_ontology_add_axiom(onto, prop_decl));
+    utest_assert_uint(cowl_ontology_axiom_count_for_primitive(onto, prop), ==, 1);
+
+    CowlAnnotation *equal_annot = cowl_annotation(prop, value, NULL);
+    utest_assert(cowl_ontology_remove_annot(onto, equal_annot));
+    cowl_release(equal_annot);
+    utest_assert(cowl_ontology_has_primitive(onto, prop));
+    utest_assert_false(cowl_ontology_has_primitive(onto, value));
+
+    CowlAxiomFilter af = cowl_axiom_filter(COWL_AF_ALL);
+    cowl_assert_ok(cowl_axiom_filter_add_primitive(&af, cls));
+    utest_assert_uint(cowl_ontology_remove_axioms_matching(onto, &af), ==, 2);
+    utest_assert_false(cowl_ontology_has_primitive(onto, cls));
+    utest_assert(cowl_ontology_has_primitive(onto, ind));
+
+    utest_assert(cowl_ontology_remove_axiom(onto, ind_decl));
+    utest_assert(cowl_ontology_remove_axiom(onto, prop_decl));
+    utest_assert_uint(cowl_ontology_axiom_count(onto), ==, 0);
+    utest_assert_uint(cowl_ontology_primitive_count(onto, COWL_PF_ALL), ==, 0);
+
+    for (ulib_uint i = 0; i < ulib_array_count(axioms); ++i) {
+        cowl_release(axioms[i]);
+    }
+    cowl_release_all(annot, cls, ind, prop, value);
+
+    ulib_uint count = 0;
+    CowlIterator iter = { &count, count_primitives_foreach };
+    cowl_ontology_iterate_primitives(onto, COWL_PF_ALL, &iter);
+    utest_assert_uint(count, ==, 0);
+    cowl_release(onto);
+}

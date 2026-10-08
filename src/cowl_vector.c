@@ -190,15 +190,18 @@ cowl_ret cowl_vector_push(CowlVector *vec, CowlAny *object) {
     return COWL_OK;
 }
 
-bool cowl_vector_remove(CowlVector *vec, CowlAny *object) {
-    bool removed = false;
+CowlAny *cowl_vector_take(CowlVector *vec, CowlAny *object) {
+    ulib_uint const i = uvec_index_of(CowlObjectPtr, &vec->data, object);
+    if (i >= uvec_count(CowlObjectPtr, &vec->data)) return NULL;
+    CowlAny *stored = uvec_get(CowlObjectPtr, &vec->data, i);
+
     if (cowl_vector_is_ordered(vec)) {
-        removed = uvec_remove(CowlObjectPtr, &vec->data, object);
+        uvec_remove_at(CowlObjectPtr, &vec->data, i);
     } else {
-        removed = uvec_unordered_remove(CowlObjectPtr, &vec->data, object);
+        uvec_unordered_remove_at(CowlObjectPtr, &vec->data, i);
     }
-    if (removed) cowl_release(object);
-    return removed;
+
+    return stored;
 }
 
 cowl_ret cowl_vector_shrink(CowlVector *vec) {
