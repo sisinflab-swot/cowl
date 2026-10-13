@@ -182,11 +182,11 @@ static bool maybe_canonical(CowlString *string, bool leading_zero) {
 
 static CowlPRTLiteralValueFormat encode_literal_int(UOStream *o, ulib_int val) {
     if (val < 0) {
-        uostream_write_varint(o, (ulib_uint)~val + 1, NULL);
+        uostream_write_varint(o, (ulib_uint)~val, NULL);
         return COWL_LVF_NEG_INT;
     }
     uostream_write_varint(o, (ulib_uint)val, NULL);
-    return COWL_LVF_POS_INT;
+    return COWL_LVF_NON_NEG_INT;
 }
 
 static CowlPRTLiteralValueFormat encode_literal_maybe_int(UOStream *o, CowlString *string) {

@@ -367,6 +367,11 @@ static CowlString *decode_literal_int(CowlPRTDecoder *d, bool negative) {
     ulib_uint v;
     if (read_varint(d, &v)) return NULL;
 
+    if (negative) {
+        if (v == ULIB_UINT_MAX) return NULL;
+        ++v;
+    }
+
     UStrBuf buf = ustrbuf();
     if (ulib_is_err(buf_append_int(&buf, v, negative))) goto err;
     return cowl_string(ustrbuf_to_string(&buf));
@@ -426,7 +431,7 @@ static CowlString *decode_literal_value(CowlPRTDecoder *d, CowlPRTLiteralValueFo
     switch (v) {
         case COWL_LVF_STRING: return decode_string(d);
         case COWL_LVF_BOOL: return decode_literal_bool(d);
-        case COWL_LVF_POS_INT: return decode_literal_int(d, false);
+        case COWL_LVF_NON_NEG_INT: return decode_literal_int(d, false);
         case COWL_LVF_NEG_INT: return decode_literal_int(d, true);
         case COWL_LVF_FIXED_POINT: return decode_literal_fixed_point(d);
         case COWL_LVF_E_NOTATION: return decode_literal_e_notation(d);
