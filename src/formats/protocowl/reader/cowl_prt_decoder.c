@@ -99,7 +99,9 @@ static inline bool read_varint(CowlPRTDecoder *d, ulib_uint *value) {
 
     if (ulib_is_ok(ret)) {
         *value = (ulib_uint)v;
-        return false;
+        if ((ulib_varint)*value == v) return false;
+        decoder_handle_error(d, COWL_ERR_SYNTAX, "varint out of range");
+        goto err;
     }
 
     if (ret != ULIB_ERR_IO) decoder_handle_error(d, COWL_ERR_SYNTAX, "failed to read varint");
@@ -118,7 +120,10 @@ static inline cowl_ret read_svarint(CowlPRTDecoder *d, ulib_int *value) {
 
     if (ulib_is_ok(ret)) {
         *value = (ulib_int)v;
-        return COWL_OK;
+        if ((ulib_svarint)*value == v) return COWL_OK;
+        decoder_handle_error(d, COWL_ERR_SYNTAX, "svarint out of range");
+        *value = 0;
+        return COWL_ERR_SYNTAX;
     }
 
     if (ret == ULIB_ERR_IO) return COWL_ERR_IO;
@@ -328,7 +333,7 @@ static CowlLiteral *decode_literal_typed(CowlPRTDecoder *d, CowlString *value) {
     if (!iri) return NULL;
 
     CowlLiteral *literal = NULL;
-    CowlDatatype *dt = cowl_datatype(iri);
+    CowlDatatype *dt = handle_null(d, cowl_datatype(iri));
     if (dt) literal = handle_null(d, cowl_literal(value, dt));
 
     cowl_release_all(iri, dt);
@@ -368,7 +373,10 @@ static CowlString *decode_literal_int(CowlPRTDecoder *d, bool negative) {
     if (read_varint(d, &v)) return NULL;
 
     if (negative) {
-        if (v == ULIB_UINT_MAX) return NULL;
+        if (v == ULIB_UINT_MAX) {
+            decoder_handle_error(d, COWL_ERR_SYNTAX, "negative integer out of range");
+            return NULL;
+        }
         ++v;
     }
 
@@ -454,7 +462,7 @@ static CowlLiteral *decode_literal(CowlPRTDecoder *d) {
         case COWL_OLT_STRING_LITERAL: literal = decode_literal_string(d, value); break;
         case COWL_OLT_STRING_LITERAL_LANGUAGE: literal = decode_literal_lang(d, value); break;
         case COWL_OLT_TYPED_LITERAL: literal = decode_literal_typed(d, value); break;
-        default: break;
+        default: decoder_handle_error(d, COWL_ERR_SYNTAX, "invalid literal type %d", (int)type);
     }
 
     cowl_release(value);
@@ -916,18 +924,14 @@ decode_sub_obj_prop_axiom(CowlPRTDecoder *d, bool has_u_bit, bool has_annot) {
     CowlObjPropExp *sup = NULL;
     CowlVector *annot = NULL;
     CowlSubObjPropAxiom *axiom = NULL;
-    if (has_u_bit) {
-        sub = decode_vector(d, obj_prop_exp_item);
-        sup = decode_obj_prop_exp(d);
-        if (has_annot) annot = decode_vector(d, annotation_item);
-        axiom = cowl_sub_obj_prop_chain_axiom(sub, sup, annot);
-    } else {
-        sub = decode_obj_prop_exp(d);
-        sup = decode_obj_prop_exp(d);
-        if (has_annot) annot = decode_vector(d, annotation_item);
-        axiom = cowl_sub_obj_prop_axiom(sub, sup, annot);
+    sub = has_u_bit ? (CowlAny *)decode_vector(d, obj_prop_exp_item) : decode_obj_prop_exp(d);
+    sup = decode_obj_prop_exp(d);
+    if (has_annot) annot = decode_vector(d, annotation_item);
+    if (decoder_ok(d)) {
+        axiom = has_u_bit ? cowl_sub_obj_prop_chain_axiom(sub, sup, annot)
+                          : cowl_sub_obj_prop_axiom(sub, sup, annot);
+        axiom = handle_null(d, axiom);
     }
-    if (decoder_ok(d)) axiom = handle_null(d, axiom);
     cowl_release_all(sub, sup, annot);
     return axiom;
 }

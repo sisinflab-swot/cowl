@@ -67,8 +67,9 @@ end:
 }
 
 static cowl_ret encoder_reset(CowlPRTEncoder *e, bool prefixes) {
-    if ((e->state = cowl_prt_index_reset_ids(&e->index))) return e->state;
-    if (prefixes && (e->state = cowl_prt_index_reset_prefixes(&e->index))) return e->state;
+    cowl_ret ret = cowl_prt_index_reset_ids(&e->index);
+    if (cowl_is_ok(ret) && prefixes) ret = cowl_prt_index_reset_prefixes(&e->index);
+    if (cowl_is_err(ret)) return e->state = ret;
     return flush_state_empty(e);
 }
 
@@ -112,8 +113,7 @@ static cowl_ret populate_index(CowlPRTEncoder *e, CowlOntology *onto) {
     return COWL_OK;
 
 err:
-    cowl_prt_index_deinit(&e->index);
-    return COWL_ERR_MEM;
+    return e->state = COWL_ERR_MEM;
 }
 
 static void write_bytes(CowlPRTEncoder *e, void const *data, ulib_uint length) {
@@ -173,28 +173,74 @@ static void encode_datatype(CowlPRTEncoder *e, CowlDatatype *datatype, bool is_d
     encode_id_offset(e, cowl_datatype_get_iri(datatype), offset);
 }
 
-static bool maybe_canonical(CowlString *string, bool leading_zero) {
-    char const *s = cowl_string_get_cstring(string);
-    if (*s == '0' && !*(s + 1)) return true;
-    if (*s == '-') ++s;
-    return *s >= (leading_zero ? '0' : '1') && *s <= '9';
+static ulib_uint const prt_uint_max =
+    sizeof(ulib_varint) < sizeof(ulib_uint) ? (ulib_uint)(ulib_varint)(-1) : ULIB_UINT_MAX;
+static ulib_uint const prt_int_max = sizeof(ulib_varint) < sizeof(ulib_int)
+                                         ? (ulib_uint)((ulib_varint)(-1) >> 1U)
+                                         : (ulib_uint)ULIB_INT_MAX;
+
+static ulib_ret uint_append_digit(ulib_uint *val, char digit, ulib_uint max) {
+    ulib_uint const d = (ulib_uint)(digit - '0');
+    if (*val > (max - d) / 10U) return ULIB_ERR;
+    *val = (*val * 10U) + d;
+    return ULIB_OK;
 }
 
-static CowlPRTLiteralValueFormat encode_literal_int(UOStream *o, ulib_int val) {
-    if (val < 0) {
-        uostream_write_varint(o, (ulib_uint)~val, NULL);
+static ulib_ret parse_uint(char const *src, char const **end, ulib_uint max, ulib_uint *out) {
+    ulib_uint ret = 0;
+    char const *p = src;
+    for (; isdigit((unsigned char)*p); ++p) {
+        if (uint_append_digit(&ret, *p, max)) return ULIB_ERR;
+    }
+    if (p == src || (*src == '0' && p - src > 1)) return ULIB_ERR;
+    *end = p;
+    *out = ret;
+    return ULIB_OK;
+}
+
+static ulib_ret parse_uint_reverse(char const *src, char const **end, ulib_uint *out) {
+    char const *last = src;
+    while (isdigit((unsigned char)*last)) ++last;
+    if (last == src || (*(last - 1) == '0' && last - src > 1)) return ULIB_ERR;
+
+    ulib_uint ret = 0;
+    for (char const *p = last; p != src;) {
+        if (uint_append_digit(&ret, *(--p), prt_uint_max)) return ULIB_ERR;
+    }
+    *end = last;
+    *out = ret;
+    return ULIB_OK;
+}
+
+static ulib_ret parse_int(char const *src, char const **end, ulib_int *out) {
+    bool const negative = *src == '-';
+    if (negative) ++src;
+    ulib_uint val;
+    if (parse_uint(src, end, prt_int_max, &val)) return ULIB_ERR;
+    if (negative && !val) return ULIB_ERR;
+    *out = negative ? -(ulib_int)val : (ulib_int)val;
+    return ULIB_OK;
+}
+
+static CowlPRTLiteralValueFormat encode_literal_int(UOStream *o, ulib_uint val, bool negative) {
+    if (negative) {
+        if (!val) return COWL_LVF_STRING;
+        uostream_write_varint(o, val - 1, NULL);
         return COWL_LVF_NEG_INT;
     }
-    uostream_write_varint(o, (ulib_uint)val, NULL);
+    uostream_write_varint(o, val, NULL);
     return COWL_LVF_NON_NEG_INT;
 }
 
 static CowlPRTLiteralValueFormat encode_literal_maybe_int(UOStream *o, CowlString *string) {
-    ulib_int val;
-    if (!maybe_canonical(string, false) || cowl_string_to_int(string, &val, 10)) {
-        return COWL_LVF_STRING;
-    }
-    return encode_literal_int(o, val);
+    char const *s = cowl_string_get_cstring(string);
+    char const *const max = s + cowl_string_get_length(string);
+    bool const negative = *s == '-';
+    if (negative) ++s;
+    char const *end;
+    ulib_uint val;
+    if (parse_uint(s, &end, prt_uint_max, &val) || end != max) return COWL_LVF_STRING;
+    return encode_literal_int(o, val, negative);
 }
 
 static ulib_ret bool_value(CowlString *string, ulib_byte *out) {
@@ -233,44 +279,30 @@ encode_literal_e_notation(UOStream *o, ulib_int whole, ulib_uint frac, ulib_int 
     return COWL_LVF_E_NOTATION;
 }
 
-static ulib_uint parse_uint_reverse(char const *src, char **end) {
-    ulib_uint ret = 0;
-    char *last = (char *)src;
-    while (isdigit(*last)) ++last;
-
-    for (char const *p = last - 1; p >= src; --p) {
-        ulib_uint d = (ulib_uint)(*p - '0');
-        ret = (ret * 10U) + d;
-    }
-    if (end) *end = last;
-    return ret;
-}
-
 static CowlPRTLiteralValueFormat encode_literal_maybe_dec(UOStream *o, CowlString *string) {
     char const *s = cowl_string_get_cstring(string);
-    ulib_uint len = cowl_string_get_length(string);
-    char const *const max = s + len;
-    char *end;
+    char const *const max = s + cowl_string_get_length(string);
+    char const *end;
+    bool negative;
+    ulib_uint whole_val;
     ulib_int whole;
     ulib_uint frac;
     ulib_int exp;
 
-    if (!maybe_canonical(string, true)) goto err;
-
     // Whole part
-    whole = ulib_str_to_int(s, &end, 10);
-    if (end == s) goto err;
-    if (end == max) return encode_literal_int(o, whole);
-    // Negative whole parts are encoded as whole - 1 so that -0 is representable.
-    if (*s == '-') whole -= 1;
+    negative = *s == '-';
+    if (negative) ++s;
+    if (parse_uint(s, &end, prt_uint_max, &whole_val)) goto err;
+    if (end == max) return encode_literal_int(o, whole_val, negative);
+    if (whole_val > prt_int_max) goto err;
+    whole = negative ? -(ulib_int)whole_val - 1 : (ulib_int)whole_val;
 
     // Dot
     if (*end != '.' || (end + 1 == max)) goto err;
 
     // Fractional part
     s = end + 1;
-    frac = parse_uint_reverse(s, &end);
-    if (end == s) goto err;
+    if (parse_uint_reverse(s, &end, &frac)) goto err;
     if (end == max) return encode_literal_fixed_point(o, whole, frac);
 
     // E
@@ -278,8 +310,7 @@ static CowlPRTLiteralValueFormat encode_literal_maybe_dec(UOStream *o, CowlStrin
 
     // Exponent part
     s = end + 1;
-    exp = ulib_str_to_int(s, &end, 10);
-    if (end == s || end != max) goto err;
+    if (parse_int(s, &end, &exp) || end != max) goto err;
     return encode_literal_e_notation(o, whole, frac, exp);
 
 err:
@@ -432,7 +463,13 @@ static void encode_card_restr(CowlPRTEncoder *e, CowlAny *restr) {
     CowlClsExpType type = cowl_cls_exp_get_type(restr) - 1;
     write_varint(e, type);
 
-    ulib_uint card = (cowl_get_uint_field(restr) << 1) | cowl_has_opt_field(restr);
+    // The cardinality is packed with the filler flag, so it must leave room for one bit.
+    ulib_uint card = cowl_get_uint_field(restr);
+    if (card > (prt_uint_max >> 1U)) {
+        e->state = COWL_ERR_BOUNDS;
+        return;
+    }
+    card = (card << 1U) | cowl_has_opt_field(restr);
     write_varint(e, card);
 
     unsigned count;
@@ -751,6 +788,7 @@ static cowl_ret write_ontology(void *ctx, UOStream *stream, CowlOntology *onto) 
     CowlPRTEncoder *e = ctx;
     if (!e) return COWL_ERR_MEM;
     e->stream = stream;
+    e->state = COWL_OK;
 
     if (encoder_reset(e, true) || populate_index(e, onto)) goto end;
     if (encode_protocol_version(e)) goto end;
@@ -870,6 +908,7 @@ static cowl_ret write_header(void *ctx, UOStream *stream, CowlOntologyHeader hea
     CowlPRTEncoder *e = ctx;
     if (!e) return COWL_ERR_MEM;
     e->stream = stream;
+    e->state = COWL_OK;
 
     if (encoder_reset(e, true)) goto end;
     if (encode_protocol_version(e)) goto end;

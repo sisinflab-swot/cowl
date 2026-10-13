@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removing an axiom or annotation via an equal, but distinct, instance released the wrong object.
 - UaF when removing axioms that reference the same primitive multiple times
   via `cowl_ontology_remove_axioms_matching`.
+- Miscellaneous issues in ProtocOWL encoding and decoding.
 
 
 ## [0.8.1] - 2026-06-18
